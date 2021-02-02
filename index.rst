@@ -1,7 +1,9 @@
 MoveIt 2 Tutorials
 ===================
 
-These tutorials will quickly get you, and your robot, using the MoveIt Motion Planning Framework.
+NOTE: This repository is still being set up and is not ready for contributions. The content on this readme and most of the repo is still legacy content from the MoveIt 1 tutorials.
+
+These tutorials will quickly get you, and your robot, using the MoveIt 2 Motion Planning Framework.
 
 .. image:: doc/quickstart_in_rviz/rviz_plugin_head.png
    :width: 700px
