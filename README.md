@@ -1,4 +1,6 @@
-# MoveIt Tutorials
+# MoveIt 2 Tutorials
+
+**NOTE: This repository is still being set up and is not ready for contributions. The content on this readme and most of the repo is still legacy content from the MoveIt 1 tutorials.**
 
 [https://ros-planning.github.io/moveit_tutorials/](https://ros-planning.github.io/moveit_tutorials/)
 
