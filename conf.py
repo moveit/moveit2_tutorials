@@ -34,6 +34,8 @@ html_theme_path = ['_themes',]
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+html_baseurl = "moveit2_tutorials.picknik.ai"
+
 html_context = {
     "display_github": True,
     "github_user": "ros-planning",
