@@ -1,8 +1,6 @@
 # MoveIt 2 Tutorials
 
-**NOTE: This repository is still being set up and is not ready for contributions. The content on this readme and most of the repo is still legacy content from the MoveIt 1 tutorials.**
-
-[https://ros-planning.github.io/moveit_tutorials/](https://ros-planning.github.io/moveit_tutorials/)
+**NOTE: This repository is still being set up and is not ready for contributions. The content on this readme and most of the repo is still legacy content from the [MoveIt 1 tutorials](https://ros-planning.github.io/moveit_tutorials/).**
 
 This is the primary documentation for the MoveIt project. We strongly encourage you to help improve MoveIt's documentation. Please consider reading the guidelines below for writing the best documentation and tutorials. However, if you are uncomfortable with any of the approaches, simply adding documentation text to your pull requests is better than nothing.
 
@@ -14,6 +12,16 @@ This repository is currently built automatically by two systems. Travis builds t
 - [![Travis Status](https://travis-ci.org/ros-planning/moveit_tutorials.svg?branch=master)](https://travis-ci.org/ros-planning/moveit_tutorials) [Github Pages + Travis](https://ros-planning.github.io/moveit_tutorials/): latest
 - [![ROS Melodic Build Farm Status](http://build.ros.org/buildStatus/icon?job=Mdoc__moveit_tutorials__ubuntu_bionic_amd64)](http://build.ros.org/job/Mdoc__moveit_tutorials__ubuntu_bionic_amd64/) [ROS Melodic Build Farm](http://docs.ros.org/melodic/api/moveit_tutorials/html/)
 - [![ROS Kinetic Build Farm Status](http://build.ros.org/buildStatus/icon?job=Kdoc__moveit_tutorials__ubuntu_xenial_amd64)](http://build.ros.org/job/Kdoc__moveit_tutorials__ubuntu_xenial_amd64/) [ROS Kinetic Build Farm](http://docs.ros.org/kinetic/api/moveit_tutorials/html/)
+
+## Getting Started 
+An issue has been created for each tutorial to be ported to Foxy. At the top of each tutorial there is a tag: ":moveit1:", remove the tag 
+after the tutorial has been successfully updated.
+
+Below are some links to help with the ports. 
+
+* [colcon](https://colcon.readthedocs.io/en/released/user/how-to.html)
+* [ament](https://index.ros.org/doc/ros2/Tutorials/Ament-CMake-Documentation/)
+* [rclcpp](http://docs.ros2.org/foxy/api/rclcpp/index.html)
 
 ## Versions
 
@@ -27,7 +35,7 @@ This repository is currently built automatically by two systems. Travis builds t
 If you want to test the tutorials by generating the html pages locally on your machine, you will first need to install the `rosdoc_lite` package, and then you can use the ``build_locally`` script.
 Run in the root of the moveit_tutorials package:
 
-> **_NOTE:_**  [rosdoc_lite](https://wiki.ros.org/rosdoc_lite) is needed to run the build_locally.sh script!
+> **_NOTE:_**  [rosdoc_lite](https://wiki.ros.org/rosdoc_lite) is needed to run the build_locally.sh script! Currently, rosdoc_lite is not supported in ROS2 but you can still use it from ROS1 to build the tutorials. Unfortunately, this means you need to to have ROS1 and ROS2 installed. 
 
     export ROS_DISTRO=kinetic # 16.04
     export ROS_DISTRO=melodic # 18.04
