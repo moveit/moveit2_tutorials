@@ -1,15 +1,7 @@
 MoveIt 2 Tutorials
 ===================
 
-An issue has been created for each tutorial to be ported to Foxy. At the top of each tutorial there is a tag: ":moveit1:", remove the tag 
-after the tutorial has been successfully updated.
-
-Below are some links to help with the ports. 
-
-- 'colcon <https://colcon.readthedocs.io/en/released/user/how-to.html>'  
-- 'ament <https://index.ros.org/doc/ros2/Tutorials/Ament-CMake-Documentation/>'
-- 'rclcpp <http://docs.ros2.org/foxy/api/rclcpp/index.html>'
-
+.. note:: Many of the tutorials still need to be ported to MoveIt 2. See the `Readme <https://github.com/ros-planning/moveit2_tutorials#getting-started>`_ for more details.
 
 These tutorials will quickly get you, and your robot, using the MoveIt 2 Motion Planning Framework.
 
