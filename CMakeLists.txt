@@ -24,10 +24,13 @@ find_package(geometric_shapes REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
 find_package(pluginlib REQUIRED)
-find_package(std_srvs REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_eigen REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+
+set(THIS_PACKAGE_INCLUDE_DIRS
+  doc/interactivity/include
+)
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
   ament_cmake
@@ -43,8 +46,11 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   tf2_geometry_msgs
   moveit_ros_planning
   pluginlib
-  doc/interactivity/include
+  Eigen3
+  Boost
 )
+
+include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
 
 # add_subdirectory(doc/controller_configuration)
 add_subdirectory(doc/hand_eye_calibration)
@@ -65,7 +71,7 @@ add_subdirectory(doc/hand_eye_calibration)
 # add_subdirectory(doc/tests)
 # add_subdirectory(doc/trajopt_planner)
 # add_subdirectory(doc/creating_moveit_plugins/lerp_motion_planner)
-# add_subdirectory(doc/moveit_cpp)
+add_subdirectory(doc/moveit_cpp)
 # add_subdirectory(doc/collision_environments)
 # add_subdirectory(doc/visualizing_collisions)
 # add_subdirectory(doc/bullet_collision_checker)
