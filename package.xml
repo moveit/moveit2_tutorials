@@ -16,7 +16,7 @@
   <url type="repository">https://github.com/ros-planning/moveit2_tutorials</url>
   <url type="bugtracker">https://github.com/ros-planning/moveit2_tutorials/issues</url>
 
-  <<buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
   <build_depend>pluginlib</build_depend>
   <build_depend>eigen</build_depend>
@@ -68,7 +68,6 @@
 
     <!-- An example of planner plugin for MoveIt -->
     <moveit_core plugin="${prefix}/doc/creating_moveit_plugins/lerp_motion_planner/lerp_interface_plugin_description.xml"/>
-
   </export>
 
 </package>
