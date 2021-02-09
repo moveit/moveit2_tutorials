@@ -25,32 +25,26 @@ find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(std_srvs REQUIRED)
-find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_eigen REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 
-set(THIS_PACKAGE_INCLUDE_DIRS
+set(THIS_PACKAGE_INCLUDE_DEPENDS
   ament_cmake
   rclcpp
   rclcpp_action
-  std_srvs
-  tf2
   tf2_geometry_msgs
   tf2_ros
   moveit_core
-  moveit_ros_occupancy_map_monitor
+  # rviz_visual_tools
+  # moveit_visual_tools
+  moveit_ros_planning_interface
+  interactive_markers
+  tf2_geometry_msgs
   moveit_ros_planning
   pluginlib
   doc/interactivity/include
 )
-
-###########
-## Build ##
-###########
-
-include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
-include_directories(SYSTEM ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIRS})
 
 # add_subdirectory(doc/controller_configuration)
 add_subdirectory(doc/hand_eye_calibration)

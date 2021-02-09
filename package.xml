@@ -26,11 +26,11 @@
   <build_depend>moveit_ros_perception</build_depend>
   <build_depend>interactive_markers</build_depend>
   <build_depend>geometric_shapes</build_depend>
-  <build_depend>moveit_visual_tools</build_depend>
-  <build_depend>rviz_visual_tools</build_depend>
-  <build_depend>pcl_ros</build_depend>
-  <build_depend>pcl_conversions</build_depend>
-  <build_depend>rosbag</build_depend>
+  <!-- <build_depend>moveit_visual_tools</build_depend> -->
+  <!-- <build_depend>rviz_visual_tools</build_depend> -->
+  <!-- <build_depend>pcl_ros</build_depend> -->
+  <!-- <build_depend>pcl_conversions</build_depend> -->
+  <!-- <build_depend>rosbag</build_depend> -->
   <build_depend>tf2_ros</build_depend>
   <build_depend>tf2_eigen</build_depend>
   <build_depend>tf2_geometry_msgs</build_depend>
@@ -44,14 +44,14 @@
   <run_depend>moveit_ros_planning_interface</run_depend>
   <run_depend>moveit_ros_perception</run_depend>
   <run_depend>interactive_markers</run_depend>
-  <run_depend>moveit_visual_tools</run_depend>
-  <run_depend>rviz_visual_tools</run_depend>
+  <!-- <run_depend>moveit_visual_tools</run_depend> -->
+  <!-- <run_depend>rviz_visual_tools</run_depend> -->
   <run_depend>joint_state_publisher</run_depend>
   <run_depend>robot_state_publisher</run_depend>
   <run_depend>joy</run_depend>
-  <run_depend>pcl_ros</run_depend>
-  <run_depend>pcl_conversions</run_depend>
-  <run_depend>rosbag</run_depend>
+  <!-- <run_depend>pcl_ros</run_depend> -->
+  <!-- <run_depend>pcl_conversions</run_depend> -->
+  <!-- <run_depend>rosbag</run_depend> -->
   <run_depend>rviz</run_depend>
   <run_depend>tf2_ros</run_depend>
   <run_depend>tf2_eigen</run_depend>
