@@ -20,7 +20,7 @@
       {% endfor %}
     <li>{{ title }}</li>
   </ul>
-  {% if meta is defined and 'moveit1' in meta.viewkeys() %}
+  {% if meta is defined and 'moveit1' in meta.keys() %}
         {% include "moveit1_warning.html" %}
   {% endif %}
   <hr/>
