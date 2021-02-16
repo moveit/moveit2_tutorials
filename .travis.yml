@@ -40,3 +40,4 @@ deploy:
   on:
     branch: main
     condition: $SCRIPT = htmlproofer.sh
+  fqdn: moveit2_tutorials.picknik.ai
