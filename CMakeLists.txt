@@ -1,11 +1,9 @@
 cmake_minimum_required(VERSION 3.10.2)
 project(moveit2_tutorials)
 
-if(NOT "${CMAKE_CXX_STANDARD}")
-  set(CMAKE_CXX_STANDARD 14)
-endif()
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+# Common cmake code applied to all moveit packages
+find_package(moveit_common REQUIRED)
+moveit_package()
 
 find_package(Eigen3 REQUIRED)
 find_package(Boost REQUIRED system filesystem date_time thread)
@@ -15,7 +13,7 @@ find_package(moveit_ros_planning REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
 find_package(moveit_ros_perception REQUIRED)
 find_package(interactive_markers REQUIRED)
-#find_package(rviz_visual_tools REQUIRED)
+find_package(rviz_visual_tools REQUIRED)
 #find_package(moveit_visual_tools REQUIRED)
 find_package(geometric_shapes REQUIRED)
 #find_package(pcl_ros REQUIRED)
@@ -39,7 +37,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   tf2_geometry_msgs
   tf2_ros
   moveit_core
-  # rviz_visual_tools
+  rviz_visual_tools
   # moveit_visual_tools
   moveit_ros_planning_interface
   interactive_markers
@@ -53,7 +51,6 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
 include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
 
 # add_subdirectory(doc/controller_configuration)
-add_subdirectory(doc/hand_eye_calibration)
 # add_subdirectory(doc/interactivity)
 # add_subdirectory(doc/kinematics)
 # add_subdirectory(doc/motion_planning_api)
