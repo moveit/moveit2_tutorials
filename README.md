@@ -2,7 +2,7 @@
 
 **NOTE: This repository is still being set up and is not ready for contributions. The content on this readme and most of the repo is still legacy content from the [MoveIt 1 tutorials](https://ros-planning.github.io/moveit_tutorials/).**
 
-This is the primary documentation for the MoveIt project. We strongly encourage you to help improve MoveIt's documentation. Please consider reading the guidelines below for writing the best documentation and tutorials. However, if you are uncomfortable with any of the approaches, simply adding documentation text to your pull requests is better than nothing.
+This is the primary documentation for the MoveIt2 project. We strongly encourage you to help improve MoveIt's documentation. Please consider reading the guidelines below for writing the best documentation and tutorials. However, if you are uncomfortable with any of the approaches, simply adding documentation text to your pull requests is better than nothing.
 
 These tutorials use the [reStructuredText](http://www.sphinx-doc.org/en/stable/rest.html) format commonly used in the Sphinx "Python Documentation Generator". This unfortunately differs from the common Markdown format, but its advantage is that it supports embedding code directly from source files for inline code tutorials.
 
@@ -26,12 +26,28 @@ Below are some links to help with the ports.
 
 ## Versions
 
-- ``indigo-devel`` usage is discouraged
-- ``kinetic-devel`` stable
-- ``melodic-devel`` stable
-- ``master`` latest, changes should target this branch
+- ``main`` latest, changes should target this branch
 
-## Build Locally
+## MoveIt2 Tutorials Source Build
+
+Follow the [MoveIt 2 Source Build](https://moveit.ros.org/install-moveit2/source/) instructions to setup a colcon workspace with moveit2 from source.
+
+Cd into your moveit2 colcon workspace:
+
+    cd $COLCON_WS/src
+
+Download Moveit2_tutorials Source Code
+
+    wget https://raw.githubusercontent.com/ros-planning/moveit2_tutorials/main/moveit2_tutorials.repos
+    vcs import < moveit2_tutorials.repos
+    rosdep install -r --from-paths . --ignore-src --rosdistro foxy -y
+
+Configure and build the workspace:
+
+    cd $COLCON_WS
+    colcon build --event-handlers desktop_notification- status- --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+## Build HTML Pages Locally
 
 If you want to test the tutorials by generating the html pages locally on your machine, you will first need to install the `rosdoc_lite` package, and then you can use the ``build_locally`` script.
 Run in the root of the moveit_tutorials package:
