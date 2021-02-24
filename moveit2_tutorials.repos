@@ -9,7 +9,6 @@ repositories:
     version: foxy-devel
   
    # --- moveit2.reopos ----
-   repositories:
   moveit2:
     type: git
     url: https://github.com/ros-planning/moveit2
