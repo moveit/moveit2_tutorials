@@ -22,7 +22,7 @@ env:
 jobs:
   fast_finish: true
   include:
-    - name: "[FOXY] - htmlproofer"
+    - name: "[Foxy] - htmlproofer"
       env: SCRIPT=htmlproofer.sh
     - name: "[Foxy] - clang-format, ament_lint"
       env: TEST="clang-format ament_lint"
