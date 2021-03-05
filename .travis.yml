@@ -1,32 +1,39 @@
-# Test build the MoveIt tutorials. Author: Dave Coleman
-sudo: required
-dist: xenial
-language: ruby
-rvm:
-  - 2.7
-python:
-  - "2.7"
+# This config file for Travis CI utilizes https://github.com/ros-planning/moveit_ci/ package.
+os: linux
+dist: bionic  # distro used by Travis, moveit_ci uses the docker image's distro
+services:
+  - docker
+language: cpp
+cache: ccache
+compiler: gcc
+
+notifications:
+  email: true
 
 env:
   global:
-    - SCRIPT=.moveit_ci/travis.sh
-    - ROS_DISTRO=noetic
-    - ROS_REPO=ros-testing
+    - MOVEIT_CI_TRAVIS_TIMEOUT=85  # Travis grants us 90 min, but we add a safety margin of 5 min
+    - ROS_DISTRO=foxy
+    - ROS_REPO=ros
+    - UPSTREAM_WORKSPACE="moveit2_tutorials.repos, moveit2.repos"
     - CXXFLAGS="-Wall -Wextra -Wwrite-strings -Wunreachable-code -Wpointer-arith -Wredundant-decls"
     - WARNINGS_OK=false
-    - UPSTREAM_WORKSPACE="https://github.com/ros-planning/moveit_visual_tools
-                          https://github.com/ros-planning/panda_moveit_config"
-  matrix:
-    - SCRIPT=htmlproofer.sh
-    - TEST="clang-format catkin_lint"
-    - TEST="clang-tidy-fix"
-    - DOCKER_IMAGE=moveit/moveit:master-source  ROS_REPO=
+
+jobs:
+  fast_finish: true
+  include:
+    - name: "[Foxy] - htmlproofer"
+      env: SCRIPT=htmlproofer.sh
+    - name: "[Foxy] - clang-format, ament_lint"
+      env: TEST="clang-format ament_lint"
+    - name: "[Foxy] - gcc (build,test)"
+      env: ROS_DISTRO=foxy
 
 before_script:
-  - git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci
+  - git clone -q -b ros2 --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci
 
 script:
-  ./$SCRIPT
+  - .moveit_ci/travis.sh
 
 deploy:
   # Deploy to gh-pages branch
