@@ -26,12 +26,8 @@ jobs:
       env: SCRIPT=htmlproofer.sh
     - name: "[Foxy] - clang-format, ament_lint"
       env: TEST="clang-format ament_lint"
-    - name: "[Foxy] - code-coverage"
-      env: TEST=code-coverage
     - name: "[Foxy] - gcc (build,test)"
       env: ROS_DISTRO=foxy
-  allow_failures:
-    - env: TEST=code-coverage
 
 before_script:
   - git clone -q -b ros2 --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci
