@@ -16,7 +16,7 @@ rosdep update
 gem update --system
 gem --version
 gem install html-proofer
-# Install ROS's version of sphinx
+
 source /opt/ros/foxy/setup.bash
 
 # Test build with non-ROS wrapped Sphinx command to allow warnings and errors to be caught
