@@ -49,16 +49,12 @@ Configure and build the workspace:
 
 ## Build HTML Pages Locally
 
-If you want to test the tutorials by generating the html pages locally on your machine, you will first need to install the `rosdoc_lite` package, and then you can use the ``build_locally`` script.
-Run in the root of the moveit_tutorials package:
+If you want to test the tutorials by generating the html pages locally on your machine, you will first need to build the `rosdoc_lite` and `genmsg` packages from source (they are included in the moveit2_tutorials.repos file), and then you can use the ``build_locally`` script.
+Run in the root of the moveit2_tutorials package:
 
-> **_NOTE:_**  [rosdoc_lite](https://wiki.ros.org/rosdoc_lite) is needed to run the build_locally.sh script! Currently, rosdoc_lite is not supported in ROS2 but you can still use it from ROS1 to build the tutorials. Unfortunately, this means you need to to have ROS1 and ROS2 installed. 
+    export ROS_DISTRO=foxy  # 20.04
 
-    export ROS_DISTRO=kinetic # 16.04
-    export ROS_DISTRO=melodic # 18.04
-    export ROS_DISTRO=noetic  # 20.04
-
-    sudo apt install ros-$ROS_DISTRO-rosdoc-lite
+    cd $COLCON_WS/src/moveit2_tutorials
     source /opt/ros/$ROS_DISTRO/setup.bash
     ./build_locally.sh
 
@@ -70,7 +66,7 @@ For deploying documentation changes to the web, [Section 3 of rosdoc_lite wiki](
 
 ## Contributing
 
-We rely on the community to keep these tutorials up to date and bug free. If you find an issue with the tutorials please [open an issue on GitHub](https://github.com/ros-planning/moveit_tutorials/issues/new) or open a PR with proposed changes.
+We rely on the community to keep these tutorials up to date and bug free. If you find an issue with the tutorials please [open an issue on GitHub](https://github.com/ros-planning/moveit2_tutorials/issues/new) or open a PR with proposed changes.
 
 ### Formatting and Style
 
@@ -97,7 +93,7 @@ We rely on the community to keep these tutorials up to date and bug free. If you
 * Tutorials should use the following directory structure omitting unnecessary files and subdirectories:
 
 ```
-moveit_tutorials/doc/
+moveit2_tutorials/doc/
 └── <tutorial_name>/
     ├── <tutorial_name>_tutorial.rst
     ├── CMakeLists.txt
