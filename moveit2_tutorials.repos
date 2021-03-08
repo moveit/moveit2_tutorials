@@ -7,3 +7,13 @@ repositories:
     type: git
     url: https://github.com/PickNikRobotics/rviz_visual_tools.git
     version: foxy-devel
+  # TODO(marqrazz): Switch to upstream once PR has been created and merged
+  rosdoc_lite:
+    type: git
+    url: https://github.com/MarqRazz/rosdoc_lite.git
+    version: pr-foxy-devel
+  # TODO(marqrazz): Switch to upstream once PR has been created and merged
+  genmsg:
+    type: git
+    url: https://github.com/MarqRazz/genmsg.git
+    version: pr-foxy-devel
