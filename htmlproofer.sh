@@ -8,7 +8,7 @@ echo "Testing branch $TRAVIS_BRANCH of $REPOSITORY_NAME"
 sudo -E sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -cs` main" > /etc/apt/sources.list.d/ros-latest.list'
 wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
 sudo apt-get update -qq
-sudo apt-get install -qq -y python-rosdep python-wstool python-catkin-tools
+sudo apt-get install -qq -y python-rosdep
 # Setup rosdep
 sudo rosdep init
 rosdep update
@@ -16,9 +16,8 @@ rosdep update
 gem update --system
 gem --version
 gem install html-proofer
-# Install ROS's version of sphinx
-sudo apt-get -qq install ros-kinetic-rosdoc-lite
-source /opt/ros/kinetic/setup.bash
+
+source /opt/ros/foxy/setup.bash
 
 # Test build with non-ROS wrapped Sphinx command to allow warnings and errors to be caught
 sphinx-build -W -b html . native_build
