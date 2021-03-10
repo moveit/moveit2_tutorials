@@ -21,11 +21,11 @@ Running the Code
 ----------------
 Open two shells. In the first shell start RViz and wait for everything to finish loading: ::
 
-  roslaunch panda_moveit_config demo.launch
+  ros2 launch moveit2_tutorials move_group.launch.py
 
 In the second shell, run the launch file: ::
 
-  roslaunch moveit_tutorials move_group_interface_tutorial.launch
+  ros2 launch moveit2_tutorials move_group_interface.launch.py
 
 **Note:** This tutorial uses the **RvizVisualToolsGui** panel to step through the demo. To add this panel to RViz, follow the instructions in the `Visualization Tutorial <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html#rviz-visual-tools>`_.
 
