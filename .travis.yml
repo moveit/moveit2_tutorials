@@ -3,7 +3,9 @@ os: linux
 dist: bionic  # distro used by Travis, moveit_ci uses the docker image's distro
 services:
   - docker
-language: cpp
+language: ruby
+rvm:
+  - 2.7
 cache: ccache
 compiler: gcc
 
