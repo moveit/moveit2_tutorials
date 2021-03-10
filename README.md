@@ -1,6 +1,6 @@
 # MoveIt 2 Tutorials
 
-**NOTE: This repository is still being set up and is not ready for contributions. The content on this readme and most of the repo is still legacy content from the [MoveIt 1 tutorials](https://ros-planning.github.io/moveit_tutorials/).**
+**NOTE: This repository is a new fork from the [MoveIt 1 tutorials](https://ros-planning.github.io/moveit_tutorials/) and needs your help with porting old tutorials to ROS 2.** To claim a tutorial to support the port of, see the Issues list. Thanks!
 
 [See the live MoveIt2 tutorials here](http://moveit2_tutorials.picknik.ai/)
 
