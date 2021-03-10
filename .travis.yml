@@ -43,7 +43,7 @@ deploy:
   # Add to Environment Variables section of Travis CI repository settings page
   github-token: $GITHUB_TOKEN
   # Only copy build output directory to gh-pages
-  local_dir: build/html
+  local_dir: build
   on:
     branch: main
     condition: $SCRIPT = htmlproofer.sh
