@@ -1,14 +1,9 @@
-:moveit1:
-
-..
-   Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
-  
 URDF and SRDF
 ======================
 
 URDF
 ----
-MoveIt starts with a URDF (Unified Robot Description Format), the native format for describing robots in ROS. In this tutorial, you will find resources for the URDF, important tips and also a list of MoveIt specific requirements.
+MoveIt2 starts with a URDF (Unified Robot Description Format), the native format for describing robots in ROS and ROS2. In this tutorial, you will find resources for the URDF, important tips and also a list of MoveIt2 specific requirements.
 
 URDF Resources
 ^^^^^^^^^^^^^^
@@ -19,7 +14,7 @@ URDF Resources
 
 Important Tips
 ^^^^^^^^^^^^^^
-This section contains a set of tips on making sure that the URDF that you generate can be used with MoveIt. Make sure you go through all these tips before starting to use MoveIt with your robot.
+This section contains a set of tips on making sure that the URDF that you generate can be used with MoveIt2. Make sure you go through all these tips before starting to use MoveIt2 with your robot.
 
 Special Characters in Joint Names
 """""""""""""""""""""""""""""""""
@@ -33,13 +28,13 @@ Some URDFs have safety limits set in addition to the joint limits of the robot. 
 
    <safety_controller k_position="100" k_velocity="1.5" soft_lower_limit="-2.857" soft_upper_limit="2.857"/>
 
-The "soft_lower_limit" field and the "soft_upper_limit" field specify the joint position limits for this joint. MoveIt will compare these limits to the hard limits for the joint specified in the URDF and choose the limits that are more conservative.
+The "soft_lower_limit" field and the "soft_upper_limit" field specify the joint position limits for this joint. MoveIt2 will compare these limits to the hard limits for the joint specified in the URDF and choose the limits that are more conservative.
 
-.. note:: If the "soft_lower_limit" and the "soft_upper_limit" in the safety_controller are set to 0.0, your joint will be unable to move. MoveIt relies on you to specify the correct robot model.
+.. note:: If the "soft_lower_limit" and the "soft_upper_limit" in the safety_controller are set to 0.0, your joint will be unable to move. MoveIt2 relies on you to specify the correct robot model.
 
 Collision Checking
 """"""""""""""""""
-MoveIt uses the meshes specified in the URDF for collision checking. The URDF allows you to specify two sets of meshes separately for visualization and collision checking. In general, the visualization meshes can be detailed and pretty, but the collision meshes should be much less detailed. The number of triangles in a mesh affects the amount of time it takes to collision check a robot link. The number of triangles in the whole robot should be on the order of a few thousand.
+MoveIt2 uses the meshes specified in the URDF for collision checking. The URDF allows you to specify two sets of meshes separately for visualization and collision checking. In general, the visualization meshes can be detailed and pretty, but the collision meshes should be much less detailed. The number of triangles in a mesh affects the amount of time it takes to collision check a robot link. The number of triangles in the whole robot should be on the order of a few thousand.
 
 Test your URDF
 """"""""""""""
@@ -67,7 +62,7 @@ Passive joints are unactuated joints on a robot, e.g. passive casters on a diffe
 
 Groups
 ^^^^^^
-a 'Group' (sometimes called 'JointGroup' or 'Planning Group') is a central concept in MoveIt MoveIt always acts on a particular group. MoveIt will only consider moving the joints in the group that it is planning for -- other joints are left stationary. (A motion plan where all joints in the robot may move can be achieved by creating a group containing all joints.) A group is simply a collection of joints and links. Each group can be specified in one of several different ways:
+A 'Group' (sometimes called 'JointGroup' or 'Planning Group') is a central concept in MoveIt2. MoveIt2 always acts on a particular group. MoveIt2 will only consider moving the joints in the group that it is planning for -- other joints are left stationary. (A motion plan where all joints in the robot may move can be achieved by creating a group containing all joints.) A group is simply a collection of joints and links. Each group can be specified in one of several different ways:
 
 Collection of Joints
 """"""""""""""""""""
