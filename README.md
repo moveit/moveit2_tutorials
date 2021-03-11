@@ -1,8 +1,10 @@
 # MoveIt 2 Tutorials
 
-**NOTE: This repository is still being set up and is not ready for contributions. The content on this readme and most of the repo is still legacy content from the [MoveIt 1 tutorials](https://ros-planning.github.io/moveit_tutorials/).**
+**NOTE: This repository is a new fork from the [MoveIt 1 tutorials](https://ros-planning.github.io/moveit_tutorials/) and needs your help with porting old tutorials to ROS 2.** To claim a tutorial to support the port of, see the Issues list. Thanks!
 
-This is the primary documentation for the MoveIt2 project. We strongly encourage you to help improve MoveIt's documentation. Please consider reading the guidelines below for writing the best documentation and tutorials. However, if you are uncomfortable with any of the approaches, simply adding documentation text to your pull requests is better than nothing.
+[See the live MoveIt2 tutorials here](http://moveit2_tutorials.picknik.ai/)
+
+This is the primary documentation for the MoveIt project. We strongly encourage you to help improve MoveIt's documentation. Please consider reading the guidelines below for writing the best documentation and tutorials. However, if you are uncomfortable with any of the approaches, simply adding documentation text to your pull requests is better than nothing.
 
 These tutorials use the [reStructuredText](http://www.sphinx-doc.org/en/stable/rest.html) format commonly used in the Sphinx "Python Documentation Generator". This unfortunately differs from the common Markdown format, but its advantage is that it supports embedding code directly from source files for inline code tutorials.
 

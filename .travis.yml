@@ -3,7 +3,9 @@ os: linux
 dist: bionic  # distro used by Travis, moveit_ci uses the docker image's distro
 services:
   - docker
-language: cpp
+language: ruby
+rvm:
+  - 2.7
 cache: ccache
 compiler: gcc
 
@@ -12,6 +14,7 @@ notifications:
 
 env:
   global:
+    - SCRIPT=.moveit_ci/travis.sh
     - MOVEIT_CI_TRAVIS_TIMEOUT=85  # Travis grants us 90 min, but we add a safety margin of 5 min
     - ROS_DISTRO=foxy
     - ROS_REPO=ros
@@ -33,7 +36,7 @@ before_script:
   - git clone -q -b ros2 --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci
 
 script:
-  - .moveit_ci/travis.sh
+  ./$SCRIPT
 
 deploy:
   # Deploy to gh-pages branch
@@ -43,7 +46,7 @@ deploy:
   # Add to Environment Variables section of Travis CI repository settings page
   github-token: $GITHUB_TOKEN
   # Only copy build output directory to gh-pages
-  local_dir: build/html
+  local_dir: build
   on:
     branch: main
     condition: $SCRIPT = htmlproofer.sh
