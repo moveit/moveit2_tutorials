@@ -43,10 +43,10 @@
 #include <moveit_msgs/msg/attached_collision_object.hpp>
 #include <moveit_msgs/msg/collision_object.hpp>
 
-#include <moveit/macros/console_colors.h>
-
 /* #include <moveit_visual_tools/moveit_visual_tools.h>  This has not been ported to ros2 yet */
+#include <rviz_visual_tools/rviz_visual_tools.hpp>
 /* this is a standin for moveit_visual_tools visual_tools.prompt */
+#include <moveit/macros/console_colors.h>
 void prompt(const std::string& message)
 {
   printf(MOVEIT_CONSOLE_COLOR_GREEN "\n%s" MOVEIT_CONSOLE_COLOR_RESET, message.c_str());
@@ -55,8 +55,8 @@ void prompt(const std::string& message)
     ;
 }
 
-// All source files that use ROS logging should define a file-specific
-// static const rclcpp::Logger named LOGGER, located at the top of the file
+// All source files that use ROS logging should define a file-specific 
+// static const rclcpp::Logger named LOGGER, located at the top of the file 
 // and inside the namespace with the narrowest scope (if there is one)
 static const rclcpp::Logger LOGGER = rclcpp::get_logger("move_group_demo");
 
@@ -101,23 +101,23 @@ int main(int argc, char** argv)
   // MoveitVisualTools has not been ported to ROS2 yet so this is disabled
   // The package MoveItVisualTools provides many capabilities for visualizing objects, robots,
   // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script.
-  /*
+    
   namespace rvt = rviz_visual_tools;
-  moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0");
+  rviz_visual_tools::RvizVisualTools visual_tools("panda_link0", "move_group_tutorial", move_group_node);
+  /* moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0"); */
   visual_tools.deleteAllMarkers();
 
-  Remote control is an introspection tool that allows users to step through a high level script
-  via buttons and keyboard shortcuts in RViz
-  visual_tools.loadRemoteControl();
+  // Remote control is an introspection tool that allows users to step through a high level script
+  // via buttons and keyboard shortcuts in RViz
+  // visual_tools.loadRemoteControl();
 
-  RViz provides many types of markers, in this demo we will use text, cylinders, and spheres
+  // RViz provides many types of markers, in this demo we will use text, cylinders, and spheres
   Eigen::Isometry3d text_pose = Eigen::Isometry3d::Identity();
   text_pose.translation().z() = 1.0;
   visual_tools.publishText(text_pose, "MoveGroupInterface Demo", rvt::WHITE, rvt::XLARGE);
 
-  Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations
+  // Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations
   visual_tools.trigger();
-  */
 
   // Getting Basic Information
   // ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -163,14 +163,12 @@ int main(int argc, char** argv)
   // Visualizing plans
   // ^^^^^^^^^^^^^^^^^
   // We can also visualize the plan as a line with markers in RViz.
-  RCLCPP_INFO(LOGGER, "Visualizing plan 1 as trajectory line");
-  /*
+  RCLCPP_INFO(LOGGER, "Visualizing plan 1 as trajectory line");  
   visual_tools.publishAxisLabeled(target_pose1, "pose1");
   visual_tools.publishText(text_pose, "Pose Goal", rvt::WHITE, rvt::XLARGE);
-  visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+  /* visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group); */
   visual_tools.trigger();
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
-  */
+  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
   prompt("Press 'Enter' to continue the demo");
 
   // Moving to a pose goal
@@ -216,13 +214,11 @@ int main(int argc, char** argv)
   RCLCPP_INFO(LOGGER, "Visualizing plan 2 (joint space goal) %s", success ? "" : "FAILED");
 
   //  Visualize the plan in RViz
-  /*
   visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Joint Space Goal", rvt::WHITE, rvt::XLARGE);
-  visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+  /* visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group); */
   visual_tools.trigger();
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
-  */
+  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
   prompt("Press 'Enter' to continue the demo");
 
   // Planning with Path Constraints
@@ -285,16 +281,14 @@ int main(int argc, char** argv)
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   RCLCPP_INFO(LOGGER, "Visualizing plan 3 (constraints) %s", success ? "" : "FAILED");
 
-  // Visualize the plan in RViz
-  /*
+  // Visualize the plan in RViz  
   visual_tools.deleteAllMarkers();
   visual_tools.publishAxisLabeled(start_pose2, "start");
   visual_tools.publishAxisLabeled(target_pose1, "goal");
   visual_tools.publishText(text_pose, "Constrained Goal", rvt::WHITE, rvt::XLARGE);
-  visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+  /* visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group); */
   visual_tools.trigger();
-  visual_tools.prompt("next step");
-  */
+  /* visual_tools.prompt("next step"); */
   prompt("Press 'Enter' to continue the demo");
 
   // When done with the path constraint be sure to clear it.
@@ -333,16 +327,14 @@ int main(int argc, char** argv)
   double fraction = move_group.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
   RCLCPP_INFO(LOGGER, "Visualizing plan 4 (Cartesian path) (%.2f%% acheived)", fraction * 100.0);
 
-  // Visualize the plan in RViz
-  /*
+  // Visualize the plan in RViz  
   visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Cartesian Path", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishPath(waypoints, rvt::LIME_GREEN, rvt::SMALL);
   for (std::size_t i = 0; i < waypoints.size(); ++i)
-  visual_tools.publishAxisLabeled(waypoints[i], "pt" + std::to_string(i), rvt::SMALL);
+    visual_tools.publishAxisLabeled(waypoints[i], "pt" + std::to_string(i), rvt::SMALL);
   visual_tools.trigger();
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
-  */
+  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
   prompt("Press 'Enter' to continue the demo");
 
   // Cartesian motions should often be slow, e.g. when approaching objects. The speed of cartesian
@@ -367,14 +359,12 @@ int main(int argc, char** argv)
 
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   RCLCPP_INFO(LOGGER, "Visualizing plan 5 (with no obstacles) %s", success ? "" : "FAILED");
-
-  /*
+  
   visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Clear Goal", rvt::WHITE, rvt::XLARGE);
-  visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+  /* visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group); */
   visual_tools.trigger();
-  visual_tools.prompt("next step");
-  */
+  /* visual_tools.prompt("next step"); */
   prompt("Press 'Enter' to continue the demo");
 
   // The result may look like this:
@@ -416,23 +406,19 @@ int main(int argc, char** argv)
   RCLCPP_INFO(LOGGER, "Add an object into the world");
   planning_scene_interface.addCollisionObjects(collision_objects);
 
-  // Show text in RViz of status and wait for MoveGroup to receive and process the collision object message
-  /*
+  // Show text in RViz of status and wait for MoveGroup to receive and process the collision object message  
   visual_tools.publishText(text_pose, "Add object", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object appears in RViz");
-  */
+  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object appears in RViz"); */
   prompt("Press 'Enter' to continue once the collision object appears in RViz");
 
   // Now when we plan a trajectory it will avoid the obstacle
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   RCLCPP_INFO(LOGGER, "Visualizing plan 6 (pose goal move around cuboid) %s", success ? "" : "FAILED");
-  /*
   visual_tools.publishText(text_pose, "Obstacle Goal", rvt::WHITE, rvt::XLARGE);
-  visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+  /* visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group); */
   visual_tools.trigger();
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the plan is complete");
-  */
+  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the plan is complete"); */
   prompt("Press 'Enter' to continue once the plan is complete");
 
   // The result may look like this:
@@ -472,24 +458,20 @@ int main(int argc, char** argv)
   RCLCPP_INFO(LOGGER, "Attach the object to the robot");
   move_group.attachObject(object_to_attach.id, "panda_hand");
 
-  /*
   visual_tools.publishText(text_pose, "Object attached to robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
-  */
 
   /* Wait for MoveGroup to receive and process the attached collision object message */
-  // visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the new object is attached to the robot");
+  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the new object is attached to the robot"); */
   prompt("Press 'Enter' once the collision object attaches to the robot");
 
   // Replan, but now with the object in hand.
   move_group.setStartStateToCurrentState();
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   RCLCPP_INFO(LOGGER, "Visualizing plan 7 (move around cuboid with cylinder) %s", success ? "" : "FAILED");
-  /*
-  visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+  /* visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group); */
   visual_tools.trigger();
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the plan is complete");
-  */
+  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the plan is complete"); */
   prompt("Press 'Enter' once the plan is complete");
 
   // The result may look something like this:
@@ -504,12 +486,10 @@ int main(int argc, char** argv)
   RCLCPP_INFO(LOGGER, "Detach the object from the robot");
   move_group.detachObject(object_to_attach.id);
 
-  // Show text in RViz of status
-  /*
+  // Show text in RViz of status  
   visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Object detached from robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
-  */
 
   /* Wait for MoveGroup to receive and process the attached collision object message */
   /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window once the new object is detached from the robot"); */
@@ -523,10 +503,8 @@ int main(int argc, char** argv)
   planning_scene_interface.removeCollisionObjects(object_ids);
 
   // Show text in RViz of status
-  /*
   visual_tools.publishText(text_pose, "Objects removed", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
-  */
 
   /* Wait for MoveGroup to receive and process the attached collision object message */
   /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object disapears"); */
