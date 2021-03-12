@@ -210,7 +210,7 @@ Many of the tutorials use ``moveit_visual_tools`` to step through a demo. Before
 From "`Panels`" menu, select "`Add New Panels`". From the menu, select "`RvizVisualToolsGui`" and click OK. You'll see the new panel added to RViz.
 
 .. image:: rviz_add_rviz_visual_tools.png
-   :width: 300px
+   :width: 400px
 
 .. image:: rviz_panels.png
    :width: 700px
