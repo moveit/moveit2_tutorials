@@ -5,7 +5,7 @@ target_include_directories(move_group_interface_tutorial
 ament_target_dependencies(move_group_interface_tutorial
     ${THIS_PACKAGE_INCLUDE_DEPENDS} Boost)
 
-install(TARGETS move_group_interface_tutorial 
+install(TARGETS move_group_interface_tutorial
   DESTINATION lib/${PROJECT_NAME}
 )
 install(DIRECTORY launch
