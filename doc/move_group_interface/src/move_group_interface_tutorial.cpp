@@ -343,7 +343,7 @@ int main(int argc, char** argv)
   // Pull requests are welcome.
   //
   // You can execute a trajectory like this.
-  move_group.execute(trajectory);
+  /* move_group.execute(trajectory); */
 
   // Adding objects to the environment
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -351,7 +351,8 @@ int main(int argc, char** argv)
   // First let's plan to another simple goal with no objects in the way.
   move_group.setStartState(*move_group.getCurrentState());
   geometry_msgs::msg::Pose another_pose;
-  another_pose.orientation.x = 1.0;
+  another_pose.orientation.w = 0;
+  another_pose.orientation.x = -1.0;
   another_pose.position.x = 0.7;
   another_pose.position.y = 0.0;
   another_pose.position.z = 0.59;
@@ -362,6 +363,7 @@ int main(int argc, char** argv)
 
   visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Clear Goal", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishAxisLabeled(another_pose, "goal");
   /* visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group); */
   visual_tools.trigger();
   prompt("Press 'Enter' to continue the demo");
@@ -390,7 +392,7 @@ int main(int argc, char** argv)
   // Define a pose for the box (specified relative to frame_id)
   geometry_msgs::msg::Pose box_pose;
   box_pose.orientation.w = 1.0;
-  box_pose.position.x = 0.5;
+  box_pose.position.x = 0.48;
   box_pose.position.y = 0.0;
   box_pose.position.z = 0.25;
 
@@ -453,10 +455,14 @@ int main(int argc, char** argv)
   object_to_attach.operation = object_to_attach.ADD;
   planning_scene_interface.applyCollisionObject(object_to_attach);
 
-  // Then, we "attach" the object to the robot. It uses the frame_id to determine which robot link it is attached to.
+  // Then, we "attach" the object to the robot. It uses the frame_id to determine which robot link it is attached to 
+  // and we also need to tell MoveIt that the object is allowed to be in collision with the finger links of the gripper.
   // You could also use applyAttachedCollisionObject to attach an object to the robot directly.
   RCLCPP_INFO(LOGGER, "Attach the object to the robot");
-  move_group.attachObject(object_to_attach.id, "panda_hand");
+  std::vector<std::string> touch_links;
+  touch_links.push_back("panda_rightfinger");
+  touch_links.push_back("panda_leftfinger");
+  move_group.attachObject(object_to_attach.id, "panda_hand", touch_links);
 
   visual_tools.publishText(text_pose, "Object attached to robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
