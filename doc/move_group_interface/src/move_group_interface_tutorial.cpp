@@ -455,7 +455,7 @@ int main(int argc, char** argv)
   object_to_attach.operation = object_to_attach.ADD;
   planning_scene_interface.applyCollisionObject(object_to_attach);
 
-  // Then, we "attach" the object to the robot. It uses the frame_id to determine which robot link it is attached to 
+  // Then, we "attach" the object to the robot. It uses the frame_id to determine which robot link it is attached to
   // and we also need to tell MoveIt that the object is allowed to be in collision with the finger links of the gripper.
   // You could also use applyAttachedCollisionObject to attach an object to the robot directly.
   RCLCPP_INFO(LOGGER, "Attach the object to the robot");
