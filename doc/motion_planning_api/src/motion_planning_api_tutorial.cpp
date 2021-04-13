@@ -195,7 +195,7 @@ int main(int argc, char** argv)
   // Visualize the result
   // ^^^^^^^^^^^^^^^^^^^^
   ros::Publisher display_publisher =
-      node_handle.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
+      node_handle.advertise<moveit_msgs::DisplayTrajectory>("/display_planned_path", 1, true);
   moveit_msgs::DisplayTrajectory display_trajectory;
 
   /* Visualize the trajectory */

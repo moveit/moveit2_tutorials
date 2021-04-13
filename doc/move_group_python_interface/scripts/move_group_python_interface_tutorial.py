@@ -110,7 +110,7 @@ class MoveGroupPythonIntefaceTutorial(object):
 
     ## Create a `DisplayTrajectory`_ ROS publisher which is used to display
     ## trajectories in Rviz:
-    display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',
+    display_trajectory_publisher = rospy.Publisher('/display_planned_path',
                                                    moveit_msgs.msg.DisplayTrajectory,
                                                    queue_size=20)
 
