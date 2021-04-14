@@ -124,7 +124,7 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    // planning_components->execute(); // Execute the plan */
+    /* planning_components->execute(); // Execute the plan */
   }
 
   // Plan #1 visualization:
