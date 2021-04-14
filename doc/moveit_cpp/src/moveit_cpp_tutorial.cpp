@@ -1,21 +1,47 @@
-#include <ros/ros.h>
+#include <rclcpp/rclcpp.hpp>
 #include <memory>
 // MoveitCpp
 #include <moveit/moveit_cpp/moveit_cpp.h>
 #include <moveit/moveit_cpp/planning_component.h>
 
-#include <geometry_msgs/PointStamped.h>
+#include <geometry_msgs/msg/point_stamped.h>
 
-#include <moveit_visual_tools/moveit_visual_tools.h>
+/* #include <moveit_visual_tools/moveit_visual_tools.h>  This has not been ported to ros2 yet */
+#include <rviz_visual_tools/rviz_visual_tools.hpp>
+/* this is a standin for moveit_visual_tools visual_tools.prompt */
+#include <moveit/macros/console_colors.h>
+void prompt(const std::string& message)
+{
+  printf(MOVEIT_CONSOLE_COLOR_GREEN "\n%s" MOVEIT_CONSOLE_COLOR_RESET, message.c_str());
+  fflush(stdout);
+  while (std::cin.get() != '\n' && rclcpp::ok())
+    ;
+}
 
 namespace rvt = rviz_visual_tools;
 
+// All source files that use ROS logging should define a file-specific
+// static const rclcpp::Logger named LOGGER, located at the top of the file
+// and inside the namespace with the narrowest scope (if there is one)
+static const rclcpp::Logger LOGGER = rclcpp::get_logger("moveit_cpp_tutorial");
+
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "moveit_cpp_tutorial");
-  ros::NodeHandle nh("/moveit_cpp_tutorial");
-  ros::AsyncSpinner spinner(4);
-  spinner.start();
+  rclcpp::init(argc, argv);
+  rclcpp::NodeOptions node_options;
+  RCLCPP_INFO(LOGGER, "Initialize node");
+
+  // This enables loading undeclared parameters
+  // best practice would be to declare parameters in the corresponding classes
+  // and provide descriptions about expected use
+  node_options.automatically_declare_parameters_from_overrides(true);
+  rclcpp::Node::SharedPtr node = rclcpp::Node::make_shared("run_moveit_cpp", "", node_options);
+
+  // We spin up a SingleThreadedExecutor for the current state monitor to get information
+  // about the robot's state.
+  rclcpp::executors::SingleThreadedExecutor executor;
+  executor.add_node(node);
+  std::thread([&executor]() { executor.spin(); }).detach();
 
   // BEGIN_TUTORIAL
   //
@@ -26,11 +52,11 @@ int main(int argc, char** argv)
   static const std::string LOGNAME = "moveit_cpp_tutorial";
 
   /* Otherwise robot with zeros joint_states */
-  ros::Duration(1.0).sleep();
+  rclcpp::sleep_for(std::chrono::seconds(1));
 
-  ROS_INFO_STREAM_NAMED(LOGNAME, "Starting MoveIt Tutorials...");
+  RCLCPP_INFO(LOGGER, "Starting MoveIt Tutorials...");
 
-  auto moveit_cpp_ptr = std::make_shared<moveit::planning_interface::MoveItCpp>(nh);
+  auto moveit_cpp_ptr = std::make_shared<moveit::planning_interface::MoveItCpp>(node);
   moveit_cpp_ptr->getPlanningSceneMonitor()->providePlanningSceneService();
 
   auto planning_components =
@@ -44,10 +70,11 @@ int main(int argc, char** argv)
   //
   // The package MoveItVisualTools provides many capabilties for visualizing objects, robots,
   // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script
-  moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0", rvt::RVIZ_MARKER_TOPIC,
-                                                      moveit_cpp_ptr->getPlanningSceneMonitor());
+  rviz_visual_tools::RvizVisualTools visual_tools("panda_link0", "moveit_cpp_tutorial", node);
+  /* moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0", rvt::RVIZ_MARKER_TOPIC,
+                                                         moveit_cpp_ptr->getPlanningSceneMonitor()); */
   visual_tools.deleteAllMarkers();
-  visual_tools.loadRemoteControl();
+  /* visual_tools.loadRemoteControl(); */
 
   Eigen::Isometry3d text_pose = Eigen::Isometry3d::Identity();
   text_pose.translation().z() = 1.75;
@@ -56,7 +83,8 @@ int main(int argc, char** argv)
 
   // Start the demo
   // ^^^^^^^^^^^^^^^^^^^^^^^^^
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
+  prompt("Press 'Enter' to start the demo");
+  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo"); */
 
   // Planning with MoveItCpp
   // ^^^^^^^^^^^^^^^^^^^^^^^
@@ -70,7 +98,7 @@ int main(int argc, char** argv)
   planning_components->setStartStateToCurrentState();
 
   // The first way to set the goal of the plan is by using geometry_msgs::PoseStamped ROS message type as follow
-  geometry_msgs::PoseStamped target_pose1;
+  geometry_msgs::msg::PoseStamped target_pose1;
   target_pose1.header.frame_id = "panda_link0";
   target_pose1.pose.orientation.w = 1.0;
   target_pose1.pose.position.x = 0.28;
@@ -92,11 +120,11 @@ int main(int argc, char** argv)
     visual_tools.publishAxisLabeled(target_pose1.pose, "target_pose");
     visual_tools.publishText(text_pose, "Goal Pose", rvt::WHITE, rvt::XLARGE);
     // Visualize the trajectory in Rviz
-    visual_tools.publishTrajectoryLine(plan_solution1.trajectory, joint_model_group_ptr);
+    /* visual_tools.publishTrajectoryLine(plan_solution1.trajectory, joint_model_group_ptr); */
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    // planning_components->execute(); // Execute the plan */
   }
 
   // Plan #1 visualization:
@@ -105,10 +133,10 @@ int main(int argc, char** argv)
   //    :width: 250pt
   //    :align: center
   //
-
   // Start the next plan
   visual_tools.deleteAllMarkers();
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+  prompt("Press 'Enter' to continue the demo");
+  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
 
   // Plan #2
   // ^^^^^^^
@@ -116,7 +144,7 @@ int main(int argc, char** argv)
   // Here we will set the current state of the plan using
   // moveit::core::RobotState
   auto start_state = *(moveit_cpp_ptr->getCurrentState());
-  geometry_msgs::Pose start_pose;
+  geometry_msgs::msg::Pose start_pose;
   start_pose.orientation.w = 1.0;
   start_pose.position.x = 0.55;
   start_pose.position.y = 0.0;
@@ -137,11 +165,11 @@ int main(int argc, char** argv)
     visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
     visual_tools.publishText(text_pose, "Goal Pose", rvt::WHITE, rvt::XLARGE);
     visual_tools.publishAxisLabeled(target_pose1.pose, "target_pose");
-    visual_tools.publishTrajectoryLine(plan_solution2.trajectory, joint_model_group_ptr);
+    /* visual_tools.publishTrajectoryLine(plan_solution2.trajectory, joint_model_group_ptr); */
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    // planning_components->execute(); // Execute the plan */
   }
 
   // Plan #2 visualization:
@@ -150,10 +178,10 @@ int main(int argc, char** argv)
   //    :width: 250pt
   //    :align: center
   //
-
   // Start the next plan
   visual_tools.deleteAllMarkers();
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+  prompt("Press 'Enter' to continue the demo");
+  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
 
   // Plan #3
   // ^^^^^^^
@@ -161,7 +189,7 @@ int main(int argc, char** argv)
   // We can also set the goal of the plan using
   // moveit::core::RobotState
   auto target_state = *robot_start_state;
-  geometry_msgs::Pose target_pose2;
+  geometry_msgs::msg::Pose target_pose2;
   target_pose2.orientation.w = 1.0;
   target_pose2.position.x = 0.55;
   target_pose2.position.y = -0.05;
@@ -182,11 +210,11 @@ int main(int argc, char** argv)
     visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
     visual_tools.publishText(text_pose, "Goal Pose", rvt::WHITE, rvt::XLARGE);
     visual_tools.publishAxisLabeled(target_pose2, "target_pose");
-    visual_tools.publishTrajectoryLine(plan_solution3.trajectory, joint_model_group_ptr);
+    /* visual_tools.publishTrajectoryLine(plan_solution3.trajectory, joint_model_group_ptr); */
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    // planning_components->execute(); // Execute the plan */
   }
 
   // Plan #3 visualization:
@@ -195,10 +223,10 @@ int main(int argc, char** argv)
   //    :width: 250pt
   //    :align: center
   //
-
   // Start the next plan
   visual_tools.deleteAllMarkers();
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+  prompt("Press 'Enter' to continue the demo");
+  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
 
   // Plan #4
   // ^^^^^^^
@@ -225,11 +253,11 @@ int main(int argc, char** argv)
     visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
     visual_tools.publishText(text_pose, "Goal Pose", rvt::WHITE, rvt::XLARGE);
     visual_tools.publishAxisLabeled(robot_start_state->getGlobalLinkTransform("panda_link8"), "target_pose");
-    visual_tools.publishTrajectoryLine(plan_solution4.trajectory, joint_model_group_ptr);
+    /* visual_tools.publishTrajectoryLine(plan_solution4.trajectory, joint_model_group_ptr); */
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    // planning_components->execute(); // Execute the plan */
   }
 
   // Plan #4 visualization:
@@ -238,11 +266,11 @@ int main(int argc, char** argv)
   //    :width: 250pt
   //    :align: center
   //
-
   // END_TUTORIAL
   visual_tools.deleteAllMarkers();
-  visual_tools.prompt("Press 'next' to end the demo");
+  prompt("Press 'Enter' to exit the demo");
+  /* visual_tools.prompt("Press 'next' to end the demo"); */
 
-  ROS_INFO_STREAM_NAMED(LOGNAME, "Shutting down.");
-  ros::waitForShutdown();
+  RCLCPP_INFO(LOGGER, "Shutting down.");
+  return 0;
 }
