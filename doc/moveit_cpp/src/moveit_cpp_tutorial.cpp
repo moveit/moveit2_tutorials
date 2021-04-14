@@ -169,7 +169,7 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    // planning_components->execute(); // Execute the plan */
+    /* planning_components->execute(); // Execute the plan */
   }
 
   // Plan #2 visualization:
@@ -214,7 +214,7 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    // planning_components->execute(); // Execute the plan */
+    /* planning_components->execute(); // Execute the plan */
   }
 
   // Plan #3 visualization:
@@ -257,7 +257,7 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    // planning_components->execute(); // Execute the plan */
+    /* planning_components->execute(); // Execute the plan */
   }
 
   // Plan #4 visualization:
