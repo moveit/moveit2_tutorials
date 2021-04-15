@@ -160,7 +160,7 @@ int main(int argc, char** argv)
   //
   // While most of this tutorial uses the latter mechanism (given the long sleeps
   // inserted for visualization purposes asynchronous updates do not pose a problem),
-  // it would is perfectly justified to replace the planning_scene_diff_publisher
+  // it would be perfectly justified to replace the planning_scene_diff_publisher
   // by the following service client:
   rclcpp::Client<moveit_msgs::srv::ApplyPlanningScene>::SharedPtr planning_scene_diff_client =
       node->create_client<moveit_msgs::srv::ApplyPlanningScene>("apply_planning_scene");
@@ -169,7 +169,6 @@ int main(int argc, char** argv)
   auto request = std::make_shared<moveit_msgs::srv::ApplyPlanningScene::Request>();
   request->scene = planning_scene;
   planning_scene_diff_client->async_send_request(request);
-  // moveit_msgs::srv::ApplyPlanningScene srv;
   // Note that this does not continue until we are sure the diff has been applied.
   //
   // Attach an object to the robot
