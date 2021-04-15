@@ -20,7 +20,7 @@ bool stateFeasibilityTestExample(const moveit::core::RobotState& kinematic_state
 }
 // END_SUB_TUTORIAL
 
-static const rclcpp::Logger LOGGER = rclcpp::get_logger("planning_scene_tutorial_");
+static const rclcpp::Logger LOGGER = rclcpp::get_logger("planning_scene_tutorial");
 
 int main(int argc, char** argv)
 {

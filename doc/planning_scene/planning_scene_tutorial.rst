@@ -31,7 +31,7 @@ Expected Output
 The output should look something like this, though we are using random
 joint values so some things may be different. ::
 
- moveit2_tutorials: Test 1: Current state is not in self collision
+ moveit2_tutorials: Test 1: Current state is in self collision
  moveit2_tutorials: Test 2: Current state is not in self collision
  moveit2_tutorials: Test 3: Current state is not in self collision
  moveit2_tutorials: Test 4: Current state is valid
