@@ -272,5 +272,6 @@ int main(int argc, char** argv)
   /* visual_tools.prompt("Press 'next' to end the demo"); */
 
   RCLCPP_INFO(LOGGER, "Shutting down.");
+  rclcpp::shutdown();
   return 0;
 }
