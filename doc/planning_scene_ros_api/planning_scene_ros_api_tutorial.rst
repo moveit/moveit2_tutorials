@@ -11,6 +11,11 @@ Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
+**Note:** Because **MoveitVisualTools** has not been ported to ROS2 this tutorial has made use of xterm and a simple prompter to help the user progress through each demo step.
+To install xterm please run the following command: ::
+
+  sudo apt-get install -y xterm
+
 Running the code
 ----------------
 Open two shells. In the first shell start RViz and wait for everything to finish loading: ::
