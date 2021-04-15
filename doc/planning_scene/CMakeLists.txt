@@ -1,5 +1,13 @@
-add_executable(planning_scene_tutorial src/planning_scene_tutorial.cpp)
-target_link_libraries(planning_scene_tutorial ${catkin_LIBRARIES} ${Boost_LIBRARIES})
-install(TARGETS planning_scene_tutorial DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+add_executable(planning_scene_tutorial
+    src/planning_scene_tutorial.cpp)
+target_include_directories(planning_scene_tutorial
+    PUBLIC include)
+ament_target_dependencies(planning_scene_tutorial
+    ${THIS_PACKAGE_INCLUDE_DEPENDS} Boost)
 
-install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+install(TARGETS planning_scene_tutorial
+    DESTINATION lib/${PROJECT_NAME}
+)
+install(DIRECTORY launch
+    DESTINATION share/${PROJECT_NAME}
+)
