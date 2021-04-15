@@ -48,12 +48,5 @@ The entire code can be seen :codedir:`here in the MoveIt GitHub project<planning
 
 .. tutorial-formatter:: ./src/planning_scene_ros_api_tutorial.cpp
 
-The launch file
----------------
-The entire launch file is :codedir:`here <planning_scene_ros_api/launch/planning_scene_ros_api_tutorial.launch>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
-
-Debugging the Planning Scene Monitor
-------------------------------------
-To aid in debugging detached and attached collision objects, a command-line tool will help introspect your system: ::
-
-  ros2 run moveit_ros_planning moveit_print_planning_scene_info
+..
+  TODO(JafarAbdi): Add the launch file section back (see https://github.com/ros-planning/moveit_tutorials/blob/master/doc/planning_scene_ros_api/planning_scene_ros_api_tutorial.rst#the-launch-file)
