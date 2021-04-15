@@ -73,7 +73,8 @@ int main(int argc, char** argv)
   collision_detection::CollisionRequest collision_request;
   collision_detection::CollisionResult collision_result;
   planning_scene.checkSelfCollision(collision_request, collision_result);
-  RCLCPP_INFO_STREAM(LOGGER, "Test 1: Current state is " << (collision_result.collision ? "in" : "not in") << " self collision");
+  RCLCPP_INFO_STREAM(LOGGER, "Test 1: Current state is " << (collision_result.collision ? "in" : "not in")
+                                                         << " self collision");
   // Change the state
   // ~~~~~~~~~~~~~~~~
   //
@@ -88,7 +89,8 @@ int main(int argc, char** argv)
   current_state.setToRandomPositions();
   collision_result.clear();
   planning_scene.checkSelfCollision(collision_request, collision_result);
-  RCLCPP_INFO_STREAM(LOGGER, "Test 2: Current state is " << (collision_result.collision ? "in" : "not in") << " self collision");
+  RCLCPP_INFO_STREAM(LOGGER, "Test 2: Current state is " << (collision_result.collision ? "in" : "not in")
+                                                         << " self collision");
 
   // Checking for a group
   // ~~~~~~~~~~~~~~~~~~~~
@@ -103,7 +105,8 @@ int main(int argc, char** argv)
   current_state.setToRandomPositions();
   collision_result.clear();
   planning_scene.checkSelfCollision(collision_request, collision_result);
-  RCLCPP_INFO_STREAM(LOGGER, "Test 3: Current state is " << (collision_result.collision ? "in" : "not in") << " self collision");
+  RCLCPP_INFO_STREAM(LOGGER, "Test 3: Current state is " << (collision_result.collision ? "in" : "not in")
+                                                         << " self collision");
 
   // Getting Contact Information
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -117,7 +120,7 @@ int main(int argc, char** argv)
   const moveit::core::JointModelGroup* joint_model_group = current_state.getJointModelGroup("panda_arm");
   current_state.setJointGroupPositions(joint_model_group, joint_values);
   RCLCPP_INFO_STREAM(LOGGER, "Test 4: Current state is "
-                  << (current_state.satisfiesBounds(joint_model_group) ? "valid" : "not valid"));
+                                 << (current_state.satisfiesBounds(joint_model_group) ? "valid" : "not valid"));
 
   // Now, we can get contact information for any collisions that might
   // have happened at a given configuration of the Panda arm. We can ask
@@ -132,7 +135,8 @@ int main(int argc, char** argv)
 
   collision_result.clear();
   planning_scene.checkSelfCollision(collision_request, collision_result);
-  RCLCPP_INFO_STREAM(LOGGER, "Test 5: Current state is " << (collision_result.collision ? "in" : "not in") << " self collision");
+  RCLCPP_INFO_STREAM(LOGGER, "Test 5: Current state is " << (collision_result.collision ? "in" : "not in")
+                                                         << " self collision");
   collision_detection::CollisionResult::ContactMap::const_iterator it;
   for (it = collision_result.contacts.begin(); it != collision_result.contacts.end(); ++it)
   {
@@ -165,7 +169,8 @@ int main(int argc, char** argv)
   }
   collision_result.clear();
   planning_scene.checkSelfCollision(collision_request, collision_result, copied_state, acm);
-  RCLCPP_INFO_STREAM(LOGGER, "Test 6: Current state is " << (collision_result.collision ? "in" : "not in") << " self collision");
+  RCLCPP_INFO_STREAM(LOGGER, "Test 6: Current state is " << (collision_result.collision ? "in" : "not in")
+                                                         << " self collision");
 
   // Full Collision Checking
   // ~~~~~~~~~~~~~~~~~~~~~~~
@@ -180,7 +185,8 @@ int main(int argc, char** argv)
   // from obstacles in the environment.
   collision_result.clear();
   planning_scene.checkCollision(collision_request, collision_result, copied_state, acm);
-  RCLCPP_INFO_STREAM(LOGGER, "Test 7: Current state is " << (collision_result.collision ? "in" : "not in") << " self collision");
+  RCLCPP_INFO_STREAM(LOGGER, "Test 7: Current state is " << (collision_result.collision ? "in" : "not in")
+                                                         << " self collision");
 
   // Constraint Checking
   // ^^^^^^^^^^^^^^^^^^^
@@ -240,7 +246,8 @@ int main(int argc, char** argv)
 
   kinematic_constraints::ConstraintEvaluationResult constraint_eval_result =
       kinematic_constraint_set.decide(copied_state);
-  RCLCPP_INFO_STREAM(LOGGER, "Test 10: Random state is " << (constraint_eval_result.satisfied ? "constrained" : "not constrained"));
+  RCLCPP_INFO_STREAM(LOGGER, "Test 10: Random state is "
+                                 << (constraint_eval_result.satisfied ? "constrained" : "not constrained"));
 
   // User-defined constraints
   // ~~~~~~~~~~~~~~~~~~~~~~~~
