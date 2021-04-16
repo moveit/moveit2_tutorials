@@ -1,0 +1,30 @@
+name: DeployWebsite
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-build-pages:
+    name: CheckBuildHTML
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '2.7'
+    - name: Run htmlproofer.sh
+      run: ./htmlproofer.sh
+  deploy-website:
+    name: Deploy Website
+    runs-on: ubuntu-latest
+    steps:
+      - uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EXTERNAL_REPOSITORY: moveit2_tutorials.picknik.ai
+          PUBLISH_BRANCH: main
+          PUBLISH_DIR: ./build
