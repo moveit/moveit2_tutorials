@@ -16,11 +16,11 @@ This repository is currently built automatically by two systems. Travis builds t
 - [![ROS Melodic Build Farm Status](http://build.ros.org/buildStatus/icon?job=Mdoc__moveit_tutorials__ubuntu_bionic_amd64)](http://build.ros.org/job/Mdoc__moveit_tutorials__ubuntu_bionic_amd64/) [ROS Melodic Build Farm](http://docs.ros.org/melodic/api/moveit_tutorials/html/)
 - [![ROS Kinetic Build Farm Status](http://build.ros.org/buildStatus/icon?job=Kdoc__moveit_tutorials__ubuntu_xenial_amd64)](http://build.ros.org/job/Kdoc__moveit_tutorials__ubuntu_xenial_amd64/) [ROS Kinetic Build Farm](http://docs.ros.org/kinetic/api/moveit_tutorials/html/)
 
-## Getting Started 
-An issue has been created for each tutorial to be ported to Foxy. At the top of each tutorial there is a tag: ":moveit1:", remove the tag 
+## Getting Started
+An issue has been created for each tutorial to be ported to Foxy. At the top of each tutorial there is a tag: ":moveit1:", remove the tag
 after the tutorial has been successfully updated.
 
-Below are some links to help with the ports. 
+Below are some links to help with the ports.
 
 * [colcon](https://colcon.readthedocs.io/en/released/user/how-to.html)
 * [ament](https://index.ros.org/doc/ros2/Tutorials/Ament-CMake-Documentation/)
