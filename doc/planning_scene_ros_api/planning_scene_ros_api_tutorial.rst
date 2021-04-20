@@ -38,10 +38,6 @@ In RViz, you should be able to see the following:
  * Object gets detached from the robot.
  * Object is removed from the planning scene.
 
-.. role:: red
-
-**Note:** You may see an error message reading :red:`Found empty JointState message`. This is a known bug and will be fixed soon.
-
 The entire code
 ---------------
 The entire code can be seen :codedir:`here in the MoveIt GitHub project<planning_scene_ros_api>`.
