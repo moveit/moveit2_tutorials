@@ -106,7 +106,7 @@ jobs:
             ccache-${{ env.CACHE_PREFIX }}
       # https://github.com/ros-industrial/industrial_ci/pull/655
       - name: industrial_ci
-        uses: "rhaschke/industrial_ci@improve-clang-tidy"
+        uses: "ros-industrial/industrial_ci"
         env: ${{ matrix.env }}
       - name: upload test artifacts (on failure)
         uses: actions/upload-artifact@v2
