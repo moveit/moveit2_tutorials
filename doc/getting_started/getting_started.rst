@@ -10,7 +10,7 @@ It is easy to miss steps when going through the ROS2 installation tutorial. If y
 
 Install `rosdep2 <http://wiki.ros.org/rosdep>`_ to install system dependencies : ::
 
-  sudo apt install python3-rosdep2 
+  sudo apt install python3-rosdep2
 
 Once you have ROS2 installed, make sure you have the most up to date packages: ::
 
@@ -45,7 +45,7 @@ The following will install from Debian any package dependencies not already in y
 
   cd ~/ws_moveit2/src
   rosdep install -r --from-paths . --ignore-src --rosdistro foxy -y
-  
+
 The next command will configure your colcon workspace: ::
 
   cd ~/ws_moveit2
