@@ -18,13 +18,3 @@ jobs:
         ruby-version: '2.7'
     - name: Run htmlproofer.sh
       run: ./htmlproofer.sh
-  deploy-website:
-    name: Deploy Website
-    runs-on: ubuntu-latest
-    steps:
-      - uses: peaceiris/actions-gh-pages@v2
-        env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          EXTERNAL_REPOSITORY: moveit2_tutorials.picknik.ai
-          PUBLISH_BRANCH: main
-          PUBLISH_DIR: ./build
