@@ -1,8 +1,3 @@
-:moveit1:
-
-..
-   Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
-
 Planning Scene
 ==================================
 
@@ -28,7 +23,7 @@ Running the code
 ----------------
 Roslaunch the launch file to run the code directly from moveit_tutorials: ::
 
- roslaunch moveit_tutorials planning_scene_tutorial.launch
+ ros2 launch moveit2_tutorials planning_scene_tutorial.launch.py
 
 Expected Output
 ---------------
@@ -36,19 +31,19 @@ Expected Output
 The output should look something like this, though we are using random
 joint values so some things may be different. ::
 
- ros.moveit_tutorials: Test 1: Current state is not in self collision
- ros.moveit_tutorials: Test 2: Current state is not in self collision
- ros.moveit_tutorials: Test 3: Current state is not in self collision
- ros.moveit_tutorials: Test 4: Current state is valid
- ros.moveit_tutorials: Test 5: Current state is in self collision
- ros.moveit_tutorials: Contact between: panda_leftfinger and panda_link1
- ros.moveit_tutorials: Contact between: panda_link1 and panda_rightfinger
- ros.moveit_tutorials: Test 6: Current state is not in self collision
- ros.moveit_tutorials: Test 7: Current state is not in self collision
- ros.moveit_tutorials: Test 8: Random state is not constrained
- ros.moveit_tutorials: Test 9: Random state is not constrained
- ros.moveit_tutorials: Test 10: Random state is not constrained
- ros.moveit_tutorials: Test 11: Random state is feasible
- ros.moveit_tutorials: Test 12: Random state is not valid
+ moveit2_tutorials: Test 1: Current state is in self collision
+ moveit2_tutorials: Test 2: Current state is not in self collision
+ moveit2_tutorials: Test 3: Current state is not in self collision
+ moveit2_tutorials: Test 4: Current state is valid
+ moveit2_tutorials: Test 5: Current state is in self collision
+ moveit2_tutorials: Contact between: panda_leftfinger and panda_link1
+ moveit2_tutorials: Contact between: panda_link1 and panda_rightfinger
+ moveit2_tutorials: Test 6: Current state is not in self collision
+ moveit2_tutorials: Test 7: Current state is not in self collision
+ moveit2_tutorials: Test 8: Random state is not constrained
+ moveit2_tutorials: Test 9: Random state is not constrained
+ moveit2_tutorials: Test 10: Random state is not constrained
+ moveit2_tutorials: Test 11: Random state is feasible
+ moveit2_tutorials: Test 12: Random state is not valid
 
-**Note:** Don't worry if your output has different ROS console format. You can customize your ROS console logger by following `this blog post <http://dav.ee/blog/notes/archives/898>`_.
+**Note:** Don't worry if your output has different ROS console format. You can customize your ROS console logger by following `this tutorial <https://docs.ros.org/en/foxy/Tutorials/Logging-and-logger-configuration.html#console-output-formatting>`_.
