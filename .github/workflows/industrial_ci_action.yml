@@ -22,7 +22,7 @@ jobs:
       UPSTREAM_WORKSPACE: moveit2_tutorials.repos
       # Build moveit2 itself before upstream
       BEFORE_SETUP_UPSTREAM_WORKSPACE: |
-        pwd && ls ~/  && cd ~/ws_moveit/ && apt-get update && apt-get install -y build-essential \
+        cd ~/ws_moveit/ && apt-get update && apt-get install -y build-essential \
         cmake \
         git \
         libbullet-dev \
