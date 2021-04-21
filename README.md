@@ -11,16 +11,16 @@ These tutorials use the [reStructuredText](http://www.sphinx-doc.org/en/stable/r
 All content in this repository is open source and released under the [BSD License v3](https://opensource.org/licenses/BSD-3-Clause). Each individual source code file should contain a copy of the license.
 
 This repository is currently built automatically by two systems. Travis builds the documentation for Melodic and ROS Build Farm builds the documentation for older versions:
-- [![Travis Status](https://travis-ci.com/ros-planning/moveit2_tutorials.svg?branch=main)](https://travis-ci.com/ros-planning/moveit2_tutorials) [Github Pages + Travis](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
-- [![Travis Status](https://travis-ci.com/ros-planning/moveit_tutorials.svg?branch=master)](https://travis-ci.com/ros-planning/moveit_tutorials) [Github Pages + Travis](https://ros-planning.github.io/moveit_tutorials/): Noetic
-- [![ROS Melodic Build Farm Status](http://build.ros.org/buildStatus/icon?job=Mdoc__moveit_tutorials__ubuntu_bionic_amd64)](http://build.ros.org/job/Mdoc__moveit_tutorials__ubuntu_bionic_amd64/) [ROS Melodic Build Farm](http://docs.ros.org/melodic/api/moveit_tutorials/html/)
-- [![ROS Kinetic Build Farm Status](http://build.ros.org/buildStatus/icon?job=Kdoc__moveit_tutorials__ubuntu_xenial_amd64)](http://build.ros.org/job/Kdoc__moveit_tutorials__ubuntu_xenial_amd64/) [ROS Kinetic Build Farm](http://docs.ros.org/kinetic/api/moveit_tutorials/html/)
 
-## Getting Started 
-An issue has been created for each tutorial to be ported to Foxy. At the top of each tutorial there is a tag: ":moveit1:", remove the tag 
+- [![Build](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/industrial_ci_action.yml/badge.svg?branch=main)](https://travis-ci.com/ros-planning/moveit2_tutorials) [Tutorials + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
+- [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://travis-ci.com/ros-planning/moveit2_tutorials) [Format + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
+- [![CheckBuildHTML](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/htmlcheck.yml/badge.svg?branch=main)](https://travis-ci.com/ros-planning/moveit2_tutorials) [Github Pages + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
+
+## Getting Started
+An issue has been created for each tutorial to be ported to Foxy. At the top of each tutorial there is a tag: ":moveit1:", remove the tag
 after the tutorial has been successfully updated.
 
-Below are some links to help with the ports. 
+Below are some links to help with the ports.
 
 * [colcon](https://colcon.readthedocs.io/en/released/user/how-to.html)
 * [ament](https://index.ros.org/doc/ros2/Tutorials/Ament-CMake-Documentation/)
@@ -74,13 +74,13 @@ We rely on the community to keep these tutorials up to date and bug free. If you
 
 **Code Formatting**
 
-* These tutorials use the same [style guidelines](http://moveit.ros.org/documentation/contributing/code/) as the MoveIt project. When modifying or adding to these tutorials, it is required that code is auto formatted using [clang-format](http://moveit.ros.org/documentation/contributing/code/).
+* These tutorials use the same [style guidelines](http://moveit.ros.org/documentation/contributing/code/) as the MoveIt project. When modifying or adding to these tutorials, it is required that code is auto formatted using [clang-format](http://moveit.ros.org/documentation/contributing/code/). To check and apply our style guidelines we use [pre-commit](https://pre-commit.com/).
 * Tutorials should exemplify best coding practices. If a contribution wouldn't pass review in the MoveIt project, then it shouldn't pass review in the tutorials.
 * Relevant code should be included and explained using the ``.. tutorial-formatter::`` tag.
 * Irrelevant code should be excluded from the generated html using the ``BEGIN_TUTORIAL``, ``END_TUTORIAL``, ``BEGIN_SUB_TUTORIAL``, and ``END_SUB_TUTORIAL`` tags.
 * Whenever possible, links should be created using the ``extlinks`` dictionary defined in ``conf.py``.
-* All demo code should be runnable from within the ``moveit_tutorials`` package.
-* Python code should be run using ``rosrun``.
+* All demo code should be runnable from within the ``moveit2_tutorials`` package.
+* Python code should be run using ``ros2 run``.
 
 **Style**
 
@@ -88,6 +88,19 @@ We rely on the community to keep these tutorials up to date and bug free. If you
 * Tutorials should flow from show to tell with videos and demos at the beginning followed by explanations.
 * New tutorials should match the formatting, style and flow of existing tutorials whenever possible.
 
+**pre-commit**
+
+pre-commit is a tool that is used in moveit2_tutorials to check and apply style guidelines automatically. To install pre-commit into your system:
+
+    pip3 install pre-commit
+
+Then under moveit2_tutorials directory install the git hooks like this:
+
+    cd $COLCON_WS/src/moveit2_tutorials && pre-commit install
+
+With this pre-commit will automatically run and check a list of styling including clang-format, end of files and trailing whitespaces whenever you run `git commit`. To run pre-commit any time other than `git commit`:
+
+    cd $COLCON_WS/src/moveit2_tutorials && pre-commit run -a
 ### Directory Structure
 
 * Each tutorial should live in its own subdirectory within the `./doc/ <>` directory.
