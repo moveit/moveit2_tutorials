@@ -2,7 +2,7 @@
 
 ..
    Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
-  
+
 Move Group Python Interface
 ================================================
 .. image:: move_group_python_interface.png

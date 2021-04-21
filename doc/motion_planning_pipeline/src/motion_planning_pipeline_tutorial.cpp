@@ -151,7 +151,7 @@ int main(int argc, char** argv)
   // package.
   //
   // .. _kinematic_constraints:
-  //     http://docs.ros.org/noetic/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
+  //     http://docs.ros.org/noetic/api/moveit_core/html/cpp/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
   req.group_name = "panda_arm";
   moveit_msgs::Constraints pose_goal =
       kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
@@ -175,7 +175,7 @@ int main(int argc, char** argv)
   // Visualize the result
   // ^^^^^^^^^^^^^^^^^^^^
   ros::Publisher display_publisher =
-      node_handle.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
+      node_handle.advertise<moveit_msgs::DisplayTrajectory>("/display_planned_path", 1, true);
   moveit_msgs::DisplayTrajectory display_trajectory;
 
   /* Visualize the trajectory */

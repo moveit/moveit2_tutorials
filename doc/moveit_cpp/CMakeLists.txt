@@ -1,5 +1,13 @@
 add_executable(moveit_cpp_tutorial src/moveit_cpp_tutorial.cpp)
-target_link_libraries(moveit_cpp_tutorial ${catkin_LIBRARIES} ${Boost_LIBRARIES})
-install(TARGETS moveit_cpp_tutorial DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+target_include_directories(moveit_cpp_tutorial PUBLIC include)
+ament_target_dependencies(moveit_cpp_tutorial  ${THIS_PACKAGE_INCLUDE_DEPENDS} Boost)
 
-install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+install(TARGETS moveit_cpp_tutorial
+  DESTINATION lib/${PROJECT_NAME}
+)
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
+)
+install(DIRECTORY config
+  DESTINATION share/${PROJECT_NAME}
+)

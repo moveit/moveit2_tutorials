@@ -2,7 +2,7 @@
 
 ..
    Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
-  
+
 Planning with Approximated Constraint Manifolds
 ===============================================
 
@@ -102,7 +102,7 @@ VisibilityConstraint
 
 A ``VisibilityConstraint`` allows to eg. specify a camera should always be able to see the gripper.
 
-How this is achieved is best explained by the `VisibilityConstraint <https://docs.ros.org/noetic/api/moveit_core/html/classkinematic__constraints_1_1VisibilityConstraint.html#details>`_ class documentation.
+How this is achieved is best explained by the `VisibilityConstraint <https://docs.ros.org/noetic/api/moveit_core/html/cpp/classkinematic__constraints_1_1VisibilityConstraint.html#details>`_ class documentation.
 
 Such a constraint is compactly defined like this::
 

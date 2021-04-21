@@ -1,8 +1,3 @@
-:moveit1:
-
-..
-   Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
-  
 MoveIt Quickstart in RViz
 ==========================
 .. image:: rviz_plugin_head.png
@@ -19,7 +14,7 @@ Step 1: Launch the Demo and Configure the Plugin
 
 * Launch the demo: ::
 
-   roslaunch panda_moveit_config demo.launch rviz_tutorial:=true
+   ros2 launch moveit2_tutorials demo.launch.py rviz_tutorial:=true
 
 * If you are doing this for the first time, you should see an empty world in RViz and will have to add the Motion Planning Plugin:
 
@@ -46,7 +41,7 @@ Step 1: Launch the Demo and Configure the Plugin
                :width: 405px
 
 .. |C| image:: rviz_plugin_motion_planning_add.png
-               :width: 300px
+               :width: 400px
 
 .. |D| image:: rviz_start.png
                :width: 700px
@@ -57,10 +52,10 @@ Step 1: Launch the Demo and Configure the Plugin
 
   * Make sure the **Robot Description** field is set to ``robot_description``.
 
-  * Make sure the **Planning Scene Topic** field is set to ``move_group/monitored_planning_scene``.
+  * Make sure the **Planning Scene Topic** field is set to ``/monitored_planning_scene``.
     Click on topic name to expose topic-name drop-down.
 
-  * Make sure the **Trajectory Topic** under **Planned Path** is set to ``/move_group/display_planned_path``.
+  * Make sure the **Trajectory Topic** under **Planned Path** is set to ``/display_planned_path``.
 
   * In **Planning Request**, change the **Planning Group** to ``panda_arm``. You can also see this in the MotionPlanning panel in the bottom left.
 
@@ -73,7 +68,7 @@ Step 2: Play with the Visualized Robots
 ---------------------------------------
 There are four different overlapping visualizations:
 
-#. The robot's configuration in the ``move_group/monitored_planning_scene`` planning environment (active by default).
+#. The robot's configuration in the ``/monitored_planning_scene`` planning environment (active by default).
 
 #. The planned path for the robot (active by default).
 
@@ -171,7 +166,7 @@ Introspecting Trajectory Waypoints
 
 You can visually introspect trajectories point by point in RViz.
 
-* From "`Panels`" menu, select "`MotionPlanning - Slider`". You'll see a new Slider panel on RViz.
+* From "`Panels`" menu, select "`Trajectory - Trajectory Slider`". You'll see a new Slider panel on RViz.
 
 * Set your goal pose, then run `Plan`.
 
@@ -212,7 +207,10 @@ RViz Visual Tools
 +++++++++++++++++
 Many of the tutorials use ``moveit_visual_tools`` to step through a demo. Before continuing on to the next tutorials it is a good idea to enable the **RvizVisualToolsGui**.
 
-From "`Panels`" menu, select "`RvizVisualToolsGui`". You'll see the new panel added to RViz.
+From "`Panels`" menu, select "`Add New Panels`". From the menu, select "`RvizVisualToolsGui`" and click OK. You'll see the new panel added to RViz.
+
+.. image:: rviz_add_rviz_visual_tools.png
+   :width: 400px
 
 .. image:: rviz_panels.png
    :width: 700px
