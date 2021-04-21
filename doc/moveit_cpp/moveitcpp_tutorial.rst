@@ -1,8 +1,3 @@
-:moveit1:
-
-..
-   Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
-
 MoveItCpp Tutorial
 ==================================
 
@@ -18,14 +13,20 @@ Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
+**Note:** Because **MovitVisualTools** and **RvizVisualToolsGui** have not been ported to ROS2 this tutoral has made use of xterm and a simple prompter to help the user progress through each demo step.
+To install xterm please run the following command: ::
+
+   sudo apt-get install -y xterm
+
 Running the Code
 ----------------
-
 Open a shell, run the launch file: ::
 
-  roslaunch moveit_tutorials moveit_cpp_tutorial.launch
+  ros2 launch moveit2_tutorials moveit_cpp_tutorial.launch.py
 
-**Note:** This tutorial uses the **RvizVisualToolsGui** panel to step through the demo. To add this panel to RViz, follow the instructions in the `Visualization Tutorial <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html#rviz-visual-tools>`_.
+**Note:** RvizVisualToolsGui panel has not been ported to ROS2 yet!
+
+This tutorial uses the **RvizVisualToolsGui** panel to step through the demo. To add this panel to RViz, follow the instructions in the `Visualization Tutorial <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html#rviz-visual-tools>`_.
 
 After a short moment, the RViz window should appear and look similar to the one at the top of this page. To progress through each demo step either press the **Next** button in the **RvizVisualToolsGui** panel at the bottom of the screen or select **Key Tool** in the **Tools** panel at the top of the screen and then press **N** on your keyboard while RViz is focused.
 
@@ -37,4 +38,4 @@ The entire code can be seen :codedir:`here in the MoveIt GitHub project<moveit_c
 
 The Launch File
 ---------------
-The entire launch file is :codedir:`here<moveit_cpp/launch/moveit_cpp_tutorial.launch>` on GitHub. All the code in this tutorial can be run from the **moveit_tutorials** package that you have as part of your MoveIt setup.
+The entire launch file is :codedir:`here<moveit_cpp/launch/moveit_cpp_tutorial.launch.py>` on GitHub. All the code in this tutorial can be run from the **moveit2_tutorials** package that you have as part of your MoveIt setup.

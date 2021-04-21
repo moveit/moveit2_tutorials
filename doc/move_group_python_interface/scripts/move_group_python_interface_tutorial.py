@@ -109,13 +109,10 @@ class MoveGroupPythonIntefaceTutorial(object):
         ## This interface can be used to plan and execute motions:
         group_name = "panda_arm"
         move_group = moveit_commander.MoveGroupCommander(group_name)
-
         ## Create a `DisplayTrajectory`_ ROS publisher which is used to display
         ## trajectories in Rviz:
         display_trajectory_publisher = rospy.Publisher(
-            "/move_group/display_planned_path",
-            moveit_msgs.msg.DisplayTrajectory,
-            queue_size=20,
+            "/display_planned_path", moveit_msgs.msg.DisplayTrajectory, queue_size=20
         )
 
         ## END_SUB_TUTORIAL

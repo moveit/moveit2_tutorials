@@ -6,3 +6,5 @@ build
 Gemfile
 native_build
 *.gdb
+# For local rst builds
+_build/
