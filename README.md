@@ -10,11 +10,11 @@ These tutorials use the [reStructuredText](http://www.sphinx-doc.org/en/stable/r
 
 All content in this repository is open source and released under the [BSD License v3](https://opensource.org/licenses/BSD-3-Clause). Each individual source code file should contain a copy of the license.
 
-This repository is currently built automatically by two systems. Travis builds the documentation for Melodic and ROS Build Farm builds the documentation for older versions:
+This repository is currently built automatically by Github Actions:
 
-- [![Build](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/industrial_ci_action.yml/badge.svg?branch=main)](https://travis-ci.com/ros-planning/moveit2_tutorials) [Tutorials + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
-- [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://travis-ci.com/ros-planning/moveit2_tutorials) [Format + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
-- [![CheckBuildHTML](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/htmlcheck.yml/badge.svg?branch=main)](https://travis-ci.com/ros-planning/moveit2_tutorials) [Github Pages + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
+- [![Build](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/industrial_ci_action.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/industrial_ci_action.yml?branch=main) [Tutorials + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
+- [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?branch=main) [Format + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
+- [![Deploy](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml?branch=main) [Github Pages + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
 
 ## Getting Started
 An issue has been created for each tutorial to be ported to Foxy. At the top of each tutorial there is a tag: ":moveit1:", remove the tag
@@ -51,8 +51,7 @@ Configure and build the workspace:
 
 ## Build HTML Pages Locally
 
-If you want to test the tutorials by generating the html pages locally on your machine, you will first need to build the `rosdoc_lite` and `genmsg` packages from source (they are included in the moveit2_tutorials.repos file), and then you can use the ``build_locally`` script.
-Run in the root of the moveit2_tutorials package:
+If you want to test the tutorials by generating the html pages locally on your machine, you can use the ``build_locally`` script by issuing the following commands in the root of the moveit2_tutorials package:
 
     export ROS_DISTRO=foxy  # 20.04
 
@@ -61,10 +60,6 @@ Run in the root of the moveit2_tutorials package:
     ./build_locally.sh
 
 The local website ``<LOCAL_PACKAGE_PATH>/build/html/index.html`` should automatically open in your web browser.
-
-## ROS Build Farm Deployment
-
-For deploying documentation changes to the web, [Section 3 of rosdoc_lite wiki](http://wiki.ros.org/rosdoc_lite) says that "rosdoc_lite is automatically run for packages in repositories that have rosinstall files listed in the rosdistro repository." This is done about once every 24 hours, [overnight](http://wiki.ros.org/rosdistro/Tutorials/Indexing%20Your%20ROS%20Repository%20for%20Documentation%20Generation).
 
 ## Contributing
 
@@ -120,7 +115,7 @@ moveit2_tutorials/doc/
     │   └── <tutorial_name>/
     │       └── <include_header>.h                      # Any custom C++ library header files
     ├── launch/
-    │   └── <tutorial_name>_tutorial.launch
+    │   └── <tutorial_name>_tutorial.launch.py
     ├── src/
     │   ├── <tutorial_name>_tutorial.cpp                # Main C++ executable
     │   ├── <include_source>.cpp                        # Custom C++ library source files
@@ -129,7 +124,7 @@ moveit2_tutorials/doc/
     │       ├── <tutorial_name>_tutorial.py             # Main Python executable
     │       └── <python_library>.py                     # Custom Python libraries
     └── test/                                           # Ideally tutorials have their own integration tests
-        ├── <tutorial_name>_tutorial.test               # Launch file for tests
+        ├── <tutorial_name>_tutorial.test.py            # Launch file for tests
         ├── <tutorial_name>_tutorial_test.py            # Python tests for tutorial
         └── <tutorial_name>_tutorial_test.cpp           # C++ tests for tutorial
 ```
