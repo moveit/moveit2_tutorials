@@ -12,9 +12,9 @@ All content in this repository is open source and released under the [BSD Licens
 
 This repository is currently built automatically by Github Actions:
 
-- [![Build](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/industrial_ci_action.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/industrial_ci_action.yml?branch=main) [Tutorials + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
-- [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?branch=main) [Format + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
-- [![Deploy](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml?branch=main) [Github Pages + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
+- [![Build](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/industrial_ci_action.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/industrial_ci_action.yml?query=branch%3Amain) [Tutorials + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
+- [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Amain) [Format + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
+- [![Deploy](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml?query=branch%3Amain) [Github Pages + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
 
 ## Getting Started
 An issue has been created for each tutorial to be ported to Foxy. At the top of each tutorial there is a tag: ":moveit1:", remove the tag
