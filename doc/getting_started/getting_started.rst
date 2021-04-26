@@ -32,7 +32,7 @@ These tutorials rely on the master branch of MoveIt2, which requires a build fro
 You will need to have a `colcon <https://docs.ros.org/en/foxy/Tutorials/Colcon-Tutorial.html#install-colcon>`_ workspace setup: ::
 
   mkdir -p ~/ws_moveit2/src
-  cd ~/ws_moveit2/src 
+  cd ~/ws_moveit2/src
   
   git clone https://github.com/ros-planning/moveit2.git
   wget https://raw.githubusercontent.com/ros-planning/moveit2/main/moveit2.repos
