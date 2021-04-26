@@ -33,7 +33,7 @@ You will need to have a `colcon <https://docs.ros.org/en/foxy/Tutorials/Colcon-T
 
   mkdir -p ~/ws_moveit2/src
   cd ~/ws_moveit2/src
- 
+
   git clone https://github.com/ros-planning/moveit2.git
   wget https://raw.githubusercontent.com/ros-planning/moveit2/main/moveit2.repos
   vcs import < moveit2.repos
