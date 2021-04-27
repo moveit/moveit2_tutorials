@@ -249,15 +249,31 @@ int main(int argc, char** argv)
   executor.add_node(node);
   std::thread([&executor]() { executor.spin(); }).detach();
 
+  static const std::string PLANNING_GROUP = "panda_arm";
+
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
-  moveit::planning_interface::MoveGroupInterface group(node, "panda_arm");
-  group.setPlanningTime(10.0);
+  moveit::planning_interface::MoveGroupInterface group(node, PLANNING_GROUP);
+
+  // const moveit::core::JointModelGroup* joint_model_group =
+  //     group.getCurrentState()->getJointModelGroup(PLANNING_GROUP);
+  // group.setPlanningTime(10.0);
+  group.setMaxVelocityScalingFactor(0.05);
+  group.setMaxAccelerationScalingFactor(0.05);
+
+  // geometry_msgs::msg::PoseStamped target_pose1;
+  // target_pose1.pose.orientation.w = 1.0;
+  // target_pose1.pose.position.x = 0.28;
+  // target_pose1.pose.position.y = -0.2;
+  // target_pose1.pose.position.z = 0.5;
+  // group.setPoseTarget(target_pose1);
+  // moveToCartPose(target_pose1, group, "panda_hand");
 
   // BEGIN_SUB_TUTORIAL sceneprep
   // Preparing the scene
   // ^^^^^^^^^^^^^^^^^^^
   // In the main function, we first spawn the objects in the planning scene, then attach the cylinder to the robot.
   // Attaching the cylinder turns it purple in Rviz.
+
   spawnCollisionObjects(planning_scene_interface);
   moveit_msgs::msg::AttachedCollisionObject att_coll_object;
   att_coll_object.object.id = "cylinder";
@@ -265,17 +281,17 @@ int main(int argc, char** argv)
   att_coll_object.object.operation = att_coll_object.object.ADD;
   RCLCPP_INFO_STREAM(LOGGER, "Attaching cylinder to robot.");
   planning_scene_interface.applyAttachedCollisionObject(att_coll_object);
+
   // END_SUB_TUTORIAL
 
   // Fetch the current planning scene state once
   auto planning_scene_monitor =
       std::make_shared<planning_scene_monitor::PlanningSceneMonitor>(node, "robot_description");
   planning_scene_monitor->requestPlanningSceneState();
-  planning_scene_monitor::LockedPlanningSceneRO planning_scene(planning_scene_monitor);
+  planning_scene_monitor::LockedPlanningSceneRW planning_scene(planning_scene_monitor);
 
   // Visualize frames as rviz markers
-  auto marker_publisher =
-      node->create_publisher<visualization_msgs::msg::MarkerArray>("visualization_marker_array", 10);
+  auto marker_publisher = node->create_publisher<visualization_msgs::msg::MarkerArray>("rviz_visual_tools", 10);
   auto showFrames = [&](geometry_msgs::msg::PoseStamped target, const std::string& eef) {
     visualization_msgs::msg::MarkerArray markers;
     // convert target pose into planning frame
@@ -322,7 +338,7 @@ int main(int argc, char** argv)
     std::cin >> character_input;
     if (character_input == 0)
     {
-      return 0;
+      break;
     }
     else if (character_input == 1)
     {
