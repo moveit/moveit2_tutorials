@@ -254,19 +254,9 @@ int main(int argc, char** argv)
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   moveit::planning_interface::MoveGroupInterface group(node, PLANNING_GROUP);
 
-  // const moveit::core::JointModelGroup* joint_model_group =
-  //     group.getCurrentState()->getJointModelGroup(PLANNING_GROUP);
   // group.setPlanningTime(10.0);
   group.setMaxVelocityScalingFactor(0.05);
   group.setMaxAccelerationScalingFactor(0.05);
-
-  // geometry_msgs::msg::PoseStamped target_pose1;
-  // target_pose1.pose.orientation.w = 1.0;
-  // target_pose1.pose.position.x = 0.28;
-  // target_pose1.pose.position.y = -0.2;
-  // target_pose1.pose.position.z = 0.5;
-  // group.setPoseTarget(target_pose1);
-  // moveToCartPose(target_pose1, group, "panda_hand");
 
   // BEGIN_SUB_TUTORIAL sceneprep
   // Preparing the scene
@@ -288,7 +278,7 @@ int main(int argc, char** argv)
   auto planning_scene_monitor =
       std::make_shared<planning_scene_monitor::PlanningSceneMonitor>(node, "robot_description");
   planning_scene_monitor->requestPlanningSceneState();
-  planning_scene_monitor::LockedPlanningSceneRW planning_scene(planning_scene_monitor);
+  planning_scene_monitor::LockedPlanningSceneRO planning_scene(planning_scene_monitor);
 
   // Visualize frames as rviz markers
   auto marker_publisher = node->create_publisher<visualization_msgs::msg::MarkerArray>("rviz_visual_tools", 10);
@@ -465,7 +455,6 @@ int main(int argc, char** argv)
     }
   }
 
-  // ros::waitForShutdown();
   rclcpp::shutdown();
   return 0;
 }
