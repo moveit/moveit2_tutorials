@@ -254,7 +254,7 @@ int main(int argc, char** argv)
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   moveit::planning_interface::MoveGroupInterface group(node, PLANNING_GROUP);
 
-  // group.setPlanningTime(10.0);
+  group.setPlanningTime(10.0);
   group.setMaxVelocityScalingFactor(0.05);
   group.setMaxAccelerationScalingFactor(0.05);
 
@@ -269,6 +269,7 @@ int main(int argc, char** argv)
   att_coll_object.object.id = "cylinder";
   att_coll_object.link_name = "panda_hand";
   att_coll_object.object.operation = att_coll_object.object.ADD;
+  att_coll_object.touch_links = { "panda_rightfinger", "panda_leftfinger" };
   RCLCPP_INFO_STREAM(LOGGER, "Attaching cylinder to robot.");
   planning_scene_interface.applyAttachedCollisionObject(att_coll_object);
 
@@ -326,6 +327,7 @@ int main(int argc, char** argv)
                         "\n11 to spawn box and cylinder"
                         "\n12 to attach the cylinder to the gripper\n");
     std::cin >> character_input;
+
     if (character_input == 0)
     {
       break;
