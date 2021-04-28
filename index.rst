@@ -53,6 +53,7 @@ Building more complex applications with MoveIt often requires developers to dig 
    doc/subframes/subframes_tutorial
    doc/moveit_cpp/moveitcpp_tutorial
    doc/bullet_collision_checker/bullet_collision_checker
+   doc/mobile_base_arm/mobile_base_arm_tutorial
 
 Integration with a New Robot
 ----------------------------
