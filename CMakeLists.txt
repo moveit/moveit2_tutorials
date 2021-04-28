@@ -73,6 +73,7 @@ add_subdirectory(doc/moveit_cpp)
 # add_subdirectory(doc/collision_environments)
 # add_subdirectory(doc/visualizing_collisions)
 # add_subdirectory(doc/bullet_collision_checker)
+add_subdirectory(doc/mobile_base_arm)
 
 ament_export_dependencies(
   ${THIS_PACKAGE_INCLUDE_DEPENDS}
