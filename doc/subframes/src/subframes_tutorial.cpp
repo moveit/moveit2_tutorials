@@ -78,12 +78,7 @@ bool moveToCartPose(const geometry_msgs::msg::PoseStamped& pose, moveit::plannin
   RCLCPP_INFO_STREAM(LOGGER, "Planning motion to pose:");
   RCLCPP_INFO_STREAM(LOGGER, pose.pose.position.x << ", " << pose.pose.position.y << ", " << pose.pose.position.z);
   moveit::planning_interface::MoveGroupInterface::Plan myplan;
-  // moveit::planning_interface::MoveItErrorCode::SUCCESS;
-  auto plan_success = group.plan(myplan).val;
-  auto execute_sucess = group.execute(myplan).val;
-  int success = 1;
-  RCLCPP_ERROR_STREAM(LOGGER, "Plan: " << plan_success << " Execute: " << execute_sucess);
-  if (plan_success == success && execute_sucess == success)
+  if (group.plan(myplan) && group.execute(myplan))
     return true;
 
   RCLCPP_WARN(LOGGER, "Failed to perform motion.");
