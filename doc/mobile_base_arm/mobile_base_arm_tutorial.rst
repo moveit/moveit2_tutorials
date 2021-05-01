@@ -1,5 +1,8 @@
 Planning For Differential-Drive Mobile Base and an Arm
 ======================================================
+
+This tutorial will show how you can configure a mobile manipulator with a differential drive base so that you can plan coordinated motions for the base and the other degrees of freedom using MoveIt. While you could use MoveIt to plan for just the base, this is not recommended. Use Nav2 for pure navigation. Note that the tutorial uses Hello Robot's Stretch platform for demonstration purposes, the same approach can be used for any mobile manipulator with a diff-drive base.
+
 .. image:: images/intro.png
    :width: 700px
 
