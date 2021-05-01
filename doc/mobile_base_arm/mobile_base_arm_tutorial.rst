@@ -86,6 +86,16 @@ If the distance between two states is less than ``min_translational_distance`` t
 
     <joint_property joint_name="planar_joint_name" property_name="min_translational_distance" value="0.01" />
 
+angular_distance_weight
++++++++++++++++++++++++
+
+Could be set for both planar joints (diff_drive/holonomic) and floating joints, the default value is ``1.0``
+
+.. code-block:: xml
+
+    <joint_property joint_name="planar_joint_name" property_name="angular_distance_weight" value="0.5" />
+
+
 Running the Code
 ----------------
 Open a shell and start RViz and wait for everything to finish loading: ::
