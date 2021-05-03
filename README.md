@@ -16,7 +16,7 @@ This repository is currently built automatically by Github Actions:
 - [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Amain) [Format + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
 - [![Deploy](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml?query=branch%3Amain) [Github Pages + Github Actions](https://moveit2_tutorials.picknik.ai/): Latest (Foxy, MoveIt 2)
 
-## Getting Started
+## Helping with Porting Tutorials to ROS 2
 An issue has been created for each tutorial to be ported to Foxy. At the top of each tutorial there is a tag: ":moveit1:", remove the tag
 after the tutorial has been successfully updated.
 
