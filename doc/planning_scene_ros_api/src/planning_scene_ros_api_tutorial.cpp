@@ -171,7 +171,24 @@ int main(int argc, char** argv)
   // and send the diffs to the planning scene via a service call:
   auto request = std::make_shared<moveit_msgs::srv::ApplyPlanningScene::Request>();
   request->scene = planning_scene;
-  planning_scene_diff_client->async_send_request(request);
+  std::shared_future<std::shared_ptr<moveit_msgs::srv::ApplyPlanningScene_Response>> response_future;
+  response_future = planning_scene_diff_client->async_send_request(request);
+
+  // wait for the service to respond
+  std::chrono::seconds wait_time(3);
+  std::future_status fs = response_future.wait_for(wait_time);
+  if (fs == std::future_status::timeout) {
+    RCLCPP_WARN(LOGGER, "Service timed out.");
+  } else {
+    std::shared_ptr<moveit_msgs::srv::ApplyPlanningScene_Response> planning_response;
+    planning_response = response_future.get();
+    if (planning_response->success) {
+      RCLCPP_INFO(LOGGER, "Service successfully added object.");
+    } else {
+      RCLCPP_WARN(LOGGER, "Service failed to add object.");
+    }
+  }
+
   // Note that this does not continue until we are sure the diff has been applied.
   //
   // Attach an object to the robot
