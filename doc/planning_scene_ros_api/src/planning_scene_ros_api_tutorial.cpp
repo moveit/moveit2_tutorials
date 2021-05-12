@@ -177,14 +177,20 @@ int main(int argc, char** argv)
   // wait for the service to respond
   std::chrono::seconds wait_time(3);
   std::future_status fs = response_future.wait_for(wait_time);
-  if (fs == std::future_status::timeout) {
+  if (fs == std::future_status::timeout)
+  {
     RCLCPP_WARN(LOGGER, "Service timed out.");
-  } else {
+  }
+  else
+  {
     std::shared_ptr<moveit_msgs::srv::ApplyPlanningScene_Response> planning_response;
     planning_response = response_future.get();
-    if (planning_response->success) {
+    if (planning_response->success)
+    {
       RCLCPP_INFO(LOGGER, "Service successfully added object.");
-    } else {
+    }
+    else
+    {
       RCLCPP_WARN(LOGGER, "Service failed to add object.");
     }
   }
