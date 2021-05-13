@@ -175,11 +175,11 @@ int main(int argc, char** argv)
   response_future = planning_scene_diff_client->async_send_request(request);
 
   // wait for the service to respond
-  std::chrono::seconds wait_time(3);
+  std::chrono::seconds wait_time(1);
   std::future_status fs = response_future.wait_for(wait_time);
   if (fs == std::future_status::timeout)
   {
-    RCLCPP_WARN(LOGGER, "Service timed out.");
+    RCLCPP_ERROR(LOGGER, "Service timed out.");
   }
   else
   {
@@ -191,7 +191,7 @@ int main(int argc, char** argv)
     }
     else
     {
-      RCLCPP_WARN(LOGGER, "Service failed to add object.");
+      RCLCPP_ERROR(LOGGER, "Service failed to add object.");
     }
   }
 
