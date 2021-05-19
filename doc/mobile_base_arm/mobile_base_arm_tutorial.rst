@@ -91,7 +91,7 @@ angular_distance_weight
 
 Could be set for both planar joints (diff_drive/holonomic) and floating joints, the default value is ``1.0``
 
-This's used when calculating the distance between two base poses ``(x0, y0, theta0)`` and ``(x1, y1, theta1)`` which is the weighted sum of the distance between position and orientation: ``||(x0, y0) - (x1, y1)|| - angular_distance_weight * |theta0 - theta1|``.
+This is used when calculating the distance between two base poses ``(x0, y0, theta0)`` and ``(x1, y1, theta1)`` which is defined as the weighted sum of the distance between position and orientation: ``||(x0, y0) - (x1, y1)|| + angular_distance_weight * |theta0 - theta1|``.
 
 .. code-block:: xml
 
