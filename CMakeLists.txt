@@ -25,6 +25,7 @@ find_package(pluginlib REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_eigen REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+find_package(control_msgs REQUIRED)
 
 set(THIS_PACKAGE_INCLUDE_DIRS
   doc/interactivity/include
@@ -46,6 +47,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   pluginlib
   Eigen3
   Boost
+  control_msgs
 )
 
 include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
@@ -73,6 +75,7 @@ add_subdirectory(doc/moveit_cpp)
 # add_subdirectory(doc/collision_environments)
 # add_subdirectory(doc/visualizing_collisions)
 # add_subdirectory(doc/bullet_collision_checker)
+add_subdirectory(doc/realtime_servo)
 
 ament_export_dependencies(
   ${THIS_PACKAGE_INCLUDE_DEPENDS}

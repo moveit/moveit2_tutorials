@@ -35,6 +35,7 @@
   <build_depend>tf2_ros</build_depend>
   <build_depend>tf2_eigen</build_depend>
   <build_depend>tf2_geometry_msgs</build_depend>
+  <build_depend>control_msgs</build_depend>
 
   <!-- <run_depend>franka_description</run_depend> -->
   <run_depend>pluginlib</run_depend>
@@ -57,6 +58,7 @@
   <run_depend>tf2_eigen</run_depend>
   <run_depend>tf2_geometry_msgs</run_depend>
   <run_depend>xacro</run_depend>
+  <run_depend>control_msgs</run_depend>
 
   <test_depend>ament_cmake_gtest</test_depend>
 
