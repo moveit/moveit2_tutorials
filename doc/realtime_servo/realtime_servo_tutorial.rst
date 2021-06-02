@@ -13,38 +13,22 @@ Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-Running the Basic Demo
-----------------------
+Launching a Standalone Servo Node
+---------------------------------
+MoveIt Servo provides a component node :code:`moveit_servo::ServoServer` which allows you to send commands via ROS topics. The commands can come from anywhere, such as a joystick, keyboard, or other controller.
 
-The basic demo moves the robot in a predetermined way and can be launched with ::
-
-    ros2 launch moveit_servo servo_cpp_interface_demo.launch.py
-
-An Rviz window should appear with a Panda arm and collision object. The arm will joint-jog for a few seconds before switching to a Cartesian movement. As the arm approaches the collision object, it slows and stops.
-
-Expected Output
----------------
-.. raw:: html
-
-    <video width="700px" nocontrols="true" autoplay="true" loop="true">
-        <source src="../../_static/C++_Interface_Demo.webm" type="video/webm">
-        Joint and Cartesian jogging with collision prevention
-    </video>
-
-Running the Interactive Demo
-----------------------------
-The interactive demo spawns a Panda arm in RViz, and allows real-time Servo commands to be sent to the robot. Inputs can include generic :code:`TwistStamped` or :code:`JointJog` messages, but this demo was written for an Xbox 1 controller. This can be easily modified to use any controller compatible with the `Joy package <https://index.ros.org/p/joy/#foxy>`_ by modifying the `joystick_servo_example.cpp file <https://github.com/ros-planning/moveit2/blob/main/moveit_ros/moveit_servo/src/teleop_demo/joystick_servo_example.cpp>`_
+This demo was written for an Xbox 1 controller, but can be easily modified to use any controller compatible with the `Joy package <https://index.ros.org/p/joy/#foxy>`_ by modifying the `joystick_servo_example.cpp file <https://github.com/ros-planning/moveit2/blob/main/moveit_ros/moveit_servo/src/teleop_demo/joystick_servo_example.cpp>`_
 
 To run the demo, make sure your controller is plugged in and can be detected by :code:`ros2 run joy joy_node`. Usually this happens automatically after plugging the controller in. Then launch with ::
 
-    ros2 launch moveit_servo servo_teleop.launch.py
+    ros2 launch moveit2_tutorials servo_teleop.launch.py
 
 You should be able to control the arm with your controller now, with MoveIt Servo automatically avoiding singularities and collisions.
 
 Without a Controller
 ^^^^^^^^^^^^^^^^^^^^
 
-If you do not have a controller, you can still use the interactive demo. In a new terminal, run ::
+If you do not have a controller, you can still try the demo using your keyboard. With the demo still running, in a new terminal, run ::
 
     ros2 run moveit2_tutorials servo_keyboard_input
 
@@ -60,6 +44,32 @@ Expected Output
     </video>
 
 Note that the controller overlay here is just for demonstration purposes and is not actually included
+
+Using the C++ Interface
+-----------------------
+Instead of launching Servo as its own component, you can include Servo in your own nodes via the C++ interface. Sending commands to the robot is very similiar in both cases, but for the C++ interface a little bit of setup for Servo is necessary. In exchange, you will be able to directly interact with Servo through its C++ API.
+
+This basic C++ interface demo moves the robot in a predetermined way and can be launched with ::
+
+    ros2 launch moveit2_tutorials servo_cpp_interface_demo.launch.py
+
+An Rviz window should appear with a Panda arm and collision object. The arm will joint-jog for a few seconds before switching to a Cartesian movement. As the arm approaches the collision object, it slows and stops.
+
+Expected Output
+---------------
+.. raw:: html
+
+    <video width="700px" nocontrols="true" autoplay="true" loop="true">
+        <source src="../../_static/C++_Interface_Demo.webm" type="video/webm">
+        Joint and Cartesian jogging with collision prevention
+    </video>
+
+Entire Code
+-----------
+The entire code is available :codedir:`here<realtime_servo/src/servo_cpp_interface_demo.cpp>`
+
+.. tutorial-formatter:: ./src/servo_cpp_interface_demo.cpp
+
 
 Servo Overview
 --------------

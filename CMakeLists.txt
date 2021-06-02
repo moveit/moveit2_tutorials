@@ -26,6 +26,7 @@ find_package(tf2_ros REQUIRED)
 find_package(tf2_eigen REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(control_msgs REQUIRED)
+find_package(moveit_servo REQUIRED)
 
 set(THIS_PACKAGE_INCLUDE_DIRS
   doc/interactivity/include
@@ -48,6 +49,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   Eigen3
   Boost
   control_msgs
+  moveit_servo
 )
 
 include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
