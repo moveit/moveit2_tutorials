@@ -1,4 +1,4 @@
-name: DeployWebsite
+name: Deploy Pages
 
 on:
   workflow_dispatch:
@@ -7,8 +7,8 @@ on:
       - main
 
 jobs:
-  deploy-website:
-    name: Deploy Website
+  deploy-pages:
+    name: Deploy Pages
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -19,7 +19,6 @@ jobs:
     - name: Run htmlproofer.sh
       run: ./htmlproofer.sh
     - name: Deploy
-      if: ${{ success() && github.event_name == 'push'}}
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
