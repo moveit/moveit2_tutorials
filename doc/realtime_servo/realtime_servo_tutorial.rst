@@ -1,7 +1,9 @@
 Realtime Arm Servoing
 =====================
 
-This tutorial shows how to send real-time servo commands to a ROS-enabled robot. Some nice features of the servo node are singularity handling and collision checking that prevents the operator from breaking the robot.
+MoveIt Servo allows you to stream End Effector (EEF) velocity commands to your manipulator and have it execute them concurrently. This enables teleoperation via a wide range of input schemes, or for other autonomous software to control the robot - in visual servoing or closed loop position control for instance.
+
+This tutorial shows how to use MoveIt Servo to send real-time servo commands to a ROS-enabled robot. Some nice features of the servo node are singularity handling and collision checking that prevents the operator from breaking the robot.
 
 .. raw:: html
 
@@ -74,7 +76,7 @@ The entire code is available :codedir:`here<realtime_servo/src/servo_cpp_interfa
 Servo Overview
 --------------
 
-MoveIt Servo allows you to stream End Effector (EEF) velocity commands to your manipulator and have it execute them concurrently. This enables teleoperation via a wide range of input schemes, or for other autonomous software to control the robot - in visual servoing or closed loop position control for instance.
+The following sections give some background information about MoveIt Servo and describe the first steps to set it up on your robot.
 
 Servo includes a number of nice features:
     1. Cartesian End-Effector twist commands
