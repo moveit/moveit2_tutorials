@@ -40,7 +40,6 @@
   <run_depend>pluginlib</run_depend>
   <run_depend>moveit_core</run_depend>
   <!-- <run_depend>moveit_commander</run_depend> -->
-  <run_depend>moveit_fake_controller_manager</run_depend>
   <run_depend>moveit_resources_panda_moveit_config</run_depend>
   <run_depend>moveit_ros_planning_interface</run_depend>
   <run_depend>moveit_ros_perception</run_depend>

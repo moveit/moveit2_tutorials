@@ -19,6 +19,7 @@ jobs:
     - name: Run htmlproofer.sh
       run: ./htmlproofer.sh
     - name: Deploy
+      if: ${{ success() && github.event_name == 'push'}}
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
