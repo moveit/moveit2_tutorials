@@ -42,6 +42,7 @@ Download Moveit2_tutorials Source Code
 
     wget https://raw.githubusercontent.com/ros-planning/moveit2_tutorials/main/moveit2_tutorials.repos
     vcs import < moveit2_tutorials.repos
+    git clone https://github.com/ros-planning/moveit2_tutorials.git
     rosdep install -r --from-paths . --ignore-src --rosdistro foxy -y
 
 Configure and build the workspace:
