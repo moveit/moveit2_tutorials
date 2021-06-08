@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy-pages:
-    name: Deploy Pages
+    name: Build Pages
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -19,7 +19,7 @@ jobs:
         ruby-version: '2.7'
     - name: Run htmlproofer.sh
       run: ./htmlproofer.sh
-    - name: Deploy
+    - name: Deploy Pages
       if: ${{ success() && github.event_name == 'push'}}
       uses: peaceiris/actions-gh-pages@v3
       with:
