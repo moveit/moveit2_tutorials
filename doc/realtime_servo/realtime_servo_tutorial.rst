@@ -1,134 +1,125 @@
-:moveit1:
-
-..
-   Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
-
 Realtime Arm Servoing
 =====================
 
-This tutorial shows how to send real-time servo commands to a ROS-enabled robot. Some nice features of the servo node are singularity handling and collision checking that prevents the operator from breaking the robot.
+MoveIt Servo allows you to stream End Effector (EEF) velocity commands to your manipulator and have it execute them concurrently. This enables teleoperation via a wide range of input schemes, or for other autonomous software to control the robot - in visual servoing or closed loop position control for instance.
+
+This tutorial shows how to use MoveIt Servo to send real-time servo commands to a ROS-enabled robot. Some nice features of the servo node are singularity handling and collision checking that prevents the operator from breaking the robot.
 
 .. raw:: html
 
-    <object width="700" height="400">
-      <embed
-        src="https://www.youtube.com/v/8sOucNloJeI&hl=en_US&fs=1&rel=0"
-        type="application/x-shockwave-flash" allowscriptaccess="always"
-        allowfullscreen="true" width="700"
-        height="385">
-      </embed>
-    </object>
+    <div style="position: relative; padding-bottom: 5%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+        <iframe width="700px" height="400px" src="https://www.youtube.com/embed/MF-_XKpGefY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
 
 Getting Started
 ---------------
-This tutorial demonstrates the servo node with a UR5 Gazebo simulation. If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
+If you haven't already done so, make sure you've completed the steps in `Getting Started <../getting_started/getting_started.html>`_.
 
-Clone `universal_robot melodic-devel branch <https://github.com/ros-industrial/universal_robot.git>`_ into the same catkin workspace from `Getting Started`: ::
+Launching a Standalone Servo Node
+---------------------------------
+MoveIt Servo provides a component node :code:`moveit_servo::ServoServer` which allows you to send commands via ROS topics. The commands can come from anywhere, such as a joystick, keyboard, or other controller.
 
-    cd ~/ws_moveit/src
+This demo was written for an Xbox 1 controller, but can be easily modified to use any controller compatible with the `Joy package <https://index.ros.org/p/joy/#foxy>`_ by modifying the `joystick_servo_example.cpp file <https://github.com/ros-planning/moveit2/blob/main/moveit_ros/moveit_servo/src/teleop_demo/joystick_servo_example.cpp>`_
 
-    git clone -b melodic-devel https://github.com/ros-industrial/universal_robot
+To run the demo, make sure your controller is plugged in and can be detected by :code:`ros2 run joy joy_node`. Usually this happens automatically after plugging the controller in. Then launch with ::
 
-Install any new dependencies that may be missing: ::
+    ros2 launch moveit2_tutorials servo_teleop.launch.py
 
-    rosdep install -y --from-paths . --ignore-src --rosdistro $ROS_DISTRO
+You should be able to control the arm with your controller now, with MoveIt Servo automatically avoiding singularities and collisions.
 
-Re-build and re-source the workspace. ::
+Without a Controller
+^^^^^^^^^^^^^^^^^^^^
 
-    cd ~/ws_moveit/
+If you do not have a controller, you can still try the demo using your keyboard. With the demo still running, in a new terminal, run ::
 
-    catkin build
+    ros2 run moveit2_tutorials servo_keyboard_input
 
-    source devel/setup.bash
+You will be able to use your keyboard to servo the robot. Send Cartesian commands with arrow keys and the :code:`.` and :code:`;` keys. Change the Cartesian command frame with :code:`W` for world and :code:`E` for End-Effector. Send joint jogging commands with keys 1-7 (use :code:`R` to reverse direction)
 
-Launch the Gazebo simulation: ::
+Expected Output
+---------------
+.. raw:: html
 
-    roslaunch ur_gazebo ur5.launch
+    <video width="700px" nocontrols="true" autoplay="true" loop="true">
+        <source src="../../_static/Servo_Teleop_Demo.webm" type="video/webm">
+        Teleoperation demo with controller
+    </video>
 
-    roslaunch ur5_moveit_config ur5_moveit_planning_execution.launch sim:=true
+Note that the controller overlay here is just for demonstration purposes and is not actually included
 
-    roslaunch ur5_moveit_config moveit_rviz.launch config:=true
+Using the C++ Interface
+-----------------------
+Instead of launching Servo as its own component, you can include Servo in your own nodes via the C++ interface. Sending commands to the robot is very similiar in both cases, but for the C++ interface a little bit of setup for Servo is necessary. In exchange, you will be able to directly interact with Servo through its C++ API.
 
-In RViz, grab the red/blue/green "interactive marker" and drag the robot to a non-singular position (not all zero joint angles) that is not close to a joint limit. Click "plan and execute" to move the robot to that pose.
+This basic C++ interface demo moves the robot in a predetermined way and can be launched with ::
 
-Switch to a compatible type of `ros-control` controller. It should be a `JointGroupVelocityController` or a `JointGroupPositionController`, not a trajectory controller like MoveIt usually requires. ::
+    ros2 launch moveit2_tutorials servo_cpp_interface_demo.launch.py
 
-    rosservice call /controller_manager/switch_controller "start_controllers: ['joint_group_position_controller']
-    stop_controllers: ['arm_controller']
-    strictness: 0
-    start_asap: false
-    timeout: 0.0"
+An Rviz window should appear with a Panda arm and collision object. The arm will joint-jog for a few seconds before switching to a Cartesian movement. As the arm approaches the collision object, it slows and stops.
 
-Launch the servo node. This example uses commands from a `SpaceNavigator <https://www.3dconnexion.com/spacemouse_compact/en/>`_ joystick-like device: ::
+Expected Output
+---------------
+.. raw:: html
 
-    roslaunch moveit_servo spacenav_cpp.launch
+    <video width="700px" nocontrols="true" autoplay="true" loop="true">
+        <source src="../../_static/C++_Interface_Demo.webm" type="video/webm">
+        Joint and Cartesian jogging with collision prevention
+    </video>
 
-If you do not have a SpaceNav 3D mouse, you can publish example servo commands from the command line with: ::
-
-    rostopic pub -r 100 -s /servo_server/delta_twist_cmds geometry_msgs/TwistStamped "header: auto
-    twist:
-      linear:
-        x: 0.0
-        y: 0.01
-        z: -0.01
-      angular:
-        x: 0.0
-        y: 0.0
-        z: 0.0"
-
-The `-r 100` sends new commands at a 100 Hz rate. The combination of `-s` and `auto` updates the timestamp automatically.
-
-Settings
---------
-User-configurable settings of the servo node are well-documented in ``servo/config/ur_simulated_config.yaml``.
-
-Changing Control Dimensions
----------------------------
-The dimensions being controlled may be changed with the ``change_control_dimensions`` (``moveit_msgs/ChangeControlDimensions``) service. The service consists of the 6 booleans representing the manipulator's degrees of freedom (3 translation and 3 rotation), defined in the input velocity command frame. Setting one of these booleans to ``false`` will result in the user input in that direction being overwritten with a 0, thus disallowing motion in the direction.
-
-Robot Requirements
-------------------
-The servo node streams an array of position or velocity commands to the robot controller. This is compatible with ros\_control ``position_controllers/JointGroupPositionControllers`` or ``velocity_controllers/JointGroupVelocityControllers``. You can check if these controllers are available for your robot by searching for the controller config file (typically named ``controllers.yaml``). After launching the robot, you can check if any ros_control controllers are available with: ::
-
-    rosservice call /controller_manager/list_controllers
-
-And switch to the desired controller with: ::
-
-    rosservice call /controller_manager/switch_controllers controller_to_start controller_to_stop
-
-**NOTE:** You can tab-complete to help fill these commands.
-
-Servoing may work on other robots that have a different control scheme but there is no guarantee. It has been tested heavily on UR robots using the `ur_modern_driver <https://github.com/ros-industrial/ur_modern_driver>`_. The servo node currently does not limit joint jerk so may not be compatible with most heavy industrial robots.
-
-The servo node can publish ``trajectory_msgs/JointTrajectory`` or ``std_msgs/Float64MultiArray`` message types. This is configured in a yaml file (see ``config/ur_simulated_config.yaml`` for an example). Most robots that use ros_control will use the Float64MultiArray type. Some UR robots using older driver versions can require the JointTrajectory message type.
-
-ROS Signals
+Entire Code
 -----------
-An `rqt_graph` of the servo node is shown below (Enlarge by clicking it). Most of these connections can be ignored. The important ones are:
+The entire code is available :codedir:`here<realtime_servo/src/servo_cpp_interface_demo.cpp>`
 
-- **servo_server** node: Does the core calculations.
-
-- **spacenav_to_twist** node: Converts incoming commands from the joystick to Cartesian commands or joint angle commands, depending on which buttons are pressed.
-
-- **joint_group_position_controller/command** topic: This is the outgoing command that causes the robot to move.
-
-- **change_control_dimensions** service: This is the service to change which dimensions servoing is allowed in
-
-.. image:: servo_rqt_graph.png
-   :width: 700px
-
-Configuring Control Devices (Gamepads, Joysticks, etc)
-------------------------------------------------------
-The ``moveit_servo/config`` folder contains two examples of converting `SpaceNavigator <https://www.3dconnexion.com/spacemouse_compact/en/>`_ 3D mouse commands to servo commands. ``spacenav_teleop_tools.launch`` loads a config file then publishes commands to the servo node on the ``spacenav/joy topic``. It is easy to create your own config file for a particular joystick or gamepad.
-
-``spacenav_cpp.launch`` launches a C++ node that does the same thing but with less latency. We do not plan to accept C++ pull requests for more controller types because there is a lot of overhead involved in supporting them.
+.. tutorial-formatter:: ./src/servo_cpp_interface_demo.cpp
 
 
-Integration Testing
--------------------
-There is a Python integration test in ``test/integration``. Run it by:
+Servo Overview
+--------------
 
-.. code-block:: bash
+The following sections give some background information about MoveIt Servo and describe the first steps to set it up on your robot.
 
-  roscd moveit_servo
-  catkin run_tests --this
+Servo includes a number of nice features:
+    1. Cartesian End-Effector twist commands
+    2. Joint commands
+    3. Collision checking
+    4. Singularity checking
+    5. Joint position and velocity limits enforced
+    6. Inputs are generic ROS messages
+
+Setup on a New Robot
+--------------------
+
+Preliminaries
+^^^^^^^^^^^^^
+
+The bare minimum requirements for running MoveIt Servo with your robot include:
+    1. A valid URDF and SRDF of the robot
+    2. A controller that can accept joint positions or velocities from a ROS topic
+    3. Joint encoders that provide rapid and accurate joint position feedback
+
+Because the kinematics are handled by the core parts of MoveIt, it is recommended that you have a valid config package for your robot and you can run the demo launch file included with it.
+
+Input Devices
+^^^^^^^^^^^^^
+
+The two primary inputs to MoveIt Servo are Cartesian commands and joint commands. These come into Servo as `TwistStamped <http://docs.ros.org/en/api/geometry_msgs/html/msg/TwistStamped.html>`_ and `JointJog <http://docs.ros.org/en/api/control_msgs/html/msg/JointJog.html>`_ messages respectively. The source of the commands can be almost anything including: gamepads, voice commands, a SpaceNav mouse, or PID controllers (e.g. for visual servoing).
+
+Requirements for incoming command messages, regardless of input device are:
+    1. **TwistStamped and JointJog:** need a timestamp in the header that is updated when the message is published
+    2. **JointJog:** must have valid joint names in the :code:`joint_names` field that correspond with the commands given in the :code:`displacements` or :code:`velocities` fields
+    3. **(Optional) TwistStamped:** can provide an arbitrary :code:`frame_id` in the header that the twist will be applied to. If empty, the default from the configs is used
+
+Servo Configs
+^^^^^^^^^^^^^
+
+The `demo config file <https://github.com/ros-planning/moveit2/blob/main/moveit_ros/moveit_servo/config/panda_simulated_config.yaml>`_ shows the parameters needed for MoveIt Servo and is well documented.
+
+Start with the parameters from the demo file, but some must be changed for your specific setup:
+    1. :code:`robot_link_command_frame`: Update this to be a valid frame in your robot, recommended as the planning frame or EEF frame
+    2. :code:`command_in_type`: Set to "unitless" if your input comes from a joystick, "speed_units" if the input will be in meters/second or radians/second
+    3. :code:`command_out_topic`: Change this to be the input topic of your controller
+    4. :code:`command_out_type`: Change this based on the type of message your controller needs
+    5. :code:`publish_joint_positions` and :code:`publish_joint_velocities`: Change these based on what your controller needs. Note if :code:`command_out_type == std_msgs/Float64MultiArray`, only one of these can be True
+    6. :code:`joint_topic`: Change this to be the joint_state topic for your arm, usually :code:`/joint_states`
+    7. :code:`move_group_name`: Change this to be the name of your move group, as defined in your SRDF
+    8. :code:`planning_frame`: This should be the planning frame of your group
