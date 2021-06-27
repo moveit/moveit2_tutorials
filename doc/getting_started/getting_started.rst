@@ -44,7 +44,6 @@ Build your Colcon Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The following will install from Debian any package dependencies not already in your workspace: ::
 
-  cd ~/ws_moveit2/src
   rosdep install -r --from-paths . --ignore-src --rosdistro foxy -y
 
 The next command will configure your colcon workspace: ::
