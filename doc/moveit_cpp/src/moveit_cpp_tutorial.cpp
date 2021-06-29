@@ -59,8 +59,7 @@ int main(int argc, char** argv)
   auto moveit_cpp_ptr = std::make_shared<moveit_cpp::MoveItCpp>(node);
   moveit_cpp_ptr->getPlanningSceneMonitor()->providePlanningSceneService();
 
-  auto planning_components =
-      std::make_shared<moveit_cpp::PlanningComponent>(PLANNING_GROUP, moveit_cpp_ptr);
+  auto planning_components = std::make_shared<moveit_cpp::PlanningComponent>(PLANNING_GROUP, moveit_cpp_ptr);
   auto robot_model_ptr = moveit_cpp_ptr->getRobotModel();
   auto robot_start_state = planning_components->getStartState();
   auto joint_model_group_ptr = robot_model_ptr->getJointModelGroup(PLANNING_GROUP);
@@ -161,7 +160,7 @@ int main(int argc, char** argv)
     moveit::core::RobotState robot_state(robot_model_ptr);
     moveit::core::robotStateMsgToRobotState(plan_solution2.start_state, robot_state);
 
-    visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");    
+    visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
     visual_tools.publishAxisLabeled(target_pose1.pose, "target_pose");
     visual_tools.publishText(text_pose, "moveit::core::RobotState_Start_State", rvt::WHITE, rvt::XLARGE);
     /* visual_tools.publishTrajectoryLine(plan_solution2.trajectory, joint_model_group_ptr); */
@@ -206,7 +205,7 @@ int main(int argc, char** argv)
     moveit::core::RobotState robot_state(robot_model_ptr);
     moveit::core::robotStateMsgToRobotState(plan_solution3.start_state, robot_state);
 
-    visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");    
+    visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
     visual_tools.publishAxisLabeled(target_pose2, "target_pose");
     visual_tools.publishText(text_pose, "moveit::core::RobotState_Goal_Pose", rvt::WHITE, rvt::XLARGE);
     /* visual_tools.publishTrajectoryLine(plan_solution3.trajectory, joint_model_group_ptr); */
@@ -249,7 +248,7 @@ int main(int argc, char** argv)
     moveit::core::RobotState robot_state(robot_model_ptr);
     moveit::core::robotStateMsgToRobotState(plan_solution4.start_state, robot_state);
 
-    visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");    
+    visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
     visual_tools.publishAxisLabeled(robot_start_state->getGlobalLinkTransform("panda_link8"), "target_pose");
     visual_tools.publishText(text_pose, "Goal_Pose_From_Named_State", rvt::WHITE, rvt::XLARGE);
     /* visual_tools.publishTrajectoryLine(plan_solution4.trajectory, joint_model_group_ptr); */
@@ -324,7 +323,6 @@ int main(int argc, char** argv)
   /* visual_tools.prompt("Press 'next' to end the demo"); */
   visual_tools.deleteAllMarkers();
   visual_tools.trigger();
-  
 
   RCLCPP_INFO(LOGGER, "Shutting down.");
   rclcpp::shutdown();
