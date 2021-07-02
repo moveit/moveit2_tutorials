@@ -114,7 +114,7 @@ int main(int argc, char** argv)
   // RViz provides many types of markers, in this demo we will use text, cylinders, and spheres
   Eigen::Isometry3d text_pose = Eigen::Isometry3d::Identity();
   text_pose.translation().z() = 1.0;
-  visual_tools.publishText(text_pose, "MoveGroupInterface Demo", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "MoveGroupInterface_Demo", rvt::WHITE, rvt::XLARGE);
 
   // Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations
   visual_tools.trigger();
@@ -165,7 +165,7 @@ int main(int argc, char** argv)
   // We can also visualize the plan as a line with markers in RViz.
   RCLCPP_INFO(LOGGER, "Visualizing plan 1 as trajectory line");
   visual_tools.publishAxisLabeled(target_pose1, "pose1");
-  visual_tools.publishText(text_pose, "Pose Goal", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Pose_Goal", rvt::WHITE, rvt::XLARGE);
   /* visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group); */
   visual_tools.trigger();
   prompt("Press 'Enter' to continue the demo");
@@ -215,7 +215,7 @@ int main(int argc, char** argv)
 
   //  Visualize the plan in RViz
   visual_tools.deleteAllMarkers();
-  visual_tools.publishText(text_pose, "Joint Space Goal", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Joint_Space_Goal", rvt::WHITE, rvt::XLARGE);
   /* visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group); */
   visual_tools.trigger();
   prompt("Press 'Enter' to continue the demo");
@@ -285,7 +285,7 @@ int main(int argc, char** argv)
   visual_tools.deleteAllMarkers();
   visual_tools.publishAxisLabeled(start_pose2, "start");
   visual_tools.publishAxisLabeled(target_pose1, "goal");
-  visual_tools.publishText(text_pose, "Constrained Goal", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Constrained_Goal", rvt::WHITE, rvt::XLARGE);
   /* visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group); */
   visual_tools.trigger();
   prompt("Press 'Enter' to continue the demo");
@@ -329,7 +329,7 @@ int main(int argc, char** argv)
 
   // Visualize the plan in RViz
   visual_tools.deleteAllMarkers();
-  visual_tools.publishText(text_pose, "Cartesian Path", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Cartesian_Path", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishPath(waypoints, rvt::LIME_GREEN, rvt::SMALL);
   for (std::size_t i = 0; i < waypoints.size(); ++i)
     visual_tools.publishAxisLabeled(waypoints[i], "pt" + std::to_string(i), rvt::SMALL);
@@ -362,7 +362,7 @@ int main(int argc, char** argv)
   RCLCPP_INFO(LOGGER, "Visualizing plan 5 (with no obstacles) %s", success ? "" : "FAILED");
 
   visual_tools.deleteAllMarkers();
-  visual_tools.publishText(text_pose, "Clear Goal", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Clear_Goal", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishAxisLabeled(another_pose, "goal");
   /* visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group); */
   visual_tools.trigger();
@@ -409,7 +409,7 @@ int main(int argc, char** argv)
   planning_scene_interface.addCollisionObjects(collision_objects);
 
   // Show text in RViz of status and wait for MoveGroup to receive and process the collision object message
-  visual_tools.publishText(text_pose, "Add object", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Add_object", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
   prompt("Press 'Enter' to continue once the collision object appears in RViz");
   /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object appears in RViz"); */
@@ -417,7 +417,7 @@ int main(int argc, char** argv)
   // Now when we plan a trajectory it will avoid the obstacle
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   RCLCPP_INFO(LOGGER, "Visualizing plan 6 (pose goal move around cuboid) %s", success ? "" : "FAILED");
-  visual_tools.publishText(text_pose, "Obstacle Goal", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Obstacle_Goal", rvt::WHITE, rvt::XLARGE);
   /* visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group); */
   visual_tools.trigger();
   prompt("Press 'Enter' to continue once the plan is complete");
@@ -464,7 +464,7 @@ int main(int argc, char** argv)
   touch_links.push_back("panda_leftfinger");
   move_group.attachObject(object_to_attach.id, "panda_hand", touch_links);
 
-  visual_tools.publishText(text_pose, "Object attached to robot", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Object_attached_to_robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
   /* Wait for MoveGroup to receive and process the attached collision object message */
@@ -494,7 +494,7 @@ int main(int argc, char** argv)
 
   // Show text in RViz of status
   visual_tools.deleteAllMarkers();
-  visual_tools.publishText(text_pose, "Object detached from robot", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Object_detached_from_robot", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
   /* Wait for MoveGroup to receive and process the attached collision object message */
@@ -509,7 +509,7 @@ int main(int argc, char** argv)
   planning_scene_interface.removeCollisionObjects(object_ids);
 
   // Show text in RViz of status
-  visual_tools.publishText(text_pose, "Objects removed", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Objects_removed", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
   /* Wait for MoveGroup to receive and process the attached collision object message */
@@ -517,6 +517,8 @@ int main(int argc, char** argv)
   /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object disapears"); */
 
   // END_TUTORIAL
+  visual_tools.deleteAllMarkers();
+  visual_tools.trigger();
 
   rclcpp::shutdown();
   return 0;

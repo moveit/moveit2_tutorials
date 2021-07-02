@@ -55,7 +55,6 @@ def generate_launch_description():
     kinematics_yaml = load_yaml(
         "moveit_resources_panda_moveit_config", "config/kinematics.yaml"
     )
-    robot_description_kinematics = {"robot_description_kinematics": kinematics_yaml}
 
     moveit_simple_controllers_yaml = load_yaml(
         "moveit_resources_panda_moveit_config", "config/panda_controllers.yaml"
@@ -144,7 +143,11 @@ def generate_launch_description():
 
     # Load controllers
     load_controllers = []
-    for controller in ["panda_arm_controller", "joint_state_controller"]:
+    for controller in [
+        "panda_arm_controller",
+        "panda_hand_controller",
+        "joint_state_controller",
+    ]:
         load_controllers += [
             ExecuteProcess(
                 cmd=["ros2 run controller_manager spawner.py {}".format(controller)],

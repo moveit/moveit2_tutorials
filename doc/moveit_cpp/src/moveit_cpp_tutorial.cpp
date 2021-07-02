@@ -56,11 +56,10 @@ int main(int argc, char** argv)
 
   RCLCPP_INFO(LOGGER, "Starting MoveIt Tutorials...");
 
-  auto moveit_cpp_ptr = std::make_shared<moveit::planning_interface::MoveItCpp>(node);
+  auto moveit_cpp_ptr = std::make_shared<moveit_cpp::MoveItCpp>(node);
   moveit_cpp_ptr->getPlanningSceneMonitor()->providePlanningSceneService();
 
-  auto planning_components =
-      std::make_shared<moveit::planning_interface::PlanningComponent>(PLANNING_GROUP, moveit_cpp_ptr);
+  auto planning_components = std::make_shared<moveit_cpp::PlanningComponent>(PLANNING_GROUP, moveit_cpp_ptr);
   auto robot_model_ptr = moveit_cpp_ptr->getRobotModel();
   auto robot_start_state = planning_components->getStartState();
   auto joint_model_group_ptr = robot_model_ptr->getJointModelGroup(PLANNING_GROUP);
@@ -78,7 +77,7 @@ int main(int argc, char** argv)
 
   Eigen::Isometry3d text_pose = Eigen::Isometry3d::Identity();
   text_pose.translation().z() = 1.75;
-  visual_tools.publishText(text_pose, "MoveItCpp Demo", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "MoveItCpp_Demo", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
   // Start the demo
@@ -115,10 +114,9 @@ int main(int argc, char** argv)
   {
     // Visualize the start pose in Rviz
     visual_tools.publishAxisLabeled(robot_start_state->getGlobalLinkTransform("panda_link8"), "start_pose");
-    visual_tools.publishText(text_pose, "Start Pose", rvt::WHITE, rvt::XLARGE);
     // Visualize the goal pose in Rviz
     visual_tools.publishAxisLabeled(target_pose1.pose, "target_pose");
-    visual_tools.publishText(text_pose, "Goal Pose", rvt::WHITE, rvt::XLARGE);
+    visual_tools.publishText(text_pose, "setStartStateToCurrentState", rvt::WHITE, rvt::XLARGE);
     // Visualize the trajectory in Rviz
     /* visual_tools.publishTrajectoryLine(plan_solution1.trajectory, joint_model_group_ptr); */
     visual_tools.trigger();
@@ -134,9 +132,10 @@ int main(int argc, char** argv)
   //    :align: center
   //
   // Start the next plan
-  visual_tools.deleteAllMarkers();
   prompt("Press 'Enter' to continue the demo");
   /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
+  visual_tools.deleteAllMarkers();
+  visual_tools.trigger();
 
   // Plan #2
   // ^^^^^^^
@@ -161,10 +160,9 @@ int main(int argc, char** argv)
     moveit::core::RobotState robot_state(robot_model_ptr);
     moveit::core::robotStateMsgToRobotState(plan_solution2.start_state, robot_state);
 
-    visual_tools.publishText(text_pose, "Start Pose", rvt::WHITE, rvt::XLARGE);
     visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
-    visual_tools.publishText(text_pose, "Goal Pose", rvt::WHITE, rvt::XLARGE);
     visual_tools.publishAxisLabeled(target_pose1.pose, "target_pose");
+    visual_tools.publishText(text_pose, "moveit::core::RobotState_Start_State", rvt::WHITE, rvt::XLARGE);
     /* visual_tools.publishTrajectoryLine(plan_solution2.trajectory, joint_model_group_ptr); */
     visual_tools.trigger();
 
@@ -179,9 +177,10 @@ int main(int argc, char** argv)
   //    :align: center
   //
   // Start the next plan
-  visual_tools.deleteAllMarkers();
   prompt("Press 'Enter' to continue the demo");
   /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
+  visual_tools.deleteAllMarkers();
+  visual_tools.trigger();
 
   // Plan #3
   // ^^^^^^^
@@ -206,10 +205,9 @@ int main(int argc, char** argv)
     moveit::core::RobotState robot_state(robot_model_ptr);
     moveit::core::robotStateMsgToRobotState(plan_solution3.start_state, robot_state);
 
-    visual_tools.publishText(text_pose, "Start Pose", rvt::WHITE, rvt::XLARGE);
     visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
-    visual_tools.publishText(text_pose, "Goal Pose", rvt::WHITE, rvt::XLARGE);
     visual_tools.publishAxisLabeled(target_pose2, "target_pose");
+    visual_tools.publishText(text_pose, "moveit::core::RobotState_Goal_Pose", rvt::WHITE, rvt::XLARGE);
     /* visual_tools.publishTrajectoryLine(plan_solution3.trajectory, joint_model_group_ptr); */
     visual_tools.trigger();
 
@@ -224,9 +222,10 @@ int main(int argc, char** argv)
   //    :align: center
   //
   // Start the next plan
-  visual_tools.deleteAllMarkers();
   prompt("Press 'Enter' to continue the demo");
   /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
+  visual_tools.deleteAllMarkers();
+  visual_tools.trigger();
 
   // Plan #4
   // ^^^^^^^
@@ -249,10 +248,9 @@ int main(int argc, char** argv)
     moveit::core::RobotState robot_state(robot_model_ptr);
     moveit::core::robotStateMsgToRobotState(plan_solution4.start_state, robot_state);
 
-    visual_tools.publishText(text_pose, "Start Pose", rvt::WHITE, rvt::XLARGE);
     visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
-    visual_tools.publishText(text_pose, "Goal Pose", rvt::WHITE, rvt::XLARGE);
     visual_tools.publishAxisLabeled(robot_start_state->getGlobalLinkTransform("panda_link8"), "target_pose");
+    visual_tools.publishText(text_pose, "Goal_Pose_From_Named_State", rvt::WHITE, rvt::XLARGE);
     /* visual_tools.publishTrajectoryLine(plan_solution4.trajectory, joint_model_group_ptr); */
     visual_tools.trigger();
 
@@ -266,10 +264,65 @@ int main(int argc, char** argv)
   //    :width: 250pt
   //    :align: center
   //
-  // END_TUTORIAL
+  // Start the next plan
+  prompt("Press 'Enter' to continue the demo");
+  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
   visual_tools.deleteAllMarkers();
+  visual_tools.trigger();
+
+  // Plan #5
+  // ^^^^^^^
+  //
+  // We can also generate motion plans around objects in the collision scene.
+  //
+  // First we create the collision object
+  moveit_msgs::msg::CollisionObject collision_object;
+  collision_object.header.frame_id = "panda_link0";
+  collision_object.id = "box";
+
+  shape_msgs::msg::SolidPrimitive box;
+  box.type = box.BOX;
+  box.dimensions = { 0.1, 0.4, 0.1 };
+
+  geometry_msgs::msg::Pose box_pose;
+  box_pose.position.x = 0.4;
+  box_pose.position.y = 0.0;
+  box_pose.position.z = 1.0;
+
+  collision_object.primitives.push_back(box);
+  collision_object.primitive_poses.push_back(box_pose);
+  collision_object.operation = collision_object.ADD;
+
+  // Add object to planning scene
+  {  // Lock PlanningScene
+    planning_scene_monitor::LockedPlanningSceneRW scene(moveit_cpp_ptr->getPlanningSceneMonitor());
+    scene->processCollisionObjectMsg(collision_object);
+  }  // Unlock PlanningScene
+  planning_components->setStartStateToCurrentState();
+  planning_components->setGoal("extended");
+
+  auto plan_solution5 = planning_components->plan();
+  if (plan_solution5)
+  {
+    visual_tools.publishText(text_pose, "Planning_Around_Collision_Object", rvt::WHITE, rvt::XLARGE);
+    /* visual_tools.publishTrajectoryLine(plan_solution5.trajectory, joint_model_group_ptr); */
+    visual_tools.trigger();
+
+    /* Uncomment if you want to execute the plan */
+    /* planning_components->execute(); // Execute the plan */
+  }
+
+  // Plan #5 visualization:
+  //
+  // .. image:: images/moveitcpp_plan5.png
+  //    :width: 250pt
+  //    :align: center
+  //
+  // END_TUTORIAL
   prompt("Press 'Enter' to exit the demo");
   /* visual_tools.prompt("Press 'next' to end the demo"); */
+  visual_tools.deleteAllMarkers();
+  visual_tools.trigger();
 
   RCLCPP_INFO(LOGGER, "Shutting down.");
   rclcpp::shutdown();
