@@ -34,7 +34,7 @@ You will need to have a `colcon <https://docs.ros.org/en/foxy/Tutorials/Colcon-T
   mkdir -p ~/ws_moveit2/src
   cd ~/ws_moveit2/src
 
-  git clone https://github.com/ros-planning/moveit2.git
+  git clone https://github.com/ros-planning/moveit2.git -b foxy
   git clone https://github.com/ros-planning/moveit2_tutorials.git
   vcs import < moveit2/moveit2.repos
   vcs import < moveit2_tutorials/moveit2_tutorials.repos
