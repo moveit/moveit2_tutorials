@@ -258,7 +258,7 @@ def generate_launch_description():
         robot_state_publisher_node,
         spawn_node,
         bridge_node,
-        # ur_ignition_control_node,
+        ur_ignition_control_node,
         # rviz_node,
     ]
 
