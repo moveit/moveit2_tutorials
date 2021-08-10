@@ -95,10 +95,10 @@ def generate_launch_description():
         # For warehouse_ros_sqlite
         "warehouse_plugin": "warehouse_ros_sqlite::DatabaseConnection",
         "warehouse_host": "/path/to/my/warehouse_db.sqlite",
-        # For warehouse_ros_mongodb
-        "warehouse_port": 33829,
-        "warehouse_host": "localhost",
-        "warehouse_plugin": "warehouse_ros_mongo::MongoDatabaseConnection",
+        # For warehouse_ros_mongodb use the following instead
+        # "warehouse_port": 33829,
+        # "warehouse_host": "localhost",
+        # "warehouse_plugin": "warehouse_ros_mongo::MongoDatabaseConnection",
     }
     ## END_SUB_TUTORIAL
 

@@ -38,7 +38,7 @@ run RViz using ::
    ros2 launch moveit2_tutorials demo.launch.py
 
 In RViz, navigate to the "Context" tab of the "MotionPlanning" window.
-Verify the connetion details (host/port for MongoDB, file path for SQLite)
+Verify the connection details (host/port for MongoDB, file path for SQLite)
 and click on "Connect".
 
 .. image:: rviz_connect.png
@@ -46,6 +46,7 @@ and click on "Connect".
 
 After that, a dialogue box will appear and ask you whether you'd like to erase all current
 states and scenes in RViz (not in the database, the persistent data is not affected by that).
+As you just started RViz, you can safely select "yes".
 
 Saving/Loading scenes and states
 --------------------------------
