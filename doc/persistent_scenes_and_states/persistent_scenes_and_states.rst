@@ -21,7 +21,8 @@ The storage plugin is determined by the parameter ``warehouse_plugin``.
 Valid options are ``warehouse_ros_mongo::MongoDatabaseConnection`` for MongoDB and
 ``warehouse_ros_sqlite::DatabaseConnection`` for SQLite.
 Furthermore, the parameters ``warehouse_host`` and ``warehouse_port`` configure the connection details.
-In case of the SQLite plugin, ``warehouse_host`` contains the path of the database file.
+In case of the SQLite plugin, ``warehouse_host`` contains the path of the database file,
+and ``warehouse_port`` is unused.
 They have to be set in the launch file (e. g. ``move_group.launch.py``) as followed:
 
 .. tutorial-formatter:: ./move_group.launch.py
