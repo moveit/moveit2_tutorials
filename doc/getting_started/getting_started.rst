@@ -28,7 +28,7 @@ Install `vcstool <https://index.ros.org/d/python3-vcstool/>`_ : ::
 
 Create A Colcon Workspace and Download MoveIt 2 Source
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-These tutorials rely on the master branch of MoveIt 2, which can be built from source or binaries. Please make sure you install MoveIt 2 for your distribution of choice by following the instructions from `the official MoveIt website <https://moveit.ros.org/install-moveit2/source/>`_.
+These tutorials rely on the ROS 2 project MoveIt 2, which can be built from source or installed from binaries. Please make sure you install or build MoveIt 2 for your distribution of choice by following the instructions from `the official MoveIt website <https://moveit.ros.org/install-moveit2/source/>`_.
 For tutorials you will need to have a `colcon <https://docs.ros.org/en/foxy/Tutorials/Colcon-Tutorial.html#install-colcon>`_ workspace setup. If you already have a colcon workspace by building MoveIt 2 from source skip the following, else create a workspace: ::
 
   mkdir -p ~/ws_moveit2/src
