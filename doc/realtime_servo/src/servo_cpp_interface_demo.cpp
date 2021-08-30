@@ -97,7 +97,9 @@ int main(int argc, char** argv)
 {
   rclcpp::init(argc, argv);
   rclcpp::NodeOptions node_options;
-  node_options.use_intra_process_comms(true);
+
+  // This is false for now until we fix the QoS settings in moveit to enable intra process comms
+  node_options.use_intra_process_comms(false);
   node_ = std::make_shared<rclcpp::Node>("servo_demo_node", node_options);
 
   // Pause for RViz to come up. This is necessary in an integrated demo with a single launch file
@@ -117,6 +119,7 @@ int main(int argc, char** argv)
     planning_scene_monitor->startPublishingPlanningScene(planning_scene_monitor::PlanningSceneMonitor::UPDATE_SCENE,
                                                          "/moveit_servo/publish_planning_scene");
     planning_scene_monitor->startSceneMonitor();
+    planning_scene_monitor->providePlanningSceneService();
   }
   else
   {
