@@ -3,7 +3,6 @@ repositories:
     type: git
     url: https://github.com/PickNikRobotics/rviz_visual_tools
     version: foxy-devel
-
   moveit_resources:
     type: git
     url: https://github.com/ros-planning/moveit_resources
