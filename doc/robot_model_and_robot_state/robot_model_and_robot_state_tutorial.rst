@@ -1,8 +1,3 @@
-:moveit1:
-
-..
-   Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
-
 Robot Model and Robot State
 ===========================
 
@@ -31,53 +26,55 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 Running the Code
 ----------------
 All the code in this tutorial can be compiled and run from the
-``moveit_tutorials`` package that you have as part of your MoveIt
+``moveit2_tutorials`` package that you have as part of your MoveIt
 setup.
 
-Roslaunch the launch file to run the code directly from moveit_tutorials::
+Roslaunch the launch file to run the code directly from moveit2_tutorials::
 
- roslaunch moveit_tutorials robot_model_and_robot_state_tutorial.launch
+ ros2 launch moveit2_tutorials robot_model_and_robot_state_tutorial.launch.py
 
 Expected Output
 ---------------
 The expected output will be in the following form. The numbers will not match since we are using random joint values: ::
 
- ros.moveit_tutorials: Model frame: /panda_link0
- ros.moveit_tutorials: Joint panda_joint1: 0.000000
- ros.moveit_tutorials: Joint panda_joint2: 0.000000
- ros.moveit_tutorials: Joint panda_joint3: 0.000000
- ros.moveit_tutorials: Joint panda_joint4: 0.000000
- ros.moveit_tutorials: Joint panda_joint5: 0.000000
- ros.moveit_tutorials: Joint panda_joint6: 0.000000
- ros.moveit_tutorials: Joint panda_joint7: 0.000000
- ros.moveit_tutorials: Current state is not valid
- ros.moveit_tutorials: Current state is valid
- ros.moveit_tutorials: Translation:
- -0.541498
- -0.592805
-  0.400443
 
- ros.moveit_tutorials: Rotation:
- -0.395039  0.600666 -0.695086
-  0.299981 -0.630807 -0.715607
- -0.868306 -0.491205 0.0690048
+ ... [robot_model_and_state_tutorial]: Model frame: world
+ ... [robot_model_and_state_tutorial]: Joint panda_joint1: 0.000000
+ ... [robot_model_and_state_tutorial]: Joint panda_joint2: 0.000000
+ ... [robot_model_and_state_tutorial]: Joint panda_joint3: 0.000000
+ ... [robot_model_and_state_tutorial]: Joint panda_joint4: 0.000000
+ ... [robot_model_and_state_tutorial]: Joint panda_joint5: 0.000000
+ ... [robot_model_and_state_tutorial]: Joint panda_joint6: 0.000000
+ ... [robot_model_and_state_tutorial]: Joint panda_joint7: 0.000000
+ ... [robot_model_and_state_tutorial]: Current state is not valid
+ ... [robot_model_and_state_tutorial]: Current state is valid
+ ... [robot_model_and_state_tutorial]: Translation:
+ -0.368232
+ 0.645742
+ 0.752193
 
- ros.moveit_tutorials: Joint panda_joint1: -2.407308
- ros.moveit_tutorials: Joint panda_joint2: 1.555370
- ros.moveit_tutorials: Joint panda_joint3: -2.102171
- ros.moveit_tutorials: Joint panda_joint4: -0.011156
- ros.moveit_tutorials: Joint panda_joint5: 1.100545
- ros.moveit_tutorials: Joint panda_joint6: 3.230793
- ros.moveit_tutorials: Joint panda_joint7: -2.651568
- ros.moveit_tutorials: Jacobian:
-     0.592805   -0.0500638    -0.036041     0.366761   -0.0334361     0.128712 -4.33681e-18
-    -0.541498   -0.0451907    0.0417049    -0.231187    0.0403683   0.00288573  3.46945e-18
-            0    -0.799172    0.0772022    -0.247151    0.0818336    0.0511662            0
-            0     0.670056    -0.742222     0.349402    -0.748556    -0.344057    -0.695086
-            0     -0.74231    -0.669976    -0.367232    -0.662737     0.415389    -0.715607
-            1  4.89669e-12    0.0154256     0.862009     0.021077     0.842067    0.0690048
+ ... [robot_model_and_state_tutorial]: Rotation:
+  0.362374 -0.925408  -0.11093
+  0.911735  0.327259  0.248275
+  -0.193453 -0.191108  0.962317
 
-**Note:** Don't worry if your output has different ROS console format. You can customize your ROS console logger by following `this blog post <http://dav.ee/blog/notes/archives/898>`_.
+ ... [robot_model_and_state_tutorial]: Joint panda_joint1: 2.263889
+ ... [robot_model_and_state_tutorial]: Joint panda_joint2: 1.004608
+ ... [robot_model_and_state_tutorial]: Joint panda_joint3: -1.125652
+ ... [robot_model_and_state_tutorial]: Joint panda_joint4: -0.278822
+ ... [robot_model_and_state_tutorial]: Joint panda_joint5: -2.150242
+ ... [robot_model_and_state_tutorial]: Joint panda_joint6: 2.274891
+ ... [robot_model_and_state_tutorial]: Joint panda_joint7: -0.774846
+ ... [robot_model_and_state_tutorial]: Jacobian:
+   -0.645742     -0.26783   -0.0742358    -0.315413    0.0224927    -0.031807 -2.77556e-17
+   -0.368232     0.322474    0.0285092    -0.364197   0.00993438     0.072356  2.77556e-17
+           0    -0.732023    -0.109128     0.218716   2.9777e-05     -0.11378 -1.04083e-17
+           0    -0.769274    -0.539217     0.640569     -0.36792     -0.91475     -0.11093
+           0    -0.638919      0.64923   -0.0973283     0.831769     -0.40402     0.248275
+           1  4.89664e-12     0.536419     0.761708     0.415688  -0.00121099     0.962317
+
+
+**Note:** Don't worry if your output has different ROS console format.
 
 The Entire Code
 ---------------
@@ -91,10 +88,4 @@ To run the code, you will need a launch file that does two things:
  * Loads the Panda URDF and SRDF onto the parameter server, and
  * Puts the kinematics_solver configuration generated by the MoveIt Setup Assistant onto the ROS parameter server in the namespace of the node that instantiates the classes in this tutorial.
 
-.. literalinclude:: ./launch/robot_model_and_robot_state_tutorial.launch
-
-Debugging the Robot State
--------------------------
-To aid in debugging robot state, a command-line tool will help introspect your system: ::
-
-  rosrun moveit_ros_planning moveit_print_planning_model_info
+.. literalinclude:: ./launch/robot_model_and_robot_state_tutorial.launch.py
