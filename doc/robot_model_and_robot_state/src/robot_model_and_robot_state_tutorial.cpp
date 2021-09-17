@@ -53,8 +53,7 @@ int main(int argc, char** argv)
   // best practice would be to declare parameters in the corresponding classes
   // and provide descriptions about expected use
   node_options.automatically_declare_parameters_from_overrides(true);
-  auto robot_node = rclcpp::Node::make_shared("robot_model_and_robot_state_tutorial",
-                                              node_options);
+  auto robot_node = rclcpp::Node::make_shared("robot_model_and_robot_state_tutorial", node_options);
 
   // This particular tutorial doesn't require a spinner
   //  rclcpp::executors::SingleThreadedExecutor executor;
