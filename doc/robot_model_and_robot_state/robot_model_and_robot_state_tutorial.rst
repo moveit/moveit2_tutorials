@@ -31,7 +31,7 @@ setup.
 
 Roslaunch the launch file to run the code directly from moveit_tutorials::
 
- ros2 launch moveit_tutorials robot_model_and_robot_state_tutorial.py
+ ros2 launch moveit_tutorials robot_model_and_robot_state_tutorial.launch.py
 
 Expected Output
 ---------------
@@ -92,4 +92,4 @@ Debugging the Robot State
 -------------------------
 To aid in debugging robot state, a command-line tool will help introspect your system: ::
 
-  rosrun moveit_ros_planning moveit_print_planning_model_info
+  ros2 run moveit_ros_planning moveit_print_planning_model_info
