@@ -38,34 +38,34 @@ Expected Output
 The expected output will be in the following form. The numbers will not match since we are using random joint values: ::
 
 
-[INFO] [1631899005.314495642] [robot_model_and_state_tutorial]: Model frame: world
-[INFO] [1631899005.314575051] [robot_model_and_state_tutorial]: Joint panda_joint1: 0.000000
-[INFO] [1631899005.314587972] [robot_model_and_state_tutorial]: Joint panda_joint2: 0.000000
-[INFO] [1631899005.314599006] [robot_model_and_state_tutorial]: Joint panda_joint3: 0.000000
-[INFO] [1631899005.314609832] [robot_model_and_state_tutorial]: Joint panda_joint4: 0.000000
-[INFO] [1631899005.314620936] [robot_model_and_state_tutorial]: Joint panda_joint5: 0.000000
-[INFO] [1631899005.314629946] [robot_model_and_state_tutorial]: Joint panda_joint6: 0.000000
-[INFO] [1631899005.314639444] [robot_model_and_state_tutorial]: Joint panda_joint7: 0.000000
-[INFO] [1631899005.314655298] [robot_model_and_state_tutorial]: Current state is not valid
-[INFO] [1631899005.314667590] [robot_model_and_state_tutorial]: Current state is valid
-[INFO] [1631899005.314747349] [robot_model_and_state_tutorial]: Translation:
--0.368232
+ ... [robot_model_and_state_tutorial]: Model frame: world
+ ... [robot_model_and_state_tutorial]: Joint panda_joint1: 0.000000
+ ... [robot_model_and_state_tutorial]: Joint panda_joint2: 0.000000
+ ... [robot_model_and_state_tutorial]: Joint panda_joint3: 0.000000
+ ... [robot_model_and_state_tutorial]: Joint panda_joint4: 0.000000
+ ... [robot_model_and_state_tutorial]: Joint panda_joint5: 0.000000
+ ... [robot_model_and_state_tutorial]: Joint panda_joint6: 0.000000
+ ... [robot_model_and_state_tutorial]: Joint panda_joint7: 0.000000
+ ... [robot_model_and_state_tutorial]: Current state is not valid
+ ... [robot_model_and_state_tutorial]: Current state is valid
+ ... [robot_model_and_state_tutorial]: Translation:
+ -0.368232
  0.645742
  0.752193
 
-[INFO] [1631899005.314774447] [robot_model_and_state_tutorial]: Rotation:
- 0.362374 -0.925408  -0.11093
- 0.911735  0.327259  0.248275
--0.193453 -0.191108  0.962317
+ ... [robot_model_and_state_tutorial]: Rotation:
+  0.362374 -0.925408  -0.11093
+  0.911735  0.327259  0.248275
+  -0.193453 -0.191108  0.962317
 
-[INFO] [1631899005.314943392] [robot_model_and_state_tutorial]: Joint panda_joint1: 2.263889
-[INFO] [1631899005.314964274] [robot_model_and_state_tutorial]: Joint panda_joint2: 1.004608
-[INFO] [1631899005.314972516] [robot_model_and_state_tutorial]: Joint panda_joint3: -1.125652
-[INFO] [1631899005.314980966] [robot_model_and_state_tutorial]: Joint panda_joint4: -0.278822
-[INFO] [1631899005.314990046] [robot_model_and_state_tutorial]: Joint panda_joint5: -2.150242
-[INFO] [1631899005.314998147] [robot_model_and_state_tutorial]: Joint panda_joint6: 2.274891
-[INFO] [1631899005.315006389] [robot_model_and_state_tutorial]: Joint panda_joint7: -0.774846
-[INFO] [1631899005.315067709] [robot_model_and_state_tutorial]: Jacobian:
+ ... [robot_model_and_state_tutorial]: Joint panda_joint1: 2.263889
+ ... [robot_model_and_state_tutorial]: Joint panda_joint2: 1.004608
+ ... [robot_model_and_state_tutorial]: Joint panda_joint3: -1.125652
+ ... [robot_model_and_state_tutorial]: Joint panda_joint4: -0.278822
+ ... [robot_model_and_state_tutorial]: Joint panda_joint5: -2.150242
+ ... [robot_model_and_state_tutorial]: Joint panda_joint6: 2.274891
+ ... [robot_model_and_state_tutorial]: Joint panda_joint7: -0.774846
+ ... [robot_model_and_state_tutorial]: Jacobian:
    -0.645742     -0.26783   -0.0742358    -0.315413    0.0224927    -0.031807 -2.77556e-17
    -0.368232     0.322474    0.0285092    -0.364197   0.00993438     0.072356  2.77556e-17
            0    -0.732023    -0.109128     0.218716   2.9777e-05     -0.11378 -1.04083e-17
