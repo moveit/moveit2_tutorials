@@ -48,7 +48,7 @@ def generate_launch_description():
         executable="robot_model_and_robot_state_tutorial",
         output="screen",
         parameters=[
-            {"robot_description": robot_description_config.toxml()},
+            {"robot_description": robot_description_config},
             {"robot_description_semantic": robot_description_semantic_config},
             kinematics_yaml,
         ],
