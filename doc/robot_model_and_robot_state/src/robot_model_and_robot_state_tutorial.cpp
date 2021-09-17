@@ -39,26 +39,16 @@
 #include <moveit/robot_model/robot_model.h>
 #include <moveit/robot_state/robot_state.h>
 
-// All source files that use ROS logging should define a file-specific
-// static const rclcpp::Logger named LOGGER, located at the top of the file
-// and inside the namespace with the narrowest scope (if there is one)
-static const rclcpp::Logger LOGGER = rclcpp::get_logger("robot_model_and_robot_state_demo");
-
 int main(int argc, char** argv)
 {
   rclcpp::init(argc, argv);
   rclcpp::NodeOptions node_options;
-
   // This enables loading undeclared parameters
   // best practice would be to declare parameters in the corresponding classes
   // and provide descriptions about expected use
   node_options.automatically_declare_parameters_from_overrides(true);
-  auto robot_node = rclcpp::Node::make_shared("robot_model_and_robot_state_tutorial", node_options);
-
-  // This particular tutorial doesn't require a spinner
-  //  rclcpp::executors::SingleThreadedExecutor executor;
-  //  executor.add_node(robot_node);
-  //  std::thread([&executor]() { executor.spin(); }).detach();
+  auto node = rclcpp::Node::make_shared("robot_model_and_state_tutorial", node_options);
+  const auto& LOGGER = node->get_logger();
 
   // BEGIN_TUTORIAL
   // Start
@@ -80,7 +70,7 @@ int main(int argc, char** argv)
   //
   // .. _RobotModelLoader:
   //     http://docs.ros.org/noetic/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
-  robot_model_loader::RobotModelLoader robot_model_loader(robot_node);
+  robot_model_loader::RobotModelLoader robot_model_loader(node);
   const moveit::core::RobotModelPtr& kinematic_model = robot_model_loader.getModel();
   RCLCPP_INFO(LOGGER, "Model frame: %s", kinematic_model->getModelFrame().c_str());
 

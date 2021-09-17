@@ -26,51 +26,51 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 Running the Code
 ----------------
 All the code in this tutorial can be compiled and run from the
-``moveit_tutorials`` package that you have as part of your MoveIt
+``moveit2_tutorials`` package that you have as part of your MoveIt
 setup.
 
-Roslaunch the launch file to run the code directly from moveit_tutorials::
+Roslaunch the launch file to run the code directly from moveit2_tutorials::
 
- ros2 launch moveit_tutorials robot_model_and_robot_state_tutorial.launch.py
+ ros2 launch moveit2_tutorials robot_model_and_robot_state_tutorial.launch.py
 
 Expected Output
 ---------------
 The expected output will be in the following form. The numbers will not match since we are using random joint values: ::
 
- ros.moveit_tutorials: Model frame: /panda_link0
- ros.moveit_tutorials: Joint panda_joint1: 0.000000
- ros.moveit_tutorials: Joint panda_joint2: 0.000000
- ros.moveit_tutorials: Joint panda_joint3: 0.000000
- ros.moveit_tutorials: Joint panda_joint4: 0.000000
- ros.moveit_tutorials: Joint panda_joint5: 0.000000
- ros.moveit_tutorials: Joint panda_joint6: 0.000000
- ros.moveit_tutorials: Joint panda_joint7: 0.000000
- ros.moveit_tutorials: Current state is not valid
- ros.moveit_tutorials: Current state is valid
- ros.moveit_tutorials: Translation:
- -0.541498
- -0.592805
-  0.400443
+[INFO] [1631898031.574924606] [moveit_rdf_loader.rdf_loader]: Loaded robot model in 0.000592809 seconds
+[INFO] [1631898031.574994726] [moveit_robot_model.robot_model]: Loading robot model 'panda'...
+[WARN] [1631898031.580430720] [moveit_ros.robot_model_loader]: No kinematics plugins defined. Fill and load kinematics.yaml!
+[INFO] [1631898031.580490364] [robot_model_and_state_tutorial]: Model frame: world
+[INFO] [1631898031.580597709] [robot_model_and_state_tutorial]: Joint panda_joint1: 0.000000
+[INFO] [1631898031.580618033] [robot_model_and_state_tutorial]: Joint panda_joint2: 0.000000
+[INFO] [1631898031.580627042] [robot_model_and_state_tutorial]: Joint panda_joint3: 0.000000
+[INFO] [1631898031.580636611] [robot_model_and_state_tutorial]: Joint panda_joint4: 0.000000
+[INFO] [1631898031.580645550] [robot_model_and_state_tutorial]: Joint panda_joint5: 0.000000
+[INFO] [1631898031.580654490] [robot_model_and_state_tutorial]: Joint panda_joint6: 0.000000
+[INFO] [1631898031.580663569] [robot_model_and_state_tutorial]: Joint panda_joint7: 0.000000
+[INFO] [1631898031.580680750] [robot_model_and_state_tutorial]: Current state is not valid
+[INFO] [1631898031.580692623] [robot_model_and_state_tutorial]: Current state is valid
+[INFO] [1631898031.580759950] [robot_model_and_state_tutorial]: Translation:
+0.488887
+ 0.18437
+0.532001
 
- ros.moveit_tutorials: Rotation:
- -0.395039  0.600666 -0.695086
-  0.299981 -0.630807 -0.715607
- -0.868306 -0.491205 0.0690048
+[INFO] [1631898031.580779924] [robot_model_and_state_tutorial]: Rotation:
+  0.158002 -0.0172044   0.987289
+  0.280844   0.959338 -0.0282278
+ -0.946658   0.281734   0.156409
 
- ros.moveit_tutorials: Joint panda_joint1: -2.407308
- ros.moveit_tutorials: Joint panda_joint2: 1.555370
- ros.moveit_tutorials: Joint panda_joint3: -2.102171
- ros.moveit_tutorials: Joint panda_joint4: -0.011156
- ros.moveit_tutorials: Joint panda_joint5: 1.100545
- ros.moveit_tutorials: Joint panda_joint6: 3.230793
- ros.moveit_tutorials: Joint panda_joint7: -2.651568
- ros.moveit_tutorials: Jacobian:
-     0.592805   -0.0500638    -0.036041     0.366761   -0.0334361     0.128712 -4.33681e-18
-    -0.541498   -0.0451907    0.0417049    -0.231187    0.0403683   0.00288573  3.46945e-18
-            0    -0.799172    0.0772022    -0.247151    0.0818336    0.0511662            0
-            0     0.670056    -0.742222     0.349402    -0.748556    -0.344057    -0.695086
-            0     -0.74231    -0.669976    -0.367232    -0.662737     0.415389    -0.715607
-            1  4.89669e-12    0.0154256     0.862009     0.021077     0.842067    0.0690048
+[ERROR] [1631898031.580792915] [moveit_robot_state.robot_state]: No kinematics solver instantiated for group 'panda_arm'
+[INFO] [1631898031.580797175] [robot_model_and_state_tutorial]: Did not find IK solution
+[INFO] [1631898031.580861568] [robot_model_and_state_tutorial]: Jacobian:
+    -0.18437   -0.0630291     -0.25523     0.322092   0.00988796   -0.0811232 -5.42101e-20
+    0.488887     0.188755     0.186954    -0.277097   -0.0111226     0.107916  2.77556e-17
+           0   -0.0200336     0.453818     0.309284   -0.0644223   -0.0310831  5.20417e-18
+           0    -0.948516     0.275299     0.501982     0.420656    -0.149548     0.987289
+           0    -0.316728    -0.824447    -0.315378     0.902617     0.168221   -0.0282278
+           1  4.89664e-12     0.494467    -0.805327   -0.0912728     0.974339     0.156409
+
+
 
 **Note:** Don't worry if your output has different ROS console format.
 
@@ -87,9 +87,3 @@ To run the code, you will need a launch file that does two things:
  * Puts the kinematics_solver configuration generated by the MoveIt Setup Assistant onto the ROS parameter server in the namespace of the node that instantiates the classes in this tutorial.
 
 .. literalinclude:: ./launch/robot_model_and_robot_state_tutorial.py
-
-Debugging the Robot State
--------------------------
-To aid in debugging robot state, a command-line tool will help introspect your system: ::
-
-  ros2 run moveit_ros_planning moveit_print_planning_model_info
