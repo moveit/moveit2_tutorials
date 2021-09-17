@@ -34,18 +34,32 @@
 
 /* Author: Sachin Chitta, Michael Lautman*/
 
-#include <ros/ros.h>
-
 // MoveIt
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <moveit/robot_model/robot_model.h>
 #include <moveit/robot_state/robot_state.h>
 
+// All source files that use ROS logging should define a file-specific
+// static const rclcpp::Logger named LOGGER, located at the top of the file
+// and inside the namespace with the narrowest scope (if there is one)
+static const rclcpp::Logger LOGGER = rclcpp::get_logger("robot_model_and_robot_state_demo");
+
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "robot_model_and_robot_state_tutorial");
-  ros::AsyncSpinner spinner(1);
-  spinner.start();
+  rclcpp::init(argc, argv);
+  rclcpp::NodeOptions node_options;
+
+  // This enables loading undeclared parameters
+  // best practice would be to declare parameters in the corresponding classes
+  // and provide descriptions about expected use
+  node_options.automatically_declare_parameters_from_overrides(true);
+  auto robot_node = rclcpp::Node::make_shared("robot_model_and_robot_state_tutorial",
+                                              node_options);
+
+  // This particular tutorial doesn't require a spinner
+  //  rclcpp::executors::SingleThreadedExecutor executor;
+  //  executor.add_node(robot_node);
+  //  std::thread([&executor]() { executor.spin(); }).detach();
 
   // BEGIN_TUTORIAL
   // Start
@@ -67,9 +81,9 @@ int main(int argc, char** argv)
   //
   // .. _RobotModelLoader:
   //     http://docs.ros.org/noetic/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
-  robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
+  robot_model_loader::RobotModelLoader robot_model_loader(robot_node);
   const moveit::core::RobotModelPtr& kinematic_model = robot_model_loader.getModel();
-  ROS_INFO("Model frame: %s", kinematic_model->getModelFrame().c_str());
+  RCLCPP_INFO(LOGGER, "Model frame: %s", kinematic_model->getModelFrame().c_str());
 
   // Using the :moveit_core:`RobotModel`, we can construct a
   // :moveit_core:`RobotState` that maintains the configuration
@@ -91,7 +105,7 @@ int main(int argc, char** argv)
   kinematic_state->copyJointGroupPositions(joint_model_group, joint_values);
   for (std::size_t i = 0; i < joint_names.size(); ++i)
   {
-    ROS_INFO("Joint %s: %f", joint_names[i].c_str(), joint_values[i]);
+    RCLCPP_INFO(LOGGER, "Joint %s: %f", joint_names[i].c_str(), joint_values[i]);
   }
 
   // Joint Limits
@@ -102,11 +116,11 @@ int main(int argc, char** argv)
   kinematic_state->setJointGroupPositions(joint_model_group, joint_values);
 
   /* Check whether any joint is outside its joint limits */
-  ROS_INFO_STREAM("Current state is " << (kinematic_state->satisfiesBounds() ? "valid" : "not valid"));
+  RCLCPP_INFO_STREAM(LOGGER, "Current state is " << (kinematic_state->satisfiesBounds() ? "valid" : "not valid"));
 
   /* Enforce the joint limits for this state and check again*/
   kinematic_state->enforceBounds();
-  ROS_INFO_STREAM("Current state is " << (kinematic_state->satisfiesBounds() ? "valid" : "not valid"));
+  RCLCPP_INFO_STREAM(LOGGER, "Current state is " << (kinematic_state->satisfiesBounds() ? "valid" : "not valid"));
 
   // Forward Kinematics
   // ^^^^^^^^^^^^^^^^^^
@@ -118,8 +132,8 @@ int main(int argc, char** argv)
   const Eigen::Isometry3d& end_effector_state = kinematic_state->getGlobalLinkTransform("panda_link8");
 
   /* Print end-effector pose. Remember that this is in the model frame */
-  ROS_INFO_STREAM("Translation: \n" << end_effector_state.translation() << "\n");
-  ROS_INFO_STREAM("Rotation: \n" << end_effector_state.rotation() << "\n");
+  RCLCPP_INFO_STREAM(LOGGER, "Translation: \n" << end_effector_state.translation() << "\n");
+  RCLCPP_INFO_STREAM(LOGGER, "Rotation: \n" << end_effector_state.rotation() << "\n");
 
   // Inverse Kinematics
   // ^^^^^^^^^^^^^^^^^^
@@ -138,12 +152,12 @@ int main(int argc, char** argv)
     kinematic_state->copyJointGroupPositions(joint_model_group, joint_values);
     for (std::size_t i = 0; i < joint_names.size(); ++i)
     {
-      ROS_INFO("Joint %s: %f", joint_names[i].c_str(), joint_values[i]);
+      RCLCPP_INFO(LOGGER, "Joint %s: %f", joint_names[i].c_str(), joint_values[i]);
     }
   }
   else
   {
-    ROS_INFO("Did not find IK solution");
+    RCLCPP_INFO(LOGGER, "Did not find IK solution");
   }
 
   // Get the Jacobian
@@ -154,9 +168,9 @@ int main(int argc, char** argv)
   kinematic_state->getJacobian(joint_model_group,
                                kinematic_state->getLinkModel(joint_model_group->getLinkModelNames().back()),
                                reference_point_position, jacobian);
-  ROS_INFO_STREAM("Jacobian: \n" << jacobian << "\n");
+  RCLCPP_INFO_STREAM(LOGGER, "Jacobian: \n" << jacobian << "\n");
   // END_TUTORIAL
 
-  ros::shutdown();
+  rclcpp::shutdown();
   return 0;
 }
