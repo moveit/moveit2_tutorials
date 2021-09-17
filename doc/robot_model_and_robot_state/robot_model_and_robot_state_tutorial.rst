@@ -37,39 +37,41 @@ Expected Output
 ---------------
 The expected output will be in the following form. The numbers will not match since we are using random joint values: ::
 
-[INFO] [1631898031.574924606] [moveit_rdf_loader.rdf_loader]: Loaded robot model in 0.000592809 seconds
-[INFO] [1631898031.574994726] [moveit_robot_model.robot_model]: Loading robot model 'panda'...
-[WARN] [1631898031.580430720] [moveit_ros.robot_model_loader]: No kinematics plugins defined. Fill and load kinematics.yaml!
-[INFO] [1631898031.580490364] [robot_model_and_state_tutorial]: Model frame: world
-[INFO] [1631898031.580597709] [robot_model_and_state_tutorial]: Joint panda_joint1: 0.000000
-[INFO] [1631898031.580618033] [robot_model_and_state_tutorial]: Joint panda_joint2: 0.000000
-[INFO] [1631898031.580627042] [robot_model_and_state_tutorial]: Joint panda_joint3: 0.000000
-[INFO] [1631898031.580636611] [robot_model_and_state_tutorial]: Joint panda_joint4: 0.000000
-[INFO] [1631898031.580645550] [robot_model_and_state_tutorial]: Joint panda_joint5: 0.000000
-[INFO] [1631898031.580654490] [robot_model_and_state_tutorial]: Joint panda_joint6: 0.000000
-[INFO] [1631898031.580663569] [robot_model_and_state_tutorial]: Joint panda_joint7: 0.000000
-[INFO] [1631898031.580680750] [robot_model_and_state_tutorial]: Current state is not valid
-[INFO] [1631898031.580692623] [robot_model_and_state_tutorial]: Current state is valid
-[INFO] [1631898031.580759950] [robot_model_and_state_tutorial]: Translation:
-0.488887
- 0.18437
-0.532001
 
-[INFO] [1631898031.580779924] [robot_model_and_state_tutorial]: Rotation:
-  0.158002 -0.0172044   0.987289
-  0.280844   0.959338 -0.0282278
- -0.946658   0.281734   0.156409
+[INFO] [1631899005.314495642] [robot_model_and_state_tutorial]: Model frame: world
+[INFO] [1631899005.314575051] [robot_model_and_state_tutorial]: Joint panda_joint1: 0.000000
+[INFO] [1631899005.314587972] [robot_model_and_state_tutorial]: Joint panda_joint2: 0.000000
+[INFO] [1631899005.314599006] [robot_model_and_state_tutorial]: Joint panda_joint3: 0.000000
+[INFO] [1631899005.314609832] [robot_model_and_state_tutorial]: Joint panda_joint4: 0.000000
+[INFO] [1631899005.314620936] [robot_model_and_state_tutorial]: Joint panda_joint5: 0.000000
+[INFO] [1631899005.314629946] [robot_model_and_state_tutorial]: Joint panda_joint6: 0.000000
+[INFO] [1631899005.314639444] [robot_model_and_state_tutorial]: Joint panda_joint7: 0.000000
+[INFO] [1631899005.314655298] [robot_model_and_state_tutorial]: Current state is not valid
+[INFO] [1631899005.314667590] [robot_model_and_state_tutorial]: Current state is valid
+[INFO] [1631899005.314747349] [robot_model_and_state_tutorial]: Translation:
+-0.368232
+ 0.645742
+ 0.752193
 
-[ERROR] [1631898031.580792915] [moveit_robot_state.robot_state]: No kinematics solver instantiated for group 'panda_arm'
-[INFO] [1631898031.580797175] [robot_model_and_state_tutorial]: Did not find IK solution
-[INFO] [1631898031.580861568] [robot_model_and_state_tutorial]: Jacobian:
-    -0.18437   -0.0630291     -0.25523     0.322092   0.00988796   -0.0811232 -5.42101e-20
-    0.488887     0.188755     0.186954    -0.277097   -0.0111226     0.107916  2.77556e-17
-           0   -0.0200336     0.453818     0.309284   -0.0644223   -0.0310831  5.20417e-18
-           0    -0.948516     0.275299     0.501982     0.420656    -0.149548     0.987289
-           0    -0.316728    -0.824447    -0.315378     0.902617     0.168221   -0.0282278
-           1  4.89664e-12     0.494467    -0.805327   -0.0912728     0.974339     0.156409
+[INFO] [1631899005.314774447] [robot_model_and_state_tutorial]: Rotation:
+ 0.362374 -0.925408  -0.11093
+ 0.911735  0.327259  0.248275
+-0.193453 -0.191108  0.962317
 
+[INFO] [1631899005.314943392] [robot_model_and_state_tutorial]: Joint panda_joint1: 2.263889
+[INFO] [1631899005.314964274] [robot_model_and_state_tutorial]: Joint panda_joint2: 1.004608
+[INFO] [1631899005.314972516] [robot_model_and_state_tutorial]: Joint panda_joint3: -1.125652
+[INFO] [1631899005.314980966] [robot_model_and_state_tutorial]: Joint panda_joint4: -0.278822
+[INFO] [1631899005.314990046] [robot_model_and_state_tutorial]: Joint panda_joint5: -2.150242
+[INFO] [1631899005.314998147] [robot_model_and_state_tutorial]: Joint panda_joint6: 2.274891
+[INFO] [1631899005.315006389] [robot_model_and_state_tutorial]: Joint panda_joint7: -0.774846
+[INFO] [1631899005.315067709] [robot_model_and_state_tutorial]: Jacobian:
+   -0.645742     -0.26783   -0.0742358    -0.315413    0.0224927    -0.031807 -2.77556e-17
+   -0.368232     0.322474    0.0285092    -0.364197   0.00993438     0.072356  2.77556e-17
+           0    -0.732023    -0.109128     0.218716   2.9777e-05     -0.11378 -1.04083e-17
+           0    -0.769274    -0.539217     0.640569     -0.36792     -0.91475     -0.11093
+           0    -0.638919      0.64923   -0.0973283     0.831769     -0.40402     0.248275
+           1  4.89664e-12     0.536419     0.761708     0.415688  -0.00121099     0.962317
 
 
 **Note:** Don't worry if your output has different ROS console format.
