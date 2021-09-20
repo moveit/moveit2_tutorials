@@ -59,6 +59,7 @@ def generate_launch_description():
     motion_planning_node = Node(
         package="moveit2_tutorials",
         executable="motion_planning_api_tutorial",
+        prefix="xterm -e",
         output="screen",
         parameters=[
             {"robot_description": robot_description_config},
@@ -69,9 +70,4 @@ def generate_launch_description():
         ],
     )
 
-    return LaunchDescription(
-        [
-            motion_planning_node
-        ]
-    )
-
+    return LaunchDescription([motion_planning_node])

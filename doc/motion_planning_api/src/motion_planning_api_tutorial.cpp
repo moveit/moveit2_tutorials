@@ -59,15 +59,15 @@ int main(int argc, char** argv)
   rclcpp::init(argc, argv);
   rclcpp::NodeOptions node_options;
   node_options.automatically_declare_parameters_from_overrides(true);
-  auto motion_planning_node = rclcpp::Node::make_shared("motion_planning_tutorial", node_options);
+  auto motion_planning_node = rclcpp::Node::make_shared("motion_planning_api_tutorial", node_options);
 
   const rclcpp::Logger& LOGGER = motion_planning_node->get_logger();
 
   // We spin up a SingleThreadedExecutor for the current state monitor to get information
   // about the robot's state.
-  rclcpp::executors::SingleThreadedExecutor executor;
-  executor.add_node(motion_planning_node);
-  std::thread([&executor]() { executor.spin(); }).detach();
+  auto executor = std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
+  executor->add_node(motion_planning_node);
+  std::thread([=]() { executor->spin(); }).detach();
 
   // BEGIN_TUTORIAL
   // Start
@@ -99,7 +99,8 @@ int main(int argc, char** argv)
 
   // We will now construct a loader to load a planner, by name.
   // Note that we are using the ROS pluginlib library here.
-  std::unique_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager>> planner_plugin_loader;
+  typedef pluginlib::ClassLoader<planning_interface::PlannerManager> PlannerManagerLoader;
+  std::unique_ptr<PlannerManagerLoader> planner_plugin_loader;
   planning_interface::PlannerManagerPtr planner_instance;
   std::string planner_plugin_name;
 
@@ -110,8 +111,8 @@ int main(int argc, char** argv)
     RCLCPP_FATAL_STREAM(LOGGER, "Could not find planner plugin name");
   try
   {
-    planner_plugin_loader.reset(new pluginlib::ClassLoader<planning_interface::PlannerManager>(
-        "moveit_core", "planning_interface::PlannerManager"));
+    planner_plugin_loader = std::make_unique<PlannerManagerLoader>(
+        "moveit_core", "planning_interface::PlannerManager");
   }
   catch (pluginlib::PluginlibException& ex)
   {
@@ -158,6 +159,7 @@ int main(int argc, char** argv)
   visual_tools.trigger();
 
   prompt("Press 'Enter' to start the demo");
+
   // Pose Goal
   // ^^^^^^^^^
   // We will now create a motion plan request for the arm of the Panda
@@ -359,5 +361,6 @@ int main(int argc, char** argv)
   prompt("Press 'Enter' to exit the demo");
   planner_instance.reset();
 
+  rclcpp::shutdown();
   return 0;
 }
