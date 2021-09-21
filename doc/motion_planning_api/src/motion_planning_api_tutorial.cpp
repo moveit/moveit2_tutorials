@@ -111,8 +111,7 @@ int main(int argc, char** argv)
     RCLCPP_FATAL_STREAM(LOGGER, "Could not find planner plugin name");
   try
   {
-    planner_plugin_loader = std::make_unique<PlannerManagerLoader>(
-        "moveit_core", "planning_interface::PlannerManager");
+    planner_plugin_loader = std::make_unique<PlannerManagerLoader>("moveit_core", "planning_interface::PlannerManager");
   }
   catch (pluginlib::PluginlibException& ex)
   {
