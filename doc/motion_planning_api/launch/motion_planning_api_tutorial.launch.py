@@ -55,7 +55,7 @@ def generate_launch_description():
     )
     ompl_planning_pipeline_config["ompl"].update(ompl_planning_yaml)
 
-    # Start the actual move_group node/action server
+    # Start the actual move_group node
     motion_planning_node = Node(
         package="moveit2_tutorials",
         executable="motion_planning_api_tutorial",
