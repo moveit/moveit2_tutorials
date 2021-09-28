@@ -4,6 +4,9 @@
 name: Build
 
 on:
+  schedule:
+    # 5 PM UTC every Sunday
+    - cron:  '0 17 * * 6'
   workflow_dispatch:
   pull_request:
   push:
