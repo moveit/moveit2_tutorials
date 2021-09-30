@@ -34,27 +34,40 @@
 
 /* Author: Sachin Chitta, Michael Lautman */
 
-#include <pluginlib/class_loader.h>
-#include <ros/ros.h>
+#include <pluginlib/class_loader.hpp>
 
 // MoveIt
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <moveit/planning_interface/planning_interface.h>
 #include <moveit/planning_scene/planning_scene.h>
 #include <moveit/kinematic_constraints/utils.h>
-#include <moveit_msgs/DisplayTrajectory.h>
-#include <moveit_msgs/PlanningScene.h>
+#include <moveit_msgs/msg/display_trajectory.hpp>
+#include <moveit_msgs/msg/planning_scene.hpp>
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
-#include <boost/scoped_ptr.hpp>
+#include <moveit/macros/console_colors.h>
+void prompt(const std::string& message)
+{
+  printf(MOVEIT_CONSOLE_COLOR_GREEN "\n%s" MOVEIT_CONSOLE_COLOR_RESET, message.c_str());
+  fflush(stdout);
+  while (std::cin.get() != '\n' && rclcpp::ok())
+    ;
+}
 
 int main(int argc, char** argv)
 {
-  const std::string node_name = "motion_planning_tutorial";
-  ros::init(argc, argv, node_name);
-  ros::AsyncSpinner spinner(1);
-  spinner.start();
-  ros::NodeHandle node_handle("~");
+  rclcpp::init(argc, argv);
+  rclcpp::NodeOptions node_options;
+  node_options.automatically_declare_parameters_from_overrides(true);
+  auto motion_planning_node = rclcpp::Node::make_shared("motion_planning_api_tutorial", node_options);
+
+  const rclcpp::Logger& LOGGER = motion_planning_node->get_logger();
+
+  // We spin up a SingleThreadedExecutor for the current state monitor to get information
+  // about the robot's state.
+  auto executor = std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
+  executor->add_node(motion_planning_node);
+  std::thread([=]() { executor->spin(); }).detach();
 
   // BEGIN_TUTORIAL
   // Start
@@ -71,7 +84,7 @@ int main(int argc, char** argv)
   // .. _RobotModelLoader:
   //     http://docs.ros.org/noetic/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
   const std::string PLANNING_GROUP = "panda_arm";
-  robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
+  robot_model_loader::RobotModelLoader robot_model_loader(motion_planning_node);
   const moveit::core::RobotModelPtr& robot_model = robot_model_loader.getModel();
   /* Create a RobotState and JointModelGroup to keep track of the current robot pose and planning group*/
   moveit::core::RobotStatePtr robot_state(new moveit::core::RobotState(robot_model));
@@ -86,39 +99,44 @@ int main(int argc, char** argv)
 
   // We will now construct a loader to load a planner, by name.
   // Note that we are using the ROS pluginlib library here.
-  boost::scoped_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager>> planner_plugin_loader;
+  typedef pluginlib::ClassLoader<planning_interface::PlannerManager> PlannerManagerLoader;
+  std::unique_ptr<PlannerManagerLoader> planner_plugin_loader;
   planning_interface::PlannerManagerPtr planner_instance;
   std::string planner_plugin_name;
 
   // We will get the name of planning plugin we want to load
   // from the ROS parameter server, and then load the planner
   // making sure to catch all exceptions.
-  if (!node_handle.getParam("planning_plugin", planner_plugin_name))
-    ROS_FATAL_STREAM("Could not find planner plugin name");
+  if (!motion_planning_node->get_parameter("planning_plugin", planner_plugin_name))
+    RCLCPP_FATAL_STREAM(LOGGER, "Could not find planner plugin name");
   try
   {
-    planner_plugin_loader.reset(new pluginlib::ClassLoader<planning_interface::PlannerManager>(
-        "moveit_core", "planning_interface::PlannerManager"));
+    planner_plugin_loader = std::make_unique<PlannerManagerLoader>("moveit_core", "planning_interface::PlannerManager");
   }
   catch (pluginlib::PluginlibException& ex)
   {
-    ROS_FATAL_STREAM("Exception while creating planning plugin loader " << ex.what());
+    RCLCPP_FATAL_STREAM(LOGGER, "Exception while creating planning plugin loader " << ex.what());
   }
   try
   {
     planner_instance.reset(planner_plugin_loader->createUnmanagedInstance(planner_plugin_name));
-    if (!planner_instance->initialize(robot_model, node_handle.getNamespace()))
-      ROS_FATAL_STREAM("Could not initialize planner instance");
-    ROS_INFO_STREAM("Using planning interface '" << planner_instance->getDescription() << "'");
+    if (!planner_instance->initialize(robot_model, motion_planning_node, motion_planning_node->get_namespace()))
+    {
+      RCLCPP_FATAL_STREAM(LOGGER, "Could not initialize planner instance");
+    }
+    RCLCPP_INFO_STREAM(LOGGER, "Using planning interface '" << planner_instance->getDescription() << "'");
   }
   catch (pluginlib::PluginlibException& ex)
   {
     const std::vector<std::string>& classes = planner_plugin_loader->getDeclaredClasses();
     std::stringstream ss;
     for (const auto& cls : classes)
+    {
       ss << cls << " ";
-    ROS_ERROR_STREAM("Exception while loading planner '" << planner_plugin_name << "': " << ex.what() << std::endl
-                                                         << "Available plugins: " << ss.str());
+    }
+    RCLCPP_ERROR_STREAM(LOGGER, "Exception while loading planner '" << planner_plugin_name << "': " << ex.what()
+                                                                    << std::endl
+                                                                    << "Available plugins: " << ss.str());
   }
 
   // Visualization
@@ -126,15 +144,10 @@ int main(int argc, char** argv)
   // The package MoveItVisualTools provides many capabilities for visualizing objects, robots,
   // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script.
   namespace rvt = rviz_visual_tools;
-  moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0");
+  moveit_visual_tools::MoveItVisualTools visual_tools(motion_planning_node, "panda_link0");
   visual_tools.loadRobotStatePub("/display_robot_state");
   visual_tools.enableBatchPublishing();
   visual_tools.deleteAllMarkers();  // clear all old markers
-  visual_tools.trigger();
-
-  /* Remote control is an introspection tool that allows users to step through a high level script
-     via buttons and keyboard shortcuts in RViz */
-  visual_tools.loadRemoteControl();
 
   /* RViz provides many types of markers, in this demo we will use text, cylinders, and spheres*/
   Eigen::Isometry3d text_pose = Eigen::Isometry3d::Identity();
@@ -144,8 +157,7 @@ int main(int argc, char** argv)
   /* Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations */
   visual_tools.trigger();
 
-  /* We can also use visual_tools to wait for user input */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
+  prompt("Press 'Enter' to start the demo");
 
   // Pose Goal
   // ^^^^^^^^^
@@ -155,7 +167,7 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   planning_interface::MotionPlanRequest req;
   planning_interface::MotionPlanResponse res;
-  geometry_msgs::PoseStamped pose;
+  geometry_msgs::msg::PoseStamped pose;
   pose.header.frame_id = "panda_link0";
   pose.pose.position.x = 0.3;
   pose.pose.position.y = 0.4;
@@ -174,7 +186,7 @@ int main(int argc, char** argv)
   //
   // .. _kinematic_constraints:
   //     http://docs.ros.org/noetic/api/moveit_core/html/cpp/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
-  moveit_msgs::Constraints pose_goal =
+  moveit_msgs::msg::Constraints pose_goal =
       kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
 
   req.group_name = PLANNING_GROUP;
@@ -188,25 +200,25 @@ int main(int argc, char** argv)
   context->solve(res);
   if (res.error_code_.val != res.error_code_.SUCCESS)
   {
-    ROS_ERROR("Could not compute plan successfully");
+    RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
     return 0;
   }
 
   // Visualize the result
   // ^^^^^^^^^^^^^^^^^^^^
-  ros::Publisher display_publisher =
-      node_handle.advertise<moveit_msgs::DisplayTrajectory>("/display_planned_path", 1, true);
-  moveit_msgs::DisplayTrajectory display_trajectory;
+  auto display_publisher =
+      motion_planning_node->create_publisher<moveit_msgs::msg::DisplayTrajectory>("/display_planned_path", 1);
+  moveit_msgs::msg::DisplayTrajectory display_trajectory;
 
   /* Visualize the trajectory */
-  moveit_msgs::MotionPlanResponse response;
+  moveit_msgs::msg::MotionPlanResponse response;
   res.getMessage(response);
 
   display_trajectory.trajectory_start = response.trajectory_start;
   display_trajectory.trajectory.push_back(response.trajectory);
   visual_tools.publishTrajectoryLine(display_trajectory.trajectory.back(), joint_model_group);
   visual_tools.trigger();
-  display_publisher.publish(display_trajectory);
+  display_publisher->publish(display_trajectory);
 
   /* Set the state in the planning scene to the final state of the last plan */
   robot_state->setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
@@ -219,7 +231,7 @@ int main(int argc, char** argv)
   visual_tools.trigger();
 
   /* We can also use visual_tools to wait for user input */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+  prompt("Press 'Enter' to continue the demo");
 
   // Joint Space Goals
   // ^^^^^^^^^^^^^^^^^
@@ -227,7 +239,8 @@ int main(int argc, char** argv)
   moveit::core::RobotState goal_state(robot_model);
   std::vector<double> joint_values = { -1.0, 0.7, 0.7, -1.5, -0.7, 2.0, 0.0 };
   goal_state.setJointGroupPositions(joint_model_group, joint_values);
-  moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(goal_state, joint_model_group);
+  moveit_msgs::msg::Constraints joint_goal =
+      kinematic_constraints::constructGoalConstraints(goal_state, joint_model_group);
   req.goal_constraints.clear();
   req.goal_constraints.push_back(joint_goal);
 
@@ -239,7 +252,7 @@ int main(int argc, char** argv)
   /* Check that the planning was successful */
   if (res.error_code_.val != res.error_code_.SUCCESS)
   {
-    ROS_ERROR("Could not compute plan successfully");
+    RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
     return 0;
   }
   /* Visualize the trajectory */
@@ -249,7 +262,7 @@ int main(int argc, char** argv)
   /* Now you should see two planned trajectories in series*/
   visual_tools.publishTrajectoryLine(display_trajectory.trajectory.back(), joint_model_group);
   visual_tools.trigger();
-  display_publisher.publish(display_trajectory);
+  display_publisher->publish(display_trajectory);
 
   /* We will add more goals. But first, set the state in the planning
      scene to the final state of the last plan */
@@ -263,7 +276,7 @@ int main(int argc, char** argv)
   visual_tools.trigger();
 
   /* Wait for user input */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+  prompt("Press 'Enter' to continue the demo");
 
   /* Now, we go back to the first goal to prepare for orientation constrained planning */
   req.goal_constraints.clear();
@@ -275,7 +288,7 @@ int main(int argc, char** argv)
   display_trajectory.trajectory.push_back(response.trajectory);
   visual_tools.publishTrajectoryLine(display_trajectory.trajectory.back(), joint_model_group);
   visual_tools.trigger();
-  display_publisher.publish(display_trajectory);
+  display_publisher->publish(display_trajectory);
 
   /* Set the state in the planning scene to the final state of the last plan */
   robot_state->setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
@@ -286,7 +299,7 @@ int main(int argc, char** argv)
   visual_tools.trigger();
 
   /* Wait for user input */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+  prompt("Press 'Enter' to continue the demo");
 
   // Adding Path Constraints
   // ^^^^^^^^^^^^^^^^^^^^^^^
@@ -297,7 +310,7 @@ int main(int argc, char** argv)
   pose.pose.position.y = -0.25;
   pose.pose.position.z = 0.65;
   pose.pose.orientation.w = 1.0;
-  moveit_msgs::Constraints pose_goal_2 =
+  moveit_msgs::msg::Constraints pose_goal_2 =
       kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
 
   /* Now, let's try to move to this new pose goal*/
@@ -306,7 +319,7 @@ int main(int argc, char** argv)
 
   /* But, let's impose a path constraint on the motion.
      Here, we are asking for the end-effector to stay level*/
-  geometry_msgs::QuaternionStamped quaternion;
+  geometry_msgs::msg::QuaternionStamped quaternion;
   quaternion.header.frame_id = "panda_link0";
   quaternion.quaternion.w = 1.0;
   req.path_constraints = kinematic_constraints::constructGoalConstraints("panda_link8", quaternion);
@@ -331,7 +344,7 @@ int main(int argc, char** argv)
   display_trajectory.trajectory.push_back(response.trajectory);
   visual_tools.publishTrajectoryLine(display_trajectory.trajectory.back(), joint_model_group);
   visual_tools.trigger();
-  display_publisher.publish(display_trajectory);
+  display_publisher->publish(display_trajectory);
 
   /* Set the state in the planning scene to the final state of the last plan */
   robot_state->setJointGroupPositions(joint_model_group, response.trajectory.joint_trajectory.points.back().positions);
@@ -344,9 +357,9 @@ int main(int argc, char** argv)
   visual_tools.trigger();
 
   // END_TUTORIAL
-  /* Wait for user input */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to exit the demo");
+  prompt("Press 'Enter' to exit the demo");
   planner_instance.reset();
 
+  rclcpp::shutdown();
   return 0;
 }
