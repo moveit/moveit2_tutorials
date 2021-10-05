@@ -18,18 +18,20 @@ Once you have ROS 2 installed, make sure you have the most up to date packages: 
   sudo apt update
   sudo apt dist-upgrade
 
-Install `Colcon <https://docs.ros.org/en/foxy/Tutorials/Colcon-Tutorial.html#install-colcon>`_ the ROS 2 build system: ::
+Install `Colcon <https://docs.ros.org/en/foxy/Tutorials/Colcon-Tutorial.html#install-colcon>`_ the ROS 2 build system with `mixin <https://github.com/colcon/colcon-mixin-repository>`_: ::
 
   sudo apt install python3-colcon-common-extensions
+  sudo apt install python3-colcon-mixin
+  colcon mixin add default https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
+  colcon mixin update default
 
 Install `vcstool <https://index.ros.org/d/python3-vcstool/>`_ : ::
 
   sudo apt install python3-vcstool
 
-Create A Colcon Workspace and Download MoveIt 2 Source
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-These tutorials rely on the ROS 2 project MoveIt 2, which can be built from source or installed from binaries. Please make sure you install or build MoveIt 2 for your distribution of choice by following the instructions from `the official MoveIt website <https://moveit.ros.org/install-moveit2/source/>`_.
-For tutorials you will need to have a `colcon <https://docs.ros.org/en/foxy/Tutorials/Colcon-Tutorial.html#install-colcon>`_ workspace setup. If you already have a colcon workspace by building MoveIt 2 from source skip the following, else create a workspace: ::
+Create A Colcon Workspace and Download Tutorials
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+For tutorials you will need to have a `colcon <https://docs.ros.org/en/foxy/Tutorials/Colcon-Tutorial.html#install-colcon>`_ workspace setup. ::
 
   mkdir -p ~/ws_moveit2/src
 
@@ -38,19 +40,19 @@ Download MoveIt 2 Tutorials Source
 Move into your colcon workspace and pull the MoveIt 2 tutorials source: ::
 
   cd ~/ws_moveit2/src
-  git clone https://github.com/ros-planning/moveit2_tutorials.git
+  git clone https://github.com/ros-planning/moveit2_tutorials.git -b foxy
   vcs import < moveit2_tutorials/moveit2_tutorials.repos
 
 Build your Colcon Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The following will install from Debian any package dependencies not already in your workspace: ::
+The following will install from Debian any package dependencies not already in your workspace. This is the step that will install MoveIt and all of its dependencies: ::
 
   rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
 
 The next command will configure your colcon workspace: ::
 
   cd ~/ws_moveit2
-  colcon build --event-handlers desktop_notification- status- --cmake-args -DCMAKE_BUILD_TYPE=Release
+  colcon build --mixin release
 
 Source the colcon workspace: ::
 
