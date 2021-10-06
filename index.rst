@@ -1,8 +1,6 @@
 MoveIt 2 Tutorials
 ===================
 
-.. note:: Many of the tutorials still need to be ported to MoveIt 2. See the `Readme <https://github.com/ros-planning/moveit2_tutorials#getting-started>`_ for more details.
-
 These tutorials will quickly get you, and your robot, using the MoveIt 2 Motion Planning Framework.
 
 .. image:: doc/quickstart_in_rviz/rviz_plugin_head.png
