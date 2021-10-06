@@ -43,7 +43,7 @@
 #include <moveit_msgs/msg/attached_collision_object.hpp>
 #include <moveit_msgs/msg/collision_object.hpp>
 
-#include <moveit_visual_tools/moveit_visual_tools.h> 
+#include <moveit_visual_tools/moveit_visual_tools.h>
 
 #include <moveit/macros/console_colors.h>
 void prompt(const std::string& message)
@@ -97,7 +97,8 @@ int main(int argc, char** argv)
   // Visualization
   // ^^^^^^^^^^^^^
   namespace rvt = rviz_visual_tools;
-  moveit_visual_tools::MoveItVisualTools visual_tools(move_group_node, "panda_link0", "move_group_tutorial", move_group.getRobotModel());
+  moveit_visual_tools::MoveItVisualTools visual_tools(move_group_node, "panda_link0", "move_group_tutorial",
+                                                      move_group.getRobotModel());
 
   visual_tools.deleteAllMarkers();
 
