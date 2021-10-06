@@ -98,7 +98,6 @@ int main(int argc, char** argv)
   // ^^^^^^^^^^^^^
   namespace rvt = rviz_visual_tools;
   moveit_visual_tools::MoveItVisualTools visual_tools(move_group_node, "panda_link0", "move_group_tutorial", move_group.getRobotModel());
-  // moveit_visual_tools::MoveItVisualTools visual_tools(move_group_node, "panda_link0", "move_group_tutorial");
 
   visual_tools.deleteAllMarkers();
 
