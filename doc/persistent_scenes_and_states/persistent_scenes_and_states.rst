@@ -1,4 +1,4 @@
-Persistent Planning Scenes and Robot States
+Warehouse - Persistent Scenes and States
 ===========================================
 
 The "MotionPlanning" plugin of RViz offers the possibility to save
@@ -6,8 +6,8 @@ complete planning scenes and robot states persistently.
 Currently, two storage plugins (based on
 `warehouse_ros <https://github.com/ros-planning/warehouse_ros>`_) are available:
 
-* `warehouse_ros_mongo <https://github.com/ros-planning/warehouse_ros_mongo>`_, which uses MongoDB as backend (default)
-* `warehouse_ros_sqlite <https://github.com/gleichdick/warehouse_ros_sqlite>`_, which uses SQLite as backend
+* `warehouse_ros_mongo <https://github.com/ros-planning/warehouse_ros_mongo>`_, which uses MongoDB as backend
+* `warehouse_ros_sqlite <https://github.com/ros-planning/warehouse_ros_sqlite>`_, which uses SQLite as backend
 
 You can install both of them with your favourite package manager
 (e.g. ``apt-get install ros-foxy-warehouse-ros-mongo``) or
@@ -17,18 +17,17 @@ You can install both of them with your favourite package manager
 Storage plugin selection
 ------------------------
 
+The warehouse plugin and settings have to be specified in the launch files of your MoveIt configuration.
+You should adapt ``move_group.launch.py`` if you do not wish to use the MongoDB plugin.
 The storage plugin is determined by the parameter ``warehouse_plugin``.
 Valid options are ``warehouse_ros_mongo::MongoDatabaseConnection`` for MongoDB and
 ``warehouse_ros_sqlite::DatabaseConnection`` for SQLite.
 Furthermore, the parameters ``warehouse_host`` and ``warehouse_port`` configure the connection details.
-In case of the SQLite plugin, ``warehouse_host`` contains the path of the database file,
+In case of the SQLite plugin, ``warehouse_host`` contains the path to the database file,
 and ``warehouse_port`` is unused.
-They have to be set in the launch file (e. g. ``move_group.launch.py``) as followed:
+If the database file does not exist yet, an empty database will be created.
 
 .. tutorial-formatter:: ./move_group.launch.py
-
-You can find the launch file :codedir:`here in the tutorials GitHub repository <persistent_scenes_and_states/move_group.launch.py>`
-or (unmodified) in your workspace at ``install/moveit2_tutorials/share/moveit2_tutorials/launch/demo.launch.py``.
 
 Connecting to the storage backend
 ---------------------------------

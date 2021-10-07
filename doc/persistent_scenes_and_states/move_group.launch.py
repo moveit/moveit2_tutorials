@@ -186,7 +186,7 @@ def generate_launch_description():
     for controller in [
         "panda_arm_controller",
         "panda_hand_controller",
-        "joint_state_controller",
+        "joint_state_broadcaster",
     ]:
         load_controllers += [
             ExecuteProcess(
@@ -198,15 +198,15 @@ def generate_launch_description():
 
     # Warehouse mongodb server
     ## BEGIN_SUB_TUTORIAL start_mongodb_server
-    ## * start the MongoDB server (if necessary)
-    mongodb_server_node = Node(
-        package="warehouse_ros_mongo",
-        executable="mongo_wrapper_ros.py",
-        parameters=[
-            warehouse_ros_config,
-        ],
-        output="screen",
-    )
+    ## * Optionally, start the MongoDB server (uncomment if necessary)
+    # mongodb_server_node = Node(
+    #    package="warehouse_ros_mongo",
+    #    executable="mongo_wrapper_ros.py",
+    #    parameters=[
+    #        warehouse_ros_config,
+    #    ],
+    #    output="screen",
+    # )
     ## END_SUB_TUTORIAL
 
     return LaunchDescription(
