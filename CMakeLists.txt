@@ -16,7 +16,7 @@ find_package(moveit_ros_perception REQUIRED)
 find_package(moveit_servo REQUIRED)
 find_package(interactive_markers REQUIRED)
 find_package(rviz_visual_tools REQUIRED)
-#find_package(moveit_visual_tools REQUIRED)
+find_package(moveit_visual_tools REQUIRED)
 find_package(geometric_shapes REQUIRED)
 #find_package(pcl_ros REQUIRED)
 #find_package(pcl_conversions REQUIRED)
@@ -40,7 +40,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   tf2_ros
   moveit_core
   rviz_visual_tools
-  # moveit_visual_tools
+  moveit_visual_tools
   moveit_ros_planning_interface
   interactive_markers
   tf2_geometry_msgs
