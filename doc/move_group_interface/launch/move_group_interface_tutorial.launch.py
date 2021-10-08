@@ -50,7 +50,6 @@ def generate_launch_description():
         name="move_group_interface_tutorial",
         package="moveit2_tutorials",
         executable="move_group_interface_tutorial",
-        prefix="xterm -e",
         output="screen",
         parameters=[robot_description, robot_description_semantic, kinematics_yaml],
     )
