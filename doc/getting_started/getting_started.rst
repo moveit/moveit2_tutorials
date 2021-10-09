@@ -8,9 +8,9 @@ Install ROS 2 and Colcon
 `Install ROS 2 Foxy <https://docs.ros.org/en/foxy/Installation.html>`_.
 It is easy to miss steps when going through the ROS 2 installation tutorial. If you run into errors in the next few steps, a good place to start is to go back and make sure you have installed ROS 2 correctly.
 
-Install `rosdep2 <http://wiki.ros.org/rosdep>`_ to install system dependencies : ::
+Install `rosdep <http://wiki.ros.org/rosdep>`_ to install system dependencies : ::
 
-  sudo apt install python3-rosdep2
+  sudo apt install python3-rosdep
 
 Once you have ROS 2 installed, make sure you have the most up to date packages: ::
 
