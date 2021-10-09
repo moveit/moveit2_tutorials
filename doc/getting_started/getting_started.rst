@@ -12,9 +12,9 @@ It is easy to miss steps when going through the ROS 2 installation tutorial. If 
 
 .. note:: Unlike ROS 1 setup scripts, in ROS 2 the setup scripts do not attempt to switch what version of ROS you are using.  This means that if you have previously sourced a different version of ROS, including from within your ``.bashrc`` file, you will run into errors during the building step.  To fix this change what is sourced in your ``.bashrc`` and start a new terminal.
 
-Install `rosdep2 <http://wiki.ros.org/rosdep>`_ to install system dependencies : ::
+Install `rosdep <http://wiki.ros.org/rosdep>`_ to install system dependencies : ::
 
-  sudo apt install python3-rosdep2
+  sudo apt install python3-rosdep
 
 Once you have ROS 2 installed, make sure you have the most up to date packages: ::
 
