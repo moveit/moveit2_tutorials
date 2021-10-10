@@ -222,7 +222,3 @@ RViz enables you to save your configuration under ``File->Save Config``. You sho
 Next Tutorials
 ++++++++++++++
 * To easily control your robot using C++, check out the `Move Group C++ Interface <../move_group_interface/move_group_interface_tutorial.html>`_
-
-* To easily control your robot using Python, check out the `Move Group Python Interface <../move_group_python_interface/move_group_python_interface_tutorial.html>`_
-
-* To create your own ``*_moveit_config`` package, check out the `Setup Assistant <../setup_assistant/setup_assistant_tutorial.html>`_
