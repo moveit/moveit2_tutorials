@@ -24,8 +24,6 @@ The simplest way to use MoveIt through scripting is using the ``move_group_inter
    :maxdepth: 1
 
    doc/move_group_interface/move_group_interface_tutorial
-   doc/move_group_python_interface/move_group_python_interface_tutorial
-   doc/moveit_commander_scripting/moveit_commander_scripting_tutorial
 
 Using MoveIt Directly Through the C++ API
 ------------------------------------------
@@ -38,19 +36,7 @@ Building more complex applications with MoveIt often requires developers to dig 
    doc/planning_scene/planning_scene_tutorial
    doc/planning_scene_monitor/planning_scene_monitor_tutorial
    doc/planning_scene_ros_api/planning_scene_ros_api_tutorial
-   doc/motion_planning_api/motion_planning_api_tutorial
-   doc/motion_planning_pipeline/motion_planning_pipeline_tutorial
-   doc/creating_moveit_plugins/plugin_tutorial
-   doc/visualizing_collisions/visualizing_collisions_tutorial
-   doc/time_parameterization/time_parameterization_tutorial
-   doc/planning_with_approximated_constraint_manifolds/planning_with_approximated_constraint_manifolds_tutorial
-   doc/pick_place/pick_place_tutorial
-   doc/moveit_grasps/moveit_grasps_tutorial
-   doc/moveit_task_constructor/moveit_task_constructor_tutorial
-   doc/moveit_deep_grasps/moveit_deep_grasps_tutorial
-   doc/subframes/subframes_tutorial
    doc/moveit_cpp/moveitcpp_tutorial
-   doc/bullet_collision_checker/bullet_collision_checker
    doc/mobile_base_arm/mobile_base_arm_tutorial
 
 Integration with a New Robot
@@ -60,27 +46,7 @@ Before attempting to integrate a new robot with MoveIt, check whether your robot
 .. toctree::
    :maxdepth: 1
 
-   doc/setup_assistant/setup_assistant_tutorial
    doc/urdf_srdf/urdf_srdf_tutorial
-   doc/controller_configuration/controller_configuration_tutorial
-   doc/perception_pipeline/perception_pipeline_tutorial
-   doc/hand_eye_calibration/hand_eye_calibration_tutorial
-   doc/ikfast/ikfast_tutorial
-   doc/trac_ik/trac_ik_tutorial
-
-Configuration
--------------
-.. toctree::
-   :maxdepth: 1
-
-   doc/kinematics_configuration/kinematics_configuration_tutorial
-   doc/custom_constraint_samplers/custom_constraint_samplers_tutorial
-   doc/ompl_interface/ompl_interface_tutorial
-   doc/chomp_planner/chomp_planner_tutorial
-   doc/stomp_planner/stomp_planner_tutorial
-   doc/trajopt_planner/trajopt_planner_tutorial
-   doc/pilz_industrial_motion_planner/pilz_industrial_motion_planner
-   doc/planning_adapters/planning_adapters_tutorial.rst
 
 Miscellaneous
 ----------------------------
@@ -89,8 +55,6 @@ Miscellaneous
    :maxdepth: 1
 
    doc/realtime_servo/realtime_servo_tutorial
-   doc/benchmarking/benchmarking_tutorial
-   doc/tests/tests_tutorial
 
 Attribution
 -----------

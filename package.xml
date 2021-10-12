@@ -25,10 +25,7 @@
   <depend>moveit_ros_planning_interface</depend>
   <depend>moveit_servo</depend>
   <depend>moveit_visual_tools</depend>
-  <!-- <depend>pcl_conversions</depend> -->
-  <!-- <depend>pcl_ros</depend> -->
   <depend>pluginlib</depend>
-  <!-- <depend>rosbag</depend> -->
   <depend>rviz_visual_tools</depend>
   <depend>tf2_eigen</depend>
   <depend>tf2_geometry_msgs</depend>
@@ -39,8 +36,6 @@
   <build_depend>moveit_common</build_depend>
   <build_depend>moveit_ros_planning</build_depend>
 
-  <!-- <exec_depend>franka_description</exec_depend> -->
-  <!-- <exec_depend>moveit_commander</exec_depend> -->
   <exec_depend>controller_manager</exec_depend>
   <exec_depend>gripper_controllers</exec_depend>
   <exec_depend>joint_state_broadcaster</exec_depend>
