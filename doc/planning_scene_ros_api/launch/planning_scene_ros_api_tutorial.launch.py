@@ -12,7 +12,6 @@ def generate_launch_description():
         name="planning_scene_ros_api_tutorial",
         package="moveit2_tutorials",
         executable="planning_scene_ros_api_tutorial",
-        prefix="xterm -e",
         output="screen",
     )
 
