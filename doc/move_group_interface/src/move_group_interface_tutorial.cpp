@@ -104,7 +104,7 @@ int main(int argc, char** argv)
 
   /* Remote control is an introspection tool that allows users to step through a high level script */
   /* via buttons and keyboard shortcuts in RViz */
-  visual_tools.loadRemoteControl();
+  visual_tools.getRemoteControl();
 
   // RViz provides many types of markers, in this demo we will use text, cylinders, and spheres
   Eigen::Isometry3d text_pose = Eigen::Isometry3d::Identity();
