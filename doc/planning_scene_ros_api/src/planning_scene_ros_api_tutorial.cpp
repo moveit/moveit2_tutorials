@@ -79,6 +79,7 @@ int main(int argc, char** argv)
   // The package MoveItVisualTools provides many capabilities for visualizing objects, robots,
   // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script.
   rviz_visual_tools::RvizVisualTools visual_tools("panda_link0", "planning_scene_ros_api_tutorial", node);
+  visual_tools.loadRemoteControl();
   visual_tools.deleteAllMarkers();
 
   // ROS API
@@ -98,8 +99,7 @@ int main(int argc, char** argv)
   {
     rclcpp::sleep_for(std::chrono::milliseconds(500));
   }
-  prompt("Press 'Enter' to continue the demo");
-  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // Define the attached object message
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -148,8 +148,7 @@ int main(int argc, char** argv)
   planning_scene.world.collision_objects.push_back(attached_object.object);
   planning_scene.is_diff = true;
   planning_scene_diff_publisher->publish(planning_scene);
-  prompt("Press 'Enter' to continue the demo");
-  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // Interlude: Synchronous vs Asynchronous updates
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -224,9 +223,7 @@ int main(int argc, char** argv)
   planning_scene.robot_state.attached_collision_objects.push_back(attached_object);
   planning_scene.robot_state.is_diff = true;
   planning_scene_diff_publisher->publish(planning_scene);
-
-  prompt("Press 'Enter' to continue the demo");
-  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // Detach an object from the robot
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -252,9 +249,7 @@ int main(int argc, char** argv)
   planning_scene.world.collision_objects.push_back(attached_object.object);
   planning_scene.is_diff = true;
   planning_scene_diff_publisher->publish(planning_scene);
-
-  prompt("Press 'Enter' to continue the demo");
-  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // Remove the object from the collision world
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -270,8 +265,7 @@ int main(int argc, char** argv)
   planning_scene_diff_publisher->publish(planning_scene);
   // END_TUTORIAL
 
-  prompt("Press 'Enter' to end the demo");
-  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to end the demo"); */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to end the demo");
 
   rclcpp::shutdown();
   return 0;
