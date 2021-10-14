@@ -6,17 +6,7 @@
 
 #include <geometry_msgs/msg/point_stamped.h>
 
-/* #include <moveit_visual_tools/moveit_visual_tools.h>  This has not been ported to ros2 yet */
-#include <rviz_visual_tools/rviz_visual_tools.hpp>
-/* this is a standin for moveit_visual_tools visual_tools.prompt */
-#include <moveit/macros/console_colors.h>
-void prompt(const std::string& message)
-{
-  printf(MOVEIT_CONSOLE_COLOR_GREEN "\n%s" MOVEIT_CONSOLE_COLOR_RESET, message.c_str());
-  fflush(stdout);
-  while (std::cin.get() != '\n' && rclcpp::ok())
-    ;
-}
+#include <moveit_visual_tools/moveit_visual_tools.h>
 
 namespace rvt = rviz_visual_tools;
 
@@ -69,11 +59,10 @@ int main(int argc, char** argv)
   //
   // The package MoveItVisualTools provides many capabilties for visualizing objects, robots,
   // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script
-  rviz_visual_tools::RvizVisualTools visual_tools("panda_link0", "moveit_cpp_tutorial", node);
-  /* moveit_visual_tools::MoveItVisualTools visual_tools("panda_link0", rvt::RVIZ_MARKER_TOPIC,
-                                                         moveit_cpp_ptr->getPlanningSceneMonitor()); */
+  moveit_visual_tools::MoveItVisualTools visual_tools(node, "panda_link0", "moveit_cpp_tutorial",
+                                                      moveit_cpp_ptr->getPlanningSceneMonitor());
   visual_tools.deleteAllMarkers();
-  /* visual_tools.loadRemoteControl(); */
+  visual_tools.loadRemoteControl();
 
   Eigen::Isometry3d text_pose = Eigen::Isometry3d::Identity();
   text_pose.translation().z() = 1.75;
@@ -82,8 +71,7 @@ int main(int argc, char** argv)
 
   // Start the demo
   // ^^^^^^^^^^^^^^^^^^^^^^^^^
-  prompt("Press 'Enter' to start the demo");
-  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo"); */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
   // Planning with MoveItCpp
   // ^^^^^^^^^^^^^^^^^^^^^^^
@@ -118,7 +106,7 @@ int main(int argc, char** argv)
     visual_tools.publishAxisLabeled(target_pose1.pose, "target_pose");
     visual_tools.publishText(text_pose, "setStartStateToCurrentState", rvt::WHITE, rvt::XLARGE);
     // Visualize the trajectory in Rviz
-    /* visual_tools.publishTrajectoryLine(plan_solution1.trajectory, joint_model_group_ptr); */
+    visual_tools.publishTrajectoryLine(plan_solution1.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
@@ -132,8 +120,7 @@ int main(int argc, char** argv)
   //    :align: center
   //
   // Start the next plan
-  prompt("Press 'Enter' to continue the demo");
-  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
   visual_tools.deleteAllMarkers();
   visual_tools.trigger();
 
@@ -163,7 +150,7 @@ int main(int argc, char** argv)
     visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
     visual_tools.publishAxisLabeled(target_pose1.pose, "target_pose");
     visual_tools.publishText(text_pose, "moveit::core::RobotState_Start_State", rvt::WHITE, rvt::XLARGE);
-    /* visual_tools.publishTrajectoryLine(plan_solution2.trajectory, joint_model_group_ptr); */
+    visual_tools.publishTrajectoryLine(plan_solution2.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
@@ -177,8 +164,7 @@ int main(int argc, char** argv)
   //    :align: center
   //
   // Start the next plan
-  prompt("Press 'Enter' to continue the demo");
-  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
   visual_tools.deleteAllMarkers();
   visual_tools.trigger();
 
@@ -208,7 +194,7 @@ int main(int argc, char** argv)
     visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
     visual_tools.publishAxisLabeled(target_pose2, "target_pose");
     visual_tools.publishText(text_pose, "moveit::core::RobotState_Goal_Pose", rvt::WHITE, rvt::XLARGE);
-    /* visual_tools.publishTrajectoryLine(plan_solution3.trajectory, joint_model_group_ptr); */
+    visual_tools.publishTrajectoryLine(plan_solution3.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
@@ -222,8 +208,7 @@ int main(int argc, char** argv)
   //    :align: center
   //
   // Start the next plan
-  prompt("Press 'Enter' to continue the demo");
-  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
   visual_tools.deleteAllMarkers();
   visual_tools.trigger();
 
@@ -251,7 +236,7 @@ int main(int argc, char** argv)
     visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
     visual_tools.publishAxisLabeled(robot_start_state->getGlobalLinkTransform("panda_link8"), "target_pose");
     visual_tools.publishText(text_pose, "Goal_Pose_From_Named_State", rvt::WHITE, rvt::XLARGE);
-    /* visual_tools.publishTrajectoryLine(plan_solution4.trajectory, joint_model_group_ptr); */
+    visual_tools.publishTrajectoryLine(plan_solution4.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
@@ -265,8 +250,7 @@ int main(int argc, char** argv)
   //    :align: center
   //
   // Start the next plan
-  prompt("Press 'Enter' to continue the demo");
-  /* visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo"); */
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
   visual_tools.deleteAllMarkers();
   visual_tools.trigger();
 
@@ -305,7 +289,7 @@ int main(int argc, char** argv)
   if (plan_solution5)
   {
     visual_tools.publishText(text_pose, "Planning_Around_Collision_Object", rvt::WHITE, rvt::XLARGE);
-    /* visual_tools.publishTrajectoryLine(plan_solution5.trajectory, joint_model_group_ptr); */
+    visual_tools.publishTrajectoryLine(plan_solution5.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
@@ -319,8 +303,7 @@ int main(int argc, char** argv)
   //    :align: center
   //
   // END_TUTORIAL
-  prompt("Press 'Enter' to exit the demo");
-  /* visual_tools.prompt("Press 'next' to end the demo"); */
+  visual_tools.prompt("Press 'next' to end the demo");
   visual_tools.deleteAllMarkers();
   visual_tools.trigger();
 
