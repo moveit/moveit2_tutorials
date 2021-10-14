@@ -45,15 +45,6 @@
 
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
-#include <moveit/macros/console_colors.h>
-void prompt(const std::string& message)
-{
-  printf(MOVEIT_CONSOLE_COLOR_GREEN "\n%s" MOVEIT_CONSOLE_COLOR_RESET, message.c_str());
-  fflush(stdout);
-  while (std::cin.get() != '\n' && rclcpp::ok())
-    ;
-}
-
 // All source files that use ROS logging should define a file-specific
 // static const rclcpp::Logger named LOGGER, located at the top of the file
 // and inside the namespace with the narrowest scope (if there is one)

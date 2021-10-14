@@ -80,7 +80,6 @@ def generate_launch_description():
     moveit_cpp_node = Node(
         name="moveit_cpp_tutorial",
         package="moveit2_tutorials",
-        prefix="xterm -e",
         executable="moveit_cpp_tutorial",
         output="screen",
         parameters=[
