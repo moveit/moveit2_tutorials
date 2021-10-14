@@ -48,18 +48,8 @@
 #include <moveit/robot_state/robot_state.h>
 #include <moveit/robot_state/conversions.h>
 
-/* #include <moveit_visual_tools/moveit_visual_tools.h>  This has not been ported to ros2 yet */
 #include <rviz_visual_tools/rviz_visual_tools.hpp>
-/* this is a standin for moveit_visual_tools prompt */
-#include <moveit/macros/console_colors.h>
 
-void prompt(const std::string& message)
-{
-  printf(MOVEIT_CONSOLE_COLOR_GREEN "\n%s" MOVEIT_CONSOLE_COLOR_RESET, message.c_str());
-  fflush(stdout);
-  while (std::cin.get() != '\n' && rclcpp::ok())
-    ;
-}
 static const rclcpp::Logger LOGGER = rclcpp::get_logger("planning_scene_ros_api_tutorial");
 
 int main(int argc, char** argv)

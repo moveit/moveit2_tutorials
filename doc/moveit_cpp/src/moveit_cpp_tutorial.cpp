@@ -7,16 +7,6 @@
 #include <geometry_msgs/msg/point_stamped.h>
 
 #include <moveit_visual_tools/moveit_visual_tools.h>
-#include <rviz_visual_tools/rviz_visual_tools.hpp>
-/* this is a standin for moveit_visual_tools visual_tools.prompt */
-#include <moveit/macros/console_colors.h>
-void prompt(const std::string& message)
-{
-  printf(MOVEIT_CONSOLE_COLOR_GREEN "\n%s" MOVEIT_CONSOLE_COLOR_RESET, message.c_str());
-  fflush(stdout);
-  while (std::cin.get() != '\n' && rclcpp::ok())
-    ;
-}
 
 namespace rvt = rviz_visual_tools;
 
@@ -313,8 +303,7 @@ int main(int argc, char** argv)
   //    :align: center
   //
   // END_TUTORIAL
-  prompt("Press 'Enter' to exit the demo");
-  /* visual_tools.prompt("Press 'next' to end the demo"); */
+  visual_tools.prompt("Press 'next' to end the demo");
   visual_tools.deleteAllMarkers();
   visual_tools.trigger();
 
