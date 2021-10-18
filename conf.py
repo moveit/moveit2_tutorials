@@ -41,10 +41,9 @@ html_context = {
     "display_github": True,
     "github_user": "ros-planning",
     "github_repo": "moveit2_tutorials",
-    "github_version": "main",
-    "moveit1_user": "ros-planning",
-    "moveit1_repo": "moveit_tutorials",
-    "moveit1_version": "master",
+    "github_version": "foxy",
+    "github_org": "ros-planning",
+    "moveit_version": "foxy",
     "conf_py_path": "",
     "source_suffix": source_suffix,
     "css_files": ["_static/override.css"],
@@ -55,7 +54,7 @@ html_context = {
 # Add any paths that contain custom themes here, relative to this directory.
 
 # Links
-ros1_distro = "noetic"
+ros1_distro = "foxy"
 extlinks = {
     "codedir": (
         "https://github.com/"
@@ -67,15 +66,26 @@ extlinks = {
     ),
     "moveit_codedir": (
         "https://github.com/"
-        + html_context["moveit1_user"]
-        + "/moveit/blob/"
-        + html_context["moveit1_version"]
+        + html_context["github_org"]
+        + "/moveit2/blob/"
+        + html_context["moveit_version"]
         + "/%s",
+        "",
+    ),
+    "moveit_msgs_codedir": (
+        "https://github.com/"
+        + html_context["github_org"]
+        + "/moveit_msgs/blob/ros2"
+        + "/%s",
+        "",
+    ),
+    "common_interfaces_codedir": (
+        "https://github.com/ros2/common_interfaces/blob/" + ros1_distro + "/%s",
         "",
     ),
     "panda_codedir": (
         "https://github.com/"
-        + html_context["moveit1_user"]
+        + html_context["github_org"]
         + "/panda_moveit_config/blob/"
         + "melodic-devel"
         + "/%s",

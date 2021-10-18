@@ -19,7 +19,7 @@ Launching a Standalone Servo Node
 ---------------------------------
 MoveIt Servo provides a component node :code:`moveit_servo::ServoServer` which allows you to send commands via ROS topics. The commands can come from anywhere, such as a joystick, keyboard, or other controller.
 
-This demo was written for an Xbox 1 controller, but can be easily modified to use any controller compatible with the `Joy package <https://index.ros.org/p/joy/#foxy>`_ by modifying the `joystick_servo_example.cpp file <https://github.com/ros-planning/moveit2/blob/main/moveit_ros/moveit_servo/src/teleop_demo/joystick_servo_example.cpp>`_
+This demo was written for an Xbox 1 controller, but can be easily modified to use any controller compatible with the `Joy package <https://index.ros.org/p/joy/#foxy>`_ by modifying the `joystick_servo_example.cpp file <https://github.com/ros-planning/moveit2/blob/foxy/moveit_ros/moveit_servo/src/teleop_demo/joystick_servo_example.cpp>`_
 
 To run the demo, make sure your controller is plugged in and can be detected by :code:`ros2 run joy joy_node`. Usually this happens automatically after plugging the controller in. Then launch with ::
 
@@ -112,7 +112,7 @@ Requirements for incoming command messages, regardless of input device are:
 Servo Configs
 ^^^^^^^^^^^^^
 
-The `demo config file <https://github.com/ros-planning/moveit2/blob/main/moveit_ros/moveit_servo/config/panda_simulated_config.yaml>`_ shows the parameters needed for MoveIt Servo and is well documented.
+The `demo config file <https://github.com/ros-planning/moveit2/blob/foxy/moveit_ros/moveit_servo/config/panda_simulated_config.yaml>`_ shows the parameters needed for MoveIt Servo and is well documented.
 
 Start with the parameters from the demo file, but some must be changed for your specific setup:
     1. :code:`robot_link_command_frame`: Update this to be a valid frame in your robot, recommended as the planning frame or EEF frame
