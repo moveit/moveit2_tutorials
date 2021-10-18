@@ -37,7 +37,6 @@ Building more complex applications with MoveIt often requires developers to dig 
    doc/planning_scene_monitor/planning_scene_monitor_tutorial
    doc/planning_scene_ros_api/planning_scene_ros_api_tutorial
    doc/moveit_cpp/moveitcpp_tutorial
-   doc/mobile_base_arm/mobile_base_arm_tutorial
 
 Integration with a New Robot
 ----------------------------
