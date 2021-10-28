@@ -41,10 +41,9 @@ html_context = {
     "display_github": True,
     "github_user": "ros-planning",
     "github_repo": "moveit2_tutorials",
-    "github_version": "main",
-    "moveit1_user": "ros-planning",
-    "moveit1_repo": "moveit_tutorials",
-    "moveit1_version": "master",
+    "github_version": "foxy",
+    "github_org": "ros-planning",
+    "moveit_version": "foxy",
     "conf_py_path": "",
     "source_suffix": source_suffix,
     "css_files": ["_static/override.css"],
@@ -55,7 +54,7 @@ html_context = {
 # Add any paths that contain custom themes here, relative to this directory.
 
 # Links
-ros1_distro = "noetic"
+ros_distro = "foxy"
 extlinks = {
     "codedir": (
         "https://github.com/"
@@ -67,86 +66,97 @@ extlinks = {
     ),
     "moveit_codedir": (
         "https://github.com/"
-        + html_context["moveit1_user"]
-        + "/moveit/blob/"
-        + html_context["moveit1_version"]
+        + html_context["github_org"]
+        + "/moveit2/blob/"
+        + html_context["moveit_version"]
         + "/%s",
+        "",
+    ),
+    "moveit_msgs_codedir": (
+        "https://github.com/"
+        + html_context["github_org"]
+        + "/moveit_msgs/blob/ros2"
+        + "/%s",
+        "",
+    ),
+    "common_interfaces_codedir": (
+        "https://github.com/ros2/common_interfaces/blob/" + ros_distro + "/%s",
         "",
     ),
     "panda_codedir": (
         "https://github.com/"
-        + html_context["moveit1_user"]
+        + html_context["github_org"]
         + "/panda_moveit_config/blob/"
         + "melodic-devel"
         + "/%s",
         "",
     ),  # TODO(dlu): use ros_distro when noetic-devel branch is available
     # NEED DOCS.ROS.ORG equivelent for foxy
-    "rosdocs": ("http://docs.ros.org/" + ros1_distro + "/api/%s", ""),
+    "rosdocs": ("http://docs.ros.org/" + ros_distro + "/api/%s", ""),
     "moveit_core": (
         "http://docs.ros.org/"
-        + ros1_distro
+        + ros_distro
         + "/api/moveit_core/html/cpp/classmoveit_1_1core_1_1%s.html",
         "",
     ),
     "planning_scene": (
         "http://docs.ros.org/"
-        + ros1_distro
+        + ros_distro
         + "/api/moveit_core/html/cpp/classplanning__scene_1_1%s.html",
         "",
     ),
     "planning_scene_monitor": (
         "http://docs.ros.org/"
-        + ros1_distro
+        + ros_distro
         + "/api/moveit_ros_planning/html/classplanning__scene__monitor_1_1%s.html",
         "",
     ),
     "collision_detection_struct": (
         "http://docs.ros.org/"
-        + ros1_distro
+        + ros_distro
         + "/api/moveit_core/html/cpp/structcollision__detection_1_1%s.html",
         "",
     ),
     "collision_detection_class": (
         "http://docs.ros.org/"
-        + ros1_distro
+        + ros_distro
         + "/api/moveit_core/html/cpp/classcollision__detection_1_1%s.html",
         "",
     ),
     "kinematic_constraints": (
         "http://docs.ros.org/"
-        + ros1_distro
+        + ros_distro
         + "/api/moveit_core/html/cpp/classkinematic__constraints_1_1%s.html",
         "",
     ),
     "moveit_core_files": (
-        "http://docs.ros.org/" + ros1_distro + "/api/moveit_core/html/cpp/%s.html",
+        "http://docs.ros.org/" + ros_distro + "/api/moveit_core/html/cpp/%s.html",
         "",
     ),
     "moveit_website": ("http://moveit.ros.org/%s/", ""),
     "locked_planning_scene": (
         "http://docs.ros.org/"
-        + ros1_distro
+        + ros_distro
         + "/api/moveit_ros_planning/html/namespaceplanning__scene__monitor.html",
         "",
     ),
     "planning_interface": (
         "http://docs.ros.org/"
-        + ros1_distro
+        + ros_distro
         + "/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1%s.html",
         "",
     ),
     "sensor_msgs": (
-        "http://docs.ros.org/" + ros1_distro + "/api/sensor_msgs/html/msg/%s.html",
+        "http://docs.ros.org/" + ros_distro + "/api/sensor_msgs/html/msg/%s.html",
         "",
     ),
     "moveit_msgs": (
-        "http://docs.ros.org/" + ros1_distro + "/api/moveit_msgs/html/msg/%s.html",
+        "http://docs.ros.org/" + ros_distro + "/api/moveit_msgs/html/msg/%s.html",
         "",
     ),
     "tf2": (
         "http://docs.ros.org/"
-        + ros1_distro
+        + ros_distro
         + "/api/tf2_ros/html/c++/classtf2__ros_1_1%s.html",
         "",
     ),
