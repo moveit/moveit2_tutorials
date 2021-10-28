@@ -10,6 +10,7 @@ gem update --system
 gem --version
 gem install html-proofer
 # Install ROS's version of sphinx
+pip install docutils==0.17.1
 pip install sphinx==1.8.5
 sphinx-build --version
 
