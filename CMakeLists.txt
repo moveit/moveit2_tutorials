@@ -52,11 +52,12 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
 include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
 
 add_subdirectory(doc/move_group_interface)
+add_subdirectory(doc/moveit_cpp)
 add_subdirectory(doc/planning_scene)
 add_subdirectory(doc/planning_scene_ros_api)
 add_subdirectory(doc/quickstart_in_rviz)
-add_subdirectory(doc/robot_model_and_robot_state)
 add_subdirectory(doc/realtime_servo)
+add_subdirectory(doc/robot_model_and_robot_state)
 
 ament_export_dependencies(
   ${THIS_PACKAGE_INCLUDE_DEPENDS}
