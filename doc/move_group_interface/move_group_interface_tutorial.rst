@@ -49,7 +49,7 @@ The entire code can be seen :codedir:`here in the MoveIt GitHub project<move_gro
 
 The Launch File
 ---------------
-The entire launch file is :codedir:`here<move_group_interface/launch/move_group_interface_tutorial.launch.py>` on GitHub. All the code in this tutorial can be run from the **moveit_tutorials** package that you have as part of your MoveIt setup.
+The entire launch file is :codedir:`here<move_group_interface/launch/move_group_interface_tutorial.launch.py>` on GitHub. All the code in this tutorial can be run from the **moveit2_tutorials** package that you have as part of your MoveIt setup.
 
 
 A Note on Setting Tolerances
