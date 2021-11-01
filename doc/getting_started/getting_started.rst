@@ -5,7 +5,7 @@ This tutorial will install MoveIt 2 and create a workspace sandbox to run the tu
 
 Install ROS 2 and Colcon
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-`Install ROS 2 Foxy <https://docs.ros.org/en/foxy/Installation.html>`_.
+`Install ROS 2 Foxy <https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html>`_.
 It is easy to miss steps when going through the ROS 2 installation tutorial. If you run into errors in the next few steps, a good place to start is to go back and make sure you have installed ROS 2 correctly.  One that users commonly forget is to source the ROS 2 install iself.  ::
 
   source /opt/ros/foxy/setup.bash
