@@ -19,18 +19,22 @@ Launching a Servo Node
 ----------------------
 MoveIt Servo can be launched as a "node component" or a standalone node. The launch file, moveit_servo/servo_example.launch.py, launches a standalone node by default but also contains a commented component node. Commands are sent via ROS topics. The commands can come from anywhere, such as a joystick, keyboard, or other controller.
 
-This demo was written for an Xbox 1 controller, but can be easily modified to use any controller compatible with the `Joy package <https://index.ros.org/p/joy/#foxy>`_ by modifying the `joystick_servo_example.cpp file <https://github.com/ros-planning/moveit2/blob/main/moveit_ros/moveit_servo/src/teleop_demo/joystick_servo_example.cpp>`_
+This demo was written for an Xbox 1 controller, but can be easily modified to use any joystick or game controller compatible with the `Joy package <https://index.ros.org/p/joy/#foxy>`_ by modifying the `joystick_servo_example.cpp file <https://github.com/ros-planning/moveit2/blob/main/moveit_ros/moveit_servo/src/teleop_demo/joystick_servo_example.cpp>`_
 
 To run the demo, make sure your controller is plugged in and can be detected by :code:`ros2 run joy joy_node`. Usually this happens automatically after plugging the controller in. Then launch with ::
 
     ros2 launch moveit_servo servo_example.launch.py
+
+Make a service request to start Servo ::
+
+    ros2 service call /servo_node/start_servo std_srvs/srv/Trigger {}
 
 You should be able to control the arm with your controller now, with MoveIt Servo automatically avoiding singularities and collisions.
 
 Without a Controller
 ^^^^^^^^^^^^^^^^^^^^
 
-If you do not have a controller, you can still try the demo using your keyboard. With the demo still running, in a new terminal, run ::
+If you do not have a joystick or game controller, you can still try the demo using your keyboard. With the demo still running, in a new terminal, run ::
 
     ros2 run moveit2_tutorials servo_keyboard_input
 
