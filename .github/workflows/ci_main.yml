@@ -10,10 +10,10 @@ on:
   workflow_dispatch:
   pull_request:
     branches:
-      - main
+      - galactic
   push:
     branches:
-      - main
+      - galactic
 
 jobs:
   default:
