@@ -62,7 +62,7 @@ size_t count_ = 0;
 
 // BEGIN_SUB_TUTORIAL publishCommands
 // Here is the timer callback for publishing commands. The C++ interface sends commands through internal ROS topics,
-// just like if Servo was launched using ServoServer.
+// just like if Servo was launched using ServoNode.
 void publishCommands()
 {
   // First we will publish 100 joint jogging commands. The :code:`joint_names` field allows you to specify individual
@@ -175,7 +175,7 @@ int main(int argc, char** argv)
   // Initialize the Servo C++ interface by passing a pointer to the node, the parameters, and the PSM
   auto servo = std::make_unique<moveit_servo::Servo>(node_, servo_parameters, planning_scene_monitor);
 
-  // You can start Servo directly using the C++ interface. If launched using the alternative ServoServer, a ROS service
+  // You can start Servo directly using the C++ interface. If launched using the alternative ServoNode, a ROS service
   // is used to start Servo. Before it is started, MoveIt Servo will not accept any commands or move the robot
   servo->start();
 

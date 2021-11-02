@@ -115,8 +115,8 @@ def generate_launch_description():
             ),
             ComposableNode(
                 package="moveit_servo",
-                plugin="moveit_servo::ServoServer",
-                name="servo_server",
+                plugin="moveit_servo::ServoNode",
+                name="servo_node",
                 parameters=[
                     servo_params,
                     robot_description,
