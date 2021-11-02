@@ -10,10 +10,10 @@ on:
   workflow_dispatch:
   pull_request:
     branches:
-      - main
+      - galactic
   push:
     branches:
-      - main
+      - galactic
 
 jobs:
   default:
@@ -21,7 +21,6 @@ jobs:
       matrix:
         env:
           - IMAGE: galactic-source
-          - IMAGE: rolling-source
 
     env:
       DOCKER_IMAGE: moveit/moveit2:${{ matrix.env.IMAGE }}
