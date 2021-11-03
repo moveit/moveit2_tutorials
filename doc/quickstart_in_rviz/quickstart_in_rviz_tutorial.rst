@@ -78,13 +78,13 @@ There are four different overlapping visualizations:
 
 The display states for each of these visualizations can be toggled on and off using checkboxes:
 
-#. The planning scene robot using the **Show Robot Visual** checkbox in the **Scene Robot** tab.
+#. The planning scene robot using the **Show Robot Visual** checkbox in the **Scene Robot** tree menu.
 
-#. The planned path using the **Show Robot Visual** checkbox in the **Planned Path** tab.
+#. The planned path using the **Show Robot Visual** checkbox in the **Planned Path** tree menu.
 
-#. The start state using the **Query Start State** checkbox in the **Planning Request** tab.
+#. The start state using the **Query Start State** checkbox in the **Planning Request** tree menu.
 
-#. The goal state using the **Query Goal State** checkbox in the **Planning Request** tab.
+#. The goal state using the **Query Goal State** checkbox in the **Planning Request** tree menu.
 
 * Play with all these checkboxes to switch on and off different visualizations.
 
@@ -96,13 +96,13 @@ Step 3: Interact with the Panda
 
 For the next steps we will want only the scene robot, start state and goal state:
 
-#. Check the **Show Robot Visual** checkbox in the **Planned Path** tab
+#. Check the **Show Robot Visual** checkbox in the **Planned Path** tree menu
 
-#. Un-check the **Show Robot Visual** checkbox in the **Scene Robot** tab
+#. Un-check the **Show Robot Visual** checkbox in the **Scene Robot** tree menu
 
-#. Check the **Query Goal State** checkbox in the **Planning Request** tab.
+#. Check the **Query Goal State** checkbox in the **Planning Request** tree menu.
 
-#. Check the **Query Start State** checkbox in the **Planning Request** tab.
+#. Check the **Query Start State** checkbox in the **Planning Request** tree menu.
 
 There should now be two interactive markers. One marker corresponding to the orange colored arm will be used to set the "Goal State" for motion planning and the other marker corresponding to a green colored arm are used to set the "Start State" for motion planning. If you don't see the interactive markers press **Interact** in the top menu of RViz (Note: some tools may be hidden, press **"+"** in the top menu to add the **Interact** tool as shown below).
 
