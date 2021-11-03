@@ -2,7 +2,7 @@
 
 **NOTE: This repository is a new fork from the [MoveIt 1 tutorials](https://ros-planning.github.io/moveit_tutorials/) and needs your help with porting old tutorials to ROS 2.** To claim a tutorial to support the port of, see the Issues list. Thanks!
 
-[See the live MoveIt2 tutorials here](http://moveit2_tutorials.picknik.ai/)
+[See the live MoveIt 2 tutorials here](http://moveit2_tutorials.picknik.ai/)
 
 This is the primary documentation for the MoveIt project. We strongly encourage you to help improve MoveIt's documentation. Please consider reading the guidelines below for writing the best documentation and tutorials. However, if you are uncomfortable with any of the approaches, simply adding documentation text to your pull requests is better than nothing.
 
@@ -33,7 +33,7 @@ Below are some links to help with the ports.
 
 - ``main`` latest, changes should target this branch
 
-## MoveIt2 Tutorials Source Build
+## MoveIt 2 Tutorials Source Build
 
 Follow the [MoveIt 2 Source Build](https://moveit.ros.org/install-moveit2/source/) instructions to setup a colcon workspace with moveit2 from source.
 
