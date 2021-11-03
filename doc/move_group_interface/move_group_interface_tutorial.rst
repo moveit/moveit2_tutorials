@@ -54,6 +54,6 @@ The entire launch file is :codedir:`here<move_group_interface/launch/move_group_
 
 A Note on Setting Tolerances
 ----------------------------
-Note that the `MoveGroupInterface's <http://docs.ros.org/noetic/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1MoveGroupInterface.html>`_ `setGoalTolerance()` and related methods sets the tolerance for **planning**, not execution.
+Note that the `MoveGroupInterface's <https://github.com/ros-planning/moveit2/blob/ed844d4b46f70ed6e97d0c1f971ab2b9a45f156d/moveit_ros/planning_interface/move_group_interface/include/moveit/move_group_interface/move_group_interface.h#L293>`_ `setGoalTolerance()` and related methods sets the tolerance for **planning**, not execution.
 
 If you want to configure the execution tolerances, you will have to edit the `controller.yaml` file if using a FollowJointTrajectory controller, or manually add it into the generated trajectory message from the planner.
