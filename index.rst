@@ -16,7 +16,7 @@ Getting Started with MoveIt and RViz
    doc/getting_started/getting_started
    doc/quickstart_in_rviz/quickstart_in_rviz_tutorial
 
-MoveGroup - ROS Wrappers in C++ and Python
+MoveGroup - ROS Wrappers in C++
 ------------------------------------------
 The simplest way to use MoveIt through scripting is using the ``move_group_interface``. This interface is ideal for beginners and provides unified access to many of the features of MoveIt.
 
@@ -40,12 +40,14 @@ Building more complex applications with MoveIt often requires developers to dig 
 
 Integration with a New Robot
 ----------------------------
-Before attempting to integrate a new robot with MoveIt, check whether your robot has already been setup (see the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt (and share your results on the MoveIt mailing list)
+Before attempting to integrate a new robot with MoveIt 2, check whether your robot has already been setup (see the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt (and share your results on the MoveIt mailing list)
 
 .. toctree::
    :maxdepth: 1
 
    doc/urdf_srdf/urdf_srdf_tutorial
+
+**Note:** The list of the robots above are for MoveIt, a list is on the works for MoveIt 2.
 
 Miscellaneous
 ----------------------------
