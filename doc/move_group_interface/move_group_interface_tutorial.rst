@@ -56,4 +56,4 @@ A Note on Setting Tolerances
 ----------------------------
 Note that the `MoveGroupInterface's <https://github.com/ros-planning/moveit2/blob/ed844d4b46f70ed6e97d0c1f971ab2b9a45f156d/moveit_ros/planning_interface/move_group_interface/include/moveit/move_group_interface/move_group_interface.h#L293>`_ `setGoalTolerance()` and related methods sets the tolerance for **planning**, not execution.
 
-If you want to configure the execution tolerances, you will have to edit the `controller.yaml` file if using a FollowJointTrajectory controller, or manually add it into the generated trajectory message from the planner.
+If you want to configure the execution tolerances, you will have to edit the controller.yaml file.
