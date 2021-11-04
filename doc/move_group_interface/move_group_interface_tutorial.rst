@@ -14,7 +14,7 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 
 Running the Code
 ----------------
-Open two shells. In the first shell start RViz and wait for everything to finish loading: ::
+Open two shells. In the first shell, start RViz and wait for everything to finish loading: ::
 
   ros2 launch moveit2_tutorials move_group.launch.py
 
@@ -31,19 +31,21 @@ See the `YouTube video <https://youtu.be/_5siHkFQPBQ>`_ at the top of this tutor
  2. The robot moves its arm to the joint goal at its side.
  3. The robot moves its arm back to a new pose goal while maintaining the end-effector level.
  4. The robot moves its arm along the desired Cartesian path (a triangle down, right, up+left).
- 5. A box object is added into the environment to the right of the arm.
+ 5. The robot moves its arm to a simple goal with no objects in the way.
+ 6. A box object is added into the environment to the right of the arm.
     |B|
 
- 6. The robot moves its arm to the pose goal, avoiding collision with the box.
- 7. The object is attached to the wrist (its color will change to purple/orange/green).
- 8. The object is detached from the wrist (its color will change back to green).
- 9. The object is removed from the environment.
+ 7. The robot moves its arm to the pose goal, avoiding collision with the box.
+ 8. The object is attached to the wrist (its color will change to purple/orange/green).
+ 9. The robot moves its arm with the attached object to the pose goal, avoiding collision with the box.
+ 10. The object is detached from the wrist (its color will change back to green).
+ 11. The object is removed from the environment.
 
 .. |B| image:: ./move_group_interface_tutorial_robot_with_box.png
 
 The Entire Code
 ---------------
-The entire code can be seen :codedir:`here in the MoveIt GitHub project<move_group_interface/src/move_group_interface_tutorial.cpp>`. Next we step through the code piece by piece to explain its functionality.
+The entire code can be seen :codedir:`here in the MoveIt GitHub project<move_group_interface/src/move_group_interface_tutorial.cpp>`. Next, we step through the code piece by piece to explain its functionality.
 
 .. tutorial-formatter:: ./src/move_group_interface_tutorial.cpp
 
