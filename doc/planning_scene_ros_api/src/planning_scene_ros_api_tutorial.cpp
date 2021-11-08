@@ -161,7 +161,7 @@ int main(int argc, char** argv)
   auto request = std::make_shared<moveit_msgs::srv::ApplyPlanningScene::Request>();
   request->scene = planning_scene;
   std::shared_future<std::shared_ptr<moveit_msgs::srv::ApplyPlanningScene_Response>> response_future;
-  response_future = planning_scene_diff_client->async_send_request(request).future.share();
+  response_future = planning_scene_diff_client->async_send_request(request);
 
   // wait for the service to respond
   std::chrono::seconds wait_time(1);
