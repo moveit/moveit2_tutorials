@@ -1,17 +1,17 @@
 #!/bin/sh
 
-# Install sphinx-build if it isn't there yet
-if ! type "sphinx-build" > /dev/null
+# Install sphinx if it isn't there yet
+if ! type "sphinx-multiversion" > /dev/null
 then
   echo "Installing sphinx"
-  pip install sphinx==1.8.5
+  pip install -r requirements.txt
 fi
 
 # Setup Environment
 rm -rf build
 
 # Build
-sphinx-build -W -b html . build
+make html
 
 # Run
-xdg-open ./build/index.html
+xdg-open ./build/html/index.html
