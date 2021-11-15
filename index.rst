@@ -3,7 +3,7 @@ MoveIt 2 Tutorials
 
 These tutorials will quickly get you, and your robot, using the MoveIt 2 Motion Planning Framework.
 
-.. image:: quickstart_in_rviz/rviz_plugin_head.png
+.. image:: doc/quickstart_in_rviz/rviz_plugin_head.png
    :width: 700px
 
 In these tutorials, the Franka Emika Panda robot is used as a quick-start demo. Alternatively, you can easily use any robot that has already been configured to work with MoveIt - check the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_ to see whether MoveIt is already available for your robot. Otherwise, you can setup MoveIt to work with your custom robot in the tutorial section "Integration with a New Robot", below.
@@ -13,8 +13,8 @@ Getting Started with MoveIt and RViz
 .. toctree::
    :maxdepth: 1
 
-   getting_started/getting_started
-   quickstart_in_rviz/quickstart_in_rviz_tutorial
+   doc/getting_started/getting_started
+   doc/quickstart_in_rviz/quickstart_in_rviz_tutorial
 
 MoveGroup - ROS Wrappers in C++
 ------------------------------------------
@@ -23,7 +23,7 @@ The simplest way to use MoveIt through scripting is using the ``move_group_inter
 .. toctree::
    :maxdepth: 1
 
-   move_group_interface/move_group_interface_tutorial
+   doc/move_group_interface/move_group_interface_tutorial
 
 Using MoveIt Directly Through the C++ API
 ------------------------------------------
@@ -32,11 +32,11 @@ Building more complex applications with MoveIt often requires developers to dig 
 .. toctree::
    :maxdepth: 1
 
-   robot_model_and_robot_state/robot_model_and_robot_state_tutorial
-   planning_scene/planning_scene_tutorial
-   planning_scene_monitor/planning_scene_monitor_tutorial
-   planning_scene_ros_api/planning_scene_ros_api_tutorial
-   moveit_cpp/moveitcpp_tutorial
+   doc/robot_model_and_robot_state/robot_model_and_robot_state_tutorial
+   doc/planning_scene/planning_scene_tutorial
+   doc/planning_scene_monitor/planning_scene_monitor_tutorial
+   doc/planning_scene_ros_api/planning_scene_ros_api_tutorial
+   doc/moveit_cpp/moveitcpp_tutorial
 
 Integration with a New Robot
 ----------------------------
@@ -45,7 +45,7 @@ Before attempting to integrate a new robot with MoveIt 2, check whether your rob
 .. toctree::
    :maxdepth: 1
 
-   urdf_srdf/urdf_srdf_tutorial
+   doc/urdf_srdf/urdf_srdf_tutorial
 
 **Note:** The list of the robots above are for MoveIt, a list is on the works for MoveIt 2.
 
@@ -55,7 +55,7 @@ Miscellaneous
 .. toctree::
    :maxdepth: 1
 
-   realtime_servo/realtime_servo_tutorial
+   doc/realtime_servo/realtime_servo_tutorial
 
 Attribution
 -----------
@@ -63,5 +63,5 @@ Major contributors to the MoveIt tutorials are listed in chronological order: Sa
 
 The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with PickNik (`Check out the blog post! <http://moveit.ros.org/moveit!/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
 
-.. image:: ./images/franka_logo.png
+.. image:: ./_static/images/franka_logo.png
    :width: 300px

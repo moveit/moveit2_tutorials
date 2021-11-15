@@ -41,7 +41,7 @@ Expected Output
 .. raw:: html
 
     <video width="700px" controls="true" autoplay="true" loop="true">
-        <source src="../videos/Servo_Teleop_Demo.webm" type="video/webm">
+        <source src="../../_static/videos/Servo_Teleop_Demo.webm" type="video/webm">
         Teleoperation demo with controller
     </video>
 
@@ -62,7 +62,7 @@ Expected Output
 .. raw:: html
 
     <video width="700px" controls="true" autoplay="true" loop="true">
-        <source src="../videos/C++_Interface_Demo.webm" type="video/webm">
+        <source src="../../_static/videos/C++_Interface_Demo.webm" type="video/webm">
         Joint and Cartesian jogging with collision prevention
     </video>
 

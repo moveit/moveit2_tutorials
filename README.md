@@ -164,11 +164,11 @@ To embed a video that is included in this repository, you also will use raw html
 .. raw:: html
 
     <video width="700px" controls="true" autoplay="true" loop="true">
-        <source src="../videos/rviz_joints_nullspace.webm" type="video/webm">
+        <source src="../../_static/videos/rviz_joints_nullspace.webm" type="video/webm">
         The joints moving while the end effector stays still
     </video>
 ```
 
-Note that the video file is in the `doc/_assets/videos` folder instead of the same folder.
+Note that the video file is in the `_static/videos` folder instead of the same folder.
 
 [External Documentation on &lt;video&gt; tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video)

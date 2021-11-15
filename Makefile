@@ -1,6 +1,6 @@
 # Make file to generate documentation
 
-SOURCE     = doc
+SOURCE     = .
 OUT        = build
 BUILD      = python3 -m sphinx
 OPTS       =-c .
@@ -11,7 +11,7 @@ help:
 
 multiversion: Makefile
 	sphinx-multiversion $(OPTS) "$(SOURCE)" build/html
-	@echo "<html><head><meta http-equiv=\"refresh\" content=\"0; url=galactic/index.html\" /></head></html>" > build/html/index.html
+	@echo "<html><head><meta http-equiv=\"refresh\" content=\"0; url=foxy/index.html\" /></head></html>" > build/html/index.html
 
 .PHONY: help Makefile multiversion
 %: Makefile

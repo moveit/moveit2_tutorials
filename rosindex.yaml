@@ -1,5 +1,5 @@
 # The root location to look at for ReST documentation pages.
-sources_dir: doc
+sources_dir: ./
 
 # Patterns for page indexing. Unindexed pages will
 # nonetheless be present in rosindex. Useful to keep
