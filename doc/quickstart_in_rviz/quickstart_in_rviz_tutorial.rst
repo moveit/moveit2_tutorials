@@ -136,8 +136,8 @@ You can use the **Joints** tab to move single joints and the redundant joints of
 
 .. raw:: html
 
-    <video width="700px" nocontrols="true" autoplay="true" loop="true">
-        <source src="../../_static/rviz_joints_nullspace.webm" type="video/webm">
+    <video width="700px" controls="true" autoplay="true" loop="true">
+        <source src="../../_static/videos/rviz_joints_nullspace.webm" type="video/webm">
         The joints moving while the end effector stays still
     </video>
 
@@ -166,13 +166,13 @@ Introspecting Trajectory Waypoints
 
 You can visually introspect trajectories point by point in RViz.
 
-* From "`Panels`" menu, select "`Trajectory - Trajectory Slider`". You'll see a new Slider panel on RViz.
+* From "*Panels*" menu, select "*Trajectory - Trajectory Slider*". You'll see a new Slider panel on RViz.
 
-* Set your goal pose, then run `Plan`.
+* Set your goal pose, then run *Plan*.
 
-* Play with the "`Slider`" panel, e.g. move the slider, push "`Play`" button.
+* Play with the "*Slider*" panel, e.g. move the slider, push "*Play*" button.
 
-NOTE: Once you placed your EEF to a new goal, be sure to run `Plan` before running `Play` -- otherwise you'll see the waypoints for the previous goal if available.
+NOTE: Once you placed your EEF to a new goal, be sure to run *Plan* before running *Play* -- otherwise you'll see the waypoints for the previous goal if available.
 
 .. image:: rviz_plugin_slider.png
    :width: 700px
@@ -192,9 +192,9 @@ If the "Use Cartesian Path" checkbox is activated, the robot will attempt to mov
 Executing Trajectories, Adjusting Speed
 +++++++++++++++++++++++++++++++++++++++
 
-Clicking "Plan & Execute" or "Execute" after a successful plan will send the trajectory to the robot - in this tutorial, since you used `demo.launch`, the robot is only simulated.
+Clicking "Plan & Execute" or "Execute" after a successful plan will send the trajectory to the robot - in this tutorial, since you used ``demo.launch``, the robot is only simulated.
 
-Initially, the default velocity and acceleration are scaled to 10% (`0.1`) of the robot's maximum. You can change these scaling factors in the Planning tab shown below, or change these default values in the `moveit_config` of your robot (in `joint_limits.yaml`).
+Initially, the default velocity and acceleration are scaled to 10% (``0.1``) of the robot's maximum. You can change these scaling factors in the Planning tab shown below, or change these default values in the ``moveit_config`` of your robot (in ``joint_limits.yaml``).
 
 .. image:: rviz_plugin_collision_aware_ik_checkbox.png
    :width: 700px
@@ -207,7 +207,7 @@ RViz Visual Tools
 +++++++++++++++++
 Many of the tutorials use ``moveit_visual_tools`` to step through a demo. Before continuing on to the next tutorials it is a good idea to enable the **RvizVisualToolsGui**.
 
-From "`Panels`" menu, select "`Add New Panels`". From the menu, select "`RvizVisualToolsGui`" and click OK. You'll see the new panel added to RViz.
+From "*Panels*" menu, select "*Add New Panels*". From the menu, select "*RvizVisualToolsGui*" and click OK. You'll see the new panel added to RViz.
 
 .. image:: rviz_add_rviz_visual_tools.png
    :width: 400px
