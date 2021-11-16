@@ -250,16 +250,16 @@ Step 8: 3D Perception
 --------------------------
 
 The 3D Perception tab is meant to set the parameters of the YAML configuration file
-for configuring the 3D sensors `sensors_3d.yaml`.
+for configuring the 3D sensors **sensors_3d.yaml**.
 
-e.g. `point_cloud` parameters:
+e.g. **point_cloud** parameters:
 
 .. image:: setup_assistant_panda_3d_perception_point_cloud.png
    :width: 700px
 
 For more details about those parameters please see perception pipeline `tutorial <../perception_pipeline/perception_pipeline_tutorial.html>`_
 
-In case of `sensors_3d.yaml` was not needed, choose `None`.
+In case of **sensors_3d.yaml** was not needed, choose **None**.
 
 .. image:: setup_assistant_panda_3d_perception.png
    :width: 700px
@@ -273,7 +273,7 @@ The Simulation tab can be used to help you simulate your robot with Gazebo by ge
 .. image:: setup_assistant_panda_simulation_screen.png
    :width: 700px
 
-You can use the generated robot `urdf` to spawn the robot in Gazebo in the following way.
+You can use the generated robot **urdf** to spawn the robot in Gazebo in the following way.
 
 * Use rosrun to start gazebo empty world: ::
 
@@ -291,9 +291,7 @@ You can use the generated robot `urdf` to spawn the robot in Gazebo in the follo
 Step 10: ROS Control
 ---------------------
 
-ROS Control is a set of packages that include controller interfaces, controller managers, transmissions and hardware_interfaces, for more details please look at `ros_control` documentation_
-
-.. _documentation: http://wiki.ros.org/ros_control
+ROS Control is a set of packages that include controller interfaces, controller managers, transmissions and hardware_interfaces, for more details please look at `ros_control documentation <http://wiki.ros.org/ros_control>`_
 
 ROS Control tab can be used to auto generate simulated controllers to actuate the joints of your robot. This will allow us to provide the correct ROS interfaces MoveIt.
 

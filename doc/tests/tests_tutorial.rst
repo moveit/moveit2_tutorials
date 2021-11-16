@@ -74,7 +74,7 @@ Code Coverage
 
 Test coverage measures the lines of code that are executed while running the test suite.
 To accumulate statistics and create a html coverage report, build the code without optimization
-and run the special `_coverage` target::
+and run the special ``_coverage`` target::
 
   sudo apt install ros-noetic-code-coverage
   catkin config --cmake-args -DENABLE_COVERAGE_TESTING=ON -DCMAKE_BUILD_TYPE=Debug

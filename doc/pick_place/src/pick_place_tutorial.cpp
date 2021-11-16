@@ -90,8 +90,8 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   // ++++++++++++++++++++++
   // This is the pose of panda_link8. |br|
   // Make sure that when you set the grasp_pose, you are setting it to be the pose of the last link in
-  // your manipulator which in this case would be `"panda_link8"` You will have to compensate for the
-  // transform from `"panda_link8"` to the palm of the end effector.
+  // your manipulator which in this case would be **panda_link8** You will have to compensate for the
+  // transform from **panda_link8** to the palm of the end effector.
   grasps[0].grasp_pose.header.frame_id = "panda_link0";
   tf2::Quaternion orientation;
   orientation.setRPY(-M_PI / 2, -M_PI / 4, -M_PI / 2);
