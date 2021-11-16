@@ -5,9 +5,11 @@ set -e
 export NOKOGIRI_USE_SYSTEM_LIBRARIES=true
 export REPOSITORY_NAME=${PWD##*/}
 echo "Testing branch $TRAVIS_BRANCH of $REPOSITORY_NAME"
+
 # Install htmlpoofer
 gem install --user-install html-proofer
 PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+
 # Install python dependencies
 pip3 install --user --upgrade -r requirements.txt
 

@@ -8,8 +8,8 @@ on:
       - foxy
 
 jobs:
-  deploy-pages:
-    name: Build Pages
+  htmlproofer:
+    name: htmlproofer
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -17,12 +17,30 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: '2.7'
+    - name: Install Python Dependencies
+      uses: py-actions/py-dependency-install@v2
     - name: Run htmlproofer.sh
       run: ./htmlproofer.sh
+
+  deploy-multiversion:
+    needs: htmlproofer
+    if: ${{ github.event_name == 'push' }}
+    name: Deploy Multiversion
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '2.7'
+    - name: Install Python Dependencies
+      uses: py-actions/py-dependency-install@v2
+    - name: Build multiversion
+      run: make multiversion
     - name: Deploy Pages
-      if: ${{ success() && github.event_name == 'push'}}
+      if: ${{ success() }}
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build
+        publish_dir: ./build/html
         cname: moveit2_tutorials.picknik.ai
