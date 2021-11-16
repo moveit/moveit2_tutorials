@@ -111,7 +111,7 @@ html_context = {
     "display_github": True,
     "github_user": "ros-planning",
     "github_repo": "moveit2_tutorials",
-    "github_version": "foxy",
+    "github_version": "foxy/",
     "moveit1_user": "ros-planning",
     "moveit1_repo": "moveit_tutorials",
     "moveit1_version": "master",
