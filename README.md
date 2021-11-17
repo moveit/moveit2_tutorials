@@ -2,7 +2,7 @@
 
 **NOTE: This repository is a new fork from the [MoveIt 1 tutorials](https://ros-planning.github.io/moveit_tutorials/) and needs your help with porting old tutorials to ROS 2.** To claim a tutorial to support the port of, see the Issues list. Thanks!
 
-[See the live MoveIt 2 tutorials here](http://moveit2_tutorials.picknik.ai/)
+[See the live MoveIt 2 tutorials here](https://moveit.picknik.ai/)
 
 This is the primary documentation for the MoveIt project. We strongly encourage you to help improve MoveIt's documentation. Please consider reading the guidelines below for writing the best documentation and tutorials. However, if you are uncomfortable with any of the approaches, simply adding documentation text to your pull requests is better than nothing.
 
@@ -17,7 +17,7 @@ This repository is currently built automatically by Github Actions:
 - foxy: [![Build](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci_main.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci_foxy.yml?query=branch%3Afoxy) (Foxy)
 - foxy: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Afoxy) (Foxy)
 - foxy: [![Deploy](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml?query=branch%3Afoxy) (Foxy)
-- foxy: [Github Pages](https://moveit2_tutorials.picknik.ai/): (Foxy)
+- foxy: [Github Pages](https://moveit.picknik.ai/): (Foxy)
 
 ## Helping with Porting Tutorials to ROS 2
 An issue has been created for each tutorial to be ported to Foxy. At the top of each tutorial there is a tag: ":moveit1:", remove the tag

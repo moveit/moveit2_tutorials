@@ -162,7 +162,7 @@ html_sourcelink_suffix = ""
 # Output file base name for HTML help builder.
 htmlhelp_basename = "MoveItDocumentation"
 
-html_baseurl = "https://moveit2_tutorials.picknik.ai/"
+html_baseurl = "https://moveit.picknik.ai/"
 
 # Add any paths that contain custom themes here, relative to this directory.
 
