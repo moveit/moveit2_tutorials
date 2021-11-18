@@ -407,7 +407,7 @@ def smv_rewrite_configs(app, config):
 
 def github_link_rewrite_branch(app, pagename, templatename, context, doctree):
     if app.config.smv_current_version != "":
-        context["github_version"] = app.config.smv_current_version + "/doc/"
+        context["github_version"] = app.config.smv_current_version + "/"
         context["eol_versions"] = app.config.smv_eol_versions
 
 
