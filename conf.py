@@ -175,7 +175,7 @@ extlinks = {
         + html_context["github_user"]
         + "/moveit2_tutorials/blob/"
         + html_context["github_version"]
-        + "/doc/%s",
+        + "doc/%s",
         "",
     ),
     "moveit_codedir": (
@@ -183,7 +183,7 @@ extlinks = {
         + html_context["github_user"]
         + "/moveit2/blob/"
         + html_context["github_version"]
-        + "/%s",
+        + "%s",
         "",
     ),
     "moveit_msgs_codedir": (
