@@ -20,8 +20,7 @@ rm -rf build
 sphinx-build -W -b html . build
 
 # Run HTML tests on generated build output to check for 404 errors, etc
-[[ -v GITHUB_HEAD_REF ]] || URL_SWAP="--url-swap https\://github.com/ros-planning/moveit2_tutorials/blob/foxy/:file\://$PWD/build/ --url-swap https\://moveit.picknik.ai/foxy:file\://$PWD/build/"
-htmlproofer ./build --only-4xx --check-html --file-ignore ./build/genindex.html,./build/search.html --alt-ignore '/.*/' --url-ignore '#' $URL_SWAP
+htmlproofer ./build --only-4xx --check-html --file-ignore ./build/genindex.html,./build/search.html --alt-ignore '/.*/' --url-ignore '#' --url-swap 'https\://github.com/ros-planning/moveit2_tutorials/blob/foxy/:file\://$PWD/build/' --url-swap 'https\://moveit.picknik.ai/foxy:file\://$PWD/build/'
 
 # Tell GitHub Pages (on deploy) to bypass Jekyll processing
 touch build/.nojekyll
