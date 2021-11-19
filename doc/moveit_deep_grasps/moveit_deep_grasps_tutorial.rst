@@ -105,7 +105,7 @@ Gazebo
 ^^^^^^
 Make sure you complete the `deep grasp demo install guide <https://github.com/PickNikRobotics/deep_grasp_demo#Install>`_ for Gazebo support.
 
-The `load_cloud` argument in `gpd_demo.launch` and the `load_images` argument in `dexnet_demo.launch` specifies
+The **load_cloud** argument in **gpd_demo.launch** and the **load_images** argument in **dexnet_demo.launch** specifies
 whether or not to load the sensor data from a file. Set either one of these arguments to false to use the simulated depth camera.
 
 First, launch the Gazebo environment: ::

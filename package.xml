@@ -12,7 +12,7 @@
   <maintainer email="dave@picknik.ai">Dave Coleman</maintainer>
   <maintainer email="mike@picknik.ai">Mike Lautman</maintainer>
 
-  <url type="website">https://moveit2_tutorials.picknik.ai</url>
+  <url type="website">https://moveit.picknik.ai</url>
   <url type="repository">https://github.com/ros-planning/moveit2_tutorials</url>
   <url type="bugtracker">https://github.com/ros-planning/moveit2_tutorials/issues</url>
 

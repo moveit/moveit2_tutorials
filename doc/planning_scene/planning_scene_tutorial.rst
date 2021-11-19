@@ -17,7 +17,7 @@ The entire code can be seen :codedir:`here in the MoveIt GitHub project<planning
 
 The launch file
 ---------------
-The entire launch file is :codedir:`here <planning_scene/launch/planning_scene_tutorial.launch>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
+The entire launch file is :codedir:`here <planning_scene/launch/planning_scene_tutorial.launch.py>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
 
 Running the code
 ----------------

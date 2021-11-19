@@ -24,7 +24,7 @@ Installing MoveIt Task Constructor
 Install From Source
 ^^^^^^^^^^^^^^^^^^^
 
-Go into your catkin workspace and initialize wstool if necessary (assuming `~/ws_moveit` as workspace path): ::
+Go into your catkin workspace and initialize wstool if necessary (assuming **~/ws_moveit** as workspace path): ::
 
   cd ~/ws_moveit/src
   wstool init
@@ -56,7 +56,7 @@ Subsequently, you can run the individual demos: ::
   rosrun moveit_task_constructor_demo modular
   roslaunch moveit_task_constructor_demo pickplace.launch
 
-On the right side you should see the `Motion Planning Tasks` panel outlining the hierarchical stage structure of the tasks.
+On the right side you should see the **Motion Planning Tasks** panel outlining the hierarchical stage structure of the tasks.
 When you select a particular stage, the list of successful and failed solutions will be
 shown in the right-most window. Selecting one of those solutions will start its visualization.
 

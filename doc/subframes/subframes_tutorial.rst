@@ -56,8 +56,8 @@ Technical notes
 Subframes are not known to TF, so they cannot be used outside of MoveIt planning requests.
 If you need the transformation to a subframe, you can obtain it from the ``PlanningScene``'s
 ``CollisionRobot`` using the ``getFrameTransform`` function. This returns an ``Eigen::Isometry3d`` object,
-from which you can extract translation and quaternion (see `here <https://eigen.tuxfamily.org/dox/group__TutorialGeometry.html>`).
-The translation and quaternion can then be used to create the Transform and register it in your `TFListener`.
+from which you can extract translation and quaternion (see `here <https://eigen.tuxfamily.org/dox/group__TutorialGeometry.html>`_).
+The translation and quaternion can then be used to create the Transform and register it in your ``TFListener``.
 
 Visualizing subframes
 ---------------------
