@@ -76,7 +76,9 @@ class ConstrainedPlanningTutorial(object):
 
         # Create a publisher to visualize the position constraints in Rviz
         self.marker_publisher = rospy.Publisher(
-            "/visualization_marker", visualization_msgs.msg.Marker, queue_size=20,
+            "/visualization_marker",
+            visualization_msgs.msg.Marker,
+            queue_size=20,
         )
         rospy.sleep(0.5)  # publisher needs some time to connect Rviz
         self.remove_all_markers()
