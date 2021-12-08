@@ -5,7 +5,7 @@ This tutorial will install MoveIt 2 and create a workspace sandbox to run the tu
 
 Install ROS 2 and Colcon
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-`Install ROS 2 Foxy <https://docs.ros.org/en/foxy/Installation.html>`_.
+:ros_documentation:`Install ROS 2 <Installation.html>`.
 It is easy to miss steps when going through the ROS 2 installation tutorial. If you run into errors in the next few steps, a good place to start is to go back and make sure you have installed ROS 2 correctly.
 
 Install `rosdep <http://wiki.ros.org/rosdep>`_ to install system dependencies : ::
@@ -18,7 +18,7 @@ Once you have ROS 2 installed, make sure you have the most up to date packages: 
   sudo apt update
   sudo apt dist-upgrade
 
-Install `Colcon <https://docs.ros.org/en/foxy/Tutorials/Colcon-Tutorial.html#install-colcon>`_ the ROS 2 build system: ::
+Install :ros_documentation:`Colcon <Tutorials/Colcon-Tutorial.html#install-colcon>` the ROS 2 build system: ::
 
   sudo apt install python3-colcon-common-extensions
 
@@ -29,7 +29,7 @@ Install `vcstool <https://index.ros.org/d/python3-vcstool/>`_ : ::
 Create A Colcon Workspace and Download MoveIt 2 Source
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 These tutorials rely on the ROS 2 project MoveIt 2, which can be built from source or installed from binaries. Please make sure you install or build MoveIt 2 for your distribution of choice by following the instructions from `the official MoveIt website <https://moveit.ros.org/install-moveit2/source/>`_.
-For tutorials you will need to have a `colcon <https://docs.ros.org/en/foxy/Tutorials/Colcon-Tutorial.html#install-colcon>`_ workspace setup. If you already have a colcon workspace by building MoveIt 2 from source skip the following, else create a workspace: ::
+For tutorials you will need to have a :ros_documentation:`colcon <Tutorials/Colcon-Tutorial.html#install-colcon>` workspace setup. If you already have a colcon workspace by building MoveIt 2 from source skip the following, else create a workspace: ::
 
   mkdir -p ~/ws_moveit2/src
 
