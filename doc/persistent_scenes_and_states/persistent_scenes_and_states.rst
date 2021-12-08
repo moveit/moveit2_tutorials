@@ -10,7 +10,7 @@ Currently, two storage plugins (based on
 * `warehouse_ros_sqlite <https://github.com/ros-planning/warehouse_ros_sqlite>`_, which uses SQLite as backend
 
 You can install both of them with your favourite package manager
-(e.g. ``apt-get install ros-foxy-warehouse-ros-mongo``) or
+(e.g. ``apt-get install ros-{DISTRO}-warehouse-ros-mongo``) or
 `build them from source <../getting_started/getting_started.html>`_
 (of course, you'll have to check out the corresponding repository into your ``src`` folder for that).
 
