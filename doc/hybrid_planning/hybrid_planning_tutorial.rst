@@ -10,7 +10,7 @@ Hybrid Planning enables you to (re)plan and execute robot motions online with Mo
 
 What is Hybrid Planning?
 ------------------------
-Hybrid Planning means using a (slower) global motion planner in combination with a (faster) local motion planner to enable a robot to solve different tasks online and in dynamic environments.
+Hybrid Planning uses a (slower) global motion planner in combination with a (faster) local motion planner to enable a robot to solve different tasks online and in dynamic environments.
 Typically, the global motion planner is used to create an initial motion plan offline and to re-plan it if the global solution gets invalidated. The local planner adapts the global solution to local constraints and reacts immediately to changes in the environment. More detailed information on *Hybrid Planning* can be found for example in this article (TODO: Link article once it is published).
 
 The architecture that enables *Hybrid Planning* in MoveIt 2 can be seen below:
@@ -18,9 +18,9 @@ The architecture that enables *Hybrid Planning* in MoveIt 2 can be seen below:
 .. image:: images/hybrid_planning_architecture.png
    :width: 700px
 
-The *Hybrid Planning Manager* provides an API for *Hybrid Planning request* 's, implements the high-level planning logic and coordinates both planners and their interaction.
-Global planning requests are responded by the *Global Planner Component* which solves a given planning problem and publishes the solution. The *Local Planner Component* processes incoming global trajectory updates and solves each iteration the current local planning problem.
-Main advantages of using the architecture are:
+The *Hybrid Planning Manager* provides an API for *Hybrid Planning requests*, implements the high-level planning logic and coordinates both planners and their interaction.
+Global planning requests are responded by the *Global Planner Component* which solves a given planning problem and publishes the solution. The *Local Planner Component* processes incoming global trajectory updates and solves the local planning problem at each iteration.
+The main advantages of using the architecture are:
 
 - Global and local constrained motion planning problems can be handled separately
 - Online motion planning is possible with the local planner
@@ -32,13 +32,13 @@ If you haven't already done so, make sure you've completed the steps in `Getting
 
 To start the hybrid planning demo simply run: ::
 
-  ros2 launch moveit2_tutorials hybrid_planning_tutorial.launch.py
+  ros2 launch moveit_hybrid_planning hybrid_planning_demo.launch.py
 
 You should see a similar behavior as in the example GIF above without the replanning.
 
 To interact with the architecture you simply need to send a *Hybrid Planning Request* to an action server offered by the *Hybrid Planning Manager* as seen in the :codedir:`hybrid_planning_test_node <hybrid_planning/src/hybrid_planning_test_node.cpp#L176>`.
 
-Lets change this behavior such that the architecture replans the invalidated trajectory. To do so, just change the *planner_logic_plugin* by replacing the plugin name in the :codedir:`demo configuration <hybrid_planning/config/hybrid_planning_manager.yaml>` with "moveit_hybrid_planning/ReplanInvalidatedTrajectory" and rebuild the package : ::
+Let's change this behavior such that the architecture replans the invalidated trajectory. To do so, just change the *planner_logic_plugin* by replacing the plugin name in the :codedir:`demo configuration <hybrid_planning/config/hybrid_planning_manager.yaml>` with "moveit_hybrid_planning/ReplanInvalidatedTrajectory" and rebuild the package : ::
 
    colcon build --packages-select moveit2_tutorials
 
@@ -86,8 +86,6 @@ To include the Hybrid Planning Architecture into you project you need to add a *
         output="screen",
     )
 
-An example launch file can be found in the :codedir:`tutorial's files <hybrid_planning/launch/hybrid_planning_tutorial.launch.py>`. If you copy&paste it don't forget to remove the :codedir:`Test node <hybrid_planning/launch/hybrid_planning_tutorial.launch.py#L180>` that implements the demo from above!
-
 Customizing the Hybrid Planning Architecture
 --------------------------------------------
 As the rest of Moveit 2, the *Hybrid Planning Architecture* is designed to be highly customizable while also offering the possibility to easily re-use existing solutions. Each of the architecture's components is a ROS 2 node and can be completely replaced by your own custom ROS 2 node as long as it offers the API required by the other nodes. Each component's runtime behavior is defined by plugins. This section focuses on the customization of the *Hybrid Planning Architecture* by implementing your own plugins.
@@ -100,7 +98,7 @@ The dataflow within the component can be seen in the picture below:
 .. image:: images/global_planner_dataflow.png
    :width: 500pt
 
-The *Global Planner Plugin* can be used to implement and customize the global planning algorithm. To implement you own planner you simply need to inherit from the :moveit2_codedir:`GlobalPlannerInterface <moveit_ros/hybrid_planning/global_planner/global_planner_component/include/moveit/global_planner/global_planner_interface.h>`: ::
+The *Global Planner Plugin* can be used to implement and customize the global planning algorithm. To implement you own planner you simply need to inherit from the :moveit_codedir:`GlobalPlannerInterface <moveit_ros/hybrid_planning/global_planner/global_planner_component/include/moveit/global_planner/global_planner_interface.h>`: ::
 
    class MySmartPlanner : public GlobalPlannerInterface
    {
@@ -120,7 +118,7 @@ The *Global Planner Plugin* can be used to implement and customize the global pl
      bool reset() override;
    };
 
-*Global Planner* example implementations can be found :moveit2_codedir:`here <moveit_ros/hybrid_planning/global_planner/global_planner_plugins/>`.
+*Global Planner* example implementations can be found :moveit_codedir:`here <moveit_ros/hybrid_planning/global_planner/global_planner_plugins/>`.
 
 More complex is the behavior of the *Local Planner Component*. The data flow is displayed below:
 
@@ -138,7 +136,7 @@ Via the *Global Solution Subscriber* the *Local Planner Component* receives glob
 
 The behavior of the *Local Planner Component* can be customized via the *Trajectory Operator Plugin* and the local *Solver Plugin*:
 
-The *Trajectory Operator Plugin* handles the reference trajectory. To create your own operator you need to create a plugin class which inherits from the :moveit2_codedir:`TrajectoryOperatorInterface <moveit_ros/hybrid_planning/local_planner/local_planner_component/include/moveit/local_planner/trajectory_operator_interface.h>`: ::
+The *Trajectory Operator Plugin* handles the reference trajectory. To create your own operator you need to create a plugin class which inherits from the :moveit_codedir:`TrajectoryOperatorInterface <moveit_ros/hybrid_planning/local_planner/local_planner_component/include/moveit/local_planner/trajectory_operator_interface.h>`: ::
 
    class MyAwesomeOperator : public TrajectoryOperatorInterface
    {
@@ -168,9 +166,9 @@ The *Trajectory Operator Plugin* handles the reference trajectory. To create you
      bool reset() override;
    };
 
-*Trajectory Operator* example implementations can be found :moveit2_codedir:`here <moveit_ros/hybrid_planning/local_planner/trajectory_operator_plugins/>`.
+*Trajectory Operator* example implementations can be found :moveit_codedir:`here <moveit_ros/hybrid_planning/local_planner/trajectory_operator_plugins/>`.
 
-The *Local Solver Plugin* implements the algorithm to solve the local planning problem each iteration. To implement your solution you need to inherit from the :moveit2_codedir:`LocalConstraintSolverInterface <moveit_ros/hybrid_planning/local_planner/local_planner_component/include/moveit/local_planner/local_constraint_solver_interface.h>`: ::
+The *Local Solver Plugin* implements the algorithm to solve the local planning problem each iteration. To implement your solution you need to inherit from the :moveit_codedir:`LocalConstraintSolverInterface <moveit_ros/hybrid_planning/local_planner/local_planner_component/include/moveit/local_planner/local_constraint_solver_interface.h>`: ::
 
    class MyAwesomeSolver : public LocalConstraintSolverInterface
    {
@@ -195,7 +193,7 @@ The *Local Solver Plugin* implements the algorithm to solve the local planning p
            trajectory_msgs::msg::JointTrajectory& local_solution) override;
    };
 
-*Local Constraint Solver* example implementations can be found :moveit2_codedir:`here <moveit_ros/hybrid_planning/local_planner/local_constraint_solver_plugins/>`.
+*Local Constraint Solver* example implementations can be found :moveit_codedir:`here <moveit_ros/hybrid_planning/local_planner/local_constraint_solver_plugins/>`.
 
 Both plugins receive a shared pointer to the ROS 2 node when they get initialized which can be used to create additional custom ROS 2 communication interfaces for example to subscribe to an additional sensor source.
 
@@ -230,7 +228,7 @@ The callback function an event channel in the *Hybrid Planning Manager* looks li
         }
       };
 
-To create you own *Planner Logic Plugin* you need inherit from the :moveit2_codedir:`PlannerLogicInterface <moveit_ros/hybrid_planning/hybrid_planning_manager/hybrid_planning_manager_component/include/moveit/hybrid_planning_manager/planner_logic_interface.h>`: ::
+To create you own *Planner Logic Plugin* you need inherit from the :moveit_codedir:`PlannerLogicInterface <moveit_ros/hybrid_planning/hybrid_planning_manager/hybrid_planning_manager_component/include/moveit/hybrid_planning_manager/planner_logic_interface.h>`: ::
 
    class MyCunningLogic : public PlannerLogicInterface
    {
@@ -249,4 +247,4 @@ To create you own *Planner Logic Plugin* you need inherit from the :moveit2_code
      ReactionResult react(const std::string& event) override;
    };
 
-A possible implementation of the *react()* function could contain a switch-case statement that maps events to actions like in the :moveit2_codedir:`example logic plugins<moveit_ros/hybrid_planning/hybrid_planning_manager/hybrid_planning_manager_component/include/moveit/hybrid_planning_manager/planner_logic_interface.h>`.
+A possible implementation of the *react()* function could contain a switch-case statement that maps events to actions like in the :moveit_codedir:`example logic plugins<moveit_ros/hybrid_planning/hybrid_planning_manager/hybrid_planning_manager_component/include/moveit/hybrid_planning_manager/planner_logic_interface.h>`.

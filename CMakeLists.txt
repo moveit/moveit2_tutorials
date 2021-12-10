@@ -55,7 +55,6 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
 include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
 
 # add_subdirectory(doc/controller_configuration)
-add_subdirectory(doc/hybrid_planning)
 # add_subdirectory(doc/interactivity)
 # add_subdirectory(doc/kinematics)
 # add_subdirectory(doc/motion_planning_api)
