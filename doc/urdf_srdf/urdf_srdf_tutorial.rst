@@ -137,7 +137,34 @@ Then the values must be loaded into EACH node.
 
 String Topic Specification
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-The other approach is to use publish the two strings as topics. This pattern is already done with the `Robot State Publisher <https://github.com/ros/robot_state_publisher/blob/37aff2034b58794b78f1682c8fab4d609f5d2e29/src/robot_state_publisher.cpp#L136>`_ which publishes a ``std_msgs/msg/String`` message on the ``/robot_description`` topic. If that topic is already available, then there is no need to load the parameter explicitly in the launch file. The only place that the parameter needs to be explicitly loaded is in whatever is publishing that topic (e.g. Robot State Publisher).
+The other approach is to use publish the two strings as topics. This pattern is already done with the `Robot State Publisher <https://github.com/ros/robot_state_publisher/blob/37aff2034b58794b78f1682c8fab4d609f5d2e29/src/robot_state_publisher.cpp#L136>`_ which publishes a ``std_msgs/msg/String`` message on the ``/robot_description`` topic. This can be done in the launch file:
+
+.. code-block:: python
+
+    rsp_node = Node(package='robot_state_publisher',
+                    executable='robot_state_publisher',
+                    respawn=True,
+                    output='screen',
+                    parameters=[{
+                        'robot_description': robot_description,
+                        'publish_frequency': 15.0
+                    }]
+                    )
+
+You can also tell MoveIt nodes to publish the topic as well.
+
+.. code-block:: python
+
+    move_group_node = Node(package='moveit_ros_move_group', executable='move_group',
+                           output='screen',
+                           parameters=[{
+                                'robot_description': robot_description,
+                                'publish_robot_description': True,
+                                # More params
+                           }],
+                           )
+
+Publishing the robot description as a topic only needs to be done once, not in each node that requires the description.
 
 Similarly, we can also publish the SRDF as a ``std_msgs/msg/String`` message. This requires that one node have the parameter set in the launch file, with the additional parameter ``publish_robot_description_semantic`` set to True.
 
