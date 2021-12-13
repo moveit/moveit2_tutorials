@@ -5,10 +5,10 @@ This tutorial will install MoveIt 2 and create a workspace sandbox to run the tu
 
 Install ROS 2 and Colcon
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-`Install ROS 2 Foxy <https://docs.ros.org/en/foxy/Installation.html>`_.
+`Install ROS 2 Rolling <https://docs.ros.org/en/rolling/Installation.html>`_.
 It is easy to miss steps when going through the ROS 2 installation tutorial. If you run into errors in the next few steps, a good place to start is to go back and make sure you have installed ROS 2 correctly.  One that users commonly forget is to source the ROS 2 install iself.  ::
 
-  source /opt/ros/foxy/setup.bash
+  source /opt/ros/rolling/setup.bash
 
 .. note:: Unlike ROS 1 setup scripts, in ROS 2 the setup scripts do not attempt to switch what version of ROS you are using.  This means that if you have previously sourced a different version of ROS, including from within your ``.bashrc`` file, you will run into errors during the building step.  To fix this change what is sourced in your ``.bashrc`` and start a new terminal.
 
@@ -22,7 +22,7 @@ Once you have ROS 2 installed, make sure you have the most up to date packages: 
   sudo apt update
   sudo apt dist-upgrade
 
-Install `Colcon <https://docs.ros.org/en/foxy/Tutorials/Colcon-Tutorial.html#install-colcon>`_ the ROS 2 build system with `mixin <https://github.com/colcon/colcon-mixin-repository>`_: ::
+Install `Colcon <https://docs.ros.org/en/rolling/Tutorials/Colcon-Tutorial.html#install-colcon>`_ the ROS 2 build system with `mixin <https://github.com/colcon/colcon-mixin-repository>`_: ::
 
   sudo apt install python3-colcon-common-extensions
   sudo apt install python3-colcon-mixin
@@ -35,7 +35,7 @@ Install `vcstool <https://index.ros.org/d/python3-vcstool/>`_ : ::
 
 Create A Colcon Workspace and Download Tutorials
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-For tutorials you will need to have a `colcon <https://docs.ros.org/en/foxy/Tutorials/Colcon-Tutorial.html#install-colcon>`_ workspace setup. ::
+For tutorials you will need to have a `colcon <https://docs.ros.org/en/rolling/Tutorials/Colcon-Tutorial.html#install-colcon>`_ workspace setup. ::
 
   mkdir -p ~/ws_moveit2/src
 
@@ -44,7 +44,7 @@ Download MoveIt 2 Tutorials Source
 Move into your colcon workspace and pull the MoveIt 2 tutorials source: ::
 
   cd ~/ws_moveit2/src
-  git clone https://github.com/ros-planning/moveit2_tutorials.git -b foxy
+  git clone https://github.com/ros-planning/moveit2_tutorials.git
   vcs import < moveit2_tutorials/moveit2_tutorials.repos
 
 Build your Colcon Workspace
