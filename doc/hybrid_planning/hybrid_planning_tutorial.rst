@@ -36,9 +36,9 @@ To start the hybrid planning demo simply run: ::
 
 You should see a similar behavior as in the example GIF above without the replanning.
 
-To interact with the architecture you simply need to send a *Hybrid Planning Request* to an action server offered by the *Hybrid Planning Manager* as seen in the :codedir:`hybrid_planning_test_node <hybrid_planning/src/hybrid_planning_test_node.cpp#L176>`.
+To interact with the architecture you simply need to send a *Hybrid Planning Request* to an action server offered by the *Hybrid Planning Manager* as seen in the :moveit_codedir:`hybrid_planning_test_node <moveit_ros/hybrid_planning/test/hybrid_planning_demo_node.cpp#L245>`.
 
-Let's change this behavior such that the architecture replans the invalidated trajectory. To do so, just change the *planner_logic_plugin* by replacing the plugin name in the :codedir:`demo configuration <hybrid_planning/config/hybrid_planning_manager.yaml>` with "moveit_hybrid_planning/ReplanInvalidatedTrajectory" and rebuild the package : ::
+Let's change this behavior such that the architecture replans the invalidated trajectory. To do so, just change the *planner_logic_plugin* by replacing the plugin name in the :moveit_codedir:`demo configuration <moveit_ros/hybrid_planning/test/config/hybrid_planning_manager.yaml>` with "moveit_hybrid_planning/ReplanInvalidatedTrajectory" and rebuild the package : ::
 
    colcon build --packages-select moveit2_tutorials
 
