@@ -11,11 +11,3 @@ repositories:
     type: git
     url: https://github.com/ros-planning/moveit_visual_tools
     version: ros2
-  moveit2:
-    type: git
-    url: https://github.com/ros-planning/moveit2
-    version: main
-  rviz_visual_tools:
-    type: git
-    url: https://github.com/PickNikRobotics/rviz_visual_tools
-    version: foxy-devel
