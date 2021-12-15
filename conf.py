@@ -115,6 +115,7 @@ html_context = {
     "moveit1_user": "ros-planning",
     "moveit1_repo": "moveit_tutorials",
     "moveit1_version": "master",
+    "moveit2_version": "main",
     "conf_py_path": "",
     "source_suffix": ".rst",
 }
