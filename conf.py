@@ -112,10 +112,6 @@ html_context = {
     "github_user": "ros-planning",
     "github_repo": "moveit2_tutorials",
     "github_version": "main/",
-    "moveit1_user": "ros-planning",
-    "moveit1_repo": "moveit_tutorials",
-    "moveit1_version": "master",
-    "moveit2_version": "main",
     "conf_py_path": "",
     "source_suffix": ".rst",
 }
@@ -195,7 +191,7 @@ extlinks = {
         "",
     ),
     "common_interfaces_codedir": (
-        "https://github.com/ros2/common_interfaces/blob/" + ros_distro + "/%s",
+        "https://github.com/ros2/common_interfaces/blob/master/%s",
         "",
     ),
     "panda_codedir": (
