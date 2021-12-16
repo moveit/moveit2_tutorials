@@ -113,12 +113,19 @@ You should now be able to use these markers to drag the arm around and change it
 
 Moving into collision
 +++++++++++++++++++++
-Note what happens when you try to move one of the arms into collision with the other. The two links that are in collision will turn red.
+
+For this section, hide the planned path and the goal state:
+
+#. Un-check the **Show Robot Visual** checkbox in the **Planned Path** tree menu
+
+#. Un-check the **Query Goal State** checkbox in the **Planning Request** tree menu.
+
+Now, only the Start State (the green colored arm) should be visible.  Try to move the arm into a configuration where two of its links are in collision with each other.  (If you find this difficult, make sure the "Use Collision-Aware IK" checkbox under the Planning tab of the MotionPlanning plugin is un-checked.)  Once you do this, the links that are in collision will turn red.
 
 .. image:: rviz_plugin_collision.png
    :width: 700px
 
-The "Use Collision-Aware IK" checkbox found within the MotionPlanning plugin under the Planning tab allows you to toggle the behavior of the IK solver. When the checkbox is ticked, the solver will keep attempting to find a collision-free solution for the desired end-effector pose. When it is not checked, the solver will allow collisions to happen in the solution. The links in collision will always still be visualized in red, regardless of the state of the checkbox.
+Now, check the "Use Collision-Aware IK" checkbox, and try again to move two of the links into collision with each other.  When the checkbox is ticked, the IK solver will keep attempting to find a collision-free solution for the desired end-effector pose. When it is not checked, the solver will allow collisions to happen in the solution. The links in collision will always still be visualized in red, regardless of the state of the checkbox.
 
 .. image:: rviz_plugin_collision_aware_ik_checkbox.png
    :width: 700px
@@ -129,6 +136,12 @@ Note what happens when you try to move an end-effector out of its reachable work
 
 .. image:: rviz_plugin_invalid.png
    :width: 700px
+
+Before moving onto the next section, re-enable the planned path and the goal state:
+
+#. Check the **Show Robot Visual** checkbox in the **Planned Path** tree menu
+
+#. Check the **Query Goal State** checkbox in the **Planning Request** tree menu.
 
 Moving Joints or in Null Space
 ++++++++++++++++++++++++++++++
@@ -153,7 +166,7 @@ Step 4: Use Motion Planning with the Panda
   * Make sure both states are not in collision with the robot itself.
 
   * Make sure the Planned Path is being visualized. Also check the
-    **Show Trail** checkbox in the **Planned Path** tab.
+    **Show Trail** checkbox in the **Planned Path** tree menu.
 
 * In the **MotionPlanning** window under the **Planning** tab, press the **Plan** button. You
   should be able to see a visualization of the arm moving and a trail.
