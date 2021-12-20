@@ -1,95 +1,29 @@
 import os
-import yaml
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.actions import ExecuteProcess
 from ament_index_python.packages import get_package_share_directory
-import xacro
-
-
-def load_file(package_name, file_path):
-    package_path = get_package_share_directory(package_name)
-    absolute_file_path = os.path.join(package_path, file_path)
-
-    try:
-        with open(absolute_file_path, "r") as file:
-            return file.read()
-    except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
-        return None
-
-
-def load_yaml(package_name, file_path):
-    package_path = get_package_share_directory(package_name)
-    absolute_file_path = os.path.join(package_path, file_path)
-
-    try:
-        with open(absolute_file_path, "r") as file:
-            return yaml.safe_load(file)
-    except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
-        return None
+from moveit_configs_utils import MoveItConfigsBuilder
 
 
 def generate_launch_description():
-    # moveit_cpp.yaml is passed by filename for now since it's node specific
-    moveit_cpp_yaml_file_name = (
-        get_package_share_directory("moveit2_tutorials") + "/config/moveit_cpp.yaml"
-    )
-
-    # Component yaml files are grouped in separate namespaces
-    robot_description_config = xacro.process_file(
-        os.path.join(
-            get_package_share_directory("moveit_resources_panda_moveit_config"),
-            "config",
-            "panda.urdf.xacro",
+    moveit_config = (
+        MoveItConfigsBuilder("moveit_resources_panda")
+        .robot_description(file_path="config/panda.urdf.xacro")
+        .trajectory_execution(file_path="config/panda_gripper_controllers.yaml")
+        .moveit_cpp(
+            file_path=get_package_share_directory("moveit2_tutorials")
+            + "/config/moveit_cpp.yaml"
         )
+        .to_moveit_configs()
     )
-    robot_description = {"robot_description": robot_description_config.toxml()}
-
-    robot_description_semantic_config = load_file(
-        "moveit_resources_panda_moveit_config", "config/panda.srdf"
-    )
-    robot_description_semantic = {
-        "robot_description_semantic": robot_description_semantic_config
-    }
-
-    kinematics_yaml = load_yaml(
-        "moveit_resources_panda_moveit_config", "config/kinematics.yaml"
-    )
-
-    moveit_simple_controllers_yaml = load_yaml(
-        "moveit_resources_panda_moveit_config", "config/panda_controllers.yaml"
-    )
-    moveit_controllers = {
-        "moveit_simple_controller_manager": moveit_simple_controllers_yaml,
-        "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
-    }
-
-    ompl_planning_pipeline_config = {
-        "ompl": {
-            "planning_plugin": "ompl_interface/OMPLPlanner",
-            "request_adapters": """default_planner_request_adapters/AddTimeOptimalParameterization default_planner_request_adapters/FixWorkspaceBounds default_planner_request_adapters/FixStartStateBounds default_planner_request_adapters/FixStartStateCollision default_planner_request_adapters/FixStartStatePathConstraints""",
-            "start_state_max_bounds_error": 0.1,
-        }
-    }
-    ompl_planning_yaml = load_yaml(
-        "moveit_resources_panda_moveit_config", "config/ompl_planning.yaml"
-    )
-    ompl_planning_pipeline_config["ompl"].update(ompl_planning_yaml)
-
     # MoveItCpp demo executable
     moveit_cpp_node = Node(
         name="moveit_cpp_tutorial",
         package="moveit2_tutorials",
         executable="moveit_cpp_tutorial",
         output="screen",
-        parameters=[
-            moveit_cpp_yaml_file_name,
-            robot_description,
-            robot_description_semantic,
-            kinematics_yaml,
-            ompl_planning_pipeline_config,
-            moveit_controllers,
-        ],
+        parameters=[moveit_config.to_dict()],
     )
 
     # RViz
@@ -103,7 +37,10 @@ def generate_launch_description():
         name="rviz2",
         output="log",
         arguments=["-d", rviz_config_file],
-        parameters=[robot_description, robot_description_semantic],
+        parameters=[
+            moveit_config.robot_description,
+            moveit_config.robot_description_semantic,
+        ],
     )
 
     # Static TF
@@ -121,7 +58,7 @@ def generate_launch_description():
         executable="robot_state_publisher",
         name="robot_state_publisher",
         output="both",
-        parameters=[robot_description],
+        parameters=[moveit_config.robot_description],
     )
 
     # ros2_control using FakeSystem as hardware
@@ -133,7 +70,7 @@ def generate_launch_description():
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[robot_description, ros2_controllers_path],
+        parameters=[moveit_config.robot_description, ros2_controllers_path],
         output={
             "stdout": "screen",
             "stderr": "screen",
