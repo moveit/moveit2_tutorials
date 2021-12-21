@@ -9,7 +9,7 @@ URDF Resources
 ^^^^^^^^^^^^^^
 
 * `URDF ROS Wiki Page <http://www.ros.org/wiki/urdf>`_ - The URDF ROS Wiki page is the source of most information about the URDF.
-* `URDF Tutorials <http://www.ros.org/wiki/urdf/Tutorials>`_ - Tutorials for working with the URDF.
+* :ros_documentation:`URDF Tutorials <Tutorials/URDF/URDF-Main.html>` - Tutorials for working with the URDF.
 * `SOLIDWORKS URDF Plugin <http://www.ros.org/wiki/sw_urdf_exporter>`_ - A plugin that lets you generate a URDF directly from a SOLIDWORKS model.
 
 **Note:** Although the documents above are written for ROS, all the documentation is valid given you change the commands from ROS to ROS2 (ie: rosrun -> ros2 run or roslaunch -> ros2 launch)
@@ -97,3 +97,93 @@ The SRDF can also store fixed configurations of the robot. A typical example of 
 SRDF Documentation
 ^^^^^^^^^^^^^^^^^^
 For information about the syntax for the SRDF, read more details on the `ROS SRDF Wiki page <http://www.ros.org/wiki/srdf>`_.
+
+Loading the URDF and SRDF
+-------------------------
+All the components of MoveIt that use the :moveit_core:`RobotModel` need to have access to the URDF and SRDF to function properly. In ROS 1, this was accomplished by loading the XML of each into a string parameter (``/robot_description`` and ``/robot_description_semantic`` respectively) into the global parameter server. ROS 2 does not have a global parameter server, so making sure all the appropriate nodes have access requires a little more work.
+
+Launch File Specification
+^^^^^^^^^^^^^^^^^^^^^^^^^
+One option is to set the parameters for each node that requires them, which is typically done using a launch file.
+
+Loading the URDF often uses xacro, and so loading it looks like
+
+
+.. code-block:: python
+
+    from launch_ros.parameter_descriptions import ParameterValue
+    from launch.substitutions import Command
+
+    robot_description = ParameterValue(Command(['xacro ', PATH_TO_URDF]),
+                                       value_type=str)
+
+Meanwhile, the SRDF must be read in explicitly.
+
+.. code-block:: python
+
+    with open(PATH_TO_SRDF, 'r') as f:
+        semantic_content = f.read()
+
+Then the values must be loaded into EACH node.
+
+.. code-block:: python
+
+    move_group_node = Node(package='moveit_ros_move_group', executable='move_group',
+                           output='screen',
+                           parameters=[{
+                                'robot_description': robot_description,
+                                'robot_description_semantic': semantic_content,
+                                # More params
+                           }],
+                           )
+
+String Topic Specification
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+The other approach is to use publish the two strings as topics. This pattern is already done with the `Robot State Publisher <https://github.com/ros/robot_state_publisher/blob/37aff2034b58794b78f1682c8fab4d609f5d2e29/src/robot_state_publisher.cpp#L136>`_ which publishes a ``std_msgs/msg/String`` message on the ``/robot_description`` topic. This can be done in the launch file:
+
+.. code-block:: python
+
+    rsp_node = Node(package='robot_state_publisher',
+                    executable='robot_state_publisher',
+                    respawn=True,
+                    output='screen',
+                    parameters=[{
+                        'robot_description': robot_description,
+                        'publish_frequency': 15.0
+                    }]
+                    )
+
+You can also tell MoveIt nodes to publish the topic as well.
+
+.. code-block:: python
+
+    move_group_node = Node(package='moveit_ros_move_group', executable='move_group',
+                           output='screen',
+                           parameters=[{
+                                'robot_description': robot_description,
+                                'publish_robot_description': True,
+                                # More params
+                           }],
+                           )
+
+Publishing the robot description as a topic only needs to be done once, not in each node that requires the description.
+
+Similarly, we can also publish the SRDF as a ``std_msgs/msg/String`` message. This requires that one node have the parameter set in the launch file, with the additional parameter ``publish_robot_description_semantic`` set to True.
+
+.. code-block:: python
+
+    move_group_node = Node(package='moveit_ros_move_group', executable='move_group',
+                           output='screen',
+                           parameters=[{
+                                'robot_description_semantic': semantic_content,
+                                'publish_robot_description_semantic': True,
+                                # More params
+                           }],
+                           )
+
+Then all of the other nodes may subscribe to the string message that gets published.
+
+Under the Hood: RDFLoader
+^^^^^^^^^^^^^^^^^^^^^^^^^
+In many places in the MoveIt code, the robot description and semantics are loaded using the :moveit_codedir:`RDFLoader<moveit_ros/planning/rdf_loader/include/moveit/rdf_loader/rdf_loader.h>`
+class, which will attempt to read the parameters from the node, and if that fails, will attempt to subscribe to the String topic for a short period of time. If both methods fail to get the parameter, then a warning will be printed to the console.
