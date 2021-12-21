@@ -162,7 +162,7 @@ int main(int argc, char** argv)
   req.reference_trajectories[0].joint_trajectory[0].points.resize(N_STEPS + 1);
   req.reference_trajectories[0].joint_trajectory[0].joint_names = joint_names;
   req.reference_trajectories[0].joint_trajectory[0].points[0].positions = current_joint_values;
-  // Use the increment values (dt_vector) to caluclate the joint values at each step
+  // Use the increment values (dt_vector) to calculate the joint values at each step
   for (std::size_t step_index = 1; step_index <= N_STEPS; ++step_index)
   {
     std::vector<double> joint_values;

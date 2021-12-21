@@ -203,7 +203,7 @@ extlinks = {
         + "/%s",
         "",
     ),  # TODO(dlu): use ros_distro when noetic-devel branch is available
-    # NEED DOCS.ROS.ORG equivelent for foxy
+    # NEED DOCS.ROS.ORG equivalent for foxy
     "ros_documentation": (
         f"https://docs.ros.org/{lang}/{ros_distro}/%s",
         "",
