@@ -18,7 +18,7 @@ Install the dependencies: ::
   cd ~/ws_moveit/src
   wget https://raw.githubusercontent.com/PickNikRobotics/stretch_ros/ros2/stretch_ros.repos
   vcs import < stretch_ros.repos
-  rosdep install -r --from-paths . --ignore-src --rosdistro foxy -y
+  rosdep install -r --from-paths . --ignore-src --rosdistro {DISTRO} -y
 
 Build the colcon workspace: ::
 

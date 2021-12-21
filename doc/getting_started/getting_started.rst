@@ -5,8 +5,8 @@ This tutorial will install MoveIt 2 and create a workspace sandbox to run the tu
 
 Install ROS 2 and Colcon
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-`Install ROS 2 Rolling <https://docs.ros.org/en/rolling/Installation.html>`_.
-It is easy to miss steps when going through the ROS 2 installation tutorial. If you run into errors in the next few steps, a good place to start is to go back and make sure you have installed ROS 2 correctly.  One that users commonly forget is to source the ROS 2 install iself.  ::
+:ros_documentation:`Install ROS 2 {DISTRO_TITLE}<Installation.html>`.
+It is easy to miss steps when going through the ROS 2 installation tutorial. If you run into errors in the next few steps, a good place to start is to go back and make sure you have installed ROS 2 correctly.  One that users commonly forget is to source the ROS 2 install itself.  ::
 
   source /opt/ros/rolling/setup.bash
 
@@ -22,7 +22,7 @@ Once you have ROS 2 installed, make sure you have the most up to date packages: 
   sudo apt update
   sudo apt dist-upgrade
 
-Install `Colcon <https://docs.ros.org/en/rolling/Tutorials/Colcon-Tutorial.html#install-colcon>`_ the ROS 2 build system with `mixin <https://github.com/colcon/colcon-mixin-repository>`_: ::
+Install :ros_documentation:`Colcon <Tutorials/Colcon-Tutorial.html#install-colcon>` the ROS 2 build system with `mixin <https://github.com/colcon/colcon-mixin-repository>`_: ::
 
   sudo apt install python3-colcon-common-extensions
   sudo apt install python3-colcon-mixin
@@ -35,7 +35,7 @@ Install `vcstool <https://index.ros.org/d/python3-vcstool/>`_ : ::
 
 Create A Colcon Workspace and Download Tutorials
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-For tutorials you will need to have a `colcon <https://docs.ros.org/en/rolling/Tutorials/Colcon-Tutorial.html#install-colcon>`_ workspace setup. ::
+For tutorials you will need to have a :ros_documentation:`colcon <Tutorials/Colcon-Tutorial.html#install-colcon>` workspace setup. ::
 
   mkdir -p ~/ws_moveit2/src
 

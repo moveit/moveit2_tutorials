@@ -165,6 +165,7 @@ html_baseurl = "https://moveit.picknik.ai/rolling/"
 
 # Links
 ros_distro = "rolling"
+lang = "en"
 ros1_distro = "noetic"
 extlinks = {
     "codedir": (
@@ -203,6 +204,10 @@ extlinks = {
         "",
     ),  # TODO(dlu): use ros_distro when noetic-devel branch is available
     # NEED DOCS.ROS.ORG equivelent for foxy
+    "ros_documentation": (
+        f"https://docs.ros.org/{lang}/{ros_distro}/%s",
+        "",
+    ),
     "rosdocs": ("http://docs.ros.org/" + ros1_distro + "/api/%s", ""),
     "moveit_core": (
         "http://docs.ros.org/"
