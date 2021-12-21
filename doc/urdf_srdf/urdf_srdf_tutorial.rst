@@ -9,7 +9,7 @@ URDF Resources
 ^^^^^^^^^^^^^^
 
 * `URDF ROS Wiki Page <http://www.ros.org/wiki/urdf>`_ - The URDF ROS Wiki page is the source of most information about the URDF.
-* `URDF Tutorials <https://docs.ros.org/en/DISTRO/Tutorials/URDF/URDF-Main.html>`_ - Tutorials for working with the URDF.
+* :ros_documentation:`URDF Tutorials <Tutorials/URDF/URDF-Main.html>` - Tutorials for working with the URDF.
 * `SOLIDWORKS URDF Plugin <http://www.ros.org/wiki/sw_urdf_exporter>`_ - A plugin that lets you generate a URDF directly from a SOLIDWORKS model.
 
 **Note:** Although the documents above are written for ROS, all the documentation is valid given you change the commands from ROS to ROS2 (ie: rosrun -> ros2 run or roslaunch -> ros2 launch)
