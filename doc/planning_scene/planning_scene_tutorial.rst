@@ -45,3 +45,5 @@ joint values so some things may be different. ::
  moveit2_tutorials: Test 10: Random state is not constrained
  moveit2_tutorials: Test 11: Random state is feasible
  moveit2_tutorials: Test 12: Random state is not valid
+
+**Note:** Don't worry if your output has different ROS console format. You can customize your ROS console logger by following :ros_documentation:`this tutorial <Tutorials/Logging-and-logger-configuration.html#console-output-formatting>`.
