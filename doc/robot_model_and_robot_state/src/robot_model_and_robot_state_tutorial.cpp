@@ -66,21 +66,19 @@ int main(int argc, char** argv)
   // `RobotModelLoader`_
   // object, which will look up
   // the robot description on the ROS parameter server and construct a
-  // :moveit_core:`RobotModel` for us to use.
+  // :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.h>` for us to use.
   //
   // .. _RobotModelLoader:
-  //     http://docs.ros.org/noetic/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
+  //     https://github.com/ros-planning/moveit2/blob/main/moveit_ros/planning/robot_model_loader/include/moveit/robot_model_loader/robot_model_loader.h
   robot_model_loader::RobotModelLoader robot_model_loader(node);
   const moveit::core::RobotModelPtr& kinematic_model = robot_model_loader.getModel();
   RCLCPP_INFO(LOGGER, "Model frame: %s", kinematic_model->getModelFrame().c_str());
 
-  // Using the :moveit_core:`RobotModel`, we can construct a
-  // :moveit_core:`RobotState` that maintains the configuration
-  // of the robot. We will set all joints in the state to their
-  // default values. We can then get a
-  // :moveit_core:`JointModelGroup`, which represents the robot
-  // model for a particular group, e.g. the "panda_arm" of the Panda
-  // robot.
+  // Using the :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.h>`, we can
+  // construct a :moveit_codedir:`RobotState<moveit_core/robot_state/include/moveit/robot_state/robot_state.h>` that
+  // maintains the configuration of the robot. We will set all joints in the state to their default values. We can then
+  // get a :moveit_codedir:`JointModelGroup<moveit_core/robot_model/include/moveit/robot_model/joint_model_group.h>`,
+  // which represents the robot model for a particular group, e.g. the "panda_arm" of the Panda robot.
   moveit::core::RobotStatePtr kinematic_state(new moveit::core::RobotState(kinematic_model));
   kinematic_state->setToDefaultValues();
   const moveit::core::JointModelGroup* joint_model_group = kinematic_model->getJointModelGroup("panda_arm");
@@ -89,7 +87,7 @@ int main(int argc, char** argv)
 
   // Get Joint Values
   // ^^^^^^^^^^^^^^^^
-  // We can retreive the current set of joint values stored in the state for the Panda arm.
+  // We can retrieve the current set of joint values stored in the state for the Panda arm.
   std::vector<double> joint_values;
   kinematic_state->copyJointGroupPositions(joint_model_group, joint_values);
   for (std::size_t i = 0; i < joint_names.size(); ++i)
@@ -151,7 +149,7 @@ int main(int argc, char** argv)
 
   // Get the Jacobian
   // ^^^^^^^^^^^^^^^^
-  // We can also get the Jacobian from the :moveit_core:`RobotState`.
+  // We can also get the Jacobian from the :moveit_codedir:`RobotState<moveit_core/robot_state/include/moveit/robot_state/robot_state.h>`.
   Eigen::Vector3d reference_point_position(0.0, 0.0, 0.0);
   Eigen::MatrixXd jacobian;
   kinematic_state->getJacobian(joint_model_group,

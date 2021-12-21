@@ -1,7 +1,7 @@
 Planning Scene
 ==================================
 
-The :planning_scene:`PlanningScene` class provides the main interface that you will use
+The :moveit_codedir:`PlanningScene<moveit_core/planning_scene/include/moveit/planning_scene/planning_scene.h>` class provides the main interface that you will use
 for collision checking and constraint checking. In this tutorial, we
 will explore the C++ interface to this class.
 
@@ -46,4 +46,4 @@ joint values so some things may be different. ::
  moveit2_tutorials: Test 11: Random state is feasible
  moveit2_tutorials: Test 12: Random state is not valid
 
-**Note:** Don't worry if your output has different ROS console format. You can customize your ROS console logger by following `this tutorial <https://docs.ros.org/en/foxy/Tutorials/Logging-and-logger-configuration.html#console-output-formatting>`_.
+**Note:** Don't worry if your output has different ROS console format. You can customize your ROS console logger by following :ros_documentation:`this tutorial <Tutorials/Logging-and-logger-configuration.html#console-output-formatting>`.

@@ -19,7 +19,7 @@ Launching a Servo Node
 ----------------------
 MoveIt Servo can be launched as a "node component" or a standalone node. The launch file, moveit_servo/servo_example.launch.py, launches a standalone node by default but also contains a commented component node. Commands are sent via ROS topics. The commands can come from anywhere, such as a joystick, keyboard, or other controller.
 
-This demo was written for an Xbox 1 controller, but can be easily modified to use any joystick or game controller compatible with the `Joy package <https://index.ros.org/p/joy/#foxy>`_ by modifying the `joystick_servo_example.cpp file <https://github.com/ros-planning/moveit2/blob/main/moveit_ros/moveit_servo/src/teleop_demo/joystick_servo_example.cpp>`_
+This demo was written for an Xbox 1 controller, but can be easily modified to use any controller compatible with the `Joy package <https://index.ros.org/p/joy/#{DISTRO}>`_ by modifying the `joystick_servo_example.cpp file <https://github.com/ros-planning/moveit2/blob/main/moveit_ros/moveit_servo/src/teleop_demo/joystick_servo_example.cpp>`_
 
 To run the demo, make sure your controller is plugged in and can be detected by :code:`ros2 run joy joy_node`. Usually this happens automatically after plugging the controller in. Then launch with ::
 
@@ -53,7 +53,7 @@ Note that the controller overlay here is just for demonstration purposes and is 
 
 Using the C++ Interface
 -----------------------
-Instead of launching Servo as its own component, you can include Servo in your own nodes via the C++ interface. Sending commands to the robot is very similiar in both cases, but for the C++ interface a little bit of setup for Servo is necessary. In exchange, you will be able to directly interact with Servo through its C++ API.
+Instead of launching Servo as its own component, you can include Servo in your own nodes via the C++ interface. Sending commands to the robot is very similar in both cases, but for the C++ interface a little bit of setup for Servo is necessary. In exchange, you will be able to directly interact with Servo through its C++ API.
 
 This basic C++ interface demo moves the robot in a predetermined way and can be launched with ::
 

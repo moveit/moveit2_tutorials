@@ -112,9 +112,6 @@ html_context = {
     "github_user": "ros-planning",
     "github_repo": "moveit2_tutorials",
     "github_version": "main/",
-    "moveit1_user": "ros-planning",
-    "moveit1_repo": "moveit_tutorials",
-    "moveit1_version": "master",
     "conf_py_path": "",
     "source_suffix": ".rst",
 }
@@ -168,6 +165,7 @@ html_baseurl = "https://moveit.picknik.ai/rolling/"
 
 # Links
 ros_distro = "rolling"
+lang = "en"
 ros1_distro = "noetic"
 extlinks = {
     "codedir": (
@@ -194,7 +192,7 @@ extlinks = {
         "",
     ),
     "common_interfaces_codedir": (
-        "https://github.com/ros2/common_interfaces/blob/" + ros_distro + "/%s",
+        "https://github.com/ros2/common_interfaces/blob/master/%s",
         "",
     ),
     "panda_codedir": (
@@ -205,7 +203,11 @@ extlinks = {
         + "/%s",
         "",
     ),  # TODO(dlu): use ros_distro when noetic-devel branch is available
-    # NEED DOCS.ROS.ORG equivelent for foxy
+    # NEED DOCS.ROS.ORG equivalent for foxy
+    "ros_documentation": (
+        f"https://docs.ros.org/{lang}/{ros_distro}/%s",
+        "",
+    ),
     "rosdocs": ("http://docs.ros.org/" + ros1_distro + "/api/%s", ""),
     "moveit_core": (
         "http://docs.ros.org/"
