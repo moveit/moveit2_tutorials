@@ -9,11 +9,11 @@ In this section, we will walk you through the C++ API for using kinematics in Mo
 
 The RobotModel and RobotState Classes
 -------------------------------------
-The :moveit_core:`RobotModel` and :moveit_core:`RobotState` classes are the core classes that give you access to a robot's kinematics.
+The :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.h>` and :moveit_codedir:`RobotState<moveit_core/robot_state/include/moveit/robot_state/robot_state.h>` classes are the core classes that give you access to a robot's kinematics.
 
-The :moveit_core:`RobotModel` class contains the relationships between all links and joints including their joint limit properties as loaded from the URDF. The RobotModel also separates the robot's links and joints into planning groups defined in the SRDF. A separate tutorial on the URDF and SRDF can be found here: `URDF and SRDF Tutorial <../urdf_srdf/urdf_srdf_tutorial.html>`_
+The :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.h>` class contains the relationships between all links and joints including their joint limit properties as loaded from the URDF. The RobotModel also separates the robot's links and joints into planning groups defined in the SRDF. A separate tutorial on the URDF and SRDF can be found here: `URDF and SRDF Tutorial <../urdf_srdf/urdf_srdf_tutorial.html>`_
 
-The :moveit_core:`RobotState` contains information about the robot at a certain point in time, storing vectors of joint positions and optionally velocities and accelerations. This information can be used to obtain kinematic information about the robot that depends on its current state, such as the Jacobian of an end effector.
+The :moveit_codedir:`RobotState<moveit_core/robot_state/include/moveit/robot_state/robot_state.h>` contains information about the robot at a certain point in time, storing vectors of joint positions and optionally velocities and accelerations. This information can be used to obtain kinematic information about the robot that depends on its current state, such as the Jacobian of an end effector.
 
 RobotState also contains helper functions for setting the arm location based on the end effector location (Cartesian pose) and for computing Cartesian trajectories.
 

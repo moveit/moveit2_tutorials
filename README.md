@@ -33,7 +33,7 @@ Below are some links to help with the ports.
 
 - ``main`` latest, changes should target this branch
 
-## MoveIt2 Tutorials Source Build
+## MoveIt 2 Tutorials Source Build
 
 Follow the [MoveIt 2 Source Build](https://moveit.ros.org/install-moveit2/source/) instructions to setup a colcon workspace with moveit2 from source.
 

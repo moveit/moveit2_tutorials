@@ -1,7 +1,7 @@
 Planning Scene
 ==================================
 
-The :planning_scene:`PlanningScene` class provides the main interface that you will use
+The :moveit_codedir:`PlanningScene<moveit_core/planning_scene/include/moveit/planning_scene/planning_scene.h>` class provides the main interface that you will use
 for collision checking and constraint checking. In this tutorial, we
 will explore the C++ interface to this class.
 

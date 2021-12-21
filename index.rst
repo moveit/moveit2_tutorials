@@ -1,8 +1,6 @@
 MoveIt 2 Tutorials
 ===================
 
-.. note:: Many of the tutorials still need to be ported to MoveIt 2. See the `Readme <https://github.com/ros-planning/moveit2_tutorials#getting-started>`_ for more details.
-
 These tutorials will quickly get you, and your robot, using the MoveIt 2 Motion Planning Framework.
 
 .. image:: doc/quickstart_in_rviz/rviz_plugin_head.png
@@ -18,7 +16,7 @@ Getting Started with MoveIt and RViz
    doc/getting_started/getting_started
    doc/quickstart_in_rviz/quickstart_in_rviz_tutorial
 
-MoveGroup - ROS Wrappers in C++ and Python
+MoveGroup - ROS Wrappers in C++
 ------------------------------------------
 The simplest way to use MoveIt through scripting is using the ``move_group_interface``. This interface is ideal for beginners and provides unified access to many of the features of MoveIt.
 
@@ -57,7 +55,7 @@ Building more complex applications with MoveIt often requires developers to dig 
 
 Integration with a New Robot
 ----------------------------
-Before attempting to integrate a new robot with MoveIt, check whether your robot has already been setup (see the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt (and share your results on the MoveIt mailing list)
+Before attempting to integrate a new robot with MoveIt 2, check whether your robot has already been setup (see the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt (and share your results on the MoveIt mailing list)
 
 .. toctree::
    :maxdepth: 1
@@ -84,6 +82,8 @@ Configuration
    doc/pilz_industrial_motion_planner/pilz_industrial_motion_planner
    doc/planning_adapters/planning_adapters_tutorial.rst
    doc/persistent_scenes_and_states/persistent_scenes_and_states
+
+**Note:** The list of the robots above are for MoveIt, a list is on the works for MoveIt 2.
 
 Miscellaneous
 ----------------------------

@@ -69,15 +69,17 @@ int main(int argc, char** argv)
   // ^^^^^
   //
   // MoveIt operates on sets of joints called "planning groups" and stores them in an object called
-  // the *JointModelGroup*. Throughout MoveIt, the terms "planning group" and "joint model group"
+  // the ``JointModelGroup``. Throughout MoveIt, the terms "planning group" and "joint model group"
   // are used interchangably.
   static const std::string PLANNING_GROUP = "panda_arm";
 
-  // The :planning_interface:`MoveGroupInterface` class can be easily
-  // setup using just the name of the planning group you would like to control and plan for.
+  // The
+  // :moveit_codedir:`MoveGroupInterface<moveit_ros/planning_interface/move_group_interface/include/moveit/move_group_interface/move_group_interface.h>`
+  // class can be easily set up using just the name of the planning group you would like to control and plan for.
   moveit::planning_interface::MoveGroupInterface move_group(move_group_node, PLANNING_GROUP);
 
-  // We will use the :planning_interface:`PlanningSceneInterface`
+  // We will use the
+  // :moveit_codedir:`PlanningSceneInterface<moveit_ros/planning_interface/planning_scene_interface/include/moveit/planning_scene_interface/planning_scene_interface.h>`
   // class to add and remove collision objects in our "virtual world" scene
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
 
@@ -159,7 +161,7 @@ int main(int argc, char** argv)
   // ^^^^^^^^^^^^^^^^^^^^^
   //
   // Moving to a pose goal is similar to the step above
-  // except we now use the move() function. Note that
+  // except we now use the ``move()`` function. Note that
   // the pose goal we had set earlier is still active
   // and so the robot will try to move to that goal. We will
   // not use that function in this tutorial since it is
@@ -183,7 +185,7 @@ int main(int argc, char** argv)
   std::vector<double> joint_group_positions;
   current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
 
-  // Now, let's modify one of the joints, plan to the new joint space goal and visualize the plan.
+  // Now, let's modify one of the joints, plan to the new joint space goal, and visualize the plan.
   joint_group_positions[0] = -1.0;  // radians
   move_group.setJointValueTarget(joint_group_positions);
 
@@ -197,7 +199,7 @@ int main(int argc, char** argv)
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   RCLCPP_INFO(LOGGER, "Visualizing plan 2 (joint space goal) %s", success ? "" : "FAILED");
 
-  //  Visualize the plan in RViz
+  // Visualize the plan in RViz:
   visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Joint_Space_Goal", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
@@ -232,11 +234,11 @@ int main(int argc, char** argv)
   // Setting the group parameter ``enforce_joint_model_state_space:true`` in
   // the ompl_planning.yaml file enforces the use of ``joint space`` for all plans.
   //
-  // By default planning requests with orientation path constraints
+  // By default, planning requests with orientation path constraints
   // are sampled in ``cartesian space`` so that invoking IK serves as a
   // generative sampler.
   //
-  // By enforcing ``joint space`` the planning process will use rejection
+  // By enforcing ``joint space``, the planning process will use rejection
   // sampling to find valid requests. Please note that this might
   // increase planning time considerably.
   //
@@ -253,18 +255,18 @@ int main(int argc, char** argv)
   start_state.setFromIK(joint_model_group, start_pose2);
   move_group.setStartState(start_state);
 
-  // Now we will plan to the earlier pose target from the new
-  // start state that we have just created.
+  // Now, we will plan to the earlier pose target from the new
+  // start state that we just created.
   move_group.setPoseTarget(target_pose1);
 
   // Planning with constraints can be slow because every sample must call an inverse kinematics solver.
-  // Lets increase the planning time from the default 5 seconds to be sure the planner has enough time to succeed.
+  // Let's increase the planning time from the default 5 seconds to be sure the planner has enough time to succeed.
   move_group.setPlanningTime(10.0);
 
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   RCLCPP_INFO(LOGGER, "Visualizing plan 3 (constraints) %s", success ? "" : "FAILED");
 
-  // Visualize the plan in RViz
+  // Visualize the plan in RViz:
   visual_tools.deleteAllMarkers();
   visual_tools.publishAxisLabeled(start_pose2, "start");
   visual_tools.publishAxisLabeled(target_pose1, "goal");
@@ -273,7 +275,7 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
-  // When done with the path constraint be sure to clear it.
+  // When done with the path constraint, be sure to clear it.
   move_group.clearPathConstraints();
 
   // Cartesian Paths
@@ -318,7 +320,7 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
-  // Cartesian motions should often be slow, e.g. when approaching objects. The speed of cartesian
+  // Cartesian motions should often be slow, e.g. when approaching objects. The speed of Cartesian
   // plans cannot currently be set through the maxVelocityScalingFactor, but requires you to time
   // the trajectory manually, as described `here <https://groups.google.com/forum/#!topic/moveit-users/MOoFxy2exT4>`_.
   // Pull requests are welcome.
@@ -329,7 +331,7 @@ int main(int argc, char** argv)
   // Adding objects to the environment
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
-  // First let's plan to another simple goal with no objects in the way.
+  // First, let's plan to another simple goal with no objects in the way.
   move_group.setStartState(*move_group.getCurrentState());
   geometry_msgs::msg::Pose another_pose;
   another_pose.orientation.w = 0;
@@ -354,7 +356,7 @@ int main(int argc, char** argv)
   // .. image:: ./move_group_interface_tutorial_clear_path.gif
   //    :alt: animation showing the arm moving relatively straight toward the goal
   //
-  // Now let's define a collision object ROS message for the robot to avoid.
+  // Now, let's define a collision object ROS message for the robot to avoid.
   moveit_msgs::msg::CollisionObject collision_object;
   collision_object.header.frame_id = move_group.getPlanningFrame();
 
@@ -369,7 +371,7 @@ int main(int argc, char** argv)
   primitive.dimensions[primitive.BOX_Y] = 1.5;
   primitive.dimensions[primitive.BOX_Z] = 0.5;
 
-  // Define a pose for the box (specified relative to frame_id)
+  // Define a pose for the box (specified relative to frame_id).
   geometry_msgs::msg::Pose box_pose;
   box_pose.orientation.w = 1.0;
   box_pose.position.x = 0.48;
@@ -393,7 +395,7 @@ int main(int argc, char** argv)
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object appears in RViz");
 
-  // Now when we plan a trajectory it will avoid the obstacle
+  // Now, when we plan a trajectory it will avoid the obstacle.
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   RCLCPP_INFO(LOGGER, "Visualizing plan 6 (pose goal move around cuboid) %s", success ? "" : "FAILED");
   visual_tools.publishText(text_pose, "Obstacle_Goal", rvt::WHITE, rvt::XLARGE);
@@ -409,9 +411,9 @@ int main(int argc, char** argv)
   // Attaching objects to the robot
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //
-  // You can attach objects to the robot, so that it moves with the robot geometry.
+  // You can attach an object to the robot, so that it moves with the robot geometry.
   // This simulates picking up the object for the purpose of manipulating it.
-  // The motion planning should avoid collisions between the two objects as well.
+  // The motion planning should avoid collisions between objects as well.
   moveit_msgs::msg::CollisionObject object_to_attach;
   object_to_attach.id = "cylinder1";
 
@@ -421,20 +423,20 @@ int main(int argc, char** argv)
   cylinder_primitive.dimensions[primitive.CYLINDER_HEIGHT] = 0.20;
   cylinder_primitive.dimensions[primitive.CYLINDER_RADIUS] = 0.04;
 
-  // We define the frame/pose for this cylinder so that it appears in the gripper
+  // We define the frame/pose for this cylinder so that it appears in the gripper.
   object_to_attach.header.frame_id = move_group.getEndEffectorLink();
   geometry_msgs::msg::Pose grab_pose;
   grab_pose.orientation.w = 1.0;
   grab_pose.position.z = 0.2;
 
-  // First, we add the object to the world (without using a vector)
+  // First, we add the object to the world (without using a vector).
   object_to_attach.primitives.push_back(cylinder_primitive);
   object_to_attach.primitive_poses.push_back(grab_pose);
   object_to_attach.operation = object_to_attach.ADD;
   planning_scene_interface.applyCollisionObject(object_to_attach);
 
-  // Then, we "attach" the object to the robot. It uses the frame_id to determine which robot link it is attached to
-  // and we also need to tell MoveIt that the object is allowed to be in collision with the finger links of the gripper.
+  // Then, we "attach" the object to the robot. It uses the frame_id to determine which robot link it is attached to.
+  // We also need to tell MoveIt that the object is allowed to be in collision with the finger links of the gripper.
   // You could also use applyAttachedCollisionObject to attach an object to the robot directly.
   RCLCPP_INFO(LOGGER, "Attach the object to the robot");
   std::vector<std::string> touch_links;

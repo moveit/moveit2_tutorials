@@ -38,10 +38,12 @@ int main(int argc, char** argv)
   // Setup
   // ^^^^^
   //
-  // The :planning_scene:`PlanningScene` class can be easily setup and
-  // configured using a :moveit_core:`RobotModel` or a URDF and
-  // SRDF. This is, however, not the recommended way to instantiate a
-  // PlanningScene. The :planning_scene_monitor:`PlanningSceneMonitor`
+  // The :moveit_codedir:`PlanningScene<moveit_core/planning_scene/include/moveit/planning_scene/planning_scene.h>`
+  // class can be easily setup and configured using a
+  // :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.h>`
+  // or a URDF and SRDF. This is, however, not the recommended way to instantiate a
+  // PlanningScene. The
+  // :moveit_codedir:`PlanningSceneMonitor<moveit_ros/planning/planning_scene_monitor/include/moveit/planning_scene_monitor/planning_scene_monitor.h>`
   // is the recommended method to create and maintain the current
   // planning scene (and is discussed in detail in the next tutorial)
   // using data from the robot's joints and the sensors on the robot. In
@@ -62,8 +64,10 @@ int main(int argc, char** argv)
   // current state is in *self-collision*, i.e. whether the current
   // configuration of the robot would result in the robot's parts
   // hitting each other. To do this, we will construct a
-  // :collision_detection_struct:`CollisionRequest` object and a
-  // :collision_detection_struct:`CollisionResult` object and pass them
+  // :moveit_codedir:`CollisionRequest<moveit_core/collision_detection/include/moveit/collision_detection/collision_common.h>`
+  // object and a
+  // :moveit_codedir:`CollisionResult<moveit_core/collision_detection/include/moveit/collision_detection/collision_common.h>`
+  // object and pass them
   // into the collision checking function. Note that the result of
   // whether the robot is in self-collision or not is contained within
   // the result. Self collision checking uses an *unpadded* version of
@@ -146,7 +150,9 @@ int main(int argc, char** argv)
   // Modifying the Allowed Collision Matrix
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //
-  // The :collision_detection_class:`AllowedCollisionMatrix` (ACM)
+  // The
+  // :moveit_codedir:`AllowedCollisionMatrix<moveit_core/collision_detection/include/moveit/collision_detection/collision_matrix.h>`
+  // (ACM)
   // provides a mechanism to tell the collision world to ignore
   // collisions between certain object: both parts of the robot and
   // objects in the world. We can tell the collision checker to ignore
@@ -194,11 +200,9 @@ int main(int argc, char** argv)
   // The PlanningScene class also includes easy to use function calls
   // for checking constraints. The constraints can be of two types:
   // (a) constraints chosen from the
-  // :kinematic_constraints:`KinematicConstraint` set:
-  // i.e. :kinematic_constraints:`JointConstraint`,
-  // :kinematic_constraints:`PositionConstraint`,
-  // :kinematic_constraints:`OrientationConstraint` and
-  // :kinematic_constraints:`VisibilityConstraint` and (b) user
+  // :moveit_codedir:`KinematicConstraint<moveit_core/kinematic_constraints/include/moveit/kinematic_constraints/kinematic_constraint.h>`
+  // set: i.e. JointConstraint, PositionConstraint, OrientationConstraint and
+  // VisibilityConstraint and (b) user
   // defined constraints specified through a callback. We will first
   // look at an example with a simple KinematicConstraint.
   //
@@ -208,7 +212,9 @@ int main(int argc, char** argv)
   // We will first define a simple position and orientation constraint
   // on the end-effector of the panda_arm group of the Panda robot. Note the
   // use of convenience functions for filling up the constraints
-  // (these functions are found in the :moveit_core_files:`utils.h<utils_8h>` file from the
+  // (these functions are found in the
+  // :moveit_codedir:`utils.h<moveit_core/kinematic_constraints/include/moveit/kinematic_constraints/utils.h>`
+  // file from the
   // kinematic_constraints directory in moveit_core).
 
   std::string end_effector_name = joint_model_group->getLinkModelNames().back();
