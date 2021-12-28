@@ -114,7 +114,8 @@ int main(int argc, char** argv)
   try
   {
     planner_instance.reset(planner_plugin_loader->createUnmanagedInstance(planner_plugin_name));
-    if (!planner_instance->initialize(robot_model, motion_planning_api_tutorial_node, motion_planning_api_tutorial_node->get_namespace()))
+    if (!planner_instance->initialize(robot_model, motion_planning_api_tutorial_node,
+                                      motion_planning_api_tutorial_node->get_namespace()))
       RCLCPP_FATAL(LOGGER, "Could not initialize planner instance");
     RCLCPP_INFO(LOGGER, "Using planning interface '%s'", planner_instance->getDescription().c_str());
   }
@@ -124,7 +125,8 @@ int main(int argc, char** argv)
     std::stringstream ss;
     for (const auto& cls : classes)
       ss << cls << " ";
-    RCLCPP_ERROR(LOGGER, "Exception while loading planner '%s': %s\nAvailable plugins: %s", planner_plugin_name.c_str(), ex.what(), ss.str().c_str());
+    RCLCPP_ERROR(LOGGER, "Exception while loading planner '%s': %s\nAvailable plugins: %s", planner_plugin_name.c_str(),
+                 ex.what(), ss.str().c_str());
   }
 
   moveit::planning_interface::MoveGroupInterface move_group(motion_planning_api_tutorial_node, PLANNING_GROUP);
@@ -134,10 +136,8 @@ int main(int argc, char** argv)
   // The package MoveItVisualTools provides many capabilities for visualizing objects, robots,
   // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script.
   namespace rvt = rviz_visual_tools;
-  moveit_visual_tools::MoveItVisualTools visual_tools(motion_planning_api_tutorial_node,
-                                                      "panda_link0",
-                                                      "motion_planning_api_tutorial",
-                                                      move_group.getRobotModel());
+  moveit_visual_tools::MoveItVisualTools visual_tools(motion_planning_api_tutorial_node, "panda_link0",
+                                                      "motion_planning_api_tutorial", move_group.getRobotModel());
   visual_tools.loadRobotStatePub("/display_robot_state");
   visual_tools.enableBatchPublishing();
   visual_tools.deleteAllMarkers();  // clear all old markers
@@ -202,7 +202,8 @@ int main(int argc, char** argv)
 
   // Visualize the result
   // ^^^^^^^^^^^^^^^^^^^^
-  auto display_publisher = motion_planning_api_tutorial_node->create_publisher<moveit_msgs::msg::DisplayTrajectory>("/display_planned_path", 1);
+  auto display_publisher = motion_planning_api_tutorial_node->create_publisher<moveit_msgs::msg::DisplayTrajectory>(
+      "/display_planned_path", 1);
   moveit_msgs::msg::DisplayTrajectory display_trajectory;
 
   /* Visualize the trajectory */
@@ -234,7 +235,8 @@ int main(int argc, char** argv)
   moveit::core::RobotState goal_state(robot_model);
   std::vector<double> joint_values = { -1.0, 0.7, 0.7, -1.5, -0.7, 2.0, 0.0 };
   goal_state.setJointGroupPositions(joint_model_group, joint_values);
-  moveit_msgs::msg::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(goal_state, joint_model_group);
+  moveit_msgs::msg::Constraints joint_goal =
+      kinematic_constraints::constructGoalConstraints(goal_state, joint_model_group);
   req.goal_constraints.clear();
   req.goal_constraints.push_back(joint_goal);
 

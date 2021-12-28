@@ -15,11 +15,11 @@ Running the Demo
 ----------------
 Open two shells. In the first shell start RViz and wait for everything to finish loading: ::
 
-  ros2 launch moveit2_tutorials motion_planning_api.launch.py  
+  ros2 launch moveit2_tutorials motion_planning_api.launch.py
 
 In the second shell, run the launch file: ::
 
-  ros2 launch moveit2_tutorials motion_planning_api_tutorial.launch.py 
+  ros2 launch moveit2_tutorials motion_planning_api_tutorial.launch.py
 
 **Note:** This tutorial uses the **RvizVisualToolsGui** panel to step through the demo. To add this panel to RViz, follow the instructions in the `Visualization Tutorial <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html#rviz-visual-tools>`_.
 

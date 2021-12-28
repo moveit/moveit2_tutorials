@@ -50,15 +50,19 @@ def generate_launch_description():
 
     planning_plugin = {"planning_plugin": "ompl_interface/OMPLPlanner"}
 
-    return LaunchDescription([
-        Node(
-            package='moveit2_tutorials',
-            executable='motion_planning_api_tutorial',
-            name='motion_planning_api_tutorial',
-            parameters=[robot_description,
-                        robot_description_semantic,
-                        kinematics_yaml,
-                        planning_yaml,
-                        planning_plugin],
-        )
-    ])
+    return LaunchDescription(
+        [
+            Node(
+                package="moveit2_tutorials",
+                executable="motion_planning_api_tutorial",
+                name="motion_planning_api_tutorial",
+                parameters=[
+                    robot_description,
+                    robot_description_semantic,
+                    kinematics_yaml,
+                    planning_yaml,
+                    planning_plugin,
+                ],
+            )
+        ]
+    )
