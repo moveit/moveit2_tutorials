@@ -137,7 +137,6 @@ int main(int argc, char** argv)
   namespace rvt = rviz_visual_tools;
   moveit_visual_tools::MoveItVisualTools visual_tools(motion_planning_api_tutorial_node, "panda_link0",
                                                       "move_group_tutorial", move_group.getRobotModel());
-  visual_tools.loadRobotStatePub("/display_robot_state");
   visual_tools.enableBatchPublishing();
   visual_tools.deleteAllMarkers();  // clear all old markers
   visual_tools.trigger();
@@ -161,7 +160,6 @@ int main(int argc, char** argv)
   // ^^^^^^^^^
   // We will now create a motion plan request for the arm of the Panda
   // specifying the desired pose of the end-effector as input.
-  visual_tools.publishRobotState(planning_scene->getCurrentStateNonConst(), rviz_visual_tools::GREEN);
   visual_tools.trigger();
   planning_interface::MotionPlanRequest req;
   planning_interface::MotionPlanResponse res;
@@ -221,7 +219,6 @@ int main(int argc, char** argv)
   planning_scene->setCurrentState(*robot_state.get());
 
   // Display the goal state
-  visual_tools.publishRobotState(planning_scene->getCurrentStateNonConst(), rviz_visual_tools::GREEN);
   visual_tools.publishAxisLabeled(pose.pose, "goal_1");
   visual_tools.publishText(text_pose, "Pose Goal (1)", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
@@ -266,7 +263,6 @@ int main(int argc, char** argv)
   planning_scene->setCurrentState(*robot_state.get());
 
   // Display the goal state
-  visual_tools.publishRobotState(planning_scene->getCurrentStateNonConst(), rviz_visual_tools::GREEN);
   visual_tools.publishAxisLabeled(pose.pose, "goal_2");
   visual_tools.publishText(text_pose, "Joint Space Goal (2)", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
@@ -291,7 +287,6 @@ int main(int argc, char** argv)
   planning_scene->setCurrentState(*robot_state.get());
 
   // Display the goal state
-  visual_tools.publishRobotState(planning_scene->getCurrentStateNonConst(), rviz_visual_tools::GREEN);
   visual_tools.trigger();
 
   /* Wait for user input */
@@ -346,7 +341,6 @@ int main(int argc, char** argv)
   planning_scene->setCurrentState(*robot_state.get());
 
   // Display the goal state
-  visual_tools.publishRobotState(planning_scene->getCurrentStateNonConst(), rviz_visual_tools::GREEN);
   visual_tools.publishAxisLabeled(pose.pose, "goal_3");
   visual_tools.publishText(text_pose, "Orientation Constrained Motion Plan (3)", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
