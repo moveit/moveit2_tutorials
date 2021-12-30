@@ -317,7 +317,6 @@ int main(int argc, char** argv)
      Here, we are asking for the end-effector to stay level*/
   geometry_msgs::msg::QuaternionStamped quaternion;
   quaternion.header.frame_id = "panda_link0";
-  quaternion.quaternion.w = 1.0;
   req.path_constraints = kinematic_constraints::constructGoalConstraints("panda_link8", quaternion);
 
   // Imposing path constraints requires the planner to reason in the space of possible positions of the end-effector
