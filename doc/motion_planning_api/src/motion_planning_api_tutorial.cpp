@@ -53,7 +53,8 @@ int main(int argc, char** argv)
   rclcpp::init(argc, argv);
   rclcpp::NodeOptions node_options;
   node_options.automatically_declare_parameters_from_overrides(true);
-  auto motion_planning_api_tutorial_node = rclcpp::Node::make_shared("motion_planning_api_tutorial", node_options);
+  std::shared_ptr<rclcpp::Node> motion_planning_api_tutorial_node =
+      rclcpp::Node::make_shared("motion_planning_api_tutorial", node_options);
 
   rclcpp::executors::SingleThreadedExecutor executor;
   executor.add_node(motion_planning_api_tutorial_node);
@@ -200,8 +201,9 @@ int main(int argc, char** argv)
 
   // Visualize the result
   // ^^^^^^^^^^^^^^^^^^^^
-  auto display_publisher = motion_planning_api_tutorial_node->create_publisher<moveit_msgs::msg::DisplayTrajectory>(
-      "/display_planned_path", 1);
+  std::shared_ptr<rclcpp::Publisher<moveit_msgs::msg::DisplayTrajectory>> display_publisher =
+      motion_planning_api_tutorial_node->create_publisher<moveit_msgs::msg::DisplayTrajectory>("/display_planned_path",
+                                                                                               1);
   moveit_msgs::msg::DisplayTrajectory display_trajectory;
 
   /* Visualize the trajectory */
