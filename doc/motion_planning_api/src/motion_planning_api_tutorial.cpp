@@ -46,8 +46,6 @@
 #include <moveit_visual_tools/moveit_visual_tools.h>
 #include <moveit/move_group_interface/move_group_interface.h>
 
-#include <boost/scoped_ptr.hpp>
-
 static const rclcpp::Logger LOGGER = rclcpp::get_logger("motion_planning_api_tutorial");
 
 int main(int argc, char** argv)
@@ -93,7 +91,7 @@ int main(int argc, char** argv)
 
   // We will now construct a loader to load a planner, by name.
   // Note that we are using the ROS pluginlib library here.
-  boost::scoped_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager>> planner_plugin_loader;
+  std::unique_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager>> planner_plugin_loader;
   planning_interface::PlannerManagerPtr planner_instance;
   std::string planner_plugin_name;
 
