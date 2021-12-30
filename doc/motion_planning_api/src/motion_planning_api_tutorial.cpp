@@ -136,7 +136,7 @@ int main(int argc, char** argv)
   // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script.
   namespace rvt = rviz_visual_tools;
   moveit_visual_tools::MoveItVisualTools visual_tools(motion_planning_api_tutorial_node, "panda_link0",
-                                                      "motion_planning_api_tutorial", move_group.getRobotModel());
+                                                      "move_group_tutorial", move_group.getRobotModel());
   visual_tools.loadRobotStatePub("/display_robot_state");
   visual_tools.enableBatchPublishing();
   visual_tools.deleteAllMarkers();  // clear all old markers

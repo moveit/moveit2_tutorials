@@ -15,7 +15,7 @@ Running the Demo
 ----------------
 Open two shells. In the first shell start RViz and wait for everything to finish loading: ::
 
-  ros2 launch moveit2_tutorials motion_planning_api_setup.launch.py
+  ros2 launch moveit2_tutorials move_group.launch.py
 
 In the second shell, run the launch file: ::
 
