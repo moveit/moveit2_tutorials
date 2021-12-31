@@ -1,8 +1,3 @@
-:moveit1:
-
-..
-   Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
-
 Motion Planning API
 ==================================
 .. image:: motion_planning_api_tutorial_robot_move_arm_1st.png
@@ -20,11 +15,11 @@ Running the Demo
 ----------------
 Open two shells. In the first shell start RViz and wait for everything to finish loading: ::
 
-  roslaunch panda_moveit_config demo.launch
+  ros2 launch moveit2_tutorials move_group.launch.py
 
 In the second shell, run the launch file: ::
 
-  roslaunch moveit_tutorials motion_planning_api_tutorial.launch
+  ros2 launch moveit2_tutorials motion_planning_api_tutorial.launch.py
 
 **Note:** This tutorial uses the **RvizVisualToolsGui** panel to step through the demo. To add this panel to RViz, follow the instructions in the `Visualization Tutorial <../quickstart_in_rviz/quickstart_in_rviz_tutorial.html#rviz-visual-tools>`_.
 
@@ -63,4 +58,4 @@ The entire code can be seen :codedir:`here in the moveit_tutorials GitHub projec
 
 The Launch File
 ---------------
-The entire launch file is :codedir:`here <motion_planning_api/launch/motion_planning_api_tutorial.launch>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
+The entire launch file is :codedir:`here <motion_planning_api/launch/motion_planning_api_tutorial.launch.py>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
