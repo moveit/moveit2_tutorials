@@ -51,14 +51,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
 
 include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
 
-<<<<<<< HEAD
-=======
-# add_subdirectory(doc/controller_configuration)
-# add_subdirectory(doc/interactivity)
-# add_subdirectory(doc/kinematics)
 add_subdirectory(doc/motion_planning_api)
-# add_subdirectory(doc/motion_planning_pipeline)
->>>>>>> 2289195 (Update motion_planning_api tutorial to work with ROS 2. (#247))
 add_subdirectory(doc/move_group_interface)
 add_subdirectory(doc/moveit_cpp)
 add_subdirectory(doc/planning_scene)
