@@ -43,7 +43,7 @@ You can install it with pip like this:
 
 .. code-block:: bash
 
-  pip3 install -U pre-commit
+  python3 -m pip install --user pre-commit
 
 To run pre-commit locally to fix formatting and spelling:
 
