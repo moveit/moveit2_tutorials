@@ -1,4 +1,4 @@
-How-To Write a How-To Guide
+How to Write a How-To Guide
 ===========================
 
 The How-To Guides are distinctly different from tutorials in that they are directed towards a different audience.
@@ -24,7 +24,7 @@ Readers of How-To guides are already using MoveIt but are looking for isntructio
 Names Answer a User's Question
 ------------------------------
 
-How-To guies answer very specific questions and should capture Google searches.
+How-To guides answer very specific questions and should capture Google searches.
 For that reason the naming of them is really important.
 An example of some potentially good names are:
 

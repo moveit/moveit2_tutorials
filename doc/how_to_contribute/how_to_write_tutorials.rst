@@ -1,7 +1,7 @@
 How-To Write a Tutorial
 =======================
 
-Tutorials are the most one of the most useful contributions you can make because they are the first thing many new users see.
+Tutorials are one of the most useful contributions you can make because they are the first thing many new users see.
 Tutorials should have these qualities:
 
 * learning by doing
@@ -22,15 +22,15 @@ Tutorials should follow this basic pattern:
 2. Action steps the user takes
 3. Conclusion to summarize what was learned
 
-In the end the reader should feal a sense of accomplishment.
-In order for that they have to take some actions that they were instructed to.
-We should avoid the pattern of having a pre-made program that the user just executes followed by a explinations of the code.
+In the end, the reader should feel a sense of accomplishment.
+For that, they have to take some actions that they were instructed to.
+We should avoid the pattern of having a pre-made program that the user just executes followed by an explanation of the code.
 Ideally each tutorial should extend the previous one to make them feel connected.
 
 Concrete, not Abstract
 ----------------------
 
-Tutorials are not the place for explaining nuanced abstractions or discussing dicisions.
+Tutorials are not the place for explaining nuanced abstractions or discussing decisions.
 In order to foster learning by the newest users they should build muscle memory around using the varous components in MoveIt to do specific tasks.
 
 When a user is going through the tutorials, we should avoid distracting them with potential rabbit holes as that'll detract from the experience of the tutorials.
@@ -40,7 +40,7 @@ Place links to external sties and other resources at the end of the tutorial.
 Reviewing Tutorials
 -------------------
 
-It is important that the tutorials are reivewed by those that are as close to the intended audience in their amount of experience with MoveIt.
+It is important that the tutorials are reviewed by those that are as close as possible to the intended audience in their amount of experience with MoveIt.
 
 Awesome Examples
 ----------------

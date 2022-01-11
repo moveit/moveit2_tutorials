@@ -1,4 +1,4 @@
-How-To Contribute to This Site
+How to Contribute to This Site
 ==============================
 
 This explains how to make and submit changes to this site.
@@ -11,8 +11,7 @@ Follow the tutorial :doc:`/doc/tutorials/getting_started/getting_started` to set
 
 All further instructions assume you are the directory containing a local checkout of ``moveit2_tutorials``.
 
-Build and view the website locally
-----------------------------------
+**Build and view the website locally**
 
 To build the website locally run this command:
 
@@ -26,8 +25,7 @@ Then you can use this to open the site in your webbrowser:
 
   open ./build/html/index.html
 
-Test for broken links
----------------------
+**Test for broken links**
 
 To test for broken links run this command:
 
@@ -35,8 +33,7 @@ To test for broken links run this command:
 
   ./htmlprofer.sh
 
-Run the formatters and spellchecker
------------------------------------
+**Run the formatters and spellchecker**
 
 We use `pre-commit <https://pre-commit.com/>`_ to run the formatting and spelling checkers.
 You can install it with pip like this:
@@ -51,8 +48,7 @@ To run pre-commit locally to fix formatting and spelling:
 
   pre-commit run --all
 
-Run industrial_ci locally to run CI
------------------------------------
+**Run industrial_ci locally to run CI**
 
 1. Clone a copy of `industrial_ci <https://github.com/ros-industrial/industrial_ci>`_ into your workspace.
 2. Build and source your workspace.
@@ -67,7 +63,4 @@ Run industrial_ci locally to run CI
     CCACHE_DIR="$HOME/.ccache" \
     CLANG_TIDY='true'
 
-Next Step
----------
-
-:doc:`how_to_write_tutorials`
+**Next Step:** :doc:`how_to_write_tutorials`
