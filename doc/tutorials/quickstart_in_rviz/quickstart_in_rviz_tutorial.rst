@@ -234,10 +234,10 @@ RViz enables you to save your configuration under ``File->Save Config``. You sho
 
 Next Tutorials
 ++++++++++++++
-* To easily control your robot using C++, check out the :doc:`Move Group C++ Interface </doc/todo/move_group_interface/move_group_interface_tutorial>`
+* To easily control your robot using C++, check out the :doc:`Move Group C++ Interface </doc/examples/move_group_interface/move_group_interface_tutorial>`
 
-* To easily control your robot using Python, check out the :doc:`Move Group Python Interface </doc/todo/move_group_python_interface/move_group_python_interface_tutorial>`
+* To easily control your robot using Python, check out the :doc:`Move Group Python Interface </doc/examples/move_group_python_interface/move_group_python_interface_tutorial>`
 
-* To create your own ``*_moveit_config`` package, check out the :doc:`Setup Assistant </doc/todo/setup_assistant/setup_assistant_tutorial>`
+* To create your own ``*_moveit_config`` package, check out the :doc:`Setup Assistant </doc/examples/setup_assistant/setup_assistant_tutorial>`
 
-* Save and restore robot states from a database or from disk using :doc:`warehouse_ros </doc/todo/persistent_scenes_and_states/persistent_scenes_and_states>`
+* Save and restore robot states from a database or from disk using :doc:`warehouse_ros </doc/examples/persistent_scenes_and_states/persistent_scenes_and_states>`

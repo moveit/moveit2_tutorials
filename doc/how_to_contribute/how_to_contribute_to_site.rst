@@ -1,15 +1,20 @@
 How to Contribute to This Site
 ==============================
 
-This explains how to make and submit changes to this site.
-This how-to guide assumes you are on Ubuntu 20.04.
+This explains what you need to know to successfully submit changes to this site.
 
-Background
-----------
+Learning Objectives
+-------------------
+- How to locally build this website.
+- How to check for broken links.
+- How to check spelling and formatting.
+- How to run CI locally for checking code changes.
 
-Follow the tutorial :doc:`/doc/tutorials/getting_started/getting_started` to set up your workspace for testing local changes.
-
-All further instructions assume you are the directory containing a local checkout of `the moveit2_tutorials repo <https://github.com/ros-planning/moveit2_tutorials>`_.
+Requirements
+------------
+- Ubuntu 20.04
+- ROS 2 Galactic
+- A local checkout of `the moveit2_tutorials repo <https://github.com/ros-planning/moveit2_tutorials>`_
 
 Steps
 -----
@@ -18,8 +23,7 @@ These steps will walk you through how to build the website locally, test for bro
 
 This should make it easy for you to develop changes to this site and make sure your changes will pass the checks in CI.
 
-Build and view the website locally
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. Build and view the website locally
 
 To build the website locally run this command:
 
@@ -33,8 +37,7 @@ Then you can open the local build of the site in your web browser from: ``./buil
 
   firefox ./build/html/index.html
 
-Test for broken links
-~~~~~~~~~~~~~~~~~~~~~
+2. Test for broken links
 
 To test for broken links run this command:
 
@@ -42,8 +45,7 @@ To test for broken links run this command:
 
   ./htmlprofer.sh
 
-Run the formatters and spellchecker
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3. Run the formatters and spellchecker
 
 We use `pre-commit <https://pre-commit.com/>`_ to run the formatting and spelling checkers.
 You can install it with pip like this:
@@ -58,8 +60,7 @@ To run pre-commit locally to fix formatting and spelling:
 
   pre-commit run --all
 
-Run industrial_ci locally to run CI
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4. Run industrial_ci locally to run CI
 
 1. Clone a copy of `industrial_ci <https://github.com/ros-industrial/industrial_ci>`_ into your workspace.
 2. Build and source your workspace.
@@ -74,7 +75,8 @@ Run industrial_ci locally to run CI
     CCACHE_DIR="$HOME/.ccache" \
     CLANG_TIDY='true'
 
-Next Steps
-~~~~~~~~~~
+Further Reading
+---------------
 
-:doc:`how_to_write_tutorials`
+- :doc:`how_to_write_tutorials`
+- :doc:`how_to_write_how_to_guides`

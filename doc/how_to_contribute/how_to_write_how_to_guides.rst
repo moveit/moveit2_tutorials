@@ -1,59 +1,54 @@
-How to Write a How-To Guide
-===========================
+How to Write a MoveIt How-To Guide
+==================================
 
-The How-To Guides are distinctly different from tutorials in that they are directed towards a different audience.
+This guide explains how to write How-To's for MoveIt documentation. This guide is primarily intended for use by employees at PickNik Robotics
+to assist in standardizing how-to documents but can be used by any contribitor who wants to submit a new guide. If you are looking for
+how-to guides for using MoveIt, you can find them here: :doc:`/doc/how_to_guides/how_to_guides`.
 
-Background
-----------
+Learning Objectives
+-------------------
+- The type of information that should be included in a how-to.
+- Proper formatting for how-to guides in the MoveIt documentation section.
 
-You should assume much more knoledge of MoveIt and simply offer a quick guide for a specific problem.
-These pages posses these qualities:
-
-* problem oriented
-* a series of steps
-* a focus on the goal
-* addressing a specific question
-* no unnecessary explanation
-* a little flexibility
-* practical usability
-* good naming
-
-In a tutorial you carefully guide the reader through doing a set steps with the goal of learning.
-Readers who are following tutorials don't know the terms or concepts yet to ask specific questions.
-Readers of How-To guides are already using MoveIt but are looking for isntructions on doing something specific.
-
-Names Answer a User's Question
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-How-To guides answer very specific questions and should capture Google searches.
-For that reason the naming of them is really important.
-An example of some potentially good names are:
-
-* How to Visualize Collisions in MoveIt
-* How to Grasp Objects with Moveit
-* How to run MoveIt with UR5
-* How to Fix a Segfault
-* How to Migrate from Foxy to Galactic
-* How to Run in Gazebo
-* How to Setup a New Robot for MoveIt
-* How to use the MoveIt RViz plugin
-* How to Teleop a Robot Arm with a Controller
-
-Goal Focused and Practical
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-For these guides it is really important that you focus specifically on solving the problem the user came to the site for.
-Because these users have a deeper understanding though you should present the user with some options when they will need to make a decision with tradeoffs.
-You should state what the assumed pre-requisites are in the introduction to the How-To Guide.
-That way you can avoid having multiple copies of isntructions on this site and allow users who already know the prerequisites to jump right into solving their problem.
+Requirements
+------------
+- Ubuntu 20.04
+- ROS 2 Galactic
+- MoveIt2
 
 Steps
 -----
 
-1 Copy the template
-~~~~~~~~~~~~~~~~~~~
+1. Fork the MoveIt2 Tutorials repository (https://github.com/ros-planning/moveit2_tutorials.git) and start a new branch with an intuitive name (e.g. jack/how-to-write-how-tos)
 
-Create a new file in the ``doc/how_to_guides`` directory with the ``.rst`` extension with this template:
+#. Create a new file in the ``doc/how_to_guides`` directory with a ``.rst`` extension. The title should start with "How to" followed by the specific question being answered (e.g. "How to Write a MoveIt How-To Guide").
+
+#. Add a link to your guide on the appropriate how-to guide page:
+
+   - User guides: :doc:`/doc/how_to_guides/how_to_guides`
+
+   - Contributors guides: :doc:`/doc/how_to_contribute/how_to_contribute`
+
+#. Write the introduction using reStructuredText (.rst) using the following guidelines:
+
+   - The title should have the same name as the file.
+
+   - The introduction should explain the purpose of this how-to and the intended audience.
+
+   - If you think people may regularly find this particular guide by mistake, add links to the proper resource.
+
+#. Write the specific learning objectives (i.e. what will the reader know when they finish reading this how-to).
+
+#. Add any system or equipment requirements for this how-to so users know if this how-to is appropriate for them.
+
+#. Layout the individual action steps and do not leave out necessary intermediate steps.
+
+#. Create a "Further Reading" section that links to amplifying information.
+
+#. Submit the new page as a PR to the MoveIt2 Tutorials repository (https://github.com/ros-planning/moveit2_tutorials.git).
+
+Template
+~~~~~~~~
 
 .. code-block::
 
@@ -62,7 +57,12 @@ Create a new file in the ``doc/how_to_guides`` directory with the ``.rst`` exten
 
   <Brief description of the How-To Guide with image or GIF showing the outcome>
 
-  Background
+  Learning Objectives
+  -------------------
+
+  <List of things the user will learn>
+
+  Requirements
   ----------
 
   <Explination of what the user should understand.  Unlike a tutorial these are stand-alone and can assume the user has much more background.>
@@ -70,31 +70,14 @@ Create a new file in the ``doc/how_to_guides`` directory with the ``.rst`` exten
   Steps
   -----
 
-  1 <First Step>
-  ~~~~~~~~~~~~~~
+  <A list of steps to take to solve the problem>
 
-  <The first thing you need to do.>
+  Further Reading
+  ---------------
 
-  2 <Second Step>
-  ~~~~~~~~~~~~~~~
+  <A list of links to related content on and off this website>
 
-  <...>
+Further Reading
+---------------
 
-  Conclusion
-  ----------
-
-  <Here you should show the result of the How-To guide and provide references for further reading.>
-
-2 Write the How-To Guide
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-Fill in the various sections.
-Remember your goal here is to help someone solve a specific problem.
-Excellent How-To Guides should be short and to the point.
-Make sure you add a link to your How-To Guide in the table of contents on the :doc:`/doc/how_to_guides/how_to_guides` page.
-Lastly, submit your new page as a PR and get feedback from others.
-
-Next Step
----------
-
-Write a How-To Guide
+- Concepts page: :doc:`/doc/concepts/how_to_guide`
