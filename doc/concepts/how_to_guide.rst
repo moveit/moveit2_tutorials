@@ -15,7 +15,7 @@ These pages posses these qualities:
 
 In a tutorial you carefully guide the reader through doing a set of steps with the goal of learning.
 Readers who are following tutorials don't know the terms or concepts yet to ask specific questions.
-Readers of How-To guides are already using MoveIt but are looking for isntructions on doing something specific.
+Readers of How-To guides are already using MoveIt but are looking for instructions on doing something specific.
 
 Names Answer a User's Question
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
