@@ -1,10 +1,13 @@
-How to Write a Tutorial
-=======================
+How to Write a MoveIt Tutorial
+==============================
 
-Tutorials are one of the most useful contributions you can make because they are the first thing many new users see.
+This guide explains how to write Tutorials for MoveIt documentation which are one of the most useful contributions you can make because they are the first thing many new users see.
+This guide is primarily intended for use by employees at PickNik Robotics to assist in standardizing tutorial documents but can be used by any contributor who wants to submit a new tutorial.
+If you are looking for how-to guides for using MoveIt, you can find them here: How-To Guides.
 
 Learning Objectives
 -------------------
+- The type of information that should be included in a tutorial.
 - Proper formatting for tutorials in the MoveIt documentation section.
 
 Requirements
@@ -16,10 +19,34 @@ Requirements
 Steps
 -----
 
-1 Copy the template
-~~~~~~~~~~~~~~~~~~~
+1. Fork the MoveIt2 Tutorials repository (https://github.com/ros-planning/moveit2_tutorials.git) and start a new branch with an intuitive name (e.g. jack/how-to-tutorials)
 
-Create a new directory in the ``doc/tutorials`` directory, then create a file in that directory with the ``.rst`` extension with this template:
+#. Create a new file in the ``doc/tutorials`` directory with a ``.rst`` extension. The title should start with a concise description and end with "Tutorial" (e.g. "Writing MoveIt Tutorials Tutorial").
+
+#. Add a link to your tutorial on the tutorials page: :doc:`/doc/tutorials/tutorials`
+
+#. Write the introduction using reStructuredText (.rst) using the following guidelines:
+
+   - The title should have the same name as the file.
+
+   - The introduction should explain the purpose of this tutorial and the intended audience.
+
+   - If you think people may regularly find this particular guide by mistake, add links to the proper resource.
+
+#. Write the specific learning objectives (i.e. what will the reader know when they finish reading this tutorial).
+
+#. Add any system or equipment requirements for this tutorial so users know if this tutorial is appropriate for them.
+
+#. Layout the interactive steps to be followed with enough details that the reader can easily follow along.
+
+#. Write a conclusion to summarize the tutorial and provide additional resources.
+
+#. Add a link to the next tutorial the reader should follow.
+
+#. Submit the new page as a PR to the MoveIt2 Tutorials repository (https://github.com/ros-planning/moveit2_tutorials.git).
+
+Template
+--------
 
 .. code-block::
 
@@ -33,26 +60,26 @@ Create a new directory in the ``doc/tutorials`` directory, then create a file in
 
   <Explination of what the user should have already done before this tutorial>
 
-  Tasks
+  Steps
   -----
 
-  1 <First Step>
-  ~~~~~~~~~~~~~~
+  1. <First Step>
+  ---------------
 
   <This should describe an action that the user should take such as creating a ROS project or typing up some code>
 
-  1.1 <Explination First Step>
+  1.1) <Explination First Step>
   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   <Use substeps like this to walk the user through an explination of what they did>
 
-  1.2 <Action First step>
+  1.2) <Action First step>
   ^^^^^^^^^^^^^^^^^^^^^^^
 
   <Use a substep like this to describe running the new code and what the results should be>
 
-  2 <Second Step>
-  ~~~~~~~~~~~~~~~
+  2. <Second Step>
+  ----------------
 
   <...>
 
@@ -66,20 +93,7 @@ Create a new directory in the ``doc/tutorials`` directory, then create a file in
 
   <Link to the next tutorial here>
 
-2 Write the tutorial
-~~~~~~~~~~~~~~~~~~~~
-
-Fill in the various sections.
-It can be really helpful to do the tutorial yourself after you have written it to make sure everything in it works.
-Make sure you add a link to your tutorial in the table of contents on the :doc:`/doc/tutorials/tutorials` page.
-Lastly, submit your new tutorial as a PR and get feedback from others.
-
 Further Reading
 ---------------
-
+- :doc:`/doc/how_to_contribute/how_to_contribute_to_site`
 - Concepts page: :doc:`/doc/concepts/tutorials`
-
-Next Step
----------
-
-- Write a Tutorial

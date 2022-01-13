@@ -48,7 +48,7 @@ Steps
 #. Submit the new page as a PR to the MoveIt2 Tutorials repository (https://github.com/ros-planning/moveit2_tutorials.git).
 
 Template
-~~~~~~~~
+--------
 
 .. code-block::
 
@@ -79,5 +79,5 @@ Template
 
 Further Reading
 ---------------
-
+- :doc:`/doc/how_to_contribute/how_to_contribute_to_site`
 - Concepts page: :doc:`/doc/concepts/how_to_guide`
