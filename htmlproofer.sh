@@ -19,8 +19,19 @@ rm -rf build
 # Test build with non-ROS wrapped Sphinx command to allow warnings and errors to be caught
 sphinx-build -W -b html . build
 
+# Replace Edit on Github links with local file paths
+grep -rl 'https:\/\/github.com\/ros-planning\/moveit2_tutorials\/blob\/main\/' ./build/ | \
+ xargs sed -i "s|https://github.com/ros-planning/moveit2_tutorials/blob/main/|file://$PWD|g"
+
+# Replace internal links with local file paths
+grep -rl 'https:\/\/moveit.picknik.ai\/rolling\/' ./build/ | \
+ xargs sed -i "s|https://moveit.picknik.ai/rolling/|file://$PWD|g"
+
 # Run HTML tests on generated build output to check for 404 errors, etc
-htmlproofer ./build --only-4xx --check-html --http-status-ignore "429" --file-ignore ./build/genindex.html,./build/search.html --alt-ignore '/.*/' --url-ignore '#' --url-swap 'https\://github.com/ros-planning/moveit2_tutorials/blob/main/:file\://$PWD/build/' --url-swap 'https\://moveit.picknik.ai/rolling:file\://$PWD/build/'
+htmlproofer ./build \
+  --only-4xx --check-html --http-status-ignore "429" \
+  --file-ignore ./build/genindex.html,./build/search.html \
+  --alt-ignore '/.*/' --url-ignore '#'
 
 # Tell GitHub Pages (on deploy) to bypass Jekyll processing
 touch build/.nojekyll

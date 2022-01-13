@@ -1,106 +1,34 @@
-MoveIt 2 Tutorials
-===================
+MoveIt 2 Documentation
+======================
 
-These tutorials will quickly get you, and your robot, using the MoveIt 2 Motion Planning Framework.
+MoveIt 2 is the robotics manipulation platform for ROS 2. For ROS 1, see `MoveIt 1 <https://ros-planning.github.io/moveit_tutorials>`_.
 
-.. image:: doc/quickstart_in_rviz/rviz_plugin_head.png
+.. image:: doc/tutorials/quickstart_in_rviz/rviz_plugin_head.png
    :width: 700px
 
-In these tutorials, the Franka Emika Panda robot is used as a quick-start demo. Alternatively, you can easily use any robot that has already been configured to work with MoveIt - check the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_ to see whether MoveIt is already available for your robot. Otherwise, you can setup MoveIt to work with your custom robot in the tutorial section "Integration with a New Robot", below.
+Beloved Features
+----------------
 
-Getting Started with MoveIt and RViz
--------------------------------------
-.. toctree::
-   :maxdepth: 1
+TODO: fill this in
 
-   doc/getting_started/getting_started
-   doc/quickstart_in_rviz/quickstart_in_rviz_tutorial
+How-To Use This Website
+-----------------------
 
-MoveGroup - ROS Wrappers in C++
-------------------------------------------
-The simplest way to use MoveIt through scripting is using the ``move_group_interface``. This interface is ideal for beginners and provides unified access to many of the features of MoveIt.
+* :doc:`/doc/tutorials/tutorials` will walk you through creating your first project with MoveIt.
+* :doc:`/doc/how_to_guides/how_to_guides` answers the questsion "How to do X with MoveIt?"
+* :doc:`/doc/concepts/concepts` discusses the design of MoveIt.
+* :doc:`/doc/how_to_contribute/how_to_contribute` is a place to learn about you can make changes to MoveIt and this website.
+* :doc:`/doc/examples/examples` contains other useful pages that have not been adapted to the new layout of this site or are not yet ported from ROS 1.
 
-.. toctree::
-   :maxdepth: 1
-
-   doc/move_group_interface/move_group_interface_tutorial
-   doc/move_group_python_interface/move_group_python_interface_tutorial
-   doc/moveit_commander_scripting/moveit_commander_scripting_tutorial
-
-Using MoveIt Directly Through the C++ API
-------------------------------------------
-Building more complex applications with MoveIt often requires developers to dig into MoveIt’s C++ API. As an added plus, using the C++ API directly skips many of the ROS Service/Action layers resulting in significantly faster performance.
+Table Of Contents
+-----------------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-   doc/robot_model_and_robot_state/robot_model_and_robot_state_tutorial
-   doc/planning_scene/planning_scene_tutorial
-   doc/planning_scene_monitor/planning_scene_monitor_tutorial
-   doc/planning_scene_ros_api/planning_scene_ros_api_tutorial
-   doc/motion_planning_api/motion_planning_api_tutorial
-   doc/motion_planning_pipeline/motion_planning_pipeline_tutorial
-   doc/creating_moveit_plugins/plugin_tutorial
-   doc/visualizing_collisions/visualizing_collisions_tutorial
-   doc/time_parameterization/time_parameterization_tutorial
-   doc/planning_with_approximated_constraint_manifolds/planning_with_approximated_constraint_manifolds_tutorial
-   doc/pick_place/pick_place_tutorial
-   doc/moveit_grasps/moveit_grasps_tutorial
-   doc/moveit_task_constructor/moveit_task_constructor_tutorial
-   doc/moveit_deep_grasps/moveit_deep_grasps_tutorial
-   doc/subframes/subframes_tutorial
-   doc/moveit_cpp/moveitcpp_tutorial
-   doc/bullet_collision_checker/bullet_collision_checker
-   doc/mobile_base_arm/mobile_base_arm_tutorial
-
-Integration with a New Robot
-----------------------------
-Before attempting to integrate a new robot with MoveIt 2, check whether your robot has already been setup (see the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt (and share your results on the MoveIt mailing list)
-
-.. toctree::
-   :maxdepth: 1
-
-   doc/setup_assistant/setup_assistant_tutorial
-   doc/urdf_srdf/urdf_srdf_tutorial
-   doc/controller_configuration/controller_configuration_tutorial
-   doc/perception_pipeline/perception_pipeline_tutorial
-   doc/hand_eye_calibration/hand_eye_calibration_tutorial
-   doc/ikfast/ikfast_tutorial
-   doc/trac_ik/trac_ik_tutorial
-
-Configuration
--------------
-.. toctree::
-   :maxdepth: 1
-
-   doc/kinematics_configuration/kinematics_configuration_tutorial
-   doc/custom_constraint_samplers/custom_constraint_samplers_tutorial
-   doc/ompl_interface/ompl_interface_tutorial
-   doc/chomp_planner/chomp_planner_tutorial
-   doc/stomp_planner/stomp_planner_tutorial
-   doc/trajopt_planner/trajopt_planner_tutorial
-   doc/pilz_industrial_motion_planner/pilz_industrial_motion_planner
-   doc/planning_adapters/planning_adapters_tutorial.rst
-   doc/persistent_scenes_and_states/persistent_scenes_and_states
-
-**Note:** The list of the robots above are for MoveIt, a list is on the works for MoveIt 2.
-
-Miscellaneous
-----------------------------
-
-.. toctree::
-   :maxdepth: 1
-
-   doc/realtime_servo/realtime_servo_tutorial
-   doc/hybrid_planning/hybrid_planning_tutorial
-   doc/benchmarking/benchmarking_tutorial
-   doc/tests/tests_tutorial
-
-Attribution
------------
-Major contributors to the MoveIt tutorials are listed in chronological order: Sachin Chitta, Dave Hershberger, Acorn Pooley, Dave Coleman, Michael Gorner, Francisco Suarez, Mike Lautman. Help us improve these docs and we'll be happy to include you here also!
-
-The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with PickNik (`Check out the blog post! <http://moveit.ros.org/moveit!/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
-
-.. image:: ./_static/images/franka_logo.png
-   :width: 300px
+   doc/tutorials/tutorials
+   doc/how_to_guides/how_to_guides
+   doc/concepts/concepts
+   doc/how_to_contribute/how_to_contribute
+   doc/examples/examples
+   doc/attribution/attribution
