@@ -38,3 +38,15 @@ Here are some awesome examples to draw inspiration from for creating tutorials:
 * `CUDA Toolkit <https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#introduction>`_
 * `libuv book <http://docs.libuv.org/en/v1.x/guide/introduction.html>`_
 * `React Native Docs <https://reactnative.dev/docs/getting-started>`_
+
+Drawing Diagrams
+~~~~~~~~~~~~~~~~
+
+.. image:: /_static/images/example_diagram.png
+   :width: 700px
+
+Diagrams can easily convey what words cannot.
+Here are two websites that you can use to create diagrams to explain concepts quickly:
+
+* `draw.io <https://draw.io>`_
+* `excalidraw.com <https://excalidraw.com/>`_

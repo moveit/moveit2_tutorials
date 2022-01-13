@@ -2,10 +2,9 @@ How-To Guide
 ============
 
 The How-To Guides are distinctly different from tutorials in that they are directed towards a different audience.
-You should assume much more knoledge of MoveIt and simply offer a quick guide for a specific problem.
+How-To Guides are **Problem-Oriented** and assume the reader came to this page to answer a specific question.
 These pages posses these qualities:
 
-* problem oriented
 * a series of steps
 * a focus on the goal
 * addressing a specific question
