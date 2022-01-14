@@ -12,9 +12,11 @@ All content in this repository is open source and released under the [BSD Licens
 
 This repository is currently built automatically by Github Actions:
 
-- main: [![Build](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci_main.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci_main.yml?query=branch%3Amain) (Galactic, Rolling)
-- main: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Amain) (Galactic, Rolling)
-- foxy: [![Build](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci_main.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci_foxy.yml?query=branch%3Afoxy) (Foxy)
+- main: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Amain)
+- main: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Amain)
+- galactic: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=galactic)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Agalactic)
+- galactic: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=galactic)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Agalactic)
+- foxy: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Afoxy) (Foxy)
 - foxy: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Afoxy) (Foxy)
 - foxy: [![Deploy](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml?query=branch%3Afoxy) (Foxy)
 - foxy: [Github Pages](https://moveit.picknik.ai/): (Foxy)
