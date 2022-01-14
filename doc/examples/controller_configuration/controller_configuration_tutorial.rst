@@ -12,14 +12,14 @@ MoveIt typically publishes manipulator motion commands to a `JointTrajectoryCont
 
 MoveIt Controller Manager
 -------------------------
-If using the Move Group, a MoveItControllerManager (MICM) can be used to manage controller switching. The MICM can parse the joint names in any command coming from MoveIt and activate the appropriate controllers. For example, it can automatically switch between controlling two manipulators in a single joint group at once to a single manipulator. To use a MICM, just set :code:`moveit_manage_controllers = true` in the launch file. `Example MICM launch file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_. Frankly, the MICM is a candidate to be deprecated soon and we do not recommend its use.
+If using the Move Group or MoveItCpp, a MoveItControllerManager (MICM) can be used to manage controller switching. The MICM can parse the joint names in any command coming from MoveIt and activate the appropriate controllers. For example, it can automatically switch between controlling two manipulators in a single joint group at once to a single manipulator. To use a MICM, just set :code:`moveit_manage_controllers = true` in the launch file. `Example MICM launch file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_. Frankly, the MICM is a candidate to be deprecated soon and we do not recommend its use.
 
 MoveIt Controller Interfaces
 ----------------------------
 
-The text above describes launching of a joint trajectory controller action interface. In addition, MoveIt supports gripper control. This section describes the parameters of these two options.
+The text above describes launching of a joint trajectory controller action interface. In addition, MoveIt supports parallel-jaw gripper control via action interface. This section describes the parameters of these two options.
 
-*. FollowJointTrajectory Controller Interface
+#. FollowJointTrajectory Controller Interface
 
 The parameters are:
  * *name*: The name of the controller.  (See debugging information below for important notes).
@@ -28,7 +28,7 @@ The parameters are:
  * *default*: The default controller is the primary controller chosen by MoveIt for communicating with a particular set of joints.
  * *joints*: Names of all the joints that are being addressed by this interface.
 
-*. GripperCommand Controller Interface
+#. GripperCommand Controller Interface
 
 The parameters are:
  * *name*: The name of the controller.  (See debugging information below for important notes).
@@ -42,7 +42,9 @@ The parameters are:
 Optional Allowed Trajectory Execution Duration Parameters
 ---------------------------------------------------------
 
-For each controller it is optionally possible to set the *allowed_execution_duration_scaling* and *allowed_goal_duration_margin* parameters. These are controller-specific overrides of the global values *trajectory_execution/allowed_execution_duration_scaling* and *trajectory_execution/allowed_goal_duration_margin*. As opposed to the global values, the contoller-specific ones cannot be dynamically reconfigured at runtime. The parameters are used to compute the allowed trajectory execution duration by scaling the expected execution duration and adding the margin afterwards. If this duration is exceeded the trajectory will be cancelled. The controller-specific parameters can be set as follows ::
+(TODO: update for ROS2)
+
+For each controller it is optional to set the *allowed_execution_duration_scaling* and *allowed_goal_duration_margin* parameters. These are controller-specific overrides of the global values *trajectory_execution/allowed_execution_duration_scaling* and *trajectory_execution/allowed_goal_duration_margin*. As opposed to the global values, the contoller-specific ones cannot be dynamically reconfigured at runtime. The parameters are used to compute the allowed trajectory execution duration by scaling the expected execution duration and adding the margin afterwards. If this duration is exceeded the trajectory will be cancelled. The controller-specific parameters can be set as follows ::
 
  controller_list:
   - name: arm_controller
@@ -53,7 +55,10 @@ For each controller it is optionally possible to set the *allowed_execution_dura
 
 Debugging Information
 ---------------------
-The ``FollowJointTrajectory`` or ``GripperCommand`` interfaces on your robot must be communicating in the namespace: ``/name/action_ns``. In the above example, you should be able to see the following topics (using *rostopic list*) on your robot:
+
+(TODO: update for ROS2)
+
+The ``FollowJointTrajectory`` or ``GripperCommand`` interfaces on your robot must be communicating in the namespace: ``/name/action_ns``. In the above example, you should be able to see the following topics (using *ros2 topic list*) on your robot:
 
  * /panda_arm_controller/follow_joint_trajectory/goal
  * /panda_arm_controller/follow_joint_trajectory/feedback
@@ -62,7 +67,7 @@ The ``FollowJointTrajectory`` or ``GripperCommand`` interfaces on your robot mus
  * /hand_controller/gripper_action/feedback
  * /hand_controller/gripper_action/result
 
-You should also be able to see (using ``rostopic info topic_name``) that the topics are published/subscribed to by the controllers on your robot and also by the **move_group** node.
+You should also be able to see (using ``ros2 topic info topic_name``) that the topics are published/subscribed to by the controllers on your robot and also by the **move_group** node.
 
 Remapping /joint_states topic
 -----------------------------
