@@ -102,11 +102,13 @@ intersphinx_mapping = {
 #
 html_theme = "sphinx_rtd_theme"
 html_theme_options = {
-    "collapse_navigation": False,
+    "collapse_navigation": True,
     "sticky_navigation": True,
     "navigation_depth": -1,
     # This is the Google Analytics account used by moveit.ros.org, not picknik.ai
     "analytics_id": "UA-108532843-1",
+    # Only display the logo image, do not display the project name at the top of the sidebar
+    "logo_only": True,
 }
 
 html_context = {
@@ -148,6 +150,7 @@ macros = {
     "REPOS_FILE_BRANCH": "foxy",
 }
 
+# Set the the browser icon
 html_favicon = "_static/images/favicon.ico"
 
 
@@ -155,6 +158,12 @@ html_favicon = "_static/images/favicon.ico"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+
+# These paths are either relative to html_static_path
+# or fully qualified paths (eg. https://...)
+html_css_files = [
+    "css/override.css",
+]
 
 # Drop any source link suffix
 html_sourcelink_suffix = ""
@@ -410,6 +419,9 @@ def smv_rewrite_configs(app, config):
         app.config.html_baseurl = app.config.html_baseurl + "/" + distro + "/"
         app.config.project = "MoveIt Documentation: " + distro.title()
         app.config.html_logo = "_static/images/" + distro + "-small.png"
+    else:
+        # If we are not building a multiversion build, default to the rolling logo
+        app.config.html_logo = "_static/images/rolling-small.png"
 
 
 def github_link_rewrite_branch(app, pagename, templatename, context, doctree):
