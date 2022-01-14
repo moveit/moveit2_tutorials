@@ -39,7 +39,7 @@ In this terminal you should be able to enter numbers from 1-12 to send commands,
 
 The Code
 ---------------
-The code for this example can be seen :codedir:`here <subframes>` in the moveit_tutorials GitHub project and is explained in detail below.
+The code for this example can be seen :codedir:`here <examples/subframes>` in the moveit_tutorials GitHub project and is explained in detail below.
 
 The code spawns a box and a cylinder in the planning scene, attaches the cylinder to the
 robot, and then lets you send motion commands via the command line. It also defines two

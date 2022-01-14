@@ -29,7 +29,7 @@ Classes
 -------
 The code for this tutorial is mainly in the :code:`InteractiveRobot` class which we will walk through below. The :code:`InteractiveRobot` class maintains a :code:`RobotModel`, a :code:`RobotState`, and information about 'the world' (in this case "the world" is a single yellow cube).
 
-The :code:`InteractiveRobot` class uses the :code:`IMarker` class which maintains an interactive marker. This tutorial does not cover the implementation of the IMarker class (:codedir:`imarker.cpp <interactivity/src/imarker.cpp>`), but most of the code is copied from the `basic_controls <http://wiki.ros.org/rviz/Tutorials/Interactive%20Markers:%20Getting%20Started#basic_controls>`_ tutorial and you can read more there about interactive markers if you are interested.
+The :code:`InteractiveRobot` class uses the :code:`IMarker` class which maintains an interactive marker. This tutorial does not cover the implementation of the IMarker class (:codedir:`imarker.cpp <examples/interactivity/src/imarker.cpp>`), but most of the code is copied from the `basic_controls <http://wiki.ros.org/rviz/Tutorials/Interactive%20Markers:%20Getting%20Started#basic_controls>`_ tutorial and you can read more there about interactive markers if you are interested.
 
 Interacting
 -----------
