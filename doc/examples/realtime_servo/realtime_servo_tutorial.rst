@@ -56,17 +56,17 @@ Introspection
 
 Here are some tips for inspecting and/or debugging the system.
 
-View the ros2_controllers that are currently active with :code:`ros2 control list_controllers`. You will see a JointTrajectoryController that receives the joint position commands from Servo and handles them in the simulated robot driver. Servo is also compatible with JointGroupPosition or JointGroupVelocity-type controllers.
+#. View the :code:`ros2_controllers` that are currently active with :code:`ros2 control list_controllers`. You will see a `JointTrajectoryController <https://github.com/ros-controls/ros2_controllers/tree/master/joint_trajectory_controller>`_ that receives the joint position commands from Servo and handles them in the simulated robot driver. The JointTrajectoryController is very flexible; it can handle any combination of position/velocity/(position-and-velocity) input. Servo is also compatible with `JointGroupPosition <https://github.com/ros-controls/ros2_controllers/tree/master/position_controllers>`_ or `JointGroupVelocity <https://github.com/ros-controls/ros2_controllers/tree/master/velocity_controllers>`_-type controllers.
 
-:code:`ros2 topic echo /servo_node/status` shows the current state of the Servo node. If :code:`0` is published, all is well. The definition for all enums can be seen :moveit_codedir:`here.<moveit_ros/moveit_servo/include/moveit_servo/status_codes.h>`
+#. :code:`ros2 topic echo /servo_node/status` shows the current state of the Servo node. If :code:`0` is published, all is well. The definition for all enums can be seen :moveit_codedir:`here.<moveit_ros/moveit_servo/include/moveit_servo/status_codes.h>`
 
-:code:`ros2 node list` shows the following. :code:`ros2 node info` can be used to get more information about any of these nodes.
+#. :code:`ros2 node list` shows the following. :code:`ros2 node info` can be used to get more information about any of these nodes.
 
-- :code:`joy_node` handles commands from the XBox controller
+   - :code:`joy_node` handles commands from the XBox controller
 
-- :code:`moveit_servo_demo_container` holds several ancillary ROS2 "component nodes" that are placed in a container for faster intra-process communication
+   - :code:`moveit_servo_demo_container` holds several ancillary ROS2 "component nodes" that are placed in a container for faster intra-process communication
 
-- :code:`servo_node` which does the calculations and collision checking for this demo. :code:`servo_node` may be moved into the demo container in the future when this issue is resolved
+   - :code:`servo_node` which does the calculations and collision checking for this demo. :code:`servo_node` may be moved into the demo container in the future
 
 Using the C++ Interface
 -----------------------
