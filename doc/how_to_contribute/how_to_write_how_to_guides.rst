@@ -37,7 +37,7 @@ Steps
 
    - If you think people may regularly find this particular guide by mistake, add links to the proper resource.
 
-#. Write the specific learning objectives (i.e. what the reader will know when they finish reading this how-to).
+#. Write the specific learning objectives (i.e., what the reader will know when they finish reading this how-to).
 
 #. Add any system or equipment requirements for this how-to so users know if this how-to is appropriate for them.
 
