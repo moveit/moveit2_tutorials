@@ -20,10 +20,6 @@ Requirements
 Steps
 -----
 
-These steps will walk you through how to build the website locally, test for broken links, run the formatters and spellchecker, and how to locally run industrial_ci to test code changes.
-
-This should make it easy for you to develop changes to this site and make sure your changes will pass the checks in CI.
-
 1. Build and view the website locally
 
   First, ``cd`` to the root directory of the moveit2_tutorials repo (if you followed the :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` tutorial, this will be ``~/ws_moveit2/src/moveit2_tutorials``).  From that directory, run this command:
