@@ -40,7 +40,7 @@ This should make it easy for you to develop changes to this site and make sure y
 
   .. code-block:: bash
 
-    firefox ./build/html/index.html
+    xdg-open ./build/html/index.html
 
 2. Test for broken links
 
