@@ -80,4 +80,4 @@ Template
 Further Reading
 ---------------
 - :doc:`/doc/how_to_contribute/how_to_contribute_to_site`
-- :doc:`MoveIt Concepts: Tutorials </doc/concepts/tutorials>`
+- :doc:`MoveIt Concepts: How-To Guide </doc/concepts/how_to_guide>`
