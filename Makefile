@@ -14,5 +14,7 @@ multiversion: Makefile
 	@echo "<html><head><meta http-equiv=\"refresh\" content=\"0; url=foxy/index.html\" /></head></html>" > build/html/index.html
 
 .PHONY: help Makefile multiversion
+
+# By default this is the 'html' build
 %: Makefile
 	@$(BUILD) -M $@ "$(SOURCE)" "$(OUT)" $(OPTS)
