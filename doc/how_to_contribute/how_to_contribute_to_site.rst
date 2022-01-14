@@ -14,7 +14,8 @@ Requirements
 ------------
 - Ubuntu 20.04
 - ROS 2 Galactic
-- A local checkout of `the moveit2_tutorials repo <https://github.com/ros-planning/moveit2_tutorials>`_
+- Docker
+- A local checkout of `the moveit2_tutorials repo <https://github.com/ros-planning/moveit2_tutorials>`_ (if you don't already have one, :doc:`/doc/tutorials/getting_started/getting_started` will walk you through checking out and building the tutorials repo).
 
 Steps
 -----
