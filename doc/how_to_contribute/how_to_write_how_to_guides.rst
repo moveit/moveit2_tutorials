@@ -45,7 +45,7 @@ Steps
 
 #. Create a "Further Reading" section that links to amplifying information.
 
-#. Submit the new page as a PR to the MoveIt 2 Tutorials repository (https://github.com/ros-planning/moveit2_tutorials.git).
+#. Submit the new page as a PR to the `MoveIt 2 Tutorials repository <https://github.com/ros-planning/moveit2_tutorials.git>`_.
 
 Template
 --------
