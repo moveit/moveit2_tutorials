@@ -107,14 +107,14 @@ Open a shell and start RViz and wait for everything to finish loading: ::
 .. raw:: html
 
     <video width="700px" nocontrols="true" autoplay="true" loop="true">
-        <source src="/_static/videos/mobile_base_arm1.mp4" type="video/mp4">
+        <source src="../../../_static/videos/mobile_base_arm1.mp4" type="video/mp4">
         Planning for differential-drive base and arm
     </video>
 
 .. raw:: html
 
     <video width="700px" nocontrols="true" autoplay="true" loop="true">
-        <source src="/_static/videos/mobile_base_arm2.mp4" type="video/mp4">
+        <source src="../../../_static/videos/mobile_base_arm2.mp4" type="video/mp4">
         Planning after adding a collision object to planning scene
     </video>
 
