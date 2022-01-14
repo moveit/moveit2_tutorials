@@ -40,10 +40,10 @@ Move the right arm so it is in contact with the yellow cube (you may also move t
 
 Relevant Code
 -------------
-The entire code can be seen :codedir:`here <visualizing_collisions>` in the moveit_tutorials GitHub project. Libraries used can be found :codedir:`here <interactivity>`. A lot of information necessary for understanding how this demo works is left out to keep this tutorial focused on collision contacts. To understand this demo fully, it is highly recommended that you read through the source code.
+The entire code can be seen :codedir:`here <examples/visualizing_collisions>` in the moveit_tutorials GitHub project. Libraries used can be found :codedir:`here <examples/interactivity>`. A lot of information necessary for understanding how this demo works is left out to keep this tutorial focused on collision contacts. To understand this demo fully, it is highly recommended that you read through the source code.
 
 .. tutorial-formatter:: ./src/visualizing_collisions_tutorial.cpp
 
 Launch file
 -----------
-The entire launch file is  :codedir:`here <visualizing_collisions>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
+The entire launch file is  :codedir:`here <examples/visualizing_collisions>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.

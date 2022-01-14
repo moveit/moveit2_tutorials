@@ -23,10 +23,10 @@ After a short moment, the RViz window should appear and look similar to the one 
 
 The Entire Code
 ---------------
-The entire code can be seen :codedir:`here in the MoveIt GitHub project<moveit_cpp/src/moveit_cpp_tutorial.cpp >`. Next we step through the code piece by piece to explain its functionality.
+The entire code can be seen :codedir:`here in the MoveIt GitHub project<examples/moveit_cpp/src/moveit_cpp_tutorial.cpp >`. Next we step through the code piece by piece to explain its functionality.
 
 .. tutorial-formatter:: ./src/moveit_cpp_tutorial.cpp
 
 The Launch File
 ---------------
-The entire launch file is :codedir:`here<moveit_cpp/launch/moveit_cpp_tutorial.launch.py>` on GitHub. All the code in this tutorial can be run from the **moveit2_tutorials** package that you have as part of your MoveIt setup.
+The entire launch file is :codedir:`here<examples/moveit_cpp/launch/moveit_cpp_tutorial.launch.py>` on GitHub. All the code in this tutorial can be run from the **moveit2_tutorials** package that you have as part of your MoveIt setup.

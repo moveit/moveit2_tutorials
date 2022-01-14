@@ -45,13 +45,13 @@ See the `YouTube video <https://youtu.be/_5siHkFQPBQ>`_ at the top of this tutor
 
 The Entire Code
 ---------------
-The entire code can be seen :codedir:`here in the MoveIt GitHub project<move_group_interface/src/move_group_interface_tutorial.cpp>`. Next, we step through the code piece by piece to explain its functionality.
+The entire code can be seen :codedir:`here in the MoveIt GitHub project<examples/move_group_interface/src/move_group_interface_tutorial.cpp>`. Next, we step through the code piece by piece to explain its functionality.
 
 .. tutorial-formatter:: ./src/move_group_interface_tutorial.cpp
 
 The Launch File
 ---------------
-The entire launch file is :codedir:`here<move_group_interface/launch/move_group_interface_tutorial.launch.py>` on GitHub. All the code in this tutorial can be run from the **moveit2_tutorials** package that you have as part of your MoveIt setup.
+The entire launch file is :codedir:`here<examples/move_group_interface/launch/move_group_interface_tutorial.launch.py>` on GitHub. All the code in this tutorial can be run from the **moveit2_tutorials** package that you have as part of your MoveIt setup.
 
 
 A Note on Setting Tolerances
