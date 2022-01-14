@@ -31,7 +31,7 @@ This should make it easy for you to develop changes to this site and make sure y
   .. code-block:: bash
 
     make html
-    # Or run the following line if you want to automatically rebuild the website on new changes
+    # Or run the following lines if you want to automatically rebuild the website on new changes
     while inotifywait -re modify,move,create,delete .; do
       make html
     done
