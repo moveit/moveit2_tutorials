@@ -82,7 +82,7 @@ def run_vertical_plane_example():
 
 
 def main():
-    """ Catch interupt when the user presses `ctrl-c`. """
+    """ Catch interrupt when the user presses `ctrl-c`. """
     try:
         run_vertical_plane_example()
     except KeyboardInterrupt:

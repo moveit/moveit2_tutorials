@@ -115,7 +115,7 @@ class ConstrainedPlanningTutorial(object):
     ##
     ## To keep things simple, we use the current end-effector pose to quickly create a reasonable goal.
     ## We also visualize the start and goal position of the end-effector in Rviz with a simple sphere.
-    ## We assume that when the `demo.launch` file for the panda robot is launched, the robot is in the "ready" position.
+    ## We assume that when the demo.launch file for the panda robot is launched, the robot is in the "ready" position.
     def create_pose_goal(self):
         self.move_group.clear_pose_targets()
         pose = self.move_group.get_current_pose()
@@ -417,7 +417,7 @@ def run_tutorial():
     ## Solving the problem using equality constraints is a bit more complicated. (Or should I say, hacky?)
     ## We need to tell the planner explicitly that we want to use equality constraints for the small dimensions.
     ## This is achieved by setting the name of the constraint to :code:`"use_equality_constraints"`.
-    ## In addition, any dimension of the box below a treshold of :code:`0.001` will be considered an equality constraint.
+    ## In addition, any dimension of the box below a threshold of :code:`0.001` will be considered an equality constraint.
     ## However, if we make it too small, the box will be thinner that the tolerance used by OMPL to evaluate constraints (:code:`1e-4` by default).
     ## MoveIt will use the stricter tolerance (the box width) to check the constraints, and many states will appear invalid.
     ## That's where the magic number :code:`0.0005` comes from, it is between :code:`0.00001` and :code:`0.001`.
@@ -460,7 +460,7 @@ def run_tutorial():
 
 
 def main():
-    """ Catch interupt when the user presses `ctrl-c`. """
+    """ Catch interrupt when the user presses `ctrl-c`. """
     try:
         run_tutorial()
     except KeyboardInterrupt:
