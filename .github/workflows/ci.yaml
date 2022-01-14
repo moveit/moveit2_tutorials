@@ -4,23 +4,20 @@
 name: CI
 
 on:
-  schedule:
-    # 5 PM UTC every Sunday
-    - cron:  '0 17 * * 6'
   workflow_dispatch:
   pull_request:
     branches:
-      - main
+      - galactic
   push:
     branches:
-      - main
+      - galactic
 
 jobs:
   default:
     strategy:
       matrix:
         env:
-          - IMAGE: rolling-source
+          - IMAGE: galactic-source
 
     env:
       DOCKER_IMAGE: moveit/moveit2:${{ matrix.env.IMAGE }}
