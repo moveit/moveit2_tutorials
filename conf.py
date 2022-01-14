@@ -213,6 +213,13 @@ extlinks = {
         + "melodic-devel"
         + "/%s",
         "",
+    ),
+    "mtc_codedir": (
+        "https://github.com/"
+        + html_context["github_user"]
+        + "/moveit_task_constructor/blob/ros2"
+        + "/%s",
+        "",
     ),  # TODO(dlu): use ros_distro when noetic-devel branch is available
     # NEED DOCS.ROS.ORG equivalent for foxy
     "ros_documentation": (

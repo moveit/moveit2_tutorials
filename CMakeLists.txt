@@ -55,6 +55,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
 include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
 
 add_subdirectory(doc/tutorials/quickstart_in_rviz)
+add_subdirectory(doc/tutorials/pick_and_place_with_moveit_task_constructor)
 # add_subdirectory(doc/examples/controller_configuration)
 # add_subdirectory(doc/examples/interactivity)
 # add_subdirectory(doc/examples/kinematics)
