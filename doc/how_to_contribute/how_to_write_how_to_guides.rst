@@ -14,20 +14,20 @@ Requirements
 ------------
 - Ubuntu 20.04
 - ROS 2 Galactic
-- MoveIt2
+- MoveIt 2
 
 Steps
 -----
 
-1. Fork the MoveIt2 Tutorials repository (https://github.com/ros-planning/moveit2_tutorials.git) and start a new branch with an intuitive name (e.g. jack/how-to-write-how-tos).
+1. Fork the MoveIt 2 Tutorials repository (https://github.com/ros-planning/moveit2_tutorials.git) and start a new branch with an intuitive name (e.g. jack/how-to-write-how-tos).
 
 #. Create a new file in the ``doc/how_to_guides`` directory with a ``.rst`` extension. The title should start with "How to" followed by the specific question being answered (e.g. "How to Write a MoveIt How-To Guide").
 
 #. Add a link to your guide on the appropriate how-to guide page:
 
-   - User guides: :doc:`/doc/how_to_guides/how_to_guides`
+   - :doc:`User Guides </doc/how_to_guides/how_to_guides>`
 
-   - Contributors guides: :doc:`/doc/how_to_contribute/how_to_contribute`
+   - :doc:`Contributor Guides </doc/how_to_contribute/how_to_contribute>`
 
 #. Write the introduction using reStructuredText (.rst) using the following guidelines:
 
@@ -37,7 +37,7 @@ Steps
 
    - If you think people may regularly find this particular guide by mistake, add links to the proper resource.
 
-#. Write the specific learning objectives (i.e. what will the reader know when they finish reading this how-to).
+#. Write the specific learning objectives (i.e. what the reader will know when they finish reading this how-to).
 
 #. Add any system or equipment requirements for this how-to so users know if this how-to is appropriate for them.
 
@@ -45,7 +45,7 @@ Steps
 
 #. Create a "Further Reading" section that links to amplifying information.
 
-#. Submit the new page as a PR to the MoveIt2 Tutorials repository (https://github.com/ros-planning/moveit2_tutorials.git).
+#. Submit the new page as a PR to the MoveIt 2 Tutorials repository (https://github.com/ros-planning/moveit2_tutorials.git).
 
 Template
 --------
@@ -55,12 +55,12 @@ Template
   <Title>
   -------
 
-  <Brief description of the How-To Guide with image or GIF showing the outcome>
+  <Brief description of the How-To Guide with image or GIF showing the outcome.>
 
   Learning Objectives
   -------------------
 
-  <List of things the user will learn>
+  <List of things the user will learn.>
 
   Requirements
   ----------
@@ -70,14 +70,14 @@ Template
   Steps
   -----
 
-  <A list of steps to take to solve the problem>
+  <A list of steps to take to solve the problem.>
 
   Further Reading
   ---------------
 
-  <A list of links to related content on and off this website>
+  <A list of links to related content on and off this website.>
 
 Further Reading
 ---------------
 - :doc:`/doc/how_to_contribute/how_to_contribute_to_site`
-- Concepts page: :doc:`/doc/concepts/how_to_guide`
+- :doc:`MoveIt Concepts: Tutorials </doc/concepts/tutorials>`
