@@ -36,7 +36,7 @@ This should make it easy for you to develop changes to this site and make sure y
       make html
     done
 
-  Then you can open the local build of the site in your web browser from: ``./build/html/index.html``. For example, to open the local site in Firefox the command would be:
+  Then you can open the local build of the site in your web browser from: ``./build/html/index.html``. For example, to open the local site in your preferred browser the command would be:
 
   .. code-block:: bash
 
