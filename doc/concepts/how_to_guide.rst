@@ -21,7 +21,7 @@ Name Answers a User's Question
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 How-To guides answer very specific questions and should capture Google searches.
-For that reason their naming is very important.
+For that reason, naming is very important.
 Examples of good names are:
 
 * How to Visualize Collisions in MoveIt
