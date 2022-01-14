@@ -26,8 +26,30 @@ pygments_style = "sphinx"
 
 # Name of the style used to generate the html documentation
 html_theme = "sphinx_rtd_theme"
+<<<<<<< HEAD
 html_theme_path = [
     "_themes",
+=======
+html_theme_options = {
+    "collapse_navigation": False,
+    "sticky_navigation": True,
+    "navigation_depth": -1,
+    # This is the Google Analytics account used by moveit.ros.org, not picknik.ai
+    "analytics_id": "UA-108532843-1",
+}
+
+html_context = {
+    "display_github": True,
+    "github_user": "ros-planning",
+    "github_repo": "moveit2_tutorials",
+    "github_version": "main/",
+    "conf_py_path": "",
+    "source_suffix": ".rst",
+}
+
+templates_path = [
+    "_templates",
+>>>>>>> 4a4790b (Restore Google Analytics (#270))
 ]
 
 # Add any paths that contain custom static files (such as style sheets) here,
