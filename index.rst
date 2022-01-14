@@ -1,15 +1,12 @@
 MoveIt 2 Documentation
 ======================
 
-MoveIt 2 is the robotics manipulation platform for ROS 2. For ROS 1, see `MoveIt 1 <https://ros-planning.github.io/moveit_tutorials>`_.
+Welcome to the unified MoveIt documentation, which includes tutorials, how-to-guides, core concepts, and more.
 
-.. image:: doc/tutorials/quickstart_in_rviz/rviz_plugin_head.png
-   :width: 700px
+MoveIt 2 is the robotics manipulation platform for ROS 2, and incorporates the latest advances in motion planning, manipulation, 3D perception, kinematics, control, and navigation. MoveIt 2 was first release in 2019; for ROS 1 documentation, see `MoveIt 1 tutorials <https://ros-planning.github.io/moveit_tutorials>`_.
 
-Beloved Features
-----------------
-
-TODO: fill this in
+.. image:: https://moveit.ros.org/assets/images/roadmap.png
+   :width: 400px
 
 How-To Use This Website
 -----------------------
@@ -31,4 +28,15 @@ Table Of Contents
    doc/concepts/concepts
    doc/how_to_contribute/how_to_contribute
    doc/examples/examples
-   doc/attribution/attribution
+
+Attribution
+-----------
+
+Some major past contributors to the MoveIt tutorials are listed in chronological order: Sachin Chitta, Dave Hershberger, Acorn Pooley, Dave Coleman, Michael Gorner, Francisco Suarez, Mike Lautman, Tyler Weaver, David Lu!!, Vatan Tezer, and Andy Zelenak. These are just some of the `46+ Contributors over the years <https://github.com/ros-planning/moveit2_tutorials/graphs/contributors>`_ who have a big impact on this documentation.
+
+Help us improve these docs and we'll be happy to include you here also!
+
+**Corporate Sponsorship**
+
+* The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with PickNik Robotics (`Check out the blog post! <http://moveit.ros.org/moveit!/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
+* The tutorials had another major update in 2022 during a doc-a-thon sponsored by PickNik Robotics
