@@ -51,6 +51,23 @@ Expected Output
 
 Note that the controller overlay here is just for demonstration purposes and is not actually included
 
+Introspection
+-------------
+
+Here are some tips for inspecting and/or debugging the system.
+
+View the ros2_controllers that are currently active with `ros2 control list_controllers`. You will see a JointTrajectoryController that receives the joint position commands from Servo and handles them in the simulated robot driver. Servo is also compatible with JointGroupPosition or JointGroupVelocity-type controllers.
+
+`ros2 topic echo /servo_node/status` shows the current state of the Servo node. If `0` is published, all is well. The definition for all enums can be seen :moveit_codedir:`here.<moveit_ros/moveit_servo/include/moveit_servo/status_codes.h>`
+
+`ros2 node list` shows the following. `ros2 node info` can be used to get more information about any of these nodes.
+
+- `joy_node` handles commands from the XBox controller
+
+- `moveit_servo_demo_container` holds several ancillary ROS2 "component nodes" that are placed in a container for faster intra-process communication
+
+- `servo_node` which does the calculations and collision checking for this demo. `servo_node` may be moved into the demo container in the future when this issue is resolved
+
 Using the C++ Interface
 -----------------------
 Instead of launching Servo as its own component, you can include Servo in your own nodes via the C++ interface. Sending commands to the robot is very similar in both cases, but for the C++ interface a little bit of setup for Servo is necessary. In exchange, you will be able to directly interact with Servo through its C++ API.
