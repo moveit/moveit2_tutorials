@@ -37,7 +37,7 @@ Below are some links to help with the ports.
 
 Follow the [MoveIt 2 Source Build](https://moveit.ros.org/install-moveit2/source/) instructions to setup a colcon workspace with moveit2 from source.
 
-Cd into your moveit2 colcon workspace:
+Open a command line to your your moveit2 colcon workspace:
 
     cd $COLCON_WS/src
 
@@ -45,7 +45,7 @@ Download Moveit2_tutorials Source Code
 
     git clone https://github.com/ros-planning/moveit2_tutorials.git
     vcs import < moveit2_tutorials/moveit2_tutorials.repos
-    rosdep install -r --from-paths . --ignore-src --rosdistro foxy -y
+    rosdep install -r --from-paths . --ignore-src --rosdistro rolling -y
 
 Configure and build the workspace:
 
@@ -56,13 +56,18 @@ Configure and build the workspace:
 
 If you want to test the tutorials by generating the html pages locally on your machine, you can use the ``build_locally`` script by issuing the following commands in the root of the moveit2_tutorials package:
 
-    export ROS_DISTRO=foxy  # 20.04
+    export ROS_DISTRO=rolling  # 20.04
 
     cd $COLCON_WS/src/moveit2_tutorials
     source /opt/ros/$ROS_DISTRO/setup.bash
     ./build_locally.sh
 
 The local website ``<LOCAL_PACKAGE_PATH>/build/html/index.html`` should automatically open in your web browser.
+
+### Optional build_locally Settings
+
+ - *noinstall* skip the dependencies install step to speed up the script
+ - *loop* automatically rebuild the html if a change is detected
 
 ## Contributing
 

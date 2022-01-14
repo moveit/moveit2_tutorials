@@ -41,7 +41,7 @@ Running CHOMP with Obstacles in the Scene
 +++++++++++++++++++++++++++++++++++++++++
 To run CHOMP in an environment with obstacles, you can run the sample python script:
 
-  :codedir:`collision_scene_example.py<collision_environments/scripts/collision_scene_example.py>`.
+  :codedir:`collision_scene_example.py<examples/collision_environments/scripts/collision_scene_example.py>`.
 
 This script creates a cluttered scene with four obstacles or a simple scene with one obstacle depending on the argument given to the script. One can also change the position/size of the obstacles to change the scene.
 

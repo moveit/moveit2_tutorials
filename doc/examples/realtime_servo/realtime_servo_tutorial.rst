@@ -72,7 +72,7 @@ Expected Output
 
 Entire Code
 -----------
-The entire code is available :codedir:`here<realtime_servo/src/servo_cpp_interface_demo.cpp>`
+The entire code is available :codedir:`here<examples/realtime_servo/src/servo_cpp_interface_demo.cpp>`
 
 .. tutorial-formatter:: ./src/servo_cpp_interface_demo.cpp
 

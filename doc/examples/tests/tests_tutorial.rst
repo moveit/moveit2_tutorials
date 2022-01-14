@@ -42,7 +42,7 @@ Unit Tests
 Writing Unit Tests
 ~~~~~~~~~~~~~~~~~~
 
-The entire test file, with includes, can be seen :codedir:`here <tests>` in the moveit_tutorials GitHub project.
+The entire test file, with includes, can be seen :codedir:`here <examples/tests>` in the moveit_tutorials GitHub project.
 
 MoveIt uses Google Test as a testing framework.
 

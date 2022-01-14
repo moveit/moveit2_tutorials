@@ -46,7 +46,7 @@ The relevant fields of the message are:-
 
 The Entire Code
 ---------------
-The entire code can be seen :codedir:`here <pick_place>` in the moveit_tutorials GitHub project.
+The entire code can be seen :codedir:`here <examples/pick_place>` in the moveit_tutorials GitHub project.
 
 .. |br| raw:: html
 

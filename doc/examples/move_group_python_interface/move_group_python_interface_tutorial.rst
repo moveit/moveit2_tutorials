@@ -49,12 +49,12 @@ Press *<enter>* in the shell terminal where you ran the ``rosrun`` command in be
 
 The Entire Code
 ---------------
-Note: the entire code can be seen :codedir:`here in the tutorials GitHub repository<move_group_python_interface/scripts/move_group_python_interface_tutorial.py>`.
+Note: the entire code can be seen :codedir:`here in the tutorials GitHub repository<examples/move_group_python_interface/scripts/move_group_python_interface_tutorial.py>`.
 
 .. tutorial-formatter:: ./scripts/move_group_python_interface_tutorial.py
 
 The Launch File
 ---------------
-The entire launch file is :codedir:`here<move_group_python_interface/launch/move_group_python_interface_tutorial.launch>`
+The entire launch file is :codedir:`here<examples/move_group_python_interface/launch/move_group_python_interface_tutorial.launch>`
 on GitHub. All the code in this tutorial can be run from the
 ``moveit_tutorials`` package that you have as part of your MoveIt setup.
