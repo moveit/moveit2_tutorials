@@ -32,7 +32,7 @@ Steps
       make html
     done
 
-  Then you can open the local build of the site in your web browser from: ``./build/html/index.html``. For example, to open the local site in your preferred browser the command would be:
+  Then you can open the local build of the site in your web browser from: ``./build/html/index.html``. For example, to open the local site in your default browser the command would be:
 
   .. code-block:: bash
 
