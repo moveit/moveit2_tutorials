@@ -43,7 +43,7 @@ To test for broken links run this command:
 
 .. code-block:: bash
 
-  ./htmlprofer.sh
+  ./htmlproofer.sh
 
 3. Run the formatters and spellchecker
 
