@@ -1,27 +1,23 @@
 # This config uses industrial_ci (https://github.com/ros-industrial/industrial_ci.git).
 # For troubleshooting, see readme (https://github.com/ros-industrial/industrial_ci/blob/master/README.rst)
 
-name: Build
+name: CI
 
 on:
-  schedule:
-    # 5 PM UTC every Sunday
-    - cron:  '0 17 * * 6'
   workflow_dispatch:
   pull_request:
     branches:
-      - main
+      - foxy
   push:
     branches:
-      - main
+      - foxy
 
 jobs:
   default:
     strategy:
       matrix:
         env:
-          - IMAGE: galactic-source
-          - IMAGE: rolling-source
+          - IMAGE: foxy-source
 
     env:
       DOCKER_IMAGE: moveit/moveit2:${{ matrix.env.IMAGE }}
