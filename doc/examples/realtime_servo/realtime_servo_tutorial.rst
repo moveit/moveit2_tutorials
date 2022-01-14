@@ -62,11 +62,11 @@ Here are some tips for inspecting and/or debugging the system.
 
 #. :code:`ros2 node list` shows the following. :code:`ros2 node info` can be used to get more information about any of these nodes.
 
-   - :code:`joy_node` handles commands from the XBox controller
+   - :code:`/joy_node` handles commands from the XBox controller
 
-   - :code:`moveit_servo_demo_container` holds several ancillary ROS2 "component nodes" that are placed in a container for faster intra-process communication
+   - :code:`/moveit_servo_demo_container` holds several ancillary ROS2 "component nodes" that are placed in a container for faster intra-process communication
 
-   - :code:`servo_node` which does the calculations and collision checking for this demo. :code:`servo_node` may be moved into the demo container in the future
+   - :code:`/servo_node` which does the calculations and collision checking for this demo. :code:`servo_node` may be moved into the demo container in the future
 
 Using the C++ Interface
 -----------------------
