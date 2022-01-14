@@ -45,7 +45,7 @@ Download Moveit2_tutorials Source Code
 
     git clone https://github.com/ros-planning/moveit2_tutorials.git
     vcs import < moveit2_tutorials/moveit2_tutorials.repos
-    rosdep install -r --from-paths . --ignore-src --rosdistro foxy -y
+    rosdep install -r --from-paths . --ignore-src --rosdistro rolling -y
 
 Configure and build the workspace:
 
@@ -56,7 +56,7 @@ Configure and build the workspace:
 
 If you want to test the tutorials by generating the html pages locally on your machine, you can use the ``build_locally`` script by issuing the following commands in the root of the moveit2_tutorials package:
 
-    export ROS_DISTRO=foxy  # 20.04
+    export ROS_DISTRO=rolling  # 20.04
 
     cd $COLCON_WS/src/moveit2_tutorials
     source /opt/ros/$ROS_DISTRO/setup.bash
