@@ -30,6 +30,10 @@ To build the website locally run this command:
 .. code-block:: bash
 
   make html
+  # Or run the following line if you want to automatically rebuild the website on new changes
+  while inotifywait -re modify,move,create,delete .; do
+    make html
+  done
 
 Then you can open the local build of the site in your web browser from: ``./build/html/index.html``. For example, to open the local site in Firefox the command would be:
 
