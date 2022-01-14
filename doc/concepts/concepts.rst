@@ -21,7 +21,7 @@ The users can access the actions and services provided by ``move_group`` in thre
 
 - **In C++** - using the `move_group_interface <http://docs.ros.org/noetic/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1MoveGroupInterface.html>`_ package that provides an easy to setup C++ interface to move_group
 
-- **Through a GUI** -- using the`Motion Planning plugin to Rviz <doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_ (the ROS visualizer)
+- **Through a GUI** - using the :doc:`Motion Planning plugin to Rviz <../tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial>` (the ROS visualizer)
 
 
 Configuration
