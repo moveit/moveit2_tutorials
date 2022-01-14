@@ -78,7 +78,7 @@ The expected output will be in the following form. The numbers will not match si
 
 The Entire Code
 ---------------
-The entire code can be seen :codedir:`here in the MoveIt GitHub project<robot_model_and_robot_state/src/robot_model_and_robot_state_tutorial.cpp>`.
+The entire code can be seen :codedir:`here in the MoveIt GitHub project<examples/robot_model_and_robot_state/src/robot_model_and_robot_state_tutorial.cpp>`.
 
 .. tutorial-formatter:: ./src/robot_model_and_robot_state_tutorial.cpp
 

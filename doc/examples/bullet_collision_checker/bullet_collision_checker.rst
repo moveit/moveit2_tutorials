@@ -55,10 +55,10 @@ Pressing ``Next`` one more time finishes the tutorial.
 
 Relevant Code
 -------------
-The entire code can be seen :codedir:`here <bullet_collision_checker>` in the moveit_tutorials GitHub project. A lot of information necessary for understanding how this demo works is left out to keep this tutorial focused on Bullet. Please see :doc:`Visualizing Collisions </doc/examples/visualizing_collisions/visualizing_collisions_tutorial>` for code explanation regarding the visualizing of the collisions.
+The entire code can be seen :codedir:`here <examples/bullet_collision_checker>` in the moveit_tutorials GitHub project. A lot of information necessary for understanding how this demo works is left out to keep this tutorial focused on Bullet. Please see :doc:`Visualizing Collisions </doc/examples/visualizing_collisions/visualizing_collisions_tutorial>` for code explanation regarding the visualizing of the collisions.
 
 .. tutorial-formatter:: ./src/bullet_collision_checker_tutorial.cpp
 
 Launch file
 -----------
-The entire launch file is  :codedir:`here <bullet_collision_checker>` on GitHub. All the code in this tutorial can be compiled and run from the ``moveit_tutorials`` package.
+The entire launch file is  :codedir:`here <examples/bullet_collision_checker>` on GitHub. All the code in this tutorial can be compiled and run from the ``moveit_tutorials`` package.

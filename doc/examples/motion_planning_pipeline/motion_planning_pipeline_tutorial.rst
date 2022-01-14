@@ -42,10 +42,10 @@ In RViz, we should be able to see three trajectories being replayed eventually:
 
 The Entire Code
 ---------------
-The entire code can be seen :codedir:`here in the MoveIt GitHub project<motion_planning_pipeline>`.
+The entire code can be seen :codedir:`here in the MoveIt GitHub project<examples/motion_planning_pipeline>`.
 
 .. tutorial-formatter:: ./src/motion_planning_pipeline_tutorial.cpp
 
 The Launch File
 ---------------
-The entire launch file is :codedir:`here <motion_planning_pipeline/launch/motion_planning_pipeline_tutorial.launch>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package that you have as part of your MoveIt setup.
+The entire launch file is :codedir:`here <examples/motion_planning_pipeline/launch/motion_planning_pipeline_tutorial.launch>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package that you have as part of your MoveIt setup.

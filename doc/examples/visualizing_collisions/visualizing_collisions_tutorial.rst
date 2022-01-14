@@ -29,7 +29,7 @@ Classes
 -------
 The code for this tutorial is mainly in the :code:`InteractiveRobot` class which we will walk through below. The :code:`InteractiveRobot` class maintains a :code:`RobotModel`, a :code:`RobotState`, and information about 'the world' (in this case "the world" is a single yellow cube).
 
-The :code:`InteractiveRobot` class uses the :code:`IMarker` class which maintains an interactive marker. This tutorial does not cover the implementation of the IMarker class (:codedir:`imarker.cpp <interactivity/src/imarker.cpp>`), but most of the code is copied from the `basic_controls <http://wiki.ros.org/rviz/Tutorials/Interactive%20Markers:%20Getting%20Started#basic_controls>`_ tutorial and you can read more there about interactive markers if you are interested.
+The :code:`InteractiveRobot` class uses the :code:`IMarker` class which maintains an interactive marker. This tutorial does not cover the implementation of the IMarker class (:codedir:`imarker.cpp <examples/interactivity/src/imarker.cpp>`), but most of the code is copied from the `basic_controls <http://wiki.ros.org/rviz/Tutorials/Interactive%20Markers:%20Getting%20Started#basic_controls>`_ tutorial and you can read more there about interactive markers if you are interested.
 
 Interacting
 -----------
@@ -40,10 +40,10 @@ Move the right arm so it is in contact with the yellow cube (you may also move t
 
 Relevant Code
 -------------
-The entire code can be seen :codedir:`here <visualizing_collisions>` in the moveit_tutorials GitHub project. Libraries used can be found :codedir:`here <interactivity>`. A lot of information necessary for understanding how this demo works is left out to keep this tutorial focused on collision contacts. To understand this demo fully, it is highly recommended that you read through the source code.
+The entire code can be seen :codedir:`here <examples/visualizing_collisions>` in the moveit_tutorials GitHub project. Libraries used can be found :codedir:`here <examples/interactivity>`. A lot of information necessary for understanding how this demo works is left out to keep this tutorial focused on collision contacts. To understand this demo fully, it is highly recommended that you read through the source code.
 
 .. tutorial-formatter:: ./src/visualizing_collisions_tutorial.cpp
 
 Launch file
 -----------
-The entire launch file is  :codedir:`here <visualizing_collisions>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
+The entire launch file is  :codedir:`here <examples/visualizing_collisions>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.

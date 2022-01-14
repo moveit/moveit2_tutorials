@@ -10,7 +10,7 @@ Creating MoveIt Plugins
 
 Motion Planner Plugin
 ----------------------
-In this section, we will show how to add a new motion planner to MoveIt as a plugin. The base class in MoveIt is ``planning_interface`` from  which any new planner plugin should inherit. For demonstration purposes, a linear interpolation planner (lerp) which plans the motion between two states in joint space is created. This planner could be used as a start point for adding any new planner as it contains the necessary basics. The final source files designed in this tutorial are available :codedir:`here <creating_moveit_plugins/lerp_motion_planner/src>`. The following graph shows a brief overall view of the relation between classes for adding a new planner in MoveIt.
+In this section, we will show how to add a new motion planner to MoveIt as a plugin. The base class in MoveIt is ``planning_interface`` from  which any new planner plugin should inherit. For demonstration purposes, a linear interpolation planner (lerp) which plans the motion between two states in joint space is created. This planner could be used as a start point for adding any new planner as it contains the necessary basics. The final source files designed in this tutorial are available :codedir:`here <examples/creating_moveit_plugins/lerp_motion_planner/src>`. The following graph shows a brief overall view of the relation between classes for adding a new planner in MoveIt.
 
 .. image:: lerp_motion_planner/lerp_planner.png
 
@@ -96,7 +96,7 @@ Example Controller Manager Plugin
 
 MoveIt controller managers, somewhat a misnomer, are the interfaces to your custom low level controllers. A better way to think of them are *controller interfaces*. For most use cases, the included :moveit_codedir:`MoveItSimpleControllerManager <moveit_plugins/moveit_simple_controller_manager>` is sufficient if your robot controllers already provide ROS actions for FollowJointTrajectory. If you use *ros_control*, the included :moveit_codedir:`MoveItRosControlInterface <moveit_plugins/moveit_ros_control_interface>` is also ideal.
 
-However, for some applications you might desire a more custom controller manager. An example template for starting your custom controller manager is provided :codedir:`here <controller_configuration/src/moveit_controller_manager_example.cpp>`.
+However, for some applications you might desire a more custom controller manager. An example template for starting your custom controller manager is provided :codedir:`here <examples/controller_configuration/src/moveit_controller_manager_example.cpp>`.
 
 
 Example Constraint Sampler Plugin
