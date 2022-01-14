@@ -1,18 +1,18 @@
 Low Level Controllers
 =====================
-MoveIt typically publishes manipulator motion commands to a `JointTrajectoryController <https://github.com/ros-controls/ros2_controllers/tree/master/joint_trajectory_controller>`. This tutorial assumes MoveGroup is being used to control the robot rather than MoveItCpp or MoveIt Servo. A minimal setup is as follows:
+MoveIt typically publishes manipulator motion commands to a `JointTrajectoryController <https://github.com/ros-controls/ros2_controllers/tree/master/joint_trajectory_controller>`_. This tutorial assumes MoveGroup is being used to control the robot rather than MoveItCpp or MoveIt Servo. A minimal setup is as follows:
 
-#. A YAML config file. As best practice, we suggest naming this :code:`moveit_controllers.yaml`. It tells MoveIt which controllers are available, which joints are associated with each, and what the type is (:code:`FollowJointTrajectory` or :code:`GripperCommand`). `Example controller config file. <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/config/panda_controllers.yaml>`
+#. A YAML config file. As best practice, we suggest naming this :code:`moveit_controllers.yaml`. It tells MoveIt which controllers are available, which joints are associated with each, and the MoveIt controller interface type (:code:`FollowJointTrajectory` or :code:`GripperCommand`). `Example controller config file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/config/panda_controllers.yaml>`_.
 
-#. A launch file. This launch file must load the :code:`moveit_controllers` yaml file and specify the :code:`moveit_simple_controller_manager/MoveItSimpleControllerManager`. After these yaml files are loaded, they are passed as parameters to the Move Group node. `Example Move Group launch file. <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`
+#. A launch file. This launch file must load the :code:`moveit_controllers` yaml file and specify the :code:`moveit_simple_controller_manager/MoveItSimpleControllerManager`. After these yaml files are loaded, they are passed as parameters to the Move Group node. `Example Move Group launch file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_.
 
-#. Launch the corresponding :code:`ros2_control` JointTrajectoryControllers. This is separate from the MoveIt2 ecosystem. `Example ros2_control launching. <https://github.com/ros-controls/ros2_control_demos>`. The JointTrajectoryControllers provide an action interface. Given the yaml file above, MoveIt automatically connects to this action interface.
+#. Launch the corresponding :code:`ros2_control` JointTrajectoryControllers. This is separate from the MoveIt2 ecosystem. `Example ros2_control launching <https://github.com/ros-controls/ros2_control_demos>`_. Each JointTrajectoryController provides an action interface. Given the yaml file above, MoveIt automatically connects to this action interface.
 
-#. Note: it is not required to use :code:`ros2_control` for your robot. You could write a proprietary action interface. However, 99% of users use :code:`ros2_control`.
+#. Note: it is not required to use :code:`ros2_control` for your robot. You could write a proprietary action interface. In practice, 99% of users choose :code:`ros2_control`.
 
 MoveIt Controller Manager
 -------------------------
-If using the Move Group, a MoveItControllerManager (MICM) can be used to manage controller switching. The MICM can parse the joint names in any command coming from MoveIt and activate the appropriate controllers. For example, it can automatically switch between controlling two manipulators at once to a single manipulator. To use a MICM, just enable :code:`moveit_manage_controllers` in the launch file. `Example MICM launch file. <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>` Frankly, the MICM is a candidate to be deprecated soon and we do not recommend its use.
+If using the Move Group, a MoveItControllerManager (MICM) can be used to manage controller switching. The MICM can parse the joint names in any command coming from MoveIt and activate the appropriate controllers. For example, it can automatically switch between controlling two manipulators in a single joint group at once to a single manipulator. To use a MICM, just set :code:`moveit_manage_controllers = true` in the launch file. `Example MICM launch file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_. Frankly, the MICM is a candidate to be deprecated soon and we do not recommend its use.
 
 MoveIt Controller Interfaces
 ----------------------------
@@ -96,15 +96,19 @@ However, for some applications you might desire a more custom controller manager
 Simulation
 ----------
 
-If you do not have a physical robot, :code:`ros2_control` makes it very easy to simulate one. Ignition or Gazebo is not required; RViz is sufficient. All examples in the `ros2_control_demos repo <https://github.com/ros-controls/ros2_control_demos>` are simulated.
+If you do not have a physical robot, :code:`ros2_control` makes it very easy to simulate one. Ignition or Gazebo is not required; RViz is sufficient. All examples in the `ros2_control_demos repo <https://github.com/ros-controls/ros2_control_demos>`_ are simulated.
 
 Controller Switching and Namespaces
 -----------------------------------
+
+(TODO: update for ROS2)
 
 All controller names get prefixed by the namespace of their ros_control node. For this reason controller names should not contain slashes, and can't be named ``/``. For a particular node MoveIt can decide which controllers to have started or stopped. Since only controller names with registered allocator plugins are handled over MoveIt, MoveIt takes care of stopping controllers based on their claimed resources if a to-be-started controller needs any of those resources.
 
 Controllers for Multiple Nodes
 ------------------------------
+
+(TODO: update for ROS2)
 
 MoveItMultiControllerManager can be used for more than one ros_control nodes. It works by creating several MoveItControllerManagers, one for each node. It instantiates them with their respective namespace and takes care of proper delegation. To use it must be added to the launch file. ::
 
