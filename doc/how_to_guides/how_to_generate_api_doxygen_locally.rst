@@ -1,5 +1,5 @@
 How To Generate API Doxygen Reference Locally
-=============
+=============================================
 
 Run doxygen in the root of the moveit2 repository.
 
