@@ -2,7 +2,7 @@ How to Write a MoveIt How-To Guide
 ==================================
 
 This guide explains how to write How-To's for MoveIt documentation. This guide is primarily intended for use by employees at PickNik Robotics
-to assist in standardizing how-to documents but can be used by any contribitor who wants to submit a new guide. If you are looking for
+to assist in standardizing how-to documents but can be used by any contributor who wants to submit a new guide. If you are looking for
 how-to guides for using MoveIt, you can find them here: :doc:`/doc/how_to_guides/how_to_guides`.
 
 Learning Objectives
@@ -19,7 +19,7 @@ Requirements
 Steps
 -----
 
-1. Fork the MoveIt 2 Tutorials repository (https://github.com/ros-planning/moveit2_tutorials.git) and start a new branch with an intuitive name (e.g. jack/how-to-write-how-tos).
+1. Fork the `MoveIt 2 Tutorials repository <https://github.com/ros-planning/moveit2_tutorials.git>`_ and start a new branch with an intuitive name (e.g., ``jack/how-to-tutorials``).
 
 #. Create a new file in the ``doc/how_to_guides`` directory with a ``.rst`` extension. The title should start with "How to" followed by the specific question being answered (e.g. "How to Write a MoveIt How-To Guide").
 
@@ -65,7 +65,7 @@ Template
   Requirements
   ----------
 
-  <Explination of what the user should understand.  Unlike a tutorial these are stand-alone and can assume the user has much more background.>
+  <Explanation of what the user should understand.  Unlike a tutorial these are stand-alone and can assume the user has much more background.>
 
   Steps
   -----
