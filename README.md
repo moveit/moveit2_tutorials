@@ -37,7 +37,7 @@ Below are some links to help with the ports.
 
 Follow the [MoveIt 2 Source Build](https://moveit.ros.org/install-moveit2/source/) instructions to setup a colcon workspace with moveit2 from source.
 
-Cd into your moveit2 colcon workspace:
+Open a command line to your your moveit2 colcon workspace:
 
     cd $COLCON_WS/src
 
@@ -63,6 +63,11 @@ If you want to test the tutorials by generating the html pages locally on your m
     ./build_locally.sh
 
 The local website ``<LOCAL_PACKAGE_PATH>/build/html/index.html`` should automatically open in your web browser.
+
+### Optional build_locally Settings
+
+ - *noinstall* skip the dependencies install step to speed up the script
+ - *loop* automatically rebuild the html if a change is detected
 
 ## Contributing
 
