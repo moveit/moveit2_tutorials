@@ -78,10 +78,12 @@ add_subdirectory(doc/examples/moveit_cpp)
 # add_subdirectory(doc/examples/visualizing_collisions)
 # add_subdirectory(doc/examples/bullet_collision_checker)
 add_subdirectory(doc/examples/realtime_servo)
+add_subdirectory(doc/examples/move_group_capabilities)
 
 ament_export_dependencies(
   ${THIS_PACKAGE_INCLUDE_DEPENDS}
 )
+pluginlib_export_plugin_description_file(moveit_ros_move_group doc/examples/move_group_capabilities/plugin_description.xml)
 
 ament_export_include_directories(include)
 

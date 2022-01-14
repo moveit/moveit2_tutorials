@@ -39,6 +39,7 @@
   <build_depend>geometric_shapes</build_depend>
   <build_depend>moveit_common</build_depend>
   <build_depend>moveit_ros_planning</build_depend>
+  <build_depend>rosidl_default_generators</build_depend>
 
   <!-- <exec_depend>franka_description</exec_depend> -->
   <!-- <exec_depend>moveit_commander</exec_depend> -->
@@ -54,8 +55,11 @@
   <exec_depend>rviz2</exec_depend>
   <exec_depend>warehouse_ros_mongo</exec_depend>
   <exec_depend>xacro</exec_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
 
   <test_depend>ament_cmake_gtest</test_depend>
+
+  <member_of_group>rosidl_interface_packages</member_of_group>
 
   <export>
     <build_type>ament_cmake</build_type>
