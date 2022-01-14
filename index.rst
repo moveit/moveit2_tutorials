@@ -1,12 +1,14 @@
 MoveIt 2 Tutorials
 ===================
 
-These tutorials will quickly get you, and your robot, using the MoveIt 2 Motion Planning Framework.
+Welcome to the unified MoveIt documentation, which includes tutorials, how-to-guides, core concepts, and more.
 
-.. image:: doc/quickstart_in_rviz/rviz_plugin_head.png
-   :width: 700px
+MoveIt 2 is the robotics manipulation platform for ROS 2, and incorporates the latest advances in motion planning, manipulation, 3D perception, kinematics, control, and navigation. MoveIt 2 was first release in 2019; for ROS 1 documentation, see `MoveIt 1 tutorials <https://ros-planning.github.io/moveit_tutorials>`_.
 
-In these tutorials, the Franka Emika Panda robot is used as a quick-start demo. Alternatively, you can easily use any robot that has already been configured to work with MoveIt - check the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_ to see whether MoveIt is already available for your robot. Otherwise, you can setup MoveIt to work with your custom robot in the tutorial section "Integration with a New Robot", below.
+.. image:: https://moveit.ros.org/assets/images/roadmap.png
+   :width: 400px
+
+In these tutorials, the Franka Emika Panda robot is used as a quick-start demo.
 
 Getting Started with MoveIt and RViz
 -------------------------------------
@@ -60,9 +62,12 @@ Miscellaneous
 
 Attribution
 -----------
-Major contributors to the MoveIt tutorials are listed in chronological order: Sachin Chitta, Dave Hershberger, Acorn Pooley, Dave Coleman, Michael Gorner, Francisco Suarez, Mike Lautman. Help us improve these docs and we'll be happy to include you here also!
 
-The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with PickNik (`Check out the blog post! <http://moveit.ros.org/moveit!/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
+Some major past contributors to the MoveIt tutorials are listed in chronological order: Sachin Chitta, Dave Hershberger, Acorn Pooley, Dave Coleman, Michael Gorner, Francisco Suarez, Mike Lautman, Tyler Weaver, David Lu!!, Vatan Tezer, and Andy Zelenak. These are just some of the `46+ Contributors over the years <https://github.com/ros-planning/moveit2_tutorials/graphs/contributors>`_ who have a big impact on this documentation.
 
-.. image:: ./_static/images/franka_logo.png
-   :width: 300px
+Help us improve these docs and we'll be happy to include you here also!
+
+**Corporate Sponsorship**
+
+* The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with PickNik Robotics (`Check out the blog post! <http://moveit.ros.org/moveit!/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
+* The tutorials had another major update in 2022 during a doc-a-thon sponsored by PickNik Robotics
