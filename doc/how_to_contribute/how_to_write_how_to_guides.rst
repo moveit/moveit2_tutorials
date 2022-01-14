@@ -65,7 +65,7 @@ Template
   Requirements
   ----------
 
-  <Explanation of what the user should understand.  Unlike a tutorial these are stand-alone and can assume the user has much more background.>
+  <Explanation of what the user should understand. Unlike a tutorial these are stand-alone and can assume the user has much more background.>
 
   Steps
   -----
