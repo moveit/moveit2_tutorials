@@ -44,7 +44,7 @@ Building more complex applications with MoveIt often requires developers to dig 
 
 Integration with a New Robot
 ----------------------------
-Before attempting to integrate a new robot with MoveIt 2, check whether your robot has already been setup (see the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt
+Before attempting to integrate a new robot with MoveIt 2, check whether your robot has already been set up (see the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt.
 
 .. toctree::
    :maxdepth: 1
