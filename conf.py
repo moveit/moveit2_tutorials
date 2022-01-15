@@ -214,10 +214,10 @@ extlinks = {
         + "/%s",
         "",
     ),
-    "mtc_codedir": (
+    "moveit_resources_codedir": (
         "https://github.com/"
         + html_context["github_user"]
-        + "/moveit_task_constructor/blob/ros2"
+        + "/moveit_resources/tree/ros2"
         + "/%s",
         "",
     ),  # TODO(dlu): use ros_distro when noetic-devel branch is available
