@@ -95,4 +95,4 @@ Template
 Further Reading
 ---------------
 - :doc:`/doc/how_to_contribute/how_to_contribute_to_site`
-- :doc:`MoveIt Concepts </doc/concepts/tutorials>`
+- :doc:`MoveIt Concepts: Tutorials </doc/concepts/tutorials>`
