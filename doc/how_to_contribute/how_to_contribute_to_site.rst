@@ -14,70 +14,69 @@ Requirements
 ------------
 - Ubuntu 20.04
 - ROS 2 Galactic
-- A local checkout of `the moveit2_tutorials repo <https://github.com/ros-planning/moveit2_tutorials>`_
+- Docker
+- A colcon workspace with a copy of `the moveit2_tutorials repo <https://github.com/ros-planning/moveit2_tutorials>`_ (if you don't already have one, :doc:`/doc/tutorials/getting_started/getting_started` will walk you through the process of creating one).
 
 Steps
 -----
 
-These steps will walk you through how to build the website locally, test for broken links, run the formatters and spellchecker, and how to locally run industrial_ci to test code changes.
-
-This should make it easy for you to develop changes to this site and make sure your changes will pass the checks in CI.
-
 1. Build and view the website locally
 
-To build the website locally run this command:
+  First, ``cd`` to the root directory of the moveit2_tutorials repo (if you followed the :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` tutorial, this will be ``~/ws_moveit2/src/moveit2_tutorials``).  From that directory, run this command:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-  make html
-  # Or run the following line if you want to automatically rebuild the website on new changes
-  while inotifywait -re modify,move,create,delete .; do
     make html
-  done
+    # Or run the following lines if you want to automatically rebuild the website on new changes
+    while inotifywait -re modify,move,create,delete .; do
+      make html
+    done
 
-Then you can open the local build of the site in your web browser from: ``./build/html/index.html``. For example, to open the local site in Firefox the command would be:
+  Then you can open the local build of the site in your web browser from: ``./build/html/index.html``. For example, to open the local site in your default browser the command would be:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-  firefox ./build/html/index.html
+    xdg-open ./build/html/index.html
 
 2. Test for broken links
 
-To test for broken links run this command:
+  To test for broken links run this command:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-  ./htmlprofer.sh
+    ./htmlproofer.sh
 
 3. Run the formatters and spellchecker
 
-We use `pre-commit <https://pre-commit.com/>`_ to run the formatting and spelling checkers.
-You can install it with pip like this:
+  We use `pre-commit <https://pre-commit.com/>`_ to run the formatting and spelling checkers.
+  You can install it with pip like this:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-  python3 -m pip install --user pre-commit
+    python3 -m pip install --user pre-commit
 
-To run pre-commit locally to fix formatting and spelling:
+  To run pre-commit locally to fix formatting and spelling:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-  pre-commit run --all
+    pre-commit run --all
 
 4. Run industrial_ci locally to run CI
 
-1. Clone a copy of `industrial_ci <https://github.com/ros-industrial/industrial_ci>`_ into your workspace.
-2. Build and source your workspace.
-3. Run this command from the workspace directory to test code changes just as it is done in CI:
+  - Clone a copy of `industrial_ci <https://github.com/ros-industrial/industrial_ci>`_ into your workspace.
 
-.. code-block:: bash
+  - Build and source your workspace.
 
-  ros2 run industrial_ci rerun_ci src/moveit2_tutorials \
-    DOCKER_IMAGE='moveit/moveit2:rolling-source' \
-    UPSTREAM_WORKSPACE='moveit2_tutorials.repos' \
-    TARGET_CMAKE_ARGS='-DCMAKE_BUILD_TYPE=Release' \
-    CCACHE_DIR="$HOME/.ccache" \
-    CLANG_TIDY='true'
+  - Run this command from the workspace directory to test code changes just as it is done in CI:
+
+    .. code-block:: bash
+
+      ros2 run industrial_ci rerun_ci src/moveit2_tutorials \
+        DOCKER_IMAGE='moveit/moveit2:rolling-source' \
+        UPSTREAM_WORKSPACE='moveit2_tutorials.repos' \
+        TARGET_CMAKE_ARGS='-DCMAKE_BUILD_TYPE=Release' \
+        CCACHE_DIR="$HOME/.ccache" \
+        CLANG_TIDY='true'
 
 Further Reading
 ---------------
