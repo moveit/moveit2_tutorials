@@ -4,7 +4,7 @@ How to Write a MoveIt Tutorial
 This guide explains how to write tutorials for the MoveIt documentation.
 Tutorials are one of the most useful contributions you can make because they are the first thing many new users see.
 This guide is intended for any contributor who wants to submit a new tutorial.
-If you are looking for how-to guides for using MoveIt, you can find them :doc:`here </doc/how_to_guides/how_to_guides>`.
+If you are looking for a how-to guide for using MoveIt, you can find one :doc:`here </doc/how_to_guides/how_to_guides>`.
 
 Learning Objectives
 -------------------
