@@ -22,7 +22,7 @@ Steps
 
 1. Fork the `MoveIt 2 Tutorials repository <https://github.com/ros-planning/moveit2_tutorials.git>`_ and start a new branch with an intuitive name (e.g., ``jack/how-to-tutorials``)
 
-#. Create a new file in the ``doc/tutorials`` directory with a ``.rst`` extension. The title be a concise description (e.g., "MoveIt Quickstart in RViz").
+#. Create a new file in the ``doc/tutorials`` directory with a ``.rst`` extension. The title should be a concise description (e.g., "MoveIt Quickstart in RViz").
 
 #. Add a link to your tutorial on the :doc:`tutorials page </doc/tutorials/tutorials>`.
 
