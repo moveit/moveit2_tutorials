@@ -44,7 +44,7 @@ Building more complex applications with MoveIt often requires developers to dig 
 
 Integration with a New Robot
 ----------------------------
-Before attempting to integrate a new robot with MoveIt 2, check whether your robot has already been setup (see the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt (and share your results on the MoveIt mailing list)
+Before attempting to integrate a new robot with MoveIt 2, check whether your robot has already been set up (see the `list of robots running MoveIt <http://moveit.ros.org/robots/>`_). Otherwise, follow the tutorials in this section to integrate your robot with MoveIt.
 
 .. toctree::
    :maxdepth: 1
@@ -72,8 +72,6 @@ Configuration
    pilz_industrial_motion_planner/pilz_industrial_motion_planner
    planning_adapters/planning_adapters_tutorial.rst
    persistent_scenes_and_states/persistent_scenes_and_states
-
-**Note:** The list of the robots above are for MoveIt, a list is on the works for MoveIt 2.
 
 Miscellaneous
 ----------------------------
