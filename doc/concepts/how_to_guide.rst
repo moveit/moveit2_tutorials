@@ -3,7 +3,7 @@ How-To Guide
 
 The How-To Guides are distinctly different from tutorials in that they are directed towards a different audience.
 How-To Guides are **Problem-Oriented** and assume the reader came to this page to answer a specific question.
-These pages posses these qualities:
+These pages possess these qualities:
 
 * a series of steps
 * a focus on the goal
@@ -25,7 +25,7 @@ For that reason, naming is very important.
 Examples of good names are:
 
 * How to Visualize Collisions in MoveIt
-* How to Grasp Objects with Moveit
+* How to Grasp Objects with MoveIt
 * How to Run MoveIt with UR5
 * How to Fix a Segfault
 * How to Migrate from Foxy to Galactic
