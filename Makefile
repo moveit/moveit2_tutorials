@@ -15,20 +15,26 @@ multiversion: Makefile
 
 multiversion-with-api: Makefile
 	@echo Building multiversion with API
-	@echo Step 1 of 3: Building multiversion
+	@echo Step 1 of 4: Building multiversion
 	sphinx-multiversion $(OPTS) "$(SOURCE)" build/html
 	@echo "<html><head><meta http-equiv=\"refresh\" content=\"0; url=galactic/index.html\" /></head></html>" > build/html/index.html
-	@echo Step 2 of 3: Clone MoveIt 2 Rolling API into the website
-	# cd build/html/main && if cd api; then git pull && cd ..; else git clone https://github.com/vatanaksoytezer/moveit2 api -b api; fi
-	# @echo Step 3 of 3: Clone MoveIt 2 Foxy API into the website TODO Make this actually foxy API
-	# pwd && cd build/html/foxy && if cd api; then git pull; else git clone https://github.com/vatanaksoytezer/moveit2 api -b api; fi
+	@echo Step 2 of 4: Clone MoveIt 2 Rolling and Build API
+	cd build/html/main && if cd moveit2; then git pull && cd ..; else git clone https://github.com/ros-planning/moveit2 -b main; fi && \
+		DOXYGEN_OUTPUT_DIRECTORY=`pwd`/api && doxygen moveit2/Doxyfile && rm -rf moveit2
+	# @echo Step 3 of 4: Clone MoveIt 2 Galactic and Build API
+	# pwd && cd build/html/galactic && if cd moveit2 && cd ..; then git pull; else git clone https://github.com/ros-planning/moveit2 -b galactic; fi && \
+	# 	DOXYGEN_OUTPUT_DIRECTORY=`pwd`/api && doxygen moveit2/Doxyfile && rm -rf moveit2
+	# @echo Step 4 of 4: Clone MoveIt 2 Foxy and Build API
+	# pwd && cd build/html/foxy && if cd moveit2 && cd ..; then git pull; else git clone https://github.com/ros-planning/moveit2 -b foxy; fi && \
+	# 	DOXYGEN_OUTPUT_DIRECTORY=`pwd`/api && doxygen moveit2/Doxyfile && rm -rf moveit2
 
 local-with-api: Makefile
 	@echo Building local with API
 	@echo Step 1 of 2: Building multiversion
 	make html
-	@echo Step 2 of 2: Clone MoveIt 2 Rolling API into the website
-	cd build/html && if cd api; then git pull; else git clone https://github.com/vatanaksoytezer/moveit2 api -b api; fi
+	@echo Step 2 of 2: Clone MoveIt 2 Rolling and Build API
+	cd build/html && if cd moveit2; then git pull && cd ..; else git clone https://github.com/ros-planning/moveit2 -b main; fi && \
+		DOXYGEN_OUTPUT_DIRECTORY=`pwd`/api && doxygen moveit2/Doxyfile
 
 .PHONY: help local-with-api Makefile multiversion multiversion-with-api
 
