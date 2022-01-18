@@ -1,22 +1,35 @@
 How To Generate API Doxygen Reference Locally
 =============================================
 
+
 Run doxygen in the root of the moveit2 repository.
 
+Requirements
+------------
 
-This explains what how to generate doxygen reference locally:
+- Install ``doxygen``:
+
+.. code-block:: bash
+
+    sudo apt-get install doxygen
+
+Steps
+-----
+
+- Navigate to the moveit2 repository:
 
 .. code-block:: bash
 
   cd ~/ws_moveit/src/moveit2
 
+- Run reference generation command with desired output directory path:
+
 .. code-block:: bash
 
-  doxygen
+  DOXYGEN_OUTPUT_DIRECTORY=~/docs doxygen
 
-It will generate a /doc/* directory containing the documentation.
+- The documentation entrypoint in a browser is index.html which you can access with:
 
-The documentation entrypoint in a browser is index.html which you can access with:
 .. code-block:: bash
 
-  firefox ~/ws_moveit/src/moveit2/doc/index.html
+  firefox ~/docs/index.html
