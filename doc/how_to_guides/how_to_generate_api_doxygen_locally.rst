@@ -7,11 +7,11 @@ Run doxygen in the root of the moveit2 repository.
 Requirements
 ------------
 
-- Install ``doxygen``:
+- Install ``doxygen`` and ``graphviz``:
 
 .. code-block:: bash
 
-    sudo apt-get install doxygen
+    sudo apt-get install doxygen graphviz
 
 Steps
 -----
