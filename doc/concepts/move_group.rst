@@ -2,16 +2,18 @@
 The ``move_group`` node
 =======================
 
-The figure above shows the high-level system architecture for the primary node provided by MoveIt called `move_group <http://docs.ros.org/noetic/api/moveit_ros_move_group/html/move__group_8cpp.html>`_. This node serves as an integrator: pulling all the individual components together to provide a set of ROS actions and services for users to use.
+The figure below shows the high-level system architecture for a key node provided by MoveIt called `move_group <https://docs.ros.org/noetic/api/moveit_ros_move_group/html/move__group_8cpp.html>`_.
+This node serves as an integrator: pulling all the individual components together to provide a set of ROS actions and services for users to use.
+Note that moveit_commander is `not currently available in MoveIt 2 <https://github.com/ros-planning/moveit2/issues/314>`_.
 
 .. image:: /_static/images/move_group.png
 
 User Interface
 --------------
 
-The users can access the actions and services provided by ``move_group`` in three ways:
+The users can access the actions and services provided by ``move_group`` in two ways:
 
-- **In C++** - using the `move_group_interface <http://docs.ros.org/noetic/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1MoveGroupInterface.html>`_ package that provides an easy to setup C++ interface to move_group
+- **In C++** - using the `move_group_interface <https://docs.ros.org/noetic/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1MoveGroupInterface.html>`_ package that provides an easy to setup C++ interface to move_group
 
 - **Through a GUI** - using the :doc:`Motion Planning plugin to Rviz <../tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial>` (the ROS visualizer)
 
@@ -35,7 +37,7 @@ Robot Interface
 Joint State Information
 -----------------------
 
-``move_group`` listens on the ``/joint_states`` topic for determining the current state information - i.e. determining where each joint of the robot is. ``move_group`` is capable of listening to multiple publishers on this topic even if they are publishing only partial information about the robot state (e.g. separate publishers may be used for the arm and mobile base of a robot). Note that ``move_group`` will not setup its own joint state publisher - this is something that has to be implemented on each robot.
+``move_group`` listens on the ``/joint_states`` topic for determining the current state information - i.e. determining where each joint of the robot is. ``move_group`` is capable of listening to multiple publishers on this topic even if they are publishing only partial information about the robot state (e.g. separate publishers may be used for the arm and mobile base of a robot). Note that ``move_group`` will not set up its own joint state publisher - this is something that has to be implemented on each robot.
 
 Transform Information
 ---------------------

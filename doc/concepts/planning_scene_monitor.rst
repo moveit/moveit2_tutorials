@@ -2,7 +2,7 @@
 Planning Scene Monitor
 ======================
 
-The ``planning scene`` is an object used for storing the representation of the world around the robot and also the state of the robot itself. The internal state of the ``planning_scene`` object is typically maintained by ``planning_scene_monitor`` component that enables reading and writing the state in a thread-safe manner.
+The ``planning scene`` is an object used for storing the representation of the world around the robot and also the state of the robot itself. The internal state of the ``planning_scene`` object is typically maintained by a ``planning_scene_monitor`` component that enables reading and writing the state in a thread-safe manner.
 
 .. image:: /_static/images/planning_scene_monitor.svg
 
@@ -25,7 +25,7 @@ Note that you can add your own types of updaters as a plugin to the occupancy ma
 Octomap
 -------
 
-The Occupancy map monitor uses an `Octomap <http://octomap.github.io/>`_ to maintain the occupancy map of the environment. The Octomap can actually encode probabilistic information about individual cells although this information is not currently used in MoveIt. The Octomap can directly be passed into FCL, the collision checking library that MoveIt uses.
+The Occupancy map monitor uses an `Octomap <https://octomap.github.io/>`_ to maintain the occupancy map of the environment. The Octomap can actually encode probabilistic information about individual cells although this information is not currently used in MoveIt. The Octomap can directly be passed into FCL, the collision checking library that MoveIt uses.
 
 Depth Image Occupancy Map Updater
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
