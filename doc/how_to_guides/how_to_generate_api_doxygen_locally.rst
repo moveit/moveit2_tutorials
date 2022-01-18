@@ -24,8 +24,6 @@ This explains what how to generate doxygen reference locally:
 
   DOXYGEN_OUTPUT_DIRECTORY=~/docs doxygen
 
-It will generate a /docs/* directory containing the documentation.
-
 4. The documentation entrypoint in a browser is index.html which you can access with:
 
 .. code-block:: bash
