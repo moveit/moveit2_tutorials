@@ -31,9 +31,10 @@ You can also specify the planner via the ``planning_pipeline`` and ``planner_id`
 The Motion Plan Result
 --------------------------
 
-The move_group node will generate a desired trajectory in response to your motion plan request.
+The **move_group** node will generate a desired trajectory in response to your motion plan request.
 This trajectory will move the arm (or any group of joints) to the desired location.
-Note that the result coming out of move_group is a trajectory and not just a path - \_move_group* will use the desired maximum velocities and accelerations (if specified) to generate a trajectory that obeys velocity and acceleration constraints at the joint level.
+Note that the result coming out of **move_group** is a trajectory and not just a path.
+**move_group** will use the desired maximum velocities and accelerations (if specified) to generate a trajectory that obeys velocity and acceleration constraints at the joint level.
 
 Motion planning adapters
 ------------------------

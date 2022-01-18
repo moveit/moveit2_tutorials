@@ -20,9 +20,9 @@ It uses the ``occupancy map monitor`` described below to build a 3D representati
 The occupancy map monitor uses a plugin architecture to handle different kinds of sensor input as shown in the Figure above.
 In particular, MoveIt has inbuilt support for handling two kinds of inputs:
 
-- **Point clouds**: handled by the ``point cloud occupancy map updater`` plugin
+- **Point clouds**: handled by the ``PointCloudOccupancyMapUpdater`` plugin.
 
-- **Depth images**: handled by the ``depth image occupancy map updater`` plugin
+- **Depth images**: handled by the ``DepthImageOccupancyMapUpdater`` plugin.
 
 Note that you can add your own types of updaters as a plugin to the occupancy map monitor.
 
