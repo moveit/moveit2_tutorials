@@ -11,7 +11,7 @@ This explains what how to generate doxygen reference locally:
 .. code-block:: bash
 
     sudo apt install doxygen
-    
+
 2. Navigate to the moveit2 repository:
 
 .. code-block:: bash
