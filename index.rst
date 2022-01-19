@@ -16,6 +16,7 @@ How-To Use This Website
 * :doc:`/doc/concepts/concepts` discusses the design of MoveIt.
 * :doc:`/doc/how_to_contribute/how_to_contribute` is a place to learn about making changes to MoveIt and this website.
 * :doc:`/doc/examples/examples` contains other useful pages that have not been adapted to the new layout of this site or are not yet ported from ROS 1.
+* :doc:`/doc/api/api` will redirect you to a reference API page.
 
 Table Of Contents
 -----------------
@@ -28,6 +29,7 @@ Table Of Contents
    doc/concepts/concepts
    doc/how_to_contribute/how_to_contribute
    doc/examples/examples
+   doc/api/api
 
 Attribution
 -----------
