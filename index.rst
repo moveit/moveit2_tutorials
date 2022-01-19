@@ -60,6 +60,15 @@ Miscellaneous
 
    doc/realtime_servo/realtime_servo_tutorial
 
+API Documentation
+-----------------
+
+.. toctree::
+   :maxdepth: 1
+
+   /doc/how_to_guides/how_to_generate_api_doxygen_locally
+   /doc/api/api
+
 Attribution
 -----------
 
