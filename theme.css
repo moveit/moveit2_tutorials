@@ -1515,3 +1515,10 @@ doxygen-awesome-dark-mode-toggle:hover {
 doxygen-awesome-dark-mode-toggle:after {
     content: var(--darkmode-toggle-button-icon)
 }
+
+@media (prefers-color-scheme: dark) {
+    #moveit-logo-black { display: none}
+}
+@media (prefers-color-scheme: light) {
+    #moveit-logo-white { display: none}
+}
