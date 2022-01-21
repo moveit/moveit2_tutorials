@@ -2,7 +2,7 @@ repositories:
   moveit2:
     type: git
     url: https://github.com/ros-planning/moveit2
-    version: 2.3.2
+    version: main
   geometric_shapes:
     type: git
     url: https://github.com/ros-planning/geometric_shapes
@@ -11,10 +11,10 @@ repositories:
     type: git
     url: https://github.com/ros-planning/moveit_msgs
     version: 2.2.0
-  moveit_msgs:
+  moveit_resources:
     type: git
-    url: https://github.com/ros-planning/moveit_msgs
-    version: 2.2.0
+    url: https://github.com/ros-planning/moveit_resources
+    version: ros2
   moveit_visual_tools:
     type: git
     url: https://github.com/ros-planning/moveit_visual_tools
@@ -23,3 +23,7 @@ repositories:
     type: git
     url: https://github.com/PickNikRobotics/rviz_visual_tools.git
     version: 4.1.2
+  launch_param_builder:
+    type: git
+    url: https://github.com/PickNikRobotics/launch_param_builder
+    version: main
