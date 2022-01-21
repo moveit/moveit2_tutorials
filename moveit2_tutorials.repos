@@ -23,3 +23,7 @@ repositories:
     type: git
     url: https://github.com/PickNikRobotics/rviz_visual_tools.git
     version: 4.1.2
+  launch_param_builder:
+    type: git
+    url: https://github.com/PickNikRobotics/launch_param_builder
+    version: main
