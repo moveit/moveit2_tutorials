@@ -25,6 +25,7 @@ The simplest way to use MoveIt through scripting is using the ``move_group_inter
 .. toctree::
    :maxdepth: 1
 
+<<<<<<< HEAD
    doc/move_group_interface/move_group_interface_tutorial
 
 Using MoveIt Directly Through the C++ API
@@ -59,6 +60,14 @@ Miscellaneous
    :maxdepth: 1
 
    doc/realtime_servo/realtime_servo_tutorial
+=======
+   doc/tutorials/tutorials
+   doc/examples/examples
+   doc/concepts/concepts
+   doc/how_to_guides/how_to_guides
+   doc/api/api
+   doc/how_to_contribute/how_to_contribute
+>>>>>>> 38f69fb (Reorder Top Level Navigation (#316))
 
 Attribution
 -----------
