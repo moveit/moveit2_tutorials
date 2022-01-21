@@ -106,38 +106,6 @@ Then under moveit2_tutorials directory install the git hooks like this:
 With this pre-commit will automatically run and check a list of styling including clang-format, end of files and trailing whitespaces whenever you run `git commit`. To run pre-commit any time other than `git commit`:
 
     cd $COLCON_WS/src/moveit2_tutorials && pre-commit run -a
-### Directory Structure
-
-* Each tutorial should live in its own subdirectory within the `./doc/ <>` directory.
-* Add your tutorial to `index.rst` in the root directory.
-* Tutorials should use the following directory structure omitting unnecessary files and subdirectories:
-
-```
-moveit2_tutorials/doc/
-└── <tutorial_name>/
-    ├── <tutorial_name>_tutorial.rst
-    ├── CMakeLists.txt
-    ├── package.xml
-    ├── setup.py
-    ├── images/
-    │   └── <tutorial_name>_<image_description>.png
-    ├── include/
-    │   └── <tutorial_name>/
-    │       └── <include_header>.h                      # Any custom C++ library header files
-    ├── launch/
-    │   └── <tutorial_name>_tutorial.launch.py
-    ├── src/
-    │   ├── <tutorial_name>_tutorial.cpp                # Main C++ executable
-    │   ├── <include_source>.cpp                        # Custom C++ library source files
-    │   └── <tutorial_name>/
-    │       ├── __init__.py
-    │       ├── <tutorial_name>_tutorial.py             # Main Python executable
-    │       └── <python_library>.py                     # Custom Python libraries
-    └── test/                                           # Ideally tutorials have their own integration tests
-        ├── <tutorial_name>_tutorial.test.py            # Launch file for tests
-        ├── <tutorial_name>_tutorial_test.py            # Python tests for tutorial
-        └── <tutorial_name>_tutorial_test.cpp           # C++ tests for tutorial
-```
 
 ### Including Images and Videos
 #### Images
