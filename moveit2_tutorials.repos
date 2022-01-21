@@ -2,7 +2,7 @@ repositories:
   moveit2:
     type: git
     url: https://github.com/ros-planning/moveit2
-    version: main
+    version: galactic
   geometric_shapes:
     type: git
     url: https://github.com/ros-planning/geometric_shapes
