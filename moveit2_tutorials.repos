@@ -11,10 +11,10 @@ repositories:
     type: git
     url: https://github.com/ros-planning/moveit_msgs
     version: 2.2.0
-  moveit_msgs:
+  moveit_resources:
     type: git
-    url: https://github.com/ros-planning/moveit_msgs
-    version: 2.2.0
+    url: https://github.com/ros-planning/moveit_resources
+    version: ros2
   moveit_visual_tools:
     type: git
     url: https://github.com/ros-planning/moveit_visual_tools
