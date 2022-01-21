@@ -25,11 +25,11 @@ Table Of Contents
    :maxdepth: 2
 
    doc/tutorials/tutorials
-   doc/how_to_guides/how_to_guides
-   doc/concepts/concepts
-   doc/how_to_contribute/how_to_contribute
    doc/examples/examples
+   doc/concepts/concepts
+   doc/how_to_guides/how_to_guides
    doc/api/api
+   doc/how_to_contribute/how_to_contribute
 
 Attribution
 -----------
