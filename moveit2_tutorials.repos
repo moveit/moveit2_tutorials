@@ -1,13 +1,40 @@
 repositories:
   rviz_visual_tools:
     type: git
+<<<<<<< HEAD
     url: https://github.com/PickNikRobotics/rviz_visual_tools
     version: foxy-devel
   moveit_resources:
     type: git
+=======
+    url: https://github.com/ros-planning/moveit2
+    version: main
+  geometric_shapes:
+    type: git
+    url: https://github.com/ros-planning/geometric_shapes
+    version: 2.1.2
+  moveit_msgs:
+    type: git
+    url: https://github.com/ros-planning/moveit_msgs
+    version: 2.2.0
+  moveit_resources:
+    type: git
+>>>>>>> 8238b2c (Use moveit configs utils packages (#243))
     url: https://github.com/ros-planning/moveit_resources
     version: ros2
   moveit_visual_tools:
     type: git
     url: https://github.com/ros-planning/moveit_visual_tools
+<<<<<<< HEAD
     version: foxy
+=======
+    version: 4.0.0
+  rviz_visual_tools:
+    type: git
+    url: https://github.com/PickNikRobotics/rviz_visual_tools.git
+    version: 4.1.2
+  launch_param_builder:
+    type: git
+    url: https://github.com/PickNikRobotics/launch_param_builder
+    version: main
+>>>>>>> 8238b2c (Use moveit configs utils packages (#243))
