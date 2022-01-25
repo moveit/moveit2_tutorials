@@ -126,11 +126,11 @@ templates_path = [
 
 # smv_tag_whitelist = None
 
-smv_branch_whitelist = r"^(main|foxy)$"
+smv_branch_whitelist = r"^(main|galactic|foxy)$"
 
-smv_released_pattern = r"^refs/(heads|remotes/[^/]+)/(foxy).*$"
+smv_released_pattern = r"^refs/(heads|remotes/[^/]+)/(foxy|galactic).*$"
 smv_remote_whitelist = r"^(origin)$"
-smv_latest_version = "foxy"
+smv_latest_version = "galactic"
 smv_eol_versions = []
 
 distro_full_names = {
@@ -402,6 +402,7 @@ def smv_rewrite_configs(app, config):
     if app.config.smv_current_version != "":
         branch_distro = {
             "main": "rolling",
+            "galactic": "galactic",
             "foxy": "foxy",
         }
 

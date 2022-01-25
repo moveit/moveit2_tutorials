@@ -12,9 +12,11 @@ All content in this repository is open source and released under the [BSD Licens
 
 This repository is currently built automatically by Github Actions:
 
-- main: [![Build](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci_main.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci_main.yml?query=branch%3Amain) (Galactic, Rolling)
-- main: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Amain) (Galactic, Rolling)
-- foxy: [![Build](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci_main.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci_foxy.yml?query=branch%3Afoxy) (Foxy)
+- main: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Amain)
+- main: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Amain)
+- galactic: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=galactic)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Agalactic)
+- galactic: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=galactic)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Agalactic)
+- foxy: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Afoxy) (Foxy)
 - foxy: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Afoxy) (Foxy)
 - foxy: [![Deploy](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml?query=branch%3Afoxy) (Foxy)
 - foxy: [Github Pages](https://moveit.picknik.ai/): (Foxy)
@@ -104,38 +106,6 @@ Then under moveit2_tutorials directory install the git hooks like this:
 With this pre-commit will automatically run and check a list of styling including clang-format, end of files and trailing whitespaces whenever you run `git commit`. To run pre-commit any time other than `git commit`:
 
     cd $COLCON_WS/src/moveit2_tutorials && pre-commit run -a
-### Directory Structure
-
-* Each tutorial should live in its own subdirectory within the `./doc/ <>` directory.
-* Add your tutorial to `index.rst` in the root directory.
-* Tutorials should use the following directory structure omitting unnecessary files and subdirectories:
-
-```
-moveit2_tutorials/doc/
-└── <tutorial_name>/
-    ├── <tutorial_name>_tutorial.rst
-    ├── CMakeLists.txt
-    ├── package.xml
-    ├── setup.py
-    ├── images/
-    │   └── <tutorial_name>_<image_description>.png
-    ├── include/
-    │   └── <tutorial_name>/
-    │       └── <include_header>.h                      # Any custom C++ library header files
-    ├── launch/
-    │   └── <tutorial_name>_tutorial.launch.py
-    ├── src/
-    │   ├── <tutorial_name>_tutorial.cpp                # Main C++ executable
-    │   ├── <include_source>.cpp                        # Custom C++ library source files
-    │   └── <tutorial_name>/
-    │       ├── __init__.py
-    │       ├── <tutorial_name>_tutorial.py             # Main Python executable
-    │       └── <python_library>.py                     # Custom Python libraries
-    └── test/                                           # Ideally tutorials have their own integration tests
-        ├── <tutorial_name>_tutorial.test.py            # Launch file for tests
-        ├── <tutorial_name>_tutorial_test.py            # Python tests for tutorial
-        └── <tutorial_name>_tutorial_test.cpp           # C++ tests for tutorial
-```
 
 ### Including Images and Videos
 #### Images

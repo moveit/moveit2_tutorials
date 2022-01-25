@@ -3,7 +3,7 @@ MoveIt 2 Documentation
 
 Welcome to the unified MoveIt documentation, which includes tutorials, how-to-guides, core concepts, and more.
 
-MoveIt 2 is the robotics manipulation platform for ROS 2, and incorporates the latest advances in motion planning, manipulation, 3D perception, kinematics, control, and navigation. MoveIt 2 was first release in 2019; for ROS 1 documentation, see `MoveIt 1 tutorials <https://ros-planning.github.io/moveit_tutorials>`_.
+MoveIt 2 is the robotic manipulation platform for ROS 2, and incorporates the latest advances in motion planning, manipulation, 3D perception, kinematics, control, and navigation. MoveIt 2 was first released in 2019; for ROS 1 documentation, see `MoveIt 1 tutorials <https://ros-planning.github.io/moveit_tutorials>`_.
 
 .. image:: https://moveit.ros.org/assets/images/roadmap.png
    :width: 400px
@@ -12,10 +12,11 @@ How-To Use This Website
 -----------------------
 
 * :doc:`/doc/tutorials/tutorials` will walk you through creating your first project with MoveIt.
-* :doc:`/doc/how_to_guides/how_to_guides` answers the questsion "How to do X with MoveIt?"
+* :doc:`/doc/how_to_guides/how_to_guides` answers the question "How to do X with MoveIt?"
 * :doc:`/doc/concepts/concepts` discusses the design of MoveIt.
-* :doc:`/doc/how_to_contribute/how_to_contribute` is a place to learn about you can make changes to MoveIt and this website.
+* :doc:`/doc/how_to_contribute/how_to_contribute` is a place to learn about making changes to MoveIt and this website.
 * :doc:`/doc/examples/examples` contains other useful pages that have not been adapted to the new layout of this site or are not yet ported from ROS 1.
+* :doc:`/doc/api/api` will redirect you to a reference API page.
 
 Table Of Contents
 -----------------
@@ -24,10 +25,11 @@ Table Of Contents
    :maxdepth: 2
 
    doc/tutorials/tutorials
-   doc/how_to_guides/how_to_guides
-   doc/concepts/concepts
-   doc/how_to_contribute/how_to_contribute
    doc/examples/examples
+   doc/concepts/concepts
+   doc/how_to_guides/how_to_guides
+   doc/api/api
+   doc/how_to_contribute/how_to_contribute
 
 Attribution
 -----------
