@@ -18,6 +18,7 @@ Install `rosdep <http://wiki.ros.org/rosdep>`_ to install system dependencies : 
 
 Once you have ROS 2 installed, make sure you have the most up to date packages: ::
 
+  sudo rosdep init
   rosdep update
   sudo apt update
   sudo apt dist-upgrade
