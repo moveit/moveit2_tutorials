@@ -47,7 +47,6 @@ This first bit is a bit of boilerplate but you should be used to seeing this fro
 .. code-block:: C++
 
   #include <memory>
-  #include <thread>
 
   #include <rclcpp/rclcpp.hpp>
   #include <moveit/move_group_interface/move_group_interface.h>
@@ -64,18 +63,10 @@ This first bit is a bit of boilerplate but you should be used to seeing this fro
     // Create a ROS logger
     auto const logger = rclcpp::get_logger("hello_moveit");
 
-    // Create a thread to run to spin a Executor
-    auto thread = std::thread([node]() {
-      rclcpp::executors::SingleThreadedExecutor executor;
-      executor.add_node(node);
-      executor.spin();
-    });
-
     // Next step goes here
 
-    // Shutdown ROS and our thread
+    // Shutdown ROS
     rclcpp::shutdown();
-    thread.join();
     return 0;
   }
 
@@ -102,16 +93,7 @@ Run your program and see the output.
 
   ros2 run hello_moveit hello_moveit
 
-You will probably see this error:
-
-.. code-block::
-
-  terminate called after throwing an instance of 'rclcpp::exceptions::RCLError'
-    what():  the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at /tmp/binarydeb/ros-rolling-rcl-4.0.0/src/rcl/guard_condition.c:67
-  [ros2run]: Aborted
-
-This is because ``rclcpp::shutdown()`` was called before the Executor finished initializing.
-We'll fix that in the next section by adding some code that does something after creating the thread.
+The program should run and exit without error.
 
 2.2 Examine the code
 ~~~~~~~~~~~~~~~~~~~~
@@ -130,23 +112,12 @@ After that we have the normal call to initialize rclcpp and then we create our N
 The first argument is the string that ROS will use to make a unique node.
 The second is needed for MoveIt because of how we use ROS Parameters.
 
-Before we can start use our ROS Node we have to give it to a spinning executor.
-This is what will enable ROS to call callbacks to update our Robot State among other things.
-
-.. code-block:: C++
-
-  auto thread = std::thread([node]() {
-    rclcpp::executors::SingleThreadedExecutor executor;
-    executor.add_node(node);
-    executor.spin();
-  });
-
-Lastly we have the code to shutdown ROS and cleanup our thread.
+Lastly we have the code to shutdown ROS.
 
 3 Plan and Execute using MoveGroupInterface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-After the creation of the thread add this block of code:
+In place of the comment that says "Next step goes here" add this code:
 
 .. code-block:: C++
 
@@ -213,11 +184,21 @@ This should cause the robot in RViz to move and end up in this pose:
 .. image:: rviz_2.png
    :width: 300px
 
+Note that if you ran the node ``hello_moveit`` without launching the demo launch file first it will wait for 10 seconds and then print this error and exit.
+
+.. code-block:: bash
+
+  [ERROR] [1644181704.350825487] [hello_moveit]: Could not find parameter robot_description and did not receive robot_description via std_msgs::msg::String subscription within 10.000000 seconds.
+
+This is because the ``demo.launch.py`` launch is starting the ``MoveGroup`` node that provides the robot description.
+When ``MoveGroupInterface`` is constructed it looks for a node publishing a topic with the robot description.
+If it fails to find that within 10 seconds it prints this error and terminates the program.
+
 3.2 Examine the code
 ~~~~~~~~~~~~~~~~~~~~
 
 The first thing we do is create the MoveGroupInterface. This object will be used to interact with move_group, which allow us to plan and execute trajectories.
-Note that this is the only mutable object (other than the thread) that we create in this program.
+Note that this is the only mutable object that we create in this program.
 
 .. code-block:: C++
 
