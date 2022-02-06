@@ -48,7 +48,6 @@ This first bit is a bit of boilerplate but you should be used to seeing this fro
 
   #include <memory>
   #include <thread>
-  #include <string>
 
   #include <rclcpp/rclcpp.hpp>
   #include <moveit/move_group_interface/move_group_interface.h>
@@ -57,13 +56,13 @@ This first bit is a bit of boilerplate but you should be used to seeing this fro
   {
     // Initialize ROS and create the Node
     rclcpp::init(argc, argv);
-    const auto node = std::make_shared<rclcpp::Node>(
+    auto const node = std::make_shared<rclcpp::Node>(
       "hello_moveit",
       rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
     );
 
     // Create a ROS logger
-    const auto logger = rclcpp::get_logger("hello_moveit");
+    auto const logger = rclcpp::get_logger("hello_moveit");
 
     // Create a thread to run to spin a Executor
     auto thread = std::thread([node]() {
@@ -123,7 +122,7 @@ After that we have the normal call to initialize rclcpp and then we create our N
 
 .. code-block:: C++
 
-  const auto node = std::make_shared<rclcpp::Node>(
+  auto const node = std::make_shared<rclcpp::Node>(
     "hello_moveit",
     rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
   );
@@ -136,7 +135,7 @@ This is what will enable ROS to call callbacks to update our Robot State among o
 
 .. code-block:: C++
 
-  auto thread = std::thread([=]() {
+  auto thread = std::thread([node]() {
     rclcpp::executors::SingleThreadedExecutor executor;
     executor.add_node(node);
     executor.spin();
@@ -151,34 +150,34 @@ After the creation of the thread add this block of code:
 
 .. code-block:: C++
 
-    // Create the MoveIt MoveGroup Interface
-    using moveit::planning_interface::MoveGroupInterface;
-    auto move_group_interface = MoveGroupInterface(node, "panda_arm");
+  // Create the MoveIt MoveGroup Interface
+  using moveit::planning_interface::MoveGroupInterface;
+  auto move_group_interface = MoveGroupInterface(node, "panda_arm");
 
-    // Set a target Pose
-    const auto target_pose = []{
-      geometry_msgs::msg::Pose msg;
-      msg.orientation.w = 1.0;
-      msg.position.x = 0.28;
-      msg.position.y = -0.2;
-      msg.position.z = 0.5;
-      return msg;
-    }();
-    move_group_interface.setPoseTarget(target_pose);
+  // Set a target Pose
+  auto const target_pose = []{
+    geometry_msgs::msg::Pose msg;
+    msg.orientation.w = 1.0;
+    msg.position.x = 0.28;
+    msg.position.y = -0.2;
+    msg.position.z = 0.5;
+    return msg;
+  }();
+  move_group_interface.setPoseTarget(target_pose);
 
-    // Create a plan to that target pose
-    const auto [success, plan] = [&move_group_interface]{
-      moveit::planning_interface::MoveGroupInterface::Plan msg;
-      const auto ok = static_cast<bool>(move_group_interface.plan(msg));
-      return std::make_pair(ok, msg);
-    }();
+  // Create a plan to that target pose
+  auto const [success, plan] = [&move_group_interface]{
+    moveit::planning_interface::MoveGroupInterface::Plan msg;
+    auto const ok = static_cast<bool>(move_group_interface.plan(msg));
+    return std::make_pair(ok, msg);
+  }();
 
-    // Execute the plan
-    if(success) {
-      move_group_interface.execute(plan);
-    } else {
-      RCLCPP_ERROR(logger, "Planing failed!");
-    }
+  // Execute the plan
+  if(success) {
+    move_group_interface.execute(plan);
+  } else {
+    RCLCPP_ERROR(logger, "Planing failed!");
+  }
 
 3.1 Build and Run
 ~~~~~~~~~~~~~~~~~
@@ -222,41 +221,41 @@ Note that this is the only mutable object (other than the thread) that we create
 
 .. code-block:: C++
 
-    using moveit::planning_interface::MoveGroupInterface;
-    auto move_group_interface = MoveGroupInterface(node, "panda_arm");
+  using moveit::planning_interface::MoveGroupInterface;
+  auto move_group_interface = MoveGroupInterface(node, "panda_arm");
 
 Then we set our target pose and plan.
 
 .. code-block:: C++
 
-    // Set a target Pose
-    const auto target_pose = []{
-      geometry_msgs::msg::Pose msg;
-      msg.orientation.w = 1.0;
-      msg.position.x = 0.28;
-      msg.position.y = -0.2;
-      msg.position.z = 0.5;
-      return msg;
-    }();
-    move_group_interface.setPoseTarget(target_pose);
+  // Set a target Pose
+  auto const target_pose = []{
+    geometry_msgs::msg::Pose msg;
+    msg.orientation.w = 1.0;
+    msg.position.x = 0.28;
+    msg.position.y = -0.2;
+    msg.position.z = 0.5;
+    return msg;
+  }();
+  move_group_interface.setPoseTarget(target_pose);
 
-    // Create a plan to that target pose
-    const auto [success, plan] = [&move_group_interface]{
-      moveit::planning_interface::MoveGroupInterface::Plan msg;
-      const auto ok = static_cast<bool>(move_group_interface.plan(msg));
-      return std::make_pair(ok, msg);
-    }();
+  // Create a plan to that target pose
+  auto const [success, plan] = [&move_group_interface]{
+    moveit::planning_interface::MoveGroupInterface::Plan msg;
+    auto const ok = static_cast<bool>(move_group_interface.plan(msg));
+    return std::make_pair(ok, msg);
+  }();
 
 Finally we execute our plan if planning was successful, otherwise we log an error:
 
 .. code-block:: C++
 
-    // Execute the plan
-    if(success) {
-      move_group_interface.execute(plan);
-    } else {
-      RCLCPP_ERROR(logger, "Planing failed!");
-    }
+  // Execute the plan
+  if(success) {
+    move_group_interface.execute(plan);
+  } else {
+    RCLCPP_ERROR(logger, "Planing failed!");
+  }
 
 Summary
 -------
@@ -267,8 +266,8 @@ You created a ROS 2 package and wrote your first program using MoveIt.
 Further Reading
 ---------------
 
-- You may have noticed we used lambdas to be able to initialize objects as constants. This is known as a technique called IIFE.  You can read more about this pattern `here at C++ Stories <https://www.cppstories.com/2016/11/iife-for-complex-initialization/>`_.
-- `Please declare your variables as const <https://www.cppstories.com/2016/12/please-declare-your-variables-as-const/>`_
+- We used lambdas to be able to initialize objects as constants. This is known as a technique called IIFE.  `Read more about this pattern from C++ Stories <https://www.cppstories.com/2016/11/iife-for-complex-initialization/>`_.
+- We also declared everything we could as const.  `Read more about the usefulness of const here <https://www.cppstories.com/2016/12/please-declare-your-variables-as-const/>`_.
 
 Next Step
 ---------
