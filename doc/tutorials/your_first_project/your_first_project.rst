@@ -254,7 +254,7 @@ Finally we execute our plan if planning was successful, otherwise we log an erro
   if(success) {
     move_group_interface.execute(plan);
   } else {
-    RCLCPP_ERROR(logger, "Planing failed!");
+    RCLCPP_ERROR(logger, "Planning failed!");
   }
 
 Summary
