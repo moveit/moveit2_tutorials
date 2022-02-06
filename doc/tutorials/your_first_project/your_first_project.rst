@@ -216,7 +216,7 @@ This should cause the robot in RViz to move and end up in this pose:
 3.2 Examine the code
 ~~~~~~~~~~~~~~~~~~~~
 
-The first thing we do is create the MoveGroupInterface.
+The first thing we do is create the MoveGroupInterface. This object will be used to interact with move_group, which allow us to plan and execute trajectories.
 Note that this is the only mutable object (other than the thread) that we create in this program.
 
 .. code-block:: C++
