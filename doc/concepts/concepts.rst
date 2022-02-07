@@ -7,6 +7,7 @@ Concepts
 
    kinematics
    motion_planning
+   hybrid_planning/hybrid_planning
    move_group
    planning_scene_monitor
    trajectory_processing
