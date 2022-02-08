@@ -197,7 +197,7 @@ If it fails to find that within 10 seconds it prints this error and terminates t
 3.2 Examine the code
 ~~~~~~~~~~~~~~~~~~~~
 
-The first thing we do is create the MoveGroupInterface. This object will be used to interact with move_group, which allow us to plan and execute trajectories.
+The first thing we do is create the MoveGroupInterface. This object will be used to interact with move_group, which allows us to plan and execute trajectories.
 Note that this is the only mutable object that we create in this program.
 
 .. code-block:: C++
