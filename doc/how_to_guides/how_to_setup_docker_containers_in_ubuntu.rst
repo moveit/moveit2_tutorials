@@ -19,7 +19,7 @@ Requirements
 Steps
 -----
 
-1. Install Docker (a link is available in the Requirements section) and be sure to follow the `Linux Post Install <https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user>`_ instructions. If you do not complete these additional steps you will need to preface all `docker` commands with `sudo`.
+1. Install Docker (a link is available in the Requirements section) and be sure to follow the `Linux Post Install <https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user>`_ instructions. If you do not complete these additional steps you will need to preface all ``docker`` commands with ``sudo``.
 
 2. Open a terminal session and create an empty text file.
 
@@ -40,7 +40,7 @@ Steps
   There are 3 parameters for the script.
      - name_of_the_container : this is the name you wish to give the created container
      - name_of_the_image : if you are creating a fresh docker container, provide the name of the docker image here
-     - using_gpu : if `true`, the docker will be run using nvidia gpu drivers. By default, this value is true.
+     - using_gpu : if ``true``, the docker will be run using nvidia gpu drivers. By default, this value is true.
 
   To run the script and use nvidia gpu drivers
 
@@ -48,7 +48,7 @@ Steps
 
     ~/Docker/scripts/start-docker.sh moveit2-galactic moveit/moveit2:galactic-source
 
-  If either of the above command fails, you are likely not using nvidia drivers. You'll need to remove the container you just created `docker rm moveit2-galactic`
+  If either of the above command fails, you are likely not using nvidia drivers. You'll need to remove the container you just created ``docker rm moveit2-galactic``
 
   To run the docker without nvidia drivers
 
