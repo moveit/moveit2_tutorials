@@ -32,7 +32,7 @@ Steps
 
   .. code-block:: bash
 
-    wget https://raw.githubusercontent.com/ros-planning/moveit2_tutorials/_scripts/start-docker.sh
+    wget https://raw.githubusercontent.com/ros-planning/moveit2_tutorials/how-to-docker-ubuntu/_scripts/start-docker.sh
     chmod +x ~/Docker/scripts/start-docker.sh
 
 4. Run the script
