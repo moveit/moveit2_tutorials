@@ -1,7 +1,7 @@
-How to Setup Moveit2 Docker Containers in Ubuntu
+How to Setup Moveit 2 Docker Containers in Ubuntu
 =================================================
-This guide will provide a walkthrough on how to get docker container with Moveit2 dependencies setup quickly.
-Provided in this guide is a script that will get you up and running in Moveit quickly!
+This guide will provide a walkthrough on how to get docker container with Moveit 2 dependencies setup quickly.
+It includes a script that will get you up and running in Moveit quickly!
 This guide is intended for people who would like to have a separate environment for working with Moveit up and running quickly \
 without having to do much configuring. In this guide, we will be setting up a ROS2 Galactic environment.
 
@@ -19,103 +19,50 @@ Requirements
 Steps
 -----
 
-1. Open a terminal session and create an empty text file.
-::
-  mkdir -p ~/Docker/scripts
-  cd ~/Docker/scripts/
-  gedit start-docker.sh
+1. Install Docker (a link is available in the Requirements section) and be sure to follow the `Linux Post Install <https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user>`_ instructions. If you do not complete these additional steps you will need to preface all `docker` commands with `sudo`.
 
-2. Copy and paste the following script inside of the opened text file
-::
-  #!/bin/bash
+2. Open a terminal session and create an empty text file.
 
-  display_usage() {
-      printf "Usage:\n start_docker <name_of_the_container> <name_of_the_image (optional)> <using_gpu (true) (optional)>\n"
-  }
+  .. code-block:: bash
 
-  if [ -z "$1" ]
-  then
-      display_usage
-      exit 1
-  else
-      CONTAINER_NAME=$1
-      IMAGE_NAME=$2
-      NO_GPU=$3
-      if (docker ps --all | grep -q "$CONTAINER_NAME")
-      then
-          xhost +local:root &> /dev/null
-          echo "Found a docker container with the given name, starting $1"
-          printf "\n"
-          # If Docker is already running, no need to start it
-          if (docker ps | grep -q "$CONTAINER_NAME")
-          then
-              docker exec -it "$CONTAINER_NAME" /bin/bash && \
-              xhost -local:root 1>/dev/null 2>&1
-          else
-              docker start "$CONTAINER_NAME" 1>/dev/null 2>&1
-              docker exec -it "$CONTAINER_NAME" /bin/bash && \
-              xhost -local:root 1>/dev/null 2>&1
-          fi
+    mkdir -p ~/Docker/scripts
+    cd ~/Docker/scripts/
 
-      else
-          if [ -z "$2" ]
-          then
-              printf "Can't find docker with the given name, need an image name to start the container from\n"
-              display_usage
-              exit 1
-          else
-              echo "Creating docker container $1 from image $2"
-              printf "\n"
-              if [ -z "$3" ]
-              then
-                  xhost +local:root &> /dev/null
-                  docker run -it --privileged \
-                      --net=host \
-                      --gpus all \
-                      --env=NVIDIA_VISIBLE_DEVICES=all \
-                      --env=NVIDIA_DRIVER_CAPABILITIES=all \
-                      --env=DISPLAY \
-                      --env=QT_X11_NO_MITSHM=1 \
-                      -v /tmp/.X11-unix:/tmp/.X11-unix \
-                      --name "$CONTAINER_NAME" \
-                      "$IMAGE_NAME" \
-                      /bin/bash
-                  xhost -local:root 1>/dev/null 2>&1
-              else
-                  # Start without GPU
-                  echo "Opening up the docker container without GPU support"
-                  printf "\n"
-                  xhost +local:root &> /dev/null
-                  docker run -it --privileged \
-                      --net=host \
-                      --env=DISPLAY \
-                      --env=QT_X11_NO_MITSHM=1 \
-                      -v "/tmp/.X11-unix:/tmp/.X11-unix" \
-                      --name "$CONTAINER_NAME" \
-                      "$IMAGE_NAME" \
-                      /bin/bash
-                  xhost -local:root 1>/dev/null 2>&1
-              fi
-          fi
-      fi
-  fi
+3. Fetch docker script and make it executable
 
- There are 3 parameters for the script.
-  - name_of_the_container : this is the name you wish to give the created container
-  - name_of_the_image : if you are creating a fresh docker container, provide the name of the docker image here
-  - using_gpu : if `true`, the docker will be run using nvidia gpu drivers. By default, this value is true.
+  .. code-block:: bash
 
-3. Running the script
+    wget https://raw.githubusercontent.com/ros-planning/moveit2_tutorials/_scripts/start-docker.sh
+    chmod +x ~/Docker/scripts/start-docker.sh
 
-To run the script and use nvidia gpu drivers
-::
+4. Run the script
+
+  There are 3 parameters for the script.
+     - name_of_the_container : this is the name you wish to give the created container
+     - name_of_the_image : if you are creating a fresh docker container, provide the name of the docker image here
+     - using_gpu : if `true`, the docker will be run using nvidia gpu drivers. By default, this value is true.
+
+  To run the script and use nvidia gpu drivers
+
+  .. code-block:: bash
+
     ~/Docker/scripts/start-docker.sh moveit2-galactic moveit/moveit2:galactic-source
 
-To run the docker without nvidia drivers
-::
+  If either of the above command fails, you are likely not using nvidia drivers. You'll need to remove the container you just created `docker rm moveit2-galactic`
+
+  To run the docker without nvidia drivers
+
+  .. code-block:: bash
+
     ~/Docker/scripts/start-docker.sh moveit2-galactic moveit/moveit2:galactic-source false
 
-4. You should now be inside of your docker container, in the workspace directory. You should now be able to start working with Moveit!
+  After running the script for the first time, you only would need to
+
+  .. code-block:: bash
+
+    ~/Docker/scripts/start-docker.sh moveit2-galactic
+
+5. You should now be inside of your docker container, in the workspace directory. You should now be able to start working with Moveit!
 
 Further Reading
 ---------------
