@@ -16,6 +16,7 @@
 #endif
 
 static const rclcpp::Logger LOGGER = rclcpp::get_logger("mtc_tutorial");
+namespace mtc = moveit::task_constructor;
 
 class MTCTaskNode
 {
@@ -30,8 +31,8 @@ public:
 
 private:
   // Compose an MTC task from a series of stages.
-  moveit::task_constructor::Task createTask();
-  moveit::task_constructor::Task task_;
+  mtc::Task createTask();
+  mtc::Task task_;
   rclcpp::Node::SharedPtr node_;
 };
 
@@ -71,13 +72,13 @@ void MTCTaskNode::doTask()
   {
     task_.init();
   }
-  catch (moveit::task_constructor::InitStageException& e)
+  catch (mtc::InitStageException& e)
   {
     RCLCPP_ERROR_STREAM(LOGGER, e);
     return;
   }
 
-  if (!task_.plan(5))
+  if (!task_.plan(5 /* max_solutions */))
   {
     RCLCPP_ERROR_STREAM(LOGGER, "Task planning failed");
     return;
@@ -94,63 +95,61 @@ void MTCTaskNode::doTask()
   return;
 }
 
-moveit::task_constructor::Task MTCTaskNode::createTask()
+mtc::Task MTCTaskNode::createTask()
 {
-  moveit::task_constructor::Task task;
+  mtc::Task task;
   task.stages()->setName("demo task");
   task.loadRobotModel(node_);
 
   const auto& arm_group_name = "panda_arm";
-  const auto& eef_name = "hand";
   const auto& hand_group_name = "hand";
   const auto& hand_frame = "panda_hand";
 
   // Set task properties
   task.setProperty("group", arm_group_name);
-  task.setProperty("eef", eef_name);
-  task.setProperty("hand", hand_group_name);
-  task.setProperty("hand_grasping_frame", hand_frame);
+  task.setProperty("eef", hand_group_name);
   task.setProperty("ik_frame", hand_frame);
 
-  moveit::task_constructor::Stage* current_state_ptr = nullptr;  // Forward current_state on to grasp pose generator
-  auto stage_state_current = std::make_unique<moveit::task_constructor::stages::CurrentState>("current");
+  mtc::Stage* current_state_ptr = nullptr;  // Forward current_state on to grasp pose generator
+  auto stage_state_current = std::make_unique<mtc::stages::CurrentState>("current");
   current_state_ptr = stage_state_current.get();
   task.add(std::move(stage_state_current));
 
-  auto sampling_planner = std::make_shared<moveit::task_constructor::solvers::PipelinePlanner>(node_);
-  auto interpolation_planner = std::make_shared<moveit::task_constructor::solvers::JointInterpolationPlanner>();
+  auto sampling_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_);
+  auto interpolation_planner = std::make_shared<mtc::solvers::JointInterpolationPlanner>();
 
-  auto cartesian_planner = std::make_shared<moveit::task_constructor::solvers::CartesianPath>();
+  auto cartesian_planner = std::make_shared<mtc::solvers::CartesianPath>();
   cartesian_planner->setMaxVelocityScaling(1.0);
   cartesian_planner->setMaxAccelerationScaling(1.0);
   cartesian_planner->setStepSize(.01);
 
-  auto stage_open_hand = std::make_unique<moveit::task_constructor::stages::MoveTo>("open hand", interpolation_planner);
+  auto stage_open_hand =
+      std::make_unique<mtc::stages::MoveTo>("open hand", interpolation_planner);
   stage_open_hand->setGroup(hand_group_name);
   stage_open_hand->setGoal("open");
   task.add(std::move(stage_open_hand));
 
-  auto stage_move_to_pick = std::make_unique<moveit::task_constructor::stages::Connect>(
+  auto stage_move_to_pick = std::make_unique<mtc::stages::Connect>(
       "move to pick",
-      moveit::task_constructor::stages::Connect::GroupPlannerVector{ { arm_group_name, sampling_planner } });
+      mtc::stages::Connect::GroupPlannerVector{ { arm_group_name, sampling_planner } });
   stage_move_to_pick->setTimeout(5.0);
-  stage_move_to_pick->properties().configureInitFrom(moveit::task_constructor::Stage::PARENT);
+  stage_move_to_pick->properties().configureInitFrom(mtc::Stage::PARENT);
   task.add(std::move(stage_move_to_pick));
 
-  moveit::task_constructor::Stage* attach_object_stage =
+  mtc::Stage* attach_object_stage =
       nullptr;  // Forward attach_object_stage to place pose generator
   {
-    auto grasp = std::make_unique<moveit::task_constructor::SerialContainer>("pick object");
+    auto grasp = std::make_unique<mtc::SerialContainer>("pick object");
     task.properties().exposeTo(grasp->properties(), { "eef", "hand", "group", "ik_frame" });
-    grasp->properties().configureInitFrom(moveit::task_constructor::Stage::PARENT,
+    grasp->properties().configureInitFrom(mtc::Stage::PARENT,
                                           { "eef", "hand", "group", "ik_frame" });
 
     {
       auto stage =
-          std::make_unique<moveit::task_constructor::stages::MoveRelative>("approach object", cartesian_planner);
+          std::make_unique<mtc::stages::MoveRelative>("approach object", cartesian_planner);
       stage->properties().set("marker_ns", "approach_object");
       stage->properties().set("link", hand_frame);
-      stage->properties().configureInitFrom(moveit::task_constructor::Stage::PARENT, { "group" });
+      stage->properties().configureInitFrom(mtc::Stage::PARENT, { "group" });
       stage->setMinMaxDistance(0.1, 0.15);
 
       // Set hand forward direction
@@ -166,8 +165,8 @@ moveit::task_constructor::Task MTCTaskNode::createTask()
      ***************************************************/
     {
       // Sample grasp pose
-      auto stage = std::make_unique<moveit::task_constructor::stages::GenerateGraspPose>("generate grasp pose");
-      stage->properties().configureInitFrom(moveit::task_constructor::Stage::PARENT);
+      auto stage = std::make_unique<mtc::stages::GenerateGraspPose>("generate grasp pose");
+      stage->properties().configureInitFrom(mtc::Stage::PARENT);
       stage->properties().set("marker_ns", "grasp_pose");
       stage->setPreGraspPose("open");
       stage->setObject("object");
@@ -182,41 +181,45 @@ moveit::task_constructor::Task MTCTaskNode::createTask()
       grasp_frame_transform.translation().z() = 0.1;
 
       // Compute IK
-      auto wrapper = std::make_unique<moveit::task_constructor::stages::ComputeIK>("grasp pose IK", std::move(stage));
+      auto wrapper =
+          std::make_unique<mtc::stages::ComputeIK>("grasp pose IK", std::move(stage));
       wrapper->setMaxIKSolutions(8);
       wrapper->setMinSolutionDistance(1.0);
       wrapper->setIKFrame(grasp_frame_transform, hand_frame);
-      wrapper->properties().configureInitFrom(moveit::task_constructor::Stage::PARENT, { "eef", "group" });
-      wrapper->properties().configureInitFrom(moveit::task_constructor::Stage::INTERFACE, { "target_pose" });
+      wrapper->properties().configureInitFrom(mtc::Stage::PARENT, { "eef", "group" });
+      wrapper->properties().configureInitFrom(mtc::Stage::INTERFACE, { "target_pose" });
       grasp->insert(std::move(wrapper));
     }
 
     {
       auto stage =
-          std::make_unique<moveit::task_constructor::stages::ModifyPlanningScene>("allow collision (hand,object)");
-      stage->allowCollisions(
-          "object", task.getRobotModel()->getJointModelGroup(hand_group_name)->getLinkModelNamesWithCollisionGeometry(),
-          true);
+          std::make_unique<mtc::stages::ModifyPlanningScene>("allow collision (hand,object)");
+      stage->allowCollisions("object",
+                             task.getRobotModel()
+                                 ->getJointModelGroup(hand_group_name)
+                                 ->getLinkModelNamesWithCollisionGeometry(),
+                             true);
       grasp->insert(std::move(stage));
     }
 
     {
-      auto stage = std::make_unique<moveit::task_constructor::stages::MoveTo>("close hand", interpolation_planner);
+      auto stage = std::make_unique<mtc::stages::MoveTo>("close hand", interpolation_planner);
       stage->setGroup(hand_group_name);
       stage->setGoal("close");
       grasp->insert(std::move(stage));
     }
 
     {
-      auto stage = std::make_unique<moveit::task_constructor::stages::ModifyPlanningScene>("attach object");
+      auto stage = std::make_unique<mtc::stages::ModifyPlanningScene>("attach object");
       stage->attachObject("object", hand_frame);
       attach_object_stage = stage.get();
       grasp->insert(std::move(stage));
     }
 
     {
-      auto stage = std::make_unique<moveit::task_constructor::stages::MoveRelative>("lift object", cartesian_planner);
-      stage->properties().configureInitFrom(moveit::task_constructor::Stage::PARENT, { "group" });
+      auto stage =
+          std::make_unique<mtc::stages::MoveRelative>("lift object", cartesian_planner);
+      stage->properties().configureInitFrom(mtc::Stage::PARENT, { "group" });
       stage->setMinMaxDistance(0.1, 0.3);
       stage->setIKFrame(hand_frame);
       stage->properties().set("marker_ns", "lift_object");
@@ -232,18 +235,19 @@ moveit::task_constructor::Task MTCTaskNode::createTask()
   }
 
   {
-    auto stage_move_to_place = std::make_unique<moveit::task_constructor::stages::Connect>(
-        "move to place", moveit::task_constructor::stages::Connect::GroupPlannerVector{
-                             { arm_group_name, sampling_planner }, { hand_group_name, sampling_planner } });
+    auto stage_move_to_place = std::make_unique<mtc::stages::Connect>(
+        "move to place",
+        mtc::stages::Connect::GroupPlannerVector{ { arm_group_name, sampling_planner },
+                                                  { hand_group_name, sampling_planner } });
     stage_move_to_place->setTimeout(5.0);
-    stage_move_to_place->properties().configureInitFrom(moveit::task_constructor::Stage::PARENT);
+    stage_move_to_place->properties().configureInitFrom(mtc::Stage::PARENT);
     task.add(std::move(stage_move_to_place));
   }
 
   {
-    auto place = std::make_unique<moveit::task_constructor::SerialContainer>("place object");
+    auto place = std::make_unique<mtc::SerialContainer>("place object");
     task.properties().exposeTo(place->properties(), { "eef", "hand", "group", "ik_frame" });
-    place->properties().configureInitFrom(moveit::task_constructor::Stage::PARENT,
+    place->properties().configureInitFrom(mtc::Stage::PARENT,
                                           { "eef", "hand", "group", "ik_frame" });
 
     /****************************************************
@@ -251,8 +255,8 @@ moveit::task_constructor::Task MTCTaskNode::createTask()
      ***************************************************/
     {
       // Sample place pose
-      auto stage = std::make_unique<moveit::task_constructor::stages::GeneratePlacePose>("generate place pose");
-      stage->properties().configureInitFrom(moveit::task_constructor::Stage::PARENT);
+      auto stage = std::make_unique<mtc::stages::GeneratePlacePose>("generate place pose");
+      stage->properties().configureInitFrom(mtc::Stage::PARENT);
       stage->properties().set("marker_ns", "place_pose");
       stage->setObject("object");
 
@@ -263,17 +267,18 @@ moveit::task_constructor::Task MTCTaskNode::createTask()
       stage->setMonitoredStage(attach_object_stage);  // Hook into attach_object_stage
 
       // Compute IK
-      auto wrapper = std::make_unique<moveit::task_constructor::stages::ComputeIK>("place pose IK", std::move(stage));
+      auto wrapper =
+          std::make_unique<mtc::stages::ComputeIK>("place pose IK", std::move(stage));
       wrapper->setMaxIKSolutions(2);
       wrapper->setMinSolutionDistance(1.0);
       wrapper->setIKFrame(hand_frame);
-      wrapper->properties().configureInitFrom(moveit::task_constructor::Stage::PARENT, { "eef", "group" });
-      wrapper->properties().configureInitFrom(moveit::task_constructor::Stage::INTERFACE, { "target_pose" });
+      wrapper->properties().configureInitFrom(mtc::Stage::PARENT, { "eef", "group" });
+      wrapper->properties().configureInitFrom(mtc::Stage::INTERFACE, { "target_pose" });
       place->insert(std::move(wrapper));
     }
 
     {
-      auto stage = std::make_unique<moveit::task_constructor::stages::MoveTo>("open hand", interpolation_planner);
+      auto stage = std::make_unique<mtc::stages::MoveTo>("open hand", interpolation_planner);
       stage->setGroup(hand_group_name);
       stage->setGoal("open");
       place->insert(std::move(stage));
@@ -281,22 +286,24 @@ moveit::task_constructor::Task MTCTaskNode::createTask()
 
     {
       auto stage =
-          std::make_unique<moveit::task_constructor::stages::ModifyPlanningScene>("forbid collision (hand,object)");
-      stage->allowCollisions(
-          "object", task.getRobotModel()->getJointModelGroup(hand_group_name)->getLinkModelNamesWithCollisionGeometry(),
-          false);
+          std::make_unique<mtc::stages::ModifyPlanningScene>("forbid collision (hand,object)");
+      stage->allowCollisions("object",
+                             task.getRobotModel()
+                                 ->getJointModelGroup(hand_group_name)
+                                 ->getLinkModelNamesWithCollisionGeometry(),
+                             false);
       place->insert(std::move(stage));
     }
 
     {
-      auto stage = std::make_unique<moveit::task_constructor::stages::ModifyPlanningScene>("detach object");
+      auto stage = std::make_unique<mtc::stages::ModifyPlanningScene>("detach object");
       stage->detachObject("object", hand_frame);
       place->insert(std::move(stage));
     }
 
     {
-      auto stage = std::make_unique<moveit::task_constructor::stages::MoveRelative>("retreat", cartesian_planner);
-      stage->properties().configureInitFrom(moveit::task_constructor::Stage::PARENT, { "group" });
+      auto stage = std::make_unique<mtc::stages::MoveRelative>("retreat", cartesian_planner);
+      stage->properties().configureInitFrom(mtc::Stage::PARENT, { "group" });
       stage->setMinMaxDistance(0.1, 0.3);
       stage->setIKFrame(hand_frame);
       stage->properties().set("marker_ns", "retreat");
@@ -312,8 +319,8 @@ moveit::task_constructor::Task MTCTaskNode::createTask()
   }
 
   {
-    auto stage = std::make_unique<moveit::task_constructor::stages::MoveTo>("return home", interpolation_planner);
-    stage->properties().configureInitFrom(moveit::task_constructor::Stage::PARENT, { "group" });
+    auto stage = std::make_unique<mtc::stages::MoveTo>("return home", interpolation_planner);
+    stage->properties().configureInitFrom(mtc::Stage::PARENT, { "group" });
     stage->setGoal("ready");
     task.add(std::move(stage));
   }

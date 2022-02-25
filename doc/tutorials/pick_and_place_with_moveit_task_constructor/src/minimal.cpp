@@ -16,6 +16,7 @@
 #endif
 
 static const rclcpp::Logger LOGGER = rclcpp::get_logger("mtc_tutorial");
+namespace mtc = moveit::task_constructor;
 
 class MTCTaskNode
 {
@@ -30,8 +31,8 @@ public:
 
 private:
   // Compose an MTC task from a series of stages.
-  moveit::task_constructor::Task createTask();
-  moveit::task_constructor::Task task_;
+  mtc::Task createTask();
+  mtc::Task task_;
   rclcpp::Node::SharedPtr node_;
 };
 
@@ -71,7 +72,7 @@ void MTCTaskNode::doTask()
   {
     task_.init();
   }
-  catch (moveit::task_constructor::InitStageException& e)
+  catch (mtc::InitStageException& e)
   {
     RCLCPP_ERROR_STREAM(LOGGER, e);
     return;
@@ -94,43 +95,41 @@ void MTCTaskNode::doTask()
   return;
 }
 
-moveit::task_constructor::Task MTCTaskNode::createTask()
+mtc::Task MTCTaskNode::createTask()
 {
-  moveit::task_constructor::Task task;
+  mtc::Task task;
   task.stages()->setName("demo task");
   task.loadRobotModel(node_);
 
   const auto& arm_group_name = "panda_arm";
-  const auto& eef_name = "hand";
   const auto& hand_group_name = "hand";
   const auto& hand_frame = "panda_hand";
 
   // Set task properties
   task.setProperty("group", arm_group_name);
-  task.setProperty("eef", eef_name);
-  task.setProperty("hand", hand_group_name);
-  task.setProperty("hand_grasping_frame", hand_frame);
+  task.setProperty("eef", hand_group_name);
   task.setProperty("ik_frame", hand_frame);
 
 // Disable warnings for this line, as it's a variable that's set but not used in this example
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
-  moveit::task_constructor::Stage* current_state_ptr = nullptr;  // Forward current_state on to grasp pose generator
+  mtc::Stage* current_state_ptr = nullptr;  // Forward current_state on to grasp pose generator
 #pragma GCC diagnostic pop
 
-  auto stage_state_current = std::make_unique<moveit::task_constructor::stages::CurrentState>("current");
+  auto stage_state_current = std::make_unique<mtc::stages::CurrentState>("current");
   current_state_ptr = stage_state_current.get();
   task.add(std::move(stage_state_current));
 
-  auto sampling_planner = std::make_shared<moveit::task_constructor::solvers::PipelinePlanner>(node_);
-  auto interpolation_planner = std::make_shared<moveit::task_constructor::solvers::JointInterpolationPlanner>();
+  auto sampling_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_);
+  auto interpolation_planner = std::make_shared<mtc::solvers::JointInterpolationPlanner>();
 
-  auto cartesian_planner = std::make_shared<moveit::task_constructor::solvers::CartesianPath>();
+  auto cartesian_planner = std::make_shared<mtc::solvers::CartesianPath>();
   cartesian_planner->setMaxVelocityScaling(1.0);
   cartesian_planner->setMaxAccelerationScaling(1.0);
   cartesian_planner->setStepSize(.01);
 
-  auto stage_open_hand = std::make_unique<moveit::task_constructor::stages::MoveTo>("open hand", interpolation_planner);
+  auto stage_open_hand =
+      std::make_unique<mtc::stages::MoveTo>("open hand", interpolation_planner);
   stage_open_hand->setGroup(hand_group_name);
   stage_open_hand->setGoal("open");
   task.add(std::move(stage_open_hand));
