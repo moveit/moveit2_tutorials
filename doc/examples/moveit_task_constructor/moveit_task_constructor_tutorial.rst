@@ -63,6 +63,8 @@ shown in the right-most window. Selecting one of those solutions will start its 
 .. image:: mtc_show_stages.gif
    :width: 700px
 
+.. _moveit_task_constructor_concepts:
+
 Basic Concepts
 --------------
 
