@@ -361,8 +361,7 @@ class RedirectFrom(Directive):
                     "title": os.path.basename(redirect_url),
                     "metatags": redirect_html_fragment.format(
                         base_url=app.config.html_baseurl,
-                        url=app.builder.get_relative_uri(
-                            redirect_url, canonical_url),
+                        url=app.builder.get_relative_uri(redirect_url, canonical_url),
                     ),
                 }
                 yield (redirect_url, context, cls.template_name)
