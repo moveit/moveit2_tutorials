@@ -82,7 +82,7 @@ extensions = [
 ]
 
 intersphinx_mapping = {
-    "ros2": ("https://docs.ros.org/en/rolling/", None),
+    "ros2": ("https://docs.ros.org/en/galactic/", None),
     "catkin_pkg": ("http://docs.ros.org/en/independent/api/catkin_pkg/html", None),
     "jenkins_tools": (
         "http://docs.ros.org/en/independent/api/jenkins_tools/html",
@@ -141,9 +141,9 @@ distro_full_names = {
 
 # These default values will be overridden when building multiversion
 macros = {
-    "DISTRO": "rolling",
-    "DISTRO_TITLE": "Rolling",
-    "DISTRO_TITLE_FULL": "Rolling Ridley",
+    "DISTRO": "galactic",
+    "DISTRO_TITLE": "Galactic",
+    "DISTRO_TITLE_FULL": "Galactic Geochelone",
     "REPOS_FILE_BRANCH": "main",
 }
 
@@ -170,12 +170,12 @@ html_sourcelink_suffix = ""
 # Output file base name for HTML help builder.
 htmlhelp_basename = "MoveItDocumentation"
 
-html_baseurl = "https://moveit.picknik.ai/rolling/"
+html_baseurl = "https://moveit.picknik.ai/galactic/"
 
 # Add any paths that contain custom themes here, relative to this directory.
 
 # Links
-ros_distro = "rolling"
+ros_distro = "galactic"
 lang = "en"
 ros1_distro = "noetic"
 extlinks = {
@@ -361,7 +361,8 @@ class RedirectFrom(Directive):
                     "title": os.path.basename(redirect_url),
                     "metatags": redirect_html_fragment.format(
                         base_url=app.config.html_baseurl,
-                        url=app.builder.get_relative_uri(redirect_url, canonical_url),
+                        url=app.builder.get_relative_uri(
+                            redirect_url, canonical_url),
                     ),
                 }
                 yield (redirect_url, context, cls.template_name)
