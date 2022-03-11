@@ -367,7 +367,7 @@ This class method is used to set up the planning scene that is used in the examp
       psi.applyCollisionObject(object);
     }
 
-This function interfaces with the MoveIt Task Constructor task object. It first creates a task, which includes setting some properties and adding stages. This will be discussed further in the ``createTask`` function definition. Next, ``task.init()`` initializes the task and ``task.plan(5)`` generates a plan, stopping after 5 successful plans are found. The next line publishes the solution to be visualized in RViz - this line can be removed if you don't care for visualization. Finally, ``task.execute()`` executes the plan.
+This function interfaces with the MoveIt Task Constructor task object. It first creates a task, which includes setting some properties and adding stages. This will be discussed further in the ``createTask`` function definition. Next, ``task.init()`` initializes the task and ``task.plan(5)`` generates a plan, stopping after 5 successful plans are found. The next line publishes the solution to be visualized in RViz - this line can be removed if you don't care for visualization. Finally, ``task.execute()`` executes the plan. Execution occurs via an action server interface with the RViz plugin.
 
 .. code-block:: c++
 
@@ -434,7 +434,7 @@ In order to plan any robot motions, we need to specify a solver. MoveIt Task Con
 
  * ``PipelinePlanner`` uses MoveIt's planning pipeline, which typically defaults to OMPL.
  * ``CartesianPath`` is used to move the end effector in a straight line in Cartesian space.
- * ``JointInterpolation`` is a simple planner that interpolates between the start and goal joint states. It is typically used for simple motions as it computes pretty fast, but it doesn't support complex motions.
+ * ``JointInterpolation`` is a simple planner that interpolates between the start and goal joint states. It is typically used for simple motions as it computes quickly but doesn't support complex motions.
 
 We also set some properties specific for to the Cartesian planner.
 
@@ -888,7 +888,7 @@ Visualizing with RViz
 
 The task with each comprising stage is shown in the Motion Planning Tasks pane. Click on a stage and additional information about the stage will show up to the right. The right pane shows different solutions as well as their associated costs. Depending on the stage type and the robot configuration, there may only be one solution shown.
 
-Click a solution to see an animation of the robot following the plan for that stage. Click the "Exec" button in the upper-right portion of the pane to execute the motion.
+Click one of the solution costs to see an animation of the robot following the plan for that stage. Click the "Exec" button in the upper-right portion of the pane to execute the motion.
 
 To run the complete MoveIt Task Constructor example included with the MoveIt tutorials: ::
 
