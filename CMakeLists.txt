@@ -20,7 +20,7 @@ find_package(moveit_visual_tools REQUIRED)
 find_package(geometric_shapes REQUIRED)
 #find_package(pcl_ros REQUIRED)
 #find_package(pcl_conversions REQUIRED)
-#find_package(rosbag REQUIRED)
+find_package(rosbag2_cpp REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
 find_package(pluginlib REQUIRED)
@@ -35,6 +35,7 @@ set(THIS_PACKAGE_INCLUDE_DIRS
 set(THIS_PACKAGE_INCLUDE_DEPENDS
   ament_cmake
   rclcpp
+  rosbag2_cpp
   rclcpp_action
   tf2_geometry_msgs
   tf2_ros
@@ -62,7 +63,7 @@ add_subdirectory(doc/examples/motion_planning_api)
 # add_subdirectory(doc/examples/motion_planning_pipeline)
 add_subdirectory(doc/examples/move_group_interface)
 # add_subdirectory(doc/examples/move_group_python_interface)
-# add_subdirectory(doc/examples/perception_pipeline)
+add_subdirectory(doc/examples/perception_pipeline)
 # add_subdirectory(doc/examples/pick_place)
 # add_subdirectory(doc/examples/planning)
 add_subdirectory(doc/examples/planning_scene)
