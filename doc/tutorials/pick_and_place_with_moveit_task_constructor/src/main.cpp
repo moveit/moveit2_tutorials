@@ -138,7 +138,10 @@ mtc::Task MTCTaskNode::createTask()
 
   mtc::Stage* attach_object_stage =
       nullptr;  // Forward attach_object_stage to place pose generator
-  {
+
+    // This is an example of SerialContainer usage. It's not strictly needed here.
+    // In fact, `task` itself is a SerialContainer by default.
+    {
     auto grasp = std::make_unique<mtc::SerialContainer>("pick object");
     task.properties().exposeTo(grasp->properties(), { "eef", "hand", "group", "ik_frame" });
     grasp->properties().configureInitFrom(mtc::Stage::PARENT,
