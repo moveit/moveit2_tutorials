@@ -173,6 +173,7 @@ mtc::Task MTCTaskNode::createTask()
       stage->setAngleDelta(M_PI / 12);
       stage->setMonitoredStage(current_state_ptr);  // Hook into current state
 
+      // This is the transform from the object frame to the end-effector frame
       Eigen::Isometry3d grasp_frame_transform;
       Eigen::Quaterniond q = Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitX()) *
                              Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitY()) *
