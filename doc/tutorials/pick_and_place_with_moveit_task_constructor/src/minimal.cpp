@@ -128,8 +128,10 @@ mtc::Task MTCTaskNode::createTask()
   cartesian_planner->setMaxAccelerationScaling(1.0);
   cartesian_planner->setStepSize(.01);
 
+  // clang-format off
   auto stage_open_hand =
       std::make_unique<mtc::stages::MoveTo>("open hand", interpolation_planner);
+  // clang-format on
   stage_open_hand->setGroup(hand_group_name);
   stage_open_hand->setGoal("open");
   task.add(std::move(stage_open_hand));
