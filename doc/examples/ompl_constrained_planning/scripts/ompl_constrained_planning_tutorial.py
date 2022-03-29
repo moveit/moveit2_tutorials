@@ -62,10 +62,10 @@ COLOR_TRANSLUCENT = std_msgs.msg.ColorRGBA(0.0, 0.0, 0.0, 0.5)
 ## Everything is wrappen in a class to make it easily reusable.
 ##
 class ConstrainedPlanningTutorial(object):
-    """ Wrapper class for the tutorial. """
+    """Wrapper class for the tutorial."""
 
     def __init__(self, group_name="panda_arm"):
-        """ Start the ROS node and create object to handle the robot and the planning scene. """
+        """Start the ROS node and create object to handle the robot and the planning scene."""
 
         moveit_commander.roscpp_initialize(sys.argv)
         rospy.init_node("ompl_constrained_planning_example", anonymous=True)
@@ -239,7 +239,7 @@ class ConstrainedPlanningTutorial(object):
     ## END_SUB_TUTORIAL
 
     def display_box(self, pose, dimensions):
-        """ Utility function to visualize position constraints. """
+        """Utility function to visualize position constraints."""
         assert len(dimensions) == 3
 
         # setup cube / box marker type
@@ -263,7 +263,7 @@ class ConstrainedPlanningTutorial(object):
         self.marker_id_counter += 1
 
     def display_sphere(self, pose, radius=0.05, color=COLOR_GREEN):
-        """ Utility function to visualize the goal pose"""
+        """Utility function to visualize the goal pose"""
 
         # setup sphere marker type
         marker = visualization_msgs.msg.Marker()
@@ -286,7 +286,7 @@ class ConstrainedPlanningTutorial(object):
         self.marker_id_counter += 1
 
     def remove_all_markers(self):
-        """ Utility function to remove all Markers that we potentially published in a previous run of this script. """
+        """Utility function to remove all Markers that we potentially published in a previous run of this script."""
         # setup cube / box marker type
         marker = visualization_msgs.msg.Marker()
         marker.header.stamp = rospy.Time.now()
@@ -460,7 +460,7 @@ def run_tutorial():
 
 
 def main():
-    """ Catch interrupt when the user presses `ctrl-c`. """
+    """Catch interrupt when the user presses `ctrl-c`."""
     try:
         run_tutorial()
     except KeyboardInterrupt:
