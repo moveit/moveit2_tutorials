@@ -41,7 +41,7 @@ from ompl_constrained_planning_tutorial import ConstrainedPlanningTutorial
 
 
 def solve(move_group, start_state, pose_goal, path_constraints):
-    """ Convenience function not used by the main tutorial """
+    """Convenience function not used by the main tutorial"""
     move_group.set_start_state(start_state)
     move_group.set_pose_target(pose_goal)
 
@@ -57,7 +57,7 @@ def solve(move_group, start_state, pose_goal, path_constraints):
 
 
 def run_vertical_plane_example():
-    """ Run an example where we want to keep the end-effector on a vertical plane. """
+    """Run an example where we want to keep the end-effector on a vertical plane."""
     tutorial = ConstrainedPlanningTutorial()
     tutorial.remove_all_markers()
 
@@ -82,7 +82,7 @@ def run_vertical_plane_example():
 
 
 def main():
-    """ Catch interrupt when the user presses `ctrl-c`. """
+    """Catch interrupt when the user presses `ctrl-c`."""
     try:
         run_vertical_plane_example()
     except KeyboardInterrupt:
