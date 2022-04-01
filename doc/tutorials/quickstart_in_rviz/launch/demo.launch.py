@@ -196,18 +196,6 @@ def generate_launch_description():
             )
         ]
 
-    # Warehouse mongodb server
-    mongodb_server_node = Node(
-        package="warehouse_ros_mongo",
-        executable="mongo_wrapper_ros.py",
-        parameters=[
-            {"warehouse_port": 33829},
-            {"warehouse_host": "localhost"},
-            {"warehouse_plugin": "warehouse_ros_mongo::MongoDatabaseConnection"},
-        ],
-        output="screen",
-    )
-
     return LaunchDescription(
         [
             tutorial_arg,
@@ -217,7 +205,6 @@ def generate_launch_description():
             robot_state_publisher,
             run_move_group_node,
             ros2_control_node,
-            mongodb_server_node,
         ]
         + load_controllers
     )
