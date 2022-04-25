@@ -897,3 +897,14 @@ To run the complete MoveIt Task Constructor example included with the MoveIt tut
 And in a second terminal: ::
 
     ros2 launch moveit2_tutorials pick_place_demo.launch.py
+
+Various hints
+^^^^^^^^^^^^^
+
+Information about individual stages can be retrieved like this. For example, here we retrieve a unique ID for a stage: ::
+
+    uint32_t const unique_stage_id = task_.stages()->findChild(stage_name)->introspectionId();
+
+A CurrentState type stage does not just retrieve the current state of the robot. It also initializes a PlanningScene object, capturing any collision objects that are present at that moment.
+
+MTC stages can be propagated in forward and backward order. You can easily check which direction a stage propagates by the arrow in the RViz GUI. When propagating backwards, the logic of many operations is reversed. For example, to allow collisions with an object in a `ModifyPlanningScene` stage, you would call `allowCollisions(false)` rather than `allowCollisions(true)`. There is a discussion to be read `here. <https://github.com/ros-planning/moveit_task_constructor/issues/349>`
