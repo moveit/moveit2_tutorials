@@ -6,7 +6,7 @@ name: CI
 on:
   schedule:
     # 5 PM UTC every Sunday
-    - cron:  '0 17 * * 6'
+    - cron: "0 17 * * 6"
   workflow_dispatch:
   pull_request:
     branches:
@@ -35,6 +35,8 @@ jobs:
     name: ${{ matrix.env.IMAGE }}
     runs-on: ubuntu-latest
     steps:
+      - name: Set CI permissions
+        run: git config --global --add safe.directory /home/runner/work/moveit2_tutorials/moveit2_tutorials/.work/upstream_ws/src/
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
