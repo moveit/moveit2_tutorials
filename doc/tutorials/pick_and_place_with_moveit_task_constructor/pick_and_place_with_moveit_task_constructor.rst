@@ -23,7 +23,7 @@ Move into your colcon workspace and pull the MoveIt Task Constructor source: ::
     git pull git@github.com:ros-planning/moveit_task_constructor.git -b ros2
     vcs import < moveit_task_constructor/.repos
 
-Create a new package
+Create a New Package
 ^^^^^^^^^^^^^^^^^^^^
 
 Create a new package with the following command: ::
@@ -95,12 +95,12 @@ Also, add the dependencies to ``CMakeLists.txt``. The file should look similar t
     ament_package()
 
 
-Setting up a project with MoveIt Task Constructor
+Setting up a Project with MoveIt Task Constructor
 -------------------------------------------------
 
 This section walks through the code required to build a minimal task using MoveIt Task Constructor.
 
-The code
+The Code
 ^^^^^^^^
 
 Open ``mtc_tutorial.cpp`` in your editor of choice, and paste in the following code.
@@ -907,4 +907,4 @@ Information about individual stages can be retrieved like this. For example, her
 
 A CurrentState type stage does not just retrieve the current state of the robot. It also initializes a PlanningScene object, capturing any collision objects that are present at that moment.
 
-MTC stages can be propagated in forward and backward order. You can easily check which direction a stage propagates by the arrow in the RViz GUI. When propagating backwards, the logic of many operations is reversed. For example, to allow collisions with an object in a `ModifyPlanningScene` stage, you would call `allowCollisions(false)` rather than `allowCollisions(true)`. There is a discussion to be read `here. <https://github.com/ros-planning/moveit_task_constructor/issues/349>`
+MTC stages can be propagated in forward and backward order. You can easily check which direction a stage propagates by the arrow in the RViz GUI. When propagating backwards, the logic of many operations is reversed. For example, to allow collisions with an object in a ``ModifyPlanningScene`` stage, you would call ``allowCollisions(false)`` rather than ``allowCollisions(true)``. There is a discussion to be read ``here. <https://github.com/ros-planning/moveit_task_constructor/issues/349>``
