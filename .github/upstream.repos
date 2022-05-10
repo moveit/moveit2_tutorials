@@ -3,14 +3,6 @@ repositories:
     type: git
     url: https://github.com/PickNikRobotics/launch_param_builder
     version: main
-  moveit2:
-    type: git
-    url: https://github.com/ros-planning/moveit2
-    version: main
-  moveit_resources:
-    type: git
-    url: https://github.com/ros-planning/moveit_resources
-    version: ros2
   moveit_task_constructor:
     type: git
     url: https://github.com/ros-planning/moveit_task_constructor.git
@@ -22,8 +14,4 @@ repositories:
   rosparam_shortcuts:
     type: git
     url: https://github.com/PickNikRobotics/rosparam_shortcuts
-    version: ros2
-  srdfdom:
-    type: git
-    url: git@github.com:ros-planning/srdfdom.git
     version: ros2

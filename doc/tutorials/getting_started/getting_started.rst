@@ -46,7 +46,6 @@ Move into your colcon workspace and pull the MoveIt 2 tutorials source: ::
 
   cd ~/ws_moveit2/src
   git clone https://github.com/ros-planning/moveit2_tutorials -b main
-  git clone https://github.com/ros-planning/moveit2 -b main
   vcs import < moveit2_tutorials/moveit2_tutorials.repos
 
 Build your Colcon Workspace
