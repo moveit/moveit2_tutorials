@@ -107,9 +107,8 @@ int main(int argc, char** argv)
 
   // Create the planning_scene_monitor. We need to pass this to Servo's constructor, and we should set it up first
   // before initializing any collision objects
-  auto tf_buffer = std::make_shared<tf2_ros::Buffer>(node_->get_clock());
   auto planning_scene_monitor = std::make_shared<planning_scene_monitor::PlanningSceneMonitor>(
-      node_, "robot_description", tf_buffer, "planning_scene_monitor");
+      node_, "robot_description", "planning_scene_monitor");
 
   // Here we make sure the planning_scene_monitor is updating in real time from the joint states topic
   if (planning_scene_monitor->getPlanningScene())
