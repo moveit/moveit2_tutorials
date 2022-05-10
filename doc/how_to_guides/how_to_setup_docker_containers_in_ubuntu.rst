@@ -18,7 +18,7 @@ Requirements
 
 Steps
 -----
-
+1. Install Docker (a link is available in the Requirements section) and be sure to follow the "Linux Postinstall" instructions. If you do not complete these additional steps you will need to preface all `docker` commands with `sudo`.
 1. Install Docker (a link is available in the Requirements section) and be sure to follow the `Linux Post Install <https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user>`_ instructions. If you do not complete these additional steps you will need to preface all ``docker`` commands with ``sudo``.
 
 2. Open a terminal session and create an empty text file.
@@ -47,7 +47,8 @@ Steps
   .. code-block:: bash
 
     ~/Docker/scripts/start-docker.sh moveit2-galactic moveit/moveit2:galactic-source
-
+If the above command fails, you are likely not using nvidia drivers. You'll need to remove the container you just created
+`docker rm moveit2-galactic`
   If either of the above command fails, you are likely not using nvidia drivers. You'll need to remove the container you just created ``docker rm moveit2-galactic``
 
   To run the docker without nvidia drivers
