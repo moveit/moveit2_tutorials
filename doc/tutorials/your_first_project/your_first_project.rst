@@ -85,6 +85,7 @@ After this succeeds, **open a new terminal**, then source the workspace environm
 
 .. code-block:: bash
 
+  cd ~/ws_moveit2
   source install/setup.bash
 
 Run your program and see the output.
