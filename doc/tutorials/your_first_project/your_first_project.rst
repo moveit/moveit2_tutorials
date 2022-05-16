@@ -42,7 +42,7 @@ Open the new source file created for you at ``ws_moveit2/src/hello_moveit/src/he
 2 Create a ROS Node and Executor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This first bit is a bit of boilerplate but you should be used to seeing this from the ROS 2 tutorials.
+This first block of code is a bit of boilerplate but you should be used to seeing this from the ROS 2 tutorials.
 
 .. code-block:: C++
 
