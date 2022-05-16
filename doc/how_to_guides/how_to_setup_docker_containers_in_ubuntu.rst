@@ -1,5 +1,5 @@
 How to Set Up MoveIt 2 Docker Containers in Ubuntu
-=================================================
+===================================================
 This guide will provide a walkthrough on how to get a Docker container with MoveIt 2 dependencies set up quickly.
 It includes a script that will get you up and running in MoveIt quickly!
 This guide is intended for people who would like to have a separate environment for working with MoveIt up and running quickly \
