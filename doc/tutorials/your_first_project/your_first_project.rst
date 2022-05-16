@@ -110,7 +110,7 @@ After that we have the normal call to initialize rclcpp and then we create our N
     rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
   );
 
-The first argument is the string that ROS will use to make a unique node.
+The first argument is a string that ROS will use to make a unique node.
 The second is needed for MoveIt because of how we use ROS Parameters.
 
 Lastly we have the code to shutdown ROS.
