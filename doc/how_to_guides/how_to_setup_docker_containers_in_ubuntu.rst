@@ -15,6 +15,7 @@ Requirements
 
 - Ubuntu 20.04
 - `Docker Installation for Ubuntu <https://docs.docker.com/engine/install/ubuntu/>`_
+- `Nvidia drivers for Docker <https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#setting-up-nvidia-container-toolkit>`_
 
 Steps
 -----
@@ -38,8 +39,7 @@ Steps
 
   There are 3 parameters for the script.
       - `name_of_the_container` : this is the name you wish to give the created container. For this guide, we will be naming the container `moveit2-galactic`.
-      - `name_of_the_image` : if you are creating a fresh Docker container, provide the name of the Docker image here.
-      For this guide, we will be using the image `moveit/moveit2:galactic-source`. Further explanation of this parameter is provided in the `Further Reading` section.
+      - `name_of_the_image` : if you are creating a fresh Docker container, provide the name of the Docker image here. For this guide, we will be using the image `moveit/moveit2:galactic-source`. Further explanation of this parameter is provided in the `Further Reading` section.
       - `using_gpu` : if ``true``, the Docker will be run using Nvidia GPU drivers. By default, this value is true.
 
   To run the script and use Nvidia GPU drivers
@@ -63,9 +63,9 @@ Steps
 
   Whenever you wish to reenter your container, you can run the following command:
 
-    .. code-block:: bash
+  .. code-block:: bash
 
-      ~/Docker/scripts/start-docker.sh moveit2-galactic
+    ~/Docker/scripts/start-docker.sh moveit2-galactic
 
 Further Reading
 ---------------
