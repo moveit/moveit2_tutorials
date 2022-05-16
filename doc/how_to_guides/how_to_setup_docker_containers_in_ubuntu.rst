@@ -1,4 +1,4 @@
-How to Setup MoveIt 2 Docker Containers in Ubuntu
+How to Set Up MoveIt 2 Docker Containers in Ubuntu
 =================================================
 This guide will provide a walkthrough on how to get a Docker container with MoveIt 2 dependencies set up quickly.
 It includes a script that will get you up and running in MoveIt quickly!
@@ -28,7 +28,7 @@ Steps
     mkdir -p ~/Docker/scripts
     cd ~/Docker/scripts/
 
-3.  Download the Docker script and make it executable
+3.  Download the Docker script and make it executable.
 
   .. code-block:: bash
 
@@ -49,7 +49,7 @@ Steps
     ~/Docker/scripts/start-docker.sh moveit2-galactic moveit/moveit2:galactic-source
 
   If the above command fails, it is likely that Nvidia drivers cannot be used or are installed correctly. In which case, you can still proceed without using Nvidia drivers!
-  First, You'll need to remove the container you just created by running the following command:
+  First, you'll need to remove the container you just created by running the following command:
 
   .. code-block:: bash
 
@@ -80,5 +80,5 @@ Further Reading
 - You can find a list of tagged images for the MoveIt 2 Docker container `here <https://hub.docker.com/r/moveit/moveit2/tags>`_.
   The tagged images coincide with ROS2 version releases. The ``release`` version of the container provides an environment in which MoveIt 2 is installed via the binaries.
   The ``source`` version of the Docker image will build MoveIt 2 from source.
-  You can use any of the images in that link by substituting the second parameter in the script. ``name_of_the_image``, with moveit/moveit2:<tag_name>, where ``<tag_name>`` is from the above link.
+  You can use any of the images in that link by substituting the second parameter in the script, ``name_of_the_image``, with moveit/moveit2:<tag_name>, where ``<tag_name>`` is from the above link.
   For example, this guide instructs you to use the image with the tag ``galactic-source``.
