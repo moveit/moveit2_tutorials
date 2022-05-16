@@ -228,7 +228,7 @@ Then we set our target pose and plan. Note that only the target pose is set (via
     return std::make_pair(ok, msg);
   }();
 
-Finally we execute our plan if planning was successful, otherwise we log an error:
+Finally, we execute our plan if planning was successful, otherwise we log an error:
 
 .. code-block:: C++
 
