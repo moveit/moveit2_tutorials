@@ -1,8 +1,8 @@
-How to Setup Moveit 2 Docker Containers in Ubuntu
+How to Setup MoveIt 2 Docker Containers in Ubuntu
 =================================================
-This guide will provide a walkthrough on how to get docker container with Moveit 2 dependencies setup quickly.
-It includes a script that will get you up and running in Moveit quickly!
-This guide is intended for people who would like to have a separate environment for working with Moveit up and running quickly \
+This guide will provide a walkthrough on how to get a Docker container with MoveIt 2 dependencies set up quickly.
+It includes a script that will get you up and running in MoveIt quickly!
+This guide is intended for people who would like to have a separate environment for working with MoveIt up and running quickly \
 without having to do much configuring. In this guide, we will be setting up a ROS2 Galactic environment.
 
 Learning Objectives
@@ -27,21 +27,21 @@ Steps
     mkdir -p ~/Docker/scripts
     cd ~/Docker/scripts/
 
-3. Fetch docker script and make it executable
+3.  Download the Docker script and make it executable
 
   .. code-block:: bash
 
     wget https://raw.githubusercontent.com/ros-planning/moveit2_tutorials/how-to-docker-ubuntu/_scripts/start-docker.sh
     chmod +x ~/Docker/scripts/start-docker.sh
 
-4. Run the script
+4. Run the script.
 
   There are 3 parameters for the script.
-     - name_of_the_container : this is the name you wish to give the created container
-     - name_of_the_image : if you are creating a fresh docker container, provide the name of the docker image here
-     - using_gpu : if ``true``, the docker will be run using nvidia gpu drivers. By default, this value is true.
+      - name_of_the_container : this is the name you wish to give the created container
+      - name_of_the_image : if you are creating a fresh Docker container, provide the name of the Docker image here
+      - using_gpu : if ``true``, the Docker will be run using nvidia gpu drivers. By default, this value is true.
 
-  To run the script and use nvidia gpu drivers
+  To run the script and use Nvidia gpu drivers
 
   .. code-block:: bash
 
@@ -49,24 +49,28 @@ Steps
 
   If either of the above command fails, you are likely not using nvidia drivers. You'll need to remove the container you just created ``docker rm moveit2-galactic``
 
-  To run the docker without nvidia drivers
+  To run the Docker container without Nvidia drivers
 
   .. code-block:: bash
 
     ~/Docker/scripts/start-docker.sh moveit2-galactic moveit/moveit2:galactic-source false
 
-  After running the script for the first time, you only would need to
+  Running the script for the first time creates the container for you. After this, you only would need to start the container with:
 
   .. code-block:: bash
 
     ~/Docker/scripts/start-docker.sh moveit2-galactic
 
-5. You should now be inside of your docker container, in the workspace directory. You should now be able to start working with Moveit!
+5. You should now be inside of your Docker container, in the workspace directory. You should now be able to start working with MoveIt!
 
 Further Reading
 ---------------
-- For more information about Docker best practices with respects to Moveit,
+- For more information about Docker best practices with respect to MoveIt,
   refer to `this blog post <https://picknik.ai/ros/robotics/docker/2021/07/20/Vatan-Aksoy-Tezer-Docker.html>`_
-  from Picknik's Vatan Aksoy Tezer and Brennard Pierce.
+  from PickNik's Vatan Aksoy Tezer and Brennard Pierce.
 
-- `Here <https://hub.docker.com/r/moveit/moveit2/tags>`_ is a list of the available moveit2 docker images available.
+- You can find a list of tagged images for the MoveIt 2 Docker container `here <https://hub.docker.com/r/moveit/moveit2/tags>`_.
+  The tagged images coincide with ROS2 version releases. The `release` version of the container provides an environment in which MoveIt 2 is installed via the binaries.
+  The `source` version of the docker image will build MoveIt 2 from source.
+  You can use any of the images in that link by substituting the second parameter in the script. `name_of_the_image`, with moveit/moveit2:<tag_name>, where `<tag_name>`` is from the above link.
+  For example, this guide instructs you to use the image with the tag `galactic-source`.
