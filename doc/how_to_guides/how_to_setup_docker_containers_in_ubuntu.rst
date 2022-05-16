@@ -38,7 +38,7 @@ Steps
 
   There are 3 parameters for the script.
       - `name_of_the_container` : this is the name you wish to give the created container. For this guide, we will be naming the container `moveit2-galactic`.
-      - `name_of_the_image` : if you are creating a fresh Docker container, provide the name of the Docker image here. 
+      - `name_of_the_image` : if you are creating a fresh Docker container, provide the name of the Docker image here.
       For this guide, we will be using the image `moveit/moveit2:galactic-source`. Further explanation of this parameter is provided in the `Further Reading` section.
       - `using_gpu` : if ``true``, the Docker will be run using Nvidia GPU drivers. By default, this value is true.
 
@@ -57,7 +57,7 @@ Steps
 
     ~/Docker/scripts/start-docker.sh moveit2-galactic moveit/moveit2:galactic-source false
 
-  Running the script for the first time creates, starts, and executes the container `moveit2-galactic`. 
+  Running the script for the first time creates, starts, and executes the container `moveit2-galactic`.
 
 5. You should now be inside of your Docker container, in the workspace directory. You should now be able to start working with MoveIt!
 
