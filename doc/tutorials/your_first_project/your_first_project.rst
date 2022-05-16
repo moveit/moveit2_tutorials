@@ -154,7 +154,7 @@ In place of the comment that says "Next step goes here" add this code:
 3.1 Build and Run
 ~~~~~~~~~~~~~~~~~
 
-Just like before we need to build the code before we can run it.
+Just like before, we need to build the code before we can run it.
 
 In the workspace directory ``ws_moveit2`` run this command:
 
