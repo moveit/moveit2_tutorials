@@ -37,10 +37,10 @@ Steps
 
 4. Run the script.
 
-  There are 3 parameters for the script.
-      - `name_of_the_container` : this is the name you wish to give the created container. For this guide, we will be naming the container `moveit2-galactic`.
-      - `name_of_the_image` : if you are creating a fresh Docker container, provide the name of the Docker image here. For this guide, we will be using the image `moveit/moveit2:galactic-source`. Further explanation of this parameter is provided in the `Further Reading` section.
-      - `using_gpu` : if ``true``, the Docker will be run using Nvidia GPU drivers. By default, this value is true.
+  There are 3 parameters for the script:
+      - ``name_of_the_container`` : this is the name you wish to give the created container. For this guide, we will be naming the container ``moveit2-galactic``.
+      - ``name_of_the_image`` : if you are creating a fresh Docker container, provide the name of the Docker image here. For this guide, we will be using the image ``moveit/moveit2:galactic-source``. Further explanation of this parameter is provided in the `Further Reading` section.
+      - ``using_gpu`` : if ``true``, the Docker will be run using Nvidia GPU drivers. By default, this value is true.
 
   To run the script and use Nvidia GPU drivers
 
@@ -49,7 +49,11 @@ Steps
     ~/Docker/scripts/start-docker.sh moveit2-galactic moveit/moveit2:galactic-source
 
   If the above command fails, it is likely that Nvidia drivers cannot be used or are installed correctly. In which case, you can still proceed without using Nvidia drivers!
-  First, You'll need to remove the container you just created by running the following command: ``docker rm moveit2-galactic``
+  First, You'll need to remove the container you just created by running the following command:
+
+  .. code-block:: bash
+
+    docker rm moveit2-galactic
 
   Then, to run the Docker container without the Nvidia drivers, run the following command:
 
@@ -57,7 +61,7 @@ Steps
 
     ~/Docker/scripts/start-docker.sh moveit2-galactic moveit/moveit2:galactic-source false
 
-  Running the script for the first time creates, starts, and executes the container `moveit2-galactic`.
+  Running the script for the first time creates, starts, and executes the container ``moveit2-galactic``.
 
 5. You should now be inside of your Docker container, in the workspace directory. You should now be able to start working with MoveIt!
 
@@ -74,7 +78,7 @@ Further Reading
   from PickNik's Vatan Aksoy Tezer and Brennard Pierce.
 
 - You can find a list of tagged images for the MoveIt 2 Docker container `here <https://hub.docker.com/r/moveit/moveit2/tags>`_.
-  The tagged images coincide with ROS2 version releases. The `release` version of the container provides an environment in which MoveIt 2 is installed via the binaries.
-  The `source` version of the Docker image will build MoveIt 2 from source.
-  You can use any of the images in that link by substituting the second parameter in the script. `name_of_the_image`, with moveit/moveit2:<tag_name>, where `<tag_name>`` is from the above link.
-  For example, this guide instructs you to use the image with the tag `galactic-source`.
+  The tagged images coincide with ROS2 version releases. The ``release`` version of the container provides an environment in which MoveIt 2 is installed via the binaries.
+  The ``source`` version of the Docker image will build MoveIt 2 from source.
+  You can use any of the images in that link by substituting the second parameter in the script. ``name_of_the_image``, with moveit/moveit2:<tag_name>, where ``<tag_name>`` is from the above link.
+  For example, this guide instructs you to use the image with the tag ``galactic-source``.
