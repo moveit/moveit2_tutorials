@@ -1,13 +1,13 @@
 Visualizing In RViz
 ===================
 
-This tutorial will introduce you to a tool that can help you quickly understand what your MoveIt program is doing my rendering visualizations in RViz.
+This tutorial will introduce you to a tool that can help you quickly understand what your MoveIt program is doing by rendering visualizations in RViz.
 
 Prerequisites
 -------------
 
 If you haven't already done so, make sure you've completed the steps in :doc:`Your First Project </doc/tutorials/your_first_project/your_first_project>`.
-This project assumes you are starting with the ``hello_moveit`` project where the previous tutorial left off.
+This project assumes you are starting with the ``hello_moveit`` project, where the previous tutorial left off.
 
 Steps
 -----
@@ -44,7 +44,7 @@ To verify you added the dependency correctly add the required include to your so
 
   #include <moveit_visual_tools/moveit_visual_tools.h>
 
-To test that this all worked open a terminal in the workspace directory (remembering to source your ros install in opt) and then build with colcon:
+To test that this all worked, open a terminal in the workspace directory (remembering to source your ROS install in opt) and then build with colcon:
 
 .. code-block:: bash
 
@@ -54,7 +54,7 @@ To test that this all worked open a terminal in the workspace directory (remembe
 2 Create a ROS executor and spin the node on a thread
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Before we can initialize MoveItVisualTools we need to have a executor spinning on our ROS node.
+Before we can initialize MoveItVisualTools, we need to have a executor spinning on our ROS node.
 This is necessary because of how MoveItVisualTools interacts with ROS services and topics.
 
 .. code-block:: C++
@@ -80,12 +80,12 @@ This is necessary because of how MoveItVisualTools interacts with ROS services a
     return 0;
   }
 
-After each one of these changes you should rebuild your workspace to make sure you don't have any syntax errors.
+After each one of these changes, you should rebuild your workspace to make sure you don't have any syntax errors.
 
 3 Create and Initialize MoveItVisualTools
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Next we will construct and initialize MoveItVisualTools after the construction of MoveGroupInterface.
+Next, we will construct and initialize MoveItVisualTools after the construction of MoveGroupInterface.
 
 .. code-block:: C++
 
@@ -100,15 +100,15 @@ Next we will construct and initialize MoveItVisualTools after the construction o
     moveit_visual_tools.deleteAllMarkers();
     moveit_visual_tools.loadRemoteControl();
 
-In the constructor we pass in the ROS node, the base link of the robot, the marker topic to use (more on this later), and the robot model (which we get from the move_group_interface).
-Next we make a call to delete all the markers, this clears any rendered state out of RViz that we have left over from previous runs.
-Lastly we load remote control.
+We pass the following into the constructor: the ROS node, the base link of the robot, the marker topic to use (more on this later), and the robot model (which we get from the move_group_interface).
+Next, we make a call to delete all the markers. This clears any rendered state out of RViz that we have left over from previous runs.
+Lastly, we load remote control.
 Remote control is a really simple plugin that lets us have a button in RViz to interact with our program.
 
 4 Write closures for visualizations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-After we've constructed and initialized we'd like to create some closures (function objects that have access to variables in our current scope) that we can use later in our program to render visualizations in RViz.
+After we've constructed and initialized, we now create some closures (function objects that have access to variables in our current scope) that we can use later in our program to help render visualizations in RViz.
 
 .. code-block:: C++
 
@@ -142,7 +142,7 @@ This is helpful for stepping through a program when debugging.
 The last one draws the tool path of a trajectory that we have planned.
 This is often helpful for understanding a planned trajectory from the perspective of the tool.
 
-You might be asking yourself why we would create lambdas like this and the reason is simply to make the code that comes later easier to read and understand.
+You might be asking yourself why we would create lambdas like this, and the reason is simply to make the code that comes later easier to read and understand.
 As your write software it is often helpful to break up your functionality into named functions which can be easily reused and tested on their own.
 You will see in the next section how we use these functions we created.
 
@@ -166,7 +166,7 @@ Update your code for planning and executing to include these new features:
     move_group_interface.setPoseTarget(target_pose);
 
     // Create a plan to that target pose
-    prompt("Press 'next' in the RvizVisualToolsGui window to plan");
+    prompt("Press 'Next' in the RvizVisualToolsGui window to plan");
     draw_title("Planning");
     moveit_visual_tools.trigger();
     auto const [success, plan] = [&move_group_interface] {
@@ -179,7 +179,7 @@ Update your code for planning and executing to include these new features:
     if (success) {
       draw_trajectory_tool_path(plan.trajectory_);
       moveit_visual_tools.trigger();
-      prompt("Press 'next' in the RvizVisualToolsGui window to execute");
+      prompt("Press 'Next' in the RvizVisualToolsGui window to execute");
       draw_title("Executing");
       moveit_visual_tools.trigger();
       move_group_interface.execute(plan);
@@ -261,7 +261,7 @@ You'll notice that your program has stopped with a log that looks like this:
 
 .. code::
 
-  [INFO] [1652822889.492940200] [hello_moveit.remote_control]: Waiting to continue: Press 'next' in the RvizVisualToolsGui window to plan
+  [INFO] [1652822889.492940200] [hello_moveit.remote_control]: Waiting to continue: Press 'Next' in the RvizVisualToolsGui window to plan
 
 Click the ``Next`` button in RViz and see your application advance.
 
