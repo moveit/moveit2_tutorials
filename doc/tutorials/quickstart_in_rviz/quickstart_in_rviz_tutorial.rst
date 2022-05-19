@@ -236,4 +236,4 @@ RViz enables you to save your configuration under ``File->Save Config``. You sho
 Next Tutorial
 +++++++++++++
 
-:doc:`/doc/tutorials/your_first_project/your_first_project`
+In :doc:`Your First MoveIt Project </doc/tutorials/your_first_project/your_first_project>`, you will create a C++ program using MoveIt to plan and execute moves.

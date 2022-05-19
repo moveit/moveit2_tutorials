@@ -200,6 +200,8 @@ If it fails to find that within 10 seconds it prints this error and terminates t
 
 The first thing we do is create the MoveGroupInterface. This object will be used to interact with move_group, which allows us to plan and execute trajectories.
 Note that this is the only mutable object that we create in this program.
+Another thing to take note of is the second interface to the ``MoveGroupInterface`` object we are creating here: ``"panda_arm"``.
+That is the group of joints as defined in the robot description that we are going to operate on with this ``MoveGroupInterface``.
 
 .. code-block:: C++
 
@@ -207,6 +209,10 @@ Note that this is the only mutable object that we create in this program.
   auto move_group_interface = MoveGroupInterface(node, "panda_arm");
 
 Then we set our target pose and plan. Note that only the target pose is set (via ``setPoseTarget``. The starting pose is implicitly the position published by joint state publisher, which could be changed using the ``MoveGroupInterface::setStartState*`` family of functions (but is not in this tutorial).
+
+One more thing to note about this next section is the use of lambdas for constructing the message type ``target_pose`` and planning.
+This is a pattern you'll find in modern C++ codebases that enables writing in a more declarative style.
+For more information about this pattern there is a couple of links at the end of this tutorial.
 
 .. code-block:: C++
 
@@ -242,8 +248,9 @@ Finally, we execute our plan if planning was successful, otherwise we log an err
 Summary
 -------
 
-You created a ROS 2 package and wrote your first program using MoveIt.
-
+* You created a ROS 2 package and wrote your first program using MoveIt.
+* You learned about using the MoveGroupInterface to plan and execute moves.
+* :codedir:`Here is a copy of the full hello_moveit.cpp source at the end of this tutorial<tutorials/your_first_project/hello_moveit.cpp>`.
 
 Further Reading
 ---------------
