@@ -200,8 +200,6 @@ Lastly, build your project again to make sure all the code additions are correct
   source /opt/ros/rolling/setup.bash
   colcon build --mixin debug
 
-:codedir:`Here is a copy of the full hello_moveit.cpp source<tutorials/visualizing_in_rviz/hello_moveit.cpp>`.
-
 6 Enable visualizations in RViz
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -283,8 +281,9 @@ Further Reading
 
 - MoveItVisualTools has many more useful features for visualizing robot motions. `You can read more about it here <https://github.com/ros-planning/moveit_visual_tools/tree/ros2>`_.
 - There are also more examples of using ``MoveItVisualTools`` in :doc:`MoveItCpp Tutorial </doc/examples/moveit_cpp/moveitcpp_tutorial>`.
+- :codedir:`Here is a copy of the full hello_moveit.cpp source<tutorials/visualizing_in_rviz/hello_moveit.cpp>`.
 
 Next Step
 ---------
 
-TODO
+In the next tutorial :doc:`Planning Around Objects </doc/tutorials/planning_around_objects/planning_around_objects>`, you will expand on the program you built here to add to the collision environment and see the robot plan with these changes.
