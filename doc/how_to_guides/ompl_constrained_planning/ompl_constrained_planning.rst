@@ -18,7 +18,7 @@ The interface currently only supports position constraints on any link of the ro
 
 Configure OMPL
 ^^^^^^^^^^^^^^^^
-OMPL reads configurations parameters from a file called :code:`ompl_planning.yaml`. This tutorial uses the Panda robot, for which this file can be found in :code:`panda_moveit_config/config/ompl_planning.yaml`. We will add a parameter to tell OMPL to plan in a constrained state space by setting :code:`enforce_constrained_state_space`. In addition, if the parameter `projection_evaluator`_ was not yet specified we also need to add it.
+OMPL reads configurations parameters from a file called :code:`ompl_planning.yaml`. This tutorial adds the required parameters directly in the launch file, but they can also be set in the yaml file. This tutorial uses the Panda robot, for which this file can be found in :code:`panda_moveit_config/config/ompl_planning.yaml`. Add a parameter to tell OMPL to plan in a constrained state space by setting :code:`enforce_constrained_state_space`. In addition, if the parameter `projection_evaluator`_ was not yet specified we also need to add it.
 
 .. code-block:: yaml
 
