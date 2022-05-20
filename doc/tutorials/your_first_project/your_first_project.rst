@@ -101,7 +101,7 @@ The program should run and exit without error.
 
 The headers included at the top are just some standard C++ headers and the header for ROS and MoveIt that we will use later.
 
-After that we have the normal call to initialize rclcpp and then we create our Node.
+After that, we have the normal call to initialize rclcpp, and then we create our Node.
 
 .. code-block:: C++
 
@@ -113,12 +113,12 @@ After that we have the normal call to initialize rclcpp and then we create our N
 The first argument is a string that ROS will use to make a unique node.
 The second is needed for MoveIt because of how we use ROS Parameters.
 
-Lastly we have the code to shutdown ROS.
+Lastly, we have the code to shutdown ROS.
 
 3 Plan and Execute using MoveGroupInterface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In place of the comment that says "Next step goes here" add this code:
+In place of the comment that says "Next step goes here," add this code:
 
 .. code-block:: C++
 
@@ -156,7 +156,7 @@ In place of the comment that says "Next step goes here" add this code:
 
 Just like before, we need to build the code before we can run it.
 
-In the workspace directory ``ws_moveit2`` run this command:
+In the workspace directory, ``ws_moveit2``, run this command:
 
 .. code-block:: bash
 
@@ -169,12 +169,12 @@ In a separate terminal, source the workspace and then execute this:
 
   ros2 launch moveit2_tutorials demo.launch.py
 
-Then in the ``Displays`` window under ``MotionPlanning/Planning Request`` uncheck the box ``Query Goal State``.
+Then in the ``Displays`` window under ``MotionPlanning/Planning Request``, uncheck the box ``Query Goal State``.
 
 .. image:: rviz_1.png
    :width: 300px
 
-In a third terminal source the workspace and run your program.
+In a third terminal, source the workspace and run your program.
 
 .. code-block:: bash
 
@@ -185,15 +185,15 @@ This should cause the robot in RViz to move and end up in this pose:
 .. image:: rviz_2.png
    :width: 300px
 
-Note that if you ran the node ``hello_moveit`` without launching the demo launch file first it will wait for 10 seconds and then print this error and exit.
+Note that if you ran the node ``hello_moveit`` without launching the demo launch file first, it will wait for 10 seconds and then print this error and exit.
 
 .. code-block:: bash
 
   [ERROR] [1644181704.350825487] [hello_moveit]: Could not find parameter robot_description and did not receive robot_description via std_msgs::msg::String subscription within 10.000000 seconds.
 
 This is because the ``demo.launch.py`` launch is starting the ``MoveGroup`` node that provides the robot description.
-When ``MoveGroupInterface`` is constructed it looks for a node publishing a topic with the robot description.
-If it fails to find that within 10 seconds it prints this error and terminates the program.
+When ``MoveGroupInterface`` is constructed, it looks for a node publishing a topic with the robot description.
+If it fails to find that within 10 seconds, it prints this error and terminates the program.
 
 3.2 Examine the code
 ~~~~~~~~~~~~~~~~~~~~
@@ -208,7 +208,7 @@ That is the group of joints as defined in the robot description that we are goin
   using moveit::planning_interface::MoveGroupInterface;
   auto move_group_interface = MoveGroupInterface(node, "panda_arm");
 
-Then we set our target pose and plan. Note that only the target pose is set (via ``setPoseTarget``. The starting pose is implicitly the position published by joint state publisher, which could be changed using the ``MoveGroupInterface::setStartState*`` family of functions (but is not in this tutorial).
+Then, we set our target pose and plan. Note that only the target pose is set (via ``setPoseTarget``. The starting pose is implicitly the position published by joint state publisher, which could be changed using the ``MoveGroupInterface::setStartState*`` family of functions (but is not in this tutorial).
 
 One more thing to note about this next section is the use of lambdas for constructing the message type ``target_pose`` and planning.
 This is a pattern you'll find in modern C++ codebases that enables writing in a more declarative style.
