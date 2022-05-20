@@ -21,7 +21,7 @@ Add this line to your ``package.xml`` in the ``hello_moveit`` project after the 
 
   <depend>moveit_visual_tools</depend>
 
-Then in your ``CMakeLists.xml`` add this line to the section of ``find_package`` statements:
+Then in your ``CMakeLists.txt`` add this line to the section of ``find_package`` statements:
 
 .. code-block:: cmake
 
@@ -267,7 +267,7 @@ Click the ``Next`` button in RViz and see your application advance.
 
 .. image:: planning.png
 
-You'll see after you clicked the next button your application planned, added a title above the robot, and drew a line representing the tool path.
+You'll see after you clicked the next button, your application planned, added a title above the robot, and drew a line representing the tool path.
 To continue, press ``Next`` again to see your robot execute the plan.
 
 .. image:: executing.png
