@@ -261,4 +261,4 @@ Further Reading
 Next Step
 ---------
 
-TODO
+:doc:`/doc/tutorials/visualizing_in_rviz/visualizing_in_rviz`
