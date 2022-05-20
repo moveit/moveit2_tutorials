@@ -38,7 +38,7 @@ Further down in the file extend the ``ament_target_dependencies`` macro call to 
     "rclcpp"
   )
 
-To verify you added the dependency correctly add the required include to your source file ``hello_moveit.cpp``:
+To verify that you added the dependency correctly, add the required include to your source file ``hello_moveit.cpp``:
 
 .. code-block:: C++
 
@@ -132,7 +132,7 @@ After we've constructed and initialized, we now create some closures (function o
           moveit_visual_tools.publishTrajectoryLine(trajectory, jmg);
         };
 
-These three closures each capture ``moveit_visual_tools`` by reference and the last one captures a pointer to the joint model group object we are planning with.
+Each of the three closures capture ``moveit_visual_tools`` by reference and the last one captures a pointer to the joint model group object we are planning with.
 Each of these call a function on ``moveit_visual_tools`` that changes something in RViz.
 The first one, ``draw_title`` adds text one meter above the base of the robot.
 This is a useful way to show the state of your program from a high level.
@@ -143,13 +143,13 @@ The last one draws the tool path of a trajectory that we have planned.
 This is often helpful for understanding a planned trajectory from the perspective of the tool.
 
 You might be asking yourself why we would create lambdas like this, and the reason is simply to make the code that comes later easier to read and understand.
-As your write software it is often helpful to break up your functionality into named functions which can be easily reused and tested on their own.
+As your write software, it is often helpful to break up your functionality into named functions which can be easily reused and tested on their own.
 You will see in the next section how we use these functions we created.
 
 5 Visualize the steps of your program
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Here I've augmented the code in the middle of your program with some new code.
+Now we'll augment the code in the middle of your program.
 Update your code for planning and executing to include these new features:
 
 .. code-block:: C++
@@ -231,7 +231,7 @@ This will create a new panel on the bottom left with a ``Next`` button we'll use
 
 .. image:: next_button.png
 
-Finally we need to add a ``Marker Array`` to render the visualizations we've added.
+Finally, we need to add a ``Marker Array`` to render the visualizations we've added.
 Click on the "Add" Button in the "Displays" panel.
 
 .. image:: add_button.png
@@ -249,7 +249,7 @@ You are now ready to run your new program with visualizations.
 7 Run the Program
 ^^^^^^^^^^^^^^^^^
 
-In a new terminal go to the workspace, source the workspace, and run ``hello_moveit``:
+In a new terminal, go to the workspace, source the workspace, and run ``hello_moveit``:
 
 .. code:: bash
 
