@@ -13,4 +13,5 @@ In these tutorials, the Franka Emika Panda robot is used as a quick-start demo.
 
    getting_started/getting_started
    quickstart_in_rviz/quickstart_in_rviz_tutorial
+   your_first_project/your_first_project
    pick_and_place_with_moveit_task_constructor/pick_and_place_with_moveit_task_constructor
