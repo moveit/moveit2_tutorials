@@ -48,7 +48,7 @@ If we had a perception system that reported the location of obstacles in our sce
 Because this is just an example, we are creating it manually.
 One thing to notice at the end of this block of code is that we set the operation on this message to ``ADD``.
 This results in the object getting added to the collision scene.
-Place this code right after the block you just updated to set the target pose and before planning.
+Place this code block between setting the target pose from the previous step and creating a plan.
 
 .. code-block:: C++
 
@@ -86,7 +86,7 @@ Place this code right after the block you just updated to set the target pose an
 
 Finally, we need to add this object to the collision scene.
 To do this, we use an object called the ``PlanningSceneInterface`` that uses ROS interfaces to communicate changes to the planning scene to ``MoveGroup``.
-This code should go right after the lambda that we wrote to create the collision object and before the planning step.
+This code block should directly follow the code block that creates the collision object.
 
 .. code-block:: C++
 
