@@ -15,7 +15,7 @@ Steps
 1 Add include for Planning Scene Interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-At the top of your source file add this to the list of includes:
+At the top of your source file, add this to the list of includes:
 
 .. code-block:: C++
 
@@ -24,7 +24,7 @@ At the top of your source file add this to the list of includes:
 2 Change the Target Pose
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-First update the target pose with this one change to make the robot plan to a different location.
+First, update the target pose with the following change to make the robot plan to a different location:
 
 .. code-block:: C++
 
@@ -42,12 +42,12 @@ First update the target pose with this one change to make the robot plan to a di
 3 Create a Collision Object
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In the next block of code we create a collision object.
-The first thing to notice is that it is being place in the frame of the robot.
-If we had a preception system that reported the location of objects in our scene that we wanted to plan around this is the sort of message it would build.
-As this is just an example we are creating it manually.
-One thing to notice at the end of this block of code is that we set the operation on this message to ADD.
-This is so it gets added to the collision scene.
+In the next block of code, we create a collision object.
+The first thing to notice is that it is being placed in the frame of the robot.
+If we had a perception system that reported the location of obstacles in our scene, then this is the sort of message it would build.
+Because this is just an example, we are creating it manually.
+One thing to notice at the end of this block of code is that we set the operation on this message to ``ADD``.
+This results in the object getting added to the collision scene.
 Place this code right after the block you just updated to set the target pose and before planning.
 
 .. code-block:: C++
@@ -84,8 +84,8 @@ Place this code right after the block you just updated to set the target pose an
 4 Add the Object to the Planning Scene
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Finally we need to add this object to the collision scene.
-To do this we use an object called the ``PlanningSceneInterface`` that uses ROS interfaces to communicate changes to the planning scene to ``MoveGroup``.
+Finally, we need to add this object to the collision scene.
+To do this, we use an object called the ``PlanningSceneInterface`` that uses ROS interfaces to communicate changes to the planning scene to ``MoveGroup``.
 This code should go right after the lambda that we wrote to create the collision object and before the planning step.
 
 .. code-block:: C++
@@ -120,4 +120,4 @@ Next Step
 ---------
 
 In the next tutorial :doc:`Pick and Place with MoveIt Task Constructor </doc/tutorials/pick_and_place_with_moveit_task_constructor/pick_and_place_with_moveit_task_constructor>`, you will be introduced to a higher layer tool designed to solve harder motion plans.
-In this next tutorial you will create a program to pick and place an object.
+In this next tutorial, you will create a program to pick and place an object.
