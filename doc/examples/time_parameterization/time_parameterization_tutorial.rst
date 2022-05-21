@@ -1,8 +1,3 @@
-:moveit1:
-
-..
-   Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
-
 Time Parameterization
 ==============================
 
@@ -13,7 +8,7 @@ Speed Control
 
 From File
 ^^^^^^^^^
-By default MoveIt sets the velocity and acceleration of a joint trajectory to the default allowed in the robot's URDF or ``joint_limits.yaml``. The ``joint_limits.yaml`` is generated from the Setup Assistant and is initially an exact copy of the values within the URDF. The user can then modify those values to be less than the original URDF values if special constraints are needed. Specific joint properties can be changed with the keys ``max_position, min_position, max_velocity, max_acceleration``. Joint limits can be turned on or off with the keys ``has_velocity_limits, has_acceleration_limits``.
+By default MoveIt sets the joint velocity and acceleration limits of a joint trajectory to the default allowed in the robot's URDF or ``joint_limits.yaml``. The ``joint_limits.yaml`` is generated from the Setup Assistant and is initially an exact copy of the values within the URDF. The user can then modify those values to be less than the original URDF values if special constraints are needed. Specific joint properties can be changed with the keys ``max_position, min_position, max_velocity, max_acceleration, max_jerk``. Joint limits can be turned on or off with the keys ``has_velocity_limits, has_acceleration_limits, has_jerk_limits``.
 
 During Runtime
 ^^^^^^^^^^^^^^
@@ -27,10 +22,25 @@ MoveIt can support different algorithms for post-processing a kinematic trajecto
 * :moveit_codedir:`Iterative Spline Parameterization<moveit_core/trajectory_processing/src/iterative_spline_parameterization.cpp>`
 * :moveit_codedir:`Time-optimal Trajectory Generation<moveit_core/trajectory_processing/src/time_optimal_trajectory_generation.cpp>`
 
-The Iterative Parabolic Time Parameterization algorithm is used by default in the :doc:`Motion Planning Pipeline </doc/examples/motion_planning_pipeline/motion_planning_pipeline_tutorial>`
-as a Planning Request Adapter as documented in `this tutorial <../motion_planning_pipeline/motion_planning_pipeline_tutorial.html#using-a-planning-request-adapter>`_.
-Although the Iterative Parabolic Time Parameterization algorithm MoveIt uses has been used by hundreds of robots over the years, there is known `bug with it <https://github.com/ros-planning/moveit/issues/160>`_.
+Iterative Parabolic Time Parameterization (IPTP) was MoveIt's initial time parameterization algorithm. However, there is a known `bug with it <https://github.com/ros-planning/moveit/issues/160>`_.
 
-The Iterative Spline Parameterization algorithm was merged with `PR 382 <https://github.com/ros-planning/moveit/pull/382>`_ as an approach to deal with these issues. While preliminary experiments are very promising, we are waiting for more feedback from the community before replacing the Iterative Parabolic Time Parameterization algorithm completely.
+The Iterative Spline Time Parameterization (ISTP) algorithm was merged with `PR 382 <https://github.com/ros-planning/moveit/pull/382>`_.
 
-Time-optimal Trajectory Generation introduced in PRs `#809 <https://github.com/ros-planning/moveit/pull/809>`_ and `#1365 <https://github.com/ros-planning/moveit/pull/1365>`_ produces trajectories with very smooth and continuous velocity profiles. The method is based on fitting path segments to the original trajectory and then sampling new waypoints from the optimized path. This is different from strict time parameterization methods as resulting waypoints may divert from the original trajectory within a certain tolerance. As a consequence, additional collision checks might be required when using this method.
+Time-optimal Trajectory Generation (TOTG) introduced in PRs `#809 <https://github.com/ros-planning/moveit/pull/809>`_ and `#1365 <https://github.com/ros-planning/moveit/pull/1365>`_ produces trajectories with very smooth and continuous velocity profiles. The method is based on fitting path segments to the original trajectory and then sampling new waypoints from the optimized path. This is different from strict time parameterization methods as resulting waypoints may divert from the original trajectory within a certain tolerance. As a consequence, additional collision checks might be required when using this method. It is the default everywhere in MoveIt2.
+
+Usage of a time parameterization algorithm as a Planning Request Adapter is documented in `this tutorial <../motion_planning_pipeline/motion_planning_pipeline_tutorial.html#using-a-planning-request-adapter>`_.
+
+Jerk-Limited Trajectory Smoothing
+---------------------------------
+A time parameterization algorithm such as TOTG calculates velocities and accelerations for a trajectory, but none of the time parameterization algorithms support jerk limits. This is not ideal -- large jerks  along a trajectory can cause jerky motion or damage hardware. As a further post-processing step, the Ruckig jerk-limited smoothing algorithm can be appliied to limit joint jerks over the trajectories.
+
+To apply the Ruckig smoothing algorithm, jerk limits should be defined in a ``joint_limits.yaml`` file. If you do not specify a jerk limit for any joint, a reasonable default will be applied and a warning printed.
+
+Finally, add the Ruckig smoothing algorithm to the list of planning request adapters (typically in ``ompl_planning.yaml``). The Ruckig smoothing algorithm should run last, so put it at the top of list:
+
+.. code-block:: yaml
+
+      request_adapters: >-
+        default_planner_request_adapters/AddRuckigTrajectorySmoothing
+        default_planner_request_adapters/AddTimeOptimalParameterization
+        ...
