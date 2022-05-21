@@ -261,4 +261,4 @@ Further Reading
 Next Step
 ---------
 
-:doc:`/doc/tutorials/visualizing_in_rviz/visualizing_in_rviz`
+In the next tutorial :doc:`Visualizing in RViz </doc/tutorials/visualizing_in_rviz/visualizing_in_rviz>`, you will expand on the program you built here to create visual markers that make it easier to understand what MoveIt is doing.
