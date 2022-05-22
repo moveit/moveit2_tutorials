@@ -880,7 +880,6 @@ All these stages should be added above these lines.
       return task;
     }
 
-
 Congratulations! You've now defined a pick and place task using MoveIt Task Constructor!
 
 Visualizing with RViz
@@ -898,10 +897,30 @@ And in a second terminal: ::
 
     ros2 launch moveit2_tutorials pick_place_demo.launch.py
 
+Debugging from terminal
+^^^^^^^^^^^^^^^^^^^^^^^
+
+When running MTC, it prints a diagram like this to terminal:
+
+.. code-block:: bash
+
+    [demo_node-1]     1  - ←   1 →   -  0 / initial_state
+    [demo_node-1]     -  0 →   0 →   -  0 / move_to_home
+
+This example^ shows two stages. The first stage ("initial_state") is a ``CurrentState`` type of stage, which initializes a PlanningScene and captures any collision objects that are present at that moment. A pointer to this stage can be used to retrieve the state of the robot. Since CurrentState inherits from  ``Generator``, it propagates solutions both forward and backward. This is denoted by the arrows in both directions. The first ``1`` indicates that one solution was successfully propagated backwards to the previous stage. The second ``1``, between the arrows, indicates that one solution was generated. The ``0`` indicates that a solution was not propagated forward successfully to the next stage, because the next stage failed.
+
+The second stage ("move_to_home") is a ``MoveTo`` type of stage. It inherits its propagation direction from the previous stage, so both arrows point forward. The ``0``'s indicate that this stage failed completely. From left to right, the ``0``'s mean:
+
+- The stage did not receive a solution from the previous stage
+- The stage did not generate a solution
+- The stage did not propagate a solution forward to the next stage
+
+In this case, we could tell that "move_to_home" was the root cause of the failure. The problem was a home state that was in collision. Defining a new, collision-free home position fixed the issue.
+
 Various hints
 ^^^^^^^^^^^^^
 
-Information about individual stages can be retrieved like this. For example, here we retrieve a unique ID for a stage: ::
+Information about individual stages can be retrieved from the task. For example, here we retrieve the unique ID for a stage: ::
 
     uint32_t const unique_stage_id = task_.stages()->findChild(stage_name)->introspectionId();
 
