@@ -3,7 +3,7 @@ How to Set Up MoveIt 2 Docker Containers in Ubuntu
 This guide will provide a walkthrough on how to get a Docker container with MoveIt 2 dependencies set up quickly.
 It includes a script that will get you up and running in MoveIt quickly!
 This guide is intended for people who would like to have a separate environment for working with MoveIt up and running quickly \
-without having to do much configuring. In this guide, we will be setting up a ROS2 Rolling environment.
+without having to do much configuring. In this guide, we will be setting up a ROS2 Humble environment.
 
 Learning Objectives
 -------------------
@@ -31,30 +31,30 @@ Steps
 3. Run the script.
 
   There are 3 parameters for the script:
-      - ``name_of_the_container`` : this is the name you wish to give the created container. For this guide, we will be naming the container ``moveit2-rolling``.
-      - ``name_of_the_image`` : if you are creating a fresh Docker container, provide the name of the Docker image here. For this guide, we will be using the image ``moveit/moveit2:rolling-source``. Further explanation of this parameter is provided in the ``Further Reading`` section.
+      - ``name_of_the_container`` : this is the name you wish to give the created container. For this guide, we will be naming the container ``moveit2-humble``.
+      - ``name_of_the_image`` : if you are creating a fresh Docker container, provide the name of the Docker image here. For this guide, we will be using the image ``moveit/moveit2:humble-source``. Further explanation of this parameter is provided in the ``Further Reading`` section.
       - ``using_gpu`` : if ``true``, the Docker will be run using Nvidia GPU drivers. By default, this value is true.
 
   To run the script and use Nvidia GPU drivers
 
   .. code-block:: bash
 
-    start-docker.sh moveit2-rolling moveit/moveit2:rolling-source
+    start-docker.sh moveit2-humble moveit/moveit2:humble-source
 
   If the above command fails, it is likely that Nvidia drivers cannot be used or are installed correctly. In which case, you can still proceed without using Nvidia drivers!
   First, you'll need to remove the container you just created by running the following command:
 
   .. code-block:: bash
 
-    docker rm moveit2-rolling
+    docker rm moveit2-humble
 
   Then, to run the Docker container without the Nvidia drivers, run the following command:
 
   .. code-block:: bash
 
-    start-docker.sh moveit2-rolling moveit/moveit2:rolling-source false
+    start-docker.sh moveit2-humble moveit/moveit2:humble-source false
 
-  Running the script for the first time creates, starts, and executes the container ``moveit2-rolling``.
+  Running the script for the first time creates, starts, and executes the container ``moveit2-humble``.
 
 4. You should now be inside of your Docker container, in the workspace directory. You should now be able to start working with MoveIt!
 
@@ -62,7 +62,7 @@ Steps
 
   .. code-block:: bash
 
-    start-docker.sh moveit2-rolling
+    start-docker.sh moveit2-humble
 
 Further Reading
 ---------------
@@ -74,4 +74,4 @@ Further Reading
   The tagged images coincide with ROS2 version releases. The ``release`` version of the container provides an environment in which MoveIt 2 is installed via the binaries.
   The ``source`` version of the Docker image will build MoveIt 2 from source.
   You can use any of the images in that link by substituting the second parameter in the script, ``name_of_the_image``, with moveit/moveit2:<tag_name>, where ``<tag_name>`` is from the above link.
-  For example, this guide instructs you to use the image with the tag ``rolling-source``.
+  For example, this guide instructs you to use the image with the tag ``humble-source``.
