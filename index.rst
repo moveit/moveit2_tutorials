@@ -59,6 +59,7 @@ Miscellaneous
    :maxdepth: 1
 
    doc/realtime_servo/realtime_servo_tutorial
+   doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu
 
 API Documentation
 -----------------
