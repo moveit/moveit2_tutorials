@@ -1,55 +1,27 @@
 import os
-import yaml
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 from launch.actions import ExecuteProcess
-import xacro
-
-
-def load_file(package_name, file_path):
-    package_path = get_package_share_directory(package_name)
-    absolute_file_path = os.path.join(package_path, file_path)
-
-    try:
-        with open(absolute_file_path, "r") as file:
-            return file.read()
-    except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
-        return None
-
-
-def load_yaml(package_name, file_path):
-    package_path = get_package_share_directory(package_name)
-    absolute_file_path = os.path.join(package_path, file_path)
-
-    try:
-        with open(absolute_file_path, "r") as file:
-            return yaml.safe_load(file)
-    except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
-        return None
+from moveit_configs_utils import MoveItConfigsBuilder
+from launch_param_builder import ParameterBuilder
 
 
 def generate_launch_description():
+    moveit_config = (
+        MoveItConfigsBuilder("moveit_resources_panda")
+        .robot_description(file_path="config/panda.urdf.xacro")
+        .to_moveit_configs()
+    )
     # Get parameters for the Servo node
-    servo_yaml = load_yaml("moveit_servo", "config/panda_simulated_config.yaml")
-    servo_params = {"moveit_servo": servo_yaml}
-
-    # Get URDF and SRDF
-    robot_description_config = xacro.process_file(
-        os.path.join(
-            get_package_share_directory("moveit_resources_panda_moveit_config"),
-            "config",
-            "panda.urdf.xacro",
+    servo_params = (
+        ParameterBuilder("moveit_servo")
+        .yaml(
+            parameter_namespace="moveit_servo",
+            file_path="config/panda_simulated_config.yaml",
         )
+        .to_dict()
     )
-    robot_description = {"robot_description": robot_description_config.toxml()}
-
-    robot_description_semantic_config = load_file(
-        "moveit_resources_panda_moveit_config", "config/panda.srdf"
-    )
-    robot_description_semantic = {
-        "robot_description_semantic": robot_description_semantic_config
-    }
 
     # A node to publish world -> panda_link0 transform
     static_tf = Node(
@@ -66,7 +38,11 @@ def generate_launch_description():
         package="moveit2_tutorials",
         executable="servo_cpp_interface_demo",
         output="screen",
-        parameters=[servo_params, robot_description, robot_description_semantic],
+        parameters=[
+            servo_params,
+            moveit_config.robot_description,
+            moveit_config.robot_description_semantic,
+        ],
     )
 
     # Publishes tf's for the robot
@@ -74,7 +50,7 @@ def generate_launch_description():
         package="robot_state_publisher",
         executable="robot_state_publisher",
         output="screen",
-        parameters=[robot_description],
+        parameters=[moveit_config.robot_description],
     )
 
     # RViz
@@ -88,7 +64,10 @@ def generate_launch_description():
         name="rviz2",
         output="log",
         arguments=["-d", rviz_config_file],
-        parameters=[robot_description, robot_description_semantic],
+        parameters=[
+            moveit_config.robot_description,
+            moveit_config.robot_description_semantic,
+        ],
     )
 
     # ros2_control using FakeSystem as hardware
@@ -96,7 +75,7 @@ def generate_launch_description():
         package="controller_manager",
         executable="ros2_control_node",
         parameters=[
-            robot_description,
+            moveit_config.robot_description,
             os.path.join(
                 get_package_share_directory("moveit_resources_panda_moveit_config"),
                 "config",
