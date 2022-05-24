@@ -24,7 +24,7 @@ jobs:
 
     env:
       DOCKER_IMAGE: moveit/moveit2:${{ matrix.env.IMAGE }}
-      UPSTREAM_WORKSPACE: moveit2_tutorials.repos
+      UPSTREAM_WORKSPACE: .github/upstream.repos
       AFTER_SETUP_UPSTREAM_WORKSPACE: vcs pull $BASEDIR/upstream_ws/src
       AFTER_SETUP_UPSTREAM_WORKSPACE_EMBED: set +u && source ~/ws_moveit/install/setup.bash && set - u
       TARGET_CMAKE_ARGS: -DCMAKE_BUILD_TYPE=Release
@@ -42,9 +42,9 @@ jobs:
         uses: pat-s/always-upload-cache@v2.1.5
         with:
           path: ${{ env.BASEDIR }}/upstream_ws
-          key: upstream_ws-${{ env.CACHE_PREFIX }}-${{ hashFiles('moveit2_tutorials.repos') }}-${{ github.run_id }}
+          key: upstream_ws-${{ env.CACHE_PREFIX }}-${{ hashFiles('.github/upstream.repos') }}-${{ github.run_id }}
           restore-keys: |
-            upstream_ws-${{ env.CACHE_PREFIX }}-${{ hashFiles('moveit2_tutorials.repos') }}
+            upstream_ws-${{ env.CACHE_PREFIX }}-${{ hashFiles('.github/upstream.repos') }}
       # The target directory cache doesn't include the source directory because
       # that comes from the checkout.  See "prepare target_ws for cache" task below
       - name: cache target_ws

@@ -10,6 +10,7 @@ find_package(Boost REQUIRED system filesystem date_time thread)
 find_package(ament_cmake REQUIRED)
 find_package(control_msgs REQUIRED)
 find_package(moveit_core REQUIRED)
+find_package(moveit_task_constructor_core REQUIRED)
 find_package(moveit_ros_planning REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
 find_package(moveit_ros_perception REQUIRED)
@@ -50,11 +51,13 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   Boost
   control_msgs
   moveit_servo
+  moveit_task_constructor_core
 )
 
 include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
 
 add_subdirectory(doc/tutorials/quickstart_in_rviz)
+add_subdirectory(doc/tutorials/pick_and_place_with_moveit_task_constructor)
 # add_subdirectory(doc/examples/controller_configuration)
 # add_subdirectory(doc/examples/interactivity)
 # add_subdirectory(doc/examples/kinematics)

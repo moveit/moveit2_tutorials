@@ -126,16 +126,17 @@ templates_path = [
 
 # smv_tag_whitelist = None
 
-smv_branch_whitelist = r"^(main|galactic|foxy)$"
+smv_branch_whitelist = r"^(main|humble|galactic|foxy)$"
 
-smv_released_pattern = r"^refs/(heads|remotes/[^/]+)/(foxy|galactic).*$"
+smv_released_pattern = r"^refs/(heads|remotes/[^/]+)/(foxy|galactic|humble).*$"
 smv_remote_whitelist = r"^(origin)$"
-smv_latest_version = "galactic"
+smv_latest_version = "humble"
 smv_eol_versions = []
 
 distro_full_names = {
     "foxy": "Foxy Fitzroy",
     "galactic": "Galactic Geochelone",
+    "humble": "Humble Hawksbill",
     "rolling": "Rolling Ridley",
 }
 
@@ -211,6 +212,13 @@ extlinks = {
         + html_context["github_user"]
         + "/panda_moveit_config/blob/"
         + "melodic-devel"
+        + "/%s",
+        "",
+    ),
+    "moveit_resources_codedir": (
+        "https://github.com/"
+        + html_context["github_user"]
+        + "/moveit_resources/tree/ros2"
         + "/%s",
         "",
     ),  # TODO(dlu): use ros_distro when noetic-devel branch is available
@@ -402,6 +410,7 @@ def smv_rewrite_configs(app, config):
     if app.config.smv_current_version != "":
         branch_distro = {
             "main": "rolling",
+            "humble": "humble",
             "galactic": "galactic",
             "foxy": "foxy",
         }

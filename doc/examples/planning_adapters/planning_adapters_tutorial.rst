@@ -32,7 +32,7 @@ Re-source the setup files: ::
 
   source ~/ws_moveit/devel/setup.bash
 
-Using Planning Request Adapter with Your Motion Planner
+Use a Planning Request Adapter with your Motion Planner
 -------------------------------------------------------
 
 In this section we provide different ways the user can mix and match different motion planners. Major focus of this tutorial is made on OMPL, CHOMP and STOMP as these are the only planners currently supported by MoveIt.

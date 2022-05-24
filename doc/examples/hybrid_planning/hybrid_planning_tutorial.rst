@@ -11,7 +11,7 @@ Hybrid Planning enables you to (re)plan and execute robot motions online with Mo
 What is Hybrid Planning?
 ------------------------
 Hybrid Planning uses a (slower) global motion planner in combination with a (faster) local motion planner to enable a robot to solve different tasks online and in dynamic environments.
-Typically, the global motion planner is used to create an initial motion plan offline and to re-plan it if the global solution gets invalidated. The local planner adapts the global solution to local constraints and reacts immediately to changes in the environment. More detailed information on *Hybrid Planning* can be found for example in this article (TODO: Link article once it is published).
+Typically, the global motion planner is used to create an initial motion plan offline and to re-plan it if the global solution gets invalidated. The local planner adapts the global solution to local constraints and reacts immediately to changes in the environment. A more detailed description of the architecture can be found in the :doc:`Hybrid Planning Concepts Page </doc/concepts/hybrid_planning/hybrid_planning>`.
 
 The architecture that enables *Hybrid Planning* in MoveIt 2 can be seen below:
 

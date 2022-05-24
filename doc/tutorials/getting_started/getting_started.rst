@@ -18,6 +18,7 @@ Install `rosdep <http://wiki.ros.org/rosdep>`_ to install system dependencies : 
 
 Once you have ROS 2 installed, make sure you have the most up to date packages: ::
 
+  sudo rosdep init
   rosdep update
   sudo apt update
   sudo apt dist-upgrade
@@ -44,7 +45,7 @@ Download MoveIt 2 Tutorials Source
 Move into your colcon workspace and pull the MoveIt 2 tutorials source: ::
 
   cd ~/ws_moveit2/src
-  git clone https://github.com/ros-planning/moveit2_tutorials.git
+  git clone https://github.com/ros-planning/moveit2_tutorials -b main
   vcs import < moveit2_tutorials/moveit2_tutorials.repos
 
 Build your Colcon Workspace

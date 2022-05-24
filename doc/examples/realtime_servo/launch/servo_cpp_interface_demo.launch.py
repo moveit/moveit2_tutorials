@@ -79,13 +79,10 @@ def generate_launch_description():
             os.path.join(
                 get_package_share_directory("moveit_resources_panda_moveit_config"),
                 "config",
-                "panda_ros_controllers.yaml",
+                "ros2_controllers.yaml",
             ),
         ],
-        output={
-            "stdout": "screen",
-            "stderr": "screen",
-        },
+        output="both",
     )
 
     # Load controllers
