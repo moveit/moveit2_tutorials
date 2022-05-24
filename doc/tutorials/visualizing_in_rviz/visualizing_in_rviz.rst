@@ -197,7 +197,7 @@ Lastly, build your project again to make sure all the code additions are correct
 .. code-block:: bash
 
   cd ~/ws_moveit2
-  source /opt/ros/rolling/setup.bash
+  source /opt/ros/humble/setup.bash
   colcon build --mixin debug
 
 6 Enable visualizations in RViz
