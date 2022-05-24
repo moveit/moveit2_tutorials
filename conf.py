@@ -82,7 +82,7 @@ extensions = [
 ]
 
 intersphinx_mapping = {
-    "ros2": ("https://docs.ros.org/en/rolling/", None),
+    "ros2": ("https://docs.ros.org/en/humble/", None),
     "catkin_pkg": ("http://docs.ros.org/en/independent/api/catkin_pkg/html", None),
     "jenkins_tools": (
         "http://docs.ros.org/en/independent/api/jenkins_tools/html",
@@ -141,9 +141,9 @@ distro_full_names = {
 
 # These default values will be overridden when building multiversion
 macros = {
-    "DISTRO": "rolling",
-    "DISTRO_TITLE": "Rolling",
-    "DISTRO_TITLE_FULL": "Rolling Ridley",
+    "DISTRO": "humble",
+    "DISTRO_TITLE": "Humble",
+    "DISTRO_TITLE_FULL": "Humble Hawksbill",
     "REPOS_FILE_BRANCH": "main",
 }
 
@@ -170,12 +170,12 @@ html_sourcelink_suffix = ""
 # Output file base name for HTML help builder.
 htmlhelp_basename = "MoveItDocumentation"
 
-html_baseurl = "https://moveit.picknik.ai/rolling/"
+html_baseurl = "https://moveit.picknik.ai/humble/"
 
 # Add any paths that contain custom themes here, relative to this directory.
 
 # Links
-ros_distro = "rolling"
+ros_distro = "humble"
 lang = "en"
 ros1_distro = "noetic"
 extlinks = {
