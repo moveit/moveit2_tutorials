@@ -3,8 +3,8 @@
 Overview of your issue here.
 
 ### Your environment
-* ROS Distro: [Dashing|Eloquent|Foxy|Galactic|Rolling]
-* OS Version: e.g. Ubuntu 20.04
+* ROS Distro: [Foxy|Galactic|Humble|Rolling]
+* OS Version: e.g. Ubuntu 22.04
 * Source or Binary build?
 * If binary, which release version?
 * If source, which git commit or tag?
