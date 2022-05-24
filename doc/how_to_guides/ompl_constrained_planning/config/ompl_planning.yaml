@@ -134,6 +134,7 @@ planner_configs:
 
 panda_arm:
   enforce_constrained_state_space: true
+  projection_evaluator: joints(panda_joint1,panda_joint2)
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault
@@ -161,6 +162,7 @@ panda_arm:
     - TrajOptDefault
 panda_arm_hand:
   enforce_constrained_state_space: true
+  projection_evaluator: joints(panda_joint1,panda_joint2)
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault
