@@ -62,14 +62,14 @@ int main(int argc, char** argv)
   shape_msgs::msg::SolidPrimitive box;
   box.type = shape_msgs::msg::SolidPrimitive::BOX;
   box.dimensions = { 0.1, 0.4, 0.4 };
-  box_constraint.constraint_region.primitives.push_back(box);
+  box_constraint.constraint_region.primitives.emplace_back(box);
 
   geometry_msgs::msg::Pose box_pose;
   box_pose.position.x = current_pose.pose.position.x;
   box_pose.position.y = 0.15;
   box_pose.position.z = 0.45;
   box_pose.orientation.w = 1.0;
-  box_constraint.constraint_region.primitive_poses.push_back(box_pose);
+  box_constraint.constraint_region.primitive_poses.emplace_back(box_pose);
   box_constraint.weight = 1.0;
 
   // Visualize the box constraint
@@ -82,7 +82,7 @@ int main(int argc, char** argv)
 
   // We need to wrap the constraints in a generic `Constraints` message.
   moveit_msgs::msg::Constraints box_constraints;
-  box_constraints.position_constraints.push_back(box_constraint);
+  box_constraints.position_constraints.emplace_back(box_constraint);
 
   // Don't forget the path constraints! That's the whole point of this tutorial.
   move_group_interface.setPathConstraints(box_constraints);
@@ -126,7 +126,7 @@ int main(int argc, char** argv)
   shape_msgs::msg::SolidPrimitive plane;
   plane.type = shape_msgs::msg::SolidPrimitive::BOX;
   plane.dimensions = { 1.0, 0.0005, 1.0 };
-  plane_constraint.constraint_region.primitives.push_back(plane);
+  plane_constraint.constraint_region.primitives.emplace_back(plane);
 
   geometry_msgs::msg::Pose plane_pose;
   plane_pose.position.x = current_pose.pose.position.x;
@@ -136,7 +136,7 @@ int main(int argc, char** argv)
   plane_pose.orientation.y = 0.0;
   plane_pose.orientation.z = 0.0;
   plane_pose.orientation.w = cos(M_PI_4 / 2);
-  plane_constraint.constraint_region.primitive_poses.push_back(plane_pose);
+  plane_constraint.constraint_region.primitive_poses.emplace_back(plane_pose);
   plane_constraint.weight = 1.0;
 
   // Visualize the constraint
@@ -147,7 +147,7 @@ int main(int argc, char** argv)
   moveit_visual_tools.trigger();
 
   moveit_msgs::msg::Constraints plane_constraints;
-  plane_constraints.position_constraints.push_back(plane_constraint);
+  plane_constraints.position_constraints.emplace_back(plane_constraint);
   plane_constraints.name = "use_equality_constraints";
   move_group_interface.setPathConstraints(plane_constraints);
 
@@ -162,7 +162,9 @@ int main(int argc, char** argv)
 
   reset_demo();
 
-  // We can also plan along a line.
+  // We can also plan along a line. We can use the same pose as last time.
+  target_pose = get_relative_pose(0.0, 0.3, -0.3);
+
   // Building on the previous constraint, we can make it a line, by also reducing the dimension of the box in the x-direction.
   moveit_msgs::msg::PositionConstraint line_constraint;
   line_constraint.header.frame_id = move_group_interface.getPoseReferenceFrame();
@@ -170,7 +172,7 @@ int main(int argc, char** argv)
   shape_msgs::msg::SolidPrimitive line;
   line.type = shape_msgs::msg::SolidPrimitive::BOX;
   line.dimensions = { 0.0005, 0.0005, 1.0 };
-  line_constraint.constraint_region.primitives.push_back(line);
+  line_constraint.constraint_region.primitives.emplace_back(line);
 
   geometry_msgs::msg::Pose line_pose;
   line_pose.position.x = current_pose.pose.position.x;
@@ -180,7 +182,7 @@ int main(int argc, char** argv)
   line_pose.orientation.y = 0.0;
   line_pose.orientation.z = 0.0;
   line_pose.orientation.w = cos(M_PI_4 / 2);
-  line_constraint.constraint_region.primitive_poses.push_back(line_pose);
+  line_constraint.constraint_region.primitive_poses.emplace_back(line_pose);
   line_constraint.weight = 1.0;
 
   // Visualize the constraint
@@ -189,7 +191,7 @@ int main(int argc, char** argv)
   moveit_visual_tools.trigger();
 
   moveit_msgs::msg::Constraints line_constraints;
-  line_constraints.position_constraints.push_back(line_constraint);
+  line_constraints.position_constraints.emplace_back(line_constraint);
   line_constraints.name = "use_equality_constraints";
   move_group_interface.setPathConstraints(line_constraints);
   move_group_interface.setPoseTarget(target_pose);
@@ -209,16 +211,16 @@ int main(int argc, char** argv)
   moveit_msgs::msg::OrientationConstraint orientation_constraint;
   orientation_constraint.header.frame_id = move_group_interface.getPoseReferenceFrame();
   orientation_constraint.link_name = move_group_interface.getEndEffectorLink();
-  geometry_msgs::msg::Quaternion orientation;
+
   orientation_constraint.orientation = current_pose.pose.orientation;
-  orientation_constraint.absolute_x_axis_tolerance = 0.2;
-  orientation_constraint.absolute_y_axis_tolerance = 0.2;
-  orientation_constraint.absolute_z_axis_tolerance = 0.2;
+  orientation_constraint.absolute_x_axis_tolerance = 0.4;
+  orientation_constraint.absolute_y_axis_tolerance = 0.4;
+  orientation_constraint.absolute_z_axis_tolerance = 0.4;
   orientation_constraint.weight = 1.0;
 
-  moveit_msgs::msg::Constraints oreintation_constraints;
-  oreintation_constraints.orientation_constraints.push_back(orientation_constraint);
-  move_group_interface.setPathConstraints(oreintation_constraints);
+  moveit_msgs::msg::Constraints orientation_constraints;
+  orientation_constraints.orientation_constraints.emplace_back(orientation_constraint);
+  move_group_interface.setPathConstraints(orientation_constraints);
   move_group_interface.setPoseTarget(target_pose);
 
   success = (move_group_interface.plan(plan) == moveit::core::MoveItErrorCode::SUCCESS);

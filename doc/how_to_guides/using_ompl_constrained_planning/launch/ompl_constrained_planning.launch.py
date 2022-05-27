@@ -16,10 +16,18 @@ def generate_launch_description():
     )
 
     # Set planning pipeline parameters
-    moveit_config.planning_pipelines["ompl"]["panda_arm"]["enforce_constrained_state_space"] = True
-    moveit_config.planning_pipelines["ompl"]["panda_arm"]["projection_evaluator"] = "joints(panda_joint1,panda_joint2)" 
-    moveit_config.planning_pipelines["ompl"]["panda_arm_hand"]["enforce_constrained_state_space"] = True
-    moveit_config.planning_pipelines["ompl"]["panda_arm_hand"]["projection_evaluator"] = "joints(panda_joint1,panda_joint2)" 
+    moveit_config.planning_pipelines["ompl"]["panda_arm"][
+        "enforce_constrained_state_space"
+    ] = True
+    moveit_config.planning_pipelines["ompl"]["panda_arm"][
+        "projection_evaluator"
+    ] = "joints(panda_joint1,panda_joint2)"
+    moveit_config.planning_pipelines["ompl"]["panda_arm_hand"][
+        "enforce_constrained_state_space"
+    ] = True
+    moveit_config.planning_pipelines["ompl"]["panda_arm_hand"][
+        "projection_evaluator"
+    ] = "joints(panda_joint1,panda_joint2)"
 
     # Start the actual move_group node/action server
     run_move_group_node = Node(
@@ -32,13 +40,13 @@ def generate_launch_description():
     # Demo OMPL constrained planning node
     demo_node = Node(
         package="moveit2_tutorials",
-        executable="ompl_constrained_planning_tutorial",
+        executable="ompl_constrained_planning",
         output="both",
         parameters=[
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
             moveit_config.robot_description_kinematics,
-        ]
+        ],
     )
 
     # RViz
