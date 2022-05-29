@@ -24,6 +24,7 @@ def generate_launch_description():
         .planning_scene_monitor(
             publish_robot_description=True, publish_robot_description_semantic=True
         )
+        .planning_pipelines(pipelines=["ompl"])
         .to_moveit_configs()
     )
 
