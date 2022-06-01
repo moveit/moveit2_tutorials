@@ -16,7 +16,10 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   Eigen3
   interactive_markers
   moveit_core
+<<<<<<< HEAD
   moveit_msgs
+=======
+>>>>>>> d2782c6ca (Add an empty dual-arm tutorial)
   moveit_ros_planning
   moveit_ros_planning_interface
   moveit_servo
@@ -37,31 +40,32 @@ endforeach()
 
 include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
 
-add_subdirectory(doc/tutorials/quickstart_in_rviz)
-add_subdirectory(doc/tutorials/pick_and_place_with_moveit_task_constructor)
+# add_subdirectory(doc/examples/bullet_collision_checker)
+# add_subdirectory(doc/examples/collision_environments)
 # add_subdirectory(doc/examples/controller_configuration)
+# add_subdirectory(doc/examples/creating_moveit_plugins/lerp_motion_planner)
 # add_subdirectory(doc/examples/interactivity)
 # add_subdirectory(doc/examples/kinematics)
-add_subdirectory(doc/examples/motion_planning_api)
-add_subdirectory(doc/examples/motion_planning_pipeline)
-add_subdirectory(doc/examples/move_group_interface)
 # add_subdirectory(doc/examples/move_group_python_interface)
 # add_subdirectory(doc/examples/perception_pipeline)
 # add_subdirectory(doc/examples/pick_place)
 # add_subdirectory(doc/examples/planning)
-add_subdirectory(doc/examples/planning_scene)
-add_subdirectory(doc/examples/planning_scene_ros_api)
-add_subdirectory(doc/examples/robot_model_and_robot_state)
 # add_subdirectory(doc/examples/state_display)
 # add_subdirectory(doc/examples/subframes)
 # add_subdirectory(doc/examples/tests)
 # add_subdirectory(doc/examples/trajopt_planner)
-# add_subdirectory(doc/examples/creating_moveit_plugins/lerp_motion_planner)
-add_subdirectory(doc/examples/moveit_cpp)
-# add_subdirectory(doc/examples/collision_environments)
 # add_subdirectory(doc/examples/visualizing_collisions)
-# add_subdirectory(doc/examples/bullet_collision_checker)
+add_subdirectory(doc/examples/dual_arms)
+add_subdirectory(doc/examples/motion_planning_api)
+add_subdirectory(doc/examples/motion_planning_pipeline)
+add_subdirectory(doc/examples/move_group_interface)
+add_subdirectory(doc/examples/moveit_cpp)
+add_subdirectory(doc/examples/planning_scene_ros_api)
+add_subdirectory(doc/examples/planning_scene)
 add_subdirectory(doc/examples/realtime_servo)
+add_subdirectory(doc/examples/robot_model_and_robot_state)
+add_subdirectory(doc/tutorials/pick_and_place_with_moveit_task_constructor)
+add_subdirectory(doc/tutorials/quickstart_in_rviz)
 
 ament_export_dependencies(
   ${THIS_PACKAGE_INCLUDE_DEPENDS}
