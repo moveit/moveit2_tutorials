@@ -21,7 +21,7 @@ def generate_launch_description():
     )
 
     moveit_config = (
-        MoveItConfigsBuilder("moveit_resources_panda")
+        MoveItConfigsBuilder("dual_arm_panda")
         .robot_description(file_path="config/panda.urdf.xacro")
         .robot_description_semantic(file_path="config/panda.srdf")
         .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
@@ -71,15 +71,6 @@ def generate_launch_description():
             moveit_config.robot_description_kinematics,
         ],
         condition=UnlessCondition(tutorial_mode),
-    )
-
-    # Static TF
-    static_tf_node = Node(
-        package="tf2_ros",
-        executable="static_transform_publisher",
-        name="static_transform_publisher",
-        output="log",
-        arguments=["0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "world", "panda_link0"],
     )
 
     # Publish TF
@@ -139,7 +130,6 @@ def generate_launch_description():
             db_arg,
             rviz_node,
             rviz_node_tutorial,
-            static_tf_node,
             robot_state_publisher,
             move_group_node,
             ros2_control_node,
