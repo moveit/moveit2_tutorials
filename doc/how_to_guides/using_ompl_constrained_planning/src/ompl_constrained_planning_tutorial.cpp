@@ -226,6 +226,43 @@ int main(int argc, char** argv)
   success = (move_group_interface.plan(plan) == moveit::core::MoveItErrorCode::SUCCESS);
   RCLCPP_INFO(LOGGER, "Plan with orientation constraint %s", success ? "" : "FAILED");
 
+  moveit_visual_tools.prompt("Press 'Next' in the RvizVisualToolsGui window to try mixed_constraints");
+  reset_demo();
+
+  // Finally, we can place constraints on orientation.
+  // Use the target pose from the previous example
+  target_pose = get_relative_pose(-0.6, 0.1, 0);
+
+  // Reuse the orientation constraint, and make a new box constraint
+  box.dimensions = { 1.0, 0.6, 1.0 };
+  box_constraint.constraint_region.primitives[0] = box;
+
+  box_pose.position.x = 0;
+  box_pose.position.y = -0.1;
+  box_pose.position.z = current_pose.pose.position.z;
+  box_constraint.constraint_region.primitive_poses[0] = box_pose;
+  box_constraint.weight = 1.0;
+
+  // Visualize the box constraint
+  Eigen::Vector3d new_box_point_1(box_pose.position.x - box.dimensions[0] / 2,
+                                  box_pose.position.y - box.dimensions[1] / 2,
+                                  box_pose.position.z - box.dimensions[2] / 2);
+  Eigen::Vector3d new_box_point_2(box_pose.position.x + box.dimensions[0] / 2,
+                                  box_pose.position.y + box.dimensions[1] / 2,
+                                  box_pose.position.z + box.dimensions[2] / 2);
+  moveit_msgs::msg::Constraints mixed_constraints;
+  mixed_constraints.position_constraints.emplace_back(box_constraint);
+  mixed_constraints.orientation_constraints.emplace_back(orientation_constraint);
+  moveit_visual_tools.publishCuboid(new_box_point_1, new_box_point_2, rviz_visual_tools::TRANSLUCENT_DARK);
+  moveit_visual_tools.trigger();
+
+  move_group_interface.setPathConstraints(mixed_constraints);
+  move_group_interface.setPoseTarget(target_pose);
+  move_group_interface.setPlanningTime(20.0);
+
+  success = (move_group_interface.plan(plan) == moveit::core::MoveItErrorCode::SUCCESS);
+  RCLCPP_INFO(LOGGER, "Plan with mixed constraint %s", success ? "" : "FAILED");
+
   // Done!
   moveit_visual_tools.prompt("Press 'Next' in the RvizVisualToolsGui window to clear the markers");
   moveit_visual_tools.deleteAllMarkers();
