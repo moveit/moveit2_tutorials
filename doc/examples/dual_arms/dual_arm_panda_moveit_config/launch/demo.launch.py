@@ -16,16 +16,12 @@ def generate_launch_description():
         "rviz_tutorial", default_value="False", description="Tutorial flag"
     )
 
-    db_arg = DeclareLaunchArgument(
-        "db", default_value="False", description="Database flag"
-    )
-
     moveit_config = (
         MoveItConfigsBuilder("dual_arm_panda")
         .robot_description(file_path="config/panda.urdf.xacro")
         .robot_description_semantic(file_path="config/panda.srdf")
-        .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
-        .planning_pipelines(pipelines=["ompl", "chomp"])
+        .trajectory_execution(file_path="config/moveit_controllers.yaml")
+        .planning_pipelines(pipelines=["ompl"])
         .to_moveit_configs()
     )
 
@@ -92,29 +88,12 @@ def generate_launch_description():
             )
         ]
 
-    # Warehouse mongodb server
-    db_config = LaunchConfiguration("db")
-    mongodb_server_node = Node(
-        package="warehouse_ros_mongo",
-        executable="mongo_wrapper_ros.py",
-        parameters=[
-            {"warehouse_port": 33829},
-            {"warehouse_host": "localhost"},
-            {"warehouse_plugin": "warehouse_ros_mongo::MongoDatabaseConnection"},
-        ],
-        output="screen",
-        condition=IfCondition(db_config),
-    )
-
     return LaunchDescription(
         [
-            tutorial_arg,
-            db_arg,
             rviz_node,
             robot_state_publisher,
             move_group_node,
             ros2_control_node,
-            mongodb_server_node,
         ]
         + load_controllers
     )
