@@ -1,8 +1,7 @@
-# MoveIt 2 Tutorials
+# MoveIt Tutorials
+[Live tutorials here](https://moveit.picknik.ai/)
 
-**NOTE: This repository is a new fork from the [MoveIt 1 tutorials](https://ros-planning.github.io/moveit_tutorials/) and needs your help with porting old tutorials to ROS 2.** To claim a tutorial to support the port of, see the Issues list. Thanks!
-
-[See the live MoveIt 2 tutorials here](https://moveit.picknik.ai/)
+*There are still some tutorials not fully ported from ROS 1, we could use your help! See the section below on Helping Port Tutorials. Thanks!*
 
 This is the primary documentation for the MoveIt project. We strongly encourage you to help improve MoveIt's documentation. Please consider reading the guidelines below for writing the best documentation and tutorials. However, if you are uncomfortable with any of the approaches, simply adding documentation text to your pull requests is better than nothing.
 
@@ -22,7 +21,7 @@ This repository is currently built automatically by Github Actions:
 - foxy: [Github Pages](https://moveit.picknik.ai/): (Foxy)
 
 ## Helping with Porting Tutorials to ROS 2
-An issue has been created for each tutorial to be ported to Foxy. At the top of each tutorial there is a tag: ":moveit1:", remove the tag
+An issue has been created for each tutorial to be ported to ROS 2. At the top of each tutorial there is a tag: ":moveit1:", remove the tag
 after the tutorial has been successfully updated.
 
 Below are some links to help with the ports.
@@ -35,15 +34,15 @@ Below are some links to help with the ports.
 
 - ``main`` latest, changes should target this branch
 
-## MoveIt 2 Tutorials Source Build
+## MoveIt Tutorials Source Build
 
-Follow the [MoveIt 2 Source Build](https://moveit.ros.org/install-moveit2/source/) instructions to setup a colcon workspace with moveit2 from source.
+Follow the [MoveIt Source Build](https://moveit.ros.org/install-moveit2/source/) instructions to setup a colcon workspace with MoveIt from source.
 
-Open a command line to your your moveit2 colcon workspace:
+Open a command line to your colcon workspace:
 
     cd $COLCON_WS/src
 
-Download Moveit2_tutorials Source Code
+Download the MoveIt 2 Tutorials Source Code
 
     git clone https://github.com/ros-planning/moveit2_tutorials.git
     vcs import < moveit2_tutorials/moveit2_tutorials.repos
