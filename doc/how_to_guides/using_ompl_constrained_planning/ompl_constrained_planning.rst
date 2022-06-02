@@ -6,8 +6,6 @@ Using OMPL Constrained Planning
 
 This tutorial shows you how to use OMPL's `Constrained planning capabilities <http://ompl.kavrakilab.org/constrainedPlanning.html>`_ from MoveIt. To illustrate the capabilities of this planner, four planning problems are solved with different types of path constraints. It will be easier to follow if you have read through the example on how to use the  :doc:`Move Group interface </doc/examples/move_group_interface/move_group_interface_tutorial>`.
 
-TODO(seng) Verify this video applies to MoveIt2. For a short walkthrough of running the tutorial, you can watch `this video <https://youtu.be/RkPydgtIq-M>`_.
-
 When to use this Planner
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
