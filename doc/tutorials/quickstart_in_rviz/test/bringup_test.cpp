@@ -61,6 +61,7 @@ protected:
   std::thread executor_thread_;
 };
 
+// Check if the expected nodes and actions are available
 TEST_F(BringupTestFixture, BasicBringupTest)
 {
   // Check for several expected action servers
@@ -88,6 +89,25 @@ TEST_F(BringupTestFixture, BasicBringupTest)
     RCLCPP_INFO_STREAM(LOGGER, "Looking for node name " << node_name);
     EXPECT_NE(std::find(actual_node_names.begin(), actual_node_names.end(), node_name), actual_node_names.end());
   }
+
+  // Send a trajectory request
+  trajectory_msgs::msg::JointTrajectory traj_msg;
+  traj_msg.joint_names = { "panda_joint1", "panda_joint2", "panda_joint3", "panda_joint4",
+                           "panda_joint5", "panda_joint6", "panda_joint7" };
+  trajectory_msgs::msg::JointTrajectoryPoint point_msg;
+  point_msg.positions = { 0, -0.785, 0, -2.356, 0, 1.571, 0.785 };
+  point_msg.time_from_start.sec = 1;
+  traj_msg.points.push_back(point_msg);
+  control_msgs::action::FollowJointTrajectory::Goal joint_traj_request;
+  joint_traj_request.trajectory = std::move(traj_msg);
+
+  auto result_cb =
+      [](const rclcpp_action::ClientGoalHandle<control_msgs::action::FollowJointTrajectory>::WrappedResult& result) {
+        EXPECT_EQ(result.code, rclcpp_action::ResultCode::SUCCEEDED);
+      };
+  auto send_goal_options = rclcpp_action::Client<control_msgs::action::FollowJointTrajectory>::SendGoalOptions();
+  send_goal_options.result_callback = result_cb;
+  control_client->async_send_goal(joint_traj_request, send_goal_options);
 }
 }  // namespace moveit2_tutorials::quickstart_in_rviz
 
