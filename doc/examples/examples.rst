@@ -35,7 +35,6 @@ Building more complex applications with MoveIt often requires developers to dig 
    planning_with_approximated_constraint_manifolds/planning_with_approximated_constraint_manifolds_tutorial
    pick_place/pick_place_tutorial
    moveit_grasps/moveit_grasps_tutorial
-   moveit_task_constructor/moveit_task_constructor_tutorial
    moveit_deep_grasps/moveit_deep_grasps_tutorial
    subframes/subframes_tutorial
    moveit_cpp/moveitcpp_tutorial
