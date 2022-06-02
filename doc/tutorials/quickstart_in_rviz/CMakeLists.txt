@@ -6,13 +6,7 @@ if(BUILD_TESTING)
   find_package(ros_testing REQUIRED)
   find_package(Boost REQUIRED COMPONENTS filesystem)
 
-  # These don't pass yet, disable them for now
-  set(ament_cmake_copyright_FOUND TRUE)
-  set(ament_cmake_cpplint_FOUND TRUE)
-  set(ament_cmake_flake8_FOUND TRUE)
-  set(ament_cmake_uncrustify_FOUND TRUE)
-
-  # Run all lint tests in package.xml except those listed above
+  # Run all lint tests in package.xml
   ament_lint_auto_find_test_dependencies()
 
   # Basic "quickstart_in_rviz" bringup test

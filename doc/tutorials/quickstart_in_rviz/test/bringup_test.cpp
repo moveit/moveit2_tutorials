@@ -26,6 +26,11 @@ make_node(std::string const& name, rclcpp::NodeOptions const& options)
 
 namespace moveit2_tutorials::quickstart_in_rviz
 {
+namespace
+{
+const rclcpp::Logger LOGGER = rclcpp::get_logger("bringup_test");
+}
+
 class BringupTestFixture : public testing::Test
 {
 public:
@@ -67,16 +72,20 @@ TEST_F(BringupTestFixture, BasicBringupTest)
 
   // Check for the expected nodes
   const auto actual_node_names = node_->get_node_names();
-  const std::vector<std::string> expected_node_names{ "/controller_manager",
-                                                      "/joint_state_broadcaster",
-                                                      "/move_group",
-                                                      "/moveit_simple_controller_manager",
-                                                      "/panda_arm_controller",
-                                                      "/panda_hand_controller",
-                                                      "/robot_state_publisher",
-                                                      "/rviz2" };
+  const std::vector<std::string> expected_node_names{
+    "/controller_manager",
+    "/joint_state_broadcaster",
+    "/move_group",
+    "/moveit_simple_controller_manager",
+    "/panda_arm_controller",
+    "/panda_hand_controller",
+    "/robot_state_publisher",
+    // TODO(andyz): rviz cannot launch in CI
+    //"/rviz2"
+  };
   for (const std::string& node_name : expected_node_names)
   {
+    RCLCPP_INFO_STREAM(LOGGER, "Looking for node name " << node_name);
     EXPECT_NE(std::find(actual_node_names.begin(), actual_node_names.end(), node_name), actual_node_names.end());
   }
 }
