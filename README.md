@@ -5,7 +5,7 @@ This is the primary documentation for the MoveIt project.
 
 ## Contributing
 
-We strongly encourage you to help improve MoveIt's documentation. Please consider helping improve the tutorials, port old ones from ROS 1, and write new tutorials. We recommend you  read the quality standards below as well as the [How to Write a MoveIt Tutorial](https://moveit.picknik.ai/humble/doc/how_to_contribute/how_to_write_tutorials.html) page.
+We strongly encourage you to help improve MoveIt's documentation. Please consider helping improve the tutorials, port old ones from ROS 1, and write new tutorials. We recommend you  read the quality standards below as well as the [How to Write a MoveIt Tutorial](https://moveit.picknik.ai/main/doc/how_to_contribute/how_to_write_tutorials.html) page.
 
 If you find an issue with the tutorials you are not able to fix yourself, please [open an issue on GitHub](https://github.com/ros-planning/moveit2_tutorials/issues/new) or open a PR with proposed changes.
 
@@ -142,6 +142,9 @@ This repository is currently built automatically by Github Actions:
 
 - main: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Amain)
 - main: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Amain)
+- humble: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=humble)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Ahumble)
+- humble: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=humble)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Ahumble)
+
 - galactic: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=galactic)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Agalactic)
 - galactic: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=galactic)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Agalactic)
 - foxy: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Afoxy) (Foxy)
