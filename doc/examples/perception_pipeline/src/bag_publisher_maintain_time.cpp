@@ -33,50 +33,74 @@
  *********************************************************************/
 
 /* Author: Ridhwan Luthra */
-
-#include "ros/ros.h"
-#include <ros/package.h>
-#include <rosbag/bag.h>
-#include <rosbag/view.h>
-#include <sensor_msgs/PointCloud2.h>
+#include <thread>
+#include <chrono>
+#include <rclcpp/rclcpp.hpp>
+#include "ament_index_cpp/get_package_share_directory.hpp"
+#include "rosbag2_cpp/readers/sequential_reader.hpp"
+#include "rosbag2_cpp/typesupport_helpers.hpp"
+#include "rosbag2_cpp/storage_options.hpp"
+#include "rosbag2_cpp/converter_options.hpp"
+#include "rosbag2_cpp/converter_interfaces/serialization_format_converter.hpp"
+#include "sensor_msgs/msg/point_cloud2.hpp"
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "bag_publisher_maintain_time");
-  ros::NodeHandle nh;
+  rclcpp::init(argc, argv);
+  rclcpp::NodeOptions node_options;
+  node_options.automatically_declare_parameters_from_overrides(true);
+  auto node__ = rclcpp::Node::make_shared("bag_publisher_maintain_time", node_options);
 
-  ros::Publisher point_cloud_publisher = nh.advertise<sensor_msgs::PointCloud2>("/camera/depth_registered/points", 1);
-  ros::Rate loop_rate(0.1);
+  auto point_cloud_publisher = node__->create_publisher<sensor_msgs::msg::PointCloud2>(
+      "/camera/depth_registered/points", rclcpp::SystemDefaultsQoS());
 
   // Variable holding the rosbag containing point cloud data.
-  rosbag::Bag bagfile;
-  std::string path = ros::package::getPath("moveit_tutorials");
-  path += "/doc/perception_pipeline/bags/perception_tutorial.bag";
-  bagfile.open(path, rosbag::bagmode::Read);
+  rosbag2_cpp::readers::SequentialReader reader;
+  rosbag2_storage::StorageOptions storage_options{};
+  std::string path = ament_index_cpp::get_package_share_directory("moveit2_tutorials");
+  path += "/bags/perception_tutorial";
+  storage_options.uri = path;
+  storage_options.storage_id = "sqlite3";
+
+  rosbag2_cpp ::ConverterOptions converter_options{};
+  converter_options.input_serialization_format = "cdr";
+  converter_options.output_serialization_format = "cdr";
+  reader.open(storage_options, converter_options);
 
   std::vector<std::string> topics;
   topics.push_back("/camera/depth_registered/points");
 
   // Iterator for topics in bag.
-  rosbag::View bagtopics_iter(bagfile, rosbag::TopicQuery(topics));
-
-  for (auto const msg : bagtopics_iter)
+  if (reader.has_next())
   {
-    sensor_msgs::PointCloud2::Ptr point_cloud_ptr = msg.instantiate<sensor_msgs::PointCloud2>();
-    if (point_cloud_ptr == nullptr)
-    {
-      std::cout << "error" << std::endl;
-      break;
-    }
+    // serialized data
+    auto serialized_message = reader.read_next();
 
-    while (ros::ok())
+    // deserialization and conversion to ros message
+    sensor_msgs::msg::PointCloud2 msg;
+    auto ros_message = std::make_shared<rosbag2_cpp::rosbag2_introspection_message_t>();
+    ros_message->time_stamp = 0;
+    ros_message->message = nullptr;
+    ros_message->allocator = rcutils_get_default_allocator();
+    ros_message->message = &msg;
+    auto type_library = rosbag2_cpp::get_typesupport_library("sensor_msgs/PointCloud2", "rosidl_typesupport_cpp");
+    auto type_support =
+        rosbag2_cpp::get_typesupport_handle("sensor_msgs/PointCloud2", "rosidl_typesupport_cpp", type_library);
+
+    rosbag2_cpp::SerializationFormatConverterFactory factory;
+    std::unique_ptr<rosbag2_cpp::converter_interfaces::SerializationFormatDeserializer> cdr_deserializer_;
+    cdr_deserializer_ = factory.load_deserializer("cdr");
+
+    cdr_deserializer_->deserialize(serialized_message, type_support, ros_message);
+
+    while (rclcpp::ok())
     {
-      point_cloud_ptr->header.stamp = ros::Time::now();
-      point_cloud_publisher.publish(*point_cloud_ptr);
-      ros::spinOnce();
-      loop_rate.sleep();
+      msg.header.stamp = node__->now();
+      point_cloud_publisher->publish(msg);
+      rclcpp::spin_some(node__);
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
   }
-  bagfile.close();
+  reader.close();
   return 0;
 }
