@@ -82,10 +82,7 @@ def generate_launch_description():
                 "ros2_controllers.yaml",
             ),
         ],
-        output={
-            "stdout": "screen",
-            "stderr": "screen",
-        },
+        output="both",
     )
 
     # Load controllers

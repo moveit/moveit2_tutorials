@@ -21,6 +21,9 @@ def generate_launch_description():
         MoveItConfigsBuilder("moveit_resources_panda")
         .robot_description(file_path="config/panda.urdf.xacro")
         .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
+        .planning_scene_monitor(
+            publish_robot_description=True, publish_robot_description_semantic=True
+        )
         .to_moveit_configs()
     )
 
