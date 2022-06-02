@@ -6,8 +6,6 @@ Learn the foundation of MoveIt with tutorials for beginners to help you create y
 .. image:: quickstart_in_rviz/rviz_plugin_head.png
    :width: 700px
 
-*In these tutorials, the Franka Emika Panda robot is used as our example robot.*
-
 .. toctree::
    :maxdepth: 1
 
