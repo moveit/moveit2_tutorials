@@ -1,7 +1,7 @@
 Getting Started
 ===============
 
-Here we will setup your envionment for best running the tutorials. This will create a Colcon workspace, download all of the latest MoveIt source code, and build everything from source to ensure you have the latest fixes and improvements.
+Here we will setup your environment for best running the tutorials. This will create a Colcon workspace, download all of the latest MoveIt source code, and build everything from source to ensure you have the latest fixes and improvements.
 
 Install ROS 2 and Colcon
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
