@@ -64,7 +64,7 @@ The next command will configure your colcon workspace: ::
 
 This build command will likely take a long time (20+ minutes) depending on your computer speed and amount of RAM available (we recommend 32 GB). If you are short on computer memory or generally your build is struggling to complete on your computer, you can append the argument ``--parallel-workers 1`` to the colcon command above.
 
-If everything goes well, you should see the message "finished". If you have problems, try re-checking your `ROS Installation <https://docs.ros.org/en/rolling/Installation.html>`_.
+If everything goes well, you should see the message "finished". If you have problems, try re-checking your `ROS Installation <https://docs.ros.org/en/humble/Installation.html>`_.
 
 Setup Your Colcon Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
