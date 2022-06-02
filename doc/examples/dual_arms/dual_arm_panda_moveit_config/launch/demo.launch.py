@@ -67,22 +67,22 @@ def generate_launch_description():
     # ros2_control using FakeSystem as hardware
     ros2_controllers_path = os.path.join(
         get_package_share_directory("dual_arm_panda_moveit_config"),
-        "config",
+        "config/",
         "ros2_controllers.yaml",
     )
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
         parameters=[moveit_config.robot_description, ros2_controllers_path],
-        output="screen",
+        output="both",
     )
 
     # Load controllers
     load_controllers = []
     for controller in [
-        "panda_arm_controller",
-        "panda_hand_controller",
         "joint_state_broadcaster",
+        "left_arm_controller",
+        "right_arm_controller",
     ]:
         load_controllers += [
             ExecuteProcess(

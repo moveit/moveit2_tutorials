@@ -3,17 +3,17 @@ controller_manager:
   ros__parameters:
     update_rate: 100  # Hz
 
-    panda_arm_controller:
+    left_arm_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
-    panda_hand_controller:
-      type: position_controllers/GripperActionController
+    right_arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
 
-panda_arm_controller:
+left_arm_controller:
   ros__parameters:
     command_interfaces:
       - position
@@ -21,14 +21,26 @@ panda_arm_controller:
       - position
       - velocity
     joints:
-      - panda_joint1
-      - panda_joint2
-      - panda_joint3
-      - panda_joint4
-      - panda_joint5
-      - panda_joint6
-      - panda_joint7
+      - left_panda_joint1
+      - left_panda_joint2
+      - left_panda_joint3
+      - left_panda_joint4
+      - left_panda_joint5
+      - left_panda_joint6
+      - left_panda_joint7
 
-panda_hand_controller:
+right_arm_controller:
   ros__parameters:
-    joint: panda_finger_joint1
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    joints:
+      - right_panda_joint1
+      - right_panda_joint2
+      - right_panda_joint3
+      - right_panda_joint4
+      - right_panda_joint5
+      - right_panda_joint6
+      - right_panda_joint7
