@@ -38,41 +38,23 @@ def generate_launch_description():
     )
 
     # RViz
-    tutorial_mode = LaunchConfiguration("rviz_tutorial")
-    rviz_base = os.path.join(
-        get_package_share_directory("dual_arm_panda_moveit_config"), "launch"
-    )
-    rviz_full_config = os.path.join(rviz_base, "moveit.rviz")
-    rviz_empty_config = os.path.join(rviz_base, "moveit_empty.rviz")
-    rviz_node_tutorial = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="log",
-        arguments=["-d", rviz_empty_config],
-        parameters=[
-            moveit_config.robot_description,
-            moveit_config.robot_description_semantic,
-            moveit_config.planning_pipelines,
-            moveit_config.robot_description_kinematics,
-        ],
-        condition=IfCondition(tutorial_mode),
+    rviz_config = os.path.join(
+        get_package_share_directory("dual_arm_panda_moveit_config"),
+        "launch/moveit.rviz",
     )
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
         name="rviz2",
         output="log",
-        arguments=["-d", rviz_full_config],
+        arguments=["-d", rviz_config],
         parameters=[
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
             moveit_config.planning_pipelines,
             moveit_config.robot_description_kinematics,
         ],
-        condition=UnlessCondition(tutorial_mode),
     )
-
     # Publish TF
     robot_state_publisher = Node(
         package="robot_state_publisher",
@@ -129,7 +111,6 @@ def generate_launch_description():
             tutorial_arg,
             db_arg,
             rviz_node,
-            rviz_node_tutorial,
             robot_state_publisher,
             move_group_node,
             ros2_control_node,
