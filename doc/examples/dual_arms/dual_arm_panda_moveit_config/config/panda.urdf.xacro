@@ -6,13 +6,11 @@
     <xacro:arg name="right_initial_positions_file"
             default="$(find dual_arm_panda_moveit_config)/config/right_initial_positions.yaml"/>
 
-    <!-- Xacro imports -->
-    <xacro:include filename="panda_arm_macro.xacro" />
-    <xacro:include filename="panda.ros2_control.xacro" />
-    <xacro:include filename="panda_hand.ros2_control.xacro" />
-
     <!-- Root link -->
     <link name="world"/>
+
+    <!-- Xacro imports -->
+    <xacro:include filename="panda_arm_macro.xacro" />
 
     <!-- Left arm -->
     <xacro:panda_arm
