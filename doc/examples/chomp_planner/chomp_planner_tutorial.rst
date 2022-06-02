@@ -116,31 +116,51 @@ Using CHOMP as a post-processor for OMPL
 Here, it is demonstrated that CHOMP can also be used as a post-processing optimization technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial guess for CHOMP. CHOMP then takes this initial guess and further optimizes the trajectory.
 To achieve this, follow the steps:
 
-#. Create a new launch file ``ompl-chomp_planning_pipeline.launch`` in the ``<robot_moveit_config>/launch`` folder of your robot with the following contents: ::
+#. Edit ``ompl_planning.yaml`` in the ``<robot_moveit_config>/launch`` folder of your robot. Add ``chomp/OptimizerAdapter`` to the bottom of the list of request_adapters: ::
 
-    <launch>
-      <!-- load OMPL planning pipeline, but add the CHOMP planning adapter. -->
-      <include file="$(find panda_moveit_config)/launch/ompl_planning_pipeline.launch.xml">
-        <arg name="planning_adapters" value="
-           default_planner_request_adapters/AddTimeParameterization
-           default_planner_request_adapters/FixWorkspaceBounds
-           default_planner_request_adapters/FixStartStateBounds
-           default_planner_request_adapters/FixStartStateCollision
-           default_planner_request_adapters/FixStartStatePathConstraints
-           chomp/OptimizerAdapter"
-           />
-      </include>
-      <!-- load chomp config -->
-      <rosparam command="load" file="$(find panda_moveit_config)/config/chomp_planning.yaml"/>
-      <!-- override trajectory_initialization_method -->
-      <param name="trajectory_initialization_method" value="fillTrajectory"/>
-    </launch>
+    request_adapters: >-
+      ...
+      default_planner_request_adapters/FixStartStatePathConstraints
+      chomp/OptimizerAdapter
 
-#. This launch file defines the new planning pipeline ``ompl-chomp``, deriving from the ``ompl`` pipeline,
-   but adding the CHOMP post-processor as a planning adapter. Also, the ``trajectory_initialization_method`` is overridden to use the OMPL-generated trajectory.
+#. Add a new yaml configuration file for chomp (or update the existing one), ``chomp_planning.yaml``. Note the last line -- the ``fillTrajectory`` method means that OMPL will provide the input for the CHOMP algorithm: ::
 
-#. Now you can launch the newly configure planning pipeline as follows: ::
+    start_state_max_bounds_error: 0.1
+    planning_time_limit: 10.0
+    max_iterations: 200
+    max_iterations_after_collision_free: 5
+    smoothness_cost_weight: 0.1
+    obstacle_cost_weight: 1.0
+    learning_rate: 0.01
+    animate_path: true
+    add_randomness: false
+    smoothness_cost_velocity: 0.0
+    smoothness_cost_acceleration: 1.0
+    smoothness_cost_jerk: 0.0
+    hmc_discretization: 0.01
+    hmc_stochasticity: 0.01
+    hmc_annealing_factor: 0.99
+    use_hamiltonian_monte_carlo: false
+    ridge_factor: 0.0
+    use_pseudo_inverse: false
+    pseudo_inverse_ridge_factor: 1e-4
+    animate_endeffector: false
+    joint_update_limit: 0.1
+    collision_clearence: 0.2
+    collision_threshold: 0.07
+    random_jump_amount: 1.0
+    use_stochastic_descent: true
+    enable_failure_recovery: false
+    max_recovery_attempts: 5
+    # OMPL initializes the trajectory:
+    trajectory_initialization_method: "fillTrajectory"
 
-    roslaunch panda_moveit_config demo.launch pipeline:=ompl-chomp
+#. Add the CHOMP config file to the launch file of your robot, ``<robot_moveit_config>/launch/demo.launch.py``, if it is not already: ::
 
-This will launch RViz, select OMPL in the Motion Planning panel under the Context tab. Set the desired start and goal states by moving the end-effector around in the same way as was done for CHOMP above. Finally click on the Plan button to start planning. The planner will now first run OMPL, then run CHOMP on OMPL's output to produce an optimized path.
+    .planning_pipelines("ompl", ["ompl", "chomp"])
+
+#. Now you can launch the newly configured planning pipeline as follows: ::
+
+    ros2 launch moveit_resources_panda_moveit_config demo.launch.py
+
+This will launch RViz. Select OMPL in the Motion Planning panel under the Context tab. Set the desired start and goal states by moving the end-effector around in the same way as was done for CHOMP above. Finally click on the Plan button to start planning. The planner will now first run OMPL, then run CHOMP on OMPL's output to produce an optimized path.
