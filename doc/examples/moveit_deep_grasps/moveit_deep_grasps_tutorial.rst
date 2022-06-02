@@ -23,7 +23,6 @@ GPD (left) and Dex-Net (right) were used to generate the grasp pose to pick up t
 Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>`.
-It is also worthwhile to complete the steps in :doc:`MoveIt Task Constructor </doc/examples/moveit_task_constructor/moveit_task_constructor_tutorial>`.
 
 There are additional dependencies to install in order to run the demos. Therefore, the deep grasping packages are
 located in their own repository. Please see `Deep Grasp Demo <https://github.com/PickNikRobotics/deep_grasp_demo>`_.
