@@ -16,10 +16,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   Eigen3
   interactive_markers
   moveit_core
-<<<<<<< HEAD
   moveit_msgs
-=======
->>>>>>> d2782c6ca (Add an empty dual-arm tutorial)
   moveit_ros_planning
   moveit_ros_planning_interface
   moveit_servo
