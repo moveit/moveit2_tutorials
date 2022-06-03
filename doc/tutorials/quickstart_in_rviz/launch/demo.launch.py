@@ -101,20 +101,29 @@ def generate_launch_description():
         output="both",
     )
 
-    # Load controllers
-    load_controllers = []
-    for controller in [
-        "panda_arm_controller",
-        "panda_hand_controller",
-        "joint_state_broadcaster",
-    ]:
-        load_controllers += [
-            ExecuteProcess(
-                cmd=["ros2 run controller_manager spawner {}".format(controller)],
-                shell=True,
-                output="screen",
-            )
-        ]
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "joint_state_broadcaster",
+            "--controller-manager-timeout",
+            "300",
+            "--controller-manager",
+            "/controller_manager",
+        ],
+    )
+
+    arm_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["panda_arm_controller", "-c", "/controller_manager"],
+    )
+
+    hand_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["panda_hand_controller", "-c", "/controller_manager"],
+    )
 
     return LaunchDescription(
         [
@@ -125,6 +134,8 @@ def generate_launch_description():
             robot_state_publisher,
             run_move_group_node,
             ros2_control_node,
+            joint_state_broadcaster_spawner,
+            arm_controller_spawner,
+            hand_controller_spawner,
         ]
-        + load_controllers
     )
