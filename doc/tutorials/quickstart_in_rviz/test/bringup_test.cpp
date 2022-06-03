@@ -71,25 +71,6 @@ TEST_F(BringupTestFixture, BasicBringupTest)
   auto move_group_client = rclcpp_action::create_client<moveit_msgs::action::MoveGroup>(node_, "/move_action");
   EXPECT_TRUE(move_group_client->wait_for_action_server());
 
-  // Check for the expected nodes
-  const auto actual_node_names = node_->get_node_names();
-  const std::vector<std::string> expected_node_names{
-    "/controller_manager",
-    "/joint_state_broadcaster",
-    "/move_group",
-    "/moveit_simple_controller_manager",
-    "/panda_arm_controller",
-    "/panda_hand_controller",
-    "/robot_state_publisher",
-    // TODO(andyz): rviz cannot launch in CI
-    //"/rviz2"
-  };
-  for (const std::string& node_name : expected_node_names)
-  {
-    RCLCPP_INFO_STREAM(LOGGER, "Looking for node name " << node_name);
-    EXPECT_NE(std::find(actual_node_names.begin(), actual_node_names.end(), node_name), actual_node_names.end());
-  }
-
   // Send a trajectory request
   trajectory_msgs::msg::JointTrajectory traj_msg;
   traj_msg.joint_names = { "panda_joint1", "panda_joint2", "panda_joint3", "panda_joint4",
