@@ -24,15 +24,11 @@ Installing MoveIt Task Constructor
 Install From Source
 ^^^^^^^^^^^^^^^^^^^
 
-Go into your catkin workspace and initialize wstool if necessary (assuming **~/ws_moveit** as workspace path): ::
+Go into your colcon workspace, clone MoveIt Task Constructor, and source dependencies (assuming **~/ws_moveit** as workspace path): ::
 
   cd ~/ws_moveit/src
-  wstool init
-
-Clone MoveIt Task Constructor and source dependencies: ::
-
-  wstool merge https://raw.githubusercontent.com/ros-planning/moveit_task_constructor/master/.rosinstall
-  wstool update
+  git clone -b galactic https://github.com/ros-planning/moveit_task_constructor.git
+  vcs import < moveit_task_constructor/.repos
 
 Install missing packages with rosdep: ::
 
@@ -40,7 +36,7 @@ Install missing packages with rosdep: ::
 
 Build the workspace: ::
 
-  catkin build
+  colcon build --mixin release
 
 Running the Demo
 ----------------
@@ -48,13 +44,13 @@ Running the Demo
 The MoveIt Task Constructor package contains several basic examples and a pick-and-place demo.
 For all demos you should launch the basic environment: ::
 
-  roslaunch moveit_task_constructor_demo demo.launch
+  ros2 launch moveit_task_constructor_demo demo.launch.py
 
-Subsequently, you can run the individual demos: ::
+Subsequently, you can run the individual demos in a separate terminal: ::
 
-  rosrun moveit_task_constructor_demo cartesian
-  rosrun moveit_task_constructor_demo modular
-  roslaunch moveit_task_constructor_demo pickplace.launch
+  ros2 launch moveit_task_constructor_demo cartesian.launch.py
+  ros2 launch moveit_task_constructor_demo modular.launch.py
+  ros2 launch moveit_task_constructor_demo pickplace.launch.py
 
 On the right side you should see the **Motion Planning Tasks** panel outlining the hierarchical stage structure of the tasks.
 When you select a particular stage, the list of successful and failed solutions will be
