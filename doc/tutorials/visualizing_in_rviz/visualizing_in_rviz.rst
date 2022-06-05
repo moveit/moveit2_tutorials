@@ -1,7 +1,7 @@
 Visualizing In RViz
 ===================
 
-This tutorial will introduce you to a tool that can help you quickly understand what your MoveIt program is doing by rendering visualizations in RViz.
+This tutorial will introduce you to a tool that can help you more easily understand what your MoveIt application is doing by rendering visualizations in RViz.
 
 Prerequisites
 -------------
