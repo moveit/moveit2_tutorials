@@ -53,11 +53,13 @@ Next we will download the source code for the rest of MoveIt: ::
 
   vcs import < moveit2_tutorials/moveit2_tutorials.repos
 
+The import command may ask for your GitHub credentials. You can just press Enter until it moves on (ignore the "Authentication failed" error).
+
 Build your Colcon Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The following will install from Debian any package dependencies not already in your workspace. This is the step that will install MoveIt and all of its dependencies: ::
 
-  rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
+  sudo apt update && rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
 
 The next command will configure your Colcon workspace: ::
 
