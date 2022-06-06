@@ -48,7 +48,7 @@ To test that this all worked, open a terminal in the workspace directory (rememb
 
 .. code-block:: bash
 
-  cd ~/ws_moveit2
+  cd ~/ws_moveit
   colcon build --mixin debug
 
 2 Create a ROS executor and spin the node on a thread
@@ -196,8 +196,13 @@ Lastly, build your project again to make sure all the code additions are correct
 
 .. code-block:: bash
 
+<<<<<<< HEAD
   cd ~/ws_moveit2
   source /opt/ros/humble/setup.bash
+=======
+  cd ~/ws_moveit
+  source /opt/ros/rolling/setup.bash
+>>>>>>> 4c408fb (Bulk rename ws_moveit2 --> ws_moveit to conform to docker container directory naming (#411))
   colcon build --mixin debug
 
 6 Enable visualizations in RViz
@@ -207,7 +212,7 @@ Open a new terminal, source the workspace, and then start the demo launch file t
 
 .. code-block:: bash
 
-  cd ~/ws_moveit2
+  cd ~/ws_moveit
   source install/setup.bash
   ros2 launch moveit2_tutorials demo.launch.py
 
@@ -251,7 +256,7 @@ In a new terminal, go to the workspace, source the workspace, and run ``hello_mo
 
 .. code:: bash
 
-  cd ~/ws_moveit2
+  cd ~/ws_moveit
   source install/setup.bash
   ros2 run hello_moveit hello_moveit
 
