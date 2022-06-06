@@ -40,13 +40,13 @@ Create A Colcon Workspace and Download Tutorials
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 For tutorials you will need to have a :ros_documentation:`colcon <Tutorials/Colcon-Tutorial.html#install-colcon>` workspace setup. ::
 
-  mkdir -p ~/ws_moveit2/src
+  mkdir -p ~/ws_moveit/src
 
 Download Source Code of MoveIt and the Tutorials
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Move into your Colcon workspace and pull the MoveIt tutorials source: ::
 
-  cd ~/ws_moveit2/src
+  cd ~/ws_moveit/src
   git clone https://github.com/ros-planning/moveit2_tutorials -b main
 
 Next we will download the source code for the rest of MoveIt: ::
@@ -61,7 +61,7 @@ The following will install from Debian any package dependencies not already in y
 
 The next command will configure your Colcon workspace: ::
 
-  cd ~/ws_moveit2
+  cd ~/ws_moveit
   colcon build --mixin release
 
 This build command will likely take a long time (20+ minutes) depending on your computer speed and amount of RAM available (we recommend 32 GB). If you are short on computer memory or generally your build is struggling to complete on your computer, you can append the argument ``--parallel-workers 1`` to the Colcon command above.
@@ -73,11 +73,11 @@ Setup Your Colcon Workspace
 
 Source the Colcon workspace: ::
 
-  source ~/ws_moveit2/install/setup.bash
+  source ~/ws_moveit/install/setup.bash
 
 Optional: add the previous command to your ``.bashrc``: ::
 
-   echo 'source ~/ws_moveit2/install/setup.bash' >> ~/.bashrc
+   echo 'source ~/ws_moveit/install/setup.bash' >> ~/.bashrc
 
 .. note:: Sourcing the ``setup.bash`` automatically in your ``~/.bashrc`` is
    not required and often skipped by advanced users who use more than one
