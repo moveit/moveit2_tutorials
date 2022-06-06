@@ -19,7 +19,7 @@ Steps
 
 Open a terminal and `source your ROS 2 installation <https://docs.ros.org/en/{DISTRO}/Tutorials/Configuring-ROS2-Environment.html>`_ so that ``ros2`` commands will work.
 
-Navigate to your ``ws_moveit2`` directory you created in the :doc:`Getting Started Tutorial </doc/tutorials/getting_started/getting_started>`.
+Navigate to your ``ws_moveit`` directory you created in the :doc:`Getting Started Tutorial </doc/tutorials/getting_started/getting_started>`.
 
 Change directory into the ``src`` directory, as that is where we put our source code.
 
@@ -37,7 +37,7 @@ The output of this will show that it created some files in a new directory.
 Note that we added ``moveit_ros_planning_interface`` and ``rclcpp`` as dependencies.
 This will create the necessary changes in the ``package.xml`` and ``CMakeLists.txt`` files so that we can depend on these two packages.
 
-Open the new source file created for you at ``ws_moveit2/src/hello_moveit/src/hello_moveit.cpp`` in your favorite editor.
+Open the new source file created for you at ``ws_moveit/src/hello_moveit/src/hello_moveit.cpp`` in your favorite editor.
 
 2 Create a ROS Node and Executor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -75,7 +75,7 @@ This first block of code is a bit of boilerplate but you should be used to seein
 
 We will build and run the program to see that everything is right before we move on.
 
-Change directory back to the workspace directory ``ws_moveit2`` and run this command:
+Change directory back to the workspace directory ``ws_moveit`` and run this command:
 
 .. code-block:: bash
 
@@ -85,7 +85,7 @@ After this succeeds, **open a new terminal**, then source the workspace environm
 
 .. code-block:: bash
 
-  cd ~/ws_moveit2
+  cd ~/ws_moveit
   source install/setup.bash
 
 Run your program and see the output.
@@ -156,7 +156,7 @@ In place of the comment that says "Next step goes here," add this code:
 
 Just like before, we need to build the code before we can run it.
 
-In the workspace directory, ``ws_moveit2``, run this command:
+In the workspace directory, ``ws_moveit``, run this command:
 
 .. code-block:: bash
 
