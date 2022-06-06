@@ -59,7 +59,7 @@ Download MoveIt Task Constructor
 
 Move into your colcon workspace and pull the MoveIt Task Constructor source: ::
 
-    cd ~/ws_moveit2/src
+    cd ~/ws_moveit/src
     git pull git@github.com:ros-planning/moveit_task_constructor.git -b ros2
     vcs import < moveit_task_constructor/.repos
 
@@ -584,9 +584,9 @@ To run the MoveIt Task Constructor node, we need a second launch file to start t
 
 Save this file as ``pick_place_demo.launch.py`` in your package's launch directory, then build and source your colcon workspace. ::
 
-    cd ~/ws_moveit2
+    cd ~/ws_moveit
     colcon build --mixin release
-    source ~/ws_moveit2/install/setup.bash
+    source ~/ws_moveit/install/setup.bash
 
 Start by launching your first launch file. If you want to use the one provided by the tutorials: ::
 
