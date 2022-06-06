@@ -91,8 +91,16 @@ You can see the trajectory animated if planning succeeds. Finally, press Next to
         OMPL constrained planning orientation constraint example
     </video>
 
-This example may take longer to plan. Press Next to remove all markers and end the example. If planning fails, you can start at the beginning of the section to try again.
+This example may take longer to plan. If planning fails, you can start at the beginning of the section to try again. Press Next to try mixed constraints,
 
+.. raw:: html
+
+    <video width="300px" controls="true" autoplay="true" loop="true">
+        <source src="../../../_static/videos/ompl_mixed_constraints.webm" type="video/webm">
+        OMPL constrained planning orientation constraint example
+    </video>
+
+Press Next to remove all markers and end the example.
 
 How to Set Constraints
 ^^^^^^^^^^^^^^^^^^^^^^
