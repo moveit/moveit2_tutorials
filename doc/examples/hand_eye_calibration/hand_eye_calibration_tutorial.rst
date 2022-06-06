@@ -14,9 +14,6 @@ eye-in-hand case.
 
 Getting Started
 ---------------
-While it is possible to go through most of this tutorial using just a simulation, to actually complete a calibration you
-will need a robotic arm and a camera.
-
 If you haven't already done so, be sure to complete the steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>`.
 Also, set your arm up to work with MoveIt (as described in the :doc:`Setup Assistant Tutorial </doc/examples/setup_assistant/setup_assistant_tutorial>`).
 
@@ -28,17 +25,28 @@ Clone and Build the MoveIt Calibration Repo
 -------------------------------------------
 In your workspace ``src`` directory, clone MoveIt Calibration::
 
-  git clone git@github.com:ros-planning/moveit_calibration.git
+  git clone https://github.com/ros-planning/moveit_calibration.git -b ros2
 
 Then, make sure you have the appropriate dependencies and build the package::
 
-  rosdep install -y --from-paths . --ignore-src --rosdistro melodic
-  catkin build
-  source devel/setup.sh
+  vcs import src < src/moveit_calibration/moveit_calibration.repos --skip-existing
+  rosdep install -r --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y
+  colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+  source install/local_setup.sh
 
-Launch RViz and Load Calibration Plugin
+Option A) Simulation: Test MoveIt Calibration inside Gazebo
 ---------------------------------------
-Launch the appropriate MoveIt demo for your robot. For instance, ``roslaunch panda_moveit_config demo.launch``.
+Launch one of the following scripts that are configured for Gazebo with a virtual robot, camera and calibration pattern. These scripts
+also initialise a pre-configured RViz instance with all required plugins.
+
+  ros2 launch moveit2_tutorials moveit_calibration_sim_eye_to_hand.launch.py
+  ros2 launch moveit2_tutorials moveit_calibration_sim_eye_in_hand.launch.py
+
+Once started, you can follow the rest of this tutorial just like on the real robot.
+
+Option B) Real Robot: Launch RViz and Load Calibration Plugin
+---------------------------------------
+Launch the appropriate MoveIt demo for your robot. For instance, ``ros2 launch panda_moveit_config demo.launch.py``.
 In the RViz "Panels" menu, choose "Add New Panel":
 
 .. image:: images/choose_new_panel.png
