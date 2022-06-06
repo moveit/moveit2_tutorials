@@ -59,7 +59,7 @@ Build your Colcon Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The following will install from Debian any package dependencies not already in your workspace. This is the step that will install MoveIt and all of its dependencies: ::
 
-  apt update && rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
+  sudo apt update && rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
 
 The next command will configure your Colcon workspace: ::
 
