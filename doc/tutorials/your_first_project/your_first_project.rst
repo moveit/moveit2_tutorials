@@ -1,7 +1,7 @@
 Your First C++ MoveIt Project
 =============================
 
-This tutorial will quickly get you writing your first ROS project with MoveIt.
+This tutorial will step you through writing your first C++ application with MoveIt.
 
 Prerequisites
 -------------

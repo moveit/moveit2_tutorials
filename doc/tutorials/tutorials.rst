@@ -1,12 +1,10 @@
 Tutorials
 =========
 
-These tutorials will quickly get you using the MoveIt 2 Motion Planning Framework.
+Learn the foundation of MoveIt with tutorials for beginners to help you create your next robotic manipulation project. For expert training, see our more extensive :doc:`Examples </doc/examples/examples>`.
 
 .. image:: quickstart_in_rviz/rviz_plugin_head.png
    :width: 700px
-
-In these tutorials, the Franka Emika Panda robot is used as a quick-start demo.
 
 .. toctree::
    :maxdepth: 1

@@ -1,28 +1,16 @@
 # MoveIt 2 Tutorials
 
-**NOTE: This repository is a new fork from the [MoveIt 1 tutorials](https://ros-planning.github.io/moveit_tutorials/) and needs your help with porting old tutorials to ROS 2.** To claim a tutorial to support the port of, see the Issues list. Thanks!
+This is the primary documentation for the MoveIt project.
 
-[See the live MoveIt 2 tutorials here](https://moveit.picknik.ai/)
+## Contributing
 
-This is the primary documentation for the MoveIt project. We strongly encourage you to help improve MoveIt's documentation. Please consider reading the guidelines below for writing the best documentation and tutorials. However, if you are uncomfortable with any of the approaches, simply adding documentation text to your pull requests is better than nothing.
+We strongly encourage you to help improve MoveIt's documentation. Please consider helping improve the tutorials, port old ones from ROS 1, and write new tutorials. We recommend you  read the quality standards below as well as the [How to Write a MoveIt Tutorial](https://moveit.picknik.ai/main/doc/how_to_contribute/how_to_write_tutorials.html) page.
 
-These tutorials use the [reStructuredText](http://www.sphinx-doc.org/en/stable/rest.html) format commonly used in the Sphinx "Python Documentation Generator". This unfortunately differs from the common Markdown format, but its advantage is that it supports embedding code directly from source files for inline code tutorials.
-
-All content in this repository is open source and released under the [BSD License v3](https://opensource.org/licenses/BSD-3-Clause). Each individual source code file should contain a copy of the license.
-
-This repository is currently built automatically by Github Actions:
-
-- main: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Amain)
-- main: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Amain)
-- galactic: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=galactic)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Agalactic)
-- galactic: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=galactic)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Agalactic)
-- foxy: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Afoxy) (Foxy)
-- foxy: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Afoxy) (Foxy)
-- foxy: [![Deploy](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml?query=branch%3Afoxy) (Foxy)
-- foxy: [Github Pages](https://moveit.picknik.ai/): (Foxy)
+If you find an issue with the tutorials you are not able to fix yourself, please [open an issue on GitHub](https://github.com/ros-planning/moveit2_tutorials/issues/new) or open a PR with proposed changes.
 
 ## Helping with Porting Tutorials to ROS 2
-An issue has been created for each tutorial to be ported to Foxy. At the top of each tutorial there is a tag: ":moveit1:", remove the tag
+
+An issue has been created for each tutorial to be ported to ROS 2. At the top of each tutorial there is a tag: ":moveit1:", remove the tag
 after the tutorial has been successfully updated.
 
 Below are some links to help with the ports.
@@ -31,9 +19,6 @@ Below are some links to help with the ports.
 * [ament](https://index.ros.org/doc/ros2/Tutorials/Ament-CMake-Documentation/)
 * [rclcpp](http://docs.ros2.org/foxy/api/rclcpp/index.html)
 
-## Versions
-
-- ``main`` latest, changes should target this branch
 
 ## MoveIt 2 Tutorials Source Build
 
@@ -43,11 +28,11 @@ Open a command line to your your moveit2 colcon workspace:
 
     cd $COLCON_WS/src
 
-Download Moveit2_tutorials Source Code
+Download the MoveIt Tutorials source code:
 
     git clone https://github.com/ros-planning/moveit2_tutorials.git
     vcs import < moveit2_tutorials/moveit2_tutorials.repos
-    rosdep install -r --from-paths . --ignore-src --rosdistro rolling -y
+    rosdep install -r --from-paths . --ignore-src --rosdistro humble -y
 
 Configure and build the workspace:
 
@@ -58,7 +43,7 @@ Configure and build the workspace:
 
 If you want to test the tutorials by generating the html pages locally on your machine, you can use the ``build_locally`` script by issuing the following commands in the root of the moveit2_tutorials package:
 
-    export ROS_DISTRO=rolling  # 20.04
+    export ROS_DISTRO=humble  # 20.04
 
     cd $COLCON_WS/src/moveit2_tutorials
     source /opt/ros/$ROS_DISTRO/setup.bash
@@ -71,11 +56,9 @@ The local website ``<LOCAL_PACKAGE_PATH>/build/html/index.html`` should automati
  - *noinstall* skip the dependencies install step to speed up the script
  - *loop* automatically rebuild the html if a change is detected
 
-## Contributing
-
-We rely on the community to keep these tutorials up to date and bug free. If you find an issue with the tutorials please [open an issue on GitHub](https://github.com/ros-planning/moveit2_tutorials/issues/new) or open a PR with proposed changes.
-
 ### Formatting and Style
+
+These tutorials use the [reStructuredText](http://www.sphinx-doc.org/en/stable/rest.html) format commonly used in the Sphinx "Python Documentation Generator". This unfortunately differs from the common Markdown format, but its advantage is that it supports embedding code directly from source files for inline code tutorials.
 
 **Code Formatting**
 
@@ -147,3 +130,23 @@ To embed a video that is included in this repository, you also will use raw html
 Note that the video file is in the `_static/videos` folder instead of the same folder.
 
 [External Documentation on &lt;video&gt; tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video)
+
+## License
+
+All content in this repository is open source and released under the [BSD License v3](https://opensource.org/licenses/BSD-3-Clause). Each individual source code file should contain a copy of the license.
+
+## Build Status
+
+This repository is currently built automatically by Github Actions:
+
+- main: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Amain)
+- main: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Amain)
+- humble: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=humble)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Ahumble)
+- humble: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=humble)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Ahumble)
+
+- galactic: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=galactic)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Agalactic)
+- galactic: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=galactic)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Agalactic)
+- foxy: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Afoxy) (Foxy)
+- foxy: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Afoxy) (Foxy)
+- foxy: [![Deploy](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml?query=branch%3Afoxy) (Foxy)
+- foxy: [Github Pages](https://moveit.picknik.ai/): (Foxy)
