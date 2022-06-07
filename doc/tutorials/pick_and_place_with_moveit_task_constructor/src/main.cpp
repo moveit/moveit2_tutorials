@@ -31,7 +31,7 @@ public:
 
 private:
   // Compose an MTC task from a series of stages.
-  mtc::Task createTask();
+  void createTask(mtc::Task& task);
   mtc::Task task_;
   rclcpp::Node::SharedPtr node_;
 };
@@ -66,7 +66,7 @@ void MTCTaskNode::setupPlanningScene()
 
 void MTCTaskNode::doTask()
 {
-  task_ = createTask();
+  createTask(task_);
 
   try
   {
@@ -95,9 +95,8 @@ void MTCTaskNode::doTask()
   return;
 }
 
-mtc::Task MTCTaskNode::createTask()
+void MTCTaskNode::createTask(mtc::Task& task)
 {
-  mtc::Task task;
   task.stages()->setName("demo task");
   task.loadRobotModel(node_);
 
@@ -352,7 +351,6 @@ mtc::Task MTCTaskNode::createTask()
     stage->setGoal("ready");
     task.add(std::move(stage));
   }
-  return task;
 }
 
 int main(int argc, char** argv)

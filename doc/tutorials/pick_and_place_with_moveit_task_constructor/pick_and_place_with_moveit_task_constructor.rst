@@ -201,7 +201,7 @@ Open ``mtc_tutorial.cpp`` in your editor of choice, and paste in the following c
 
     private:
       // Compose an MTC task from a series of stages.
-      mtc::Task createTask();
+      void createTask(mtc::Task& task);
       mtc::Task task_;
       rclcpp::Node::SharedPtr node_;
     };
@@ -236,7 +236,7 @@ Open ``mtc_tutorial.cpp`` in your editor of choice, and paste in the following c
 
     void MTCTaskNode::doTask()
     {
-      task_ = createTask();
+      createTask(task_);
 
       try
       {
@@ -265,9 +265,8 @@ Open ``mtc_tutorial.cpp`` in your editor of choice, and paste in the following c
       return;
     }
 
-    mtc::Task MTCTaskNode::createTask()
+    void MTCTaskNode::createTask(mtc::Task& task)
     {
-      mtc::Task task;
       task.stages()->setName("demo task");
       task.loadRobotModel(node_);
 
@@ -303,8 +302,6 @@ Open ``mtc_tutorial.cpp`` in your editor of choice, and paste in the following c
       stage_open_hand->setGroup(hand_group_name);
       stage_open_hand->setGoal("open");
       task.add(std::move(stage_open_hand));
-
-      return task;
     }
 
     int main(int argc, char** argv)
@@ -383,7 +380,7 @@ We start by defining a class that will contain the main MoveIt Task Constructor 
 
     private:
       // Compose an MTC task from a series of stages.
-      mtc::Task createTask();
+      void createTask(mtc::Task& task);
       mtc::Task task_;
       rclcpp::Node::SharedPtr node_;
     };
@@ -434,7 +431,7 @@ This function interfaces with the MoveIt Task Constructor task object. It first 
 
     void MTCTaskNode::doTask()
     {
-      task_ = createTask();
+      createTask(task_);
 
       try
       {
@@ -467,7 +464,7 @@ As mentioned above, this function creates a MoveIt Task Constructor object and s
 
 .. code-block:: c++
 
-    mtc::Task MTCTaskNode::createTask()
+    void MTCTaskNode::createTask(mtc::Task& task)
     {
       moveit::task_constructor::Task task;
       task.stages()->setName("demo task");
@@ -509,7 +506,7 @@ We also set some properties specific for to the Cartesian planner.
       cartesian_planner->setMaxAccelerationScaling(1.0);
       cartesian_planner->setStepSize(.01);
 
-Now that we added in the planners, we can add a stage that will move the robot. The following lines use a ``MoveTo`` stage (a propagator stage). Since opening the hand is a relatively simple movement, we can use the joint interpolation planner. This stage plans a move to the "open hand" pose, which is a named pose defined in the :moveit_resources_codedir:`SRDF<panda_moveit_config/config/panda.srdf>` for the panda robot. We return the task and finish with the createTask() function.
+Now that we added in the planners, we can add a stage that will move the robot. The following lines use a ``MoveTo`` stage (a propagator stage). Since opening the hand is a relatively simple movement, we can use the joint interpolation planner. This stage plans a move to the "open hand" pose, which is a named pose defined in the :moveit_resources_codedir:`SRDF<panda_moveit_config/config/panda.srdf>` for the panda robot.
 
 .. code-block:: c++
 
@@ -518,8 +515,6 @@ Now that we added in the planners, we can add a stage that will move the robot. 
       stage_open_hand->setGroup(hand_group_name);
       stage_open_hand->setGoal("open");
       task.add(std::move(stage_open_hand));
-
-      return task;
     }
 
 Finally, we have ``main``: the following lines create a node using the class defined above, and calls the class methods to set up and execute a basic MTC task. In this example, we do not cancel the executor once the task has finished executing to keep the node alive to inspect the solutions in RViz.
@@ -932,14 +927,7 @@ The final step is to return home: we use a ``MoveTo`` stage and pass it the goal
         task.add(std::move(stage));
       }
 
-All these stages should be added above these lines.
-
-.. code-block:: c++
-
-      // Stages all added to the task above this line
-
-      return task;
-    }
+All these stages should be added to the end of the ``createTask`` function.
 
 Congratulations! You've now defined a pick and place task using MoveIt Task Constructor!
 
