@@ -149,10 +149,10 @@ mtc::Task MTCTaskNode::createTask()
   // In fact, `task` itself is a SerialContainer by default.
   {
     auto grasp = std::make_unique<mtc::SerialContainer>("pick object");
-    task.properties().exposeTo(grasp->properties(), { "eef", "hand", "group", "ik_frame" });
+    task.properties().exposeTo(grasp->properties(), { "eef", "group", "ik_frame" });
     // clang-format off
     grasp->properties().configureInitFrom(mtc::Stage::PARENT,
-                                          { "eef", "hand", "group", "ik_frame" });
+                                          { "eef", "group", "ik_frame" });
     // clang-format on
 
     {
@@ -268,10 +268,10 @@ mtc::Task MTCTaskNode::createTask()
 
   {
     auto place = std::make_unique<mtc::SerialContainer>("place object");
-    task.properties().exposeTo(place->properties(), { "eef", "hand", "group", "ik_frame" });
+    task.properties().exposeTo(place->properties(), { "eef", "group", "ik_frame" });
     // clang-format off
     place->properties().configureInitFrom(mtc::Stage::PARENT,
-                                          { "eef", "hand", "group", "ik_frame" });
+                                          { "eef", "group", "ik_frame" });
     // clang-format on
 
     /****************************************************

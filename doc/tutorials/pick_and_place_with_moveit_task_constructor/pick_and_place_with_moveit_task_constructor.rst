@@ -670,9 +670,9 @@ This next block of code creates a ``SerialContainer``. This is a container that 
 
       {
         auto grasp = std::make_unique<mtc::SerialContainer>("pick object");
-        task.properties().exposeTo(grasp->properties(), { "eef", "hand", "group", "ik_frame" });
+        task.properties().exposeTo(grasp->properties(), { "eef", "group", "ik_frame" });
         grasp->properties().configureInitFrom(mtc::Stage::PARENT,
-                                              { "eef", "hand", "group", "ik_frame" });
+                                              { "eef", "group", "ik_frame" });
 
 
 
@@ -827,9 +827,9 @@ We also create a serial container for the place stages. This is done similarly t
 
       {
         auto place = std::make_unique<mtc::SerialContainer>("place object");
-        task.properties().exposeTo(place->properties(), { "eef", "hand", "group", "ik_frame" });
+        task.properties().exposeTo(place->properties(), { "eef", "group", "ik_frame" });
         place->properties().configureInitFrom(mtc::Stage::PARENT,
-                                              { "eef", "hand", "group", "ik_frame" });
+                                              { "eef", "group", "ik_frame" });
 
 This next stage generates the poses used to place the object and compute the inverse kinematics for those poses - it is somewhat similar to the ``generate grasp pose`` stage from the pick serial container. We start by creating a stage to generate the poses and inheriting the task properties. We specify the pose where we want to place the object with a ``PoseStamped`` message from ``geometry_msgs`` - in this case, we choose ``y = 0.5``. We then pass the target pose to the stage with ``setPose``.  Next, we use ``setMonitoredStage`` and pass it the pointer to the ``attach object stage`` from earlier. This allows the stage to know how the object is attached. We then create a ``ComputeIK`` stage and pass it our ``GeneratePlacePose`` stage - the rest follows the same logic as above with the pick stages.
 
