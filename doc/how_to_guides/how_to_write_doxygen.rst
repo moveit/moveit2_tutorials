@@ -12,12 +12,12 @@ Learning Objectives
 
 Instructions
 ------------
-When making a contribution to MoveIt (or any code, really), make sure your code is readable and well-commented throughout. 
+When making a contribution to MoveIt (or any code, really), make sure your code is readable and well-commented throughout.
 Using Doxygen comments allows for standardization of documentation and ensures that all contributions have certain information included with them.
 One of the primary benefits of Doxygen is that it allows for automatic generation of API documentation in a consistent, readable format.
 
 
-Plugins exist to automate the creation of Doxygen documentation for 
+Plugins exist to automate the creation of Doxygen documentation for
 - `SublimeText <https://packagecontrol.io/packages/DoxyDoxygen>`_
 - `VIM <https://www.vim.org/scripts/script.php?script_id=987>`_
 - `VSCode <https://marketplace.visualstudio.com/items?itemName=cschlosser.doxdocgen>`_
@@ -25,7 +25,7 @@ Plugins exist to automate the creation of Doxygen documentation for
 As well as for `many other IDEs <https://www.doxygen.nl/helpers.html>`_.
 
 In general, a Doxygen comment should include a brief description of the thing it is commenting on at the very least.
-Descriptions of the input parameters (if any) as well as the output parameters (if any) is helpful as well. 
+Descriptions of the input parameters (if any) as well as the output parameters (if any) is helpful as well.
 
 Several examples are provided below:
 
@@ -56,7 +56,7 @@ These examples both serve to provide the types and descriptions of inputs and ou
 Further Reading
 ---------------
 
-Feel free to look around in the repositories to see additional examples of Doxygen comments. 
+Feel free to look around in the repositories to see additional examples of Doxygen comments.
 Looking at a similar piece of code to what you will be contributing and seeing its comments is the easiest way to learn.
 
 
