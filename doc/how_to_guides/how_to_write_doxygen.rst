@@ -1,5 +1,5 @@
 How to Contribute Doxygen Comments
--------
+----------------------------------
 
 
 This guide will provide an introduction and overview to good practices for contributing Doxygen comments.
@@ -11,7 +11,7 @@ Learning Objectives
 - Some useful Doxygen Plugins
 
 Instructions
------
+------------
 When making a contribution to MoveIt (or any code, really), make sure your code is readable and well-commented throughout. 
 Using Doxygen comments allows for standardization of documentation and ensures that all contributions have certain information included with them.
 One of the primary benefits of Doxygen is that it allows for automatic generation of API documentation in a consistent, readable format.
@@ -31,6 +31,7 @@ Several examples are provided below:
 
 
     .. code-block:: c++
+
         /** @brief Check for robot self collision. Any collision between any pair of links is checked for, NO collisions are
         *   ignored.
         *
@@ -43,6 +44,7 @@ Several examples are provided below:
 
 
     .. code-block:: c++
+
         /** @brief A bounding volume hierarchy (BVH) implementation of a tesseract contact manager */
         class BulletBVHManager
         {
@@ -54,5 +56,10 @@ These examples both serve to provide the types and descriptions of inputs and ou
 Further Reading
 ---------------
 
-See the how-to guide on how to generate Doxygen API locally :doc:`here <../how_to_generate_api_doxygen_locally>`.
+Feel free to look around in the repositories to see additional examples of Doxygen comments. 
+Looking at a similar piece of code to what you will be contributing and seeing its comments is the easiest way to learn.
+
+
+See the how-to guide on how to generate Doxygen API locally :doc:`here <./how_to_generate_api_doxygen_locally>`.
+
 See the Doxygen documentation guide `here <https://www.doxygen.nl/manual/docblocks.html>`_.
