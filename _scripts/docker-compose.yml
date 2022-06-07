@@ -1,5 +1,5 @@
 # Example command:
-# 
+#
 #   ROS_DISTRO=humble-source docker-compose run gpu
 
 x-base-cpu: &base-cpu
@@ -43,4 +43,3 @@ services:
 
 volumes:
   moveit2-data:
-
