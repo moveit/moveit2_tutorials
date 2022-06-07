@@ -50,7 +50,21 @@ Several examples are provided below:
         {
         ...
 
-These examples both serve to provide the types and descriptions of inputs and outputs and capture what the function or class is doing, in brief.
+    .. code-block:: c++
+
+        	/** @brief Instantiate and return a instance of a subclass of Type using our
+            *         pluginlib::ClassLoader.
+            * @param class_id A string identifying the class uniquely among
+            *        classes of its parent class.  rviz::GridDisplay might be
+            *        rviz/Grid, for example.
+            * @param error_return If non-NULL and there is an error, *error_return is set to a description of the problem.
+            * @return A new instance of the class identified by class_id, or NULL if there was an error.
+            *
+            * If makeRaw() returns NULL and error_return is not NULL, *error_return will be set.
+            * On success, *error_return will not be changed. */
+         	virtual Type* makeRaw(const QString& class_id, QString* error_return = nullptr) {
+
+These examples serve to provide the types and descriptions of inputs and outputs and capture what the function or class is doing, in brief.
 
 
 Further Reading
