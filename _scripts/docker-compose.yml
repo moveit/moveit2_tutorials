@@ -1,0 +1,39 @@
+# Example command:
+# 
+#   ROS_DISTRO=humble docker-compose run gpu
+
+
+x-base-cpu: &base-cpu
+  privileged: true
+  network_mode: host
+  environment:
+    QT_X11_NO_MITSHM: 1
+  volumes:
+    - /tmp/.X11-unix:/tmp/.X11-unix
+    - ~/.Xauthority:/root/.Xauthority
+  command: /bin/bash
+
+x-base-gpu: &base-gpu
+  <<: *base-cpu
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
+  environment:
+    NVIDIA_VISIBLE_DEVICES: all
+    NVIDIA_DRIVER_CAPABILITIES: all
+
+services:
+  cpu:
+    <<: *base-cpu
+    image: moveit/moveit2:$ROS_DISTRO-source
+    environment:
+      DISPLAY: $DISPLAY
+  gpu:
+    <<: *base-gpu
+    image: moveit/moveit2:$ROS_DISTRO-source
+    environment:
+      DISPLAY: $DISPLAY
