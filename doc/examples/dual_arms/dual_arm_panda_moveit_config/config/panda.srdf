@@ -26,13 +26,6 @@
     <joint name="left_panda_joint6" value="1.571"/>
     <joint name="left_panda_joint7" value="0.785"/>
   </group_state>
-  <group name="left_hand">
-    <link name="left_panda_hand"/>
-    <link name="left_panda_leftfinger"/>
-    <link name="left_panda_rightfinger"/>
-    <joint name="left_panda_finger_joint1"/>
-    <passive_joint name="left_panda_finger_joint2"/>
-  </group>
 
   <group_state group="right_panda_arm" name="ready">
     <joint name="right_panda_joint1" value="0"/>
@@ -43,13 +36,6 @@
     <joint name="right_panda_joint6" value="1.571"/>
     <joint name="right_panda_joint7" value="0.785"/>
   </group_state>
-  <group name="right_hand">
-    <link name="right_panda_hand"/>
-    <link name="right_panda_leftfinger"/>
-    <link name="right_panda_rightfinger"/>
-    <joint name="right_panda_finger_joint1"/>
-    <passive_joint name="right_panda_finger_joint2"/>
-  </group>
 
   <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
   <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
