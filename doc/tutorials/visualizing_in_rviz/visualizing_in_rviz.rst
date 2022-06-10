@@ -112,7 +112,7 @@ After we've constructed and initialized, we now create some closures (function o
 
 .. code-block:: C++
 
-    // Create closures for visualization
+    // Create a closures for visualization
     auto const draw_title = [&moveit_visual_tools](auto text) {
       auto const text_pose = [] {
         auto msg = Eigen::Isometry3d::Identity();

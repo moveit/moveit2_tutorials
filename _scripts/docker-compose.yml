@@ -1,6 +1,6 @@
 # Example command:
 #
-#   ROS_DISTRO=humble-source docker-compose run gpu
+#   DOCKER_IMAGE=humble-source docker-compose run gpu
 
 x-base-cpu: &base-cpu
   privileged: true
@@ -28,14 +28,14 @@ x-base-gpu: &base-gpu
 services:
   cpu:
     <<: *base-cpu
-    image: moveit/moveit2:$ROS_DISTRO
+    image: moveit/moveit2:$DOCKER_IMAGE
     volumes:
       - moveit2-data:/root
     environment:
       DISPLAY: $DISPLAY
   gpu:
     <<: *base-gpu
-    image: moveit/moveit2:$ROS_DISTRO
+    image: moveit/moveit2:$DOCKER_IMAGE
     volumes:
       - moveit2-data:/root
     environment:
