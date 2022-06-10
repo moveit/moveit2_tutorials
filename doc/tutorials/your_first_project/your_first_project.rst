@@ -200,7 +200,7 @@ If it fails to find that within 10 seconds, it prints this error and terminates 
 
 The first thing we do is create the MoveGroupInterface. This object will be used to interact with move_group, which allows us to plan and execute trajectories.
 Note that this is the only mutable object that we create in this program.
-Another thing to take note of is the second interface to the ``MoveGroupInterface`` object we are creating here: ``"panda_arm"``.
+Another thing to take note of is the second argument to the ``MoveGroupInterface`` object we are creating here: ``"panda_arm"``.
 That is the group of joints as defined in the robot description that we are going to operate on with this ``MoveGroupInterface``.
 
 .. code-block:: C++
