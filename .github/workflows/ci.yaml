@@ -31,6 +31,7 @@ jobs:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
       BASEDIR: ${{ github.workspace }}/.work
       CACHE_PREFIX: ${{ matrix.env.IMAGE }}
+      AFTER_INIT: git config --global --add safe.directory "*"
 
     name: ${{ matrix.env.IMAGE }}
     runs-on: ubuntu-latest
