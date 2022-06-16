@@ -1,0 +1,7 @@
+<library path="get_collision_objects_service_capability">
+    <class name="move_group/GetCollisionObjectsCapability" type="move_group::GetCollisionObjectsCapability" base_class_type="move_group::MoveGroupCapability">
+        <description>
+            MoveGroup capability to get a list of collision objects in the planning scene
+        </description>
+    </class>
+</library>
