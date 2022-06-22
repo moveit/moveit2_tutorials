@@ -38,6 +38,8 @@
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <moveit/robot_model/robot_model.h>
 #include <moveit/robot_state/robot_state.h>
+#include <moveit/kinematics_base/kinematics_base.h>
+#include <math.h>
 
 int main(int argc, char** argv)
 {
@@ -130,10 +132,43 @@ int main(int argc, char** argv)
   //  * The desired pose of the end-effector (by default, this is the last link in the "panda_arm" chain):
   //    end_effector_state that we computed in the step above.
   //  * The timeout: 0.1 s
-  double timeout = 0.1;
-  bool found_ik = kinematic_state->setFromIK(joint_model_group, end_effector_state, timeout);
+  //
+  // We can also optionally specify:
+  //
+  //  * A constraint callback, which may check if a particular IK solution is valid
+  //  * KinematicsQueryOptions for various IK configuration
+  //  * A cost function, which is not supported by all kinematics plugins.
 
-  // Now, we can print out the IK solution (if found):
+  double timeout = 0.1;
+
+  // Here, we don't have any specific constraints, but need to specify something in order to pass options and a cost function
+  const moveit::core::GroupStateValidityCallbackFn constraint =
+      [](moveit::core::RobotState* /*robot_state*/, const moveit::core::JointModelGroup* /*joint_group*/,
+         const double* /*joint_group_variable_values*/) { return true; };
+
+  kinematics::KinematicsQueryOptions opts;
+  // optional:
+  opts.return_approximate_solution = true;
+
+  kinematics::KinematicsBase::IKCostFn cost_fn;
+
+  /* Uncomment the definition below if your IK plugin supports cost functions. If it doesn't, we can still pass
+     an empty cost function and it will be ignored. You may also remove the optional cost_fn argument from the
+     setFromIK call below. */
+
+  /*
+  // Yoshikawa manipulability cost function to optimize distance from singularities
+  cost_fn = [](const geometry_msgs::msg::Pose& pose, const moveit::core::RobotState& robot_state) {
+    double weight = 0.5;
+    auto jmg = robot_state.getJointModelGroup("panda_arm");
+    Eigen::MatrixXd jacobian = robot_state.getJacobian(jmg);
+    Eigen::MatrixXd j_jt = jacobian * jacobian.transpose();
+    // low manipulability = high cost
+    return weight / sqrt(j_jt.determinant());
+  };
+  */
+
+  bool found_ik = kinematic_state->setFromIK(joint_model_group, end_effector_state, timeout, constraint, opts, cost_fn);
   if (found_ik)
   {
     kinematic_state->copyJointGroupPositions(joint_model_group, joint_values);
