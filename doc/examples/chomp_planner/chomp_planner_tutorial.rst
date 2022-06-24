@@ -146,7 +146,7 @@ To achieve this, follow the steps:
     pseudo_inverse_ridge_factor: 1e-4
     animate_endeffector: false
     joint_update_limit: 0.1
-    collision_clearence: 0.2
+    collision_clearance: 0.2
     collision_threshold: 0.07
     random_jump_amount: 1.0
     use_stochastic_descent: true
