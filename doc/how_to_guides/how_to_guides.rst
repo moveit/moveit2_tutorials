@@ -10,3 +10,4 @@ These how-to guides will help you quickly solve specific problems using MoveIt.
    how_to_generate_api_doxygen_locally
    how_to_setup_docker_containers_in_ubuntu
    how_to_write_doxygen
+   using_ompl_constrained_planning/ompl_constrained_planning
