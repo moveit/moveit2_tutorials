@@ -84,6 +84,11 @@ shown in the right-most window. Selecting one of those solutions will start its 
 .. image:: mtc_show_stages.gif
    :width: 700px
 
+Setting up a Project with MoveIt Task Constructor
+-------------------------------------------------
+
+This section walks through the steps required to build a simple task with MoveIt Task Constructor.
+
 Create a New Package
 ^^^^^^^^^^^^^^^^^^^^
 
@@ -154,12 +159,6 @@ Also, add the dependencies to ``CMakeLists.txt``. The file should look similar t
     endif()
 
     ament_package()
-
-
-Setting up a Project with MoveIt Task Constructor
--------------------------------------------------
-
-This section walks through the code required to build a minimal task using MoveIt Task Constructor.
 
 The Code
 ^^^^^^^^
