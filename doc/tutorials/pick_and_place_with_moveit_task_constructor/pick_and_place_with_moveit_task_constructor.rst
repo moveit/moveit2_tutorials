@@ -63,7 +63,7 @@ Move into your colcon workspace and pull the MoveIt Task Constructor source: ::
     git clone git@github.com:ros-planning/moveit_task_constructor.git -b ros2
     vcs import < moveit_task_constructor/.repos
 
-3 Trying it out
+3 Trying it Out
 ------------------
 
 The MoveIt Task Constructor package contains several basic examples and a pick-and-place demo.
@@ -508,7 +508,7 @@ Finally, we have ``main``: the following lines create a node using the class def
 5 Running the Demo
 ------------------
 
-5.1 Launch files
+5.1 Launch Files
 ^^^^^^^^^^^^^^^^
 
 We will need a launch file to launch the ``move_group``, ``ros2_control``, ``static_tf``, ``robot_state_publisher``, and ``rviz`` nodes that provide us the environment to run the demo. The one we will use for this example can be found :codedir:`here<tutorials/pick_and_place_with_moveit_task_constructor/launch/mtc_demo.launch.py>`.
@@ -536,7 +536,7 @@ To run the MoveIt Task Constructor node, we need a second launch file to start t
 
         return LaunchDescription([pick_place_demo])
 
-Save a launch file as ``pick_place_demo.launch.py`` or download ours to the package's launch directory. Make sure to edit the ``CMakeLists.txt`` so it includes the launch folder by adding the following lines: ::
+Save a launch file as ``pick_place_demo.launch.py`` or download one to the package's launch directory. Make sure to edit the ``CMakeLists.txt`` so it includes the launch folder by adding the following lines: ::
 
     install(DIRECTORY launch 
       DESTINATION share/${PROJECT_NAME}
@@ -591,7 +591,7 @@ So far, we've walked through creating and executing a simple task, which runs bu
 .. image:: stages.png
    :width: 700px
 
-We will start adding stages after our existing open hand stage here:
+We will start adding stages after our existing open hand stage. Open ``mtc_node.cpp`` and locate the following lines:
 
 .. code-block:: c++
 
@@ -763,11 +763,14 @@ With this, we have all the stages needed to pick the object. Now, we add the ser
         task.add(std::move(grasp));
       }
 
+To test out the newly created stage, build the code and execute: ::
+
+  ros2 launch mtc_tutorial pick_place_demo.launch.py
 
 6.2 Place Stages
 ^^^^^^^^^^^^^^^^
 
-Now that the stages that define the pick are complete, we move on to defining the stages for placing the object. We start with a ``Connect`` stage to connect the two, as we will soon be using a generator stage to generate the pose for placing the object.
+Now that the stages that define the pick are complete, we move on to defining the stages for placing the object. Picking up where we left off, we add a ``Connect`` stage to connect the two, as we will soon be using a generator stage to generate the pose for placing the object.
 
 .. code-block:: c++
 
@@ -901,10 +904,13 @@ All these stages should be added above these lines.
       return task;
     }
 
-Congratulations! You've now defined a pick and place task using MoveIt Task Constructor!
+Congratulations! You've now defined a pick and place task using MoveIt Task Constructor! To try it out, build the code and execute: ::
 
-7 Visualizing with RViz
------------------------
+  ros2 launch mtc_tutorial pick_place_demo.launch.py
+
+
+7 Further Discussion
+--------------------
 
 The task with each comprising stage is shown in the Motion Planning Tasks pane. Click on a stage and additional information about the stage will show up to the right. The right pane shows different solutions as well as their associated costs. Depending on the stage type and the robot configuration, there may only be one solution shown.
 
@@ -918,8 +924,8 @@ And in a second terminal: ::
 
     ros2 launch moveit2_tutorials pick_place_demo.launch.py
 
-7.1 Debugging from terminal
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+7.1 Debugging Information Printed to the Terminal
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 When running MTC, it prints a diagram like this to terminal:
 
@@ -938,7 +944,7 @@ The second stage ("move_to_home") is a ``MoveTo`` type of stage. It inherits its
 
 In this case, we could tell that "move_to_home" was the root cause of the failure. The problem was a home state that was in collision. Defining a new, collision-free home position fixed the issue.
 
-7.2 Various hints
+7.2 Stages
 ^^^^^^^^^^^^^^^^^
 
 Information about individual stages can be retrieved from the task. For example, here we retrieve the unique ID for a stage: ::
