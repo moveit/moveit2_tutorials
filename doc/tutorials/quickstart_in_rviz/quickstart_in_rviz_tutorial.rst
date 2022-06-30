@@ -167,7 +167,6 @@ Step 4: Use Motion Planning with the Panda
 
   * Un-check the **Show Trail** checkbox in the **Planned Path** tree menu.
 
-
 * In the **MotionPlanning** window under the **Planning** tab, press the **Plan** button. 
 
 * Check the **Show Trail** checkbox in the **Planned Path** tree menu. You should see the arm's path represented by a series of manipulator poses.
