@@ -1,6 +1,5 @@
 How to Contribute Doxygen Comments
-----------------------------------
-
+==================================
 
 This guide will provide an introduction and overview to good practices for contributing Doxygen comments.
 
