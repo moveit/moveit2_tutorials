@@ -8,8 +8,10 @@ def generate_launch_description():
 
     # MTC Demo node
     pick_place_demo = Node(
-        package="mtc_tutorial",
-        executable="mtc_node",
+        # package="mtc_tutorial",
+        # executable="mtc_node",
+        package="moveit2_tutorials",
+        executable="mtc_tutorial",
         output="screen",
         parameters=[
             moveit_config,

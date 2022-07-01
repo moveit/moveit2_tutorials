@@ -63,7 +63,7 @@ Move into your colcon workspace and pull the MoveIt Task Constructor source: ::
     git clone git@github.com:ros-planning/moveit_task_constructor.git -b ros2
     vcs import < moveit_task_constructor/.repos
 
-3 Trying it Out
+3 Trying It Out
 ------------------
 
 The MoveIt Task Constructor package contains several basic examples and a pick-and-place demo.
@@ -454,7 +454,7 @@ Solvers are used to define the type of robot motion. MoveIt Task Constructor has
 
         auto cartesian_planner = std::make_shared<mtc::solvers::CartesianPath>();
 
-Here, we set some properties specific for to the Cartesian planner.
+Feel free to try out the different solvers and see how the robot motion changes. For this tutorial we will use the Cartesian planner, which requires the following properties to be set:
 
 .. code-block:: c++
 
@@ -513,7 +513,7 @@ Finally, we have ``main``: the following lines create a node using the class def
 
 We will need a launch file to launch the ``move_group``, ``ros2_control``, ``static_tf``, ``robot_state_publisher``, and ``rviz`` nodes that provide us the environment to run the demo. The one we will use for this example can be found :codedir:`here<tutorials/pick_and_place_with_moveit_task_constructor/launch/mtc_demo.launch.py>`.
 
-To run the MoveIt Task Constructor node, we need a second launch file to start the ``mtc_tutorial`` executable with the proper parameters. Either load URDF, SRDF, and OMPL parameters, or use MoveIt Configs Utils to do so. Your launch file should look something like the one found in this tutorial package :codedir:`here <tutorials/pick_and_place_with_moveit_task_constructor/launch/pick_place_demo.launch.py>` (pay close attention to the ``package`` and ``executable`` arguments below as they are different from the launch file linked) :
+To run the MoveIt Task Constructor node, we will use a second launch file to start the ``mtc_tutorial`` executable with the proper parameters. Here we can load URDF, SRDF, and OMPL parameters, or use MoveIt Configs Utils to do so. Your launch file should look something like the one found in this tutorial package :codedir:`here <tutorials/pick_and_place_with_moveit_task_constructor/launch/pick_place_demo.launch.py>` (pay close attention to the ``package`` and ``executable`` arguments below as they are different from the launch file linked) :
 
 .. code-block:: python
 
@@ -528,6 +528,8 @@ To run the MoveIt Task Constructor node, we need a second launch file to start t
         pick_place_demo = Node(
             package="mtc_tutorial",
             executable="mtc_node",
+            # package="moveit2_tutorials",
+            # executable="mtc_tutorial",
             output="screen",
             parameters=[
                 moveit_config,
