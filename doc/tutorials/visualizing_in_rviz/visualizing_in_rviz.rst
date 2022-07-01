@@ -61,16 +61,23 @@ This is necessary because of how MoveItVisualTools interacts with ROS services a
 
   #include <thread>  // <---- add this to the set of includes at the top
 
+By creating and naming loggers we are able to keep our program logs organized.
+
+  .. code-block:: C++
+
+    // Create a ROS logger
+    auto const logger = rclcpp::get_logger("hello_moveit");
+
 Next add your executor before creating the MoveIt MoveGroup Interface.
 
 .. code-block:: C++
 
-  // Spin up a SingleThreadedExecutor for MoveItVisualTools to interact with ROS
-  rclcpp::executors::SingleThreadedExecutor executor;
-  executor.add_node(node);
-  auto spinner = std::thread([&executor]() { executor.spin(); });
+    // Spin up a SingleThreadedExecutor for MoveItVisualTools to interact with ROS
+    rclcpp::executors::SingleThreadedExecutor executor;
+    executor.add_node(node);
+    auto spinner = std::thread([&executor]() { executor.spin(); });
 
-  // Create the MoveIt MoveGroup Interface
+    // Create the MoveIt MoveGroup Interface
 
   ...
 
@@ -78,10 +85,10 @@ Finally make sure to join the thread before exiting.
 
 .. code-block:: C++
 
-  // Shutdown ROS
-  rclcpp::shutdown();  // <--- This will cause the spin function in the thread to return
-  spinner.join();  // <--- Join the thread before exiting
-  return 0;
+    // Shutdown ROS
+    rclcpp::shutdown();  // <--- This will cause the spin function in the thread to return
+    spinner.join();  // <--- Join the thread before exiting
+    return 0;
 
 After making these changes, rebuild your workspace to make sure you don't have any syntax errors.
 
