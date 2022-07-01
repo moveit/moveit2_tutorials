@@ -99,7 +99,7 @@ Create a new package with the following command: ::
     --dependencies moveit_task_constructor_core rclcpp \
     --node-name mtc_node mtc_tutorial
 
-This will create a new package and folder called ``mtc_tutorial`` with a dependancy on ``moveit_task_constructor_core`` as well as a hello world example in ``src/mtc_node``.
+This will create a new package and folder called ``mtc_tutorial`` with a dependency on ``moveit_task_constructor_core`` as well as a hello world example in ``src/mtc_node``.
 
 4.2 The Code
 ^^^^^^^^^^^^
@@ -538,7 +538,7 @@ To run the MoveIt Task Constructor node, we need a second launch file to start t
 
 Save a launch file as ``pick_place_demo.launch.py`` or download one to the package's launch directory. Make sure to edit the ``CMakeLists.txt`` so it includes the launch folder by adding the following lines: ::
 
-    install(DIRECTORY launch 
+    install(DIRECTORY launch
       DESTINATION share/${PROJECT_NAME}
       )
 
