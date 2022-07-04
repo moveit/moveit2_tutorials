@@ -81,7 +81,7 @@ Next add your executor before creating the MoveIt MoveGroup Interface.
 
   ...
 
-Finally make sure to join the thread before exiting.
+Finally, make sure to join the thread before exiting.
 
 .. code-block:: C++
 
