@@ -945,7 +945,7 @@ The second stage ("move_to_home") is a ``MoveTo`` type of stage. It inherits its
 In this case, we could tell that "move_to_home" was the root cause of the failure. The problem was a home state that was in collision. Defining a new, collision-free home position fixed the issue.
 
 7.2 Stages
-^^^^^^^^^^^^^^^^^
+^^^^^^^^^^
 
 Information about individual stages can be retrieved from the task. For example, here we retrieve the unique ID for a stage: ::
 
