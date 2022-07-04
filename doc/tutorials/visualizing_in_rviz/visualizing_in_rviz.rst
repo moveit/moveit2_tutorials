@@ -68,7 +68,7 @@ By creating and naming loggers we are able to keep our program logs organized.
     // Create a ROS logger
     auto const logger = rclcpp::get_logger("hello_moveit");
 
-Next add your executor before creating the MoveIt MoveGroup Interface.
+Next, add your executor before creating the MoveIt MoveGroup Interface.
 
 .. code-block:: C++
 
