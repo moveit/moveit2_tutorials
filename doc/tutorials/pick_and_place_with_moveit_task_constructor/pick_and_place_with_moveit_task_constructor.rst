@@ -454,7 +454,7 @@ Solvers are used to define the type of robot motion. MoveIt Task Constructor has
 
         auto cartesian_planner = std::make_shared<mtc::solvers::CartesianPath>();
 
-Feel free to try out the different solvers and see how the robot motion changes. For this tutorial we will use the Cartesian planner, which requires the following properties to be set:
+Feel free to try out the different solvers and see how the robot motion changes. For the first stage we will use the Cartesian planner, which requires the following properties to be set:
 
 .. code-block:: c++
 
@@ -528,8 +528,6 @@ To run the MoveIt Task Constructor node, we will use a second launch file to sta
         pick_place_demo = Node(
             package="mtc_tutorial",
             executable="mtc_node",
-            # package="moveit2_tutorials",
-            # executable="mtc_tutorial",
             output="screen",
             parameters=[
                 moveit_config,
