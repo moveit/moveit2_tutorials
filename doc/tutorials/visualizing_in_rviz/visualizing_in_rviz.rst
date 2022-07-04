@@ -55,7 +55,7 @@ To test that this all worked, open a terminal in the workspace directory (rememb
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Before we can initialize MoveItVisualTools, we need to have a executor spinning on our ROS node.
-This is necessary because of how MoveItVisualTools interacts with ROS services and topics. First add the threading library to your includes at the top
+This is necessary because of how MoveItVisualTools interacts with ROS services and topics. First, add the threading library to your includes at the top
 
 .. code-block:: C++
 
