@@ -61,7 +61,7 @@ This is necessary because of how MoveItVisualTools interacts with ROS services a
 
   #include <thread>  // <---- add this to the set of includes at the top
 
-By creating and naming loggers we are able to keep our program logs organized.
+By creating and naming loggers, we are able to keep our program logs organized.
 
   .. code-block:: C++
 
