@@ -126,7 +126,7 @@ After we've constructed and initialized, we now create some closures (function o
     auto const draw_title = [&moveit_visual_tools](auto text) {
       auto const text_pose = [] {
         auto msg = Eigen::Isometry3d::Identity();
-        msg.translation().z() = 1.0; //Place text 1m above the base link
+        msg.translation().z() = 1.0;  // Place text 1m above the base link
         return msg;
       }();
       moveit_visual_tools.publishText(text_pose, text, rviz_visual_tools::WHITE,
