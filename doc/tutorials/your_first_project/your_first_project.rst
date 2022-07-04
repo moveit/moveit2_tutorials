@@ -113,7 +113,7 @@ After that, we have the normal call to initialize rclcpp, and then we create our
 The first argument is a string that ROS will use to name a unique node.
 The second is needed for MoveIt because of how we use ROS Parameters.
 
-Next we `create a logger <https://docs.ros.org/en/humble/Tutorials/Demos/Logging-and-logger-configuration.html>`_ named "hello_moveit" to keep our log outputs organized and configurable.
+Next, we `create a logger <https://docs.ros.org/en/humble/Tutorials/Demos/Logging-and-logger-configuration.html>`_ named "hello_moveit" to keep our log outputs organized and configurable.
 
 .. code-block:: C++
 
