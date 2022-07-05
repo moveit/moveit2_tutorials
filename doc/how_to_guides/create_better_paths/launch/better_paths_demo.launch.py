@@ -29,7 +29,7 @@ def generate_launch_description():
     # RViz
     rviz_config_file = (
         get_package_share_directory("moveit2_tutorials")
-        + "/launch/moveit_cpp_tutorial.rviz"
+        + "/config/better_paths_config.rviz"
     )
     rviz_node = Node(
         package="rviz2",
