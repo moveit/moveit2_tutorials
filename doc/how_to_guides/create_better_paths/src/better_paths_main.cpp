@@ -61,7 +61,7 @@ int main(int argc, char** argv)
 
   Eigen::Isometry3d text_pose = Eigen::Isometry3d::Identity();
   text_pose.translation().z() = 1.75;
-  visual_tools.publishText(text_pose, "MoveItCpp_Demo", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishText(text_pose, "Better Paths Tutorial", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
@@ -94,8 +94,8 @@ auto analyzeResult = [&](std::vector<moveit_cpp::PlanningComponent::PlanSolution
 
 // Path similarity
 
-  RCLCPP_INFO_STREAM(LOGGER, "Average path length (sum of average L1 norm): '" << average_traj_len << " rad'");
-  RCLCPP_INFO_STREAM(LOGGER, "Average path similarity: '" << average_traj_len << "'");
+  RCLCPP_INFO_STREAM(LOGGER, "Average path length (sum of L1 norms): '" << average_traj_len << " rad'");
+  RCLCPP_INFO_STREAM(LOGGER, "Average path similarity: '" << average_path_simularity << "'");
 };
 
 // Some helper functions
@@ -160,11 +160,71 @@ auto setCartGoal = [&](double const x, double const y, double const z, double co
   planning_components->setGoal(target_pose, "panda_link8");
 };
 
+auto add_collision_objects = [&](){
+  moveit_msgs::msg::CollisionObject collision_object_1;
+  moveit_msgs::msg::CollisionObject collision_object_2;
+  moveit_msgs::msg::CollisionObject collision_object_3;
+
+  collision_object_1.header.frame_id = "panda_link0";
+  collision_object_1.id = "box1";
+
+  collision_object_2.header.frame_id = "panda_link0";
+  collision_object_2.id = "box2";
+
+  collision_object_3.header.frame_id = "panda_link0";
+  collision_object_3.id = "box3";
+
+  shape_msgs::msg::SolidPrimitive box_1;
+  box_1.type = box_1.BOX;
+  box_1.dimensions = { 0.01, 0.12, 1.0 };
+
+  shape_msgs::msg::SolidPrimitive box_2;
+  box_2.type = box_2.BOX;
+  box_2.dimensions = { 0.01, 1.0, 0.2 };
+
+  // Add new collision objects
+  geometry_msgs::msg::Pose box_pose_1;
+  box_pose_1.position.x = 0.2;
+  box_pose_1.position.y = 0.2;
+  box_pose_1.position.z = 0.7;
+
+  collision_object_1.primitives.push_back(box_1);
+  collision_object_1.primitive_poses.push_back(box_pose_1);
+  collision_object_1.operation = collision_object_1.ADD;
+
+  geometry_msgs::msg::Pose box_pose_2;
+  box_pose_2.position.x = 0.2;
+  box_pose_2.position.y = -0.2;
+  box_pose_2.position.z = 0.7;
+
+  collision_object_2.primitives.push_back(box_1);
+  collision_object_2.primitive_poses.push_back(box_pose_2);
+  collision_object_2.operation = collision_object_2.ADD;
+
+  geometry_msgs::msg::Pose box_pose_3;
+  box_pose_3.position.x = -0.1;
+  box_pose_3.position.y = 0.0;
+  box_pose_3.position.z = 0.85;
+
+  collision_object_3.primitives.push_back(box_2);
+  collision_object_3.primitive_poses.push_back(box_pose_3);
+  collision_object_3.operation = collision_object_3.ADD;
+
+  // Add object to planning scene
+  {  // Lock PlanningScene
+    planning_scene_monitor::LockedPlanningSceneRW scene(moveit_cpp_ptr->getPlanningSceneMonitor());
+    scene->processCollisionObjectMsg(collision_object_1);
+    scene->processCollisionObjectMsg(collision_object_2);
+    scene->processCollisionObjectMsg(collision_object_3);
+  }  // Unlock PlanningScene
+};
+
   // Experiment 0 - Long motion - Joint goal
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 RCLCPP_INFO(LOGGER, "################ Long motion - Joint goal ##############");
 setJointGoal(-2.583184932292678, -0.290335965663780, -1.030661387231159, -2.171781392507914, 2.897232510573447, 1.1244922991023616, 2.708936891424673);
 
+add_collision_objects();
 printAndPlan(3, false);
 
   // Experiment 0 - Long motion - Cartesian goal
@@ -198,6 +258,8 @@ RCLCPP_INFO(LOGGER, "################ Same pose - Joint goal ##############");
 setJointGoal(0.0, -0.785, 0.0, -2.356, 0.0, 1.571, 0.785);
 
 printAndPlan(3, false);
+
+
 
 
   RCLCPP_INFO(LOGGER, "Shutting down.");
