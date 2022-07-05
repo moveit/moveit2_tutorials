@@ -69,29 +69,67 @@ int main(int argc, char** argv)
   planning_components->setStartStateToCurrentState();
 
 
+// Benchmark function
+// Compute and print average path length, path similarity
+auto analyzeResult = [&](std::vector<moveit_cpp::PlanningComponent::PlanSolution> solutions){
+
+  // Adapted from https://github.com/ros-planning/moveit2/blob/main/moveit_ros/benchmarks/src/BenchmarkExecutor.cpp#L872
+  // Analyzing the trajectories geometrically
+  auto average_traj_len = 0.0;
+  auto average_path_simularity = 0.0;
+
+  // Calculate average path length
+  for(auto solution : solutions){
+    // Only process successful solutions
+    if(solution.error_code == moveit::core::MoveItErrorCode::SUCCESS){
+      // Compute path length
+      for (std::size_t index = 1; index < solution.trajectory->getWayPointCount(); ++index)
+        average_traj_len += solution.trajectory->getWayPoint(index - 1).distance(solution.trajectory->getWayPoint(index));
+    }
+    }
+
+  if(solutions.size() > 0){
+    average_traj_len /= solutions.size();
+  }
+
+// Path similarity
+
+  RCLCPP_INFO_STREAM(LOGGER, "Average path length (sum of average L1 norm): '" << average_traj_len << " rad'");
+  RCLCPP_INFO_STREAM(LOGGER, "Average path similarity: '" << average_traj_len << "'");
+};
+
 // Some helper functions
 auto printAndPlan = [&](auto num_iterations, auto execute = false){
+  std::vector<moveit_cpp::PlanningComponent::PlanSolution> solutions;
+  solutions.reserve(num_iterations);
   for(auto i = 0; i < num_iterations; i++)
   {
-      planning_components->setStartStateToCurrentState();
+    planning_components->setStartStateToCurrentState();
 
-  auto plan_solution2 = planning_components->plan();
+    auto plan_solution = planning_components->plan();
 
     // Check if PlanningComponents succeeded in finding the plan
-    if (plan_solution2)
+    if (plan_solution)
     {
       // Visualize the trajectory in Rviz
-      visual_tools.publishTrajectoryLine(plan_solution2.trajectory, joint_model_group_ptr);
+      visual_tools.publishTrajectoryLine(plan_solution.trajectory, joint_model_group_ptr);
       visual_tools.trigger();
+      solutions.push_back(plan_solution);
     }
     // Start the next plan
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
     visual_tools.deleteAllMarkers();
     visual_tools.trigger();
-    if(execute)
-    {
-    planning_components->execute();}
-    }};
+      if(execute)
+      {
+        planning_components->execute();
+      }
+
+    }
+
+    // Print result
+    analyzeResult(solutions);
+    };
 
 auto setJointGoal = [&](double const panda_joint1, double const panda_joint2, 
   double const panda_joint3, double const panda_joint4, double const panda_joint5,
@@ -115,7 +153,7 @@ auto setCartGoal = [&](double const x, double const y, double const z, double co
   target_pose.pose.orientation.x = qx;
   target_pose.pose.orientation.y = qy;
   target_pose.pose.orientation.z = qz;
-  target_pose.pose.orientation.w = qw;
+  target_pose.pose.orientation.w = qx;
   target_pose.pose.position.x = x;
   target_pose.pose.position.y = y;
   target_pose.pose.position.z = z;
@@ -132,7 +170,7 @@ printAndPlan(3, false);
   // Experiment 0 - Long motion - Cartesian goal
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 RCLCPP_INFO(LOGGER, "################ Long motion - Cartesian goal ##############");
-setCartGoal(-0.013696,0.005568,-0.38056,0.92464,-0.42889,0.26552,0.6666);
+setCartGoal(-0.42889,0.26552,0.6666,-0.013696,0.005568,-0.38056,0.92464);
 printAndPlan(3, false);
 
 
@@ -145,20 +183,21 @@ printAndPlan(3, false);
   // Experiment 1 - Short motion - Joint goal
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 RCLCPP_INFO(LOGGER, "################ Short motion - Joint goal ##############");
-setJointGoal(2.8886513579712823, 0.3875018855212286, -2.876892569361917, 2.886120885454169, 0.6383841437770176, 0.4312752220542212, 2.720914148047324);
-printAndPlan(3, true);
+setJointGoal(2.8886513579712823, 0.3875018855212286, 2.720914148047324, -2.876892569361917, 2.886120885454169, 0.6383841437770176, 0.4312752220542212);
+printAndPlan(3, false);
 
 
 
   // Experiment 2 - Same pose - Cartesian goal
   // ^^^^^
 RCLCPP_INFO(LOGGER, "################ Same pose - Cartesian goal ##############");
-setJointGoal(2.8886513579712823, 0.3875018855212286, -2.876892569361917, 2.886120885454169, 0.6383841437770176, 0.4312752220542212, 2.720914148047324);
-printAndPlan(3, true);
+setCartGoal(0.30702, -5.2214e-12, 0.59027, 0.92396, -0.3825, 1.3251e-12, 3.2002e-12);
+printAndPlan(3, false);
 
 RCLCPP_INFO(LOGGER, "################ Same pose - Joint goal ##############");
-setJointGoal(2.8886513579712823, 0.3875018855212286, -2.876892569361917, 2.886120885454169, 0.6383841437770176, 0.4312752220542212, 2.720914148047324);
-printAndPlan(3, true);
+setJointGoal(0.0, -0.785, 0.0, -2.356, 0.0, 1.571, 0.785);
+
+printAndPlan(3, false);
 
 
   RCLCPP_INFO(LOGGER, "Shutting down.");
