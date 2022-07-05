@@ -219,21 +219,6 @@ auto add_collision_objects = [&](){
   }  // Unlock PlanningScene
 };
 
-  // Experiment 0 - Long motion - Joint goal
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RCLCPP_INFO(LOGGER, "################ Long motion - Joint goal ##############");
-setJointGoal(-2.583184932292678, -0.290335965663780, -1.030661387231159, -2.171781392507914, 2.897232510573447, 1.1244922991023616, 2.708936891424673);
-
-add_collision_objects();
-printAndPlan(3, false);
-
-  // Experiment 0 - Long motion - Cartesian goal
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RCLCPP_INFO(LOGGER, "################ Long motion - Cartesian goal ##############");
-setCartGoal(-0.42889,0.26552,0.6666,-0.013696,0.005568,-0.38056,0.92464);
-printAndPlan(3, false);
-
-
   // Experiment 1 - Short motion - Cartesian goal
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 RCLCPP_INFO(LOGGER, "################ Short motion - Cartesian goal ##############");
@@ -257,6 +242,32 @@ printAndPlan(3, false);
 RCLCPP_INFO(LOGGER, "################ Same pose - Joint goal ##############");
 setJointGoal(0.0, -0.785, 0.0, -2.356, 0.0, 1.571, 0.785);
 
+printAndPlan(3, false);
+
+  // Experiment 3 - Long motion freespace - Joint goal
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RCLCPP_INFO(LOGGER, "################ Long motion - Joint goal ##############");
+setJointGoal(-2.583184932292678, -0.290335965663780, -1.030661387231159, -2.171781392507914, 2.897232510573447, 1.1244922991023616, 2.708936891424673);
+
+printAndPlan(3, false);
+
+  // Experiment 3 - Long motion freespace - Cartesian goal
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RCLCPP_INFO(LOGGER, "################ Long motion - Cartesian goal ##############");
+setCartGoal(-0.42889,0.26552,0.6666,-0.013696,0.005568,-0.38056,0.92464);
+printAndPlan(3, false);
+
+  // Experiment 4 - Long motion with collisions - Joint goal
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RCLCPP_INFO(LOGGER, "################ Long motion - Joint goal ##############");
+add_collision_objects();
+setJointGoal(-2.583184932292678, -0.290335965663780, -1.030661387231159, -2.171781392507914, 2.897232510573447, 1.1244922991023616, 2.708936891424673);
+printAndPlan(3, false);
+
+  // Experiment 4 - Long motion with collisions - Cartesian goal
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RCLCPP_INFO(LOGGER, "################ Long motion - Cartesian goal ##############");
+setCartGoal(-0.42889,0.26552,0.6666,-0.013696,0.005568,-0.38056,0.92464);
 printAndPlan(3, false);
 
 
