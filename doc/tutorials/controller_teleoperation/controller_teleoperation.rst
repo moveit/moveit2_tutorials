@@ -44,7 +44,7 @@ Steps
 Launch File
 -----------
 
-The file that launches this example is 
+The file that launches this example is
 ``ws_moveit2/src/moveit2/moveit_ros/moveit_servo/launch/servo_example.launch.py``
 
 This launch file launches everything needed for the panda arm planning, and also launches the ``joy`` node and the ``JoyToServoPub`` node (which is explained below).
@@ -66,7 +66,7 @@ They are both created as ``ComposableNode``\s. More information about ``Composab
   )
 
 
-test 
+test
 JoyToServoPub
 -------------
 
@@ -77,13 +77,12 @@ This node subscribes to the joy node (which publishes messages giving the state 
 
 The ``PlanningScene`` message is only published once, when the JoyToServoPub is first constructed. It simply adds some obstacles into the planning scene.
 
-The difference between the ``JointJog`` and ``TwistStamped`` messages is 
-that the inverse kinematic solver moves the joints to achieve the end 
-effector motions defined by the ``TwistStamped`` messages, while the 
+The difference between the ``JointJog`` and ``TwistStamped`` messages is
+that the inverse kinematic solver moves the joints to achieve the end
+effector motions defined by the ``TwistStamped`` messages, while the
 ``JointJog`` messages directly move individual joints.
 
-The ``joyCB`` function is called when a message is published to the ``joy`` 
-topic, and translates the button presses from the controller into commands 
-for the arm. If both ``JointJog`` and ``TwistStamped`` messages would be 
+The ``joyCB`` function is called when a message is published to the ``joy``
+topic, and translates the button presses from the controller into commands
+for the arm. If both ``JointJog`` and ``TwistStamped`` messages would be
 published by the inputs, only ``JointJog`` messages are published.
-
