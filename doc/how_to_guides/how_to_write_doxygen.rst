@@ -17,6 +17,8 @@ One of the primary benefits of Doxygen is that it allows for automatic generatio
 
 
 Plugins exist to automate the creation of Doxygen documentation for
+
+
 - `SublimeText <https://packagecontrol.io/packages/DoxyDoxygen>`_
 - `VIM <https://www.vim.org/scripts/script.php?script_id=987>`_
 - `VSCode <https://marketplace.visualstudio.com/items?itemName=cschlosser.doxdocgen>`_
