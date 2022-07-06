@@ -25,17 +25,24 @@ Steps
   Then, run ``colcon build``.
 
 2. Plug in your controller adapter.
-3. Launch the ``moveit_servo`` example file.
+3. Source the install script and run the ``moveit_servo`` example file.
 
-  Run ``ros2 launch moveit_servo servo_example.launch.py``
+  Run ``source install/setup.bash``, then ``ros2 launch moveit_servo servo_example.launch.py``
 
 4. Move the arm around, using the below image as a guide.
 
   .. image:: xboxcontroller.png
     :width: 600px
 
-Launch File
+The drawio document can be seen `here <https://drive.google.com/file/d/1Hr3ZLvkYo0y0fA3Qb1Nk_y7wag4UO8Al/view?usp=sharing>`__.
+
+Explanation
 -----------
+
+This section explains the launch file and the node that translates controller inputs to motion commands.
+
+Launch File
+^^^^^^^^^^^
 
 The file that launches this example is
 ``ws_moveit2/src/moveit2/moveit_ros/moveit_servo/launch/servo_example.launch.py``
@@ -59,9 +66,9 @@ They are both created as ``ComposableNode``\s. More information about ``Composab
   )
 
 JoyToServoPub
--------------
+^^^^^^^^^^^^^
 
-The node that turns controller inputs into servo commands is
+The node that translates controller inputs to motion commands
 ``ws_moveit2/src/moveit2/moveit_ros/moveit_servo/src/teleop_demo/joystick_servo_example.cpp``
 
 This node subscribes to the joy node (which publishes messages giving the state of the controller). It publishes ``TwistStamped`` messages, ``JointJog`` messages, and ``PlanningScene`` messages.
