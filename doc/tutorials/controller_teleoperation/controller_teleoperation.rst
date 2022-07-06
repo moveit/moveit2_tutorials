@@ -5,15 +5,7 @@ This tutorial will introduce you to using a controller to move the panda arm.
 
 Prerequisites
 -------------
-Explain pubs, subs, and services used as well as convert joy cmd and relevant portion of launch file
-
 If you haven't already done so, make sure you've completed the steps in :doc:`Visualizing in RViz </doc/tutorials/visualizing_in_rviz/visualizing_in_rviz>`.
-This project assumes you are starting with the ``hello_moveit`` project, where the previous tutorial left off.
-
-This guide explains how to write tutorials for the MoveIt documentation.
-Tutorials are one of the most useful contributions you can make because they are the first thing many new users see.
-This guide is intended for any contributor who wants to submit a new tutorial.
-There are many additional quality standards and how-tos for contributing to the tutorials located in this repository's `README <https://github.com/ros-planning/moveit2_tutorials/blob/main/README.md>`_.
 
 Requirements
 ------------
@@ -66,8 +58,6 @@ They are both created as ``ComposableNode``\s. More information about ``Composab
       name="joy_node",
   )
 
-
-test
 JoyToServoPub
 -------------
 
