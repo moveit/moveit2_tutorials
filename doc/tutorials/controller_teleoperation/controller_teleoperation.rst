@@ -51,7 +51,7 @@ The file that launches this example is
 This launch file launches everything needed for the panda arm planning, and also launches the ``joy`` node and the ``JoyToServoPub`` node (which is explained below).
 
 Of primary interest is the section of code that launches the joy and ``JoyToServoPub`` nodes.
-They are both created as ``ComposableNode``\s. More information about ``ComposableNode``\s can be found `here <https://roscon.ros.org/2019/talks/roscon2019_composablenodes.pdf>`_ and `here <https://medium.com/@waleedmansoor/understanding-ros-nodelets-c43a11c8169e>`_.
+They are both created as ``ComposableNode``\s. More information about ``ComposableNode``\s can be found `here <https://roscon.ros.org/2019/talks/roscon2019_composablenodes.pdf>`__ and `here <https://medium.com/@waleedmansoor/understanding-ros-nodelets-c43a11c8169e>`__.
 
 .. code-block:: python
 
