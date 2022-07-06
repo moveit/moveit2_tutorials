@@ -142,26 +142,26 @@ By default the planning algorithms start from scratch for each motion planning r
 
     PersistentLazyPRMstar: # use this with a representative environment to create a roadmap
         type: geometric::LazyPRMstar
-        multi_query_planning_enabled: true
-        store_planner_data: true
-        load_planner_data: false
+        multi_query_planning_enabled: 1
+        store_planner_data: 1
+        load_planner_data: 0
         planner_data_path: /tmp/roadmap.graph
     PersistentLazyPRM: # use this to load a previously created roadmap
         type: geometric::LazyPRM
-        multi_query_planning_enabled: true
-        store_planner_data: false
-        load_planner_data: true
+        multi_query_planning_enabled: 1
+        store_planner_data: 0
+        load_planner_data: 1
         planner_data_path: /tmp/roadmap.graph
     SemiPersistentLazyPRMstar: # reuses roadmap during lifetime of node but doesn't save/load roadmap to/from disk
         type: geometric::LazyPRMstar
-        multi_query_planning_enabled: true
-        store_planner_data: false
-        load_planner_data: false
+        multi_query_planning_enabled: 1
+        store_planner_data: 0
+        load_planner_data: 0
     SemiPersistentLazyPRM: # reuses roadmap during lifetime of node but doesn't save/load roadmap to/from disk
         type: geometric::LazyPRM
-        multi_query_planning_enabled: true
-        store_planner_data: false
-        load_planner_data: false
+        multi_query_planning_enabled: 1
+        store_planner_data: 0
+        load_planner_data: 0
 
 The first planner configuration, ``PersistentLazyPRMstar``, will use LazyPRM* to keep growing a roadmap of asymptotically optimal paths between sampled robot configurations with each motion planning request. Upon destruction of the planner instance, it will save the roadmap to disk. The ``PersistentLazyPRM`` configuration is similar, except it will *load* a roadmap from disk but not *save* it upon destruction. The ``SemiPersistent`` planner configurations do not load/save roadmaps, but do keep extending a roadmap with each motion planning request (rather than the default behavior of clearing it before planning). The four planners that support the persistent planning features are: PRM, PRM*, LazyPRM, and LazyPRM*. The critical difference between them is that the lazy variants will re-validate the validity of nodes and edges as needed when searching the roadmap for a valid path. The non-lazy variants will not check if the roadmap is still valid for the current environment. In other words, use the non-lazy variants for static environments, the lazy variants for environments with small changes, and a non-persistent planner if the environment can change significantly.
 
