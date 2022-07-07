@@ -5,7 +5,10 @@ This guide will introduce you to using a gamepad to move the panda arm.
 
 Prerequisites
 -------------
-If you haven't already done so, make sure you've completed the steps in :doc:`Visualizing in RViz </doc/tutorials/visualizing_in_rviz/visualizing_in_rviz>`.
+Make sure your workspace has the required packages installed and that you
+have a gamepad supported by ROS2 joy. This can be tested by launching a
+``joy`` node and then running ``ros2 topic echo /joy`` to ensure your
+gamepad is detected by ``joy``.
 
 Requirements
 ------------
@@ -71,7 +74,7 @@ JoyToServoPub
 The node that translates gamepad inputs to motion commands is
 ``ws_moveit2/src/moveit2/moveit_ros/moveit_servo/src/teleop_demo/joystick_servo_example.cpp``
 
-This node subscribes to the joy node (which publishes messages giving the state of the controller). It publishes ``TwistStamped`` messages, ``JointJog`` messages, and ``PlanningScene`` messages.
+This node subscribes to the joy node (which publishes messages giving the state of the gamepad). It publishes ``TwistStamped`` messages, ``JointJog`` messages, and ``PlanningScene`` messages.
 
 The ``PlanningScene`` message is only published once, when the JoyToServoPub is first constructed. It simply adds some obstacles into the planning scene.
 
