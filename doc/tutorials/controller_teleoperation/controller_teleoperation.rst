@@ -39,7 +39,7 @@ The drawio document can be seen `here <https://drive.google.com/file/d/1Hr3ZLvkY
 Explanation
 -----------
 
-This section explains the launch file and the node that translates controller inputs to motion commands.
+This section explains the launch file and the node that translates gamepad inputs to motion commands.
 
 Launch File
 ^^^^^^^^^^^
@@ -68,7 +68,7 @@ They are both created as ``ComposableNode``\s. More information about ``Composab
 JoyToServoPub
 ^^^^^^^^^^^^^
 
-The node that translates controller inputs to motion commands is
+The node that translates gamepad inputs to motion commands is
 ``ws_moveit2/src/moveit2/moveit_ros/moveit_servo/src/teleop_demo/joystick_servo_example.cpp``
 
 This node subscribes to the joy node (which publishes messages giving the state of the controller). It publishes ``TwistStamped`` messages, ``JointJog`` messages, and ``PlanningScene`` messages.
@@ -81,6 +81,6 @@ effector motions defined by the ``TwistStamped`` messages, while the
 ``JointJog`` messages directly move individual joints.
 
 The ``joyCB`` function is called when a message is published to the ``joy``
-topic, and translates the button presses from the controller into commands
+topic, and translates the button presses from the gamepad into commands
 for the arm. If both ``JointJog`` and ``TwistStamped`` messages would be
 published by the inputs, only ``JointJog`` messages are published.
