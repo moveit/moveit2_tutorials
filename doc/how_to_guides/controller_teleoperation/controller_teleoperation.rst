@@ -1,5 +1,5 @@
-How to Teleoperate with a Gamepad
-=================================
+How to Teleoperate a Robotic Arm with a Gamepad
+===============================================
 
 This guide will introduce you to using a gamepad to move the panda arm.
 
