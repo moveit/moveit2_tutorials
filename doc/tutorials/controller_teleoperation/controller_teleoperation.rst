@@ -24,7 +24,7 @@ Steps
 
   Then, run ``colcon build``.
 
-2. Plug in your controller adapter.
+2. Plug in your gamepad.
 3. Source the install script and run the ``moveit_servo`` example file.
 
   Run ``source install/setup.bash``, then ``ros2 launch moveit_servo servo_example.launch.py``
