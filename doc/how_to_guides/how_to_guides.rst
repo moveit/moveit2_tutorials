@@ -12,4 +12,5 @@ These how-to guides will help you quickly solve specific problems using MoveIt.
    how_to_write_doxygen
    using_ompl_constrained_planning/ompl_constrained_planning
    parallel_planning/parallel_planning_tutorial
+   chomp_planner/chomp_planner_tutorial
    controller_teleoperation/controller_teleoperation
