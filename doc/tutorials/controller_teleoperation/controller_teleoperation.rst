@@ -1,7 +1,7 @@
 Teleoperation with a Gamepad
 ===============================
 
-This tutorial will introduce you to using a controller to move the panda arm.
+This tutorial will introduce you to using a gamepad to move the panda arm.
 
 Prerequisites
 -------------
