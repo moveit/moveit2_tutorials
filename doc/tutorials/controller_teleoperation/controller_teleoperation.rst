@@ -68,7 +68,7 @@ They are both created as ``ComposableNode``\s. More information about ``Composab
 JoyToServoPub
 ^^^^^^^^^^^^^
 
-The node that translates controller inputs to motion commands
+The node that translates controller inputs to motion commands is
 ``ws_moveit2/src/moveit2/moveit_ros/moveit_servo/src/teleop_demo/joystick_servo_example.cpp``
 
 This node subscribes to the joy node (which publishes messages giving the state of the controller). It publishes ``TwistStamped`` messages, ``JointJog`` messages, and ``PlanningScene`` messages.
