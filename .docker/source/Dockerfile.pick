@@ -9,12 +9,11 @@ RUN . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
     . "install/setup.sh" &&\
     cd "src" &&\
     ros2 pkg create \
-    --build-type ament_cmake \
-    --dependencies moveit_ros_planning_interface rclcpp \
-    --node-name hello_moveit hello_moveit
-
-RUN rm src/hello_moveit/src/hello_moveit.cpp
-COPY ./doc/tutorials/your_first_project/hello_moveit.cpp src/hello_moveit/src/hello_moveit.cpp
+        --build-type ament_cmake \
+        --dependencies moveit_task_constructor_core rclcpp \
+        --node-name mtc_node mtc_tutorial
+RUN rm src/mtc_tutorial/src/mtc_node.cpp
+COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/src/main.cpp src/mtc_tutorial/src/mtc_node.cpp
 RUN --mount=type=cache,target=/root/.ccache/ \
     # Enable ccache
     PATH=/usr/lib/ccache:$PATH && \
