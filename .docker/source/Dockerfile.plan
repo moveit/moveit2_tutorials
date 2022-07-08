@@ -1,0 +1,20 @@
+# syntax = docker/dockerfile:1.3
+
+ARG ROS_DISTRO=rolling
+FROM hello_container:latest
+
+WORKDIR /root/ws_moveit
+
+RUN rm src/hello_moveit/src/hello_moveit.cpp
+COPY ./doc/tutorials/planning_around_objects/hello_moveit.cpp src/hello_moveit/src/hello_moveit.cpp
+RUN --mount=type=cache,target=/root/.ccache/ \
+    # Enable ccache
+    PATH=/usr/lib/ccache:$PATH && \
+    . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
+     . "install/setup.sh" &&\
+    sudo apt update && rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y && \
+    colcon build \
+            --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+            --ament-cmake-args -DCMAKE_BUILD_TYPE=Release \
+            --event-handlers desktop_notification- status- && \
+    ccache -s
