@@ -32,7 +32,7 @@ RUN --mount=type=cache,target=/root/.ccache/ \
             --event-handlers desktop_notification- status- && \
     ccache -s && \
     # Update /ros_entrypoint.sh to source our new workspace
-    sed -i "s#/opt/ros/\$ROS_DISTRO/setup.bash#$ROS_UNDERLAY/setup.sh#g" /ros_entrypoint.sh
+    sed -i "s#/opt/ros/\$ROS_DISTRO/setup.bash#$ROS_UNDERLAY/setup.bash#g" /ros_entrypoint.sh
 
 ######################### Hello World Tutorial Image  #########################################
 
@@ -56,7 +56,7 @@ RUN --mount=type=cache,target=/root/.ccache/ \
     PATH=/usr/lib/ccache:$PATH && \
     . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
      . "install/setup.sh" &&\
-    sudo apt update && rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y && \
+    sudo apt update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
     colcon build \
             --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
             --ament-cmake-args -DCMAKE_BUILD_TYPE=Debug \
@@ -76,7 +76,7 @@ RUN --mount=type=cache,target=/root/.ccache/ \
     PATH=/usr/lib/ccache:$PATH && \
     . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
      . "install/setup.sh" &&\
-    sudo apt update && rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y && \
+    sudo apt update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
     colcon build \
             --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
             --ament-cmake-args -DCMAKE_BUILD_TYPE=Debug \
@@ -100,14 +100,14 @@ RUN rm src/mtc_tutorial/src/mtc_node.cpp
 COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/src/mtc_node.cpp src/mtc_tutorial/src/mtc_node.cpp
 #Add the launch folder to the tutorial package and CMakeLists.txt
 COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/launch src/mtc_tutorial/launch
-RUN   sed -i "s|ament_package()|install(DIRECTORY launch  DESTINATION share/${PROJECT_NAME})\nament_package()|g" src/mtc_tutorial/CMakeLists.txt
+RUN   sed -i "s|ament_package()|install(DIRECTORY launch  DESTINATION share/\${PROJECT_NAME})\nament_package()|g" src/mtc_tutorial/CMakeLists.txt
 #Build the tutorial
 RUN --mount=type=cache,target=/root/.ccache/ \
     # Enable ccache
     PATH=/usr/lib/ccache:$PATH && \
     . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
      . "install/setup.sh" &&\
-    sudo apt update && rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y && \
+    sudo apt update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
     colcon build \
             --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
             --ament-cmake-args -DCMAKE_BUILD_TYPE=Debug \
