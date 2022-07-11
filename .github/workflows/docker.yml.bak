@@ -56,6 +56,7 @@ jobs:
           no-cache: false
           tags: |
             ${{ env.GH_IMAGE }}
+            ${{ env.DH_IMAGE }}
   hello_world:
     strategy:
       fail-fast: false
@@ -98,6 +99,7 @@ jobs:
           no-cache: false
           tags: |
             ${{ env.GH_IMAGE }}
+            ${{ env.DH_IMAGE }}
   planning_around_objects:
     strategy:
       fail-fast: false
@@ -140,6 +142,7 @@ jobs:
           no-cache: false
           tags: |
             ${{ env.GH_IMAGE }}
+            ${{ env.DH_IMAGE }}
   pick_and_place_with_mtc:
     strategy:
       fail-fast: false
@@ -184,6 +187,7 @@ jobs:
           tags: |
             ${{ env.GH_IMAGE }}
             ${{ env.GH_IMAGE_FULL }}
+            ${{ env.DH_IMAGE }}
   delete_untagged:
     runs-on: ubuntu-latest
     needs:
