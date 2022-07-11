@@ -49,7 +49,7 @@ jobs:
       - name: Build and Push
         uses: docker/build-push-action@v3
         with:
-          file: .docker/${{ github.job }}/Dockerfile
+          file: .docker/Dockerfile
           build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
           target: base_image
           push: ${{ env.PUSH }}
@@ -90,7 +90,7 @@ jobs:
       - name: Build and Push
         uses: docker/build-push-action@v3
         with:
-          file: .docker/${{ github.job }}/Dockerfile
+          file: .docker/Dockerfile
           build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
           target: hello_world_image
           push: ${{ env.PUSH }}
@@ -131,7 +131,7 @@ jobs:
       - name: Build and Push
         uses: docker/build-push-action@v3
         with:
-          file: .docker/${{ github.job }}/Dockerfile
+          file: .docker/Dockerfile
           build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
           target: planning_around_objects_image
           push: ${{ env.PUSH }}
@@ -173,7 +173,7 @@ jobs:
       - name: Build and Push
         uses: docker/build-push-action@v3
         with:
-          file: .docker/${{ github.job }}/Dockerfile
+          file: .docker/Dockerfile
           build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
           target: pick_and_place_image
           push: ${{ env.PUSH }}
