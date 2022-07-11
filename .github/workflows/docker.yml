@@ -185,8 +185,7 @@ jobs:
   delete_untagged:
     runs-on: ubuntu-latest
     needs:
-      - release
-      - source
+      - base
     steps:
       - name: Delete Untagged Images
         if: (github.event_name != 'pull_request') && (github.repository == 'MikeWrock/moveit2')
