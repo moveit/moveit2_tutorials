@@ -83,7 +83,7 @@ RUN --mount=type=cache,target=/root/.ccache/ \
             --event-handlers desktop_notification- status- && \
     ccache -s
 
-######################### Planning Around Objects Image  #########################################
+######################### Pick and Place (MTC) Image  #########################################
 
 FROM planning_around_objects_image as pick_and_place_image
 
