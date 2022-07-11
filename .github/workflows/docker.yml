@@ -53,16 +53,18 @@ jobs:
           build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
           target: base_image
           push: ${{ env.PUSH }}
-          no-cache: true
+          no-cache: false
           tags: |
             ${{ env.GH_IMAGE }}
-            ${{ env.DH_IMAGE }}
+            # ${{ env.DH_IMAGE }}
   hello_world:
     strategy:
       fail-fast: false
       matrix:
         ROS_DISTRO: [humble, rolling]
     runs-on: ubuntu-latest
+    needs:
+      - base
     permissions:
       packages: write
       contents: read
@@ -94,16 +96,18 @@ jobs:
           build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
           target: hello_world_image
           push: ${{ env.PUSH }}
-          no-cache: true
+          no-cache: false
           tags: |
             ${{ env.GH_IMAGE }}
-            ${{ env.DH_IMAGE }}
+            # ${{ env.DH_IMAGE }}
   planning_around_objects:
     strategy:
       fail-fast: false
       matrix:
         ROS_DISTRO: [humble, rolling]
     runs-on: ubuntu-latest
+    needs:
+      - hello_world
     permissions:
       packages: write
       contents: read
@@ -135,16 +139,18 @@ jobs:
           build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
           target: planning_around_objects_image
           push: ${{ env.PUSH }}
-          no-cache: true
+          no-cache: false
           tags: |
             ${{ env.GH_IMAGE }}
-            ${{ env.DH_IMAGE }}
+            # ${{ env.DH_IMAGE }}
   pick_and_place_with_mtc:
     strategy:
       fail-fast: false
       matrix:
         ROS_DISTRO: [humble, rolling]
     runs-on: ubuntu-latest
+    needs:
+      - planning_around_objects
     permissions:
       packages: write
       contents: read
@@ -177,15 +183,15 @@ jobs:
           build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
           target: pick_and_place_image
           push: ${{ env.PUSH }}
-          no-cache: true
+          no-cache: false
           tags: |
             ${{ env.GH_IMAGE }}
             ${{ env.GH_IMAGE_FULL }}
-            ${{ env.DH_IMAGE }}
+            # ${{ env.DH_IMAGE }}
   delete_untagged:
     runs-on: ubuntu-latest
     needs:
-      - base
+      - pick_and_place_with_mtc
     steps:
       - name: Delete Untagged Images
         if: (github.event_name != 'pull_request') && (github.repository == 'mikewrock/moveit2')
