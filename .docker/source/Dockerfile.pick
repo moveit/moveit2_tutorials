@@ -7,13 +7,16 @@ WORKDIR /root/ws_moveit
 
 RUN . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
     . "install/setup.sh" &&\
-    cd "src" &&\
     ros2 pkg create \
         --build-type ament_cmake \
+        --destination-directory src \
         --dependencies moveit_task_constructor_core rclcpp \
         --node-name mtc_node mtc_tutorial
 RUN rm src/mtc_tutorial/src/mtc_node.cpp
-COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/src/main.cpp src/mtc_tutorial/src/mtc_node.cpp
+COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/src/mtc_node.cpp src/mtc_tutorial/src/mtc_node.cpp
+COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/launch src/mtc_tutorial/launch
+RUN   sed -i "s|ament_package()|install(DIRECTORY launch  DESTINATION share/${PROJECT_NAME})\nament_package()|g" src/mtc_tutorial/CMakeLists.txt
+
 RUN --mount=type=cache,target=/root/.ccache/ \
     # Enable ccache
     PATH=/usr/lib/ccache:$PATH && \
