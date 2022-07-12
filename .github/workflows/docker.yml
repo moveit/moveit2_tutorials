@@ -82,11 +82,11 @@ jobs:
           file: .docker/Dockerfile
           build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
           target: pick_and_place_image
-          push: ${{ env.PUSH }}-pick-and-place
+          push: ${{ env.PUSH }}
           no-cache: false
           tags: |
-            ${{ env.GH_IMAGE }}
-            ${{ env.GH_IMAGE_FULL }}
+            ${{ env.GH_IMAGE }}-pick-and-place
+            ${{ env.GH_IMAGE }}-all
   delete_untagged:
     runs-on: ubuntu-latest
     needs:
