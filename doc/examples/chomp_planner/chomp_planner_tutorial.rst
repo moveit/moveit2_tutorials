@@ -49,7 +49,7 @@ To run the CHOMP planner with obstacles, open two shells. In the first shell (if
 
 In the second shell, run the command: ::
 
-  ros2 run moveit2_tutorials collision_scene_example 
+  ros2 run moveit2_tutorials collision_scene_example
 
 Next, in RViz, select CHOMP in the MotionPlanning panel under the Context tab. Set the desired start and goal states by moving the end-effector around with the marker and then click on the Plan button under the Planning tab in the MotionPlanning panel to start planning. The planner will now attempt to find a feasible solution between the given start and end position.
 
