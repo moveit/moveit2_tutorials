@@ -8,7 +8,7 @@ on:
   push:
     branches:
       - main
-      - tutorial_dockerfiles ##REMOVE THIS
+      - docker_debug
   pull_request:
     paths:
       - .docker/**
@@ -26,9 +26,9 @@ jobs:
       packages: write
       contents: read
     env:
-      GH_IMAGE: ghcr.io/mikewrock/moveit2_tutorials:${{ matrix.ROS_DISTRO }}
+      GH_IMAGE: ghcr.io/ros-planning/moveit2_tutorials:${{ matrix.ROS_DISTRO }}
       DH_IMAGE: moveit/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-${{ github.job }}
-      PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'mikewrock/moveit2_tutorials') }}
+      PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'ros-planning/moveit2_tutorials') }}
 
     steps:
       - name: Set up Docker Buildx
@@ -40,13 +40,13 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      # - name: Login to DockerHub
-      #   if: env.PUSH == 'true'
-      #   uses: docker/login-action@v2
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and Push
+      - name: Login to DockerHub
+        if: env.PUSH == 'true'
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and Push Empty Tutorial Image
         uses: docker/build-push-action@v3
         with:
           file: .docker/Dockerfile
@@ -55,8 +55,9 @@ jobs:
           push: ${{ env.PUSH }}
           no-cache: false
           tags: |
-            ${{ env.GH_IMAGE }}-base
-      - name: Build and Push
+            ${{ env.GH_IMAGE }}
+            ${{ env.DH_IMAGE }}
+      - name: Build and Push Hello World
         uses: docker/build-push-action@v3
         with:
           file: .docker/Dockerfile
@@ -66,7 +67,8 @@ jobs:
           no-cache: false
           tags: |
             ${{ env.GH_IMAGE }}-hello-world
-      - name: Build and Push
+            ${{ env.DH_IMAGE }}-hello-world
+      - name: Build and Push Planning Around Objects
         uses: docker/build-push-action@v3
         with:
           file: .docker/Dockerfile
@@ -76,7 +78,8 @@ jobs:
           no-cache: false
           tags: |
             ${{ env.GH_IMAGE }}-planning
-      - name: Build and Push
+            ${{ env.DH_IMAGE }}-planning
+      - name: Build and Push MTC (All)
         uses: docker/build-push-action@v3
         with:
           file: .docker/Dockerfile
@@ -87,13 +90,15 @@ jobs:
           tags: |
             ${{ env.GH_IMAGE }}-pick-and-place
             ${{ env.GH_IMAGE }}-all
+            ${{ env.DH_IMAGE }}-pick-and-place
+            ${{ env.DH_IMAGE }}-all
   delete_untagged:
     runs-on: ubuntu-latest
     needs:
       - build
     steps:
       - name: Delete Untagged Images
-        if: (github.event_name != 'pull_request') && (github.repository == 'mikewrock/moveit2_tutorials')
+        if: (github.event_name != 'pull_request') && (github.repository == 'ros-planning/moveit2_tutorials')
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.DELETE_PACKAGES_TOKEN }}
@@ -109,6 +114,6 @@ jobs:
                 }
             }
         env:
-          OWNER: mikewrock
+          OWNER: ros-planning
           PACKAGE_NAME: moveit2_tutorials
           PER_PAGE: 100
