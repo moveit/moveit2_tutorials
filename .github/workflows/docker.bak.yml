@@ -8,7 +8,6 @@ on:
   push:
     branches:
       - main
-      - tutorial_dockerfiles ##REMOVE THIS
   pull_request:
     paths:
       - .docker/**
@@ -26,9 +25,9 @@ jobs:
       packages: write
       contents: read
     env:
-      GH_IMAGE: ghcr.io/mikewrock/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-${{ github.job }}
+      GH_IMAGE: ghcr.io/ros-planning/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-${{ github.job }}
       DH_IMAGE: moveit/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-${{ github.job }}
-      PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'mikewrock/moveit2_tutorials') }}
+      PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'ros-planning/moveit2_tutorials') }}
 
     steps:
       - name: Set up Docker Buildx
@@ -40,12 +39,12 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      # - name: Login to DockerHub
-      #   if: env.PUSH == 'true'
-      #   uses: docker/login-action@v2
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to DockerHub
+        if: env.PUSH == 'true'
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and Push
         uses: docker/build-push-action@v3
         with:
@@ -69,9 +68,9 @@ jobs:
       packages: write
       contents: read
     env:
-      GH_IMAGE: ghcr.io/mikewrock/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-${{ github.job }}
+      GH_IMAGE: ghcr.io/ros-planning/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-${{ github.job }}
       DH_IMAGE: moveit/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-${{ github.job }}
-      PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'mikewrock/moveit2_tutorials') }}
+      PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'ros-planning/moveit2_tutorials') }}
 
     steps:
       - name: Set up Docker Buildx
@@ -83,12 +82,12 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      # - name: Login to DockerHub
-      #   if: env.PUSH == 'true'
-      #   uses: docker/login-action@v2
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to DockerHub
+        if: env.PUSH == 'true'
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and Push
         uses: docker/build-push-action@v3
         with:
@@ -112,9 +111,9 @@ jobs:
       packages: write
       contents: read
     env:
-      GH_IMAGE: ghcr.io/mikewrock/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-${{ github.job }}
+      GH_IMAGE: ghcr.io/ros-planning/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-${{ github.job }}
       DH_IMAGE: moveit/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-${{ github.job }}
-      PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'mikewrock/moveit2_tutorials') }}
+      PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'ros-planning/moveit2_tutorials') }}
 
     steps:
       - name: Set up Docker Buildx
@@ -126,12 +125,12 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      # - name: Login to DockerHub
-      #   if: env.PUSH == 'true'
-      #   uses: docker/login-action@v2
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to DockerHub
+        if: env.PUSH == 'true'
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and Push
         uses: docker/build-push-action@v3
         with:
@@ -155,10 +154,10 @@ jobs:
       packages: write
       contents: read
     env:
-      GH_IMAGE: ghcr.io/mikewrock/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-${{ github.job }}
-      GH_IMAGE_FULL: ghcr.io/mikewrock/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-all
+      GH_IMAGE: ghcr.io/ros-planning/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-${{ github.job }}
+      GH_IMAGE_FULL: ghcr.io/ros-planning/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-all
       DH_IMAGE: moveit/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-${{ github.job }}
-      PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'mikewrock/moveit2_tutorials') }}
+      PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'ros-planning/moveit2_tutorials') }}
 
     steps:
       - name: Set up Docker Buildx
@@ -170,12 +169,12 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      # - name: Login to DockerHub
-      #   if: env.PUSH == 'true'
-      #   uses: docker/login-action@v2
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to DockerHub
+        if: env.PUSH == 'true'
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and Push
         uses: docker/build-push-action@v3
         with:
@@ -194,7 +193,7 @@ jobs:
       - pick_and_place_with_mtc
     steps:
       - name: Delete Untagged Images
-        if: (github.event_name != 'pull_request') && (github.repository == 'mikewrock/moveit2')
+        if: (github.event_name != 'pull_request') && (github.repository == 'ros-planning/moveit2_tutorials')
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.DELETE_PACKAGES_TOKEN }}
@@ -210,6 +209,6 @@ jobs:
                 }
             }
         env:
-          OWNER: mikewrock
+          OWNER: ros-planning
           PACKAGE_NAME: moveit2
           PER_PAGE: 100
