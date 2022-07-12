@@ -9,7 +9,7 @@ CHOMP Planner
 .. image:: chomp.png
    :width: 700px
 
-Covariant Hamiltonian Optimization for Motion Planning (CHOMP) is a gradient-based trajectory optimization procedure that makes many everyday motion planning problems both simple and trainable (Ratliff et al., 2009c). While most high-dimensional motion planners separate trajectory generation into distinct planning and optimization stages, this algorithm capitalizes on covariant gradient and functional gradient approaches to the optimization stage to design a motion planning algorithm based entirely on trajectory optimization. Given an infeasible native trajectory, CHOMP reacts to the surrounding environment to quickly pull the trajectory out of collision while simultaneously optimizing dynamic quantities such as joint velocities and accelerations. It rapidly converges to a smooth collision-free trajectory that can be executed efficiently on the robot. Integration into MoveIt2 is `work in progress <https://github.com/ros-planning/moveit2_tutorials/issues/459>`_. `More info <http://www.nathanratliff.com/thesis-research/chomp>`_
+Covariant Hamiltonian Optimization for Motion Planning (CHOMP) is a gradient-based trajectory optimization procedure that makes many everyday motion planning problems both simple and trainable (Ratliff et al., 2009c). While most high-dimensional motion planners separate trajectory generation into distinct planning and optimization stages, this algorithm capitalizes on covariant gradient and functional gradient approaches to the optimization stage to design a motion planning algorithm based entirely on trajectory optimization. Given an infeasible naive trajectory, CHOMP reacts to the surrounding environment to quickly pull the trajectory out of collision while simultaneously optimizing dynamic quantities such as joint velocities and accelerations. It rapidly converges to a smooth collision-free trajectory that can be executed efficiently on the robot. Integration into MoveIt2 is `work in progress <https://github.com/ros-planning/moveit2_tutorials/issues/459>`_. `More info <http://www.nathanratliff.com/thesis-research/chomp>`_
 
 Getting Started
 ---------------
@@ -34,29 +34,21 @@ Running the Demo
 ----------------
 If you have the ``panda_moveit_config`` from the `ros-planning/moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_  repository you should be able to simply run the demo: ::
 
-  ros2 launch moveit_resources_panda_moveit_config demo.launch.py  --ros-args --remap pipeline:=chomp
+  ros2 launch moveit_resources_panda_moveit_config demo.launch.py --ros-args --remap pipeline:=chomp
 
 Running CHOMP with Obstacles in the Scene
 +++++++++++++++++++++++++++++++++++++++++
-To run CHOMP in an environment with obstacles, you can run the sample python script:
+To run CHOMP in an environment with obstacles, we will use :codedir:`this node<examples/collision_environments/src/collision_scene_example.cpp>` to populate a scene with collision obstacles. It creates a cluttered scene with four pre-defined obstacles, but you can modify it however you choose to create a different scene.
 
-  :codedir:`collision_scene_example.py<examples/collision_environments/scripts/collision_scene_example.py>`.
+To run the CHOMP planner with obstacles, open a second shell. In the first shell (if you closed the one from from the previous step) start RViz and wait for everything to finish loading: ::
 
-This script creates a cluttered scene with four obstacles or a simple scene with one obstacle depending on the argument given to the script. One can also change the position/size of the obstacles to change the scene.
+  ros2 launch moveit_resources_panda_moveit_config demo.launch.py  --ros-args --remap pipeline:=chomp
 
-To run the CHOMP planner with obstacles, open two shells. In the first shell start RViz and wait for everything to finish loading: ::
+In the second shell, run the command: ::
 
-  roslaunch panda_moveit_config demo.launch pipeline:=chomp
+  ros2 run moveit_tutorials collision_scene_example
 
-In the second shell, run either of the two commands: ::
-
-  rosrun moveit_tutorials collision_scene_example.py cluttered
-
-or: ::
-
-  rosrun moveit_tutorials collision_scene_example.py sparse
-
-Next, in RViz, select CHOMP in the MotionPlanning panel under the Context tab. Set the desired start and goal states by moving the end-effector around with the imarker and then click on the Plan button under the Planning tab in the MotionPlanning panel to start planning. The planner will now attempt to find a feasible solution between the given start and end position.
+Next, in RViz, select CHOMP in the MotionPlanning panel under the Context tab. Set the desired start and goal states by moving the end-effector around with the marker and then click on the Plan button under the Planning tab in the MotionPlanning panel to start planning. The planner will now attempt to find a feasible solution between the given start and end position.
 
 Tweaking some of the parameters for CHOMP
 -----------------------------------------

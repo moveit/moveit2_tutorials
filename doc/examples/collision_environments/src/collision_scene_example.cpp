@@ -24,7 +24,7 @@ int main(int argc, char** argv)
   node_options.automatically_declare_parameters_from_overrides(true);
   auto collision_scene_example_node = rclcpp::Node::make_shared("planning_scene_tutorial", node_options);
 
-  //Check for robot_description_semantic param
+  // Check for robot_description_semantic param
 
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface_;
   // Create vector to hold 3 collision objects.
@@ -38,7 +38,7 @@ int main(int argc, char** argv)
   /* Create identity rotation quaternion */
   tf2::Quaternion zero_orientation;
   zero_orientation.setRPY(0, 0, 0);
-  geometry_msgs::msg::Quaternion zero_orientation_msg = tf2::toMsg(zero_orientation);
+  const geometry_msgs::msg::Quaternion zero_orientation_msg = tf2::toMsg(zero_orientation);
 
   /* Define the primitive and its dimensions. */
   collision_objects[0].primitives.resize(1);
@@ -99,9 +99,6 @@ int main(int argc, char** argv)
 
   collision_objects[2].operation = collision_objects[2].ADD;
   planning_scene_interface_.applyCollisionObjects(collision_objects);
-
-
-
 
   rclcpp::shutdown();
   return 0;
