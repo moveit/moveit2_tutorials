@@ -110,5 +110,5 @@ jobs:
             }
         env:
           OWNER: mikewrock
-          PACKAGE_NAME: moveit2
+          PACKAGE_NAME: moveit2_tutorials
           PER_PAGE: 100
