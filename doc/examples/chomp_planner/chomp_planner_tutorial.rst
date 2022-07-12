@@ -19,13 +19,13 @@ You should also have gone through the steps in :doc:`Visualization with MoveIt R
 
 Prerequisites
 --------------
-#. To use CHOMP with your robot you must have a MoveIt configuration package for your robot. For example, if you have a Panda robot, it's called ``panda_moveit_config``. This is typically configured using the :doc:`MoveIt Setup Assistant </doc/examples/setup_assistant/setup_assistant_tutorial>`.
+To use CHOMP with your robot you must have a MoveIt configuration package for your robot. For example, if you have a Panda robot, it's called ``panda_moveit_config``. This is typically configured using the :doc:`MoveIt Setup Assistant </doc/examples/setup_assistant/setup_assistant_tutorial>`.
 
 Using CHOMP with Your Robot
 ---------------------------
-**Note:** if you are following this demo using the ``panda_moveit_config`` from the `ros-planning/moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_ repository, these steps are already done for you and you can skip this section.
+**Note:** If you plan to use the ``panda_moveit_config`` package from the `ros-planning/moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_ repository, these steps are already done for you and you can skip this section. Otherwise, to add the configuration for your robot you must:
 
-#. Simply download :moveit_resources_codedir:`demo.launch.py<panda_moveit_config/launch/demo.launch.py>` file into the launch directory of your MoveIt config package. If you installed `moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_ via ``apt`` or ``rosdep`` you can inspect the launch file at ``/opt/ros/$ROS_DISTRO/share/moveit_resources_panda_moveit_config/launch``
+#. Download :moveit_resources_codedir:`demo.launch.py<panda_moveit_config/launch/demo.launch.py>` file into the launch directory of your MoveIt config package. If you installed `moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_ via ``apt`` or ``rosdep`` you can find the launch file at ``/opt/ros/$ROS_DISTRO/share/moveit_resources_panda_moveit_config/launch``
 #. Adjust the line ``<rosparam command="load" file="$(find panda_moveit_config)/config/chomp_planning.yaml" />`` to ``<rosparam command="load" file="$(find <robot_moveit_config>)/config/chomp_planning.yaml" />`` replacing ``<robot_moveit_config>`` with the name of your MoveIt configuration package.
 #. Download :moveit_resources_codedir:`chomp_planning.yaml <panda_moveit_config/config/chomp_planning.yaml>` file into the config directory of your MoveIt config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory.
 #. Open ``chomp_planning.yaml`` in your favorite editor and change ``animate_endeffector_segment: "panda_rightfinger"`` to the appropriate link for your robot.
