@@ -9,7 +9,7 @@ CHOMP Planner
 .. image:: chomp.png
    :width: 700px
 
-Covariant Hamiltonian optimization for motion planning (CHOMP) is a gradient-based trajectory optimization procedure that makes many everyday motion planning problems both simple and trainable (Ratliff et al., 2009c). While most high-dimensional motion planners separate trajectory generation into distinct planning and optimization stages, this algorithm capitalizes on covariant gradient and functional gradient approaches to the optimization stage to design a motion planning algorithm based entirely on trajectory optimization. Given an infeasible naive trajectory, CHOMP reacts to the surrounding environment to quickly pull the trajectory out of collision while simultaneously optimizing dynamical quantities such as joint velocities and accelerations. It rapidly converges to a smooth collision-free trajectory that can be executed efficiently on the robot. Integration into latest version of MoveIt is `work in progress <https://github.com/ros-planning/moveit/issues/702>`_. `More info <http://www.nathanratliff.com/thesis-research/chomp>`_
+Covariant Hamiltonian Optimization for Motion Planning (CHOMP) is a gradient-based trajectory optimization procedure that makes many everyday motion planning problems both simple and trainable (Ratliff et al., 2009c). While most high-dimensional motion planners separate trajectory generation into distinct planning and optimization stages, this algorithm capitalizes on covariant gradient and functional gradient approaches to the optimization stage to design a motion planning algorithm based entirely on trajectory optimization. Given an infeasible naive trajectory, CHOMP reacts to the surrounding environment to quickly pull the trajectory out of collision while simultaneously optimizing dynamic quantities such as joint velocities and accelerations. It rapidly converges to a smooth collision-free trajectory that can be executed efficiently on the robot. `More info <http://www.nathanratliff.com/thesis-research/chomp>`_
 
 Getting Started
 ---------------
@@ -19,45 +19,39 @@ You should also have gone through the steps in :doc:`Visualization with MoveIt R
 
 Prerequisites
 --------------
-#. On ROS Melodic you do not need to build MoveIt from source, but for older versions of MoveIt you do (see previous tutorial versions).
-#. To use CHOMP with your robot you must already have a MoveIt configuration package for your robot already. For example, if you have a Panda robot, it's called ``panda_moveit_config``. This is typically configured using the :doc:`MoveIt Setup Assistant </doc/examples/setup_assistant/setup_assistant_tutorial>`.
+#. To use CHOMP with your robot you must have a MoveIt configuration package for your robot. For example, if you have a Panda robot, it's called ``panda_moveit_config``. This is typically configured using the :doc:`MoveIt Setup Assistant </doc/examples/setup_assistant/setup_assistant_tutorial>`.
 
 Using CHOMP with Your Robot
 ---------------------------
-**Note:** if you are following this demo using the ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository, these steps are already done for you and you can skip this section.
+**Note:** if you are following this demo using the ``panda_moveit_config`` from the `ros-planning/moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_ repository, these steps are already done for you and you can skip this section.
 
-#. Simply download :panda_codedir:`chomp_planning_pipeline.launch.xml<launch/chomp_planning_pipeline.launch.xml>` file into the launch directory of your MoveIt config package. In our case, we will save this file in the ``panda_moveit_config/launch`` directory.
+#. Simply download :panda_codedir:`demo.launch.py<launch/demo.launch.py>` file into the launch directory of your MoveIt config package. If you installed `moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_ via ``apt`` or ``rosdep`` you can inspect the launch file at ``/opt/ros/$ROS_DISTRO/share/moveit_resources_panda_moveit_config/launch``
 #. Adjust the line ``<rosparam command="load" file="$(find panda_moveit_config)/config/chomp_planning.yaml" />`` to ``<rosparam command="load" file="$(find <robot_moveit_config>)/config/chomp_planning.yaml" />`` replacing ``<robot_moveit_config>`` with the name of your MoveIt configuration package.
 #. Download :panda_codedir:`chomp_planning.yaml <config/chomp_planning.yaml>` file into the config directory of your MoveIt config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory.
 #. Open ``chomp_planning.yaml`` in your favorite editor and change ``animate_endeffector_segment: "panda_rightfinger"`` to the appropriate link for your robot.
 
 Running the Demo
 ----------------
-If you have the ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository you should be able to simply run the demo: ::
+If you have the ``panda_moveit_config`` from the `ros-planning/moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_  repository you can run the demo using: ::
 
-  roslaunch panda_moveit_config demo.launch pipeline:=chomp
+  ros2 launch moveit_resources_panda_moveit_config demo.launch.py
 
-Running CHOMP with Obstacles in the Scene
-+++++++++++++++++++++++++++++++++++++++++
-To run CHOMP in an environment with obstacles, you can run the sample python script:
+Adding Obstacles to the Scene
++++++++++++++++++++++++++++++
+To add obstacles to the scene, we will use the following node to create scene with four obstacles:
 
-  :codedir:`collision_scene_example.py<examples/collision_environments/scripts/collision_scene_example.py>`.
+  :codedir:`collision_scene_example.cpp<examples/collision_environments/src/collision_scene_example.cpp>`.
 
-This script creates a cluttered scene with four obstacles or a simple scene with one obstacle depending on the argument given to the script. One can also change the position/size of the obstacles to change the scene.
 
-To run the CHOMP planner with obstacles, open two shells. In the first shell start RViz and wait for everything to finish loading: ::
+To run the CHOMP planner with obstacles, open two shells. In the first shell (if RViz is not still running from the previous step) start RViz and wait for everything to finish loading: ::
 
-  roslaunch panda_moveit_config demo.launch pipeline:=chomp
+  ros2 launch moveit_resources_panda_moveit_config demo.launch.py
 
-In the second shell, run either of the two commands: ::
+In the second shell, run the command: ::
 
-  rosrun moveit_tutorials collision_scene_example.py cluttered
+  ros2 run moveit2_tutorials collision_scene_example 
 
-or: ::
-
-  rosrun moveit_tutorials collision_scene_example.py sparse
-
-Next, in RViz, select CHOMP in the MotionPlanning panel under the Context tab. Set the desired start and goal states by moving the end-effector around with the imarker and then click on the Plan button under the Planning tab in the MotionPlanning panel to start planning. The planner will now attempt to find a feasible solution between the given start and end position.
+Next, in RViz, select CHOMP in the MotionPlanning panel under the Context tab. Set the desired start and goal states by moving the end-effector around with the marker and then click on the Plan button under the Planning tab in the MotionPlanning panel to start planning. The planner will now attempt to find a feasible solution between the given start and end position.
 
 Tweaking some of the parameters for CHOMP
 -----------------------------------------
@@ -116,7 +110,7 @@ Using CHOMP as a post-processor for OMPL
 Here, it is demonstrated that CHOMP can also be used as a post-processing optimization technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial guess for CHOMP. CHOMP then takes this initial guess and further optimizes the trajectory.
 To achieve this, follow the steps:
 
-#. Edit ``ompl_planning.yaml`` in the ``<robot_moveit_config>/launch`` folder of your robot. Add ``chomp/OptimizerAdapter`` to the bottom of the list of request_adapters: ::
+#. Edit ``chomp_planning.yaml`` in the ``<robot_moveit_config>/config`` folder of your robot. Add ``chomp/OptimizerAdapter`` to the bottom of the list of request_adapters: ::
 
     request_adapters: >-
       ...
