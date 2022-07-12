@@ -25,9 +25,9 @@ Using CHOMP with Your Robot
 ---------------------------
 **Note:** if you are following this demo using the ``panda_moveit_config`` from the `ros-planning/moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_ repository, these steps are already done for you and you can skip this section.
 
-#. Simply download :panda_codedir:`demo.launch.py<launch/demo.launch.py>` file into the launch directory of your MoveIt config package. If you installed `moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_ via ``apt`` or ``rosdep`` you can inspect the launch file at ``/opt/ros/$ROS_DISTRO/share/moveit_resources_panda_moveit_config/launch``
+#. Simply download :moveit_resources_codedir:`demo.launch.py<panda_moveit_config/launch/demo.launch.py>` file into the launch directory of your MoveIt config package. If you installed `moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_ via ``apt`` or ``rosdep`` you can inspect the launch file at ``/opt/ros/$ROS_DISTRO/share/moveit_resources_panda_moveit_config/launch``
 #. Adjust the line ``<rosparam command="load" file="$(find panda_moveit_config)/config/chomp_planning.yaml" />`` to ``<rosparam command="load" file="$(find <robot_moveit_config>)/config/chomp_planning.yaml" />`` replacing ``<robot_moveit_config>`` with the name of your MoveIt configuration package.
-#. Download :panda_codedir:`chomp_planning.yaml <config/chomp_planning.yaml>` file into the config directory of your MoveIt config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory.
+#. Download :moveit_resources_codedir:`chomp_planning.yaml <panda_moveit_config/config/chomp_planning.yaml>` file into the config directory of your MoveIt config package. In our case, we will save this file in the ``panda_moveit_config/config`` directory.
 #. Open ``chomp_planning.yaml`` in your favorite editor and change ``animate_endeffector_segment: "panda_rightfinger"`` to the appropriate link for your robot.
 
 Running the Demo
@@ -55,7 +55,7 @@ Next, in RViz, select CHOMP in the MotionPlanning panel under the Context tab. S
 
 Tweaking some of the parameters for CHOMP
 -----------------------------------------
-CHOMP has some optimization parameters associated with it. These can be modified for the given environment/robot you are working with and is normally present in the :panda_codedir:`chomp_planning.yaml <config/chomp_planning.yaml>` file in config folder of the robot you are working with. If this file does not exist for your robot, you can create it and set the parameter values as you want. The following are some of the insights to set up these parameter values for some of them:
+CHOMP has some optimization parameters associated with it. These can be modified for the given environment/robot you are working with and is normally present in the :moveit_resources_codedir:`chomp_planning.yaml <panda_moveit_config/config/chomp_planning.yaml>` file in config folder of the robot you are working with. If this file does not exist for your robot, you can create it and set the parameter values as you want. The following are some of the insights to set up these parameter values for some of them:
 
 - *planning_time_limit*: the maximum time the optimizer can take to find a solution before terminating
 
