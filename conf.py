@@ -210,8 +210,8 @@ extlinks = {
     "panda_codedir": (
         "https://github.com/"
         + html_context["github_user"]
-        + "/moveit_resources/blob/"
-        + "ros2/panda_moveit_config"
+        + "/panda_moveit_config/blob/"
+        + "melodic-devel"
         + "/%s",
         "",
     ),
