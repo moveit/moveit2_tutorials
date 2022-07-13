@@ -9,9 +9,6 @@ ARG ROS_DISTRO=rolling
 
 FROM moveit/moveit2:${ROS_DISTRO}-source as base_image
 
-# Export ROS_UNDERLAY for downstream docker containers
-ENV ROS_UNDERLAY /root/ws_moveit/install
-WORKDIR $ROS_UNDERLAY/..
 
 # Copy MoveIt sources from docker context
 COPY . src/moveit2_tutorials
