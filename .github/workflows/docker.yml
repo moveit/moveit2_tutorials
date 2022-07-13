@@ -1,4 +1,4 @@
-name: docker
+name: Build Docker Images
 
 on:
   schedule:
@@ -8,94 +8,28 @@ on:
   push:
     branches:
       - main
-      - docker_debug ##Remove this
   pull_request:
     paths:
-      - .docker/**
-      - .github/workflows/docker.yml
       - moveit2_tutorials.repos
+      - .docker/**
+      - doc/**
 
 jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        ROS_DISTRO: [humble, rolling]
-    runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
-    env:
-      GH_IMAGE: ghcr.io/ros-planning/moveit2_tutorials:${{ matrix.ROS_DISTRO }}
-      DH_IMAGE: moveit/moveit2_tutorials:${{ matrix.ROS_DISTRO }}-${{ github.job }}
-      PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'ros-planning/moveit2_tutorials') }}
+  call-docker-base:
+    uses: ./.github/workflows/docker-base.yml
+    secrets: inherit
 
-    steps:
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      - name: Login to Github Container Registry
-        if: env.PUSH == 'true'
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      # - name: Login to DockerHub
-      #   if: env.PUSH == 'true'
-      #   uses: docker/login-action@v2
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and Push Empty Tutorial Image
-        uses: docker/build-push-action@v3
-        with:
-          file: .docker/Dockerfile
-          build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
-          target: base_image
-          push: ${{ env.PUSH }}
-          no-cache: false
-          tags: |
-            ${{ env.GH_IMAGE }}
-#            ${{ env.DH_IMAGE }}
-      - name: Build and Push Hello World
-        uses: docker/build-push-action@v3
-        with:
-          file: .docker/Dockerfile
-          build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
-          target: hello_world_image
-          push: ${{ env.PUSH }}
-          no-cache: false
-          tags: |
-            ${{ env.GH_IMAGE }}-hello-world
-#            ${{ env.DH_IMAGE }}-hello-world
-      - name: Build and Push Planning Around Objects
-        uses: docker/build-push-action@v3
-        with:
-          file: .docker/Dockerfile
-          build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
-          target: planning_around_objects_image
-          push: ${{ env.PUSH }}
-          no-cache: false
-          tags: |
-            ${{ env.GH_IMAGE }}-planning
-#            ${{ env.DH_IMAGE }}-planning
-      - name: Build and Push MTC (All)
-        uses: docker/build-push-action@v3
-        with:
-          file: .docker/Dockerfile
-          build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
-          target: pick_and_place_image
-          push: ${{ env.PUSH }}
-          no-cache: false
-          tags: |
-            ${{ env.GH_IMAGE }}-pick-and-place
-            ${{ env.GH_IMAGE }}-all
-#            ${{ env.DH_IMAGE }}-pick-and-place
-#            ${{ env.DH_IMAGE }}-all
-  delete_untagged:
+  call-docker-images:
+    needs:
+      - call-docker-base
+    uses: ./.github/workflows/docker-images.yml
+    secrets: inherit
+  
+
+  delete-untagged:
     runs-on: ubuntu-latest
     needs:
-      - build
+      - call-docker-images
     steps:
       - name: Delete Untagged Images
         if: (github.event_name != 'pull_request') && (github.repository == 'ros-planning/moveit2_tutorials')
