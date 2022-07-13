@@ -34,7 +34,7 @@ Running the Demo
 ----------------
 If you have the ``panda_moveit_config`` from the `ros-planning/moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_  repository you can run the demo using: ::
 
-  ros2 launch moveit_resources_panda_moveit_config demo.launch.py --ros-args --remap pipeline:=chomp
+  ros2 launch moveit_resources_panda_moveit_config demo.launch.py
 
 Adding Obstacles to the Scene
 +++++++++++++++++++++++++++++
@@ -45,7 +45,7 @@ To add obstacles to the scene, we will use the following node to create scene wi
 
 To run the CHOMP planner with obstacles, open a second shell. In the first shell (if you closed the one from from the previous step) start RViz and wait for everything to finish loading: ::
 
-  ros2 launch moveit_resources_panda_moveit_config demo.launch.py --ros-args --remap pipeline:=chomp
+  ros2 launch moveit_resources_panda_moveit_config demo.launch.py
 
 In the second shell, run the command: ::
 
