@@ -33,7 +33,7 @@ RUN --mount=type=cache,target=/root/.ccache/ \
 
 FROM ghcr.io/ros-planning/moveit2_tutorials:${ROS_DISTRO} as hello_world_image
 
-#Make a new package using the command in the tuotrial
+#Make a new package using the command in the tutorial
 RUN . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
     . "install/setup.sh" &&\
     cd "src" &&\
@@ -47,8 +47,6 @@ RUN rm src/hello_moveit/src/hello_moveit.cpp
 COPY ./doc/tutorials/your_first_project/hello_moveit.cpp src/hello_moveit/src/hello_moveit.cpp
 #Build the tutorial
 RUN --mount=type=cache,target=/root/.ccache/ \
-    # Enable ccache
-    PATH=/usr/lib/ccache:$PATH && \
     . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
      . "install/setup.sh" &&\
     sudo apt update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
@@ -67,8 +65,6 @@ RUN rm src/hello_moveit/src/hello_moveit.cpp
 COPY ./doc/tutorials/planning_around_objects/hello_moveit.cpp src/hello_moveit/src/hello_moveit.cpp
 #Build the tutorial
 RUN --mount=type=cache,target=/root/.ccache/ \
-    # Enable ccache
-    PATH=/usr/lib/ccache:$PATH && \
     . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
      . "install/setup.sh" &&\
     sudo apt update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
@@ -82,7 +78,7 @@ RUN --mount=type=cache,target=/root/.ccache/ \
 
 FROM planning_around_objects_image as pick_and_place_image
 
-#Make a new package using the command in the tuotrial
+#Make a new package using the command in the tutorial
 RUN . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
     . "install/setup.sh" &&\
     ros2 pkg create \
