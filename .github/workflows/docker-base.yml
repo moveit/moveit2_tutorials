@@ -18,7 +18,7 @@ jobs:
       DH_IMAGE: moveit/moveit2_tutorials:${{ matrix.ROS_DISTRO }}
       PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'ros-planning/moveit2_tutorials') }}
 
-    steps:      
+    steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
