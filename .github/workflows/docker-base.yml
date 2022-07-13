@@ -1,4 +1,4 @@
-name: Build Base Tutorial Image
+name: Build Basic Tutorial Image
 
 on:
   workflow_call:
