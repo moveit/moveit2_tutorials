@@ -56,7 +56,7 @@ RUN --mount=type=cache,target=/root/.ccache/ \
             --event-handlers desktop_notification- status- && \
     ccache -s
 
-######################### Planning Around Objects Image  #########################################
+######################### Planning Around Objects Image  #######################################
 
 FROM hello_world_image as planning_around_objects_image
 
