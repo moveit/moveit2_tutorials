@@ -27,7 +27,7 @@ jobs:
         uses: tj-actions/changed-files@v23.1
         with:
           files: |
-            Dockerfile
+            .docker/Dockerfile
             moveit2_tutorials.repos
       - name: Set up Docker Buildx
         if: steps.changed-files.outputs.any_changed == 'true'
