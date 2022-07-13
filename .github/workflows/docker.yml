@@ -24,7 +24,7 @@ jobs:
       - call-docker-base
     uses: ./.github/workflows/docker-images.yml
     secrets: inherit
-  
+
 
   delete-untagged:
     runs-on: ubuntu-latest
