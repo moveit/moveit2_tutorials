@@ -106,7 +106,11 @@ auto printAndPlan = [&](auto num_iterations, auto execute = false){
   {
     planning_components->setStartStateToCurrentState();
 
-    auto plan_solution = planning_components->plan();
+    moveit_cpp::PlanningComponent::MultiPipelinePlanRequestParameters multi_pipeline_plan_request;
+    multi_pipeline_plan_request.load(node, {"one", "two", "three"});
+
+
+    auto plan_solution = planning_components->plan(multi_pipeline_plan_request);
 
     // Check if PlanningComponents succeeded in finding the plan
     if (plan_solution)
