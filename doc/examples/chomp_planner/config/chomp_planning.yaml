@@ -1,4 +1,4 @@
-planning_time_limit: 10.0
+planning_time_limit: 11.0
 max_iterations: 200
 max_iterations_after_collision_free: 5
 smoothness_cost_weight: 0.1

@@ -64,6 +64,7 @@ add_subdirectory(doc/examples/robot_model_and_robot_state)
 add_subdirectory(doc/tutorials/pick_and_place_with_moveit_task_constructor)
 add_subdirectory(doc/tutorials/quickstart_in_rviz)
 add_subdirectory(doc/examples/collision_environments)
+add_subdirectory(doc/examples/chomp_planner)
 
 ament_export_dependencies(
   ${THIS_PACKAGE_INCLUDE_DEPENDS}
