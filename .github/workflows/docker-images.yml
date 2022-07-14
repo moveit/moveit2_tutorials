@@ -17,8 +17,13 @@ jobs:
       GH_IMAGE: ghcr.io/ros-planning/moveit2_tutorials:${{ matrix.ROS_DISTRO }}
       DH_IMAGE: moveit/moveit2_tutorials:${{ matrix.ROS_DISTRO }}
       PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'ros-planning/moveit2_tutorials') }}
+      BASE_IMAGE_BRANCH: 
 
     steps:
+      - name: Add -PR-<branch_name> to base image if this is a PR
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "BASE_IMAGE_BRANCH=-PR-${{ github.head_ref }}" >> $GITHUB_ENV
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Login to Github Container Registry
@@ -38,7 +43,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           file: .docker/Dockerfile
-          build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
+          build-args: |
+                ROS_DISTRO=${{ matrix.ROS_DISTRO }}
+                BASE_BRANCH=${{ env.BASE_IMAGE_BRANCH }}
           target: hello_world_image
           push: ${{ env.PUSH }}
           no-cache: false
@@ -49,7 +56,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           file: .docker/Dockerfile
-          build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
+          build-args: |
+                ROS_DISTRO=${{ matrix.ROS_DISTRO }}
+                BASE_BRANCH=${{ env.BASE_IMAGE_BRANCH }}
           target: planning_around_objects_image
           push: ${{ env.PUSH }}
           no-cache: false
@@ -60,7 +69,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           file: .docker/Dockerfile
-          build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
+          build-args: |
+                ROS_DISTRO=${{ matrix.ROS_DISTRO }}
+                BASE_BRANCH=${{ env.BASE_IMAGE_BRANCH }}
           target: pick_and_place_image
           push: ${{ env.PUSH }}
           no-cache: false

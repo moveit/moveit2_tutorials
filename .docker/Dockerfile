@@ -4,6 +4,7 @@
 # Downloads the moveit source code and install remaining debian dependencies
 
 ARG ROS_DISTRO=rolling
+ARG BASE_BRANCH=
 
 ######################### Base Tutorial Image  #################################################
 
@@ -31,7 +32,7 @@ RUN --mount=type=cache,target=/root/.ccache/ \
 
 ######################### Hello World Tutorial Image  #########################################
 
-FROM ghcr.io/ros-planning/moveit2_tutorials:${ROS_DISTRO} as hello_world_image
+FROM ghcr.io/ros-planning/moveit2_tutorials:${ROS_DISTRO}${BASE_BRANCH} as hello_world_image
 
 #Make a new package using the command in the tutorial
 RUN . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
