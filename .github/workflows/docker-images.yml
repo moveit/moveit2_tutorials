@@ -17,7 +17,7 @@ jobs:
       GH_IMAGE: ghcr.io/ros-planning/moveit2_tutorials:${{ matrix.ROS_DISTRO }}
       DH_IMAGE: moveit/moveit2_tutorials:${{ matrix.ROS_DISTRO }}
       PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'ros-planning/moveit2_tutorials') }}
-      BASE_IMAGE_BRANCH: 
+      BASE_IMAGE_BRANCH:
 
     steps:
       - name: Add -PR-<branch_name> to base image if this is a PR
