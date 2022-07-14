@@ -6,7 +6,7 @@
 
         <ros2_control name="${prefix}${name}" type="system">
             <hardware>
-                <plugin>fake_components/GenericSystem</plugin>
+                <plugin>mock_components/GenericSystem</plugin>
             </hardware>
             <joint name="${prefix}panda_joint1">
                 <command_interface name="position"/>
