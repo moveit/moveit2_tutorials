@@ -7,7 +7,7 @@ export REPOSITORY_NAME=${PWD##*/}
 echo "Testing branch $TRAVIS_BRANCH of $REPOSITORY_NAME"
 
 # Install htmlpoofer
-gem install --user-install html-proofer
+gem install --user-install html-proofer -v 3.19.4 # newer 4.x requires different cmdline options
 PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 
 # Install python dependencies
