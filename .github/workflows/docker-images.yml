@@ -14,9 +14,9 @@ jobs:
       packages: write
       contents: read
     env:
-      GH_IMAGE: ghcr.io/mikewrock/moveit2_tutorials:${{ matrix.ROS_DISTRO }}
+      GH_IMAGE: ghcr.io/ros-planning/moveit2_tutorials:${{ matrix.ROS_DISTRO }}
       DH_IMAGE: moveit/moveit2_tutorials:${{ matrix.ROS_DISTRO }}
-      PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'mikewrock/moveit2_tutorials') }}
+      PUSH: ${{ (github.event_name != 'pull_request') && (github.repository == 'ros-planning/moveit2_tutorials') }}
       BASE_IMAGE_BRANCH:
 
     steps:

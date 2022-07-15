@@ -35,7 +35,7 @@ RUN sed -i "s#/opt/ros/\$ROS_DISTRO/setup.bash#$ROS_UNDERLAY/install/setup.bash#
 
 ######################### Hello World Tutorial Image  #########################################
 
-FROM ghcr.io/mikewrock/moveit2_tutorials:${ROS_DISTRO}${BASE_BRANCH} as hello_world_image
+FROM ghcr.io/ros-planning/moveit2_tutorials:${ROS_DISTRO}${BASE_BRANCH} as hello_world_image
 
 #Make a new package using the command in the tutorial
 RUN . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
