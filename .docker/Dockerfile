@@ -56,7 +56,7 @@ RUN --mount=type=cache,target=/root/.ccache/ \
     sudo apt update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
     colcon build \
             --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-            --ament-cmake-args -DCMAKE_BUILD_TYPE=Debug \
+            --ament-cmake-args -DCMAKE_BUILD_TYPE=Debug \\
             --event-handlers desktop_notification- status-
 
 ######################### Planning Around Objects Image  #######################################
@@ -73,7 +73,7 @@ RUN --mount=type=cache,target=/root/.ccache/ \
     sudo apt update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
     colcon build \
             --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-            --ament-cmake-args -DCMAKE_BUILD_TYPE=Debug \
+            --ament-cmake-args -DCMAKE_BUILD_TYPE=Debug \\
             --event-handlers desktop_notification- status-
 
 ######################### Pick and Place (MTC) Image  #########################################
