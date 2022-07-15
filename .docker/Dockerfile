@@ -8,6 +8,7 @@ ARG BASE_BRANCH=
 
 ######################### Base Tutorial Image  #################################################
 
+
 FROM ros:${ROS_DISTRO}-ros-base as base_image
 ENV ROS_UNDERLAY /root/ws_moveit/
 WORKDIR $ROS_UNDERLAY
