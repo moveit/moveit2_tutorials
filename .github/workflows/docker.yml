@@ -12,7 +12,7 @@ on:
     paths:
       - moveit2_tutorials.repos
       - .docker/**
-      - doc/**
+      - doc/tutorials/**
 
 jobs:
   call-docker-base:

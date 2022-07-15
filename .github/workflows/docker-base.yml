@@ -22,19 +22,20 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          since_last_remote_commit: true
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v23.1
         with:
+          since_last_remote_commit: true
           files: |
             .docker/Dockerfile
             moveit2_tutorials.repos
+            doc/tutorials/*
       - name: Set up Docker Buildx
         if: steps.changed-files.outputs.any_changed == 'true'
         uses: docker/setup-buildx-action@v2
       - name: Login to Github Container Registry
-        if: steps.changed-files.outputs.any_changed == 'true' && env.PUSH == 'true'
+        if: steps.changed-files.outputs.any_changed == 'true'
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
@@ -58,3 +59,14 @@ jobs:
           tags: |
             ${{ env.GH_IMAGE }}
 #            ${{ env.DH_IMAGE }}
+      - name: Build and Push PR Image
+        uses: docker/build-push-action@v3
+        if: steps.changed-files.outputs.any_changed == 'true' && env.PUSH == 'false' &&  github.event_name == 'pull_request'
+        with:
+          file: .docker/Dockerfile
+          build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
+          target: base_image
+          push: true
+          no-cache: false
+          tags: |
+            ${{ env.GH_IMAGE }}-PR-${{ github.head_ref }}
