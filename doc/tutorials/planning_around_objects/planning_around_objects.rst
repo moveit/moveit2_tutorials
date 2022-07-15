@@ -69,7 +69,7 @@ Place this code block between setting the target pose from the previous step and
 
       // Define the pose of the box (relative to the frame_id)
       geometry_msgs::msg::Pose box_pose;
-      box_pose.orientation.w = 1.0;  //We can leave out the x, y, and z components of the quaternion since they are initialized to 0
+      box_pose.orientation.w = 1.0;  // We can leave out the x, y, and z components of the quaternion since they are initialized to 0
       box_pose.position.x = 0.2;
       box_pose.position.y = 0.2;
       box_pose.position.z = 0.25;
