@@ -9,7 +9,7 @@ planning_scene_monitor_options:
 
 planning_pipelines:
   #namespace: "moveit_cpp"  # optional, default is ~
-  pipeline_names: ["pilz_industrial_motion_planner"] #["ompl", "pilz_industrial_motion_planner"]
+  pipeline_names: ["ompl", "pilz_industrial_motion_planner"] #["ompl", "pilz_industrial_motion_planner"]
 
 # PILZ planner config
   pilz_industrial_motion_planner:
@@ -38,14 +38,14 @@ two:
   plan_request_params:
     planning_attempts: 1
     planning_pipeline: ompl
-    planner_id: "PRMstarkConfigDefault"
+    planner_id: "RRTConnectkConfigDefault"
     max_velocity_scaling_factor: 1.0
     max_acceleration_scaling_factor: 1.0
 
 three:
   plan_request_params:
     planning_attempts: 1
-    planning_pipeline: pilz_industrial_motion_planner
-    planner_id: "LIN"
+    planning_pipeline: ompl
+    planner_id: "RRTConnectkConfigDefault"
     max_velocity_scaling_factor: 1.0
     max_acceleration_scaling_factor: 1.0
