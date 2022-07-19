@@ -8,7 +8,10 @@ ARG ROS_DISTRO=rolling
 ######################### Base Tutorial Image  #################################################
 
 FROM moveit/moveit2:${ROS_DISTRO}-source as base_image
+<<<<<<< HEAD
 
+=======
+>>>>>>> de62de108 (re-removed redundant commands)
 
 # Copy MoveIt sources from docker context
 COPY . src/moveit2_tutorials
@@ -95,7 +98,6 @@ RUN   sed -i "s|ament_package()|install(DIRECTORY launch  DESTINATION share/\${P
 #Build the tutorial
 RUN --mount=type=cache,target=/root/.ccache/ \
     # Enable ccache
-    PATH=/usr/lib/ccache:$PATH && \
     . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
      . "install/setup.sh" &&\
     sudo apt update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
