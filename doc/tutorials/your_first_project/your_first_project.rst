@@ -110,10 +110,23 @@ After that, we have the normal call to initialize rclcpp, and then we create our
     rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
   );
 
-The first argument is a string that ROS will use to make a unique node.
+The first argument is a string that ROS will use to name a unique node.
 The second is needed for MoveIt because of how we use ROS Parameters.
 
+Next, we `create a logger <https://docs.ros.org/en/humble/Tutorials/Demos/Logging-and-logger-configuration.html>`_ named "hello_moveit" to keep our log outputs organized and configurable.
+
+.. code-block:: C++
+
+  // Create a ROS logger
+  auto const logger = rclcpp::get_logger("hello_moveit");
+
 Lastly, we have the code to shutdown ROS.
+
+.. code-block:: C++
+
+  // Shutdown ROS
+  rclcpp::shutdown();
+  return 0;
 
 3 Plan and Execute using MoveGroupInterface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

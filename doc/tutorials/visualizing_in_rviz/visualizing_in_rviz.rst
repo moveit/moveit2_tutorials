@@ -55,32 +55,42 @@ To test that this all worked, open a terminal in the workspace directory (rememb
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Before we can initialize MoveItVisualTools, we need to have a executor spinning on our ROS node.
-This is necessary because of how MoveItVisualTools interacts with ROS services and topics.
+This is necessary because of how MoveItVisualTools interacts with ROS services and topics. First, add the threading library to your includes at the top.
 
 .. code-block:: C++
 
   #include <thread>  // <---- add this to the set of includes at the top
 
-    ...
+By creating and naming loggers, we are able to keep our program logs organized.
+
+  .. code-block:: C++
 
     // Create a ROS logger
     auto const logger = rclcpp::get_logger("hello_moveit");
 
-    // We spin up a SingleThreadedExecutor so MoveItVisualTools interact with ROS
+Next, add your executor before creating the MoveIt MoveGroup Interface.
+
+.. code-block:: C++
+
+    // Spin up a SingleThreadedExecutor for MoveItVisualTools to interact with ROS
     rclcpp::executors::SingleThreadedExecutor executor;
     executor.add_node(node);
     auto spinner = std::thread([&executor]() { executor.spin(); });
 
     // Create the MoveIt MoveGroup Interface
-    ...
+
+  ...
+
+Finally, make sure to join the thread before exiting.
+
+.. code-block:: C++
 
     // Shutdown ROS
     rclcpp::shutdown();  // <--- This will cause the spin function in the thread to return
     spinner.join();  // <--- Join the thread before exiting
     return 0;
-  }
 
-After each one of these changes, you should rebuild your workspace to make sure you don't have any syntax errors.
+After making these changes, rebuild your workspace to make sure you don't have any syntax errors.
 
 3 Create and Initialize MoveItVisualTools
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -116,7 +126,7 @@ After we've constructed and initialized, we now create some closures (function o
     auto const draw_title = [&moveit_visual_tools](auto text) {
       auto const text_pose = [] {
         auto msg = Eigen::Isometry3d::Identity();
-        msg.translation().z() = 1.0;
+        msg.translation().z() = 1.0;  // Place text 1m above the base link
         return msg;
       }();
       moveit_visual_tools.publishText(text_pose, text, rviz_visual_tools::WHITE,

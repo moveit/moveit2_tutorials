@@ -43,7 +43,7 @@ First, update the target pose with the following change to make the robot plan t
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In the next block of code, we create a collision object.
-The first thing to notice is that it is being placed in the frame of the robot.
+The first thing to notice is that it is being placed in the coordinate frame of the robot.
 If we had a perception system that reported the location of obstacles in our scene, then this is the sort of message it would build.
 Because this is just an example, we are creating it manually.
 One thing to notice at the end of this block of code is that we set the operation on this message to ``ADD``.
@@ -69,7 +69,7 @@ Place this code block between setting the target pose from the previous step and
 
       // Define the pose of the box (relative to the frame_id)
       geometry_msgs::msg::Pose box_pose;
-      box_pose.orientation.w = 1.0;
+      box_pose.orientation.w = 1.0;  // We can leave out the x, y, and z components of the quaternion since they are initialized to 0
       box_pose.position.x = 0.2;
       box_pose.position.y = 0.2;
       box_pose.position.z = 0.25;

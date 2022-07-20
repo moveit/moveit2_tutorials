@@ -165,11 +165,11 @@ Step 4: Use Motion Planning with the Panda
 
   * Make sure both states are not in collision with the robot itself.
 
-  * Make sure the Planned Path is being visualized. Also check the
-    **Show Trail** checkbox in the **Planned Path** tree menu.
+  * Un-check the **Show Trail** checkbox in the **Planned Path** tree menu.
 
-* In the **MotionPlanning** window under the **Planning** tab, press the **Plan** button. You
-  should be able to see a visualization of the arm moving and a trail.
+* In the **MotionPlanning** window under the **Planning** tab, press the **Plan** button.
+
+* Check the **Show Trail** checkbox in the **Planned Path** tree menu. You should see the arm's path represented by a series of manipulator poses.
 
 .. image:: rviz_plugin_planned_path.png
    :width: 700px
@@ -185,7 +185,8 @@ You can visually introspect trajectories point by point in RViz.
 
 * Play with the "*Slider*" panel, e.g. move the slider, push "*Play*" button.
 
-NOTE: Once you placed your EEF to a new goal, be sure to run *Plan* before running *Play* -- otherwise you'll see the waypoints for the previous goal if available.
+Note: Once you placed your end-effector to a new goal, be sure to run *Plan* before running *Play* -- otherwise you'll see the waypoints for the previous goal if available.
+
 
 .. image:: rviz_plugin_slider.png
    :width: 700px
