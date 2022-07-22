@@ -115,6 +115,7 @@ To configure an IK plugin for use in Servo, your robot config package must defin
 in the `Panda config package <https://github.com/ros-planning/moveit_resources/blob/master/panda_moveit_config/config/kinematics.yaml>`_.
 Several IK plugins are available `within MoveIt <https://github.com/ros-planning/moveit2/tree/main/moveit_kinematics>`_,
 as well as `externally <https://github.com/PickNikRobotics/bio_ik/tree/ros2>`_.
+`bio_ik/BioIKKinematicsPlugin` is the most common choice.
 
 Once your :code:`kinematics.yaml` file has been populated, include it with the ROS parameters passed to the servo node in your launch file:
 
