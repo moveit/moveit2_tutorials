@@ -91,8 +91,16 @@ You can see the trajectory animated if planning succeeds. Finally, press Next to
         OMPL constrained planning orientation constraint example
     </video>
 
-This example may take longer to plan. Press Next to remove all markers and end the example. If planning fails, you can start at the beginning of the section to try again.
+This example may take longer to plan. If planning fails, you can start at the beginning of the section to try again. Press Next to try mixed constraints,
 
+.. raw:: html
+
+    <video width="300px" controls="true" autoplay="true" loop="true">
+        <source src="../../../_static/videos/ompl_mixed_constraints.webm" type="video/webm">
+        OMPL constrained planning orientation constraint example
+    </video>
+
+Press Next to remove all markers and end the example.
 
 How to Set Constraints
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -250,7 +258,7 @@ Building on the previous constraint, we can make it a line by also reducing the 
 Orientation Constraints
 -----------------------
 
-Finally, we can place constraints on orientation. We set the target pose to be the other side of the robot for a more drastic move as we are no longer constrained by position.
+We can place constraints on orientation. We set the target pose to be the other side of the robot for a more drastic move as we are no longer constrained by position.
 
 .. code-block:: c++
 
@@ -286,6 +294,42 @@ Set up the planning problem as before and plan.
 .. code-block:: c++
 
   move_group_interface.setPathConstraints(orientation_constraints);
+  move_group_interface.setPoseTarget(target_pose);
+  move_group_interface.setPlanningTime(10.0);
+  move_group_interface.plan(plan);
+
+
+Mixed Constraints
+-----------------
+
+Finally, we can set both a position and an orientation constraint. We will use the same target pose that we used for the orientation constraint.
+
+.. code-block:: c++
+
+     target_pose = get_relative_pose(-0.6, 0.1, 0);
+
+We will also reuse our orientation constraint - but this time, the original box constraint won't work as the target pose is outside of our original box. Let's modify the box pose and dimensions such that the goal pose is reachable. Be aware that having a both a position and orientation constraint can drastically shrink the reachable area - the target pose not only needs to be within the box constraint as mentioned, but needs to be reachable while satisfying the orientation constriant, which is more difficult to visualize.
+
+.. code-block:: c++
+
+  box.dimensions = { 1.0, 0.6, 1.0 };
+  box_constraint.constraint_region.primitives[0] = box;
+
+  box_pose.position.x = 0;
+  box_pose.position.y = -0.1;
+  box_pose.position.z = current_pose.pose.position.z;
+  box_constraint.constraint_region.primitive_poses[0] = box_pose;
+  box_constraint.weight = 1.0;
+
+As before, we create a generalized constraint message, this time adding both our position and orientation constrint.
+
+.. code-block:: c++
+
+  moveit_msgs::msg::Constraints mixed_constraints;
+  mixed_constraints.position_constraints.emplace_back(box_constraint);
+  mixed_constraints.orientation_constraints.emplace_back(orientation_constraint);
+
+  move_group_interface.setPathConstraints(mixed_constraints);
   move_group_interface.setPoseTarget(target_pose);
   move_group_interface.setPlanningTime(10.0);
   move_group_interface.plan(plan);
