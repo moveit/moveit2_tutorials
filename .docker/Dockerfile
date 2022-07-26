@@ -8,10 +8,6 @@ ARG ROS_DISTRO=rolling
 ######################### Base Tutorial Image  #################################################
 
 FROM moveit/moveit2:${ROS_DISTRO}-source as base_image
-<<<<<<< HEAD
-
-=======
->>>>>>> de62de108 (re-removed redundant commands)
 
 # Copy MoveIt sources from docker context
 COPY . src/moveit2_tutorials
