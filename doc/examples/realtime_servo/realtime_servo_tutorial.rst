@@ -13,10 +13,12 @@ This tutorial shows how to use MoveIt Servo to send real-time servo commands to 
 
 Getting Started
 ---------------
+
 If you haven't already done so, make sure you've completed the steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>`.
 
 Launching a Servo Node
 ----------------------
+
 MoveIt Servo can be launched as a "node component" or a standalone node. The launch file, moveit_servo/servo_example.launch.py, launches a standalone node by default but also contains a commented component node. Commands are sent via ROS topics. The commands can come from anywhere, such as a joystick, keyboard, or other controller.
 
 This demo was written for an Xbox 1 controller, but can be easily modified to use any controller compatible with the `Joy package <https://index.ros.org/p/joy/#{DISTRO}>`_ by modifying the `joystick_servo_example.cpp file <https://github.com/ros-planning/moveit2/blob/main/moveit_ros/moveit_servo/src/teleop_demo/joystick_servo_example.cpp>`_
@@ -51,6 +53,35 @@ Expected Output
 
 Note that the controller overlay here is just for demonstration purposes and is not actually included
 
+Increase Thread Priority if a Realtime Kernel is Installed
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For best performance when controlling hardware you want the main servo loop to have as little jitter as possible.
+The normal linux kernel is optimized for computational throughput and therefore is not well suited for hardware control.
+The two easiest kernel options are the `Real-time Ubuntu 22.04 LTS Beta <https://ubuntu.com/blog/real-time-ubuntu-released>`_ or `linux-image-rt-amd64 <https://packages.debian.org/bullseye/linux-image-rt-amd64>`_ on Debian Bullseye.
+
+If you have a realtime kernel installed, the main thread of ``servo_calcs`` automatically attempts to configure ``SCHED_FIFO`` with a priority of ``50``.
+By default, the user does not have permission to set such a high priority.
+To give the user such permissions, add a group named realtime and add the current user to this group:
+
+.. code-block:: console
+
+    $ sudo addgroup realtime
+    $ sudo usermod -a -G realtime $(whoami)
+
+Afterwards, add the following limits to the realtime group in ``/etc/security/limits.conf``:
+
+.. code-block:: console
+
+    @realtime soft rtprio 99
+    @realtime soft priority 99
+    @realtime soft memlock 102400
+    @realtime hard rtprio 99
+    @realtime hard priority 99
+    @realtime hard memlock 102400
+
+The limits will be applied after you log out and in again.
+
 Introspection
 -------------
 
@@ -70,6 +101,7 @@ Here are some tips for inspecting and/or debugging the system.
 
 Using the C++ Interface
 -----------------------
+
 Instead of launching Servo as its own component, you can include Servo in your own nodes via the C++ interface. Sending commands to the robot is very similar in both cases, but for the C++ interface a little bit of setup for Servo is necessary. In exchange, you will be able to directly interact with Servo through its C++ API.
 
 This basic C++ interface demo moves the robot in a predetermined way and can be launched with ::
@@ -89,6 +121,7 @@ Expected Output
 
 Entire Code
 -----------
+
 The entire code is available :codedir:`here<examples/realtime_servo/src/servo_cpp_interface_demo.cpp>`
 
 .. tutorial-formatter:: ./src/servo_cpp_interface_demo.cpp
