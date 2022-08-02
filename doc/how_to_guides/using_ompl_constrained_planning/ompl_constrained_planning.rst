@@ -22,8 +22,6 @@ OMPL reads configurations parameters from a file called :code:`ompl_planning.yam
       enforce_constrained_state_space: true
       projection_evaluator: joints(panda_joint1,panda_joint2)
 
-You can see an example :codedir:`here <how_to_guides/using_ompl_constrained_planning/config/ompl_planning.yaml>`.
-
 This tutorial adds the parameters in the :codedir:`launch file <how_to_guides/using_ompl_constrained_planning/launch/ompl_constrained_planning.launch.py>`. The launch file uses ``moveit_configs_utils`` to simplify the launch file. The ``moveit_config`` is configured with the moveit_resources Panda MoveIt config. We add our OMPL parameters to the ``planning_pipelines`` with the following lines:
 
 .. code-block:: python
@@ -40,7 +38,7 @@ Running the Example
 
 Run the following command to launch the example: ::
 
-   ros2 launch moveit_tutorials ompl_constrained_planning.launch.py
+   ros2 launch moveit2_tutorials ompl_constrained_planning.launch.py
 
 The Panda robot should appear, with the RViz Visual Tools and the Trajectory Slider panel in the bottom-left. You should also see this text in your terminal: ::
 
