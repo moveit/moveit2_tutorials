@@ -144,7 +144,7 @@ The actual ROS parameter names that get passed by loading the yaml file are of t
 
 Since :code:`moveit_servo` does not allow undeclared parameters found in the :code:`kinematics.yaml` file to be set on the Servo node, custom solver parameters need to be declared from inside your plugin code. 
 
-For example, :code:`bio_ik` defines a `getROSParam()` function in `bio_ik/src/kinematics_plugin.cpp <https://github.com/PickNikRobotics/bio_ik/blob/ros2/src/kinematics_plugin.cpp#L160>`_ that declares parameters if they're not found on the Servo Node. 
+For example, :code:`bio_ik` defines a :code:`getROSParam()` function in `bio_ik/src/kinematics_plugin.cpp <https://github.com/PickNikRobotics/bio_ik/blob/ros2/src/kinematics_plugin.cpp#L160>`_ that declares parameters if they're not found on the Servo Node. 
 
 Setup on a New Robot
 --------------------
