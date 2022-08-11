@@ -1,0 +1,83 @@
+robot_calibration:
+  ros__parameters:
+    verbose: true
+    base_link: base_link
+    calibration_steps:
+    - single_calibration_step
+    single_calibration_step:
+      models:
+      - ur_manipulator
+      - camera
+      # - ground_camera
+      ur_manipulator:
+        type: chain3d
+        frame: wrist_3_link
+      camera:
+        type: camera3d
+        frame: head_camera_rgb_optical_frame
+        topic: /camera/depth/color/points
+      # ground_camera:
+      #   type: camera3d
+      #   param_name: camera  # this is the same physical camera as above
+      #   frame: head_camera_rgb_optical_frame
+      #   topic: /head_camera/depth_registered/points
+      free_params:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+      - camera_fx
+      - camera_fy
+      - camera_cx
+      - camera_cy
+      - camera_z_offset
+      - camera_z_scaling
+      free_frames:
+      # - head_camera_rgb_joint
+      # - head_pan_joint
+      - checkerboard
+      # head_camera_rgb_joint:
+      #   x: true
+      #   y: true
+      #   z: true
+      #   roll: true
+      #   pitch: true
+      #   yaw: true
+      # head_pan_joint:
+      #   x: true
+      #   y: true
+      #   z: true
+      #   roll: true
+      #   pitch: true
+      #   yaw: true
+      checkerboard:
+        x: true
+        y: false
+        z: true
+        roll: false
+        pitch: true
+        yaw: false
+      error_blocks:
+      - hand_eye
+      - restrict_camera
+      hand_eye:
+        type: chain3d_to_chain3d
+        model_a: camera
+        model_b: ur_manipulator
+      # ground_plane:
+      #   type: chain3d_to_plane
+      #   model: ground_camera
+      #   a: 0.0
+      #   b: 0.0
+      #   c: 1.0
+      #   d: 0.0
+      #   scale: 1.0
+      restrict_camera:
+        type: outrageous
+        param: head_camera_rgb_joint
+        joint_scale: 0.0
+        position_scale: 0.1
+        rotation_scale: 0.1
+        
