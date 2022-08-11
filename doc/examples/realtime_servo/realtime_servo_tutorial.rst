@@ -142,6 +142,10 @@ The above excerpt is taken from `servo_example.launch.py <https://github.com/ros
 In the above example, the :code:`kinematics.yaml` file is taken from the `moveit_resources <https://github.com/ros-planning/moveit_resources>`_ repository in the workspace, specifically :code:`moveit_resources/panda_moveit_config/config/kinematics.yaml`.
 The actual ROS parameter names that get passed by loading the yaml file are of the form :code:`robot_description_kinematics.<group_name>.<param_name>`, e.g. :code:`robot_description_kinematics.panda_arm.kinematics_solver`.
 
+Since :code:`moveit_servo` does not allow undeclared parameters found in the :code:`kinematics.yaml` file to be set on the Servo node, custom solver parameters need to be declared from inside your plugin code.
+
+For example, :code:`bio_ik` defines a :code:`getROSParam()` function in `bio_ik/src/kinematics_plugin.cpp <https://github.com/PickNikRobotics/bio_ik/blob/ros2/src/kinematics_plugin.cpp#L160>`_ that declares parameters if they're not found on the Servo Node.
+
 Setup on a New Robot
 --------------------
 
