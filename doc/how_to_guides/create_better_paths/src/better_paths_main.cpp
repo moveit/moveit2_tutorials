@@ -64,10 +64,10 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Better Paths Tutorial", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
-  const auto planning_pipeline_names = moveit_cpp_ptr->getPlanningPipelineNames();
+  const auto planning_pipeline_names = moveit_cpp_ptr->getPlanningPipelineNames(PLANNING_GROUP);
 
   for (auto it = planning_pipeline_names.begin(); it!=planning_pipeline_names.end();it++){
-    RCLCPP_INFO_STREAM(LOGGER, "Average path similarity: '" << *it << "'");
+    RCLCPP_INFO_STREAM(LOGGER, "Pipeline names: '" << *it << "'");
   }
 
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");

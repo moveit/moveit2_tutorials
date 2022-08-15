@@ -10,7 +10,8 @@ def generate_launch_description():
     moveit_config = (
         MoveItConfigsBuilder("moveit_resources_panda")
         .robot_description(file_path="config/panda.urdf.xacro")
-        .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
+        .planning_pipelines("ompl", ["ompl", "chomp", "pilz_industrial_motion_planner"])
+        .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .moveit_cpp(
             file_path=get_package_share_directory("moveit2_tutorials")
             + "/config/moveit_cpp_better_paths.yaml"
