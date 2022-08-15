@@ -64,6 +64,12 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "Better Paths Tutorial", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
 
+  const auto planning_pipeline_names = moveit_cpp_ptr->getPlanningPipelineNames();
+
+  for (auto it = planning_pipeline_names.begin(); it!=planning_pipeline_names.end();it++){
+    RCLCPP_INFO_STREAM(LOGGER, "Average path similarity: '" << *it << "'");
+  }
+
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
   planning_components->setStartStateToCurrentState();
@@ -246,8 +252,7 @@ int main(int argc, char** argv)
   visual_tools.publishText(text_pose, "CartesianGoal", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
   setCartGoal(0.30702, -5.2214e-12, 0.59027, 0.92396, -0.3825, 1.3251e-12, 3.2002e-12);
-  printAndPlan(1, true);
-  printAndPlan(2, false);
+  printAndPlan(3, false);
 
   //// Experiment 2 - Same pose - Joint goal
   //// ^^^^^
