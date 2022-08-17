@@ -10,10 +10,7 @@
 
 namespace rvt = rviz_visual_tools;
 
-// All source files that use ROS logging should define a file-specific
-// static const rclcpp::Logger named LOGGER, located at the top of the file
-// and inside the namespace with the narrowest scope (if there is one)
-static const rclcpp::Logger LOGGER = rclcpp::get_logger("moveit_cpp_tutorial");
+static const rclcpp::Logger LOGGER = rclcpp::get_logger("better_paths_tutorial");
 
 int main(int argc, char** argv)
 {
@@ -21,15 +18,10 @@ int main(int argc, char** argv)
   rclcpp::NodeOptions node_options;
   RCLCPP_INFO(LOGGER, "Initialize node");
 
-  // This enables loading undeclared parameters
-  // best practice would be to declare parameters in the corresponding classes
-  // and provide descriptions about expected use
   node_options.automatically_declare_parameters_from_overrides(true);
   rclcpp::Node::SharedPtr node = rclcpp::Node::make_shared("run_moveit_cpp", "", node_options);
 
-  // We spin up a SingleThreadedExecutor for the current state monitor to get information
-  // about the robot's state.
-  rclcpp::executors::SingleThreadedExecutor executor;
+  rclcpp::executors::MultiThreadedExecutor executor;
   executor.add_node(node);
   std::thread([&executor]() { executor.spin(); }).detach();
 
@@ -49,12 +41,7 @@ int main(int argc, char** argv)
   auto robot_start_state = planning_components->getStartState();
   auto joint_model_group_ptr = robot_model_ptr->getJointModelGroup(PLANNING_GROUP);
 
-  // Visualization
-  // ^^^^^^^^^^^^^
-  //
-  // The package MoveItVisualTools provides many capabilities for visualizing objects, robots,
-  // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script
-  moveit_visual_tools::MoveItVisualTools visual_tools(node, "panda_link0", "moveit_cpp_tutorial",
+  moveit_visual_tools::MoveItVisualTools visual_tools(node, "panda_link0", "better_paths_tutorial",
                                                       moveit_cpp_ptr->getPlanningSceneMonitor());
   visual_tools.deleteAllMarkers();
   visual_tools.loadRemoteControl();
@@ -66,7 +53,8 @@ int main(int argc, char** argv)
 
   const auto planning_pipeline_names = moveit_cpp_ptr->getPlanningPipelineNames(PLANNING_GROUP);
 
-  for (auto it = planning_pipeline_names.begin(); it!=planning_pipeline_names.end();it++){
+  for (auto it = planning_pipeline_names.begin(); it != planning_pipeline_names.end(); it++)
+  {
     RCLCPP_INFO_STREAM(LOGGER, "Pipeline names: '" << *it << "'");
   }
 
@@ -101,7 +89,6 @@ int main(int argc, char** argv)
     }
 
     // Path similarity
-
     RCLCPP_INFO_STREAM(LOGGER, "Average path length (sum of L1 norms): '" << average_traj_len << " rad'");
     RCLCPP_INFO_STREAM(LOGGER, "Average path similarity: '" << average_path_simularity << "'");
   };
