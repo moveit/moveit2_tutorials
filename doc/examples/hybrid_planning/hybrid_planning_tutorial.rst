@@ -55,7 +55,7 @@ To include the Hybrid Planning Architecture into you project you need to add a *
         composable_node_descriptions=[
             ComposableNode(
                 package="moveit_hybrid_planning",
-                plugin="moveit_hybrid_planning::GlobalPlannerComponent",
+                plugin="moveit::hybrid_planning::GlobalPlannerComponent",
                 name="global_planner",
                 parameters=[
                     global_planner_param,
@@ -67,7 +67,7 @@ To include the Hybrid Planning Architecture into you project you need to add a *
             ),
             ComposableNode(
                 package="moveit_hybrid_planning",
-                plugin="moveit_hybrid_planning::LocalPlannerComponent",
+                plugin="moveit::hybrid_planning::LocalPlannerComponent",
                 name="local_planner",
                 parameters=[
                     local_planner_param,
@@ -78,7 +78,7 @@ To include the Hybrid Planning Architecture into you project you need to add a *
             ),
             ComposableNode(
                 package="moveit_hybrid_planning",
-                plugin="moveit_hybrid_planning::HybridPlanningManager",
+                plugin="moveit::hybrid_planning::HybridPlanningManager",
                 name="hybrid_planning_manager",
                 parameters=[hybrid_planning_manager_param],
             ),
