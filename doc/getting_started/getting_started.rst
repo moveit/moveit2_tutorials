@@ -38,7 +38,18 @@ Create A Colcon Workspace and Download Tutorials
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 For tutorials you will need to have a :ros_documentation:`colcon <Tutorials/Colcon-Tutorial.html#install-colcon>` workspace setup. ::
 
+<<<<<<< HEAD:doc/getting_started/getting_started.rst
   mkdir -p ~/ws_moveit2/src
+=======
+  mkdir -p ~/ws_moveit/src
+
+Download Source Code of MoveIt and the Tutorials
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Move into your Colcon workspace and pull the MoveIt tutorials source: ::
+
+  cd ~/ws_moveit/src
+  git clone https://github.com/ros-planning/moveit2_tutorials -b main --depth 1
+>>>>>>> 7edafa1 (Shallow clone of turorials repo (#495)):doc/tutorials/getting_started/getting_started.rst
 
 Download MoveIt 2 Tutorials Source
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
