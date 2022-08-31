@@ -17,8 +17,8 @@ repositories:
     version: ros2
   moveit2:
     type: git
-    url: https://github.com/ros-planning/moveit2
-    version: main
+    url: https://github.com/sjahr/moveit2 # TODO(sjahr) Switch back to upstream once pr-parallel_planning_pipelines got merged
+    version: pr-parallel_planning_pipelines
   moveit_resources:
     type: git
     url: https://github.com/ros-planning/moveit_resources
