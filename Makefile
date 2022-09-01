@@ -37,7 +37,7 @@ local-with-api: Makefile
 	make html
 	@echo Step 2 of 2: Clone MoveIt 2 and build API using selected distro
 	cd build/html && if cd moveit2; then git pull; else git clone https://github.com/ros-planning/moveit2 -b $(MOVEIT_BRANCH) && cd moveit2; fi && \
-		sed -i "s/HTML_EXTRA_STYLESHEET  =.*/HTML_EXTRA_STYLESHEET  = ..\/..\/..\/theme.css/g" Doxyfile && DOXYGEN_OUTPUT_DIRECTORY="../api" doxygen &&  cd .. && rm -rf moveit2
+		sed -i "s/HTML_EXTRA_STYLESHEET  =.*/HTML_EXTRA_STYLESHEET  = ..\/..\/..\/theme.css/g" Doxyfile && DOXYGEN_OUTPUT_DIRECTORY="../cpp_api/" doxygen &&  cd .. && rm -rf moveit2
 
 .PHONY: help local-with-api Makefile multiversion multiversion-with-api
 
