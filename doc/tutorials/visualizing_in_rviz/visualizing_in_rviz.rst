@@ -270,6 +270,7 @@ To continue, press ``Next`` again to see your robot execute the plan.
 
 .. image:: executing.png
 
+.. note:: The robot may have no response at this step. Following the next method should solve the problem. - Change your default DDS to CycloneDDS and restart your terminal. - Move the MGI initialization before the SingleThreadedExecutor in ``hello_moveit.cpp``. - Rebuild your package and run the Program. More details about this issue could be found `here <https://github.com/ros-planning/moveit2_tutorials/issues/502>`_ and `here <https://github.com/ros-planning/moveit2/issues/1474>`_.
 
 Summary
 -------
