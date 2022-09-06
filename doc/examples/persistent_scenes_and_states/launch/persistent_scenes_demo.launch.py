@@ -14,12 +14,18 @@ def generate_launch_description():
         .to_moveit_configs()
     )
 
+    sqlite_database = (
+        get_package_share_directory("moveit2_tutorials") + "/data/kitchen_panda_db.sqlite"
+    )
+
+    print(sqlite_database)
+
     ## BEGIN_SUB_TUTORIAL add_config
     ## * Add a dictionary with the warehouse_ros options
     warehouse_ros_config = {
         # For warehouse_ros_sqlite
         "warehouse_plugin": "warehouse_ros_sqlite::DatabaseConnection",
-        "warehouse_host": "/path/to/my/warehouse_db.sqlite",
+        "warehouse_host": sqlite_database,
         # For warehouse_ros_mongodb use the following instead
         # "warehouse_port": 33829,
         # "warehouse_host": "localhost",
@@ -133,7 +139,7 @@ def generate_launch_description():
             robot_state_publisher,
             run_move_group_node,
             ros2_control_node,
-            mongodb_server_node,
+            # mongodb_server_node,
         ]
         + load_controllers
     )
