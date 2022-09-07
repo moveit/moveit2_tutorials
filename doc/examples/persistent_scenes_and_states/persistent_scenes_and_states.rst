@@ -35,7 +35,7 @@ Connecting to the storage backend
 After choosing the storage plugin and configuring the launch.py file,
 run RViz using ::
 
-   ros2 launch moveit2_tutorials demo.launch.py
+   ros2 launch moveit2_tutorials persistent_scenes_demo.launch.py
 
 In RViz, navigate to the "Context" tab of the "MotionPlanning" window.
 Verify the connection details (host/port for MongoDB, file path for SQLite)
