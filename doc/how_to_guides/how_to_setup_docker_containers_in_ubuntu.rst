@@ -26,7 +26,7 @@ Steps
 
   .. code-block:: bash
 
-    wget https://raw.githubusercontent.com/ros-planning/moveit2_tutorials/how-to-docker-ubuntu/_scripts/docker-compose.yml
+    wget https://raw.githubusercontent.com/ros-planning/moveit2_tutorials/main/_scripts/docker-compose.yml
 
 3. Launch the container (you may need to hyphenate ``docker-compose`` if using compose V1)
 
