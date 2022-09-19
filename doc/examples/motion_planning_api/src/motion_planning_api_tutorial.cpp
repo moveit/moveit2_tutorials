@@ -75,7 +75,7 @@ int main(int argc, char** argv)
   /* Create a RobotState and JointModelGroup to keep track of the current robot pose and planning group*/
   moveit::core::RobotStatePtr robot_state(new moveit::core::RobotState(robot_model));
   const moveit::core::JointModelGroup* joint_model_group = robot_state->getJointModelGroup(PLANNING_GROUP);
-  
+
   // We spin up a SingleThreadedExecutor for the current state monitor to get information
   // about the robot's state.
   rclcpp::executors::SingleThreadedExecutor executor;
