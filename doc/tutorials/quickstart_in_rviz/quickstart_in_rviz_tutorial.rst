@@ -14,7 +14,7 @@ Step 1: Launch the Demo and Configure the Plugin
 
 * Launch the demo: ::
 
-   ros2 launch moveit2_tutorials demo.launch.py rviz_tutorial:=true
+   ros2 launch moveit2_tutorials demo.launch.py
 
 * If you are doing this for the first time, you should see an empty world in RViz and will have to add the Motion Planning Plugin:
 
