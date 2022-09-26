@@ -38,7 +38,8 @@ Some major past contributors to the MoveIt tutorials are listed in chronological
 
 Help us improve these docs and we'll be happy to include you here also!
 
-**Corporate Sponsorship**
+Corporate Sponsorship
+---------------------
 
-* The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with PickNik Robotics (`Check out the blog post! <http://moveit.ros.org/moveit!/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
-* The tutorials had another major update in 2022 during a doc-a-thon sponsored by PickNik Robotics
+* The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with <a href="https://picknik.ai/">PickNik Robotics</a> (`Check out the blog post! <http://moveit.ros.org/moveit!/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
+* The tutorials had another major update in 2022 during a doc-a-thon sponsored by <a href="https://picknik.ai/">PickNik Robotics</a>
