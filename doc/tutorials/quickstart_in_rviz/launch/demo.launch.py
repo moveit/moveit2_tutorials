@@ -11,20 +11,10 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 def generate_launch_description():
 
-    # Command-line arguments
-    tutorial_arg = DeclareLaunchArgument(
-        "rviz_tutorial", default_value="False", description="Tutorial flag"
-    )
-
-    # planning_context
     moveit_config = (
         MoveItConfigsBuilder("moveit_resources_panda")
         .robot_description(file_path="config/panda.urdf.xacro")
         .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
-        .planning_scene_monitor(
-            publish_robot_description=True, publish_robot_description_semantic=True
-        )
-        .planning_pipelines(pipelines=["ompl"])
         .to_moveit_configs()
     )
 
@@ -36,38 +26,23 @@ def generate_launch_description():
         parameters=[moveit_config.to_dict()],
     )
 
-    # RViz
-    tutorial_mode = LaunchConfiguration("rviz_tutorial")
     rviz_base = os.path.join(get_package_share_directory("moveit2_tutorials"), "launch")
-    rviz_full_config = os.path.join(rviz_base, "panda_moveit_config_demo.rviz")
-    rviz_empty_config = os.path.join(rviz_base, "panda_moveit_config_demo_empty.rviz")
-    rviz_node_tutorial = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="log",
-        arguments=["-d", rviz_empty_config],
-        parameters=[
-            moveit_config.robot_description,
-            moveit_config.robot_description_semantic,
-            moveit_config.robot_description_kinematics,
-            moveit_config.planning_pipelines,
-        ],
-        condition=IfCondition(tutorial_mode),
-    )
+    rviz_config = os.path.join(rviz_base, "panda_moveit_config_demo.rviz")
+
+    # RViz
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
         name="rviz2",
         output="log",
-        arguments=["-d", rviz_full_config],
+        arguments=["-d", rviz_config],
         parameters=[
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
             moveit_config.robot_description_kinematics,
             moveit_config.planning_pipelines,
+            moveit_config.joint_limits,
         ],
-        condition=UnlessCondition(tutorial_mode),
     )
 
     # Static TF
@@ -127,9 +102,7 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
-            tutorial_arg,
             rviz_node,
-            rviz_node_tutorial,
             static_tf,
             robot_state_publisher,
             run_move_group_node,
