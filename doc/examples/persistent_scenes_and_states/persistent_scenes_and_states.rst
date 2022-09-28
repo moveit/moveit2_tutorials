@@ -18,7 +18,7 @@ Storage plugin selection
 ------------------------
 
 The warehouse plugin and settings have to be specified in the launch files of your MoveIt configuration.
-You should adapt ``move_group.launch.py`` if you do not wish to use the MongoDB plugin.
+You should adapt ``persistent_scenes_demo.launch.py`` if you do not wish to use the MongoDB plugin.
 The storage plugin is determined by the parameter ``warehouse_plugin``.
 Valid options are ``warehouse_ros_mongo::MongoDatabaseConnection`` for MongoDB and
 ``warehouse_ros_sqlite::DatabaseConnection`` for SQLite.
@@ -27,7 +27,7 @@ In case of the SQLite plugin, ``warehouse_host`` contains the path to the databa
 and ``warehouse_port`` is unused.
 If the database file does not exist yet, an empty database will be created.
 
-.. tutorial-formatter:: ./move_group.launch.py
+.. tutorial-formatter:: ./launch/persistent_scenes_demo.launch.py
 
 Connecting to the storage backend
 ---------------------------------
@@ -35,7 +35,7 @@ Connecting to the storage backend
 After choosing the storage plugin and configuring the launch.py file,
 run RViz using ::
 
-   ros2 launch moveit2_tutorials demo.launch.py
+   ros2 launch moveit2_tutorials persistent_scenes_demo.launch.py
 
 In RViz, navigate to the "Context" tab of the "MotionPlanning" window.
 Verify the connection details (host/port for MongoDB, file path for SQLite)

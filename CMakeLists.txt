@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.22)
 project(moveit2_tutorials)
 
 # Common cmake code applied to all moveit packages
@@ -57,6 +57,7 @@ add_subdirectory(doc/examples/motion_planning_api)
 add_subdirectory(doc/examples/motion_planning_pipeline)
 add_subdirectory(doc/examples/move_group_interface)
 add_subdirectory(doc/examples/moveit_cpp)
+add_subdirectory(doc/examples/persistent_scenes_and_states)
 add_subdirectory(doc/examples/planning_scene_ros_api)
 add_subdirectory(doc/examples/planning_scene)
 add_subdirectory(doc/examples/realtime_servo)
