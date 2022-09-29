@@ -89,7 +89,7 @@ You can see the trajectory animated if planning succeeds. Finally, press Next to
         OMPL constrained planning orientation constraint example
     </video>
 
-This example may take longer to plan. If planning fails, you can start at the beginning of the section to try again. Press Next to try mixed constraints,
+This example may take longer to plan. If planning fails, you can start at the beginning of the section to try again. Press Next to try mixed constraints.
 
 .. raw:: html
 
