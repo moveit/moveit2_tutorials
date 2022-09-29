@@ -64,7 +64,7 @@ int main(int argc, char** argv)
 
   // Benchmark function
   // Compute and print average path length, path similarity
-  auto analyzeResult = [&](std::vector<moveit_cpp::PlanningComponent::PlanSolution> solutions) {
+  auto analyzeResult = [&](std::vector<planning_interface::MotionPlanResponse> solutions) {
     // Adapted from https://github.com/ros-planning/moveit2/blob/main/moveit_ros/benchmarks/src/BenchmarkExecutor.cpp#L872
     // Analyzing the trajectories geometrically
     auto average_traj_len = 0.0;
@@ -74,12 +74,12 @@ int main(int argc, char** argv)
     for (auto solution : solutions)
     {
       // Only process successful solutions
-      if (solution.error_code == moveit::core::MoveItErrorCode::SUCCESS)
+      if (solution.error_code_ == moveit::core::MoveItErrorCode::SUCCESS)
       {
         // Compute path length
-        for (std::size_t index = 1; index < solution.trajectory->getWayPointCount(); ++index)
+        for (std::size_t index = 1; index < solution.trajectory_->getWayPointCount(); ++index)
           average_traj_len +=
-              solution.trajectory->getWayPoint(index - 1).distance(solution.trajectory->getWayPoint(index));
+              solution.trajectory_->getWayPoint(index - 1).distance(solution.trajectory_->getWayPoint(index));
       }
     }
 
@@ -95,14 +95,13 @@ int main(int argc, char** argv)
 
   // Some helper functions
   auto printAndPlan = [&](auto num_iterations, auto execute = false) {
-    std::vector<moveit_cpp::PlanningComponent::PlanSolution> solutions;
+    std::vector<planning_interface::MotionPlanResponse> solutions;
     solutions.reserve(num_iterations);
     for (auto i = 0; i < num_iterations; i++)
     {
       planning_components->setStartStateToCurrentState();
 
-      moveit_cpp::PlanningComponent::MultiPipelinePlanRequestParameters multi_pipeline_plan_request;
-      multi_pipeline_plan_request.load(node, { "one", "two", "three" });
+      moveit_cpp::PlanningComponent::MultiPipelinePlanRequestParameters multi_pipeline_plan_request {node, { "one", "two", "three" }};
 
       auto plan_solution = planning_components->plan(multi_pipeline_plan_request);
 
@@ -110,7 +109,7 @@ int main(int argc, char** argv)
       if (plan_solution)
       {
         // Visualize the trajectory in Rviz
-        visual_tools.publishTrajectoryLine(plan_solution.trajectory, joint_model_group_ptr);
+        visual_tools.publishTrajectoryLine(plan_solution.trajectory_, joint_model_group_ptr);
         visual_tools.trigger();
         solutions.push_back(plan_solution);
       }
