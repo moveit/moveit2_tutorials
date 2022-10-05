@@ -12,7 +12,7 @@ MoveIt typically publishes manipulator motion commands to a `JointTrajectoryCont
 
 MoveIt Controller Manager
 -------------------------
-If using the Move Group or MoveItCpp, a MoveItControllerManager (MICM) can be used to manage controller switching. The MICM can parse the joint names in any command coming from MoveIt and activate the appropriate controllers. For example, it can automatically switch between controlling two manipulators in a single joint group at once to a single manipulator. To use a MICM, just set :code:`moveit_manage_controllers = true` in the launch file. `Example MICM launch file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_. Frankly, the MICM is a candidate to be deprecated soon and we do not recommend its use.
+If using the Move Group or MoveItCpp, a Ros2ControlManager (R2CM) can be used to manage controller switching. The R2CM can parse the joint names in any command coming from MoveIt and activate the appropriate controllers. For example, it can automatically switch between controlling two manipulators in a single joint group at once to a single manipulator. To use a R2CM, just set :code:`moveit_manage_controllers = true` in the launch file. `Example R2CM launch file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_. Frankly, the R2CM is a candidate to be deprecated soon and we do not recommend its use.
 
 MoveIt Controller Interfaces
 ----------------------------
@@ -115,6 +115,6 @@ Controllers for Multiple Nodes
 
 (TODO: update for ROS2)
 
-MoveItMultiControllerManager can be used for more than one ros_control nodes. It works by creating several MoveItControllerManagers, one for each node. It instantiates them with their respective namespace and takes care of proper delegation. To use it must be added to the launch file. ::
+Ros2ControlMultiManager can be used for more than one ros_control nodes. It works by creating several Ros2ControlManagers, one for each node. It instantiates them with their respective namespace and takes care of proper delegation. To use it must be added to the launch file. ::
 
-  <param name="moveit_controller_manager" value="moveit_ros_control_interface::MoveItMultiControllerManager" />
+  <param name="moveit_controller_manager" value="moveit_ros_control_interface::Ros2ControlMultiManager" />

@@ -4,4 +4,4 @@ trajectory_execution:
   allowed_goal_duration_margin: 0.5
   allowed_start_tolerance: 0.01
 
-moveit_controller_manager: moveit_ros_control_interface/MoveItMultiControllerManager
+moveit_controller_manager: moveit_ros_control_interface/Ros2ControlMultiManager

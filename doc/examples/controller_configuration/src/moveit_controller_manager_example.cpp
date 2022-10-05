@@ -73,14 +73,14 @@ public:
   }
 };
 
-class MoveItControllerManagerExample : public moveit_controller_manager::MoveItControllerManager
+class Ros2ControlManagerExample : public moveit_controller_manager::Ros2ControlManager
 {
 public:
-  MoveItControllerManagerExample()
+  Ros2ControlManagerExample()
   {
   }
 
-  ~MoveItControllerManagerExample() override = default;
+  ~Ros2ControlManagerExample() override = default;
 
   moveit_controller_manager::MoveItControllerHandlePtr getControllerHandle(const std::string& name) override
   {
@@ -133,10 +133,9 @@ public:
   /*
    * Controllers are all active and default.
    */
-  moveit_controller_manager::MoveItControllerManager::ControllerState
-  getControllerState(const std::string& /*name*/) override
+  moveit_controller_manager::Ros2ControlManager::ControllerState getControllerState(const std::string& /*name*/) override
   {
-    moveit_controller_manager::MoveItControllerManager::ControllerState state;
+    moveit_controller_manager::Ros2ControlManager::ControllerState state;
     state.active_ = true;
     state.default_ = true;
     return state;
@@ -156,5 +155,4 @@ protected:
 
 }  // end namespace moveit_tutorials
 
-PLUGINLIB_EXPORT_CLASS(moveit_tutorials::MoveItControllerManagerExample,
-                       moveit_controller_manager::MoveItControllerManager);
+PLUGINLIB_EXPORT_CLASS(moveit_tutorials::Ros2ControlManagerExample, moveit_controller_manager::Ros2ControlManager);

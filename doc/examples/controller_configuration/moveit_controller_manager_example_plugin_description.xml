@@ -2,7 +2,7 @@
 
   <class name="moveit_tutorials/MoveItExampleControllerManager"
          type="moveit_tutorials::MoveItExampleControllerManager"
-         base_class_type="moveit_controller_manager::MoveItControllerManager">
+         base_class_type="moveit_controller_manager::Ros2ControlManager">
     <description>
       An example controller for MoveIt. This is not functional code, but can serve as a starting point for simple controllers.
     </description>
