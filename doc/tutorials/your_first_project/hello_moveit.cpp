@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
   }
   else
   {
-    RCLCPP_ERROR(logger, "Planing failed!");
+    RCLCPP_ERROR(logger, "Planning failed!");
   }
 
   // Shutdown ROS

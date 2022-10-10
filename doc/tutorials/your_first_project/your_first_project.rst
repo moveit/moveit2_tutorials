@@ -99,7 +99,7 @@ The program should run and exit without error.
 2.2 Examine the code
 ~~~~~~~~~~~~~~~~~~~~
 
-The headers included at the top are just some standard C++ headers and the header for ROS and MoveIt that we will use later.
+The headers included at the top are just some standard C++ headers and the headers for ROS and MoveIt that we will use later.
 
 After that, we have the normal call to initialize rclcpp, and then we create our Node.
 
@@ -131,7 +131,7 @@ Lastly, we have the code to shutdown ROS.
 3 Plan and Execute using MoveGroupInterface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In place of the comment that says "Next step goes here," add this code:
+In place of the comment that says "Next step goes here", add this code:
 
 .. code-block:: C++
 
@@ -161,7 +161,7 @@ In place of the comment that says "Next step goes here," add this code:
   if(success) {
     move_group_interface.execute(plan);
   } else {
-    RCLCPP_ERROR(logger, "Planing failed!");
+    RCLCPP_ERROR(logger, "Planning failed!");
   }
 
 3.1 Build and Run
@@ -211,7 +211,8 @@ If it fails to find that within 10 seconds, it prints this error and terminates 
 3.2 Examine the code
 ~~~~~~~~~~~~~~~~~~~~
 
-The first thing we do is create the MoveGroupInterface. This object will be used to interact with move_group, which allows us to plan and execute trajectories.
+The first thing we do is create the ``MoveGroupInterface``.
+This object will be used to interact with ``move_group``, which allows us to plan and execute trajectories.
 Note that this is the only mutable object that we create in this program.
 Another thing to take note of is the second argument to the ``MoveGroupInterface`` object we are creating here: ``"panda_arm"``.
 That is the group of joints as defined in the robot description that we are going to operate on with this ``MoveGroupInterface``.
@@ -221,11 +222,13 @@ That is the group of joints as defined in the robot description that we are goin
   using moveit::planning_interface::MoveGroupInterface;
   auto move_group_interface = MoveGroupInterface(node, "panda_arm");
 
-Then, we set our target pose and plan. Note that only the target pose is set (via ``setPoseTarget``. The starting pose is implicitly the position published by joint state publisher, which could be changed using the ``MoveGroupInterface::setStartState*`` family of functions (but is not in this tutorial).
+Then, we set our target pose and plan. Note that only the target pose is set (via ``setPoseTarget``).
+The starting pose is implicitly the position published by the joint state publisher, which could be changed using the
+``MoveGroupInterface::setStartState*`` family of functions (but is not in this tutorial).
 
 One more thing to note about this next section is the use of lambdas for constructing the message type ``target_pose`` and planning.
 This is a pattern you'll find in modern C++ codebases that enables writing in a more declarative style.
-For more information about this pattern there is a couple of links at the end of this tutorial.
+For more information about this pattern there are a couple of links at the end of this tutorial.
 
 .. code-block:: C++
 
