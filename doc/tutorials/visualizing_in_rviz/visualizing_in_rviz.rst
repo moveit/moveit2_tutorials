@@ -144,13 +144,10 @@ After we've constructed and initialized, we now create some closures (function o
 
 Each of the three closures capture ``moveit_visual_tools`` by reference and the last one captures a pointer to the joint model group object we are planning with.
 Each of these call a function on ``moveit_visual_tools`` that changes something in RViz.
-The first one, ``draw_title`` adds text one meter above the base of the robot.
-This is a useful way to show the state of your program from a high level.
-The second one calls a function called ``prompt``.
-This function blocks your program until the user presses the ``next`` button in RViz.
-This is helpful for stepping through a program when debugging.
-The last one draws the tool path of a trajectory that we have planned.
-This is often helpful for understanding a planned trajectory from the perspective of the tool.
+
+* The first one, ``draw_title`` adds text one meter above the base of the robot. This is a useful way to show the state of your program from a high level.
+* The second one calls a function called ``prompt``. This function blocks your program until the user presses the ``next`` button in RViz. This is helpful for stepping through a program when debugging.
+* The last one draws the tool path of a trajectory that we have planned. This is often helpful for understanding a planned trajectory from the perspective of the tool.
 
 You might be asking yourself why we would create lambdas like this, and the reason is simply to make the code that comes later easier to read and understand.
 As your write software, it is often helpful to break up your functionality into named functions which can be easily reused and tested on their own.
@@ -196,7 +193,7 @@ Update your code for planning and executing to include these new features:
     } else {
       draw_title("Planning Failed!");
       moveit_visual_tools.trigger();
-      RCLCPP_ERROR(logger, "Planing failed!");
+      RCLCPP_ERROR(logger, "Planning failed!");
     }
 
 One thing you'll quickly notice is that we have to call a method called ``trigger`` on ``moveit_visual_tools`` after each call to change something rendered in RViz.
