@@ -146,14 +146,14 @@ Open ``mtc_node.cpp`` in your editor of choice, and paste in the following code.
       rclcpp::Node::SharedPtr node_;
     };
 
-    rclcpp::node_interfaces::NodeBaseInterface::SharedPtr MTCTaskNode::getNodeBaseInterface()
-    {
-      return node_->get_node_base_interface();
-    }
-
     MTCTaskNode::MTCTaskNode(const rclcpp::NodeOptions& options)
       : node_{ std::make_shared<rclcpp::Node>("mtc_node", options) }
     {
+    }
+
+    rclcpp::node_interfaces::NodeBaseInterface::SharedPtr MTCTaskNode::getNodeBaseInterface()
+    {
+      return node_->get_node_base_interface();
     }
 
     void MTCTaskNode::setupPlanningScene()
@@ -278,7 +278,7 @@ Open ``mtc_node.cpp`` in your editor of choice, and paste in the following code.
 The top of the code includes the ROS and MoveIt Libraries that this package uses.
 
  * ``rclcpp/rclcpp.hpp`` includes core ROS2 functionality
- * ``moveit/planning_scene/planning_scene.h`` and ``moveit/planning_scene_interface/planning_scene_interface.h`` includes functionality to interface with the robot model and collision objects
+ * ``moveit/planning_scene/planning_scene.h`` and ``moveit/planning_scene_interface/planning_scene_interface.h`` include functionality to interface with the robot model and collision objects
  * ``moveit/task_constructor/task.h``, ``moveit/task_constructor/solvers.h``, and ``moveit/task_constructor/stages.h`` include different components of MoveIt Task Constructor that are used in the example
  * ``tf2_geometry_msgs/tf2_geometry_msgs.hpp`` and ``tf2_eigen/tf2_eigen.hpp`` won't be used in this initial example, but they will be used for pose generation when we add more stages to the MoveIt Task Constructor task.
 
@@ -330,16 +330,7 @@ We start by defining a class that will contain the main MoveIt Task Constructor 
       rclcpp::Node::SharedPtr node_;
     };
 
-These lines define a getter function to get the node base interface, which will be used for the executor later.
-
-.. code-block:: c++
-
-    rclcpp::node_interfaces::NodeBaseInterface::SharedPtr MTCTaskNode::getNodeBaseInterface()
-    {
-      return node_->get_node_base_interface();
-    }
-
-These next lines initialize the node with specified options.
+These lines initialize the node with specified options (it is the constructor of our ``MTCTaskNode`` class).
 
 .. code-block:: c++
 
@@ -348,7 +339,17 @@ These next lines initialize the node with specified options.
     {
     }
 
-This class method is used to set up the planning scene that is used in the example. It creates a cylinder with dimensions specified by ``object.primitives[0].dimensions`` and position specified by ``pose.position.z`` and ``pose.position.x``. You can try changing these numbers to resize and move the cylinder around. If we move the cylinder out of the robot's reach, planning will fail.
+These next lines define a getter function to get the node base interface, which will be used for the executor later.
+
+.. code-block:: c++
+
+    rclcpp::node_interfaces::NodeBaseInterface::SharedPtr MTCTaskNode::getNodeBaseInterface()
+    {
+      return node_->get_node_base_interface();
+    }
+
+This class method is used to set up the planning scene that is used in the example. It creates a cylinder with dimensions specified by ``object.primitives[0].dimensions`` and position specified by ``pose.position.x`` and ``pose.position.y``.
+You can try changing these numbers to resize and move the cylinder around. If we move the cylinder out of the robot's reach, planning will fail.
 
 .. code-block:: c++
 
@@ -463,7 +464,10 @@ Feel free to try out the different solvers and see how the robot motion changes.
       cartesian_planner->setMaxAccelerationScaling(1.0);
       cartesian_planner->setStepSize(.01);
 
-Now that we added in the planners, we can add a stage that will move the robot. The following lines use a ``MoveTo`` stage (a propagator stage). Since opening the hand is a relatively simple movement, we can use the joint interpolation planner. This stage plans a move to the "open hand" pose, which is a named pose defined in the :moveit_resources_codedir:`SRDF<panda_moveit_config/config/panda.srdf>` for the panda robot. We return the task and finish with the createTask() function.
+Now that we added in the planners, we can add a stage that will move the robot.
+The following lines use a ``MoveTo`` stage (a propagator stage). Since opening the hand is a relatively simple movement, we can use the joint interpolation planner.
+This stage plans a move to the "open hand" pose, which is a named pose defined in the :moveit_resources_codedir:`SRDF<panda_moveit_config/config/panda.srdf>` for the Panda robot.
+We return the task and finish with the ``createTask()`` function.
 
 .. code-block:: c++
 
@@ -624,7 +628,11 @@ Next, we create a pointer to a MoveIt Task Constructor stage object, and set it 
       mtc::Stage* attach_object_stage =
           nullptr;  // Forward attach_object_stage to place pose generator
 
-This next block of code creates a ``SerialContainer``. This is a container that can be added to our task and can hold several substages. In this case, we create a serial container that will contain the stages relevant to the picking action. Instead of adding the stages to the task, we will add the relevant stages to the serial container. We use ``exposeTo`` to declare the task properties from the parent task in the new serial container, and use configureInitFrom() to initialize them. This allows the contained stages to access these properties.
+This next block of code creates a ``SerialContainer``.
+This is a container that can be added to our task and can hold several substages.
+In this case, we create a serial container that will contain the stages relevant to the picking action.
+Instead of adding the stages to the task, we will add the relevant stages to the serial container. We use ``exposeTo()`` to declare the task properties from the parent task in the new serial container, and use ``configureInitFrom()`` to initialize them.
+This allows the contained stages to access these properties.
 
 .. code-block:: c++
 
@@ -656,7 +664,12 @@ We then create a stage to approach the object. This stage is a ``MoveRelative`` 
           grasp->insert(std::move(stage));
         }
 
-Now, create a stage to generate the grasp pose. This is a generator stage, so it computes its results without regard to the stages before and after it. The first stage, ``CurrentState`` is a generator stage as well - to connect the first stage and this stage, a connecting stage must be used, which we already created above. This code sets the stage properties, sets the pose before grasping, the angle delta, and the monitored stage. Angle delta is a property of the ``GenerateGraspPose`` stage that is used to determine the number of poses to generate; when generating solutions, MoveIt Task Constructor will try to grasp the object from many different orientations, with the difference between the orientations specified by the angle delta. The smaller the delta, the closer together the grasp orientations will be. When defining the current stage, we set ``current_state_ptr``, which is now used to forward information about the object pose and shape to the inverse kinematic solver. This stage won't be directly added to the serial container like previously, as we still need to do inverse kinematics on the poses it generates.
+Now, create a stage to generate the grasp pose.
+This is a generator stage, so it computes its results without regard to the stages before and after it.
+The first stage, ``CurrentState`` is a generator stage as well - to connect the first stage and this stage, a connecting stage must be used, which we already created above.
+This code sets the stage properties, sets the pose before grasping, the angle delta, and the monitored stage.
+Angle delta is a property of the ``GenerateGraspPose`` stage that is used to determine the number of poses to generate; when generating solutions, MoveIt Task Constructor will try to grasp the object from many different orientations, with the difference between the orientations specified by the angle delta. The smaller the delta, the closer together the grasp orientations will be. When defining the current stage, we set ``current_state_ptr``, which is now used to forward information about the object pose and shape to the inverse kinematics solver.
+This stage won't be directly added to the serial container like previously, as we still need to do inverse kinematics on the poses it generates.
 
 .. code-block:: c++
 
@@ -698,7 +711,7 @@ Now, we create the ``ComputeIK`` stage, and give it the name ``generate pose IK`
           grasp->insert(std::move(wrapper));
         }
 
-In order to pick up the object, we must allow collision between the hand and the object. This can be done with a ``ModifyPlanningScene`` stage. The ``allowCollisions`` function lets us specify which collisions to disable.
+To pick up the object, we must allow collision between the hand and the object. This can be done with a ``ModifyPlanningScene`` stage. The ``allowCollisions`` function lets us specify which collisions to disable.
 ``allowCollisions`` can be used with a container of names, so we can use ``getLinkModelNamesWithCollisionGeometry`` to get all the names of links with collision geometry in the hand group.
 
 .. code-block:: c++
@@ -784,7 +797,8 @@ Now that the stages that define the pick are complete, we move on to defining th
         task.add(std::move(stage_move_to_place));
       }
 
-We also create a serial container for the place stages. This is done similarly to the pick serial container. The next stages will be added to the serial container rather than the task.
+We also create a serial container for the place stages. This is done similarly to the pick serial container.
+The next stages will be added to the serial container rather than the task.
 
 .. code-block:: c++
 
@@ -794,7 +808,10 @@ We also create a serial container for the place stages. This is done similarly t
         place->properties().configureInitFrom(mtc::Stage::PARENT,
                                               { "eef", "group", "ik_frame" });
 
-This next stage generates the poses used to place the object and compute the inverse kinematics for those poses - it is somewhat similar to the ``generate grasp pose`` stage from the pick serial container. We start by creating a stage to generate the poses and inheriting the task properties. We specify the pose where we want to place the object with a ``PoseStamped`` message from ``geometry_msgs`` - in this case, we choose ``y = 0.5``. We then pass the target pose to the stage with ``setPose``.  Next, we use ``setMonitoredStage`` and pass it the pointer to the ``attach object stage`` from earlier. This allows the stage to know how the object is attached. We then create a ``ComputeIK`` stage and pass it our ``GeneratePlacePose`` stage - the rest follows the same logic as above with the pick stages.
+This next stage generates the poses used to place the object and compute the inverse kinematics for those poses - it is somewhat similar to the ``generate grasp pose`` stage from the pick serial container. We start by creating a stage to generate the poses and inheriting the task properties. We specify the pose where we want to place the object with a ``PoseStamped`` message from ``geometry_msgs`` - in this case, we choose ``y = 0.5``. We then pass the target pose to the stage with ``setPose``.
+Next, we use ``setMonitoredStage`` and pass it the pointer to the ``attach_object`` stage from earlier.
+This allows the stage to know how the object is attached.
+We then create a ``ComputeIK`` stage and pass it our ``GeneratePlacePose`` stage - the rest follows the same logic as above with the pick stages.
 
 .. code-block:: c++
 
@@ -833,7 +850,8 @@ Now that we're ready to place the object, we open the hand with ``MoveTo`` stage
           place->insert(std::move(stage));
         }
 
-We also can re-enable collisions with the object now that we no longer need to hold it. This is done using ``allowCollisions`` almost exactly the same way as disabling collisions, except setting the last argument to ``false`` rather than ``true``.
+We also can re-enable collisions with the object now that we no longer need to hold it.
+This is done using ``allowCollisions`` almost exactly the same way as disabling collisions, except setting the last argument to ``false`` rather than ``true``.
 
 .. code-block:: c++
 
@@ -884,7 +902,7 @@ We finish our place serial container and add it to the task.
         task.add(std::move(place));
       }
 
-The final step is to return home: we use a ``MoveTo`` stage and pass it the goal pose of ``ready``, which is a pose defined in the panda SRDF.
+The final step is to return home: we use a ``MoveTo`` stage and pass it the goal pose of ``ready``, which is a pose defined in the Panda SRDF.
 
 .. code-block:: c++
 
@@ -934,7 +952,14 @@ When running MTC, it prints a diagram like this to terminal:
     [demo_node-1]     1  - ←   1 →   -  0 / initial_state
     [demo_node-1]     -  0 →   0 →   -  0 / move_to_home
 
-This example^ shows two stages. The first stage ("initial_state") is a ``CurrentState`` type of stage, which initializes a PlanningScene and captures any collision objects that are present at that moment. A pointer to this stage can be used to retrieve the state of the robot. Since CurrentState inherits from  ``Generator``, it propagates solutions both forward and backward. This is denoted by the arrows in both directions. The first ``1`` indicates that one solution was successfully propagated backwards to the previous stage. The second ``1``, between the arrows, indicates that one solution was generated. The ``0`` indicates that a solution was not propagated forward successfully to the next stage, because the next stage failed.
+This example^ shows two stages. The first stage ("initial_state") is a ``CurrentState`` type of stage, which initializes a ``PlanningScene`` and captures any collision objects that are present at that moment.
+A pointer to this stage can be used to retrieve the state of the robot.
+Since ``CurrentState`` inherits from  ``Generator``, it propagates solutions both forward and backward.
+This is denoted by the arrows in both directions.
+
+- The first ``1`` indicates that one solution was successfully propagated backwards to the previous stage.
+- The second ``1``, between the arrows, indicates that one solution was generated.
+- The ``0`` indicates that a solution was not propagated forward successfully to the next stage, because the next stage failed.
 
 The second stage ("move_to_home") is a ``MoveTo`` type of stage. It inherits its propagation direction from the previous stage, so both arrows point forward. The ``0``'s indicate that this stage failed completely. From left to right, the ``0``'s mean:
 
@@ -951,6 +976,10 @@ Information about individual stages can be retrieved from the task. For example,
 
     uint32_t const unique_stage_id = task_.stages()->findChild(stage_name)->introspectionId();
 
-A CurrentState type stage does not just retrieve the current state of the robot. It also initializes a PlanningScene object, capturing any collision objects that are present at that moment.
+A ``CurrentState`` type stage does not just retrieve the current state of the robot.
+It also initializes a ``PlanningScene`` object, capturing any collision objects that are present at that moment.
 
-MTC stages can be propagated in forward and backward order. You can easily check which direction a stage propagates by the arrow in the RViz GUI. When propagating backwards, the logic of many operations is reversed. For example, to allow collisions with an object in a ``ModifyPlanningScene`` stage, you would call ``allowCollisions(false)`` rather than ``allowCollisions(true)``. There is a discussion to be read `here. <https://github.com/ros-planning/moveit_task_constructor/issues/349>`_
+MTC stages can be propagated in forward and backward order.
+You can easily check which direction a stage propagates by the arrow in the RViz GUI.
+When propagating backwards, the logic of many operations is reversed.
+For example, to allow collisions with an object in a ``ModifyPlanningScene`` stage, you would call ``allowCollisions(false)`` rather than ``allowCollisions(true)``. There is a discussion to be read `here. <https://github.com/ros-planning/moveit_task_constructor/issues/349>`_
