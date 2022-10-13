@@ -98,7 +98,6 @@ MoveIt controller managers, somewhat a misnomer, are the interfaces to your cust
 
 However, for some applications you might desire a more custom controller manager. An example template for starting your custom controller manager is provided :codedir:`here <examples/controller_configuration/src/moveit_controller_manager_example.cpp>`.
 
-
 Example Constraint Sampler Plugin
 ----------------------------------
 

@@ -38,4 +38,4 @@ What Changes were required for the Dual-Arm System?
 
 - Define the controllers which MoveIt can execute trajectories with in ``moveit_controllers.yaml``. Here we have a trajectory controller for each arm.
 
-- Also in ``moveit_controllers.yaml``, define the controller management strategy MoveIt will use. The simplest option from a configuration standpoint is either ``moveit_ros_control_interface/MoveItMultiControllerManager`` or ``moveit_ros_control_interface/MoveItControllerManager``. You can also use a ``moveit_simple_controller_manager/MoveItSimpleControllerManager`` although it requires additional namespacing and additional enumeration of the joints.
+- Also in ``moveit_controllers.yaml``, define the controller management strategy MoveIt will use. The simplest option from a configuration standpoint is ``moveit_ros_control_interface/Ros2ControlManager``. You can also use a ``moveit_simple_controller_manager/MoveItSimpleControllerManager`` although it requires additional namespacing and additional enumeration of the joints.
