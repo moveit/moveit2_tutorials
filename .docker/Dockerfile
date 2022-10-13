@@ -1,13 +1,10 @@
 # syntax = docker/dockerfile:1.3
 
-# ghcr.io/ros-planning/moveit2:${ROS_DISTRO}-source
-# Downloads the moveit source code and install remaining debian dependencies
-
 ARG ROS_DISTRO=rolling
 
-######################### Base Tutorial Image  #################################################
+######################### Tutorial Image  #################################################
 
-FROM moveit/moveit2:${ROS_DISTRO}-source as base_image
+FROM moveit/moveit2:${ROS_DISTRO}-source as tutorial_image
 
 # Copy MoveIt sources from docker context
 COPY . src/moveit2_tutorials
@@ -25,14 +22,13 @@ RUN --mount=type=cache,target=/root/.ccache/ \
             --ament-cmake-args -DCMAKE_BUILD_TYPE=Release \
             --event-handlers desktop_notification- status- && \
     ccache -s && \
+    rm -rf /var/lib/apt/lists/* && \
     # Update /ros_entrypoint.sh to source our new workspace
     sed -i "s#/opt/ros/\$ROS_DISTRO/setup.bash#$ROS_UNDERLAY/install/setup.bash#g" /ros_entrypoint.sh
 
-######################### Hello World Tutorial Image  #########################################
+######################### Hello World Tutorial  #########################################
 
-FROM ghcr.io/ros-planning/moveit2_tutorials:${ROS_DISTRO} as hello_world_image
-
-#Make a new package using the command in the tutorial
+#Create a new package using the command from the tutorial
 RUN . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
     . "install/setup.sh" &&\
     cd "src" &&\
@@ -41,43 +37,15 @@ RUN . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
     --dependencies moveit_ros_planning_interface rclcpp \
     --node-name hello_moveit hello_moveit
 
-#Remove the empty cpp file and replace it with the example file
-RUN rm src/hello_moveit/src/hello_moveit.cpp
-COPY ./doc/tutorials/your_first_project/hello_moveit.cpp src/hello_moveit/src/hello_moveit.cpp
-#Build the tutorial
-RUN --mount=type=cache,target=/root/.ccache/ \
-    . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
-    . "install/setup.sh" &&\
-    sudo apt update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
-    colcon build \
-            --cmake-args -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-            --ament-cmake-args -DCMAKE_BUILD_TYPE=Debug \
-            --event-handlers desktop_notification- status- && \
-    ccache -s
-
-######################### Planning Around Objects Image  #######################################
-
-FROM hello_world_image as planning_around_objects_image
+######################### Planning Around Objects  #######################################
 
 #Remove the hellow_world tutorial cpp file and replace it with the planning_around_objects file
 RUN rm src/hello_moveit/src/hello_moveit.cpp
 COPY ./doc/tutorials/planning_around_objects/hello_moveit.cpp src/hello_moveit/src/hello_moveit.cpp
-#Build the tutorial
-RUN --mount=type=cache,target=/root/.ccache/ \
-    . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
-    . "install/setup.sh" &&\
-    sudo apt update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
-    colcon build \
-            --cmake-args -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-            --ament-cmake-args -DCMAKE_BUILD_TYPE=Debug \
-            --event-handlers desktop_notification- status- && \
-    ccache -s
 
 ######################### Pick and Place (MTC) Image  #########################################
 
-FROM planning_around_objects_image as pick_and_place_image
-
-#Make a new package using the command in the tutorial
+#Create a new package using the command from the tutorial
 RUN . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
     . "install/setup.sh" &&\
     ros2 pkg create \
@@ -85,13 +53,17 @@ RUN . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
         --destination-directory src \
         --dependencies moveit_task_constructor_core rclcpp \
         --node-name mtc_node mtc_tutorial
+
 #Remove the empty cpp file and replace it with the example file
 RUN rm src/mtc_tutorial/src/mtc_node.cpp
 COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/src/mtc_node.cpp src/mtc_tutorial/src/mtc_node.cpp
+
 #Add the launch folder to the tutorial package and CMakeLists.txt
 COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/launch src/mtc_tutorial/launch
+
+#Add install(DIRECTORY launch  DESTINATION share/${PROJECT_NAME}) to CMakeLists.txt
 RUN   sed -i "s|ament_package()|install(DIRECTORY launch  DESTINATION share/\${PROJECT_NAME})\nament_package()|g" src/mtc_tutorial/CMakeLists.txt
-#Build the tutorial
+#Build the tutorials
 RUN --mount=type=cache,target=/root/.ccache/ \
     # Enable ccache
     . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
@@ -101,4 +73,5 @@ RUN --mount=type=cache,target=/root/.ccache/ \
             --cmake-args -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
             --ament-cmake-args -DCMAKE_BUILD_TYPE=Debug \
             --event-handlers desktop_notification- status- && \
-    ccache -s
+    ccache -s && \
+    rm -rf /var/lib/apt/lists/*
