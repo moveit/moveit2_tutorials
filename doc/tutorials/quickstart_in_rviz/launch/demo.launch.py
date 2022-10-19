@@ -1,9 +1,10 @@
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch.conditions import IfCondition, UnlessCondition
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 from launch.actions import ExecuteProcess
 from ament_index_python.packages import get_package_share_directory
 from moveit_configs_utils import MoveItConfigsBuilder
@@ -11,10 +12,30 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 def generate_launch_description():
 
+    declared_arguments = []
+    # UR specific arguments
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "rviz_config",
+            default_value="panda_moveit_config_demo.rviz",
+            description="RViz configuration file",
+        )
+    )
+
+    return LaunchDescription(
+        declared_arguments + [OpaqueFunction(function=launch_setup)]
+    )
+
+
+def launch_setup(context, *args, **kwargs):
+
     moveit_config = (
         MoveItConfigsBuilder("moveit_resources_panda")
         .robot_description(file_path="config/panda.urdf.xacro")
         .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
+        .planning_scene_monitor(
+            publish_robot_description=True, publish_robot_description_semantic=True
+        )
         .planning_pipelines(
             pipelines=["ompl", "chomp", "pilz_industrial_motion_planner"]
         )
@@ -29,8 +50,10 @@ def generate_launch_description():
         parameters=[moveit_config.to_dict()],
     )
 
-    rviz_base = os.path.join(get_package_share_directory("moveit2_tutorials"), "launch")
-    rviz_config = os.path.join(rviz_base, "panda_moveit_config_demo.rviz")
+    rviz_base = LaunchConfiguration("rviz_config")
+    rviz_config = PathJoinSubstitution(
+        [FindPackageShare("moveit2_tutorials"), "launch", rviz_base]
+    )
 
     # RViz
     rviz_node = Node(
@@ -102,16 +125,15 @@ def generate_launch_description():
         executable="spawner",
         arguments=["panda_hand_controller", "-c", "/controller_manager"],
     )
+    nodes_to_start = [
+        rviz_node,
+        static_tf,
+        robot_state_publisher,
+        run_move_group_node,
+        ros2_control_node,
+        joint_state_broadcaster_spawner,
+        arm_controller_spawner,
+        hand_controller_spawner,
+    ]
 
-    return LaunchDescription(
-        [
-            rviz_node,
-            static_tf,
-            robot_state_publisher,
-            run_move_group_node,
-            ros2_control_node,
-            joint_state_broadcaster_spawner,
-            arm_controller_spawner,
-            hand_controller_spawner,
-        ]
-    )
+    return nodes_to_start

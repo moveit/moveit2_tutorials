@@ -1,4 +1,4 @@
-add_executable(mtc_tutorial src/main.cpp)
+add_executable(mtc_tutorial src/mtc_node.cpp)
 target_compile_options(mtc_tutorial PUBLIC -g -O0)
 ament_target_dependencies(mtc_tutorial ${THIS_PACKAGE_INCLUDE_DEPENDS})
 

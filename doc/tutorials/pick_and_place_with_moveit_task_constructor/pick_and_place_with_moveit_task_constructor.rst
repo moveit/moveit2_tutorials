@@ -1,6 +1,6 @@
 Pick and Place with MoveIt Task Constructor
 ===========================================
-
+.. TODO (M Wrock): Update this video
 .. raw:: html
 
     <video width="700px" controls="true" autoplay="true" loop="true">
@@ -8,7 +8,7 @@ Pick and Place with MoveIt Task Constructor
         MoveIt Task Constructor Pick and Place example
     </video>
 
-This tutorial will walk you through creating a package that plans a pick and place operation using `MoveIt Task Constructor <https://github.com/ros-planning/moveit_task_constructor/tree/ros2/>`_. MoveIt Task Constructor provides a way to plan for tasks that consist of multiple different subtasks (known as stages).
+This tutorial will walk you through creating a package that plans a pick and place operation using `MoveIt Task Constructor <https://github.com/ros-planning/moveit_task_constructor/tree/ros2/>`_. MoveIt Task Constructor provides a way to plan for tasks that consist of multiple different subtasks (known as stages). If you just want to run the tutorial, you can follow the :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>` to start a container with the completed tutorial.
 
 1 Basic Concepts
 ----------------
