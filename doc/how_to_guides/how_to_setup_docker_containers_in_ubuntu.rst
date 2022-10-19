@@ -32,7 +32,7 @@ Steps
 
    .. code-block:: bash
 
-    DOCKER_IMAGE=humble-tutorial docker compose run --rm --name moveit2_container gpu
+    DOCKER_IMAGE=rolling-tutorial docker compose run --rm --name moveit2_container gpu
 
    You can replace ``rolling-tutorial`` with other tagged images, e.g. ``humble-tutorial``. Similarly, you can replace ``gpu`` with ``cpu`` if you do not wish to run using Nvidia GPU drivers and you can change the name of the container by replacing ``moveit2_container``. The ``--rm`` argument will remove the container when you stop (or exit) it, otherwise you can keep your modified container on disk and start it using ``docker start moveit2_container``
 
@@ -50,9 +50,9 @@ Further Reading
   refer to `this blog post <https://picknik.ai/ros/robotics/docker/2021/07/20/Vatan-Aksoy-Tezer-Docker.html>`_
   from PickNik's Vatan Aksoy Tezer and Brennard Pierce.
 
-- You can find a list of tagged tutorial images `here <https://github.com/ros-planning/moveit2_tutorials/pkgs/container/moveit2_tutorials>`__. There are tagged images for both ``rolling`` and ``humble`` and are built on top of the ``rolling-source`` and ``humble-source`` MoveIt 2 Docker images `here <https://hub.docker.com/r/moveit/moveit2/tags>`__.
+- You can find a list of tagged tutorial images `here <https://github.com/ros-planning/moveit2_tutorials/pkgs/container/moveit2_tutorials>`__. There are tagged images for both ``rolling`` and ``humble`` which are built on top of the ``rolling-source`` and ``humble-source`` MoveIt 2 Docker images `here <https://hub.docker.com/r/moveit/moveit2/tags>`__.
 
-- You can more tagged images for MoveIt 2 Docker containers `here <https://hub.docker.com/r/moveit/moveit2/tags>`__.
+- You can find more tagged images for MoveIt 2 Docker containers `here <https://hub.docker.com/r/moveit/moveit2/tags>`__.
   The tagged images coincide with ROS2 version releases. The ``release`` version of the container provides an environment in which MoveIt 2 is installed via the binaries.
   The ``source`` version of the Docker image will build MoveIt 2 from source.
-  You can use any of the images in that link by substituting the DOCKER_IMAGE environment variable with ``moveit/moveit2:<tag_name>``, where ``<tag_name>`` is from the above link. However you must use `this docker-compose.yml <https://raw.githubusercontent.com/ros-planning/moveit2_tutorials/main/_scripts/docker-compose.yml>`_ instead (simply copy it to a different location and run your ``docker compose`` command there)
+  You can use any of these images by substituting the DOCKER_IMAGE environment variable with a tag name from the above link (like ``rolling-source``), but you must use `this docker-compose.yml <https://raw.githubusercontent.com/ros-planning/moveit2_tutorials/main/_scripts/docker-compose.yml>`_ instead (simply copy it to a different location and run your ``docker compose`` command there).
