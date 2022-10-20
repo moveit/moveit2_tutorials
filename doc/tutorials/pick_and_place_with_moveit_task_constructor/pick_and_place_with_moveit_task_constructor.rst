@@ -1,10 +1,9 @@
 Pick and Place with MoveIt Task Constructor
 ===========================================
-.. TODO (M Wrock): Update this video
 .. raw:: html
 
     <video width="700px" controls="true" autoplay="true" loop="true">
-        <source src="../../../_static/videos/mtc.webm" type="video/webm">
+        <source src="../../../_static/videos/mtc-demo.webm" type="video/webm">
         MoveIt Task Constructor Pick and Place example
     </video>
 
