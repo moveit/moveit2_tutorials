@@ -7,7 +7,7 @@ This tutorial will teach you how to create motion plans in MoveIt using RViz and
 
 Getting Started
 ---------------
-If you haven't already done so, make sure you've completed the steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>`.
+If you haven't already done so, make sure you've completed the steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` or our :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>`.
 
 Step 1: Launch the Demo and Configure the Plugin
 ------------------------------------------------
@@ -231,7 +231,11 @@ From "*Panels*" menu, select "*Add New Panels*". From the menu, select "*RvizVis
 
 Saving Your Configuration
 +++++++++++++++++++++++++
-RViz enables you to save your configuration under ``File->Save Config``. You should do this before continuing on to the next tutorials.
+RViz enables you to save your configuration under ``File->Save Config``. You should do this before continuing on to the next tutorials. If you choose to save your configuration under a new name, you can use ``File->Save Config As`` and refer to your configuration file using: ::
+
+   ros2 launch moveit2_tutorials demo.launch.py rviz_config:=your_rviz_config.rviz
+
+Replace ``your_rviz_config.rviz`` with the name of the file you saved to ``moveit2_tutorials/doc/tutorials/quickstart_in_rviz/launch/`` and build the workspace so it can be found.
 
 
 Next Tutorial
