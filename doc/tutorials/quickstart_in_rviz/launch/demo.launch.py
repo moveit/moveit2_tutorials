@@ -13,7 +13,6 @@ from moveit_configs_utils import MoveItConfigsBuilder
 def generate_launch_description():
 
     declared_arguments = []
-    # UR specific arguments
     declared_arguments.append(
         DeclareLaunchArgument(
             "rviz_config",

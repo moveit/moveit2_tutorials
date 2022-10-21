@@ -30,7 +30,7 @@ RUN . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
 
 ######################### Planning Around Objects  #######################################
 
-#Remove the hellow_world tutorial cpp file and replace it with the planning_around_objects file
+#Remove the hello_world tutorial cpp file and replace it with the planning_around_objects file
 RUN rm src/hello_moveit/src/hello_moveit.cpp
 COPY ./doc/tutorials/planning_around_objects/hello_moveit.cpp src/hello_moveit/src/hello_moveit.cpp
 
@@ -54,12 +54,13 @@ COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/launch src/mtc_
 
 #Add install(DIRECTORY launch  DESTINATION share/${PROJECT_NAME}) to CMakeLists.txt
 RUN   sed -i "s|ament_package()|install(DIRECTORY launch  DESTINATION share/\${PROJECT_NAME})\nament_package()|g" src/mtc_tutorial/CMakeLists.txt
-#Build the tutorials
+#Build the tutorials and set up the entrypoint/bashrc
 RUN --mount=type=cache,target=/root/.ccache/ \
     # Enable ccache
     . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
      . "install/setup.sh" &&\
     sudo apt update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
+    sudo apt install -y ros-${ROS_DISTRO}-rmw-cyclonedds-cpp && \
     colcon build \
             --cmake-args -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
             --ament-cmake-args -DCMAKE_BUILD_TYPE=Release \
@@ -67,4 +68,7 @@ RUN --mount=type=cache,target=/root/.ccache/ \
     ccache -s && \
     rm -rf /var/lib/apt/lists/* && \
     # Update /ros_entrypoint.sh to source our new workspace
-    sed -i "s#/opt/ros/\$ROS_DISTRO/setup.bash#$ROS_UNDERLAY/install/setup.bash#g" /ros_entrypoint.sh
+    sed -i "s#/opt/ros/\$ROS_DISTRO/setup.bash#$ROS_UNDERLAY/install/setup.bash#g" /ros_entrypoint.sh && \
+    echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> /root/.bashrc && \
+    echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /root/.bashrc && \
+    echo "source /root/ws_moveit/install/setup.bash" >> /root/.bashrc
