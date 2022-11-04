@@ -1,9 +1,10 @@
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch.conditions import IfCondition, UnlessCondition
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 from launch.actions import ExecuteProcess
 from ament_index_python.packages import get_package_share_directory
 from moveit_configs_utils import MoveItConfigsBuilder
@@ -11,12 +12,22 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 def generate_launch_description():
 
-    # Command-line arguments
-    tutorial_arg = DeclareLaunchArgument(
-        "rviz_tutorial", default_value="False", description="Tutorial flag"
+    declared_arguments = []
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "rviz_config",
+            default_value="panda_moveit_config_demo.rviz",
+            description="RViz configuration file",
+        )
     )
 
-    # planning_context
+    return LaunchDescription(
+        declared_arguments + [OpaqueFunction(function=launch_setup)]
+    )
+
+
+def launch_setup(context, *args, **kwargs):
+
     moveit_config = (
         MoveItConfigsBuilder("moveit_resources_panda")
         .robot_description(file_path="config/panda.urdf.xacro")
@@ -24,7 +35,9 @@ def generate_launch_description():
         .planning_scene_monitor(
             publish_robot_description=True, publish_robot_description_semantic=True
         )
-        .planning_pipelines(pipelines=["ompl"])
+        .planning_pipelines(
+            pipelines=["ompl", "chomp", "pilz_industrial_motion_planner"]
+        )
         .to_moveit_configs()
     )
 
@@ -36,38 +49,25 @@ def generate_launch_description():
         parameters=[moveit_config.to_dict()],
     )
 
-    # RViz
-    tutorial_mode = LaunchConfiguration("rviz_tutorial")
-    rviz_base = os.path.join(get_package_share_directory("moveit2_tutorials"), "launch")
-    rviz_full_config = os.path.join(rviz_base, "panda_moveit_config_demo.rviz")
-    rviz_empty_config = os.path.join(rviz_base, "panda_moveit_config_demo_empty.rviz")
-    rviz_node_tutorial = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="log",
-        arguments=["-d", rviz_empty_config],
-        parameters=[
-            moveit_config.robot_description,
-            moveit_config.robot_description_semantic,
-            moveit_config.robot_description_kinematics,
-            moveit_config.planning_pipelines,
-        ],
-        condition=IfCondition(tutorial_mode),
+    rviz_base = LaunchConfiguration("rviz_config")
+    rviz_config = PathJoinSubstitution(
+        [FindPackageShare("moveit2_tutorials"), "launch", rviz_base]
     )
+
+    # RViz
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
         name="rviz2",
         output="log",
-        arguments=["-d", rviz_full_config],
+        arguments=["-d", rviz_config],
         parameters=[
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
             moveit_config.robot_description_kinematics,
             moveit_config.planning_pipelines,
+            moveit_config.joint_limits,
         ],
-        condition=UnlessCondition(tutorial_mode),
     )
 
     # Static TF
@@ -124,18 +124,15 @@ def generate_launch_description():
         executable="spawner",
         arguments=["panda_hand_controller", "-c", "/controller_manager"],
     )
+    nodes_to_start = [
+        rviz_node,
+        static_tf,
+        robot_state_publisher,
+        run_move_group_node,
+        ros2_control_node,
+        joint_state_broadcaster_spawner,
+        arm_controller_spawner,
+        hand_controller_spawner,
+    ]
 
-    return LaunchDescription(
-        [
-            tutorial_arg,
-            rviz_node,
-            rviz_node_tutorial,
-            static_tf,
-            robot_state_publisher,
-            run_move_group_node,
-            ros2_control_node,
-            joint_state_broadcaster_spawner,
-            arm_controller_spawner,
-            hand_controller_spawner,
-        ]
-    )
+    return nodes_to_start

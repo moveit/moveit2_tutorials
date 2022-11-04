@@ -10,9 +10,9 @@ MoveIt typically publishes manipulator motion commands to a `JointTrajectoryCont
 
 #. Note: it is not required to use :code:`ros2_control` for your robot. You could write a proprietary action interface. In practice, 99% of users choose :code:`ros2_control`.
 
-MoveIt Controller Manager
--------------------------
-If using the Move Group or MoveItCpp, a MoveItControllerManager (MICM) can be used to manage controller switching. The MICM can parse the joint names in any command coming from MoveIt and activate the appropriate controllers. For example, it can automatically switch between controlling two manipulators in a single joint group at once to a single manipulator. To use a MICM, just set :code:`moveit_manage_controllers = true` in the launch file. `Example MICM launch file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_. Frankly, the MICM is a candidate to be deprecated soon and we do not recommend its use.
+MoveIt Controller Managers
+--------------------------
+The base class of controller managers is called MoveItControllerManager (MICM). One of the child classes of MICM is known as Ros2ControlManager (R2CM) and it is the best way to interface with ros2_control. The R2CM can parse the joint names in a trajectory command coming from MoveIt and activate the appropriate controllers. For example, it can automatically switch between controlling two manipulators in a single joint group at once to a single manipulator. To use a R2CM, just set :code:`moveit_manage_controllers = true` in the launch file. `Example R2CM launch file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_.
 
 MoveIt Controller Interfaces
 ----------------------------
@@ -113,8 +113,6 @@ All controller names get prefixed by the namespace of their ros_control node. Fo
 Controllers for Multiple Nodes
 ------------------------------
 
-(TODO: update for ROS2)
+There is a variation on the Ros2ControlManager, the Ros2ControlMultiManager. Ros2ControlMultiManager can be used for more than one ros_control nodes. It works by creating several Ros2ControlManagers, one for each node. It instantiates them with their respective namespace and takes care of proper delegation. To use it must be added to the launch file. ::
 
-MoveItMultiControllerManager can be used for more than one ros_control nodes. It works by creating several MoveItControllerManagers, one for each node. It instantiates them with their respective namespace and takes care of proper delegation. To use it must be added to the launch file. ::
-
-  <param name="moveit_controller_manager" value="moveit_ros_control_interface::MoveItMultiControllerManager" />
+  <param name="moveit_controller_manager" value="moveit_ros_control_interface::Ros2ControlMultiManager" />

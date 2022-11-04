@@ -114,7 +114,7 @@ int main(int argc, char* argv[])
   {
     draw_title("Planning Failed!");
     moveit_visual_tools.trigger();
-    RCLCPP_ERROR(logger, "Planing failed!");
+    RCLCPP_ERROR(logger, "Planning failed!");
   }
 
   // Shutdown ROS

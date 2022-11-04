@@ -36,14 +36,14 @@ private:
   rclcpp::Node::SharedPtr node_;
 };
 
-rclcpp::node_interfaces::NodeBaseInterface::SharedPtr MTCTaskNode::getNodeBaseInterface()
-{
-  return node_->get_node_base_interface();
-}
-
 MTCTaskNode::MTCTaskNode(const rclcpp::NodeOptions& options)
   : node_{ std::make_shared<rclcpp::Node>("mtc_node", options) }
 {
+}
+
+rclcpp::node_interfaces::NodeBaseInterface::SharedPtr MTCTaskNode::getNodeBaseInterface()
+{
+  return node_->get_node_base_interface();
 }
 
 void MTCTaskNode::setupPlanningScene()
