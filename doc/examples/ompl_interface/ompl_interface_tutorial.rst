@@ -103,14 +103,14 @@ Other optimization objectives can be defined programmatically and then passed to
 
 To do so, a minimal setup is as follows :
 
-#. In your own package, create your an optimization objective class for OMPL. For more information on the OMPL optimal planners, the reader is referred to the `OMPL - Optimal Planning documentation <http://ompl.kavrakilab.org/optimalPlanning.html>`_.
+#. In your own package, create your own optimization objective class for OMPL. For more information on the OMPL optimal planners, the reader is referred to the `OMPL - Optimal Planning documentation <http://ompl.kavrakilab.org/optimalPlanning.html>`_.
 
-#. In your .cpp file, include ``"moveit/ompl_interface/ompl_optimization_objective_loader.h"`` and add, at the end, the macro ``MOVEIT_OPTIMIZATION_OBJECTIVE_PLUGIN(namespace, class_name)``, with the right namespace ans class name you used.
+#. In your .cpp file, include ``"moveit/ompl_interface/ompl_optimization_objective_loader.h"`` and add, at the end, the macro ``MOVEIT_OPTIMIZATION_OBJECTIVE_PLUGIN(namespace, class_name)``, with the right namespace and class name you used.
 
 #. Create a plugin description file .xml containing the following : ::
 
     <library path="package_name">
-    <class name="custom_optimizer"
+    <class name="custom_objective"
            type="namespace::class_nameLoader"
            base_class_type="ompl_optimization_loader::OptimizationObjectiveLoader">
         <description> </description>
@@ -121,7 +121,7 @@ To do so, a minimal setup is as follows :
 
    The ``type`` tag is the fully qualified type of the plugin, be sure to add ``Loader`` at the end of the tag type.
 
-   The ``bass_class`` is the fully qualified base class type for the plugin and does not need to be modified.
+   The ``bass_class_type`` is the fully qualified base class type for the plugin and does not need to be modified.
 
 #. Export the plugin description file in the CMakeLists.txt of your package with ``pluginlib_export_plugin_description_file(plugin_description.xml)``
 
