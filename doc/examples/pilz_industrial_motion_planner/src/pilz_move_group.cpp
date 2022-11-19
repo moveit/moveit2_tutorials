@@ -6,12 +6,21 @@
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
+
+/**
+ * Pilz Example -- MoveGroup Interface
+ * 
+ * To run this example, first run this launch file:
+ * ros2 launch moveit2_tutorials demo.launch.py rviz_config:=panda_hello_moveit.rviz
+ *
+ */
+
 int main(int argc, char * argv[])
 {
   // Initialize ROS and create the Node
   rclcpp::init(argc, argv);
   auto const node = std::make_shared<rclcpp::Node>(
-    "hello_moveit",
+    "pilz_move_group_example",
     rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
   );
 
@@ -62,8 +71,11 @@ int main(int argc, char * argv[])
   };
 
   // Start planning //
+  // Set up the Pilz planner to move in a circular motion
+  move_group_interface.setPlanningPipelineId("pilz_industrial_motion_planner");
+  move_group_interface.setPlannerId("CIRC");
 
-  // Set a target Pose
+  // Set a target pose.
   auto const target_pose = []
   {
     geometry_msgs::msg::Pose msg;
@@ -77,9 +89,8 @@ int main(int argc, char * argv[])
     return msg;
   }();
   move_group_interface.setPoseTarget(target_pose);
-  move_group_interface.setPlanningPipelineId("pilz_industrial_motion_planner");
-  move_group_interface.setPlannerId("CIRC");
 
+  // Set a constraint pose. This is the center of the arc.
   auto const center_pose = []
   {
     geometry_msgs::msg::Pose msg;
@@ -101,7 +112,7 @@ int main(int argc, char * argv[])
 
   // Create a plan to that target pose
   RCLCPP_INFO(logger, "Planning...");
-  prompt("Press 'Next' in the RvizVisualToolsGui window to plan");
+  prompt("Press 'Next' in the RVizVisualToolsGui window to plan");
   draw_title("Planning");
   moveit_visual_tools.trigger();
   auto const [success, plan] = [&move_group_interface]
@@ -117,7 +128,7 @@ int main(int argc, char * argv[])
     RCLCPP_INFO(logger, "Executing...");
     draw_trajectory_tool_path(plan.trajectory_);
     moveit_visual_tools.trigger();
-    prompt("Press 'Next' in the RvizVisualToolsGui window to execute");
+    prompt("Press 'Next' in the RVizVisualToolsGui window to execute");
     draw_title("Executing");
     moveit_visual_tools.trigger();
     move_group_interface.execute(plan);
