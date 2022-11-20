@@ -278,8 +278,8 @@ you can interact with the planner through the RViz MotionPlanning panel.
    :alt: rviz figure
 
 To use the planner through the MoveGroup Interface, refer to
-`this example </doc/examples/pilz_industrial_motion_planner/src/pilz_move_group.cpp>`.
-To try this example, execute the following commands in separate Terminals:
+:ref:`the MoveGroup Interface C++ example </doc/examples/pilz_industrial_motion_planner/src/pilz_move_group.cpp>`.
+To run this, execute the following commands in separate Terminals:
 
 ::
 
@@ -288,8 +288,8 @@ To try this example, execute the following commands in separate Terminals:
 
 
 To use the planner using MoveIt Task Constructor, refer to
-`this example </doc/examples/pilz_industrial_motion_planner/src/pilz_mtc.cpp>`.
-To try this example, execute the following commands in separate Terminals:
+:ref:`the MoveIt Task Constructor C++ example </doc/examples/pilz_industrial_motion_planner/src/pilz_mtc.cpp>`.
+To run this, execute the following commands in separate Terminals:
 
 ::
 
@@ -304,9 +304,9 @@ Pipeline and, therefore, can be used with all other manipulators using
 MoveIt. Loading the plugin requires the param
 ``/move_group/<pipeline_name>/planning_plugin`` to be set to ``pilz_industrial_motion_planner/CommandPlanner``
 before the ``move_group`` node is started.
-For example, the `panda_moveit_config
+For example, the `panda_moveit_config package
 <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config>`_
-package has a ``pilz_industrial_motion_planner`` pipeline set up as follows:
+has a ``pilz_industrial_motion_planner`` pipeline set up as follows:
 
 
 ::
