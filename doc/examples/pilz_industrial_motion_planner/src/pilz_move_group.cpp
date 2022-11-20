@@ -10,9 +10,9 @@
  *
  * To run this example, first run this launch file:
  * ros2 launch moveit2_tutorials demo.launch.py rviz_config:=panda_hello_moveit.rviz
- * 
+ *
  * For best results, hide the "MotionPlanning" widget in RViz.
- * 
+ *
  * Then, run this file:
  * ros2 run moveit2_tutorials pilz_move_group
  */
