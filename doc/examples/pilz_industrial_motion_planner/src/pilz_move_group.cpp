@@ -17,7 +17,6 @@
  * ros2 run moveit2_tutorials pilz_move_group
  */
 
-
 int main(int argc, char* argv[])
 {
   // Initialize ROS and create the Node
@@ -94,17 +93,17 @@ int main(int argc, char* argv[])
     // Move to a pre-grasp pose
     move_group_interface.setPlannerId("PTP");
     auto const pre_grasp_pose = [] {
-        geometry_msgs::msg::PoseStamped msg;
-        msg.header.frame_id = "world";
-        msg.pose.orientation.x = 1.0;
-        msg.pose.orientation.y = 0.0;
-        msg.pose.orientation.z = 0.0;
-        msg.pose.orientation.w = 0.0;
-        msg.pose.position.x = 0.6;
-        msg.pose.position.y = -0.2;
-        msg.pose.position.z = 0.6;
-        return msg;
-      }();
+      geometry_msgs::msg::PoseStamped msg;
+      msg.header.frame_id = "world";
+      msg.pose.orientation.x = 1.0;
+      msg.pose.orientation.y = 0.0;
+      msg.pose.orientation.z = 0.0;
+      msg.pose.orientation.w = 0.0;
+      msg.pose.position.x = 0.6;
+      msg.pose.position.y = -0.2;
+      msg.pose.position.z = 0.6;
+      return msg;
+    }();
     move_group_interface.setPoseTarget(pre_grasp_pose, "panda_hand");
     plan_and_execute("[PTP] Approach");
   }
@@ -113,17 +112,17 @@ int main(int argc, char* argv[])
     // Move in a linear trajectory to a grasp pose using the LIN planner.
     move_group_interface.setPlannerId("LIN");
     auto const grasp_pose = [] {
-        geometry_msgs::msg::PoseStamped msg;
-        msg.header.frame_id = "world";
-        msg.pose.orientation.x = 1.0;
-        msg.pose.orientation.y = 0.0;
-        msg.pose.orientation.z = 0.0;
-        msg.pose.orientation.w = 0.0;
-        msg.pose.position.x = 0.6;
-        msg.pose.position.y = -0.2;
-        msg.pose.position.z = 0.4;
-        return msg;
-      }();
+      geometry_msgs::msg::PoseStamped msg;
+      msg.header.frame_id = "world";
+      msg.pose.orientation.x = 1.0;
+      msg.pose.orientation.y = 0.0;
+      msg.pose.orientation.z = 0.0;
+      msg.pose.orientation.w = 0.0;
+      msg.pose.position.x = 0.6;
+      msg.pose.position.y = -0.2;
+      msg.pose.position.z = 0.4;
+      return msg;
+    }();
     move_group_interface.setPoseTarget(grasp_pose, "panda_hand");
     plan_and_execute("[LIN] Grasp");
   }
