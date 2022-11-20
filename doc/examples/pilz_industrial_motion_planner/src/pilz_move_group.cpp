@@ -6,23 +6,20 @@
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
-
 /**
  * Pilz Example -- MoveGroup Interface
- * 
+ *
  * To run this example, first run this launch file:
  * ros2 launch moveit2_tutorials demo.launch.py rviz_config:=panda_hello_moveit.rviz
  *
  */
 
-int main(int argc, char * argv[])
+int main(int argc, char* argv[])
 {
   // Initialize ROS and create the Node
   rclcpp::init(argc, argv);
   auto const node = std::make_shared<rclcpp::Node>(
-    "pilz_move_group_example",
-    rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
-  );
+      "pilz_move_group_node", rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true));
 
   // We spin up a SingleThreadedExecutor so MoveItVisualTools interact with ROS
   rclcpp::executors::SingleThreadedExecutor executor;
@@ -30,7 +27,7 @@ int main(int argc, char * argv[])
   auto spinner = std::thread([&executor]() { executor.spin(); });
 
   // Create a ROS logger
-  auto const logger = rclcpp::get_logger("hello_moveit_log");
+  auto const logger = rclcpp::get_logger("pilz_move_group");
 
   // Create the MoveIt MoveGroup Interface
   using moveit::planning_interface::MoveGroupInterface;
@@ -40,35 +37,25 @@ int main(int argc, char * argv[])
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
 
   // Construct and initialize MoveItVisualTools
-  auto moveit_visual_tools = moveit_visual_tools::MoveItVisualTools{
-      node, "panda_link0", rviz_visual_tools::RVIZ_MARKER_TOPIC,
-      move_group_interface.getRobotModel()};
+  auto moveit_visual_tools =
+      moveit_visual_tools::MoveItVisualTools{ node, "panda_link0", rviz_visual_tools::RVIZ_MARKER_TOPIC,
+                                              move_group_interface.getRobotModel() };
   moveit_visual_tools.deleteAllMarkers();
   moveit_visual_tools.loadRemoteControl();
 
   // Create a closures for visualization
-  auto const draw_title = [&moveit_visual_tools](auto text)
-  {
-    auto const text_pose = []
-    {
+  auto const draw_title = [&moveit_visual_tools](auto text) {
+    auto const text_pose = [] {
       auto msg = Eigen::Isometry3d::Identity();
       msg.translation().z() = 1.0;
       return msg;
     }();
-    moveit_visual_tools.publishText(text_pose, text, rviz_visual_tools::WHITE,
-                                    rviz_visual_tools::XLARGE);
+    moveit_visual_tools.publishText(text_pose, text, rviz_visual_tools::WHITE, rviz_visual_tools::XLARGE);
   };
-  auto const prompt = [&moveit_visual_tools](auto text)
-  {
-    moveit_visual_tools.prompt(text);
-  };
+  auto const prompt = [&moveit_visual_tools](auto text) { moveit_visual_tools.prompt(text); };
   auto const draw_trajectory_tool_path =
-      [&moveit_visual_tools,
-       jmg = move_group_interface.getRobotModel()->getJointModelGroup(
-           "panda_arm")](auto const trajectory)
-  {
-    moveit_visual_tools.publishTrajectoryLine(trajectory, jmg);
-  };
+      [&moveit_visual_tools, jmg = move_group_interface.getRobotModel()->getJointModelGroup("panda_arm")](
+          auto const trajectory) { moveit_visual_tools.publishTrajectoryLine(trajectory, jmg); };
 
   // Start planning //
   // Set up the Pilz planner to move in a circular motion
@@ -76,8 +63,7 @@ int main(int argc, char * argv[])
   move_group_interface.setPlannerId("CIRC");
 
   // Set a target pose.
-  auto const target_pose = []
-  {
+  auto const target_pose = [] {
     geometry_msgs::msg::Pose msg;
     msg.orientation.x = 1.0;
     msg.orientation.y = 0.0;
@@ -91,8 +77,7 @@ int main(int argc, char * argv[])
   move_group_interface.setPoseTarget(target_pose);
 
   // Set a constraint pose. This is the center of the arc.
-  auto const center_pose = []
-  {
+  auto const center_pose = [] {
     geometry_msgs::msg::Pose msg;
     msg.orientation.w = 1.0;
     msg.position.x = 0.0;
@@ -115,8 +100,7 @@ int main(int argc, char * argv[])
   prompt("Press 'Next' in the RVizVisualToolsGui window to plan");
   draw_title("Planning");
   moveit_visual_tools.trigger();
-  auto const [success, plan] = [&move_group_interface]
-  {
+  auto const [success, plan] = [&move_group_interface] {
     moveit::planning_interface::MoveGroupInterface::Plan msg;
     auto const ok = static_cast<bool>(move_group_interface.plan(msg));
     return std::make_pair(ok, msg);

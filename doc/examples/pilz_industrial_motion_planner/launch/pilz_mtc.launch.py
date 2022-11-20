@@ -11,7 +11,6 @@ def generate_launch_description():
         package="moveit2_tutorials",
         executable="pilz_mtc",
         output="screen",
-        emulate_tty=True,
         parameters=[
             moveit_config,
         ],

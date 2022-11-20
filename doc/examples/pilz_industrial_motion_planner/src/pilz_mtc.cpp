@@ -16,6 +16,16 @@
 #include <tf2_eigen/tf2_eigen.h>
 #endif
 
+/**
+ * Pilz Example -- MoveIt Task Constructor
+ *
+ * To run this example, first run this launch file:
+ * ros2 launch moveit2_tutorials mtc_demo.launch.py
+ *
+ * Then, run this file through its own launch file:
+ *
+ */
+
 static const rclcpp::Logger LOGGER = rclcpp::get_logger("pilz_mtc");
 namespace mtc = moveit::task_constructor;
 
@@ -43,7 +53,7 @@ rclcpp::node_interfaces::NodeBaseInterface::SharedPtr MTCTaskNode::getNodeBaseIn
 }
 
 MTCTaskNode::MTCTaskNode(const rclcpp::NodeOptions& options)
-  : node_{ std::make_shared<rclcpp::Node>("mtc_node", options) }
+  : node_{ std::make_shared<rclcpp::Node>("pilz_mtc_node", options) }
 {
 }
 
@@ -81,7 +91,7 @@ void MTCTaskNode::doTask()
 mtc::Task MTCTaskNode::createTask()
 {
   mtc::Task task;
-  task.stages()->setName("demo task");
+  task.stages()->setName("pilz example task");
   task.loadRobotModel(node_);
 
   const auto& arm_group_name = "panda_arm";
@@ -93,35 +103,38 @@ mtc::Task MTCTaskNode::createTask()
   task.setProperty("eef", hand_group_name);
   task.setProperty("ik_frame", hand_frame);
 
-// Disable warnings for this line, as it's a variable that's set but not used in this example
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
-  mtc::Stage* current_state_ptr = nullptr;  // Forward current_state on to grasp pose generator
-#pragma GCC diagnostic pop
-
-  auto stage_state_current = std::make_unique<mtc::stages::CurrentState>("current");
-  current_state_ptr = stage_state_current.get();
-  task.add(std::move(stage_state_current));
-
   // Set up a simple joint interpolation planner for the gripper
   auto interpolation_planner = std::make_shared<mtc::solvers::JointInterpolationPlanner>();
 
   // Set up 3 separate pilz planners with different IDs
   auto pilz_ptp_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_, "pilz_industrial_motion_planner");
   pilz_ptp_planner->setPlannerId("PTP");
+  pilz_ptp_planner->setProperty("max_velocity_scaling_factor", 0.5);
+  pilz_ptp_planner->setProperty("max_acceleration_scaling_factor", 0.5);
+
   auto pilz_lin_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_, "pilz_industrial_motion_planner");
   pilz_lin_planner->setPlannerId("LIN");
+  pilz_lin_planner->setProperty("max_velocity_scaling_factor", 0.2);
+  pilz_lin_planner->setProperty("max_acceleration_scaling_factor", 0.2);
+
   auto pilz_circ_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_, "pilz_industrial_motion_planner");
   pilz_circ_planner->setPlannerId("CIRC");
+  pilz_circ_planner->setProperty("max_velocity_scaling_factor", 0.3);
+  pilz_circ_planner->setProperty("max_acceleration_scaling_factor", 0.3);
+
+  {
+    // Start at current state.
+    auto stage_state_current = std::make_unique<mtc::stages::CurrentState>("current");
+    task.add(std::move(stage_state_current));
+  }
 
   {
     // Go to a pre-grasp pose using the PTP planner.
     auto stage = std::make_unique<mtc::stages::MoveTo>("go to approach", pilz_ptp_planner);
-    stage->properties().configureInitFrom(mtc::Stage::PARENT, {"group"});
     stage->setGroup(arm_group_name);
     stage->setIKFrame(hand_frame);
 
-    // Set the approach pose
+    // Set the approach pose.
     auto const goal_pose = [] {
       geometry_msgs::msg::PoseStamped msg;
       msg.header.frame_id = "world";
@@ -129,7 +142,7 @@ mtc::Task MTCTaskNode::createTask()
       msg.pose.orientation.y = 0.0;
       msg.pose.orientation.z = 0.0;
       msg.pose.orientation.w = 0.0;
-      msg.pose.position.x = 0.5;
+      msg.pose.position.x = 0.6;
       msg.pose.position.y = -0.2;
       msg.pose.position.z = 0.6;
       return msg;
@@ -142,7 +155,6 @@ mtc::Task MTCTaskNode::createTask()
   {
     // Move in a straight line towards the grasp using the LIN planner.
     auto stage = std::make_unique<mtc::stages::MoveTo>("go to grasp", pilz_lin_planner);
-    stage->properties().configureInitFrom(mtc::Stage::PARENT, {"group"});
     stage->setGroup(arm_group_name);
     stage->setIKFrame(hand_frame);
 
@@ -150,7 +162,7 @@ mtc::Task MTCTaskNode::createTask()
     pilz_lin_planner->setProperty("max_velocity_scaling_factor", 0.3);
     pilz_lin_planner->setProperty("max_acceleration_scaling_factor", 0.3);
 
-    // Set the approach pose
+    // Set the post-approach pose.
     auto const goal_pose = [] {
       geometry_msgs::msg::PoseStamped msg;
       msg.header.frame_id = "world";
@@ -158,7 +170,7 @@ mtc::Task MTCTaskNode::createTask()
       msg.pose.orientation.y = 0.0;
       msg.pose.orientation.z = 0.0;
       msg.pose.orientation.w = 0.0;
-      msg.pose.position.x = 0.5;
+      msg.pose.position.x = 0.6;
       msg.pose.position.y = -0.2;
       msg.pose.position.z = 0.4;
       return msg;
@@ -168,8 +180,8 @@ mtc::Task MTCTaskNode::createTask()
     task.add(std::move(stage));
   }
 
-  // Close the hand
   {
+    // Close the hand.
     auto stage = std::make_unique<mtc::stages::MoveTo>("close hand", interpolation_planner);
     stage->setGroup(hand_group_name);
     stage->setGoal("close");
@@ -177,18 +189,12 @@ mtc::Task MTCTaskNode::createTask()
   }
 
   {
-    // Move in a circular arc using the CIRC planner
-    auto stage =
-        std::make_unique<mtc::stages::MoveTo>("move circle", pilz_circ_planner);
-    stage->properties().configureInitFrom(mtc::Stage::PARENT, {"group"});
+    // Move in a circular arc using the CIRC planner.
+    auto stage = std::make_unique<mtc::stages::MoveTo>("move circle", pilz_circ_planner);
     stage->setGroup(arm_group_name);
     stage->setIKFrame(hand_frame);
 
-    // Set the acceleration and velocity scaling factors.
-    pilz_circ_planner->setProperty("max_velocity_scaling_factor", 0.5);
-    pilz_circ_planner->setProperty("max_acceleration_scaling_factor", 0.5);
-
-    // Set the pose goal
+    // Set the pose goal.
     auto const goal_pose = [] {
       geometry_msgs::msg::PoseStamped msg;
       msg.header.frame_id = "world";
@@ -196,13 +202,14 @@ mtc::Task MTCTaskNode::createTask()
       msg.pose.orientation.y = 0.0;
       msg.pose.orientation.z = 0.0;
       msg.pose.orientation.w = 0.7071;
-      msg.pose.position.x = 0.5;
-      msg.pose.position.y = -0.2 + 0.2;
-      msg.pose.position.z = 0.4 + 0.2;
+      msg.pose.position.x = 0.6;
+      msg.pose.position.y = 0.0;
+      msg.pose.position.z = 0.6;
       return msg;
     }();
     stage->setGoal(goal_pose);
 
+    // Define the arc center pose.
     auto const center_pose = [] {
       geometry_msgs::msg::PoseStamped msg;
       msg.header.frame_id = "world";
@@ -210,12 +217,13 @@ mtc::Task MTCTaskNode::createTask()
       msg.pose.orientation.y = 0.0;
       msg.pose.orientation.z = 0.0;
       msg.pose.orientation.w = 0.0;
-      msg.pose.position.x = 0.5;
+      msg.pose.position.x = 0.6;
       msg.pose.position.y = 0.0;
       msg.pose.position.z = 0.4;
       return msg;
     }();
 
+    // Define the arc constraint.
     moveit_msgs::msg::PositionConstraint pos_constraint;
     pos_constraint.header.frame_id = center_pose.header.frame_id;
     pos_constraint.link_name = hand_frame;
@@ -224,17 +232,16 @@ mtc::Task MTCTaskNode::createTask()
     pos_constraint.weight = 1.0;
 
     moveit_msgs::msg::Constraints path_constraints;
-    path_constraints.name = "center";
+    path_constraints.name = "center";  // Change to "interim" to use an intermediate point on arc instead.
     path_constraints.position_constraints.resize(1);
     path_constraints.position_constraints[0] = pos_constraint;
     stage->setPathConstraints(path_constraints);
 
-    stage->properties().set("marker_ns", "move circle center");
     task.add(std::move(stage));
   }
 
-  // Open the hand
   {
+    // Open the hand.
     auto stage = std::make_unique<mtc::stages::MoveTo>("open hand", interpolation_planner);
     stage->setGroup(hand_group_name);
     stage->setGoal("open");
@@ -242,9 +249,33 @@ mtc::Task MTCTaskNode::createTask()
   }
 
   {
+    // Move in a straight line away from the grasp using the LIN planner.
+    auto stage = std::make_unique<mtc::stages::MoveTo>("retract grasp", pilz_lin_planner);
+    stage->setGroup(arm_group_name);
+    stage->setIKFrame(hand_frame);
+
+    // Set the retract ppose
+    auto const goal_pose = [] {
+      geometry_msgs::msg::PoseStamped msg;
+      msg.header.frame_id = "world";
+      msg.pose.orientation.x = 0.7071;
+      msg.pose.orientation.y = 0.0;
+      msg.pose.orientation.z = 0.0;
+      msg.pose.orientation.w = 0.7071;
+      msg.pose.position.x = 0.6;
+      msg.pose.position.y = 0.1;
+      msg.pose.position.z = 0.6;
+      return msg;
+    }();
+    stage->setGoal(goal_pose);
+
+    task.add(std::move(stage));
+  }
+
+  {
     // Return to the original ready pose using the PTP planner.
     auto stage = std::make_unique<mtc::stages::MoveTo>("return home", pilz_ptp_planner);
-    stage->properties().configureInitFrom(mtc::Stage::PARENT, {"group"});
+    stage->setGroup(arm_group_name);
     stage->setGoal("ready");
     task.add(std::move(stage));
   }
