@@ -61,4 +61,4 @@ Run the demo:
 
 .. code-block:: bash
 
-    ros2 launch moveit2_tutorials better_paths_demo.launch.py
+    ros2 launch moveit2_tutorials parallel_planning_example.launch.py

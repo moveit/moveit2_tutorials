@@ -14,7 +14,7 @@ def generate_launch_description():
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .moveit_cpp(
             file_path=get_package_share_directory("moveit2_tutorials")
-            + "/config/moveit_cpp_better_paths.yaml"
+            + "/config/parallel_planning_moveit_cpp.yaml"
         )
         .to_moveit_configs()
     )
@@ -22,7 +22,7 @@ def generate_launch_description():
     moveit_cpp_node = Node(
         name="moveit_cpp_tutorial",
         package="moveit2_tutorials",
-        executable="better_paths_demo",
+        executable="parallel_planning_example",
         output="screen",
         parameters=[moveit_config.to_dict()],
     )
@@ -30,7 +30,7 @@ def generate_launch_description():
     # RViz
     rviz_config_file = (
         get_package_share_directory("moveit2_tutorials")
-        + "/config/better_paths_config.rviz"
+        + "/config/parallel_planning_config.rviz"
     )
     rviz_node = Node(
         package="rviz2",
