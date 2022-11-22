@@ -50,14 +50,6 @@ int main(int argc, char** argv)
   text_pose.translation().z() = 1.75;
   visual_tools.publishText(text_pose, "Better Paths Tutorial", rvt::WHITE, rvt::XLARGE);
   visual_tools.trigger();
-
-  const auto planning_pipeline_names = moveit_cpp_ptr->getPlanningPipelineNames(PLANNING_GROUP);
-
-  for (auto it = planning_pipeline_names.begin(); it != planning_pipeline_names.end(); it++)
-  {
-    RCLCPP_INFO_STREAM(LOGGER, "Pipeline names: '" << *it << "'");
-  }
-
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
   planning_components->setStartStateToCurrentState();
@@ -101,7 +93,9 @@ int main(int argc, char** argv)
     {
       planning_components->setStartStateToCurrentState();
 
-      moveit_cpp::PlanningComponent::MultiPipelinePlanRequestParameters multi_pipeline_plan_request {node, { "one", "two", "three" }};
+      moveit_cpp::PlanningComponent::MultiPipelinePlanRequestParameters multi_pipeline_plan_request{
+        node, { "one", "two", "three" }
+      };
 
       auto plan_solution = planning_components->plan(multi_pipeline_plan_request);
 
