@@ -68,7 +68,7 @@ public:
     // Add new collision objects
     geometry_msgs::msg::Pose box_pose_1;
     box_pose_1.position.x = 0.2;
-    box_pose_1.position.y = 0.2;
+    box_pose_1.position.y = 0.3;
     box_pose_1.position.z = 0.7;
 
     collision_object_1.primitives.push_back(box_1);
@@ -77,7 +77,7 @@ public:
 
     geometry_msgs::msg::Pose box_pose_2;
     box_pose_2.position.x = 0.2;
-    box_pose_2.position.y = -0.2;
+    box_pose_2.position.y = -0.3;
     box_pose_2.position.z = 0.7;
 
     collision_object_2.primitives.push_back(box_1);
@@ -175,18 +175,16 @@ int main(int argc, char** argv)
 
   RCLCPP_INFO(LOGGER, "Starting MoveIt Tutorials...");
 
-  // // Experiment 1 - Short free-space motion - Joint goal
-  // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  RCLCPP_INFO(LOGGER, "################ Short motion - Joint goal ##############");
-  demo.planAndPrint(2.8886513579712823, 0.3875018855212286, 2.720914148047324, -2.876892569361917, 2.886120885454169,
-                    0.6383841437770176, 0.4312752220542212);
+  // // Experiment 1 - Short free-space motion
+  // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  RCLCPP_INFO(LOGGER, "Experiment 1 - Short free-space motion");
+  demo.planAndPrint(0.014, 0.041, -0.001, -2.323, 0.0, 2.365, 0.797);
 
-  // Experiment 2 - Long motion with collisions - Joint goal
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  RCLCPP_INFO(LOGGER, "################ Long motion - Joint goal ##############");
+  // Experiment 2 - Long motion with collisions
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  RCLCPP_INFO(LOGGER, "Experiment 2 - Long motion with collisions");
   demo.addCollisionObjects();
-  demo.planAndPrint(-2.583184932292678, -0.290335965663780, -1.030661387231159, -2.171781392507914, 2.897232510573447,
-                    1.1244922991023616, 2.708936891424673);
+  demo.planAndPrint(-2.583, -0.290, -1.030, -2.171, 2.897, 1.1246, 2.708);
 
   rclcpp::shutdown();
   return 0;
