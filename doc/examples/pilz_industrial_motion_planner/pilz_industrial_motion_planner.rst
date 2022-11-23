@@ -278,7 +278,7 @@ you can interact with the planner through the RViz MotionPlanning panel.
    :alt: rviz figure
 
 To use the planner through the MoveGroup Interface, refer to
-:ref:`the MoveGroup Interface C++ example </doc/examples/pilz_industrial_motion_planner/src/pilz_move_group.cpp>`.
+:codedir:`the MoveGroup Interface C++ example <examples/pilz_industrial_motion_planner/src/pilz_move_group.cpp>`.
 To run this, execute the following commands in separate Terminals:
 
 ::
@@ -288,7 +288,7 @@ To run this, execute the following commands in separate Terminals:
 
 
 To use the planner using MoveIt Task Constructor, refer to
-:ref:`the MoveIt Task Constructor C++ example </doc/examples/pilz_industrial_motion_planner/src/pilz_mtc.cpp>`.
+:codedir:`the MoveIt Task Constructor C++ example <examples/pilz_industrial_motion_planner/src/pilz_mtc.cpp>`.
 To run this, execute the following commands in separate Terminals:
 
 ::
