@@ -18,6 +18,31 @@ const std::string LOGNAME = "parallel_planning_example";
 }  // namespace
 namespace parallel_planning_example
 {
+/// \brief Find fastest trajectory
+planning_interface::MotionPlanResponse
+getFastestSolution(const std::vector<planning_interface::MotionPlanResponse>& solutions)
+{
+  // Find trajectory with minimal path
+  auto const fastest_trajectory =
+      std::min_element(solutions.begin(), solutions.end(),
+                       [](const planning_interface::MotionPlanResponse& solution_a,
+                          const planning_interface::MotionPlanResponse& solution_b) {
+                         // If both solutions were successful, check which trajectory is faster
+                         if (solution_a && solution_b)
+                         {
+                           return *solution_a.trajectory_.getDuration() < *solution_b.trajectory_.getDuration();
+                         }
+                         // If only solution a is successful, return a
+                         else if (solution_a)
+                         {
+                           return true;
+                         }
+                         // Else return solution b, either because it is successful or not
+                         return false;
+                       });
+  return *fastest_trajectory;
+}
+
 /// \brief Utility class to create and interact with the parallel planning demo
 class Demo
 {
@@ -122,10 +147,10 @@ public:
     planning_component_->setStartStateToCurrentState();
 
     moveit_cpp::PlanningComponent::MultiPipelinePlanRequestParameters multi_pipeline_plan_request{
-      node_, { "one", "two", "three" }
+      node_, { "ompl_rrtc", "pilz_lin", "chomp" }
     };
 
-    auto plan_solution = planning_component_->plan(multi_pipeline_plan_request);
+    auto plan_solution = planning_component_->plan(multi_pipeline_plan_request, &getFastestSolution);
 
     // Check if PlanningComponents succeeded in finding the plan
     if (plan_solution)
@@ -180,8 +205,8 @@ int main(int argc, char** argv)
   RCLCPP_INFO(LOGGER, "Experiment 1 - Short free-space motion");
   demo.planAndPrint(0.014, 0.041, -0.001, -2.323, 0.0, 2.365, 0.797);
 
-  // Experiment 2 - Long motion with collisions
-  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // // Experiment 2 - Long motion with collisions
+  // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   RCLCPP_INFO(LOGGER, "Experiment 2 - Long motion with collisions");
   demo.addCollisionObjects();
   demo.planAndPrint(-2.583, -0.290, -1.030, -2.171, 2.897, 1.1246, 2.708);

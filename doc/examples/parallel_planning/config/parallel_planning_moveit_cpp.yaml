@@ -11,25 +11,28 @@ planning_pipelines:
   #namespace: "moveit_cpp"  # optional, default is ~
   pipeline_names: ["ompl", "pilz_industrial_motion_planner", "chomp"]
 
-one:
+ompl_rrtc:
   plan_request_params:
     planning_attempts: 1
     planning_pipeline: ompl
     planner_id: "RRTConnectkConfigDefault"
     max_velocity_scaling_factor: 1.0
     max_acceleration_scaling_factor: 1.0
+    planning_time: 0.5
 
-two:
+pilz_lin:
   plan_request_params:
     planning_attempts: 1
     planning_pipeline: pilz_industrial_motion_planner
     planner_id: "LIN"
     max_velocity_scaling_factor: 1.0
     max_acceleration_scaling_factor: 1.0
+    planning_time: 0.8
 
-three:
+chomp:
   plan_request_params:
     planning_attempts: 1
     planning_pipeline: chomp
     max_velocity_scaling_factor: 1.0
     max_acceleration_scaling_factor: 1.0
+    planning_time: 1.5
