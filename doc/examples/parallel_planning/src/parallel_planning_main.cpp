@@ -14,7 +14,6 @@ namespace
 {
 const rclcpp::Logger LOGGER = rclcpp::get_logger("parallel_planning_example");
 const std::string PLANNING_GROUP = "panda_arm";
-const std::string LOGNAME = "parallel_planning_example";
 }  // namespace
 namespace parallel_planning_example
 {
@@ -30,7 +29,7 @@ getFastestSolution(const std::vector<planning_interface::MotionPlanResponse>& so
                          // If both solutions were successful, check which trajectory is faster
                          if (solution_a && solution_b)
                          {
-                           return *solution_a.trajectory_.getDuration() < *solution_b.trajectory_.getDuration();
+                           return solution_a.trajectory_->getDuration() < solution_b.trajectory_->getDuration();
                          }
                          // If only solution a is successful, return a
                          else if (solution_a)
@@ -142,8 +141,10 @@ public:
     robot_goal_state->setJointPositions("panda_joint7", &panda_joint7);
     robot_goal_state->setJointPositions("panda_joint3", &panda_joint3);
 
+    // Set goal state
     planning_component_->setGoal(*robot_goal_state);
 
+    // Set start state as current state
     planning_component_->setStartStateToCurrentState();
 
     moveit_cpp::PlanningComponent::MultiPipelinePlanRequestParameters multi_pipeline_plan_request{
@@ -203,7 +204,7 @@ int main(int argc, char** argv)
   // // Experiment 1 - Short free-space motion
   // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   RCLCPP_INFO(LOGGER, "Experiment 1 - Short free-space motion");
-  demo.planAndPrint(0.014, 0.041, -0.001, -2.323, 0.0, 2.365, 0.797);
+  demo.planAndPrint(0.0, -0.70741, 0.0, -2.8904, 0.0, 2.18298077, 0.785);
 
   // // Experiment 2 - Long motion with collisions
   // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
