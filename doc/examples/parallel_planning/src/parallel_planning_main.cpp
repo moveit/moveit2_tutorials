@@ -19,27 +19,42 @@ namespace parallel_planning_example
 {
 /// \brief Find fastest trajectory
 planning_interface::MotionPlanResponse
-getFastestSolution(const std::vector<planning_interface::MotionPlanResponse>& solutions)
+getShortestSolution(const std::vector<planning_interface::MotionPlanResponse>& solutions)
 {
+  // Empty line
+  RCLCPP_INFO(LOGGER, "#####################################################");
+  RCLCPP_INFO(LOGGER, "###################### Results ######################");
+  for (auto const& solution : solutions)
+  {
+    RCLCPP_INFO(LOGGER, "Planner '%s' returned '%s'", solution.planner_id_.c_str(),
+                moveit::core::error_code_to_string(solution.error_code_).c_str());
+    if (solution.trajectory_)
+    {
+      RCLCPP_INFO(LOGGER, "Path length: '%f', Planning time: '%f'",
+                  robot_trajectory::path_length(*solution.trajectory_), solution.planning_time_);
+    }
+  }
   // Find trajectory with minimal path
-  auto const fastest_trajectory =
-      std::min_element(solutions.begin(), solutions.end(),
-                       [](const planning_interface::MotionPlanResponse& solution_a,
-                          const planning_interface::MotionPlanResponse& solution_b) {
-                         // If both solutions were successful, check which trajectory is faster
-                         if (solution_a && solution_b)
-                         {
-                           return solution_a.trajectory_->getDuration() < solution_b.trajectory_->getDuration();
-                         }
-                         // If only solution a is successful, return a
-                         else if (solution_a)
-                         {
-                           return true;
-                         }
-                         // Else return solution b, either because it is successful or not
-                         return false;
-                       });
-  return *fastest_trajectory;
+  auto const shortest_solution = std::min_element(solutions.begin(), solutions.end(),
+                                                  [](const planning_interface::MotionPlanResponse& solution_a,
+                                                     const planning_interface::MotionPlanResponse& solution_b) {
+                                                    // If both solutions were successful, check which path is shorter
+                                                    if (solution_a && solution_b)
+                                                    {
+                                                      return robot_trajectory::path_length(*solution_a.trajectory_) <
+                                                             robot_trajectory::path_length(*solution_b.trajectory_);
+                                                    }
+                                                    // If only solution a is successful, return a
+                                                    else if (solution_a)
+                                                    {
+                                                      return true;
+                                                    }
+                                                    // Else return solution b, either because it is successful or not
+                                                    return false;
+                                                  });
+  RCLCPP_INFO(LOGGER, "'%s' chosen as best solution (Shortest path)", shortest_solution->planner_id_.c_str());
+  RCLCPP_INFO(LOGGER, "#####################################################");
+  return *shortest_solution;
 }
 
 /// \brief Utility class to create and interact with the parallel planning demo
@@ -151,12 +166,11 @@ public:
       node_, { "ompl_rrtc", "pilz_lin", "chomp" }
     };
 
-    auto plan_solution = planning_component_->plan(multi_pipeline_plan_request, &getFastestSolution);
+    auto plan_solution = planning_component_->plan(multi_pipeline_plan_request, &getShortestSolution);
 
     // Check if PlanningComponents succeeded in finding the plan
     if (plan_solution)
     {
-      RCLCPP_INFO(LOGGER, "Solution of planner '%s' chosen", plan_solution.planner_id_.c_str());
       // Visualize the trajectory in Rviz
       auto robot_model_ptr = moveit_cpp_->getRobotModel();
       auto robot_start_state = planning_component_->getStartState();
@@ -205,7 +219,8 @@ int main(int argc, char** argv)
   // // Experiment 1 - Short free-space motion
   // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   RCLCPP_INFO(LOGGER, "Experiment 1 - Short free-space motion");
-  demo.planAndPrint(0.0, -0.70741, 0.0, -2.8904, 0.0, 2.18298077, 0.785);
+
+  demo.planAndPrint(0.0, -0.8144019900299497, 0.0, -2.6488387075338133, 0.0, 1.8344367175038623, 0.7849999829891612);
 
   // // Experiment 2 - Long motion with collisions
   // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
