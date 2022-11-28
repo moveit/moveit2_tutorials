@@ -143,7 +143,7 @@ int main(int argc, char** argv)
   auto d = sqrt(pow(target_pose.pose.position.y, 2) + pow(target_pose.pose.position.z, 2));
 
   Eigen::Vector3d normal(0, 1, 1);
-  // moveit_visual_tools.publishNormalAndDistancePlane(normal, d, rviz_visual_tools::TRANSLUCENT_DARK);
+  moveit_visual_tools.publishNormalAndDistancePlane(normal, d, rviz_visual_tools::TRANSLUCENT_DARK);
   moveit_visual_tools.trigger();
 
   moveit_msgs::msg::Constraints plane_constraints;
