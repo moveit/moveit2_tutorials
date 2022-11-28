@@ -25,7 +25,7 @@ const std::string PLANNING_GROUP = "panda_arm";
 }  // namespace
 namespace parallel_planning_example
 {
-/// \brief Find fastest trajectory
+/// \brief Find shortest trajectory
 planning_interface::MotionPlanResponse
 getShortestSolution(const std::vector<planning_interface::MotionPlanResponse>& solutions)
 {

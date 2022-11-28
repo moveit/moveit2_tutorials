@@ -98,31 +98,31 @@ parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, :code:`"chomp"`. T
 Optionally, it is possible to define a stopping criterion and a solution selection function. If none are passed as an argument to the :code:`plan(...)`,
 all pipelines use their complete planning time budget and afterwards the shortest path is chosen.
 
-For this example we're using the default stopping criterion and a custom solution selection criterion that choses the fastest solution:
+For this example we're using the default stopping criterion and a custom solution selection criterion that choses the shortest solution:
 
 .. code-block:: c++
 
-    planning_interface::MotionPlanResponse getFastestSolution(const std::vector<planning_interface::MotionPlanResponse>& solutions)
+    planning_interface::MotionPlanResponse getShortestSolution(const std::vector<planning_interface::MotionPlanResponse>& solutions)
     {
       // Find trajectory with minimal path
-      auto const fastest_trajectory = std::min_element(solutions.begin(), solutions.end(),
-          [](const planning_interface::MotionPlanResponse& solution_a,
-             const planning_interface::MotionPlanResponse& solution_b) {
-            // If both solutions were successful, check which trajectory is faster
-            if (solution_a && solution_b)
-            {
-              return *solution_a.trajectory_.getDuration() <
-                     *solution_b.trajectory_.getDuration();
-            }
-            // If only solution a is successful, return a
-            else if (solution_a)
-            {
-              return true;
-            }
-            // Else return solution b, either because it is successful or not
-            return false;
-          });
-      return *fastest_trajectory;
+      auto const shortest_solution = std::min_element(solutions.begin(), solutions.end(),
+        [](const planning_interface::MotionPlanResponse& solution_a,
+           const planning_interface::MotionPlanResponse& solution_b) {
+          // If both solutions were successful, check which path is shorter
+          if (solution_a && solution_b)
+          {
+            return robot_trajectory::path_length(*solution_a.trajectory_) <
+                   robot_trajectory::path_length(*solution_b.trajectory_);
+          }
+          // If only solution a is successful, return a
+          else if (solution_a)
+          {
+            return true;
+          }
+          // Else return solution b, either because it is successful or not
+          return false;
+        });
+      return *shortest_solution;
     }
 
 Here is an example for a custom stopping criterion:
@@ -154,7 +154,7 @@ Once :code:`MultiPipelinePlanRequestParameters` and optionally :code:`SolutionCa
 
 .. code-block:: c++
 
-    auto plan_solution = planning_component_->plan(multi_pipeline_plan_request, &getFastestSolution);
+    auto plan_solution = planning_component_->plan(multi_pipeline_plan_request, &getShortestSolution);
 
 Tips
 ----
