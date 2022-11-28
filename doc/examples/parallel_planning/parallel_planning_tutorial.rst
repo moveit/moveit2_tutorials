@@ -46,14 +46,14 @@ planners but with significant differences in the planning time. The second probl
 suggests that a well configured parallel planning setup is versatile to be used in a broad variety of motion planning problems.
 
 What code is necessary to use parallel planning?
-First of all, you need to initialize moveit_cpp and a planning component that will solve you planning problem. Setting start and goal state is also did not change
+First, you need to initialize :code:`moveit_cpp` and a planning component that will solve your planning problems. Next you need to set start state and goal constraints:
 
 .. code-block:: c++
 
     planning_component_->setGoal(*goal_state);
     planning_component_->setStartStateToCurrentState();
 
-Next it is necessary to setup the :code:`MultiPipelinePlanRequestParameters`.
+Additionally, it is necessary to setup the :code:`MultiPipelinePlanRequestParameters`.
 
 .. code-block:: c++
 
@@ -61,8 +61,8 @@ Next it is necessary to setup the :code:`MultiPipelinePlanRequestParameters`.
       node_, { "ompl_rrtc", "pilz_lin", "chomp" }
     };
 
-The constructor of this function will search initialize three :code:`PlanningRequestParameter` configurations based on the config that is provided in the node's
-parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, :code:`"chomp"`. To provide these you can simply extend the :code:`moveit_cpp.yaml` file, as for example done for this demo:
+The constructor of this function will initialize three :code:`PlanningRequestParameter` configurations based on the config that is provided in the node's
+parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, :code:`"chomp"`. To provide these, you can simply extend the :code:`moveit_cpp.yaml` file:
 
 .. code-block:: yaml
 
@@ -95,10 +95,10 @@ parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, :code:`"chomp"`. T
         max_acceleration_scaling_factor: 1.0
         planning_time: 1.5
 
-Optionally, it is possible to define a stopping criterion and a solution selection function. If none are passed as an argument to the :code:`plan(...)`,
+Optionally, it is possible to define a custom stopping criterion and/or solution selection function. If none are passed as an argument to the :code:`plan(...)`,
 all pipelines use their complete planning time budget and afterwards the shortest path is chosen.
 
-For this example we're using the default stopping criterion and a custom solution selection criterion that choses the shortest solution:
+For this example we're using the default stopping criterion and a solution selection criterion that choses the shortest solution:
 
 .. code-block:: c++
 
