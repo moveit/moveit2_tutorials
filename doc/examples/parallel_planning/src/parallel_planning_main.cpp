@@ -156,6 +156,7 @@ public:
     // Check if PlanningComponents succeeded in finding the plan
     if (plan_solution)
     {
+      RCLCPP_INFO(LOGGER, "Solution of planner '%s' chosen", plan_solution.planner_id_.c_str());
       // Visualize the trajectory in Rviz
       auto robot_model_ptr = moveit_cpp_->getRobotModel();
       auto robot_start_state = planning_component_->getStartState();
