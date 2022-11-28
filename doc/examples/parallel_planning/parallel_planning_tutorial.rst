@@ -18,7 +18,7 @@ Parallel Planning Interface
 ---------------------------
 
 Using parallel planning with moveit_cpp is very similar to single pipeline planning except that a different implementation
-of the planning component's :code:`plan(...)`` function is used:
+of the planning component's :code:`plan(...)` function is used:
 
 .. code-block:: c++
 
@@ -30,7 +30,7 @@ of the planning component's :code:`plan(...)`` function is used:
 This function tries to plan a trajectory from the a start state, to a goal state that satisfy a set of constraints. Based on the configuration
 provided by the :code:`parameters` multiple threads are launched and each tries to solve the planning problem with a different planning pipeline. Once
 all pipelines found a solution (Reminder: No solution is also a possible result), the :code:`solution_selection_callback` is called to determine which
-solution is returned as :code:`MotionPlanResponse`. By default all pipelines use their time budget defined by the :code:`planning_time` field of the :code:`PlanRequestParameters`` but it is possible to terminate the parallel planning earlier by using the :code:`stopping_criterion_callback`. This function
+solution is returned as :code:`MotionPlanResponse`. By default all pipelines use their time budget defined by the :code:`planning_time` field of the :code:`PlanRequestParameters` but it is possible to terminate the parallel planning earlier by using the :code:`stopping_criterion_callback`. This function
 is iteratively called during the parallel planning process and terminates pipelines that have not found a solution yet, if the stopping criterion is met.
 
 Demo
@@ -41,15 +41,19 @@ run the demo: ::
 
   ros2 launch moveit2_tutorials parallel_planning_example.launch.py
 
-Let's take a look at the code:
-You need to initialize moveit_cpp and a planning component that will solve you planning problem. Setting start and goal state is also did not change
+A complex kitchen scene is loaded and two planning problems solved. The first one is a small motion of the EE towards the ground. This problem is likely to be solved by all three
+planners but with significant differences in the planning time. The second problem is a much harder and most likely only the :code:`RRTConnect` planner will succeed. This demo
+suggests that a well configured parallel planning setup is versatile to be used in a broad variety of motion planning problems.
+
+What code is necessary to use parallel planning?
+First of all, you need to initialize moveit_cpp and a planning component that will solve you planning problem. Setting start and goal state is also did not change
 
 .. code-block:: c++
 
     planning_component_->setGoal(*goal_state);
     planning_component_->setStartStateToCurrentState();
 
-Next it is necessary to setup the `MultiPipelinePlanRequestParameters`.
+Next it is necessary to setup the :code:`MultiPipelinePlanRequestParameters`.
 
 .. code-block:: c++
 
@@ -57,8 +61,8 @@ Next it is necessary to setup the `MultiPipelinePlanRequestParameters`.
       node_, { "ompl_rrtc", "pilz_lin", "chomp" }
     };
 
-The constructor of this function will search initialize three `PlanningRequestParameter` configurations based on the config that is provided in the node's
-parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, :code:`"chomp"`. To provide these you can simply extend the `moveit_cpp.yaml` file, as for example done for this demo:
+The constructor of this function will search initialize three :code:`PlanningRequestParameter` configurations based on the config that is provided in the node's
+parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, :code:`"chomp"`. To provide these you can simply extend the :code:`moveit_cpp.yaml` file, as for example done for this demo:
 
 .. code-block:: yaml
 
@@ -146,7 +150,7 @@ Here is an example for a custom stopping criterion:
       return false;
     }
 
-Once :code:`MultiPipelinePlanRequestParameters` and optionally :code:`SolutionCallbackFunction` and/or :code:`StoppingCriterionFunction` are defined, we call :code:`plan(...)``:
+Once :code:`MultiPipelinePlanRequestParameters` and optionally :code:`SolutionCallbackFunction` and/or :code:`StoppingCriterionFunction` are defined, we call :code:`plan(...)`:
 
 .. code-block:: c++
 

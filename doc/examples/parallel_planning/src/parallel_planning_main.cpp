@@ -8,6 +8,14 @@
 
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
+// Warehouse
+#include <moveit/warehouse/planning_scene_storage.h>
+#include <moveit/warehouse/planning_scene_storage.h>
+#include <moveit/warehouse/state_storage.h>
+#include <moveit/warehouse/constraints_storage.h>
+#include <moveit/warehouse/trajectory_constraints_storage.h>
+#include <warehouse_ros/database_loader.h>
+
 namespace rvt = rviz_visual_tools;
 
 namespace
@@ -61,6 +69,8 @@ getShortestSolution(const std::vector<planning_interface::MotionPlanResponse>& s
 class Demo
 {
 public:
+  /// @brief
+  /// @param node
   Demo(rclcpp::Node::SharedPtr node)
     : node_{ node }
     , moveit_cpp_{ std::make_shared<moveit_cpp::MoveItCpp>(node) }
@@ -80,70 +90,106 @@ public:
     visual_tools_.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
   }
 
-  /// \brief Add a complex collision object to the planning scene
-  void addCollisionObjects()
+  bool loadPlanningSceneAndQuery()
   {
-    moveit_msgs::msg::CollisionObject collision_object_1;
-    moveit_msgs::msg::CollisionObject collision_object_2;
-    moveit_msgs::msg::CollisionObject collision_object_3;
+    std::string hostname = "";
+    int port = 0.0;
+    std::string scene_name = "";
 
-    collision_object_1.header.frame_id = "panda_link0";
-    collision_object_1.id = "box1";
+    node_->get_parameter_or(std::string("warehouse.host"), hostname, std::string("127.0.0.1"));
+    node_->get_parameter_or(std::string("warehouse.port"), port, 33829);
 
-    collision_object_2.header.frame_id = "panda_link0";
-    collision_object_2.id = "box2";
+    if (!node_->get_parameter("warehouse.scene_name", scene_name))
+    {
+      RCLCPP_WARN(LOGGER, "Warehouse scene_name NOT specified");
+    }
 
-    collision_object_3.header.frame_id = "panda_link0";
-    collision_object_3.id = "box3";
+    moveit_warehouse::PlanningSceneStorage* planning_scene_storage = nullptr;
 
-    shape_msgs::msg::SolidPrimitive box_1;
-    box_1.type = box_1.BOX;
-    box_1.dimensions = { 0.01, 0.12, 1.0 };
+    // Init DB connection
+    try
+    {
+      warehouse_ros::DatabaseLoader db_loader(node_);
+      warehouse_ros::DatabaseConnection::Ptr warehouse_connection = db_loader.loadDatabase();
+      warehouse_connection->setParams(hostname, port, 20);
+      if (warehouse_connection->connect())
+      {
+        planning_scene_storage = new moveit_warehouse::PlanningSceneStorage(warehouse_connection);
+        RCLCPP_INFO(LOGGER, "Connected to DB: '%s'", hostname.c_str());
+      }
+      else
+      {
+        RCLCPP_ERROR(LOGGER, "Failed to connect to DB");
+        return false;
+      }
+    }
+    catch (std::exception& e)
+    {
+      RCLCPP_ERROR(LOGGER, "Failed to initialize planning scene storage: '%s'", e.what());
+      return false;
+    }
 
-    shape_msgs::msg::SolidPrimitive box_2;
-    box_2.type = box_2.BOX;
-    box_2.dimensions = { 0.01, 1.0, 0.2 };
+    // Load planning scene
+    moveit_msgs::msg::PlanningScene scene_msg;
+    try
+    {
+      if (!planning_scene_storage)
+      {
+        RCLCPP_ERROR(LOGGER, "No planning scene storage");
+        return false;
+      }
 
-    // Add new collision objects
-    geometry_msgs::msg::Pose box_pose_1;
-    box_pose_1.position.x = 0.2;
-    box_pose_1.position.y = 0.3;
-    box_pose_1.position.z = 0.7;
-
-    collision_object_1.primitives.push_back(box_1);
-    collision_object_1.primitive_poses.push_back(box_pose_1);
-    collision_object_1.operation = collision_object_1.ADD;
-
-    geometry_msgs::msg::Pose box_pose_2;
-    box_pose_2.position.x = 0.2;
-    box_pose_2.position.y = -0.3;
-    box_pose_2.position.z = 0.7;
-
-    collision_object_2.primitives.push_back(box_1);
-    collision_object_2.primitive_poses.push_back(box_pose_2);
-    collision_object_2.operation = collision_object_2.ADD;
-
-    geometry_msgs::msg::Pose box_pose_3;
-    box_pose_3.position.x = -0.1;
-    box_pose_3.position.y = 0.0;
-    box_pose_3.position.z = 0.85;
-
-    collision_object_3.primitives.push_back(box_2);
-    collision_object_3.primitive_poses.push_back(box_pose_3);
-    collision_object_3.operation = collision_object_3.ADD;
+      if (planning_scene_storage->hasPlanningScene(scene_name))  // Just the world (no robot)
+      {
+        moveit_msgs::msg::PlanningSceneWorld world_meta_data;
+        if (!planning_scene_storage->getPlanningSceneWorld(world_meta_data, scene_name))
+        {
+          RCLCPP_ERROR(LOGGER, "Failed to load planning scene world '%s'", scene_name.c_str());
+          return false;
+        }
+        scene_msg.world = world_meta_data;
+        scene_msg.robot_model_name =
+            "NO ROBOT INFORMATION. ONLY WORLD GEOMETRY";  // this will be fixed when running benchmark
+      }
+      else
+      {
+        RCLCPP_ERROR(LOGGER, "Failed to find planning scene '%s'", scene_name.c_str());
+        return false;
+      }
+    }
+    catch (std::exception& ex)
+    {
+      RCLCPP_ERROR(LOGGER, "Error loading planning scene: %s", ex.what());
+      return false;
+    }
 
     // Add object to planning scene
     {  // Lock PlanningScene
       planning_scene_monitor::LockedPlanningSceneRW scene(moveit_cpp_->getPlanningSceneMonitor());
-      scene->processCollisionObjectMsg(collision_object_1);
-      scene->processCollisionObjectMsg(collision_object_2);
-      scene->processCollisionObjectMsg(collision_object_3);
+      scene->processPlanningSceneWorldMsg(scene_msg.world);
     }  // Unlock PlanningScene
+
+    RCLCPP_INFO(LOGGER, "Loaded planning scene successfully");
+
+    // Get planning scene query
+    moveit_warehouse::MotionPlanRequestWithMetadata planning_query;
+    std::string query_name = scene_name + "_query";
+    try
+    {
+      planning_scene_storage->getPlanningQuery(planning_query, scene_name, query_name);
+    }
+    catch (std::exception& ex)
+    {
+      RCLCPP_ERROR(LOGGER, "Error loading motion planning query '%s': %s", query_name.c_str(), ex.what());
+    }
+
+    planning_query_request_ = static_cast<moveit_msgs::msg::MotionPlanRequest>(*planning_query);
+    return true;
   }
 
-  /// \brief Request a plan for the previously set joint goal and print debug information
+  /// \brief Set joint goal state for next planning attempt
   /// \param [in] panda_jointN Goal value for the Nth joint [rad]
-  void planAndPrint(double const panda_joint1, double const panda_joint2, double const panda_joint3,
+  void setJointGoal(double const panda_joint1, double const panda_joint2, double const panda_joint3,
                     double const panda_joint4, double const panda_joint5, double const panda_joint6,
                     double const panda_joint7)
   {
@@ -158,7 +204,23 @@ public:
 
     // Set goal state
     planning_component_->setGoal(*robot_goal_state);
+  }
 
+  /// \brief Set goal state for next planning attempt based on query loaded from the database
+  void setQueryGoal()
+  {
+    // Set goal state
+    if (!planning_query_request_.goal_constraints.empty())
+    {
+      planning_component_->setGoal(planning_query_request_.goal_constraints);
+    }
+    else
+      RCLCPP_ERROR(LOGGER, "Planning query request does not contain any goal constraints");
+  }
+
+  /// \brief Request a motion plan based on the assumption that a goal is set and print debug information.
+  void planAndPrint()
+  {
     // Set start state as current state
     planning_component_->setStartStateToCurrentState();
 
@@ -193,6 +255,7 @@ private:
   std::shared_ptr<moveit_cpp::MoveItCpp> moveit_cpp_;
   std::shared_ptr<moveit_cpp::PlanningComponent> planning_component_;
   moveit_visual_tools::MoveItVisualTools visual_tools_;
+  moveit_msgs::msg::MotionPlanRequest planning_query_request_;
 };
 }  // namespace parallel_planning_example
 
@@ -214,19 +277,26 @@ int main(int argc, char** argv)
   /* Otherwise robot with zeros joint_states */
   rclcpp::sleep_for(std::chrono::seconds(1));
 
+  if (!demo.loadPlanningSceneAndQuery())
+  {
+    rclcpp::shutdown();
+    return 0;
+  }
+
   RCLCPP_INFO(LOGGER, "Starting MoveIt Tutorials...");
 
   // // Experiment 1 - Short free-space motion
   // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   RCLCPP_INFO(LOGGER, "Experiment 1 - Short free-space motion");
 
-  demo.planAndPrint(0.0, -0.8144019900299497, 0.0, -2.6488387075338133, 0.0, 1.8344367175038623, 0.7849999829891612);
+  demo.setJointGoal(0.0, -0.8144019900299497, 0.0, -2.6488387075338133, 0.0, 1.8344367175038623, 0.7849999829891612);
+  demo.planAndPrint();
 
   // // Experiment 2 - Long motion with collisions
   // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   RCLCPP_INFO(LOGGER, "Experiment 2 - Long motion with collisions");
-  demo.addCollisionObjects();
-  demo.planAndPrint(-2.583, -0.290, -1.030, -2.171, 2.897, 1.1246, 2.708);
+  demo.setQueryGoal();
+  demo.planAndPrint();
 
   rclcpp::shutdown();
   return 0;

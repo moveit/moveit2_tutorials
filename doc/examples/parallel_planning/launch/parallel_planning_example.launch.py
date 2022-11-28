@@ -40,13 +40,30 @@ def launch_setup(context, *args, **kwargs):
         )
         .to_moveit_configs()
     )
+
+    # Warehouse config
+    sqlite_database = (
+        get_package_share_directory("moveit2_tutorials")
+        + "/config/panda_test_db.sqlite"
+    )
+
+    warehouse_ros_config = {
+        "warehouse_plugin": "warehouse_ros_sqlite::DatabaseConnection",
+        "warehouse": {
+            "warehouse_plugin": "warehouse_ros_sqlite::DatabaseConnection",
+            "host": sqlite_database,
+            "port": 33828,
+            "scene_name": "kitchen_panda_scene_sensed1",
+        },
+    }
+
     # MoveItCpp demo executable
     moveit_cpp_node = Node(
         name="moveit_cpp_tutorial",
         package="moveit2_tutorials",
         executable="parallel_planning_example",
         output="screen",
-        parameters=[moveit_config.to_dict()],
+        parameters=[moveit_config.to_dict(), warehouse_ros_config],
     )
 
     # RViz
