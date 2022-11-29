@@ -43,8 +43,8 @@ int main(int argc, char* argv[])
   moveit_visual_tools.deleteAllMarkers();
   moveit_visual_tools.loadRemoteControl();
 
-  // Create a closures for visualization
-  auto const draw_title = [&moveit_visual_tools](auto text) {
+  // Create closures for visualization
+  auto const draw_title = [&moveit_visual_tools](const auto& text) {
     auto const text_pose = [] {
       auto msg = Eigen::Isometry3d::Identity();
       msg.translation().z() = 1.0;
@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
     }();
     moveit_visual_tools.publishText(text_pose, text, rviz_visual_tools::WHITE, rviz_visual_tools::XLARGE);
   };
-  auto const prompt = [&moveit_visual_tools](auto text) { moveit_visual_tools.prompt(text); };
+  auto const prompt = [&moveit_visual_tools](const auto& text) { moveit_visual_tools.prompt(text); };
   auto const draw_trajectory_tool_path =
       [&moveit_visual_tools, jmg = move_group_interface.getRobotModel()->getJointModelGroup("panda_arm")](
           auto const trajectory) { moveit_visual_tools.publishTrajectoryLine(trajectory, jmg); };
