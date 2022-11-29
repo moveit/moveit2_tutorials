@@ -372,7 +372,7 @@ the trajectory it would have taken without blending.
    :alt: blend figure
 
 Implementation details are available
-:moveit_codedir:`as PDF<moveit_planners/pilz_industrial_motion_planner/doc/MotionBlendAlgorithmDescription.pdf>`_.
+:moveit_codedir:`as PDF<moveit_planners/pilz_industrial_motion_planner/doc/MotionBlendAlgorithmDescription.pdf>`.
 
 Restrictions for ``MotionSequenceRequest``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
