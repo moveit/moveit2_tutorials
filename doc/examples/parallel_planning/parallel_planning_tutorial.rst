@@ -7,17 +7,17 @@ MoveItCpp offers an API that allows:
 2. Defining a custom stopping criterion that terminates the pipelines that haven't found a solution
 3. Defining a custom function to select the most suitable solutions
 
-Using multiple pipelines can be beneficial for example if:
+Using multiple pipelines can be beneficial for several reasons, including:
 
 - It is unsure which planner will produce the best solution for a given planning problem
 - There is a chance that the preferred planner might fail and a backup solution should be available
 
-A general introduction to moveit_cpp can be found here: :doc:`/doc/examples/moveit_cpp/moveitcpp_tutorial`.
+A general introduction to moveit_cpp can be found in the :doc:`/doc/examples/moveit_cpp/moveitcpp_tutorial`.
 
 Parallel Planning Interface
 ---------------------------
 
-Using parallel planning with moveit_cpp is very similar to single pipeline planning except that a different implementation
+Using parallel planning with moveit_cpp is very similar to single pipeline planning, except that a different implementation
 of the planning component's :code:`plan(...)` function is used:
 
 .. code-block:: c++
@@ -28,32 +28,32 @@ of the planning component's :code:`plan(...)` function is used:
       StoppingCriterionFunction stopping_criterion_callback)
 
 This function tries to plan a trajectory from the a start state, to a goal state that satisfy a set of constraints. Based on the configuration
-provided by the :code:`parameters` multiple threads are launched and each tries to solve the planning problem with a different planning pipeline. Once
+provided by the :code:`parameters`, multiple threads are launched and each tries to solve the planning problem with a different planning pipeline. Once
 all pipelines found a solution (Reminder: No solution is also a possible result), the :code:`solution_selection_callback` is called to determine which
-solution is returned as :code:`MotionPlanResponse`. By default all pipelines use their time budget defined by the :code:`planning_time` field of the :code:`PlanRequestParameters` but it is possible to terminate the parallel planning earlier by using the :code:`stopping_criterion_callback`. This function
-is iteratively called during the parallel planning process and terminates pipelines that have not found a solution yet, if the stopping criterion is met.
+solution is returned as :code:`MotionPlanResponse`. By default, all pipelines use their time budget defined by the :code:`planning_time` field of the :code:`PlanRequestParameters`, but it is possible to terminate the parallel planning earlier by using the :code:`stopping_criterion_callback`. This function
+is iteratively called during the parallel planning process and, if the stopping criterion is met, terminates pipelines that have not found a solution yet.
 
 Demo
 ----
 
-The following demo serves as an example how you can configure and use MoveItCpp's parallel planning interface. First of all, let's
+The following demo serves as an example of how you can configure and use MoveItCpp's parallel planning interface. First of all, let's
 run the demo: ::
 
   ros2 launch moveit2_tutorials parallel_planning_example.launch.py
 
 A complex kitchen scene is loaded and two planning problems solved. The first one is a small motion of the EE towards the ground. This problem is likely to be solved by all three
-planners but with significant differences in the planning time. The second problem is a much harder and most likely only the :code:`RRTConnect` planner will succeed. This demo
-suggests that a well configured parallel planning setup is versatile to be used in a broad variety of motion planning problems.
+planners, but with significant differences in the planning time. The second problem is a much harder and most likely only the :code:`RRTConnect` planner will succeed. This demo
+suggests that a well-configured parallel planning setup is versatile, and can be used in a broad variety of motion planning problems.
 
 What code is necessary to use parallel planning?
-First, you need to initialize :code:`moveit_cpp` and a planning component that will solve your planning problems. Next you need to set start state and goal constraints:
+First, you need to initialize :code:`moveit_cpp` and a planning component that will solve your planning problems. Next, you need to set start state and goal constraints:
 
 .. code-block:: c++
 
     planning_component_->setGoal(*goal_state);
     planning_component_->setStartStateToCurrentState();
 
-Additionally, it is necessary to setup the :code:`MultiPipelinePlanRequestParameters`.
+Additionally, it is necessary to set up the :code:`MultiPipelinePlanRequestParameters`.
 
 .. code-block:: c++
 
@@ -62,7 +62,7 @@ Additionally, it is necessary to setup the :code:`MultiPipelinePlanRequestParame
     };
 
 The constructor of this function will initialize three :code:`PlanningRequestParameter` configurations based on the config that is provided in the node's
-parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, :code:`"chomp"`. To provide these, you can simply extend the :code:`moveit_cpp.yaml` file:
+parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, and :code:`"chomp"`. To provide these, you can simply extend the :code:`moveit_cpp.yaml` file:
 
 .. code-block:: yaml
 
@@ -96,9 +96,9 @@ parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, :code:`"chomp"`. T
         planning_time: 1.5
 
 Optionally, it is possible to define a custom stopping criterion and/or solution selection function. If none are passed as an argument to the :code:`plan(...)`,
-all pipelines use their complete planning time budget and afterwards the shortest path is chosen.
+all pipelines use their complete planning time budget, and afterwards the shortest path is chosen.
 
-For this example we're using the default stopping criterion and a solution selection criterion that choses the shortest solution:
+For this example, we're using the default stopping criterion and a solution selection criterion that chooses the shortest solution:
 
 .. code-block:: c++
 
