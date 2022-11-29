@@ -121,7 +121,7 @@ To do so, a minimal setup is as follows :
 
    The ``type`` tag is the fully qualified type of the plugin, be sure to add ``Loader`` at the end of the tag type.
 
-   The ``bass_class_type`` is the fully qualified base class type for the plugin and does not need to be modified.
+   The ``base_class_type`` is the fully qualified base class type for the plugin and does not need to be modified.
 
 #. Export the plugin description file in the CMakeLists.txt of your package with ``pluginlib_export_plugin_description_file(plugin_description.xml)``
 
