@@ -227,7 +227,7 @@ public:
     // The MultiPipelinePlanRequestParameters choose a set of planning pipelines to be used for parallel planning. Here,
     // we use all available pipelines but it is also possible to use a subset of pipelines.
     moveit_cpp::PlanningComponent::MultiPipelinePlanRequestParameters multi_pipeline_plan_request{
-      node_, { "ompl_rrtc", "pilz_lin", "chomp" }
+      node_, { "ompl_rrtc", "pilz_lin", "chomp", "ompl_rrts" }
     };
 
     auto plan_solution = planning_component_->plan(multi_pipeline_plan_request, &getShortestSolution);

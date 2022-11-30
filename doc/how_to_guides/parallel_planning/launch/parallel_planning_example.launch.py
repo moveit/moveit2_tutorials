@@ -1,4 +1,5 @@
 import os
+import yaml
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
@@ -6,6 +7,17 @@ from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from ament_index_python.packages import get_package_share_directory
 from moveit_configs_utils import MoveItConfigsBuilder
+
+
+def load_yaml(package_name, file_path):
+    package_path = get_package_share_directory(package_name)
+    absolute_file_path = os.path.join(package_path, file_path)
+
+    try:
+        with open(absolute_file_path, "r") as file:
+            return yaml.safe_load(file)
+    except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
+        return None
 
 
 def generate_launch_description():
@@ -41,6 +53,19 @@ def launch_setup(context, *args, **kwargs):
         .to_moveit_configs()
     )
 
+    # Load additional OMPL pipeline
+    ompl_planning_pipeline_config = {
+        "ompl_rrts": {
+            "planning_plugin": "ompl_interface/OMPLPlanner",
+            "request_adapters": """default_planner_request_adapters/AddTimeOptimalParameterization default_planner_request_adapters/FixWorkspaceBounds default_planner_request_adapters/FixStartStateBounds default_planner_request_adapters/FixStartStateCollision default_planner_request_adapters/FixStartStatePathConstraints""",
+            "start_state_max_bounds_error": 0.1,
+        }
+    }
+    ompl_planning_yaml = load_yaml(
+        "moveit_resources_panda_moveit_config", "config/ompl_planning.yaml"
+    )
+    ompl_planning_pipeline_config["ompl_rrts"].update(ompl_planning_yaml)
+
     # Warehouse config
     sqlite_database = (
         get_package_share_directory("moveit2_tutorials")
@@ -59,7 +84,7 @@ def launch_setup(context, *args, **kwargs):
 
     # MoveItCpp demo executable
     moveit_cpp_node = Node(
-        name="moveit_cpp_tutorial",
+        name="parallel_planning_tutorial",
         package="moveit2_tutorials",
         executable="parallel_planning_example",
         output="screen",

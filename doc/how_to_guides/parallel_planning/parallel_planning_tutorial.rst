@@ -97,6 +97,16 @@ parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, and :code:`"chomp"
         max_acceleration_scaling_factor: 1.0
         planning_time: 1.5
 
+  # Another OMPL planner using a second OMPL pipeline named 'ompl_rrts'
+  ompl_rrts:
+    plan_request_params:
+      planning_attempts: 1
+      planning_pipeline: ompl_rrts # Different OMPL pipeline name!
+      planner_id: "PRMkConfigDefault"
+      max_velocity_scaling_factor: 1.0
+      max_acceleration_scaling_factor: 1.0
+      planning_time: 1.5
+
 Optionally, it is possible to define a custom stopping criterion and/or solution selection function. If none are passed as an argument to the :code:`plan(...)`,
 all pipelines use their complete planning time budget, and afterwards the shortest path is chosen.
 
@@ -161,4 +171,4 @@ Once :code:`MultiPipelinePlanRequestParameters` and optionally :code:`SolutionCa
 Tips
 ----
 
-- When you want to use the same pipeline with the different planners (e.g. PILZ planner with PTP and LIN) in parallel, it is recommended to initialize multiple planning pipelines in moveit_cpp rather than using the same one in multiple parallel planning requests
+- When you want to use different planners of the same pipeline (e.g. PILZ planner with PTP and LIN) in parallel, it is recommended to initialize multiple planning pipelines in moveit_cpp rather than using the same one in multiple parallel planning requests. In this example two OMPL pipelines are loaded.
