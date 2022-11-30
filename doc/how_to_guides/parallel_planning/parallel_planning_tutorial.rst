@@ -1,5 +1,5 @@
-How to run multiple planning pipelines in parallel with MoveItCpp?
-==================================================================
+Running Multiple Planning Pipelines in Parallel with MoveItCpp
+==============================================================
 
 MoveItCpp offers an API that allows:
 
@@ -9,7 +9,7 @@ MoveItCpp offers an API that allows:
 
 Using multiple pipelines can be beneficial for several reasons, including:
 
-- It is unsure which planner will produce the best solution for a given planning problem
+- The planner that will produce the best solution is not known a priori
 - There is a chance that the preferred planner might fail and a backup solution should be available
 
 A general introduction to moveit_cpp can be found in the :doc:`/doc/examples/moveit_cpp/moveitcpp_tutorial`.
@@ -27,25 +27,27 @@ of the planning component's :code:`plan(...)` function is used:
       SolutionCallbackFunction solution_selection_callback,
       StoppingCriterionFunction stopping_criterion_callback)
 
-This function tries to plan a trajectory from the a start state, to a goal state that satisfy a set of constraints. Based on the configuration
+This function tries to plan a trajectory from a start state to a goal state that satisfies a set of constraints. Based on the configuration
 provided by the :code:`parameters`, multiple threads are launched and each tries to solve the planning problem with a different planning pipeline. Once
-all pipelines found a solution (Reminder: No solution is also a possible result), the :code:`solution_selection_callback` is called to determine which
+all pipelines have been terminated (Reminder: No solution is also a possible result), the :code:`solution_selection_callback` is called to determine which
 solution is returned as :code:`MotionPlanResponse`. By default, all pipelines use their time budget defined by the :code:`planning_time` field of the :code:`PlanRequestParameters`, but it is possible to terminate the parallel planning earlier by using the :code:`stopping_criterion_callback`. This function
 is iteratively called during the parallel planning process and, if the stopping criterion is met, terminates pipelines that have not found a solution yet.
 
-Demo
-----
+Example
+-------
 
 The following demo serves as an example of how you can configure and use MoveItCpp's parallel planning interface. First of all, let's
 run the demo: ::
 
   ros2 launch moveit2_tutorials parallel_planning_example.launch.py
 
-A complex kitchen scene is loaded and two planning problems solved. The first one is a small motion of the EE towards the ground. This problem is likely to be solved by all three
+A complex kitchen scene is loaded and two planning problems are solved. The first one is a small motion of the end effector towards the ground. This problem is likely to be solved by all three
 planners, but with significant differences in the planning time. The second problem is a much harder and most likely only the :code:`RRTConnect` planner will succeed. This demo
 suggests that a well-configured parallel planning setup is versatile, and can be used in a broad variety of motion planning problems.
 
 What code is necessary to use parallel planning?
+------------------------------------------------
+
 First, you need to initialize :code:`moveit_cpp` and a planning component that will solve your planning problems. Next, you need to set start state and goal constraints:
 
 .. code-block:: c++
@@ -159,4 +161,4 @@ Once :code:`MultiPipelinePlanRequestParameters` and optionally :code:`SolutionCa
 Tips
 ----
 
-- When you want to use multiple pipelines with the same planner parallel it is recommended to initialize multiple planning pipelines in moveit_cpp rather than using the same one in multiple parallel planning requests
+- When you want to use the same pipeline with the different planners (e.g. PILZ planner with PTP and LIN) in parallel, it is recommended to initialize multiple planning pipelines in moveit_cpp rather than using the same one in multiple parallel planning requests

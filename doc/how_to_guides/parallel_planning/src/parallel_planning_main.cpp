@@ -86,8 +86,6 @@ public:
     text_pose.translation().z() = 1.75;
     visual_tools_.publishText(text_pose, "Parallel Planning Tutorial", rvt::WHITE, rvt::XLARGE);
     visual_tools_.trigger();
-
-    visual_tools_.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
   }
 
   bool loadPlanningSceneAndQuery()
@@ -184,6 +182,8 @@ public:
     }
 
     planning_query_request_ = static_cast<moveit_msgs::msg::MotionPlanRequest>(*planning_query);
+    visual_tools_.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
+    visual_tools_.trigger();
     return true;
   }
 
@@ -196,11 +196,11 @@ public:
     auto robot_goal_state = planning_component_->getStartState();
     robot_goal_state->setJointPositions("panda_joint1", &panda_joint1);
     robot_goal_state->setJointPositions("panda_joint2", &panda_joint2);
+    robot_goal_state->setJointPositions("panda_joint3", &panda_joint3);
     robot_goal_state->setJointPositions("panda_joint4", &panda_joint4);
     robot_goal_state->setJointPositions("panda_joint5", &panda_joint5);
     robot_goal_state->setJointPositions("panda_joint6", &panda_joint6);
     robot_goal_state->setJointPositions("panda_joint7", &panda_joint7);
-    robot_goal_state->setJointPositions("panda_joint3", &panda_joint3);
 
     // Set goal state
     planning_component_->setGoal(*robot_goal_state);
@@ -224,6 +224,8 @@ public:
     // Set start state as current state
     planning_component_->setStartStateToCurrentState();
 
+    // The MultiPipelinePlanRequestParameters choose a set of planning pipelines to be used for parallel planning. Here,
+    // we use all available pipelines but it is also possible to use a subset of pipelines.
     moveit_cpp::PlanningComponent::MultiPipelinePlanRequestParameters multi_pipeline_plan_request{
       node_, { "ompl_rrtc", "pilz_lin", "chomp" }
     };
@@ -274,9 +276,6 @@ int main(int argc, char** argv)
 
   parallel_planning_example::Demo demo(node);
 
-  /* Otherwise robot with zeros joint_states */
-  rclcpp::sleep_for(std::chrono::seconds(1));
-
   if (!demo.loadPlanningSceneAndQuery())
   {
     rclcpp::shutdown();
@@ -285,15 +284,13 @@ int main(int argc, char** argv)
 
   RCLCPP_INFO(LOGGER, "Starting MoveIt Tutorials...");
 
-  // // Experiment 1 - Short free-space motion
-  // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // Experiment 1 - Short free-space motion, PILZ is expected to create the fastest and shortest solution
   RCLCPP_INFO(LOGGER, "Experiment 1 - Short free-space motion");
 
   demo.setJointGoal(0.0, -0.8144019900299497, 0.0, -2.6488387075338133, 0.0, 1.8344367175038623, 0.7849999829891612);
   demo.planAndPrint();
 
-  // // Experiment 2 - Long motion with collisions
-  // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // Experiment 2 - Long motion with collisions, CHOMP and PILZ are likely to fail here due to the difficulty of the planning problem
   RCLCPP_INFO(LOGGER, "Experiment 2 - Long motion with collisions");
   demo.setQueryGoal();
   demo.planAndPrint();
