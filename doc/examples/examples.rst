@@ -80,6 +80,5 @@ Miscellaneous
    benchmarking/benchmarking_tutorial
    dual_arms/dual_arms_tutorial
    hybrid_planning/hybrid_planning_tutorial
-   parallel_planning/parallel_planning_tutorial
    realtime_servo/realtime_servo_tutorial
    tests/tests_tutorial
