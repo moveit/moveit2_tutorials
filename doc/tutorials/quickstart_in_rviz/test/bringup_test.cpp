@@ -17,11 +17,6 @@ namespace
 __attribute__((no_sanitize("thread")))
 #endif
 #endif
-rclcpp::Node::SharedPtr
-make_node(std::string const& name, rclcpp::NodeOptions const& options)
-{
-  return std::make_shared<rclcpp::Node>(name, options);
-}
 }  // namespace
 
 namespace moveit2_tutorials::quickstart_in_rviz
