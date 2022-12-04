@@ -1,0 +1,30 @@
+robot_calibration:
+  ros__parameters:
+    chains:
+    - ur_manipulator
+    ur_manipulator:
+      topic: /scaled_joint_trajectory_controller/follow_joint_trajectory
+      joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+      #planning_group: arm TODO: revert when moveit is setup
+    features:
+    - checkerboard_finder
+    # - ground_plane_finder
+    checkerboard_finder:
+      type: robot_calibration::CheckerboardFinder
+      topic: /camera/depth/color/points
+      camera_sensor_name: camera
+      chain_sensor_name: ur_manipulator
+      camera_driver: /camera/depth/camera_info
+
+    # ground_plane_finder:
+    #   type: robot_calibration::PlaneFinder
+    #   topic: /head_camera/depth_registered/points
+    #   camera_sensor_name: ground_camera
+    #   points_max: 60
+    #   debug: false
