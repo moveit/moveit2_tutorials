@@ -2,9 +2,7 @@ import os
 import yaml
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
 from ament_index_python.packages import get_package_share_directory
 from moveit_configs_utils import MoveItConfigsBuilder
 
@@ -47,29 +45,33 @@ def launch_setup(context, *args, **kwargs):
         .planning_pipelines("ompl", ["ompl", "chomp", "pilz_industrial_motion_planner"])
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .moveit_cpp(
-            file_path=get_package_share_directory("moveit2_tutorials")
-            + "/config/parallel_planning_moveit_cpp.yaml"
+            os.path.join(get_package_share_directory("moveit2_tutorials"),
+             "config", "parallel_planning_moveit_cpp.yaml")
         )
         .to_moveit_configs()
     )
 
     # Load additional OMPL pipeline
     ompl_planning_pipeline_config = {
-        "ompl_rrts": {
+        "ompl_rrt_star": {
             "planning_plugin": "ompl_interface/OMPLPlanner",
-            "request_adapters": """default_planner_request_adapters/AddTimeOptimalParameterization default_planner_request_adapters/FixWorkspaceBounds default_planner_request_adapters/FixStartStateBounds default_planner_request_adapters/FixStartStateCollision default_planner_request_adapters/FixStartStatePathConstraints""",
+            "request_adapters": """default_planner_request_adapters/AddTimeOptimalParameterization \
+                                  default_planner_request_adapters/FixWorkspaceBounds \
+                                  default_planner_request_adapters/FixStartStateBounds \
+                                    default_planner_request_adapters/FixStartStateCollision \
+                                       default_planner_request_adapters/FixStartStatePathConstraints""",
             "start_state_max_bounds_error": 0.1,
         }
     }
     ompl_planning_yaml = load_yaml(
         "moveit_resources_panda_moveit_config", "config/ompl_planning.yaml"
     )
-    ompl_planning_pipeline_config["ompl_rrts"].update(ompl_planning_yaml)
+    ompl_planning_pipeline_config["ompl_rrt_star"].update(ompl_planning_yaml)
 
     # Warehouse config
     sqlite_database = (
-        get_package_share_directory("moveit2_tutorials")
-        + "/config/panda_test_db.sqlite"
+      os.path.join(get_package_share_directory("moveit2_tutorials"),
+             "config", "panda_test_db.sqlite")
     )
 
     warehouse_ros_config = {
@@ -93,8 +95,8 @@ def launch_setup(context, *args, **kwargs):
 
     # RViz
     rviz_config_file = (
-        get_package_share_directory("moveit2_tutorials")
-        + "/config/parallel_planning_config.rviz"
+            os.path.join(get_package_share_directory("moveit2_tutorials"),
+             "config", "parallel_planning_config.rviz")
     )
 
     rviz_node = Node(

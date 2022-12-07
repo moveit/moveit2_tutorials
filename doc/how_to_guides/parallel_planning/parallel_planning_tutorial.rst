@@ -12,12 +12,12 @@ Using multiple pipelines can be beneficial for several reasons, including:
 - The planner that will produce the best solution is not known a priori
 - There is a chance that the preferred planner might fail and a backup solution should be available
 
-A general introduction to moveit_cpp can be found in the :doc:`/doc/examples/moveit_cpp/moveitcpp_tutorial`.
+A general introduction to MoveItCpp can be found in the :doc:`/doc/examples/moveit_cpp/moveitcpp_tutorial`.
 
 Parallel Planning Interface
 ---------------------------
 
-Using parallel planning with moveit_cpp is very similar to single pipeline planning, except that a different implementation
+Using parallel planning with MoveItCpp is very similar to single pipeline planning, except that a different implementation
 of the planning component's :code:`plan(...)` function is used:
 
 .. code-block:: c++
@@ -29,9 +29,9 @@ of the planning component's :code:`plan(...)` function is used:
 
 This function tries to plan a trajectory from a start state to a goal state that satisfies a set of constraints. Based on the configuration
 provided by the :code:`parameters`, multiple threads are launched and each tries to solve the planning problem with a different planning pipeline. Once
-all pipelines have been terminated (Reminder: No solution is also a possible result), the :code:`solution_selection_callback` is called to determine which
+all pipelines have been terminated. Please keep in mind, that o solution is also a possible result, the :code:`solution_selection_callback` is called to determine which
 solution is returned as :code:`MotionPlanResponse`. By default, all pipelines use their time budget defined by the :code:`planning_time` field of the :code:`PlanRequestParameters`, but it is possible to terminate the parallel planning earlier by using the :code:`stopping_criterion_callback`. This function
-is iteratively called during the parallel planning process and, if the stopping criterion is met, terminates pipelines that have not found a solution yet.
+is called whenever a pipeline produces a solution during the parallel planning process and, if the stopping criterion is met, terminates pipelines that have not found a solution yet.
 
 Example
 -------
@@ -97,11 +97,11 @@ parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, and :code:`"chomp"
         max_acceleration_scaling_factor: 1.0
         planning_time: 1.5
 
-  # Another OMPL planner using a second OMPL pipeline named 'ompl_rrts'
-  ompl_rrts:
+  # Another OMPL planner using a second OMPL pipeline named 'ompl_rrt_star'
+  ompl_rrt_star:
     plan_request_params:
       planning_attempts: 1
-      planning_pipeline: ompl_rrts # Different OMPL pipeline name!
+      planning_pipeline: ompl_rrt_star # Different OMPL pipeline name!
       planner_id: "PRMkConfigDefault"
       max_velocity_scaling_factor: 1.0
       max_acceleration_scaling_factor: 1.0
@@ -171,4 +171,4 @@ Once :code:`MultiPipelinePlanRequestParameters` and optionally :code:`SolutionCa
 Tips
 ----
 
-- When you want to use different planners of the same pipeline (e.g. PILZ planner with PTP and LIN) in parallel, it is recommended to initialize multiple planning pipelines in moveit_cpp rather than using the same one in multiple parallel planning requests. In this example two OMPL pipelines are loaded.
+- When you want to use different planners of the same pipeline (e.g. Pilz planner with PTP and LIN) in parallel, it is recommended to initialize multiple planning pipelines in MoveItCpp rather than using the same one in multiple parallel planning requests. In this example two OMPL pipelines are loaded.
