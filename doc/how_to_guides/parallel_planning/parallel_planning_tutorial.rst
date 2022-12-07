@@ -36,13 +36,13 @@ is iteratively called during the parallel planning process and, if the stopping 
 Example
 -------
 
-The following demo serves as an example of how you can configure and use MoveItCpp's parallel planning interface. First of all, let's
+The following demo serves as an example of how you can configure and use MoveItCpp's parallel planning interface. First,
 run the demo: ::
 
   ros2 launch moveit2_tutorials parallel_planning_example.launch.py
 
 A complex kitchen scene is loaded and two planning problems are solved. The first one is a small motion of the end effector towards the ground. This problem is likely to be solved by all three
-planners, but with significant differences in the planning time. The second problem is a much harder and most likely only the :code:`RRTConnect` planner will succeed. This demo
+planners, but with significant differences in the planning time. The second problem is much harder and most likely only the :code:`RRTConnect` planner will succeed. This demo
 suggests that a well-configured parallel planning setup is versatile, and can be used in a broad variety of motion planning problems.
 
 What code is necessary to use parallel planning?
@@ -63,7 +63,7 @@ Additionally, it is necessary to set up the :code:`MultiPipelinePlanRequestParam
       node_, { "ompl_rrtc", "pilz_lin", "chomp" }
     };
 
-The constructor of this function will initialize three :code:`PlanningRequestParameter` configurations based on the config that is provided in the node's
+The constructor of this function will initialize :code:`PlanningRequestParameter` configurations based on the config that is provided in the node's
 parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, and :code:`"chomp"`. To provide these, you can simply extend the :code:`moveit_cpp.yaml` file:
 
 .. code-block:: yaml
