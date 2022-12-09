@@ -69,8 +69,6 @@ getShortestSolution(const std::vector<planning_interface::MotionPlanResponse>& s
 class Demo
 {
 public:
-  /// @brief
-  /// @param node
   Demo(rclcpp::Node::SharedPtr node)
     : node_{ node }
     , moveit_cpp_{ std::make_shared<moveit_cpp::MoveItCpp>(node) }
@@ -113,11 +111,11 @@ public:
       if (warehouse_connection->connect())
       {
         planning_scene_storage = new moveit_warehouse::PlanningSceneStorage(warehouse_connection);
-        RCLCPP_INFO(LOGGER, "Connected to DB: '%s'", hostname.c_str());
+        RCLCPP_INFO(LOGGER, "Connected to database: '%s'", hostname.c_str());
       }
       else
       {
-        RCLCPP_ERROR(LOGGER, "Failed to connect to DB");
+        RCLCPP_ERROR(LOGGER, "Failed to connect to database");
         return false;
       }
     }
@@ -146,8 +144,7 @@ public:
           return false;
         }
         scene_msg.world = world_meta_data;
-        scene_msg.robot_model_name =
-            "NO ROBOT INFORMATION. ONLY WORLD GEOMETRY";  // this will be fixed when running benchmark
+        scene_msg.robot_model_name = "No robot information. Using only world geometry.";
       }
       else
       {

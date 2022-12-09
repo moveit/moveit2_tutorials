@@ -63,7 +63,7 @@ Additionally, it is necessary to set up the :code:`MultiPipelinePlanRequestParam
       node_, { "ompl_rrtc", "pilz_lin", "chomp" }
     };
 
-The constructor of this function will initialize :code:`PlanningRequestParameter` configurations based on the config that is provided in the node's
+The constructor of this class will initialize multiple :code:`PlanningRequestParameter`s as class members based on the config that is provided in the node's
 parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, and :code:`"chomp"`. To provide these, you can simply extend the :code:`moveit_cpp.yaml` file:
 
 .. code-block:: yaml
@@ -107,7 +107,7 @@ parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, and :code:`"chomp"
       max_acceleration_scaling_factor: 1.0
       planning_time: 1.5
 
-Optionally, it is possible to define a custom stopping criterion and/or solution selection function. If none are passed as an argument to the :code:`plan(...)`,
+Optionally, it is possible to define a custom stopping criterion and/or solution selection function. If none are passed as an argument to :code:`plan(...)`,
 all pipelines use their complete planning time budget, and afterwards the shortest path is chosen.
 
 For this example, we're using the default stopping criterion and a solution selection criterion that chooses the shortest solution:
@@ -137,7 +137,7 @@ For this example, we're using the default stopping criterion and a solution sele
       return *shortest_solution;
     }
 
-Here is an example for a custom stopping criterion:
+Here is an example of a custom stopping criterion, that terminates the other planning pipelines as soon as :code:`RRTConnect` found a solution:
 
 .. code-block:: c++
 
