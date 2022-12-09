@@ -17,7 +17,7 @@ A general introduction to MoveItCpp can be found in the :doc:`/doc/examples/move
 Parallel Planning Interface
 ---------------------------
 
-Using parallel planning with MoveItCpp is very similar to single pipeline planning, except that a different implementation
+Using parallel planning with MoveItCpp is similar to single pipeline planning, except that a different implementation
 of the planning component's :code:`plan(...)` function is used:
 
 .. code-block:: c++
@@ -64,7 +64,7 @@ Additionally, it is necessary to set up the :code:`MultiPipelinePlanRequestParam
     };
 
 The constructor of this class will initialize multiple :code:`PlanningRequestParameter` class members based on the config that is provided in the node's
-parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, and :code:`"chomp"`. To provide these, you can simply extend the :code:`moveit_cpp.yaml` file:
+parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, and :code:`"chomp"`. To provide these, you can extend the :code:`moveit_cpp.yaml` file:
 
 .. code-block:: yaml
 
@@ -137,7 +137,7 @@ For this example, we're using the default stopping criterion and a solution sele
       return *shortest_solution;
     }
 
-Here is an example of a custom stopping criterion, that terminates the other planning pipelines as soon as :code:`RRTConnect` found a solution:
+Here is an example of a custom stopping criterion, that terminates the other planning pipelines as soon as :code:`RRTConnect` finds a solution:
 
 .. code-block:: c++
 
