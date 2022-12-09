@@ -28,8 +28,8 @@ of the planning component's :code:`plan(...)` function is used:
       StoppingCriterionFunction stopping_criterion_callback)
 
 This function tries to plan a trajectory from a start state to a goal state that satisfies a set of constraints. Based on the configuration
-provided by the :code:`parameters`, multiple threads are launched and each tries to solve the planning problem with a different planning pipeline. Once
-all pipelines have been terminated. Please keep in mind, that no solution is also a possible result, the :code:`solution_selection_callback` is called to determine which
+provided by the :code:`parameters`, multiple threads are launched and each tries to solve the planning problem with a different planning pipeline. Please keep in mind, that no solution is also a possible result. Once
+all pipelines have been terminated. the :code:`solution_selection_callback` is called to determine which
 solution is returned as :code:`MotionPlanResponse`. By default, all pipelines use their time budget defined by the :code:`planning_time` field of the :code:`MultiPipelinePlanRequestParameters`, but it is possible to terminate the parallel planning earlier by using the :code:`stopping_criterion_callback`. This function
 is called whenever a pipeline produces a solution during the parallel planning process and, if the stopping criterion is met, terminates pipelines that have not found a solution yet.
 
@@ -68,7 +68,7 @@ parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, and :code:`"chomp"
 
 .. code-block:: yaml
 
-    # PlanRequestParameters for the first parallel pipeline
+    # PlanRequestParameters for the first parallel pipeline that uses OMPL - RRTConnect
     ompl_rrtc:
       plan_request_params:
         planning_attempts: 1
@@ -78,7 +78,7 @@ parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, and :code:`"chomp"
         max_acceleration_scaling_factor: 1.0
         planning_time: 0.5
 
-    # PlanRequestParameters for the second parallel pipeline
+    # PlanRequestParameters for a second parallel pipeline using Pilz with the LIN planner
     pilz_lin:
       plan_request_params:
         planning_attempts: 1
@@ -88,7 +88,7 @@ parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, and :code:`"chomp"
         max_acceleration_scaling_factor: 1.0
         planning_time: 0.8
 
-    # PlanRequestParameters for the third parallel pipeline
+    # PlanRequestParameters for a third parallel pipeline that uses CHOMP as planner
     chomp:
       plan_request_params:
         planning_attempts: 1
