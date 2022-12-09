@@ -63,7 +63,7 @@ Additionally, it is necessary to set up the :code:`MultiPipelinePlanRequestParam
       node_, { "ompl_rrtc", "pilz_lin", "chomp" }
     };
 
-The constructor of this class will initialize multiple :code:`PlanningRequestParameter`s as class members based on the config that is provided in the node's
+The constructor of this class will initialize multiple :code:`PlanningRequestParameter` class members based on the config that is provided in the node's
 parameter namespaces :code:`"ompl_rrtc"`, :code:`"pilz_lin"`, and :code:`"chomp"`. To provide these, you can simply extend the :code:`moveit_cpp.yaml` file:
 
 .. code-block:: yaml
