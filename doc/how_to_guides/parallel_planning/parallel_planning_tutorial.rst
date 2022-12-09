@@ -29,14 +29,14 @@ of the planning component's :code:`plan(...)` function is used:
 
 This function tries to plan a trajectory from a start state to a goal state that satisfies a set of constraints. Based on the configuration
 provided by the :code:`parameters`, multiple threads are launched and each tries to solve the planning problem with a different planning pipeline. Once
-all pipelines have been terminated. Please keep in mind, that o solution is also a possible result, the :code:`solution_selection_callback` is called to determine which
-solution is returned as :code:`MotionPlanResponse`. By default, all pipelines use their time budget defined by the :code:`planning_time` field of the :code:`PlanRequestParameters`, but it is possible to terminate the parallel planning earlier by using the :code:`stopping_criterion_callback`. This function
+all pipelines have been terminated. Please keep in mind, that no solution is also a possible result, the :code:`solution_selection_callback` is called to determine which
+solution is returned as :code:`MotionPlanResponse`. By default, all pipelines use their time budget defined by the :code:`planning_time` field of the :code:`MultiPipelinePlanRequestParameters`, but it is possible to terminate the parallel planning earlier by using the :code:`stopping_criterion_callback`. This function
 is called whenever a pipeline produces a solution during the parallel planning process and, if the stopping criterion is met, terminates pipelines that have not found a solution yet.
 
 Example
 -------
 
-The following demo serves as an example of how you can configure and use MoveItCpp's parallel planning interface. First,
+The following demo shows how you can configure and use MoveItCpp's parallel planning interface. First,
 run the demo: ::
 
   ros2 launch moveit2_tutorials parallel_planning_example.launch.py

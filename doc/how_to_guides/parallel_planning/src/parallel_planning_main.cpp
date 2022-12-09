@@ -104,7 +104,7 @@ public:
 
     moveit_warehouse::PlanningSceneStorage* planning_scene_storage = nullptr;
 
-    // Init DB connection
+    // Initialize database connection
     try
     {
       warehouse_ros::DatabaseLoader db_loader(node_);
