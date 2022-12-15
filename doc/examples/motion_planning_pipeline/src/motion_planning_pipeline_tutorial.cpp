@@ -75,7 +75,7 @@ int main(int argc, char** argv)
   robot_model_loader::RobotModelLoaderPtr robot_model_loader(
       new robot_model_loader::RobotModelLoader(node, "robot_description"));
 
-  // Using the RobotModelLoader, we can construct a planing scene monitor that
+  // Using the RobotModelLoader, we can construct a planning scene monitor that
   // will create a planning scene, monitors planning scene diffs, and apply the diffs to it's
   // internal planning scene. We then call startSceneMonitor, startWorldGeometryMonitor and
   // startStateMonitor to fully initialize the planning scene monitor

@@ -77,8 +77,8 @@ Miscellaneous
 .. toctree::
    :maxdepth: 1
 
-   realtime_servo/realtime_servo_tutorial
-   hybrid_planning/hybrid_planning_tutorial
    benchmarking/benchmarking_tutorial
-   tests/tests_tutorial
    dual_arms/dual_arms_tutorial
+   hybrid_planning/hybrid_planning_tutorial
+   realtime_servo/realtime_servo_tutorial
+   tests/tests_tutorial
