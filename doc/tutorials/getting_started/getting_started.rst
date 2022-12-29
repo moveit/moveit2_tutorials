@@ -88,7 +88,7 @@ Optional: add the previous command to your ``.bashrc``: ::
 Switch to Cyclone DDS
 ^^^^^^^^^^^^^^^^^^^^^
 
-As of Sep 26, 2022, the default ROS2 DDS has an issue. As a workaround, switch to Cyclone. (Note: this makes all nodes started using this RMW incompatible with any other nodes not using Cyclone DDS.)
+As of Sep 26, 2022, the default ROS 2 middleware (RMW) implementation has an issue. As a workaround, switch to Cyclone DDS. (Note: this makes all nodes started using this RMW incompatible with any other nodes not using Cyclone DDS.) ::
 
   sudo apt install ros-rolling-rmw-cyclonedds-cpp
   # You may want to add this to ~/.bashrc to source it automatically
