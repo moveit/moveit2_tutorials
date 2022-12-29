@@ -85,6 +85,15 @@ Optional: add the previous command to your ``.bashrc``: ::
    not required and often skipped by advanced users who use more than one
    Colcon workspace at a time, but we recommend it for simplicity.
 
+Switch to Cyclone DDS
+^^^^^^^^^^^^^^^^^^^^^
+
+As of Sep 26, 2022, the default ROS 2 middleware (RMW) implementation has an issue. As a workaround, switch to Cyclone DDS. (Note: this makes all nodes started using this RMW incompatible with any other nodes not using Cyclone DDS.) ::
+
+  sudo apt install ros-rolling-rmw-cyclonedds-cpp
+  # You may want to add this to ~/.bashrc to source it automatically
+  export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+
 Next Step
 ^^^^^^^^^
 Nice job! Next we will :doc:`Visualize a robot with the interactive motion planning plugin for RViz </doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial>`
