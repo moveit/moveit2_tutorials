@@ -40,6 +40,8 @@ int main(int argc, char** argv)
   //
   static const std::string PLANNING_GROUP = "panda_arm";
   static const std::string LOGNAME = "moveit_cpp_tutorial";
+  // ros2_controllers
+  static const std::vector<std::string> CONTROLLERS (1, "panda_arm_controller");
 
   /* Otherwise robot with zeros joint_states */
   rclcpp::sleep_for(std::chrono::seconds(1));
@@ -95,7 +97,7 @@ int main(int argc, char** argv)
 
   // Now, we call the PlanningComponents to compute the plan and visualize it.
   // Note that we are just planning
-  auto plan_solution1 = planning_components->plan();
+  planning_interface::MotionPlanResponse plan_solution1 = planning_components->plan();
 
   // Check if PlanningComponents succeeded in finding the plan
   if (plan_solution1)
@@ -110,7 +112,7 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    //moveit_controller_manager::ExecutionStatus result = moveit_cpp_ptr->execute(PLANNING_GROUP, plan_solution1.trajectory_, CONTROLLERS);
   }
 
   // Plan #1 visualization:
@@ -154,7 +156,7 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    //moveit_cpp_ptr->execute(PLANNING_GROUP, plan_solution2.trajectory_, CONTROLLERS);
   }
 
   // Plan #2 visualization:
@@ -198,7 +200,7 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    //moveit_cpp_ptr->execute(PLANNING_GROUP, plan_solution3.trajectory_, CONTROLLERS);
   }
 
   // Plan #3 visualization:
@@ -240,7 +242,7 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    //moveit_cpp_ptr->execute(PLANNING_GROUP, plan_solution4.trajectory_, CONTROLLERS);
   }
 
   // Plan #4 visualization:
@@ -293,7 +295,7 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    //moveit_cpp_ptr->execute(PLANNING_GROUP, plan_solution5.trajectory_, CONTROLLERS);
   }
 
   // Plan #5 visualization:
