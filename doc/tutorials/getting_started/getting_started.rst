@@ -1,26 +1,29 @@
 Getting Started
 ===============
 
-Here we will setup your environment for best running the tutorials. This will create a Colcon workspace, download all of the latest MoveIt source code, and build everything from source to ensure you have the latest fixes and improvements.
-
-Building all the source code of MoveIt can take 20-30 minutes, depending on the CPU speed and available RAM of your computer. If you are on a less performant system, or generally just want to get started quicker, checkout our :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>`.
+Here we will setup your environment for best running the tutorials. This will create a Colcon workspace and install the latest MoveIt version.
 
 Install ROS 2 and Colcon
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-:ros_documentation:`Install ROS 2 {DISTRO_TITLE}<Installation.html>`.
+^^^^^^^^^^^^^^^^^^^^^^^^
+Follow the :ros_documentation:`Install ROS 2 {DISTRO_TITLE}<Installation.html>` to install ros-${DISTRO}-ros-base.
 It is easy to miss steps when going through the ROS 2 installation tutorial. If you run into errors in the next few steps, a good place to start is to go back and make sure you have installed ROS 2 correctly.  One that users commonly forget is to source the ROS 2 install itself.  ::
 
-  source /opt/ros/humble/setup.bash
+  source /opt/ros/${DISTRO}/setup.bash
 
 .. note:: Unlike ROS 1 setup scripts, in ROS 2 the setup scripts do not attempt to switch what version of ROS you are using.  This means that if you have previously sourced a different version of ROS, including from within your ``.bashrc`` file, you will run into errors during the building step.  To fix this change what is sourced in your ``.bashrc`` and start a new terminal.
 
-Install `rosdep <http://wiki.ros.org/rosdep>`_ to install system dependencies : ::
+Install `rosdep <http://wiki.ros.org/rosdep>`_ to install system dependencies: ::
 
   sudo apt install python3-rosdep
+  sudo rosdep init
+
+Add the MoveIt nightly packages: ::
+
+  echo "deb [trusted=yes] https://raw.githubusercontent.com/moveit/moveit2_packages/jammy-${DISTRO}/ ./" | sudo tee /etc/apt/sources.list.d/moveit_moveit2_packages.list
+  echo "yaml https://raw.githubusercontent.com/moveit/moveit2_packages/jammy-${DISTRO}/local.yaml ${DISTRO}" | sudo tee /etc/ros/rosdep/sources.list.d/1-moveit_moveit2_packages.list
 
 Once you have ROS 2 installed, make sure you have the most up to date packages: ::
 
-  sudo rosdep init
   rosdep update
   sudo apt update
   sudo apt dist-upgrade
@@ -31,10 +34,6 @@ Install :ros_documentation:`Colcon <Tutorials/Colcon-Tutorial.html#install-colco
   sudo apt install python3-colcon-mixin
   colcon mixin add default https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
   colcon mixin update default
-
-Install `vcstool <https://index.ros.org/d/python3-vcstool/>`_ : ::
-
-  sudo apt install python3-vcstool
 
 Create A Colcon Workspace and Download Tutorials
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -47,13 +46,7 @@ Download Source Code of MoveIt and the Tutorials
 Move into your Colcon workspace and pull the MoveIt tutorials source: ::
 
   cd ~/ws_moveit2/src
-  git clone https://github.com/ros-planning/moveit2_tutorials -b humble --depth 1
-
-Next we will download the source code for the rest of MoveIt: ::
-
-  vcs import < moveit2_tutorials/moveit2_tutorials.repos
-
-The import command may ask for your GitHub credentials. You can just press Enter until it moves on (ignore the "Authentication failed" error).
+  git clone https://github.com/ros-planning/moveit2_tutorials -b ${DISTRO} --depth 1
 
 Build your Colcon Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -61,12 +54,10 @@ The following will install from Debian any package dependencies not already in y
 
   sudo apt update && rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
 
-The next command will configure your Colcon workspace: ::
+The next command will build your Colcon workspace: ::
 
   cd ~/ws_moveit2
   colcon build --mixin release
-
-This build command will likely take a long time (20+ minutes) depending on your computer speed and amount of RAM available (we recommend 32 GB). If you are short on computer memory or generally your build is struggling to complete on your computer, you can append the argument ``--parallel-workers 1`` to the colcon command above.
 
 If everything goes well, you should see the message "finished". If you have problems, try re-checking your `ROS Installation <https://docs.ros.org/en/humble/Installation.html>`_.
 
