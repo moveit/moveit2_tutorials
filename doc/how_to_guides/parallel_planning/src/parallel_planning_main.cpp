@@ -22,7 +22,7 @@ namespace
 {
 const rclcpp::Logger LOGGER = rclcpp::get_logger("parallel_planning_example");
 const std::string PLANNING_GROUP = "panda_arm";
-static const std::vector<std::string> CONTROLLERS (1, "panda_arm_controller");
+static const std::vector<std::string> CONTROLLERS(1, "panda_arm_controller");
 }  // namespace
 namespace parallel_planning_example
 {
@@ -242,7 +242,8 @@ public:
       visual_tools_.trigger();
     }
 
-    moveit_cpp_->execute(PLANNING_GROUP, plan_solution.trajectory_, CONTROLLERS);
+    // Execute the trajectory and block until it's finished
+    moveit_cpp_->execute(plan_solution.trajectory_, true /* blocking*/, CONTROLLERS);
 
     // Start the next plan
     visual_tools_.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
