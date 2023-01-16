@@ -12,14 +12,6 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 def generate_launch_description():
 
-<<<<<<< HEAD
-    # Command-line arguments
-    tutorial_arg = DeclareLaunchArgument(
-        "rviz_tutorial", default_value="False", description="Tutorial flag"
-    )
-
-    # planning_context
-=======
     declared_arguments = []
     declared_arguments.append(
         DeclareLaunchArgument(
@@ -36,19 +28,15 @@ def generate_launch_description():
 
 def launch_setup(context, *args, **kwargs):
 
->>>>>>> e2f3b9a (Build and host docker images of the tutorials (#533))
     moveit_config = (
         MoveItConfigsBuilder("moveit_resources_panda")
         .robot_description(file_path="config/panda.urdf.xacro")
         .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
         .planning_scene_monitor(
             publish_robot_description=True, publish_robot_description_semantic=True
-<<<<<<< HEAD
-=======
         )
         .planning_pipelines(
             pipelines=["ompl", "chomp", "pilz_industrial_motion_planner"]
->>>>>>> e2f3b9a (Build and host docker images of the tutorials (#533))
         )
         .to_moveit_configs()
     )
@@ -61,14 +49,11 @@ def launch_setup(context, *args, **kwargs):
         parameters=[moveit_config.to_dict()],
     )
 
-<<<<<<< HEAD
-=======
     rviz_base = LaunchConfiguration("rviz_config")
     rviz_config = PathJoinSubstitution(
         [FindPackageShare("moveit2_tutorials"), "launch", rviz_base]
     )
 
->>>>>>> e2f3b9a (Build and host docker images of the tutorials (#533))
     # RViz
     tutorial_mode = LaunchConfiguration("rviz_tutorial")
     rviz_base = os.path.join(get_package_share_directory("moveit2_tutorials"), "launch")
@@ -134,35 +119,6 @@ def launch_setup(context, *args, **kwargs):
         output="both",
     )
 
-<<<<<<< HEAD
-    # Load controllers
-    load_controllers = []
-    for controller in [
-        "panda_arm_controller",
-        "panda_hand_controller",
-        "joint_state_broadcaster",
-    ]:
-        load_controllers += [
-            ExecuteProcess(
-                cmd=["ros2 run controller_manager spawner {}".format(controller)],
-                shell=True,
-                output="screen",
-            )
-        ]
-
-    return LaunchDescription(
-        [
-            tutorial_arg,
-            rviz_node,
-            rviz_node_tutorial,
-            static_tf,
-            robot_state_publisher,
-            run_move_group_node,
-            ros2_control_node,
-        ]
-        + load_controllers
-    )
-=======
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",
         executable="spawner",
@@ -198,4 +154,3 @@ def launch_setup(context, *args, **kwargs):
     ]
 
     return nodes_to_start
->>>>>>> e2f3b9a (Build and host docker images of the tutorials (#533))
