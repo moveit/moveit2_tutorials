@@ -97,7 +97,7 @@ int main(int argc, char** argv)
 
   // Now, we call the PlanningComponents to compute the plan and visualize it.
   // Note that we are just planning
-  planning_interface::MotionPlanResponse plan_solution1 = planning_components->plan();
+  const planning_interface::MotionPlanResponse plan_solution1 = planning_components->plan();
 
   // Check if PlanningComponents succeeded in finding the plan
   if (plan_solution1)
