@@ -7,7 +7,7 @@ Prerequisites
 -------------
 
 If you haven't already done so, make sure you've completed the steps in :doc:`Visualizing in RViz </doc/tutorials/visualizing_in_rviz/visualizing_in_rviz>`.
-This project assumes you are starting with the ``hello_moveit`` project, where the previous tutorial left off.
+This project assumes you are starting with the ``hello_moveit`` project, where the previous tutorial left off. If you just want to run the tutorial, you can follow the :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>` to start a container with the completed tutorial.
 
 Steps
 -----
@@ -98,7 +98,9 @@ This code block should directly follow the code block that creates the collision
 5 Run the Program and Observe the Change
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Just as we did in the last tutorial, start RViz using the ``demo.launch.py`` script and run our program.
+Just as we did in the last tutorial, start RViz using the ``demo.launch.py`` script and run our program. If you're using one of the Docker tutorial containers, you can specify a different RViz configuration that already has the RvizVisualToolsGui panel added using: ::
+
+   ros2 launch moveit2_tutorials demo.launch.py rviz_config:=panda_hello_moveit.rviz
 
 .. image:: planning_around_object.png
 

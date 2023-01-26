@@ -1,14 +1,13 @@
 Pick and Place with MoveIt Task Constructor
 ===========================================
-
 .. raw:: html
 
     <video width="700px" controls="true" autoplay="true" loop="true">
-        <source src="../../../_static/videos/mtc.webm" type="video/webm">
+        <source src="../../../_static/videos/mtc-demo.webm" type="video/webm">
         MoveIt Task Constructor Pick and Place example
     </video>
 
-This tutorial will walk you through creating a package that plans a pick and place operation using `MoveIt Task Constructor <https://github.com/ros-planning/moveit_task_constructor/tree/ros2/>`_. MoveIt Task Constructor provides a way to plan for tasks that consist of multiple different subtasks (known as stages). This tutorial is intended for those who have a basic understanding of MoveIt and the MoveIt Task Constructor :ref:`concepts <moveit_task_constructor_concepts>`. To learn more about these, read the  :doc:`MoveIt examples </doc/examples/examples>`, including the example page for :doc:`MoveIt Task Constructor </doc/examples/moveit_task_constructor/moveit_task_constructor_tutorial>`.
+This tutorial will walk you through creating a package that plans a pick and place operation using `MoveIt Task Constructor <https://github.com/ros-planning/moveit_task_constructor/tree/ros2/>`_. MoveIt Task Constructor provides a way to plan for tasks that consist of multiple different subtasks (known as stages). If you just want to run the tutorial, you can follow the :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>` to start a container with the completed tutorial. This tutorial is intended for those who have a basic understanding of MoveIt and the MoveIt Task Constructor :ref:`concepts <moveit_task_constructor_concepts>`. To learn more about these, read the  :doc:`MoveIt examples </doc/examples/examples>`, including the example page for :doc:`MoveIt Task Constructor </doc/examples/moveit_task_constructor/moveit_task_constructor_tutorial>`.
 
 Getting Started
 ---------------
