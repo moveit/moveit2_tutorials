@@ -47,6 +47,7 @@ The MoveIt Python API binds a subset of the C++ API. The Python API is useful fo
    :maxdepth: 1
 
    motion_planning_python_api/motion_planning_python_api_tutorial
+   jupyter_notebook_prototyping/jupyter_notebook_prototyping_tutorial
 
 Integration with a New Robot
 ----------------------------
