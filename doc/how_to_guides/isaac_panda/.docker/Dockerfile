@@ -19,16 +19,14 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get install -y --no-install-recommends \
     ros-humble-moveit \
     ros-humble-ros2-control \
-    ros-humble-ros2-controllers \
-    ros-humble-ament-cmake-clang-format
+    ros-humble-ros2-controllers
 
 # Create Colcon workspace and clone the needed source code to run the demo
 RUN mkdir -p /root/isaac_moveit_tutorial_ws/src
 WORKDIR /root/isaac_moveit_tutorial_ws/src
 RUN git clone https://github.com/PickNikRobotics/isaac_ros2_control.git
 RUN git clone https://github.com/JafarAbdi/moveit_resources.git -b pr-hardware_type
-# We need a branch like this one below that targets humble version of MoveIt (this one fails to build in this env)
-# RUN git clone https://github.com/JafarAbdi/moveit2.git -b pr-xacro_as_subsititution
+# COPY ./../../../* ./moveit2_tutorials ## this is not working so you have to run rosdep again after starting the container
 WORKDIR /root/isaac_moveit_tutorial_ws
 # hadolint ignore=SC1091
 RUN apt update

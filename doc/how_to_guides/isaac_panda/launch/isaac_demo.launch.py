@@ -21,12 +21,12 @@ def generate_launch_description():
     moveit_config = (
         MoveItConfigsBuilder("moveit_resources_panda")
         .robot_description(
-            file_path="config/panda.urdf.xacro" # ,
-            # mappings={
-            #     "ros2_control_hardware_type": LaunchConfiguration(
-            #         "ros2_control_hardware_type"
-            #     )
-            # },
+            file_path="config/panda.urdf.xacro",
+            mappings={
+                "ros2_control_hardware_type": LaunchConfiguration(
+                    "ros2_control_hardware_type"
+                )
+            },
         )
         .robot_description_semantic(file_path="config/panda.srdf")
         .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
