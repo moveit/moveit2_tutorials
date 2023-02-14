@@ -6,7 +6,7 @@ For Isaac requirements and installation please see the `Omniverse documentation 
 
 This tutorial has the following assumptions on system configuration:
 
-1. Isacc 2022.2.0 is installed on a Ubuntu 20.04 host in the "$HOME/.local/share/ov/pkg/isaac_sim-2022.2.0" directory. (this is the default location)
+1. NVIDIA Isaac Sim 2022.2.0 is installed on a Ubuntu 20.04 host in the "$HOME/.local/share/ov/pkg/isaac_sim-2022.2.0" directory. (this is the default location)
 2. Docker is installed.
 3. You clone this repo so that you can build a Ubuntu 22.04 Humble based Docker image that can communicate with Isaac and run this tutorial.
 
@@ -34,11 +34,11 @@ simulated or connecting to a physical robot.
 
 `Hardware Components <https://control.ros.org/master/doc/getting_started/getting_started.html#hardware-components>`_
 can be of different types, but the plugin ``<plugin>mock_components/GenericSystem</plugin>`` is very a simple ``System``
-that forwards the incoming ``command_interface`` values to the tracked ``state_interface`` of the joints (I.E. perfect control of the simulated joints).
+that forwards the incoming ``command_interface`` values to the tracked ``state_interface`` of the joints (i.e., perfect control of the simulated joints).
 
 For us to expand our Panda robot to Isaac Sim we first have to introduce `isaac_ros2_control <https://github.com/PickNikRobotics/isaac_ros2_control>`_.
 This Hardware Interface is a ``System`` that subscribes and publishes on a configured topics.
-For this tutorial the topic ``/isaac_joint_states`` will be the robots current state and ``/isaac_joint_commands`` will be used to actuate it.
+For this tutorial the topic ``/isaac_joint_states`` will contain the robot's current state and ``/isaac_joint_commands`` will be used to actuate it.
 The `moveit_resources_panda_moveit_config <https://github.com/ros-planning/moveit_resources/blob/humble/panda_moveit_config/config/panda.ros2_control.xacro#L7>`_
 we are using in this tutorial does not support connecting to hardware, so our ``ros2_control.xacro`` is now
 updated to load the ``IsaacSystem`` plugin when the flag ``ros2_control_hardware_type`` is set to ``isaac``.
@@ -54,10 +54,10 @@ updated to load the ``IsaacSystem`` plugin when the flag ``ros2_control_hardware
         <param name="joint_states_topic">/isaac_joint_states</param>
     </xacro:if>
 
-In this tutorial we have included an Isaac python script that loads a Panda robot
-and builds an `OnmiGraph <https://docs.omniverse.nvidia.com/prod_extensions/prod_extensions/ext_omnigraph.html>`_
-to publish and subscribe to the ros topics used to control the robot.
-To learn about configuring your Isaac robot to communicate with ROS2 please see the
+In this tutorial we have included a Python script that loads a Panda robot
+and builds an `OmniGraph <https://docs.omniverse.nvidia.com/prod_extensions/prod_extensions/ext_omnigraph.html>`_
+to publish and subscribe to the ROS topics used to control the robot.
+To learn about configuring your Isaac Sim robot to communicate with ROS 2 please see the
 `Joint Control tutorial <https://docs.omniverse.nvidia.com/app_isaacsim/app_isaacsim/tutorial_ros2_manipulation.html>`_
 on Omniverse.
 
@@ -74,13 +74,13 @@ Computer Setup
 
   xhost +local:docker
 
-1. Perform a shallow clone of the MoveIt2 Tutorials repo.
+3. Perform a shallow clone of the MoveIt2 Tutorials repo.
 
 .. code-block:: bash
 
   git clone https://github.com/ros-planning/moveit2_tutorials.git -b humble --depth 1
 
-1. Cd into the path you cloned the tutorials and then switch to the following directory.
+4. Go to the folder in which you cloned the tutorials and then switch to the following directory.
 
 .. code-block:: bash
 
@@ -92,74 +92,48 @@ Computer Setup
 
   docker compose build
 
-6. Start a container based on the new image.
+Running the MoveIt Interactive Marker Demo with Mock Components
+---------------------------------------------------------------
+
+1. To test out the ``mock_components/GenericSystem`` hardware interface run:
 
 .. code-block:: bash
 
-  docker compose up
+  docker compose up demo_mock_components
 
-You should see the name of the container started and a prompt to build the colcon workspace if needed.
+This will open up RViz with the Panda robot using ``mock_components`` to simulate the robot and execute trajectories.
 
-.. code-block:: bash
+Please see the :doc:`Quickstart in RViz </doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial>`
+tutorial if this is your first time using MoveIt with RViz.
 
-  [+] Running 1/1
-  ⠿ Container isaac_panda-base-1
-  Attaching to isaac_panda-base-1
-  isaac_panda-base-1  | Sourced ROS 2 Humble
-  isaac_panda-base-1  | Please build the isaac_moveit_tutorial workspace with
-  isaac_panda-base-1  | colcon build
+After you are done testing press ``crtl-c`` in the terminal to stop the container.
 
-7. Open up a second terminal and connect a bash instance to the docker container so we can run the RViz MoveIt portion of the tutorial.
+Running the MoveIt Interactive Marker Demo with Isaac Sim
+---------------------------------------------------------
 
-.. code-block:: bash
-
-  docker exec -it isaac_panda-base-1 bash
-
-Once Steps 1-7 are complete you are ready to simulate the Panda robot in RViz with a
-fake system or connect to a simulated robot in Isaac.
-
-To start the simulated robot in Isaac:
-
-8. On the host computer cd into the tutorials launch directory.
+1. On the host computer, go to the tutorials launch directory.
 
 .. code-block:: bash
 
   cd moveit2_tutorials/doc/how_to_guides/isaac_panda/launch
 
-9. Then run the following command to load the Panda Robot pre-configured to work with this tutorial.
+2. Then run the following command to load the Panda Robot pre-configured to work with this tutorial.
 
-.. note:: This step assumes Isaac is installed on the host in the "$HOME/.local/share/ov/pkg/isaac_sim-2022.2.0" directory.
+.. note:: This step assumes Isaac is installed on the host in the ``$HOME/.local/share/ov/pkg/isaac_sim-2022.2.0" directory``.
+  This step also takes a few minutes to download the assets and setup Isaac Sim so please be
+  patient and don't click the ``Force Quit`` dialog that pops up while the simulator starts.
 
 .. code-block:: bash
 
   ./python.sh isaac_moveit.py
 
-Running the MoveIt Interactive Marker Demo
-------------------------------------------
-
-After the Isaac Simulator has started and the Panda Robot appears in the Viewport move over to the terminal
-we have loaded inside the docker container and verify that we can receive ROS messages from Isaac.
+3. From the ``moveit2_tutorials/doc/how_to_guides/isaac_panda`` directory start a container that connects to Isaac Sim using the ``isaac_ros2_control/IsaacSystem`` hardware interface.
 
 .. code-block:: bash
 
-  ros2 topic list
+  docker compose up demo_isaac
 
-The above command should return the following topics. If you do not see the topics from Isaac you can not
-continue and you will need to diagnose your DDS configuration.
-
-.. code-block:: bash
-
-  /clock
-  /isaac_joint_commands
-  /isaac_joint_states
-  /parameter_events
-  /rosout
-
-Lastly start MoveIt with the ``isaac_ros2_control`` hardware interface
-
-.. code-block:: bash
-
-  ros2 launch moveit2_tutorials isaac_demo.launch.py
+This will open up RViz with the Panda robot using ``IsaacSystem`` to simulate the robot and execute trajectories.
 
 .. raw:: html
 

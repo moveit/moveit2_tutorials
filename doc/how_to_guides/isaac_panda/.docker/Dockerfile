@@ -9,14 +9,10 @@ RUN echo "yaml https://raw.githubusercontent.com/moveit/moveit2_packages/jammy-h
 
 # Bring the container up to date to get the latest ROS2 humble sync on 01/27/23
 # hadolint ignore=DL3008, DL3013
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get update && apt-get upgrade -y && rosdep update
+RUN apt-get update && apt-get upgrade -y && rosdep update
 
 # Install packages required to run the demo
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get install -y --no-install-recommends \
+RUN apt-get install -y --no-install-recommends \
     ros-humble-moveit \
     ros-humble-moveit-resources
 
@@ -28,9 +24,7 @@ RUN git clone https://github.com/PickNikRobotics/isaac_ros2_control.git
 RUN git clone https://github.com/MarqRazz/moveit2_tutorials.git -b pr-isaac_tutorial --depth 1
 WORKDIR /root/isaac_moveit_tutorial_ws
 # hadolint ignore=SC1091
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    source /opt/ros/humble/setup.bash \
+RUN source /opt/ros/humble/setup.bash \
     && apt-get update -y \
     && rosdep install --from-paths src --ignore-src --rosdistro "$ROS_DISTRO" -y \
     && rm -rf /var/lib/apt/lists/*
