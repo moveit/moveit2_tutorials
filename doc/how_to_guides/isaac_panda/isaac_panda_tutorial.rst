@@ -6,9 +6,9 @@ For Isaac requirements and installation please see the `Omniverse documentation 
 
 This tutorial has the following assumptions on system configuration:
 
-1. Isacc 2022.2.0 is installed on a Ubuntu 20.04 host in the "$HOME/.local/share/ov/pkg/isaac_sim-2022.2.0" directory
-2. Docker is installed
-3. You clone this repo so that you can build a Ubuntu 22.04 Humble based Docker image that can communicate with Isaac and run this tutorial
+1. Isacc 2022.2.0 is installed on a Ubuntu 20.04 host in the "$HOME/.local/share/ov/pkg/isaac_sim-2022.2.0" directory. (this is the default location)
+2. Docker is installed.
+3. You clone this repo so that you can build a Ubuntu 22.04 Humble based Docker image that can communicate with Isaac and run this tutorial.
 
 Introduction to ros2_control
 ----------------------------
@@ -37,7 +37,7 @@ can be of different types, but the plugin ``<plugin>mock_components/GenericSyste
 that forwards the incoming ``command_interface`` values to the tracked ``state_interface`` of the joints (I.E. perfect control of the simulated joints).
 
 For us to expand our Panda robot to Isaac Sim we first have to introduce `isaac_ros2_control <https://github.com/PickNikRobotics/isaac_ros2_control>`_.
-This Hardware Interface is a ``System`` that subscribes and publishes on a configured topic.
+This Hardware Interface is a ``System`` that subscribes and publishes on a configured topics.
 For this tutorial the topic ``/isaac_joint_states`` will be the robots current state and ``/isaac_joint_commands`` will be used to actuate it.
 The `moveit_resources_panda_moveit_config <https://github.com/ros-planning/moveit_resources/blob/humble/panda_moveit_config/config/panda.ros2_control.xacro#L7>`_ 
 we are using in this tutorial does not support connecting to hardware, so our ``ros2_control.xacro`` is now 
@@ -54,7 +54,7 @@ updated to load the ``IsaacSystem`` plugin when the flag ``ros2_control_hardware
         <param name="joint_states_topic">/isaac_joint_states</param>
     </xacro:if>
 
-In this tutorial we have included a Isaac python script that loads a Panda robot 
+In this tutorial we have included an Isaac python script that loads a Panda robot 
 and builds an `OnmiGraph <https://docs.omniverse.nvidia.com/prod_extensions/prod_extensions/ext_omnigraph.html>`_ 
 to publish and subscribe to the ros topics used to control the robot.
 To learn about configuring your Isaac robot to communicate with ROS2 please see the 
@@ -78,10 +78,9 @@ Computer Setup
 
 .. code-block:: bash
 
-  git clone https://github.com/MarqRazz/moveit2_tutorials.git -b pr-isaac_tutorial --depth 1
-  # git clone https://github.com/ros-planning/moveit2_tutorials.git -b humble --depth 1
+  git clone https://github.com/ros-planning/moveit2_tutorials.git -b humble --depth 1
 
-4. Cd into the path you cloned the tutorials and then switch to the following directory.
+1. Cd into the path you cloned the tutorials and then switch to the following directory.
 
 .. code-block:: bash
 
@@ -99,7 +98,7 @@ Computer Setup
 
   docker compose up
 
-You should see the name of the container started and a prompt to build the colcon workspace if needed
+You should see the name of the container started and a prompt to build the colcon workspace if needed.
 
 .. code-block:: bash
 

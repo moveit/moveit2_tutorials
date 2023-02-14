@@ -32,9 +32,7 @@ services:
       - QT_X11_NO_MITSHM=1
       - NVIDIA_DRIVER_CAPABILITIES=all
       - NVIDIA_VISIBLE_DEVICES=all
-    volumes:
-      # Mount the the tutorial source code can we can run the launch file
-      - ../../..:/root/isaac_moveit_tutorial_ws/src/moveit2_tutorials:rw
+    volumes:      
       # Allows graphical programs in the container
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     # Allows GPU access -- comment out this block if you don't have one
