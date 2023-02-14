@@ -5,12 +5,12 @@ source /opt/ros/humble/setup.bash
 echo "Sourced ROS 2 Humble"
 
 # Source the base workspace, if built
-if [ -f /isaac_moveit_tutorial_ws/install/setup.bash ]
+if [ -f /root/isaac_moveit_tutorial_ws/install/setup.bash ]
 then
-  source /isaac_moveit_tutorial_ws/install/setup.bash
+  source /root/isaac_moveit_tutorial_ws/install/setup.bash
   echo "Sourced isaac_moveit_tutorial workspace"
 else
-  echo "Please build the isaac_moveit_tutorial workspace with"
+  echo "Please build the isaac_moveit_tutorial workspace with:"
   echo "colcon build"
 fi
 
