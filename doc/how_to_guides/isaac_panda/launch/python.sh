@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2022 PickNik Inc.
+# Copyright 2023 PickNik Inc.
 # All rights reserved.
 #
 # Unauthorized copying of this code base via any medium is strictly prohibited.
