@@ -1,4 +1,4 @@
-# Docker Compose file for Isaac ROS2 Control
+# Docker Compose file for Isaac ROS 2 Control
 #
 # Usage:
 #
@@ -30,15 +30,12 @@ services:
       # Allows graphical programs in the container
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
-      - NVIDIA_DRIVER_CAPABILITIES=all
-      - NVIDIA_VISIBLE_DEVICES=all
     volumes:
       # Allows graphical programs in the container
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    # Allows GPU access -- comment out this block if you don't have one
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [gpu]
-    entrypoint: /bin/bash
+  demo_isaac:
+    extends: base
+    command: ros2 launch moveit2_tutorials isaac_demo.launch.py
+  demo_mock_components:
+    extends: base
+    command: ros2 launch moveit2_tutorials isaac_demo.launch.py ros2_control_hardware_type:=mock_components
