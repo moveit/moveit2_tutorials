@@ -31,6 +31,13 @@ Make a service request to start Servo ::
 
 You should be able to control the arm with your controller now, with MoveIt Servo automatically avoiding singularities and collisions.
 
+Using a SpaceMouse
+^^^^^^^^^^^^^^^^^^^^
+
+If you have a 3Dconnexion SpaceMouse, you can send 6DoF Cartesian commands using a single joystick. With the demo still running, in a new terminal, run ::
+
+    ros2 launch moveit2_tutorials servo_spacenav_input.launch.py
+
 Without a Controller
 ^^^^^^^^^^^^^^^^^^^^
 
