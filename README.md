@@ -141,4 +141,3 @@ Note that the video file is in the `_static/videos` folder instead of the same f
 ## License
 
 All content in this repository is open source and released under the [BSD License v3](https://opensource.org/licenses/BSD-3-Clause). Each individual source code file should contain a copy of the license.
-
