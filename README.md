@@ -24,7 +24,7 @@ Below are some links to help with the ports.
 
 * [colcon](https://colcon.readthedocs.io/en/released/user/how-to.html)
 * [ament](https://index.ros.org/doc/ros2/Tutorials/Ament-CMake-Documentation/)
-* [rclcpp](http://docs.ros2.org/foxy/api/rclcpp/index.html)
+* [rclcpp](https://docs.ros2.org/latest/api/rclcpp/index.html)
 
 
 ## MoveIt Tutorials Source Build
@@ -141,4 +141,3 @@ Note that the video file is in the `_static/videos` folder instead of the same f
 ## License
 
 All content in this repository is open source and released under the [BSD License v3](https://opensource.org/licenses/BSD-3-Clause). Each individual source code file should contain a copy of the license.
-
