@@ -42,7 +42,7 @@ grep -rl 'https:\/\/moveit.picknik.ai\/rolling\/' ./build/ | \
 # Run HTML tests on generated build output to check for 404 errors, etc
 htmlproofer ./build \
   --only-4xx --check-html --http-status-ignore "429" \
-  --file-ignore ./build/genindex.html,./build/search.html \
+  --file-ignore genindex.html,search.html,/html/api/ \
   --alt-ignore '/.*/' --url-ignore '#'
 
 # Tell GitHub Pages (on deploy) to bypass Jekyll processing
