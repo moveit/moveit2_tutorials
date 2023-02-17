@@ -296,9 +296,7 @@ extlinks = {
     ),
 }
 # Only used for local build, multiversion overwrites this in the smv_rewrite_configs() function
-doxylink = {
-        'cpp_api' : ('build/html/api/MoveIt.tag', 'api/html')
-}
+doxylink = {"cpp_api": ("build/html/api/MoveIt.tag", "api/html")}
 
 
 class RedirectFrom(Directive):
@@ -429,7 +427,10 @@ def smv_rewrite_configs(app, config):
         app.config.project = "MoveIt Documentation: " + distro.title()
         app.config.html_logo = "_static/images/" + distro + "-small.png"
         app.config.doxylink = {
-            'cpp_api' : ('build/html/' + branch + '/api/MoveIt.tag', branch + '/api/html')
+            "cpp_api": (
+                "build/html/" + branch + "/api/MoveIt.tag",
+                branch + "/api/html",
+            )
         }
     else:
         # If we are not building a multiversion build, default to the rolling logo
