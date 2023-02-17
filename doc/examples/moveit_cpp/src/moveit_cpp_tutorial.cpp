@@ -110,7 +110,8 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    /* bool blocking = true; */
+    /* moveit_controller_manager::ExecutionStatus result = moveit_cpp_ptr->execute(plan_solution1.trajectory, blocking, CONTROLLERS); */
   }
 
   // Plan #1 visualization:
@@ -154,7 +155,8 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    /* bool blocking = true; */
+    /* moveit_cpp_ptr->execute(plan_solution2.trajectory, blocking, CONTROLLERS); */
   }
 
   // Plan #2 visualization:
@@ -198,7 +200,8 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    /* bool blocking = true; */
+    /* moveit_cpp_ptr->execute(plan_solution3.trajectory, blocking, CONTROLLERS); */
   }
 
   // Plan #3 visualization:
@@ -240,7 +243,8 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    /* bool blocking = true; */
+    /* moveit_cpp_ptr->execute(plan_solution4.trajectory, blocking, CONTROLLERS); */
   }
 
   // Plan #4 visualization:
@@ -293,7 +297,8 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    /* bool blocking = true; */
+    /* moveit_cpp_ptr->execute(plan_solution5.trajectory, blocking, CONTROLLERS); */
   }
 
   // Plan #5 visualization:
