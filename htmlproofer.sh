@@ -5,7 +5,7 @@ set -e
 export NOKOGIRI_USE_SYSTEM_LIBRARIES=true
 export REPOSITORY_NAME=${PWD##*/}
 export MOVEIT_BRANCH=main
-echo "Testing branch $TRAVIS_BRANCH of $REPOSITORY_NAME"
+echo "Testing branch $MOVEIT_BRANCH of $REPOSITORY_NAME"
 
 # Install htmlpoofer
 gem install --user-install html-proofer -v 3.19.4 # newer 4.x requires different cmdline options
@@ -15,7 +15,18 @@ PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 pip3 install --user --upgrade -r requirements.txt
 
 # Clear out any previous builds
-rm -rf build local-with-api
+rm -rf build
+
+# Build API docs
+mkdir -p build/html
+pushd build/html
+git clone https://github.com/ros-planning/moveit2 -b $MOVEIT_BRANCH --depth 1
+pushd moveit2
+sed -i "s/HTML_EXTRA_STYLESHEET  =.*/HTML_EXTRA_STYLESHEET  = ..\/..\/..\/theme.css/g" Doxyfile
+DOXYGEN_OUTPUT_DIRECTORY="../api" doxygen
+popd
+rm -rf moveit2
+popd
 
 # Test build with non-ROS wrapped Sphinx command to allow warnings and errors to be caught
 sphinx-build -W -b html . build
