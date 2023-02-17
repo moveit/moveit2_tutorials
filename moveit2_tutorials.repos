@@ -18,7 +18,7 @@ repositories:
   moveit2:
     type: git
     url: https://github.com/ros-planning/moveit2
-    version: main
+    version: bff9600680aa9337680365dc274e4265bb225f7d # TODO(sjahr): Revert to main once https://github.com/ros-planning/moveit2_tutorials/pull/592 is merged
   moveit_resources:
     type: git
     url: https://github.com/ros-planning/moveit_resources
