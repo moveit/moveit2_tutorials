@@ -47,6 +47,9 @@ jobs:
     - name: Build multiversion with API
       run: make multiversion-with-api
 
+    - name: Create CNAME file
+      run: echo "moveit.picknik.ai" > build/html/CNAME
+
     - name: Upload pages artifact
       uses: actions/upload-pages-artifact@v1
       if: github.repository_owner == 'ros-planning'
