@@ -4,6 +4,7 @@ set -e
 # Define some config vars
 export NOKOGIRI_USE_SYSTEM_LIBRARIES=true
 export REPOSITORY_NAME=${PWD##*/}
+export MOVEIT_BRANCH=main
 echo "Testing branch $TRAVIS_BRANCH of $REPOSITORY_NAME"
 
 # Install htmlpoofer
@@ -14,7 +15,7 @@ PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 pip3 install --user --upgrade -r requirements.txt
 
 # Clear out any previous builds
-rm -rf build
+rm -rf build local-with-api
 
 # Test build with non-ROS wrapped Sphinx command to allow warnings and errors to be caught
 sphinx-build -W -b html . build
