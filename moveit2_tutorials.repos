@@ -10,11 +10,11 @@ repositories:
   moveit_resources:
     type: git
     url: https://github.com/ros-planning/moveit_resources
-    version: ros2
+    version: humble
   moveit_task_constructor:
     type: git
     url: https://github.com/ros-planning/moveit_task_constructor.git
-    version: ros2
+    version: humble
   moveit_visual_tools:
     type: git
     url: https://github.com/ros-planning/moveit_visual_tools
