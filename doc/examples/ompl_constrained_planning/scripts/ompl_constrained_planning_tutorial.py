@@ -58,7 +58,7 @@ COLOR_TRANSLUCENT = std_msgs.msg.ColorRGBA(0.0, 0.0, 0.0, 0.5)
 
 ## BEGIN_SUB_TUTORIAL setup
 ##
-## Setup a RobotCommander and a MoveGroupCommander, see `move group Python interface`_ tutorial for more details.
+## Setup a RobotCommander and a MoveGroupCommander.
 ## Everything is wrappen in a class to make it easily reusable.
 ##
 class ConstrainedPlanningTutorial(object):

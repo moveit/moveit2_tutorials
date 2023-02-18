@@ -92,8 +92,8 @@ phases as the lead axis.
    :alt: PTP velocity profile with trapezoidal ramps - the axis with the longest duration
          determines the maximum velocity
 
-Input parameters in ``moveit_msgs::MotionPlanRequest``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+PTP Input Parameters in ``moveit_msgs::MotionPlanRequest``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - ``planner_id``: PTP
 - ``group_name``: name of the planning group
@@ -112,8 +112,8 @@ Input parameters in ``moveit_msgs::MotionPlanRequest``
       the target link (optional)
 
 
-Planning results in ``moveit_msg::MotionPlanResponse``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+PTP Planning Result in ``moveit_msg::MotionPlanResponse``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  ``trajectory_start``: first robot state of the planned trajectory
 -  ``trajectory/joint_trajectory/joint_names``: a list of the joint
@@ -140,8 +140,8 @@ result is a joint trajectory. The user needs to adapt the Cartesian
 velocity/acceleration scaling factor if the motion plan fails due to
 violation of joint space limits.
 
-Input parameters in ``moveit_msgs::MotionPlanRequest``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+LIN Input Parameters in ``moveit_msgs::MotionPlanRequest``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  ``planner_id``: LIN
 -  ``group_name``: name of the planning group
@@ -173,8 +173,8 @@ Input parameters in ``moveit_msgs::MotionPlanRequest``
          offset (in the link frame) for the target point on the target
          link (optional)
 
-Planning results in ``moveit_msg::MotionPlanResponse``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+LIN Planning Result in ``moveit_msg::MotionPlanResponse``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  ``trajectory_start``: first robot state of the planned trajectory
 -  ``trajectory/joint_trajectory/joint_names``: a list of the joint
@@ -211,8 +211,8 @@ result is a joint trajectory. The user needs to adapt the Cartesian
 velocity/acceleration scaling factor if motion plan fails due to
 violation of joint limits.
 
-Input parameters in ``moveit_msgs::MotionPlanRequest``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CIRC Input Parameters in ``moveit_msgs::MotionPlanRequest``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  ``planner_id``: CIRC
 -  ``group_name``: name of the planning group
@@ -251,8 +251,8 @@ Input parameters in ``moveit_msgs::MotionPlanRequest``
       position of the point
 
 
-Planning results in ``moveit_msg::MotionPlanResponse``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CIRC Planning Result in ``moveit_msg::MotionPlanResponse``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  ``trajectory_start``: first robot state of the planned trajectory
 -  ``trajectory/joint_trajectory/joint_names``: a list of the joint

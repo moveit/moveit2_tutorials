@@ -61,11 +61,8 @@ int main(int argc, char** argv)
   // Setting up to start using a planning pipeline is pretty easy. Before we can load the planner, we need two objects,
   // a RobotModel and a PlanningScene.
   //
-  // We will start by instantiating a `RobotModelLoader`_ object, which will look up the robot description on the ROS
-  // parameter server and construct a :moveit_core:`RobotModel` for us to use.
-  //
-  // .. _RobotModelLoader:
-  //     http://docs.ros.org/noetic/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
+  // We will start by instantiating a :cpp_api:`robot_model_loader::RobotModelLoader` object, which will look up the
+  // robot description on the ROS parameter server and construct a :cpp_api:`moveit::core::RobotModel` for us to use.
   robot_model_loader::RobotModelLoaderPtr robot_model_loader(
       new robot_model_loader::RobotModelLoader("robot_description"));
 
@@ -146,12 +143,7 @@ int main(int argc, char** argv)
   std::vector<double> tolerance_angle(3, 0.01);
 
   // We will create the request as a constraint using a helper function available
-  // from the
-  // `kinematic_constraints`_
-  // package.
-  //
-  // .. _kinematic_constraints:
-  //     http://docs.ros.org/noetic/api/moveit_core/html/cpp/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
+  // from the :cpp_api:`kinematic_constraints` namespace.
   req.group_name = "panda_arm";
   moveit_msgs::Constraints pose_goal =
       kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
