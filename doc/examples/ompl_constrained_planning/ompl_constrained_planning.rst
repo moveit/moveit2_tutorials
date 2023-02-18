@@ -8,7 +8,7 @@ OMPL Constrained Planning
 .. image:: ompl_constrained_planning_header.png
    :width: 600px
 
-This tutorial shows you how to use OMPL's `Constrained planning capabilities`_ from MoveIt. To illustrate the capabilities of this planner, three planning problems are solved with different types of path constraints. It will be easier to follow if you have read through the tutorial on the `move group Python interface`_.
+This tutorial shows you how to use OMPL's `Constrained planning capabilities`_ from MoveIt. To illustrate the capabilities of this planner, three planning problems are solved with different types of path constraints. It will be easier to follow if you have read through the tutorial on the move group Python interface.
 
 For a short walkthrough of running the tutorial, you can watch `this video`_.
 
@@ -84,7 +84,6 @@ The code explained
 .. _this video: https://youtu.be/RkPydgtIq-M
 .. _panda_moveit_config: https://github.com/ros-planning/panda_moveit_config
 .. _Constrained planning capabilities: http://ompl.kavrakilab.org/constrainedPlanning.html
-.. _move group Python interface: ../move_group_python_interface/move_group_python_interface_tutorial.html
 .. _box: http://docs.ros.org/latest/api/shape_msgs/html/msg/SolidPrimitive.html
 .. _enforce_joint_model_state_space: ../ompl_interface/ompl_interface_tutorial.html#enforce-planning-in-joint-space
 .. _projection_evaluator: ../ompl_interface/ompl_interface_tutorial.html#projection-evaluator
