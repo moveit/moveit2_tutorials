@@ -36,12 +36,12 @@ simulated or connecting to a physical robot.
 can be of different types, but the plugin ``<plugin>mock_components/GenericSystem</plugin>`` is very a simple ``System``
 that forwards the incoming ``command_interface`` values to the tracked ``state_interface`` of the joints (i.e., perfect control of the simulated joints).
 
-For us to expand our Panda robot to Isaac Sim we first have to introduce `isaac_ros2_control <https://github.com/PickNikRobotics/isaac_ros2_control>`_.
+For us to expand our Panda robot to Isaac Sim we first have to introduce `topic_based_ros2_control <https://github.com/PickNikRobotics/topic_based_ros2_control>`_.
 This Hardware Interface is a ``System`` that subscribes and publishes on a configured topics.
 For this tutorial the topic ``/isaac_joint_states`` will contain the robot's current state and ``/isaac_joint_commands`` will be used to actuate it.
 The `moveit_resources_panda_moveit_config <https://github.com/ros-planning/moveit_resources/blob/humble/panda_moveit_config/config/panda.ros2_control.xacro#L7>`_
 we are using in this tutorial does not support connecting to hardware, so our ``ros2_control.xacro`` is now
-updated to load the ``IsaacSystem`` plugin when the flag ``ros2_control_hardware_type`` is set to ``isaac``.
+updated to load the ``TopicBasedSystem`` plugin when the flag ``ros2_control_hardware_type`` is set to ``isaac``.
 
 .. code-block:: XML
 
@@ -49,7 +49,7 @@ updated to load the ``IsaacSystem`` plugin when the flag ``ros2_control_hardware
         <plugin>mock_components/GenericSystem</plugin>
     </xacro:if>
     <xacro:if value="${ros2_control_hardware_type == 'isaac'}">
-        <plugin>isaac_ros2_control/IsaacSystem</plugin>
+        <plugin>topic_based_ros2_control/TopicBasedSystem</plugin>
         <param name="joint_commands_topic">/isaac_joint_commands</param>
         <param name="joint_states_topic">/isaac_joint_states</param>
     </xacro:if>
@@ -127,13 +127,13 @@ Running the MoveIt Interactive Marker Demo with Isaac Sim
 
   ./python.sh isaac_moveit.py
 
-3. From the ``moveit2_tutorials/doc/how_to_guides/isaac_panda`` directory start a container that connects to Isaac Sim using the ``isaac_ros2_control/IsaacSystem`` hardware interface.
+3. From the ``moveit2_tutorials/doc/how_to_guides/isaac_panda`` directory start a container that connects to Isaac Sim using the ``topic_based_ros2_control/TopicBasedSystem`` hardware interface.
 
 .. code-block:: bash
 
   docker compose up demo_isaac
 
-This will open up RViz with the Panda robot using ``IsaacSystem`` to simulate the robot and execute trajectories.
+This will open up RViz with the Panda robot using ``TopicBasedSystem`` to simulate the robot and execute trajectories.
 
 .. raw:: html
 
