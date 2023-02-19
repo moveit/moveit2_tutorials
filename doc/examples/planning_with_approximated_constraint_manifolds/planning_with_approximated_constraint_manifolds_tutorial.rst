@@ -16,7 +16,7 @@ The OMPL plugin contains the functionality to do that for a given set of constra
 In later instances the database can be loaded to use for constrained planning with any OMPL planner which strongly reduces planning time.
 
 This tutorial includes the steps on how to construct the constraint approximation database and on how to use it for constrained trajectory planning.
-For more information on how to plan with path constraints in general, take a look at `here </doc/examples/move_group_interface/move_group_interface_tutorial.html#planning-with-path-constraints>`_.
+For more information on how to plan with path constraints in general, take a look at the :ref:`Path Constraints Tutorial <doc/examples/move_group_interface/move_group_interface_tutorial:planning with path constraints>`.
 
 Creating the Constraint Database
 --------------------------------
@@ -102,7 +102,7 @@ VisibilityConstraint
 
 A ``VisibilityConstraint`` allows to eg. specify a camera should always be able to see the gripper.
 
-How this is achieved is best explained by the `VisibilityConstraint <https://docs.ros.org/noetic/api/moveit_core/html/cpp/classkinematic__constraints_1_1VisibilityConstraint.html#details>`_ class documentation.
+How this is achieved is best explained by the :cpp_api:`VisibilityConstraint <kinematic_constraints::VisibilityConstraint>` class documentation.
 
 Such a constraint is compactly defined like this::
 
@@ -133,7 +133,7 @@ The file with the constraint definitions can be passed to the launch file::
 Internals
 ^^^^^^^^^
 
-The main functionality is implemented in the `ConstraintsLibrary <http://docs.ros.org/noetic/api/moveit_planners_ompl/html/classompl__interface_1_1ConstraintsLibrary.html>`_ class.
+The main functionality is implemented in the :cpp_api:`ConstraintsLibrary <ompl_interface::ConstraintsLibrary>` class.
 
 Constraints are added by calling ``addConstraintApproximation()`` which can be called subsequently to include multiple constraints in the approximation.
 The function requires four parameters:
