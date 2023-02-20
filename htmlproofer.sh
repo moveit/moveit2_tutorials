@@ -4,7 +4,7 @@ set -e
 # Define some config vars
 export NOKOGIRI_USE_SYSTEM_LIBRARIES=true
 export REPOSITORY_NAME=${PWD##*/}
-export MOVEIT_BRANCH=main
+export MOVEIT_BRANCH=humble
 echo "Testing branch $MOVEIT_BRANCH of $REPOSITORY_NAME"
 
 # Install htmlpoofer

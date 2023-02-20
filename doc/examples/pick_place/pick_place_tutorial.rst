@@ -6,11 +6,8 @@
 Pick and Place
 ==============
 
-<<<<<<< HEAD
-=======
 **NOTE:** The functionality used in this tutorial is deprecated. To perform a pick and place operation, MoveIt Task Constructor (MTC) should be used (:doc:`Pick and Place with MoveIt Task Constructor </doc/tutorials/pick_and_place_with_moveit_task_constructor/pick_and_place_with_moveit_task_constructor>`).
 
->>>>>>> f77e2a1 (Run multiversion in separate CI job (#614))
 In MoveIt, grasping is done using the MoveGroup interface. In order to grasp an object we need to create ``moveit_msgs::Grasp`` msg which will allow defining the various poses and postures involved in a grasping operation.
 Watch this video to see the output of this tutorial:
 
