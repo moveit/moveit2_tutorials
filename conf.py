@@ -248,6 +248,7 @@ extlinks = {
 }
 # Only used for local build, multiversion overwrites this in the smv_rewrite_configs() function
 doxylink = {"cpp_api": ("build/html/api/MoveIt.tag", "api/html")}
+current_directory = os.getcwd()
 
 
 class RedirectFrom(Directive):
@@ -379,8 +380,8 @@ def smv_rewrite_configs(app, config):
         app.config.html_logo = "_static/images/" + distro + "-small.png"
         app.config.doxylink = {
             "cpp_api": (
-                "build/html/" + branch + "/api/MoveIt.tag",
-                branch + "/api/html",
+                current_directory + "/build/html/" + branch + "/api/MoveIt.tag",
+                "api/html",
             )
         }
     else:
