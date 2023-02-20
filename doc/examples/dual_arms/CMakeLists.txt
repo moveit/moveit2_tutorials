@@ -1,2 +1,1 @@
 add_subdirectory(dual_arm_panda_moveit_config)
-
