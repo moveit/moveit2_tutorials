@@ -31,7 +31,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Tutorial Image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           file: .docker/Dockerfile
           build-args: |
