@@ -5,7 +5,7 @@ This is a primer on how to successfully link to other documents on this website 
 
 There are many and maybe too many different ways to reference content and for new contributors it can be hard to understand what method to use.
 Some methods may even work locally but then silently fail to create functional links on the deployed website.
-For that reason, we are requesting contributors to only use the suggested Sphinx roles for cross-referencing content on the tutorial website.
+For that reason, we are requesting contributors to only use the suggested Sphinx roles for cross-referencing content on this website.
 
 Learning Objectives
 -------------------
@@ -43,7 +43,7 @@ Here are some examples, take note that some links use titles and some not:
   ``:cpp_api:`robot_model.cpp``` -> :cpp_api:`robot_model.cpp`
 
 If you are unsure about how to link certain symbols, you can find all Doxygen references inside the ``MoveIt.tag`` file.
-You can find it inside ``build/html/api/`` or ``build/html/<branch>/api/`` depending on the build type.
+The file is located inside ``build/html/api/`` or ``build/html/<branch>/api/`` depending on the build type.
 
 Do's and Don'ts
 ---------------
