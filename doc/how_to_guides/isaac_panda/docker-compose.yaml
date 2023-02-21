@@ -33,6 +33,7 @@ services:
     volumes:
       # Allows graphical programs in the container
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
   demo_isaac:
     extends: base
     command: ros2 launch moveit2_tutorials isaac_demo.launch.py

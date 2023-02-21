@@ -66,27 +66,19 @@ Computer Setup
 
 1. Install `Isaac Sim <https://docs.omniverse.nvidia.com/app_isaacsim/app_isaacsim/install_workstation.html>`_.
 
-2. For RViz to run inside Docker we have to tell the host to allow it to display applications.
-
-.. note:: this step is only required once every host machine login
-
-.. code-block:: bash
-
-  xhost +local:docker
-
-3. Perform a shallow clone of the MoveIt2 Tutorials repo.
+2. Perform a shallow clone of the MoveIt2 Tutorials repo.
 
 .. code-block:: bash
 
   git clone https://github.com/ros-planning/moveit2_tutorials.git -b humble --depth 1
 
-4. Go to the folder in which you cloned the tutorials and then switch to the following directory.
+3. Go to the folder in which you cloned the tutorials and then switch to the following directory.
 
 .. code-block:: bash
 
   cd moveit2_tutorials/doc/how_to_guides/isaac_panda
 
-5. Build the Docker image.
+4. Build the Docker image.
 
 .. code-block:: bash
 
@@ -133,7 +125,7 @@ Running the MoveIt Interactive Marker Demo with Isaac Sim
 
   docker compose up demo_isaac
 
-This will open up RViz with the Panda robot using ``TopicBasedSystem`` to simulate the robot and execute trajectories.
+This will open up RViz with the Panda robot using the ``TopicBasedSystem`` interface to communicate with the simulated robot and execute trajectories.
 
 .. raw:: html
 
