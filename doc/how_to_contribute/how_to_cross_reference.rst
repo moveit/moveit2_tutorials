@@ -32,7 +32,7 @@ We are using `doxylink <https://sphinxcontrib-doxylink.readthedocs.io/en/stable/
 Here are some examples, take note that some links use titles and some not:
 
 - namespaces: ``:cpp_api:`moveit::core``` -> :cpp_api:`moveit::core`
-- classes: 
+- classes:
   ``:cpp_api:`moveit::core::RobotModel``` -> :cpp_api:`moveit::core::RobotModel`
 - functions and members:
 
