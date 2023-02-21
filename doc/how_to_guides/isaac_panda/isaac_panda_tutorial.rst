@@ -98,7 +98,7 @@ This will open up RViz with the Panda robot using ``mock_components`` to simulat
 Please see the :doc:`Quickstart in RViz </doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial>`
 tutorial if this is your first time using MoveIt with RViz.
 
-After you are done testing press ``Crtl-C`` in the terminal to stop the container.
+After you are done testing press ``Ctrl+C`` in the terminal to stop the container.
 
 Running the MoveIt Interactive Marker Demo with Isaac Sim
 ---------------------------------------------------------
