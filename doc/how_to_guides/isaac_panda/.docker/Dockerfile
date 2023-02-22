@@ -14,14 +14,30 @@ RUN apt-get update && apt-get upgrade -y && rosdep update
 # Install packages required to run the demo
 RUN apt-get install -y --no-install-recommends \
     ros-humble-moveit \
-    ros-humble-moveit-resources \
-    ros-humble-moveit2-tutorials
+    ros-humble-moveit-resources
+#    ros-humble-moveit2-tutorials
+
+# Create Colcon workspace and clone the needed source code to run the demo
+RUN mkdir -p /root/isaac_moveit_tutorial_ws/src
+WORKDIR /root/isaac_moveit_tutorial_ws/src
+RUN git clone https://github.com/PickNikRobotics/topic_based_ros2_control.git
+# Docker does not allow copying in parent directories from the host so grab another copy of the tutorials
+RUN git clone https://github.com/MarqRazz/moveit2_tutorials.git -b humble --depth 1
+WORKDIR /root/isaac_moveit_tutorial_ws
+# hadolint ignore=SC1091
+RUN source /opt/ros/humble/setup.bash \
+    && apt-get update -y \
+    && rosdep install --from-paths src --ignore-src --rosdistro "$ROS_DISTRO" -y \
+    && rm -rf /var/lib/apt/lists/*
 
 # Use Fast DDS as middleware and load the required config for NVIDIA Isaac Sim.
 ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 RUN mkdir -p /opt/.ros
 COPY ./.docker/fastdds.xml /opt/.ros/fastdds.xml
 ENV FASTRTPS_DEFAULT_PROFILES_FILE=/opt/.ros/fastdds.xml
+
+# Build the Colcon workspace for the user
+RUN source /opt/ros/humble/setup.bash && colcon build
 
 # Set up the entrypoint for both container start and interactive terminals.
 COPY .docker/ros_entrypoint.sh /opt/.ros/
