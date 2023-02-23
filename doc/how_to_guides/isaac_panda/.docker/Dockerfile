@@ -21,7 +21,7 @@ RUN apt-get install -y --no-install-recommends \
 RUN mkdir -p /root/isaac_moveit_tutorial_ws/src
 WORKDIR /root/isaac_moveit_tutorial_ws/src
 RUN git clone https://github.com/PickNikRobotics/topic_based_ros2_control.git
-COPY ./ moveit2_tutorials 
+COPY ./ moveit2_tutorials
 WORKDIR /root/isaac_moveit_tutorial_ws
 # hadolint ignore=SC1091
 RUN source /opt/ros/humble/setup.bash \
