@@ -15,7 +15,6 @@ RUN apt-get update && apt-get upgrade -y && rosdep update
 RUN apt-get install -y --no-install-recommends \
     ros-humble-moveit \
     ros-humble-moveit-resources
-#    ros-humble-moveit2-tutorials
 
 # Create Colcon workspace and clone the needed source code to run the demo
 RUN mkdir -p /root/isaac_moveit_tutorial_ws/src
