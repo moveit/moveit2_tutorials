@@ -1,0 +1,10 @@
+__pycache__
+**/.git
+**/.github
+**/_scripts
+**/_static
+**/_templates
+**/build
+**/.vscode
+*.md
+*.rst

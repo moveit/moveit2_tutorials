@@ -16,8 +16,8 @@ services:
   base:
     image: isaac_moveit_tutorial
     build:
-      context: .
-      dockerfile: .docker/Dockerfile
+      context: ../../..
+      dockerfile: doc/how_to_guides/isaac_panda/.docker/Dockerfile
     # Interactive shell
     stdin_open: true
     tty: true
