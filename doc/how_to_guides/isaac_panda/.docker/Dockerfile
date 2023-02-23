@@ -21,8 +21,7 @@ RUN apt-get install -y --no-install-recommends \
 RUN mkdir -p /root/isaac_moveit_tutorial_ws/src
 WORKDIR /root/isaac_moveit_tutorial_ws/src
 RUN git clone https://github.com/PickNikRobotics/topic_based_ros2_control.git
-# Docker does not allow copying in parent directories from the host so grab another copy of the tutorials
-RUN git clone https://github.com/MarqRazz/moveit2_tutorials.git -b humble --depth 1
+COPY ./ moveit2_tutorials 
 WORKDIR /root/isaac_moveit_tutorial_ws
 # hadolint ignore=SC1091
 RUN source /opt/ros/humble/setup.bash \
@@ -33,13 +32,13 @@ RUN source /opt/ros/humble/setup.bash \
 # Use Fast DDS as middleware and load the required config for NVIDIA Isaac Sim.
 ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 RUN mkdir -p /opt/.ros
-COPY ./.docker/fastdds.xml /opt/.ros/fastdds.xml
+COPY ./doc/how_to_guides/isaac_panda/.docker/fastdds.xml /opt/.ros/fastdds.xml
 ENV FASTRTPS_DEFAULT_PROFILES_FILE=/opt/.ros/fastdds.xml
 
 # Build the Colcon workspace for the user
 RUN source /opt/ros/humble/setup.bash && colcon build
 
 # Set up the entrypoint for both container start and interactive terminals.
-COPY .docker/ros_entrypoint.sh /opt/.ros/
+COPY ./doc/how_to_guides/isaac_panda/.docker/ros_entrypoint.sh /opt/.ros/
 RUN echo "source /opt/.ros/ros_entrypoint.sh" >> ~/.bashrc
 ENTRYPOINT [ "/opt/.ros/ros_entrypoint.sh" ]
