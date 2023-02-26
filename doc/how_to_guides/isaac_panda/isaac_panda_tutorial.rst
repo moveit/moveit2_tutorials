@@ -1,8 +1,8 @@
 How To Command Simulated Isaac Robot
 ====================================
 
-This tutorial requires a machine with ``Isaac 2022.2.0`` installed.
-For Isaac requirements and installation please see the `Omniverse documentation <https://docs.omniverse.nvidia.com/app_isaacsim/app_isaacsim/overview.html>`_.
+This tutorial requires a machine with ``Isaac Sim 2022.2.0`` installed.
+For Isaac Sim requirements and installation please see the `Omniverse documentation <https://docs.omniverse.nvidia.com/app_isaacsim/app_isaacsim/overview.html>`_.
 
 This tutorial has the following assumptions on system configuration:
 
@@ -111,7 +111,7 @@ Running the MoveIt Interactive Marker Demo with Isaac Sim
 
 2. Then run the following command to load the Panda Robot pre-configured to work with this tutorial.
 
-.. note:: This step assumes Isaac is installed on the host in the ``$HOME/.local/share/ov/pkg/isaac_sim-2022.2.0" directory``.
+.. note:: This step assumes Isaac Sim is installed on the host in the ``$HOME/.local/share/ov/pkg/isaac_sim-2022.2.0" directory``.
   This step also takes a few minutes to download the assets and setup Isaac Sim so please be
   patient and don't click the ``Force Quit`` dialog that pops up while the simulator starts.
 
