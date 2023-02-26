@@ -1,8 +1,8 @@
 How To Command Simulated Isaac Robot
 ====================================
 
-This tutorial requires a machine with ``Isaac 2022.2.0`` installed.
-For Isaac requirements and installation please see the `Omniverse documentation <https://docs.omniverse.nvidia.com/app_isaacsim/app_isaacsim/overview.html>`_.
+This tutorial requires a machine with ``Isaac Sim 2022.2.0`` installed.
+For Isaac Sim requirements and installation please see the `Omniverse documentation <https://docs.omniverse.nvidia.com/app_isaacsim/app_isaacsim/overview.html>`_.
 
 This tutorial has the following assumptions on system configuration:
 
