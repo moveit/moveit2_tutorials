@@ -206,8 +206,8 @@ We start exploring the ``moveit_py`` motion planning API through executing a sin
 
 Single Pipeline Planning - Robot State
 ----------------------------------------------------
-Next we will plan to a robot state. 
-Such a method is quite flexible as we can alter the robot state configuration as we wish (e.g. through setting joint values), here we will just set the robot state to a random configuration for simplicity. We will use the ``set_start_state_to_current_state`` method to set the start state of the robot to its current state and the ``set_goal_state`` method to set the goal state of the robot. 
+Next we will plan to a robot state.
+Such a method is quite flexible as we can alter the robot state configuration as we wish (e.g. through setting joint values), here we will just set the robot state to a random configuration for simplicity. We will use the ``set_start_state_to_current_state`` method to set the start state of the robot to its current state and the ``set_goal_state`` method to set the goal state of the robot.
 We will then plan to the goal state and execute the plan: ::
 
         # instantiate a RobotState instance using the current robot model
