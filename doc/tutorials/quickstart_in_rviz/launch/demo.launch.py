@@ -20,6 +20,13 @@ def generate_launch_description():
             description="RViz configuration file",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "rviz_tutorial",
+            default_value="False",
+            description="Tutorial flag for empty Rviz config",
+        )
+    )
 
     return LaunchDescription(
         declared_arguments + [OpaqueFunction(function=launch_setup)]
@@ -49,12 +56,30 @@ def launch_setup(context, *args, **kwargs):
         parameters=[moveit_config.to_dict()],
     )
 
-    rviz_base = LaunchConfiguration("rviz_config")
-    rviz_config = PathJoinSubstitution(
-        [FindPackageShare("moveit2_tutorials"), "launch", rviz_base]
+    # RViz
+    tutorial_mode = LaunchConfiguration("rviz_tutorial")
+    rviz_config_file = LaunchConfiguration("rviz_config")
+    rviz_base = os.path.join(get_package_share_directory("moveit2_tutorials"), "launch")
+    rviz_config = PathJoinSubstitution([rviz_base, rviz_config_file])
+    rviz_config_empty = PathJoinSubstitution(
+        [rviz_base, "panda_moveit_config_demo_empty.rviz"]
     )
 
-    # RViz
+    rviz_node_tutorial = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        output="log",
+        arguments=["-d", rviz_config_empty],
+        parameters=[
+            moveit_config.robot_description,
+            moveit_config.robot_description_semantic,
+            moveit_config.robot_description_kinematics,
+            moveit_config.planning_pipelines,
+            moveit_config.joint_limits,
+        ],
+        condition=IfCondition(tutorial_mode),
+    )
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
@@ -68,6 +93,7 @@ def launch_setup(context, *args, **kwargs):
             moveit_config.planning_pipelines,
             moveit_config.joint_limits,
         ],
+        condition=UnlessCondition(tutorial_mode),
     )
 
     # Static TF
@@ -125,6 +151,7 @@ def launch_setup(context, *args, **kwargs):
         arguments=["panda_hand_controller", "-c", "/controller_manager"],
     )
     nodes_to_start = [
+        rviz_node_tutorial,
         rviz_node,
         static_tf,
         robot_state_publisher,
