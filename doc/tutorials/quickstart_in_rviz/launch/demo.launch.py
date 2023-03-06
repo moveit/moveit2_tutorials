@@ -49,8 +49,10 @@ def launch_setup(context, *args, **kwargs):
         parameters=[moveit_config.to_dict()],
     )
 
-    rviz_base = os.path.join(get_package_share_directory("moveit2_tutorials"), "launch")
-    rviz_config = os.path.join(rviz_base, "panda_moveit_config_demo.rviz")
+    rviz_base = LaunchConfiguration("rviz_config")
+    rviz_config = PathJoinSubstitution(
+        [FindPackageShare("moveit2_tutorials"), "launch", rviz_base]
+    )
 
     # RViz
     rviz_node = Node(
