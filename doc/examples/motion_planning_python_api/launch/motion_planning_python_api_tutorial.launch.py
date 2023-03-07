@@ -1,43 +1,41 @@
+"""
+A launch file for running the motion planning python api tutorial
+"""
 import os
 from launch import LaunchDescription
+from launch_ros.actions import Node, SetParameter
 from launch.actions import ExecuteProcess
-from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 from moveit_configs_utils import MoveItConfigsBuilder
 
 
 def generate_launch_description():
-    # planning_context
     moveit_config = (
-        MoveItConfigsBuilder("moveit_resources_panda")
+        MoveItConfigsBuilder(
+            robot_name="panda", package_name="moveit_resources_panda_moveit_config"
+        )
         .robot_description(file_path="config/panda.urdf.xacro")
         .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
-        .planning_pipelines(
-            pipelines=["ompl", "chomp", "pilz_industrial_motion_planner"]
+        .moveit_cpp(
+            file_path=get_package_share_directory("moveit2_tutorials")
+            + "/config/motion_planning_python_api_tutorial.yaml"
         )
         .to_moveit_configs()
     )
 
-    # Load  ExecuteTaskSolutionCapability so we can execute found solutions in simulation
-    move_group_capabilities = {
-        "capabilities": "move_group/ExecuteTaskSolutionCapability"
-    }
-
-    # Start the actual move_group node/action server
-    run_move_group_node = Node(
-        package="moveit_ros_move_group",
-        executable="move_group",
+    moveit_py_node = Node(
+        name="moveit_py",
+        package="moveit2_tutorials",
+        executable="motion_planning_python_api_tutorial.py",
         output="screen",
-        parameters=[
-            moveit_config.to_dict(),
-            move_group_capabilities,
-        ],
+        parameters=[moveit_config.to_dict()],
     )
 
-    # RViz
     rviz_config_file = (
-        get_package_share_directory("moveit2_tutorials") + "/launch/mtc.rviz"
+        get_package_share_directory("moveit2_tutorials")
+        + "/config/motion_planning_python_api_tutorial.rviz"
     )
+
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
@@ -47,11 +45,9 @@ def generate_launch_description():
         parameters=[
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
-            moveit_config.robot_description_kinematics,
         ],
     )
 
-    # Static TF
     static_tf = Node(
         package="tf2_ros",
         executable="static_transform_publisher",
@@ -60,18 +56,14 @@ def generate_launch_description():
         arguments=["0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "world", "panda_link0"],
     )
 
-    # Publish TF
     robot_state_publisher = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
         name="robot_state_publisher",
         output="both",
-        parameters=[
-            moveit_config.robot_description,
-        ],
+        parameters=[moveit_config.robot_description],
     )
 
-    # ros2_control using FakeSystem as hardware
     ros2_controllers_path = os.path.join(
         get_package_share_directory("moveit_resources_panda_moveit_config"),
         "config",
@@ -80,11 +72,10 @@ def generate_launch_description():
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[moveit_config.to_dict(), ros2_controllers_path],
+        parameters=[moveit_config.robot_description, ros2_controllers_path],
         output="both",
     )
 
-    # Load controllers
     load_controllers = []
     for controller in [
         "panda_arm_controller",
@@ -101,10 +92,10 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
-            rviz_node,
             static_tf,
             robot_state_publisher,
-            run_move_group_node,
+            rviz_node,
+            moveit_py_node,
             ros2_control_node,
         ]
         + load_controllers
