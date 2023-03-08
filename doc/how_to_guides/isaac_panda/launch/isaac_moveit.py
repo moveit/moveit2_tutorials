@@ -121,7 +121,7 @@ try:
                 ),
             ],
             og.Controller.Keys.SET_VALUES: [
-            	 ("Context.inputs:useDomainIDEnvVar", 1),
+                ("Context.inputs:useDomainIDEnvVar", 1),
                 # Setting the /Franka target prim to Articulation Controller node
                 ("ArticulationController.inputs:usePath", True),
                 ("ArticulationController.inputs:robotPath", FRANKA_STAGE_PATH),
