@@ -26,7 +26,8 @@ services:
     ipc: host
     privileged: true
     environment:
-      - ROS_DOMAIN_ID
+      # Default the ROS_DOMAIN_ID to zero if not set on the host
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
       # Allows graphical programs in the container
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
