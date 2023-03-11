@@ -315,7 +315,7 @@ Interacting with a planning scene requires you to create a planning scene monito
         panda_arm = panda.get_planning_component("panda_arm")
         planning_scene_monitor = panda.get_planning_scene_monitor()
 
-You can add then add collision objects to a planning scene using the planning scene monitor's `read_write` context ::
+You can add then add collision objects to a planning scene using the planning scene monitor's ``read_write`` context ::
 
         with planning_scene_monitor.read_write() as scene:
                 collision_object = CollisionObject()
@@ -338,13 +338,13 @@ You can add then add collision objects to a planning scene using the planning sc
                 scene.apply_collision_object(collision_object)
                 scene.current_state.update()  # Important to ensure the scene is updated
 
-Removing objects can be achieved similarly using the `CollisionObject.REMOVE` operation, or by removing all objects from the scene ::
+Removing objects can be achieved similarly using the ``CollisionObject.REMOVE`` operation, or by removing all objects from the scene ::
 
         with planning_scene_monitor.read_write() as scene:
                 scene.remove_all_collision_objects()
                 scene.current_state.update()
 
-You can also use the `read_only` context of a planning scene monitor for tasks that do not require modifying the scene, such as collision checking.
+You can also use the ``read_only`` context of a planning scene monitor for tasks that do not require modifying the scene, such as collision checking.
 For example ::
 
         with planning_scene_monitor.read_only() as scene:
