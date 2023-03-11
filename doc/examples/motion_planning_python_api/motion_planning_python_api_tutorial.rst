@@ -20,7 +20,7 @@ This tutorial is broken down into the following sections:
 :doc:`/doc/examples/moveit_cpp/moveitcpp_tutorial` and
 :doc:`/doc/examples/move_group_interface/move_group_interface_tutorial`
 
-The code for this tutorial can be found :codedir:`here in the moveit_tutorials GitHub project<examples/motion_planning__python_api>`.
+The code for this tutorial can be found :codedir:`here in the moveit2_tutorials GitHub project<examples/motion_planning_python_api>`.
 
 Getting Started
 ==================================
