@@ -19,7 +19,9 @@ repositories:
     type: git
     url: https://github.com/ros-planning/moveit2
     version: main
+  # TODO: Switch back to the main repo when the following PR is merged:
+  # https://github.com/ros-planning/moveit_resources/pull/164
   moveit_resources:
     type: git
-    url: https://github.com/ros-planning/moveit_resources
-    version: ros2
+    url: https://github.com/sea-bass/moveit_resources
+    version: add-dual-panda-config
