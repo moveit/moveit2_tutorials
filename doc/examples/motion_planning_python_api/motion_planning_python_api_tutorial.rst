@@ -315,7 +315,7 @@ Interacting with a planning scene requires you to create a planning scene monito
         panda_arm = panda.get_planning_component("panda_arm")
         planning_scene_monitor = panda.get_planning_scene_monitor()
 
-You can add then add collision objects to a planning scene using the planning scene monitor's ``read_write`` context ::
+You can then add collision objects to a planning scene using the planning scene monitor's ``read_write`` context ::
 
         with planning_scene_monitor.read_write() as scene:
                 collision_object = CollisionObject()
