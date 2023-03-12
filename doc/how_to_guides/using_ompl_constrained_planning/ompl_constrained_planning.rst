@@ -200,7 +200,7 @@ We need to create a pose goal that lies in this plane. The plane is tilted by 45
   target_pose = get_relative_pose(0.0, 0.3, -0.3);
 
 
-We create a plane perpendicular to the y-axis and tilt it by 45 degrees. We create a plane by making a box and setting one dimension ``0.0005``. This is an important numvber that we will cover shortly.
+We create a plane perpendicular to the y-axis and tilt it by 45 degrees. We create a plane by making a box and setting one dimension ``0.0005``. This is an important number that we will cover shortly.
 
 .. code-block:: c++
 
