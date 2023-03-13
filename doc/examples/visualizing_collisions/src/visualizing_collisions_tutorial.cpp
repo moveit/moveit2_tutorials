@@ -168,10 +168,9 @@ int main(int argc, char** argv)
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   // For this tutorial we use an :codedir:`InteractiveRobot <interactivity/src/interactive_robot.cpp>`
   // object as a wrapper that combines a robot_model with the cube and an interactive marker. We also
-  // create a :planning_scene:`PlanningScene` for collision checking. If you haven't already gone through the
+  // create a PlanningScene for collision checking. If you haven't already gone through the
   // :doc:`planning scene tutorial </doc/examples/planning_scene/planning_scene_tutorial>`, you go through that first.
   InteractiveRobot robot;
-  /* Create a PlanningScene */
   g_planning_scene = new planning_scene::PlanningScene(robot.robotModel());
 
   // Adding geometry to the PlanningScene

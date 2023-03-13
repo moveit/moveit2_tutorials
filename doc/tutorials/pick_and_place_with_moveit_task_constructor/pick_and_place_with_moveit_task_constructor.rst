@@ -60,7 +60,6 @@ Move into your colcon workspace and pull the MoveIt Task Constructor source: ::
 
     cd ~/ws_moveit/src
     git clone git@github.com:ros-planning/moveit_task_constructor.git -b ros2
-    vcs import < moveit_task_constructor/.repos
 
 3 Trying It Out
 ------------------

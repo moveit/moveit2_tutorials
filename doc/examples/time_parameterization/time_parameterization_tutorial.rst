@@ -16,17 +16,11 @@ The speed of a parameterized kinematic trajectory can also be modified during ru
 
 Time Parameterization Algorithms
 --------------------------------
-MoveIt can support different algorithms for post-processing a kinematic trajectory to add timestamps and velocity/acceleration values. Currently there are three available by default in MoveIt:
+MoveIt can support different algorithms for post-processing a kinematic trajectory to add timestamps and velocity/acceleration values. Currently there is only one option in MoveIt:
 
-* :moveit_codedir:`Iterative Parabolic Time Parameterization<moveit_core/trajectory_processing/src/iterative_time_parameterization.cpp>`
-* :moveit_codedir:`Iterative Spline Parameterization<moveit_core/trajectory_processing/src/iterative_spline_parameterization.cpp>`
 * :moveit_codedir:`Time-optimal Trajectory Generation<moveit_core/trajectory_processing/src/time_optimal_trajectory_generation.cpp>`
 
-Iterative Parabolic Time Parameterization (IPTP) was MoveIt's initial time parameterization algorithm. However, there is a known `bug with it <https://github.com/ros-planning/moveit/issues/160>`_.
-
-The Iterative Spline Time Parameterization (ISTP) algorithm was merged with `PR 382 <https://github.com/ros-planning/moveit/pull/382>`_.
-
-Time-optimal Trajectory Generation (TOTG) introduced in PRs `#809 <https://github.com/ros-planning/moveit/pull/809>`_ and `#1365 <https://github.com/ros-planning/moveit/pull/1365>`_ produces trajectories with very smooth and continuous velocity profiles. The method is based on fitting path segments to the original trajectory and then sampling new waypoints from the optimized path. This is different from strict time parameterization methods as resulting waypoints may divert from the original trajectory within a certain tolerance. As a consequence, additional collision checks might be required when using this method. It is the default everywhere in MoveIt2.
+Time-optimal Trajectory Generation (TOTG) was introduced in PRs `#809 <https://github.com/ros-planning/moveit/pull/809>`_ and `#1365 <https://github.com/ros-planning/moveit/pull/1365>`_. It produces trajectories with very smooth and continuous velocity profiles. The method is based on fitting path segments to the original trajectory and then sampling new waypoints from the optimized path. This is different from strict time parameterization methods as resulting waypoints may divert from the original trajectory within a certain tolerance. As a consequence, additional collision checks might be required when using this method. It is the default everywhere in MoveIt2.
 
 Usage of a time parameterization algorithm as a Planning Request Adapter is documented in `this tutorial <../motion_planning_pipeline/motion_planning_pipeline_tutorial.html#using-a-planning-request-adapter>`_.
 

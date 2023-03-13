@@ -1,5 +1,7 @@
 #!/bin/bash -eu
 
+export MOVEIT_BRANCH=main
+
 have_loop() {
   for arg in "$@"; do
     if [[ "${arg}" == "loop" ]]; then
@@ -33,15 +35,16 @@ fi
 
 # Install dependencies, unless argument says to skip
 if ! have_noinstall "$@"; then
+  sudo apt-get install -y doxygen graphviz
   pip3 install --user --upgrade -r requirements.txt
 fi
 
 # A fresh build is required because changes to some components such as css files does not rebuilt currently
 # See issue https://github.com/sphinx-doc/sphinx/issues/2090
-rm -rf build
+# rm -rf build
 
 # Build
-make html
+make local-with-api
 
 # Run
 xdg-open ./build/html/index.html &

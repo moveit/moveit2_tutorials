@@ -8,22 +8,6 @@
 #include <gtest/gtest.h>
 #include <stdlib.h>
 
-namespace
-{
-// This is a bit of a hack to make thread sanitizer ignore a race condition
-// in the constructor of the rclcpp::Node
-#if defined(__has_feature)
-#if __has_feature(thread_sanitizer)
-__attribute__((no_sanitize("thread")))
-#endif
-#endif
-rclcpp::Node::SharedPtr
-make_node(std::string const& name, rclcpp::NodeOptions const& options)
-{
-  return std::make_shared<rclcpp::Node>(name, options);
-}
-}  // namespace
-
 namespace moveit2_tutorials::quickstart_in_rviz
 {
 namespace
