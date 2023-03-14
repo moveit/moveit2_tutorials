@@ -52,10 +52,6 @@ COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/src/mtc_node.cp
 # Add the launch folder to the tutorial package and CMakeLists.txt
 COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/launch src/mtc_tutorial/launch
 
-# TEMPORARY FIX: Move the `dual_arm_panda_moveit_config` package to the same level as other packages in the workspace
-# Address after merging https://github.com/ros-planning/moveit_resources/pull/164
-RUN mv src/moveit2_tutorials/doc/examples/dual_arms/dual_arm_panda_moveit_config src/
-
 # Add install(DIRECTORY launch  DESTINATION share/${PROJECT_NAME}) to CMakeLists.txt
 RUN sed -i "s|ament_package()|install(DIRECTORY launch  DESTINATION share/\${PROJECT_NAME})\nament_package()|g" src/mtc_tutorial/CMakeLists.txt
 # Build the tutorials and set up the entrypoint/bashrc
