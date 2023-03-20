@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1.3
 
-ARG ROS_DISTRO=rolling
+ARG ROS_DISTRO=humble
 
 ######################### Tutorial Image  #################################################
 
