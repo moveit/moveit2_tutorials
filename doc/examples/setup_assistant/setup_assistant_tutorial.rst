@@ -1,8 +1,3 @@
-:moveit1:
-
-..
-   Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
-
 MoveIt Setup Assistant
 ========================
 
@@ -11,39 +6,31 @@ MoveIt Setup Assistant
 
 Overview
 ----------------------
-The MoveIt Setup Assistant is a graphical user interface for
-configuring any robot for use with MoveIt. Its primary function is
-generating a Semantic Robot Description Format (SRDF) file for your
-robot. Additionally, it generates other necessary configuration files
-for use with the MoveIt pipeline. To learn more about the SRDF, you
-can go through the :doc:`URDF/SRDF Overview </doc/examples/urdf_srdf/urdf_srdf_tutorial>`
+The MoveIt Setup Assistant is a graphical user interface for configuring any robot for use with MoveIt. Its primary function is generating a Semantic Robot Description Format (SRDF) file for your robot, which specifies additional information required by MoveIt such as planning groups, end-effectors, and various kinematic parameters. Additionally, it generates other necessary configuration files for use with the MoveIt pipeline.
+To use the MoveIt Setup Assistant, you will need to have a URDF file for your robot.
+
+Once you have a URDF file, you can open the MoveIt Setup Assistant and import your URDF. This tutorial will guide you through a series of steps to configure various aspects of your robot, such as defining its kinematic structure, specifying planning groups and end-effectors, and collision checking related setting.
+
+To learn more about the URDF and SRDF, you can refer to the `URDF_SRDF_Overview <https://moveit.picknik.ai/humble/doc/examples/urdf_srdf/urdf_srdf_tutorial.html#>`_ page.
 page.
 
 Getting Started
 ------------------------
 
-MoveIt and ROS
+MoveIt and ROS 2
 
-* Follow the instructions for :moveit_website:`installing MoveIt<install>`
+* Follow the instructions for `installing MoveIt <ihttps://moveit.picknik.ai/humble/doc/tutorials/getting_started/getting_started.html>`_
   first if you have not already done that.
 
-* If you haven't already done so, make sure you have the `Franka description
-  package <https://github.com/frankaemika/franka_ros>`_ for Noetic: ::
-
-    sudo apt install ros-noetic-franka-description
-
-* If you have the ``panda_moveit_config`` package already git-cloned from the *Getting Started* page, be sure to delete that now since this tutorial will teach you how to create it from scratch: ::
-
-   cd ~/ws_moveit/src
-   rm -rf panda_moveit_config
-   catkin clean panda_moveit_config
+* We use the `moveit_resources_panda_description <https://github.com/ros-planning/moveit_resources/tree/humble/panda_description/urdf>`_
+  package for Humble, which was already included in your workspace if you followed the previous step.
 
 Step 1: Start
 ---------------
 
 * To start the MoveIt Setup Assistant: ::
 
-   roslaunch moveit_setup_assistant setup_assistant.launch
+   ros2 launch moveit_setup_assistant setup_assistant.launch.py
 
 * This will bring up the start screen with two choices: *Create New
   MoveIt Configuration Package* or *Edit Existing MoveIt
@@ -54,11 +41,13 @@ Step 1: Start
 
 .. image:: setup_assistant_start.png
 
-* Click on the browse button and navigate to the *panda_arm_hand.urdf.xacro* file
-  installed when you installed the Franka package above. (This file
-  gets installed in
-  /opt/ros/noetic/share/franka_description/robots/panda_arm_hand.urdf.xacro on Ubuntu
-  with ROS Noetic.)  Choose that file and then click *Load Files*. The
+* Click on the browse button and navigate to the *panda.urdf* file
+  from the *moveit_resources_panda_description package* available in the following path: :: 
+   
+   ~/ws_moveit2/src/moveit_resources/panda_description/urdf/panda.urdf
+   
+   
+  Choose that file and then click *Load Files*. The
   Setup Assistant will load the files (this might take a few seconds)
   and present you with this screen:
 
@@ -68,40 +57,39 @@ Step 1: Start
 Step 2: Generate Self-Collision Matrix
 --------------------------------------
 
-The Default Self-Collision Matrix Generator searches for pairs of
-links on the robot that can safely be disabled from collision
-checking, decreasing motion planning processing time. These pairs of
-links are disabled when they are always in collision, never in
-collision, in collision in the robot's default position or when the
-links are adjacent to each other on the kinematic chain. The sampling
-density specifies how many random robot positions to check for self
-collision. Higher densities require more computation time while lower
-densities have a higher possibility of disabling pairs that should not
-be disabled. The default value is 10,000 collision checks. Collision
-checking is done in parallel to decrease processing time.
+The Default Self-Collision Matrix Generator can help reduce motion planning processing time
+by disabling collision checking for pairs of links on the robot that are known to be safe.
+This is achieved by determining which pairs of links are always in collision, never in collision,
+in collision in the robot's default position, or adjacent to each other on the kinematic chain.
 
-* Click on the *Self-Collisions* pane selector on the left-hand side
-  and click on the *Generate Collision Matrix* button. The
-  Setup Assistant will work for a few second before presenting you the
-  results of its computation in the main table.
+You can set the sampling density, which determines how many random robot positions are checked for self-collision.
+Higher densities require more computation time, while lower densities may result in disabling pairs that should not be disabled.
+By default, the generator checks 10,000 random positions for self-collision.
 
-|before| → |after|
+To speed up collision checking, the processing is done in parallel.
+This reduces the overall processing time for generating the collision matrix.
 
-.. |before| image:: setup_assistant_panda_self_collisions.png
+**To generate the self-collision matrix**, first select the Self-Collisions pane on the left-hand side of the MoveIt Setup Assistant.
+Here, you can adjust the self-collision sampling density to balance between computation time and accuracy of the results.
+
+Once you have selected the desired sampling density, click on the Generate Collision Matrix button to initiate the computation.
+The Setup Assistant will take a few seconds to compute the self-collision matrix, which involves checking for pairs of links that can be safely disabled from collision checking.
+
+.. image:: setup_assistant_panda_self_collisions.png
    :width: 500px
-   :align: middle
-.. |after| image:: setup_assistant_panda_self_collisions_done.png
+
+Once the computation is complete, the results will be presented in the main table. The table shows the pairs of links that have been identified as either safe or unsafe to disable from collision checking.
+Links that are safe to disable are marked with a checkmark. You can manually adjust the checkmarks as needed to enable or disable self-collision checking for specific link pairs
+
+.. image:: setup_assistant_panda_self_collisions_done.png
    :width: 500px
-   :align: middle
 
 Step 3: Add Virtual Joints
 --------------------------
+Virtual joints are used primarily to attach the robot to the world.
+For the Panda, we will define only one virtual joint attaching the *panda_link0*
+of the Panda to the *world* world frame. This virtual joint represents the motion of the base of the robot in a plane.
 
-Virtual joints are used primarily to attach the robot to the
-world. For the Panda we will define only one virtual joint attaching the
-*panda_link0* of the Panda to the *world* world
-frame. This virtual joint represents the motion of the base of the
-robot in a plane.
 
 * Click on the *Virtual Joints* pane selector. Click on *Add Virtual Joint*
 
@@ -116,11 +104,23 @@ robot in a plane.
 .. image:: setup_assistant_panda_virtual_joints.png
    :width: 700px
 
+The virtual joint feature is especially useful when we have a robot that is attached to a mobile base,
+such as a mobile manipulator. In such cases, the virtual joint allows us to model the motion
+of the robot's base, which is important for motion planning and control.
+
+
 Step 4: Add Planning Groups
 ---------------------------
 
-Planning groups are used for semantically describing different parts
+In MoveIt, planning groups are used for semantically describing different parts
 of your robot, such as defining what an arm is, or an end effector.
+
+A move group can be configured to correspond to a specific kinematic chain on the robot,
+which is a set of links and joints that define a sequence of transformations from the base of the robot to the end effector.
+For example, a move group might be defined to represent the arm of a robot, which would consist of all the links and joints necessary to move the arm.
+
+Move groups can also be represented by sets of links or joints corresponding on the robot.
+For example, a move group might be defined to represent the gripper of a robot, which would consist of all the links or joints necessary to move together to realize a gripper opening motion.
 
 * Click on the *Planning Groups* pane selector.
 
@@ -189,12 +189,15 @@ Add the gripper
 .. image:: setup_assistant_panda_planning_groups_gripper.png
    :width: 700px
 
+Note: It is possible to build move groups composed of other move groups with the *Add Subgroup option*.
+This can be beneficial in cases where multiple move groups need to be controlled together, such as when planning for simultaneous motions of multi-arm systems.
+
 Step 5: Add Robot Poses
 -----------------------
 
-The Setup Assistant allows you to add certain fixed poses into the
-configuration. This helps if, for example, you want to define a
-certain position of the robot as a **Home** position.
+The Setup Assistant allows us to add predefined poses to the robot's configuration.
+This can be useful if it is desirable to define a specific poses of the robot as its **inital** or **ready** poses.
+The robot can be commanded to move to predefined poses later using the MoveIt API.
 
 * Click on the *Robot Poses* pane.
 
@@ -204,6 +207,8 @@ certain position of the robot as a **Home** position.
   joints around until you are happy and then *Save* the pose. Note
   how poses are associated with particular groups. You can save
   individual poses for each group.
+
+* A practical set of joints for a **ready** pose can be {0.0, -0.785, 0.0, -2.356, 0.0, 1.571, 0.785}.
 
 * **IMPORTANT TIP**: Try to move all the joints around. If there is
   something wrong with the joint limits in your URDF, you should be able
@@ -215,10 +220,9 @@ certain position of the robot as a **Home** position.
 Step 6: Label End Effectors
 ---------------------------
 
-We have already added the gripper of the Panda. Now, we
-will designate this group as a special group:
-**end effectors**. Designating this group as end effectors allows
-some special operations to happen on them internally.
+Now that we have added the hand of the Panda as a move group, we can designate it
+as an end effector. By designating a group as an end effector, MoveIt can perform certain special operations on it.
+For example, end effectors can be used for attaching objects to the arm while carrying out pick-and-place tasks.
 
 * Click on the *End Effectors* pane.
 
@@ -238,12 +242,13 @@ some special operations to happen on them internally.
 Step 7: Add Passive Joints
 --------------------------
 
-The passive joints tab is meant to allow specification of any passive
-joints that might exist in a robot. These are joints that are unactuated
-on a robot (e.g. passive casters.) This tells the planners that they
-cannot (kinematically) plan for these joints because they can't be
-directly controlled. The Panda does not have any passive
-joints so we will skip this step.
+The passive joints pane is meant to allow specification of any passive
+joints that might exist in a robot. These are joints that are unactuated, 
+meaning that they cannot be directly controlled. It's important to specify
+passive joints so that the planners are aware of their existence and can avoid
+planning for them. If the planners do not know about the passive joints, they 
+might try to plan trajectories that involve moving the passive joints, which would
+result in invalid plans. The Panda robot arm does not have any passive joints so we will skip this step.
 
 
 Step 8: 3D Perception
@@ -358,6 +363,22 @@ files that you will need to start using MoveIt
 
 * Congratulations!! - You are now done generating the configuration
   files you need for MoveIt
+
+Step 12: Build the new moveit_config package
+--------------------------------------------
+Build the newly created panda_moveit_config ::
+
+   cd ~/ws_moveit2
+   colcon build --packages-select panda_moveit_config
+   source install/setup.bash
+
+Start the MoveIt demo with RViz visualization, which allows us to interactively
+plan and execute motions for the robot. :: 
+
+   ros2 launch panda_moveit_config demo.launch.py
+
+
+This brief YouTube video provides an example of how to command the robot to move to a pre-defined ready pose and execute open and close motions on the hand.
 
 
 What's Next
