@@ -317,28 +317,23 @@ To generate **point_cloud** configuration parameters:
 For more details about those parameters please refer to the `perception pipeline tutorial <https://moveit.picknik.ai/humble/doc/examples/perception_pipeline/perception_pipeline_tutorial.html>`_.
 
 
-Step 9: Gazebo Simulation
---------------------------
+Step 9: ros2_control URDF Modification
+--------------------------------------
 
-The Simulation tab can be used to help you simulate your robot with Gazebo by generating a new Gazebo compatible urdf if needed.
+The ros2_control URDF Modification helps modify the robot URDF to work with 
+`ros2_control <https://control.ros.org/master/index.html>`_.
 
-.. image:: setup_assistant_panda_simulation_screen.png
+This modification adds tags for command and state interfaces for each joint in the defined move groups. 
+The command_interface tags define the types of commands that can be sent to control the joint. The state_interface tags define the types of state information that can be read from the joint.
+
+By default the Setup Assistant assumes **position** command interface 
+and **position** and **velocity** state interfaces, and we will proceed with this setting. 
+
+.. image:: ros2_control/setup_assistant_ros2_control_tags.png
    :width: 700px
 
-You can use the generated robot **urdf** to spawn the robot in Gazebo in the following way.
-
-* Use rosrun to start gazebo empty world: ::
-
-   roslaunch gazebo_ros empty_world.launch paused:=true use_sim_time:=false gui:=true throttled:=false recording:=false debug:=true
-
-* Use rosrun to spawn the robot: ::
-
-   rosrun gazebo_ros spawn_model -file </path_to_new_urdf/file_name.urdf> -urdf -x 0 -y 0 -z 1 -model panda
-
-
-.. image:: setup_assistant_panda_gazebo.png
-   :width: 700px
-
+If necessary, select the desired command or state interfaces for your robot joints and 
+then click the **Add Interface** button.
 
 Step 10: ROS Control
 ---------------------
