@@ -1,7 +1,7 @@
 MoveIt Setup Assistant
 ========================
 
-.. image:: MoveIt_setup_assistant_launch.png
+.. image:: setup_assistant_launch.png
    :width: 700px
 
 Overview
@@ -39,7 +39,7 @@ Step 1: Start
 * Click on the *Create New MoveIt Configuration Package* button to
   bring up the following screen:
 
-.. image:: setup_assistant_start.png
+.. image:: setup_assistant_create_package.png
 
 * Click on the browse button and navigate to the *panda.urdf* file
   from the *moveit_resources_panda_description package* available in the following path: :: 
@@ -51,7 +51,7 @@ Step 1: Start
   Setup Assistant will load the files (this might take a few seconds)
   and present you with this screen:
 
-.. image:: setup_assistant_panda_100.png
+.. image:: setup_assistant_load_panda_urdf.png
    :width: 700px
 
 Step 2: Generate Self-Collision Matrix
@@ -75,13 +75,13 @@ Here, you can adjust the self-collision sampling density to balance between comp
 Once you have selected the desired sampling density, click on the Generate Collision Matrix button to initiate the computation.
 The Setup Assistant will take a few seconds to compute the self-collision matrix, which involves checking for pairs of links that can be safely disabled from collision checking.
 
-.. image:: setup_assistant_panda_self_collisions.png
+.. image:: collision_matrix/setup_assistant_panda_collision_matrix.png
    :width: 500px
 
 Once the computation is complete, the results will be presented in the main table. The table shows the pairs of links that have been identified as either safe or unsafe to disable from collision checking.
 Links that are safe to disable are marked with a checkmark. You can manually adjust the checkmarks as needed to enable or disable self-collision checking for specific link pairs
 
-.. image:: setup_assistant_panda_self_collisions_done.png
+.. image:: collision_matrix/setup_assistant_panda_collision_matrix_done.png
    :width: 500px
 
 Step 3: Add Virtual Joints
@@ -126,7 +126,7 @@ For example, a move group might be defined to represent the gripper of a robot, 
 
 * Click on *Add Group* and you should see the following screen:
 
-.. image:: setup_assistant_panda_planning_groups.png
+.. image:: planning_groups/setup_assistant_panda_planning_groups.png
    :width: 700px
 
 Add the arm
@@ -142,7 +142,7 @@ Add the arm
   * Let *Kin. Search Resolution* and *Kin. Search Timeout* stay at
     their default values.
 
-.. image:: setup_assistant_panda_arm.png
+.. image:: planning_groups/setup_assistant_panda_arm_group.png
    :width: 700px
 
 * Now, click on the *Add Joints* button. You will see a
@@ -157,15 +157,18 @@ Add the arm
     *panda_joint8*. Now click on the **>** button to add these
     joints into the list of selected joints on the right.
 
-.. image:: setup_assistant_panda_arm_joints.png
+.. image:: planning_groups/setup_assistant_panda_arm_group_joints.png 
    :width: 700px
 
 * Click *Save* to save the selected group.
 
-.. image:: setup_assistant_panda_arm_joints_saved.png
+.. image:: planning_groups/setup_assistant_panda_arm_group_saved.png
    :width: 700px
 
 Add the gripper
+
+.. image:: planning_groups/setup_assistant_panda_hand_group.png
+   :width: 700px
 
 * We will also add a group for the end
   effector. NOTE that you will do this using a different procedure
@@ -186,8 +189,14 @@ Add the gripper
 
   * Click *Save*
 
-.. image:: setup_assistant_panda_planning_groups_gripper.png
+.. image:: planning_groups/setup_assistant_panda_hand_group_links.png 
    :width: 700px
+
+After both arm and hand groups are added, the custom groups list should look as follows. 
+
+.. image:: planning_groups/setup_assistant_panda_planning_groups_done.png
+   :width: 700px
+
 
 Note: It is possible to build move groups composed of other move groups with the *Add Subgroup option*.
 This can be beneficial in cases where multiple move groups need to be controlled together, such as when planning for simultaneous motions of multi-arm systems.
