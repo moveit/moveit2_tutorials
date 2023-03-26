@@ -298,7 +298,7 @@ might try to plan trajectories that involve moving the passive joints, which wou
 result in invalid plans. The Panda robot arm does not have any passive joints so we will skip this step.
 
 
-Step 8: 3D Perception
+Step 8: Perception
 --------------------------
 
 The Perception tab in the Setup Assistant is used to configure the settings 
