@@ -301,20 +301,20 @@ result in invalid plans. The Panda robot arm does not have any passive joints so
 Step 8: 3D Perception
 --------------------------
 
-The 3D Perception tab is meant to set the parameters of the YAML configuration file
-for configuring the 3D sensors **sensors_3d.yaml**.
+The Perception tab in the Setup Assistant is used to configure the settings 
+for 3D sensors used by the robot. These settings are saved in a YAML configuration file named **sensors_3d.yaml**.
 
-e.g. **point_cloud** parameters:
+In case of **sensors_3d.yaml** was not needed, choose **None** and proceed to the next step.
 
-.. image:: setup_assistant_panda_3d_perception_point_cloud.png
+.. image:: perception/setup_assistant_panda_3d_perception.png
    :width: 700px
 
-For more details about those parameters please see perception pipeline :doc:`tutorial </doc/examples/perception_pipeline/perception_pipeline_tutorial>`
+To generate **point_cloud** configuration parameters:
 
-In case of **sensors_3d.yaml** was not needed, choose **None**.
-
-.. image:: setup_assistant_panda_3d_perception.png
+.. image:: perception/setup_assistant_panda_3d_perception_point_cloud.png
    :width: 700px
+
+For more details about those parameters please refer to the `perception pipeline tutorial <https://moveit.picknik.ai/humble/doc/examples/perception_pipeline/perception_pipeline_tutorial.html>`_.
 
 
 Step 9: Gazebo Simulation
