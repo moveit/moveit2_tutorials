@@ -283,7 +283,7 @@ For example, end effectors can be used for attaching objects to the arm while ca
 
 * Leave *Parent Group* blank.
 
-.. image:: setup_assistant_panda_end_effector_add.png
+.. image:: setup_assistant_panda_add_end_effector.png
    :width: 700px
 
 Step 7: Add Passive Joints
