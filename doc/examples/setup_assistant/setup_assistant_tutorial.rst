@@ -218,9 +218,11 @@ This can be beneficial in cases where multiple move groups need to be controlled
 Step 5: Add Robot Poses
 -----------------------
 
-The Setup Assistant allows us to add predefined poses to the robot's configuration.
-This can be useful if it is desirable to define a specific poses of the robot as its **inital** or **ready** poses.
-The robot can be commanded to move to predefined poses later using the MoveIt API.
+The Setup Assistant allows us to add predefined poses to the robot's configuration, 
+which can be useful for defining specific initial or ready poses. 
+Later, the robot can be commanded to move to these poses using the MoveIt API.
+
+Add *ready* pose for the arm 
 
 * Click on the *Robot Poses* pane.
 
@@ -231,13 +233,35 @@ The robot can be commanded to move to predefined poses later using the MoveIt AP
   how poses are associated with particular groups. You can save
   individual poses for each group.
 
-* A practical set of joints for a **ready** pose can be {0.0, -0.785, 0.0, -2.356, 0.0, 1.571, 0.785}.
+* Select the *panda_arm* and define a **ready** pose for it with the following joint values {0.0, -0.785, 0.0, -2.356, 0.0, 1.571, 0.785}.
 
 * **IMPORTANT TIP**: Try to move all the joints around. If there is
   something wrong with the joint limits in your URDF, you should be able
   to see it immediately here.
 
-.. image:: setup_assistant_panda_saved_poses.png
+.. image:: predefined-poses/setup_assistant_panda_predefined_arm_pose.png
+   :width: 700px
+
+Add *open* and *close* poses for the gripper
+
+* Follow the same steps for defning a pose for the arm, but select the *hand* group. 
+
+Add an *open* pose for the hand group with value 0.035
+
+.. image:: predefined-poses/setup_assistant_panda_predefined_hand_open_pose.png
+   :width: 700px
+
+
+Add a *close* pose for the hand with value 0.0
+
+.. image:: predefined-poses/setup_assistant_panda_predefined_hand_close_pose.png
+   :width: 700px
+
+Note: Only panda_finger_joint1 appears in the list as joint2 mimics its values.
+
+After the previous steps, the following set of robot poses should be defined for the arm and hand groups.
+
+.. image:: predefined-poses/setup_assistant_panda_predefined_poses_done.png
    :width: 700px
 
 Step 6: Label End Effectors
