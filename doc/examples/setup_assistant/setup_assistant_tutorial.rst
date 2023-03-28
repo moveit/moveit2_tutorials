@@ -324,7 +324,8 @@ The ros2_control URDF Modification helps modify the robot URDF to work with
 `ros2_control <https://control.ros.org/master/index.html>`_.
 
 This modification adds tags for command and state interfaces for each joint in the defined move groups. 
-The command_interface tags define the types of commands that can be sent to control the joint. The state_interface tags define the types of state information that can be read from the joint.
+The command_interface tags define the types of commands that can be sent to control the joint.
+The state_interface tags define the types of state information that can be read from the joint.
 
 By default the Setup Assistant assumes **position** command interface 
 and **position** and **velocity** state interfaces, and we will proceed with this setting. 
@@ -335,39 +336,61 @@ and **position** and **velocity** state interfaces, and we will proceed with thi
 If necessary, select the desired command or state interfaces for your robot joints and 
 then click the **Add Interface** button.
 
-Step 10: ROS Control
----------------------
+Step 10: ROS 2 Controllers
+--------------------------
 
-ROS Control is a set of packages that include controller interfaces, controller managers, transmissions and hardware_interfaces, for more details please look at `ros_control documentation <http://wiki.ros.org/ros_control>`_
+The ROS 2 control is a framework for (real-time) control of robots using. 
+ROS 2 Control is designed to manage and simplify the integration of new robot hardware. 
+For more details please look at `ros2_control documentation <https://control.ros.org/master/index.html>`_
 
-ROS Control tab can be used to auto generate simulated controllers to actuate the joints of your robot. This will allow us to provide the correct ROS interfaces MoveIt.
+ROS 2 Controllers tab can be used to auto generate simulated controllers to actuate the robot joints.
 
-* Click on the *ROS Control* pane selector.
-
-.. image:: setup_assistant_panda_ros_control.png
+.. image:: ros2_controllers/setup_assistant_ros2_controllers.png
    :width: 700px
+
+Add the arm controllers
+
+* Click on the *ROS 2 Controllers* pane selector.
 
 * Click on *Add Controller* and you should see the following screen:
 
-* We will first add Panda arm position controller
+* We will first add Panda arm joint trajectory controller
 
-* Enter *Controller Name* as **arm_position_controller**
+* Enter *Controller Name* as **panda_arm_controller**
 
-* Choose **position_controllers/JointPositionController** as the controller type
+* Choose **joint_trajectory_controller/JointTrajectoryController** as the controller type
 
-* Next you have to choose this controller joints, you can add joints individually or add all the joints in a planning group all together.
+.. image:: ros2_controllers/setup_assistant_panda_arm_ros2_controller_type.png
+   :width: 700px
+
+* Next, we need to choose this controller joints. Joints can be added individually or by move group.
 
 * Now, click on Add Planning Group Joints.
 
-.. image:: setup_assistant_panda_ros_control_create.png
-   :width: 700px
-
 * Choose panda_arm planning group to add all the joints in that group to the arm controller.
 
-.. image:: setup_assistant_panda_ros_control_add_joints.png
+* Click *Save* to save the selected controller.
+  
+.. image:: ros2_controllers/setup_assistant_panda_arm_ros2_controller_group.png
    :width: 700px
 
-* Click *Save* to save the selected controller.
+Add the hand controllers
+
+* Follow the same steps for the arm, but choose **position_controllers/GripperActionCOntroller** 
+
+.. image:: ros2_controllers/setup_assistant_hand_ros2_controller_type.png
+   :width: 700px
+
+* Then, add the joints using the hand move group and save the controller.
+
+.. image:: ros2_controllers/setup_assistant_hand_ros2_controller_group.png
+   :width: 700px
+
+After selecting the arm and hand controllers, the controllers list should be as follows
+
+.. image:: ros2_controllers/setup_assistant_ros2_controllers_done.png
+   :width: 700px
+
 
 Step 11: Add Author Information
 --------------------------------
