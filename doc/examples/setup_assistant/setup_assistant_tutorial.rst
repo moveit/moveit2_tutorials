@@ -433,6 +433,16 @@ After completing the previous steps, the MoveIt Controllers list for the arm and
 .. image:: moveit_controllers/setup_assistant_moveit_controllers_done_gripper.png
    :width: 700px
 
+Step 12: Launch Files
+---------------------
+
+In the *Launch Files* pane, you can view the list of launch files that will be generated. 
+The default options are usually sufficient, but if you have specific requirements for your application, 
+you can make changes as necessary. Click on each of the files to view a summary of their functionality.
+
+.. image:: setup_assistant_launch_files.png
+   :width: 700px
+
 Step 11: Add Author Information
 --------------------------------
 
