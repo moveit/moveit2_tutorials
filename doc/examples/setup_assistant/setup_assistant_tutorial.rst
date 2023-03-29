@@ -456,29 +456,26 @@ Step 12: Generate Configuration Files
 --------------------------------------
 
 You are almost there. One last step - generating all the configuration
-files that you will need to start using MoveIt
+files that you will need to start using MoveIt.
 
 * Click on the *Configuration Files* pane. Choose a location and
-  name for the ROS package that will be generated containing your new
+  name for the ROS 2 package that will be generated containing your new
   set of configuration files. Click browse, select a good
-  location (for example, your home directory), click **Create New Folder**, call it
-  "panda_moveit_config", and click **Choose**.
-  "panda_moveit_config" is the location used in the rest of the
-  documentation on this wiki. This package does not have to be within your
-  ROS package path. All generated files will go directly into the
+  location (for example, your ROS 2 workspace's src directory), click **Create Folder**, call it
+  "panda_moveit_config", and click **Open**. All generated files will go directly into the
   directory you have chosen.
 
 * Click on the *Generate Package* button. The Setup Assistant will
-  now generate and write a set of launch and config files into the
-  directory of your choosing. All the generated files will appear in the
-  Generated Files/Folders tab and you can click on each of them for a
-  description of what they contain.
+  now generate a set of launch and config files into the
+  directory of your choice. All the generated files will appear in the
+  files to be generated tab and you can click on each of them for a
+  description of what they do.
 
-.. image:: setup_assistant_panda_done.png
+.. image:: setup_assistant_done.png
    :width: 700px
 
-* Congratulations!! - You are now done generating the configuration
-  files you need for MoveIt
+* Congratulations! You are now done generating the configuration
+  files you need for MoveIt.
 
 Step 12: Build the new moveit_config package
 --------------------------------------------
