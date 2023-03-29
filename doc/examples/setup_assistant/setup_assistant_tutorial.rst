@@ -391,6 +391,47 @@ After selecting the arm and hand controllers, the controllers list should be as 
 .. image:: ros2_controllers/setup_assistant_ros2_controllers_done.png
    :width: 700px
 
+Step 11: MoveIt Controllers
+--------------------------
+
+MoveIt requires trajectory controllers with a FollowJointTrajectoryAction interface for 
+executing planned trajectories. This interface sends the generated trajectory to the robot ROS 2 Controllers.
+
+MoveIt Controllers pane can be used to auto-generate the controllers to be used by MoveIt controller manager. 
+The controllers' names should match the ROS 2 controllers configured in the previous step. The user interface is similar to the previous step.
+
+.. image:: moveit_controllers/setup_assistant_moveit_controllers.png
+   :width: 700px
+
+Add the arm MoveIt controllers
+
+* Click on the MoveIt Controllers pane selector.
+
+* Click on Add Controller to create a new arm controller.
+
+* Enter Controller Name as panda_arm_controller
+
+* Choose **FollowJointTrajectory** Controller Type. 
+
+* Choose the controller joints with the panda_arm planning group.
+
+.. image:: moveit_controllers/setup_assistant_panda_arm_moveit_controller_type.png
+   :width: 700px
+
+
+Add the hand MoveIt controllers
+
+* Follow the same steps for the arm, but choose **Gripper Command** Controller Type. 
+  
+* Add the joints using the hand move group and save the controller.
+
+.. image:: moveit_controllers/setup_assistant_hand_moveit_controller_type_gripper.png
+   :width: 700px
+  
+After completing the previous steps, the MoveIt Controllers list for the arm and hand should appear as follows.
+
+.. image:: moveit_controllers/setup_assistant_moveit_controllers_done_gripper.png
+   :width: 700px
 
 Step 11: Add Author Information
 --------------------------------
