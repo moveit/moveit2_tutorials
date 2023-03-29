@@ -6,7 +6,7 @@ MoveIt Setup Assistant
    :align: center
 
 Overview
-----------------------
+--------
 The MoveIt Setup Assistant is a graphical user interface for configuring any robot for use with MoveIt. Its primary function is generating a Semantic Robot Description Format (SRDF) file for your robot, which specifies additional information required by MoveIt such as planning groups, end-effectors, and various kinematic parameters. Additionally, it generates other necessary configuration files for use with the MoveIt pipeline.
 To use the MoveIt Setup Assistant, you will need to have a URDF file for your robot.
 
@@ -16,7 +16,7 @@ To learn more about the URDF and SRDF, you can refer to the `URDF_SRDF_Overview 
 page.
 
 Getting Started
-------------------------
+---------------
 
 MoveIt and ROS 2
 
@@ -27,7 +27,7 @@ MoveIt and ROS 2
   package for Humble, which was already included in your workspace if you followed the previous step.
 
 Step 1: Start
----------------
+-------------
 
 * To start the MoveIt Setup Assistant: ::
 
@@ -297,27 +297,7 @@ planning for them. If the planners do not know about the passive joints, they
 might try to plan trajectories that involve moving the passive joints, which would
 result in invalid plans. The Panda robot arm does not have any passive joints so we will skip this step.
 
-
-Step 8: Perception
---------------------------
-
-The Perception tab in the Setup Assistant is used to configure the settings 
-for 3D sensors used by the robot. These settings are saved in a YAML configuration file named **sensors_3d.yaml**.
-
-In case of **sensors_3d.yaml** was not needed, choose **None** and proceed to the next step.
-
-.. image:: perception/setup_assistant_panda_3d_perception.png
-   :width: 700px
-
-To generate **point_cloud** configuration parameters:
-
-.. image:: perception/setup_assistant_panda_3d_perception_point_cloud.png
-   :width: 700px
-
-For more details about those parameters please refer to the `perception pipeline tutorial <https://moveit.picknik.ai/humble/doc/examples/perception_pipeline/perception_pipeline_tutorial.html>`_.
-
-
-Step 9: ros2_control URDF Modification
+Step 8: ros2_control URDF Modification
 --------------------------------------
 
 The ros2_control URDF Modification helps modify the robot URDF to work with 
@@ -336,8 +316,8 @@ and **position** and **velocity** state interfaces, and we will proceed with thi
 If necessary, select the desired command or state interfaces for your robot joints and 
 then click the **Add Interface** button.
 
-Step 10: ROS 2 Controllers
---------------------------
+Step 9: ROS 2 Controllers
+-------------------------
 
 The ROS 2 control is a framework for (real-time) control of robots using. 
 ROS 2 Control is designed to manage and simplify the integration of new robot hardware. 
@@ -391,8 +371,8 @@ After selecting the arm and hand controllers, the controllers list should be as 
 .. image:: ros2_controllers/setup_assistant_ros2_controllers_done.png
    :width: 700px
 
-Step 11: MoveIt Controllers
---------------------------
+Step 10: MoveIt Controllers
+---------------------------
 
 MoveIt requires trajectory controllers with a FollowJointTrajectoryAction interface for 
 executing planned trajectories. This interface sends the generated trajectory to the robot ROS 2 Controllers.
@@ -433,6 +413,27 @@ After completing the previous steps, the MoveIt Controllers list for the arm and
 .. image:: moveit_controllers/setup_assistant_moveit_controllers_done_gripper.png
    :width: 700px
 
+Step 11: Perception
+-------------------
+
+The Perception tab in the Setup Assistant is used to configure the settings 
+for 3D sensors used by the robot. These settings are saved in a YAML configuration file named **sensors_3d.yaml**.
+
+In case of **sensors_3d.yaml** was not needed, choose **None** and proceed to the next step.
+
+.. image:: perception/setup_assistant_panda_3d_perception.png
+   :width: 700px
+
+To generate **point_cloud** configuration parameters:
+
+.. image:: perception/setup_assistant_panda_3d_perception_point_cloud.png
+   :width: 700px
+
+For more details about those parameters please refer to the `perception pipeline tutorial <https://moveit.picknik.ai/humble/doc/examples/perception_pipeline/perception_pipeline_tutorial.html>`_.
+
+
+
+
 Step 12: Launch Files
 ---------------------
 
@@ -443,7 +444,7 @@ you can make changes as necessary. Click on each of the files to view a summary 
 .. image:: setup_assistant_launch_files.png
    :width: 700px
 
-Step 11: Add Author Information
+Step 13: Add Author Information
 --------------------------------
 
 Catkin requires author information for publishing purposes
@@ -452,7 +453,7 @@ Catkin requires author information for publishing purposes
 * Enter your name and email address.
 
 
-Step 12: Generate Configuration Files
+Step 14: Generate Configuration Files
 --------------------------------------
 
 You are almost there. One last step - generating all the configuration
