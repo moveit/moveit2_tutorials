@@ -477,22 +477,20 @@ files that you will need to start using MoveIt.
 * Congratulations! You are now done generating the configuration
   files you need for MoveIt.
 
-Step 12: Build the new moveit_config package
---------------------------------------------
-Build the newly created panda_moveit_config ::
+Build the new panda_moveit_config package
+-----------------------------------
+To build only the generated panda_moveit_config package and run the demo, follow these steps. ::
 
    cd ~/ws_moveit2
    colcon build --packages-select panda_moveit_config
    source install/setup.bash
 
-Start the MoveIt demo with RViz visualization, which allows us to interactively
-plan and execute motions for the robot. :: 
+Start the MoveIt demo to interactively plan and execute motions for the robot in RViz. :: 
 
    ros2 launch panda_moveit_config demo.launch.py
 
 
-This brief YouTube video provides an example of how to command the robot to move to a pre-defined ready pose and execute open and close motions on the hand.
-
+This `brief YouTube video <https://youtu.be/CXeF5KRa55Y>`_ provides an example of how to command the robot to move to the pre-defined ready pose and execute open and close motions on the hand.
 
 What's Next
 ---------------
