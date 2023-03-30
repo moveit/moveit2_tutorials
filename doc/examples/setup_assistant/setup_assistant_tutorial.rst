@@ -473,8 +473,7 @@ files that you will need to start using MoveIt.
 .. image:: setup_assistant_done.png
    :width: 700px
 
-Congratulations! You are now done generating the configuration
-  files you need for MoveIt.
+Congratulations! You are now done generating the configuration files you need for MoveIt.
 
 Build the panda_moveit_config package and run the demo
 ------------------------------------------------------
