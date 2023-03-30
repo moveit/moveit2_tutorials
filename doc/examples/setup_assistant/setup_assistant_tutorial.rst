@@ -493,23 +493,24 @@ Start the MoveIt demo to interactively plan and execute motions for the robot in
 Check out this `brief YouTube video <https://youtu.be/CXeF5KRa55Y>`_ for an example of how to command the robot to move to the pre-defined ready pose and execute open and close motions on the hand.
 
 What's Next
----------------
+-----------
 
 
-The MoveIt RViz plugin
+Get Started with MoveIt Motion Planning using RViz
 
-* Start looking at how you can use the generated configuration files
-  to play with MoveIt using the
-  :doc:`MoveIt RViz Plugin </doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial>`.
+* Learn how to use the generated configuration files to plan and visualize motion with MoveIt in RViz. 
+  Check out the `MoveIt Quickstart in Rviz tutorial <https://moveit.picknik.ai/humble/doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_ for a step-by-step guide.
+
+Write Your First C++ MoveIt Application
+
+* Write your first C++ application using MoveIt with this `tutorial <https://moveit.picknik.ai/humble/doc/tutorials/your_first_project/your_first_project.html>`_, and familiarize yourself with the MoveGroupInterface and use it to plan, execute, and visualize motion plans for your robot from this `example <https://moveit.picknik.ai/humble/doc/examples/move_group_interface/move_group_interface_tutorial.html>`_. 
+
+URDF vs SRDF: Understand the Differences
+
+* See the `URDF and SRDF <https://moveit.picknik.ai/humble/doc/examples/urdf_srdf/urdf_srdf_tutorial.html>`_ page for more
+  details on the components of the URDF and SRDF mentioned in this tutorial.
 
 Setup IKFast Inverse Kinematics Solver
 
 * A faster IK solver than the default KDL solver, but takes some
-  additional steps to setup:
-  :doc:`Kinematics/IKFast </doc/examples/ikfast/ikfast_tutorial>`
-
-Additional Reading
----------------------
-
-* See the :doc:`URDF and SRDF </doc/examples/urdf_srdf/urdf_srdf_tutorial>` page for more
-  details on the components of the URDF and SRDF mentioned in this tutorial.
+  additional steps to setup `Kinematics/IKFast <https://moveit.picknik.ai/humble/doc/examples/ikfast/ikfast_tutorial.html>`_
