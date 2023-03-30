@@ -236,7 +236,7 @@ Add *ready* pose for the arm
   something wrong with the joint limits in your URDF, you should be able
   to see it immediately here.
 
-.. image:: predefined-poses/setup_assistant_panda_predefined_arm_pose.png
+.. image:: predefined_poses/setup_assistant_panda_predefined_arm_pose.png
    :width: 700px
 
 Add *open* and *close* poses for the gripper
@@ -245,20 +245,20 @@ Add *open* and *close* poses for the gripper
 
 * Add an *open* pose for the hand group with value 0.035
 
-.. image:: predefined-poses/setup_assistant_panda_predefined_hand_open_pose.png
+.. image:: predefined_poses/setup_assistant_panda_predefined_hand_open_pose.png
    :width: 700px
 
 
 * Add a *close* pose for the hand with value 0.0
 
-.. image:: predefined-poses/setup_assistant_panda_predefined_hand_close_pose.png
+.. image:: predefined_poses/setup_assistant_panda_predefined_hand_close_pose.png
    :width: 700px
 
 Note: Only panda_finger_joint1 appears in the list as joint2 mimics its values.
 
 After the previous steps, the following set of robot poses should be defined for the panda_arm and hand groups.
 
-.. image:: predefined-poses/setup_assistant_panda_predefined_poses_done.png
+.. image:: predefined_poses/setup_assistant_panda_predefined_poses_done.png
    :width: 700px
 
 Step 6: Label End Effectors
