@@ -129,7 +129,6 @@ This will open up RViz with the Panda robot using the ``TopicBasedSystem`` inter
 
 .. raw:: html
 
-  <video width="700px" controls="true" autoplay="true" loop="true">
-    <source src="../../../_static/videos/moveit_isaac_integration.mp4" type="video/mp4">
-    MoveIt Isaac ROS2 Control Example
-  </video>
+    <div style="position: relative; padding-bottom: 5%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+        <iframe width="700px" height="400px" src="https://www.youtube.com/embed/af3zkAOWk2Q" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
