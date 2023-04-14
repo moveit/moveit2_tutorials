@@ -132,13 +132,23 @@ jobs:
         tar -xf artifact.tar.gz --directory=build/html/humble
         rm artifact.tar.gz
 
+    # NOTE: multiversion is overriding build artifacts
+    # We keep them in a separate directory to restore them later
+    - name: Backup Artifact HTML
+      run: |
+        mkdir -p backup
+        cp -r build/html/* backup/
+
     - name: Create CNAME file
       run: echo "moveit.picknik.ai" > build/html/CNAME
 
     - name: Build multiversion
+      run: make multiversion
+
+    - name: Restore Artifact HTML
       run: |
-        rm doc/api/python_api/api.rst  # prevent overriding of artifact version
-        make multiversion
+        mv backup/* build/html/
+        rm -r backup
 
     - name: Upload pages artifact
       uses: actions/upload-pages-artifact@v1
