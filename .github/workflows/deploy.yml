@@ -134,9 +134,11 @@ jobs:
 
     - name: Create CNAME file
       run: echo "moveit.picknik.ai" > build/html/CNAME
-
+     
     - name: Build multiversion
-      run: make multiversion
+      run: |
+        rm doc/api/python_api/api.rst  # prevent overriding of artifact version
+        make multiversion
 
     - name: Upload pages artifact
       uses: actions/upload-pages-artifact@v1
