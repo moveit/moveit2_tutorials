@@ -20,16 +20,6 @@ jobs:
       image: moveit/moveit2:rolling-source
     steps:
     - uses: actions/checkout@v3
-<<<<<<< HEAD
-      with:
-        fetch-depth: 0
-
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.8'
-        cache: 'pip'
-=======
->>>>>>> 4f1fdaf (moveit_py API documentation (#504))
 
     - name: Install Python dependencies
       run: |
