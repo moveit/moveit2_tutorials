@@ -147,7 +147,7 @@ jobs:
 
     - name: Restore Artifact HTML
       run: |
-        mv backup/* build/html/
+        mv -f backup/* build/html/
         rm -r backup
 
     - name: Upload pages artifact
