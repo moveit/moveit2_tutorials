@@ -112,6 +112,7 @@ jobs:
       uses: actions/download-artifact@v1
       with:
         name: main_html_artifacts
+        path: .
 
     - name: Decompress Rolling Artifact
       run: |
@@ -123,6 +124,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: humble_html_artifacts
+        path: .
 
     - name: Decompress Humble Artifact
       run: |
