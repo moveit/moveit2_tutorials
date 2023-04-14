@@ -74,7 +74,7 @@ jobs:
         make generate_api_artifacts BRANCH=${{ matrix.branch }}
 
     - name: Compress Artifact
-      run: tar cvzf artifact.tar.gz build/html
+      run: tar cvzf artifact.tar.gz --directory=build/html .
 
     - name: Upload HTML Artifact
       uses: actions/upload-artifact@v1
@@ -112,23 +112,23 @@ jobs:
       uses: actions/download-artifact@v1
       with:
         name: main_html_artifacts
-        path: build/html/main
 
     - name: Decompress Rolling Artifact
       run: |
-        tar -xf build/html/main/artifact.tar.gz
-        rm build/html/main/artifact.tar.gz
+        mkdir -p build/html/main
+        tar -xf artifact.tar.gz --directory=build/html/main
+        rm artifact.tar.gz
 
     - name: Download Humble Artifacts
       uses: actions/download-artifact@v3
       with:
         name: humble_html_artifacts
-        path: build/html/humble
 
     - name: Decompress Humble Artifact
       run: |
-        tar -xf build/html/humble/artifact.tar.gz
-        rm build/html/humble/artifact.tar.gz
+        mkdir -p build/html/humble
+        tar -xf artifact.tar.gz --directory=build/html/humble
+        rm artifact.tar.gz
 
     - name: Create CNAME file
       run: echo "moveit.picknik.ai" > build/html/CNAME
