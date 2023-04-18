@@ -82,7 +82,7 @@ Computer Setup
 
 .. code-block:: bash
 
-  docker compose build
+  docker compose build base
 
 Running the MoveIt Interactive Marker Demo with Mock Components
 ---------------------------------------------------------------
