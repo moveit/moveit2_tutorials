@@ -53,4 +53,3 @@ services:
         reservations:
           devices:
             - capabilities: [gpu]
-

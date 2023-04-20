@@ -83,28 +83,32 @@ prims.create_prim(
     "Xform",
     position=np.array([-0.2, -0.25, 0.15]),
     orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(1, 0, 0), -90)),
-    usd_path=assets_root_path + "/Isaac/Props/YCB/Axis_Aligned_Physics/003_cracker_box.usd",
+    usd_path=assets_root_path
+    + "/Isaac/Props/YCB/Axis_Aligned_Physics/003_cracker_box.usd",
 )
 prims.create_prim(
     "/sugar_box",
     "Xform",
     position=np.array([-0.07, -0.25, 0.1]),
     orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 1, 0), -90)),
-    usd_path=assets_root_path + "/Isaac/Props/YCB/Axis_Aligned_Physics/004_sugar_box.usd"
+    usd_path=assets_root_path
+    + "/Isaac/Props/YCB/Axis_Aligned_Physics/004_sugar_box.usd",
 )
 prims.create_prim(
     "/soup_can",
     "Xform",
     position=np.array([0.1, -0.25, 0.10]),
     orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(1, 0, 0), -90)),
-    usd_path=assets_root_path + "/Isaac/Props/YCB/Axis_Aligned_Physics/005_tomato_soup_can.usd"
+    usd_path=assets_root_path
+    + "/Isaac/Props/YCB/Axis_Aligned_Physics/005_tomato_soup_can.usd",
 )
 prims.create_prim(
     "/mustard_bottle",
     "Xform",
     position=np.array([0.2, -0.25, 0.10]),
     orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(1, 0, 0), -90)),
-    usd_path=assets_root_path + "/Isaac/Props/YCB/Axis_Aligned_Physics/006_mustard_bottle.usd"
+    usd_path=assets_root_path
+    + "/Isaac/Props/YCB/Axis_Aligned_Physics/006_mustard_bottle.usd",
 )
 
 simulation_app.update()
@@ -130,7 +134,10 @@ try:
                 ("PublishClock", "omni.isaac.ros2_bridge.ROS2PublishClock"),
                 ("OnTick", "omni.graph.action.OnTick"),
                 ("createViewport", "omni.isaac.core_nodes.IsaacCreateViewport"),
-                ("getRenderProduct", "omni.isaac.core_nodes.IsaacGetViewportRenderProduct"),
+                (
+                    "getRenderProduct",
+                    "omni.isaac.core_nodes.IsaacGetViewportRenderProduct",
+                ),
                 ("setCamera", "omni.isaac.core_nodes.IsaacSetCameraOnRenderProduct"),
                 ("cameraHelperRgb", "omni.isaac.ros2_bridge.ROS2CameraHelper"),
                 ("cameraHelperInfo", "omni.isaac.ros2_bridge.ROS2CameraHelper"),
@@ -172,13 +179,25 @@ try:
                 ("createViewport.outputs:execOut", "getRenderProduct.inputs:execIn"),
                 ("createViewport.outputs:viewport", "getRenderProduct.inputs:viewport"),
                 ("getRenderProduct.outputs:execOut", "setCamera.inputs:execIn"),
-                ("getRenderProduct.outputs:renderProductPath", "setCamera.inputs:renderProductPath"),
+                (
+                    "getRenderProduct.outputs:renderProductPath",
+                    "setCamera.inputs:renderProductPath",
+                ),
                 ("setCamera.outputs:execOut", "cameraHelperRgb.inputs:execIn"),
                 ("setCamera.outputs:execOut", "cameraHelperInfo.inputs:execIn"),
                 ("setCamera.outputs:execOut", "cameraHelperDepth.inputs:execIn"),
-                ("getRenderProduct.outputs:renderProductPath", "cameraHelperRgb.inputs:renderProductPath"),
-                ("getRenderProduct.outputs:renderProductPath", "cameraHelperInfo.inputs:renderProductPath"),
-                ("getRenderProduct.outputs:renderProductPath", "cameraHelperDepth.inputs:renderProductPath"),
+                (
+                    "getRenderProduct.outputs:renderProductPath",
+                    "cameraHelperRgb.inputs:renderProductPath",
+                ),
+                (
+                    "getRenderProduct.outputs:renderProductPath",
+                    "cameraHelperInfo.inputs:renderProductPath",
+                ),
+                (
+                    "getRenderProduct.outputs:renderProductPath",
+                    "cameraHelperDepth.inputs:renderProductPath",
+                ),
             ],
             og.Controller.Keys.SET_VALUES: [
                 ("Context.inputs:domain_id", int(os.environ["ROS_DOMAIN_ID"])),
@@ -211,7 +230,9 @@ set_target_prims(
 )
 
 # Hack to fix camera settings
-realsense_prim = camera_prim = UsdGeom.Camera(stage.get_current_stage().GetPrimAtPath(CAMERA_PRIM_PATH))
+realsense_prim = camera_prim = UsdGeom.Camera(
+    stage.get_current_stage().GetPrimAtPath(CAMERA_PRIM_PATH)
+)
 realsense_prim.GetHorizontalApertureAttr().Set(20.955)
 realsense_prim.GetVerticalApertureAttr().Set(15.7)
 realsense_prim.GetFocalLengthAttr().Set(18.8)
