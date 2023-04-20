@@ -15,28 +15,8 @@ import carb
 import numpy as np
 from pathlib import Path
 from omni.isaac.kit import SimulationApp
-import omni
-import omni.graph.core as og  # noqa E402
-from omni.isaac.core import SimulationContext  # noqa E402
-from omni.isaac.core.utils.prims import set_targets
-from omni.isaac.core.utils import (  # noqa E402
-    extensions,
-    nucleus,
-    prims,
-    rotations,
-    stage,
-    viewports,
-)
-from omni.isaac.core_nodes.scripts.utils import set_target_prims  # noqa E402
-from pxr import Gf, UsdGeom  # noqa E402
 
 FRANKA_STAGE_PATH = "/Franka"
-OBJECT_USD_PATHS = [
-    Path("/Isaac/Props/YCB/Axis_Aligned_Physics/003_cracker_box.usd"),
-    Path("/Isaac/Props/YCB/Axis_Aligned_Physics/004_sugar_box.usd"),
-    Path("/Isaac/Props/YCB/Axis_Aligned_Physics/005_tomato_soup_can.usd"),
-    Path("/Isaac/Props/YCB/Axis_Aligned_Physics/006_mustard_bottle.usd"),
-]
 FRANKA_USD_PATH = "/Isaac/Robots/Franka/franka_alt_fingers.usd"
 CAMERA_PRIM_PATH = f"{FRANKA_STAGE_PATH}/panda_hand/geometry/realsense/realsense_camera"
 BACKGROUND_STAGE_PATH = "/background"
@@ -49,6 +29,23 @@ CONFIG = {"renderer": "RayTracedLighting", "headless": False}
 # Example ROS2 bridge sample demonstrating the manual loading of stages
 # and creation of ROS components
 simulation_app = SimulationApp(CONFIG)
+
+
+# More imports that need to compare after we create the app
+from omni.isaac.core import SimulationContext  # noqa E402
+from omni.isaac.core.utils.prims import set_targets
+from omni.isaac.core.utils import (  # noqa E402
+    extensions,
+    nucleus,
+    prims,
+    rotations,
+    stage,
+    viewports,
+)
+from omni.isaac.core_nodes.scripts.utils import set_target_prims  # noqa E402
+from pxr import Gf, UsdGeom  # noqa E402
+import omni.graph.core as og  # noqa E402
+import omni
 
 # enable ROS2 bridge extension
 extensions.enable_extension("omni.isaac.ros2_bridge")
@@ -81,18 +78,34 @@ prims.create_prim(
 
 # add some objects, spread evenly along the X axis
 # with a fixed offset from the robot in the Y and Z
-for i, object_path in enumerate(OBJECT_USD_PATHS):
-    x = (i - len(OBJECT_USD_PATHS) // 2) * 0.2
-    # remove all numbers from the prim name
-    prim_name = re.sub(r'[0-9]', '', object_path.stem).strip("_")
-
-    prims.create_prim(
-        f"/{prim_name}",
-        "Xform",
-        position=np.array([x, 0.0, 0.1]),
-        orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(1, 0, 0), -90)),
-        usd_path=assets_root_path + str(object_path),
-    )
+prims.create_prim(
+    "/cracker_box",
+    "Xform",
+    position=np.array([-0.2, -0.25, 0.15]),
+    orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(1, 0, 0), -90)),
+    usd_path=assets_root_path + "/Isaac/Props/YCB/Axis_Aligned_Physics/003_cracker_box.usd",
+)
+prims.create_prim(
+    "/sugar_box",
+    "Xform",
+    position=np.array([-0.07, -0.25, 0.1]),
+    orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 1, 0), -90)),
+    usd_path=assets_root_path + "/Isaac/Props/YCB/Axis_Aligned_Physics/004_sugar_box.usd"
+)
+prims.create_prim(
+    "/soup_can",
+    "Xform",
+    position=np.array([0.1, -0.25, 0.10]),
+    orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(1, 0, 0), -90)),
+    usd_path=assets_root_path + "/Isaac/Props/YCB/Axis_Aligned_Physics/005_tomato_soup_can.usd"
+)
+prims.create_prim(
+    "/mustard_bottle",
+    "Xform",
+    position=np.array([0.2, -0.25, 0.10]),
+    orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(1, 0, 0), -90)),
+    usd_path=assets_root_path + "/Isaac/Props/YCB/Axis_Aligned_Physics/006_mustard_bottle.usd"
+)
 
 simulation_app.update()
 
