@@ -69,16 +69,13 @@ Configuration
 .. toctree::
    :maxdepth: 1
 
-   moveit_configuration/moveit_configuration_tutorial
    kinematics_configuration/kinematics_configuration_tutorial
    custom_constraint_samplers/custom_constraint_samplers_tutorial
    ompl_interface/ompl_interface_tutorial
    chomp_planner/chomp_planner_tutorial
    stomp_planner/stomp_planner_tutorial
    trajopt_planner/trajopt_planner_tutorial
-   pilz_industrial_motion_planner/pilz_industrial_motion_planner
    planning_adapters/planning_adapters_tutorial
-   persistent_scenes_and_states/persistent_scenes_and_states
 
 Miscellaneous
 ----------------------------

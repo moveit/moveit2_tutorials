@@ -81,7 +81,7 @@ Motion Planning Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 For each type of motion planner plugin available in MoveIt, there is a corresponding ``config/*_planning.yaml`` file that describes its configuration.
-For example, a robot that can use both :doc:`OMPL </doc/examples/ompl_interface/ompl_interface_tutorial>` and :doc:`Pilz Industrial Motion Planner </doc/examples/pilz_industrial_motion_planner/pilz_industrial_motion_planner>` will have the following folder structure:
+For example, a robot that can use both :doc:`OMPL </doc/examples/ompl_interface/ompl_interface_tutorial>` and :doc:`Pilz Industrial Motion Planner </doc/how_to_guides/pilz_industrial_motion_planner/pilz_industrial_motion_planner>` will have the following folder structure:
 
 .. code-block::
 
