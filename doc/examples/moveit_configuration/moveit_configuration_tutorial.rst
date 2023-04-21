@@ -72,7 +72,7 @@ Inverse Kinematics (IK) Solver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Many motion planning applications in MoveIt require solving inverse kinematics.
-For more information, refer to :doc:`Kinematics Configuration <doc/examples/kinematics_configuration/kinematics_configuration_tutorial>`.
+For more information, refer to :doc:`Kinematics Configuration </doc/examples/kinematics_configuration/kinematics_configuration_tutorial>`.
 
 The default location of this file is in ``config/kinematics.yaml``.
 
@@ -80,7 +80,7 @@ Motion Planning Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 For each type of motion planner available in MoveIt, there is a corresponding ``config/*_planning.yaml`` file that describes its configuration.
-For example, a robot that uses both :doc:`OMPL <doc/examples/ompl_interface/ompl_interface_tutorial>` and :doc:`Pilz Industrial Motion Planner <doc/examples/pilz_industrial_motion_planner/pilz_industrial_motion_planner.rst>` will have the following folder structure:
+For example, a robot that uses both :doc:`OMPL </doc/examples/ompl_interface/ompl_interface_tutorial>` and :doc:`Pilz Industrial Motion Planner </doc/examples/pilz_industrial_motion_planner/pilz_industrial_motion_planner>` will have the following folder structure:
 
 .. code-block::
 
@@ -102,14 +102,14 @@ Trajectory Execution Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 MoveIt typically publishes manipulator motion commands to a `JointTrajectoryController <https://github.com/ros-controls/ros2_controllers/tree/master/joint_trajectory_controller>`_.
-To learn more, refer to the :doc:`Low Level Controllers <doc/examples/controller_configuration/controller_configuration_tutorial>` section.
+To learn more, refer to the :doc:`Low Level Controllers </doc/examples/controller_configuration/controller_configuration_tutorial>` section.
 
 The default location for trajectory execution information is in ``config/moveit_controllers.yaml``.
 
 MoveItCpp Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-If you are using :doc:`MoveItCpp <doc/examples/moveit_cpp/moveitcpp_tutorial>`, you can define a file with all the necessary parameters.
+If you are using :doc:`MoveItCpp </doc/examples/moveit_cpp/moveitcpp_tutorial>`, you can define a file with all the necessary parameters.
 
 The default location of this file is in ``config/moveit_cpp.yaml``.
 
@@ -117,7 +117,7 @@ The default location of this file is in ``config/moveit_cpp.yaml``.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you are using a perception sensor capable of generating 3D point clouds for motion planning, you can configure those settings for MoveIt.
-For more information, refer to the :doc:`Perception Pipeline Tutorial <doc/examples/perception_pipeline/perception_pipeline_tutorial>`.
+For more information, refer to the :doc:`Perception Pipeline Tutorial </doc/examples/perception_pipeline/perception_pipeline_tutorial>`.
 
 The default location of this file is in ``config/sensors_3d.yaml``.
 
