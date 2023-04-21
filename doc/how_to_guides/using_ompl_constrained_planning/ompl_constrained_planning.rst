@@ -14,15 +14,13 @@ The interface currently only supports a single position or orientation constrain
 How to Configure OMPL to use Constrained Planning
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-OMPL reads configurations parameters from a file called :code:`ompl_planning.yaml`. This guide adds the required parameters directly in the launch file, but they can also be set in the yaml file. This guide uses the Panda robot, for which this file can be found :moveit_resources_codedir:`here <panda_moveit_config/config/ompl_planning.yaml>`. Add a parameter to your robot's ``ompl_planning.yaml`` to tell OMPL to plan in a constrained state space by setting :code:`enforce_constrained_state_space` to ``true``. In addition, if the parameter `projection_evaluator <../../examples/ompl_interface/ompl_interface_tutorial.html#projection-evaluator>`_ was not yet specified, we also need to add it. The projection evaluator is used to help with discretizing the state space with high dimensionality by using projections from the state space to a low dimensional Euclidean space. You can read more about it `here <https://ompl.kavrakilab.org/projections.html>`_. In general, using the first couple joints works pretty well.
+OMPL reads configurations parameters from a file called :code:`ompl_planning.yaml`. This guide adds the required parameters directly in the launch file, but they can also be set in the yaml file. This guide uses the Panda robot, for which this file can be found :moveit_resources_codedir:`here <panda_moveit_config/config/ompl_planning.yaml>`. OMPL's constrained planning will be used by default if you have exactly one position or one orientation constraint. To use the constrained state space in other scenarios, add a parameter to your robot's ``ompl_planning.yaml`` to tell OMPL to plan in a constrained state space by setting :code:`enforce_constrained_state_space` to ``true``. In addition, if the parameter `projection_evaluator <../../examples/ompl_interface/ompl_interface_tutorial.html#projection-evaluator>`_ was not yet specified, we also need to add it. The projection evaluator is used to help with discretizing the state space with high dimensionality by using projections from the state space to a low dimensional Euclidean space. You can read more about it `here <https://ompl.kavrakilab.org/projections.html>`_. In general, using the first couple joints works pretty well.
 
 .. code-block:: yaml
 
    panda_arm:
       enforce_constrained_state_space: true
       projection_evaluator: joints(panda_joint1,panda_joint2)
-
-You can see an example :codedir:`here <how_to_guides/using_ompl_constrained_planning/config/ompl_planning.yaml>`.
 
 This tutorial adds the parameters in the :codedir:`launch file <how_to_guides/using_ompl_constrained_planning/launch/ompl_constrained_planning.launch.py>`. The launch file uses ``moveit_configs_utils`` to simplify the launch file. The ``moveit_config`` is configured with the moveit_resources Panda MoveIt config. We add our OMPL parameters to the ``planning_pipelines`` with the following lines:
 
@@ -40,7 +38,7 @@ Running the Example
 
 Run the following command to launch the example: ::
 
-   ros2 launch moveit_tutorials ompl_constrained_planning.launch.py
+   ros2 launch moveit2_tutorials ompl_constrained_planning.launch.py
 
 The Panda robot should appear, with the RViz Visual Tools and the Trajectory Slider panel in the bottom-left. You should also see this text in your terminal: ::
 
@@ -51,7 +49,7 @@ To start the first example, click the Next button.
 .. image:: RVizVisualTools.png
    :width: 700px
 
-The first example shows a plan with box constraints. A red and green sphere should appear in Rviz to show the start and goal states respectively. In addition, a grey box should appear that represents the position constraint on the link :code:`panda_link8`. If planning succeeds, you should see a preview of the trajectory that was planned. You can use the Trajectory Slider panel to inspect the trajectory.
+The first example shows a plan with box constraints. A red and green sphere should appear in RViz to show the start and goal states respectively. In addition, a grey box should appear that represents the position constraint on the link :code:`panda_link8`. If planning succeeds, you should see a preview of the trajectory that was planned. You can use the Trajectory Slider panel to inspect the trajectory.
 
 .. raw:: html
 
@@ -73,7 +71,7 @@ After pressing Next, the next planning problem is solved. This example uses equa
         OMPL constrained planning plane constraint example
     </video>
 
-Again, if planning succeeds, the trajectory is animated in Rviz. Press Next again to move on to the third planning problem, using equality constraints again to plan along a line.
+Again, if planning succeeds, the trajectory is animated in RViz. Press Next again to move on to the third planning problem, using equality constraints again to plan along a line.
 
 .. raw:: html
 
@@ -91,7 +89,7 @@ You can see the trajectory animated if planning succeeds. Finally, press Next to
         OMPL constrained planning orientation constraint example
     </video>
 
-This example may take longer to plan. If planning fails, you can start at the beginning of the section to try again. Press Next to try mixed constraints,
+This example may take longer to plan. If planning fails, you can start at the beginning of the section to try again. Press Next to try mixed constraints.
 
 .. raw:: html
 
@@ -148,7 +146,7 @@ We start by using the lambda to create a target pose offset from the current pos
 
    auto target_pose = get_relative_pose(0.0, 0.3, -0.3);
 
-Now, we set up the constraints. A box is a ``PositionConstraint`` - see the full message definition ::moveit_msgs_codedir:`here <msg/PositionConstraint.msg>`. We set the ``frame_id`` in the header, as well as the ``link_name`` of the link to be constrained (in this case, the end effector). We then create a box using ``shape_msgs`` and set its dimensiions. We then place that box into ``box_constraint``.
+Now, we set up the constraints. A box is a ``PositionConstraint`` - see the full message definition ::moveit_msgs_codedir:`here <msg/PositionConstraint.msg>`. We set the ``frame_id`` in the header, as well as the ``link_name`` of the link to be constrained (in this case, the end effector). We then create a box using ``shape_msgs`` and set its dimensions. We then place that box into ``box_constraint``.
 
 .. code-block:: c++
 
@@ -178,7 +176,7 @@ Finally, we create a generic ``Constraints`` message and add our ``box_constrain
 .. code-block:: c++
 
    moveit_msgs::msg::Constraints box_constraints;
-   box_constraints.position_constraints.push_bemplace_backack(box_constraint);
+   box_constraints.position_constraints.emplace_back(box_constraint);
 
 Now that we've created our constraint, set the path constraints via the Move Group interface and plan. It's helpful to increase the default planning time, as planning with constraints can be slower.
 
@@ -202,7 +200,7 @@ We need to create a pose goal that lies in this plane. The plane is tilted by 45
   target_pose = get_relative_pose(0.0, 0.3, -0.3);
 
 
-We create a plane perpendicular to the y-axis and tilt it by 45 degrees. We create a plane by making a box and setting one dimension ``0.0005``. This is an important numvber that we will cover shortly.
+We create a plane perpendicular to the y-axis and tilt it by 45 degrees. We create a plane by making a box and setting one dimension ``0.0005``. This is an important number that we will cover shortly.
 
 .. code-block:: c++
 
@@ -308,7 +306,7 @@ Finally, we can set both a position and an orientation constraint. We will use t
 
      target_pose = get_relative_pose(-0.6, 0.1, 0);
 
-We will also reuse our orientation constraint - but this time, the original box constraint won't work as the target pose is outside of our original box. Let's modify the box pose and dimensions such that the goal pose is reachable. Be aware that having a both a position and orientation constraint can drastically shrink the reachable area - the target pose not only needs to be within the box constraint as mentioned, but needs to be reachable while satisfying the orientation constriant, which is more difficult to visualize.
+We will also reuse our orientation constraint - but this time, the original box constraint won't work as the target pose is outside of our original box. Let's modify the box pose and dimensions such that the goal pose is reachable. Be aware that having a both a position and orientation constraint can drastically shrink the reachable area - the target pose not only needs to be within the box constraint as mentioned, but needs to be reachable while satisfying the orientation constraint, which is more difficult to visualize.
 
 .. code-block:: c++
 
@@ -321,7 +319,7 @@ We will also reuse our orientation constraint - but this time, the original box 
   box_constraint.constraint_region.primitive_poses[0] = box_pose;
   box_constraint.weight = 1.0;
 
-As before, we create a generalized constraint message, this time adding both our position and orientation constrint.
+As before, we create a generalized constraint message, this time adding both our position and orientation constraint.
 
 .. code-block:: c++
 

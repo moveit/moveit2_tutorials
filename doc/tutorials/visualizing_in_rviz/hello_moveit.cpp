@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
   // Execute the plan
   if (success)
   {
-    draw_trajectory_tool_path(plan.trajectory_);
+    draw_trajectory_tool_path(plan.trajectory);
     moveit_visual_tools.trigger();
     prompt("Press 'next' in the RvizVisualToolsGui window to execute");
     draw_title("Executing");
@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
   {
     draw_title("Planning Failed!");
     moveit_visual_tools.trigger();
-    RCLCPP_ERROR(logger, "Planing failed!");
+    RCLCPP_ERROR(logger, "Planning failed!");
   }
 
   // Shutdown ROS

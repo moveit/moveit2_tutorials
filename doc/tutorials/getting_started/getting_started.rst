@@ -47,7 +47,7 @@ Download Source Code of MoveIt and the Tutorials
 Move into your Colcon workspace and pull the MoveIt tutorials source: ::
 
   cd ~/ws_moveit/src
-  git clone https://github.com/ros-planning/moveit2_tutorials -b main
+  git clone https://github.com/ros-planning/moveit2_tutorials -b main --depth 1
 
 Next we will download the source code for the rest of MoveIt: ::
 
@@ -66,7 +66,13 @@ The next command will configure your Colcon workspace: ::
   cd ~/ws_moveit
   colcon build --mixin release
 
-This build command will likely take a long time (20+ minutes) depending on your computer speed and amount of RAM available (we recommend 32 GB). If you are short on computer memory or generally your build is struggling to complete on your computer, you can append the argument ``--parallel-workers 1`` to the Colcon command above.
+
+This build command will likely take a long time (20+ minutes) depending on your computer speed and amount of RAM available (we recommend 32 GB).
+
+.. warning::
+  Some of the packages built with this command require up to 16Gb of RAM to build. By default, ``colcon``  tries to build as many packages as possible at the same time.
+  If you are low on computer memory, or if the build is generally having trouble completing on your computer,
+  you can try appending ``--executor sequential`` to the ``colcon`` command above to build only one package at a time, or ``-parallel-workers <X>`` to limit the number of simultaneous builds.
 
 If everything goes well, you should see the message "Summary: X packages finished" where X might be 50. If you have problems, try re-checking your `ROS Installation <https://docs.ros.org/en/rolling/Installation.html>`_.
 
@@ -84,6 +90,15 @@ Optional: add the previous command to your ``.bashrc``: ::
 .. note:: Sourcing the ``setup.bash`` automatically in your ``~/.bashrc`` is
    not required and often skipped by advanced users who use more than one
    Colcon workspace at a time, but we recommend it for simplicity.
+
+Switch to Cyclone DDS
+^^^^^^^^^^^^^^^^^^^^^
+
+As of Sep 26, 2022, the default ROS 2 middleware (RMW) implementation has an issue. As a workaround, switch to Cyclone DDS. (Note: this makes all nodes started using this RMW incompatible with any other nodes not using Cyclone DDS.) ::
+
+  sudo apt install ros-rolling-rmw-cyclonedds-cpp
+  # You may want to add this to ~/.bashrc to source it automatically
+  export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
 Next Step
 ^^^^^^^^^

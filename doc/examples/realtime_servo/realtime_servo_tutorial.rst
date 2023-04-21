@@ -40,8 +40,6 @@ If you do not have a joystick or game controller, you can still try the demo usi
 
 You will be able to use your keyboard to servo the robot. Send Cartesian commands with arrow keys and the :code:`.` and :code:`;` keys. Change the Cartesian command frame with :code:`W` for world and :code:`E` for End-Effector. Send joint jogging commands with keys 1-7 (use :code:`R` to reverse direction)
 
-Expected Output
----------------
 .. raw:: html
 
     <video width="700px" controls="true" autoplay="true" loop="true">
@@ -78,8 +76,6 @@ This basic C++ interface demo moves the robot in a predetermined way and can be 
 
 An Rviz window should appear with a Panda arm and collision object. The arm will joint-jog for a few seconds before switching to a Cartesian movement. As the arm approaches the collision object, it slows and stops.
 
-Expected Output
----------------
 .. raw:: html
 
     <video width="700px" controls="true" autoplay="true" loop="true">
@@ -141,6 +137,10 @@ Once your :code:`kinematics.yaml` file has been populated, include it with the R
 The above excerpt is taken from `servo_example.launch.py <https://github.com/ros-planning/moveit2/blob/main/moveit_ros/moveit_servo/launch/servo_example.launch.py>`_ in MoveIt.
 In the above example, the :code:`kinematics.yaml` file is taken from the `moveit_resources <https://github.com/ros-planning/moveit_resources>`_ repository in the workspace, specifically :code:`moveit_resources/panda_moveit_config/config/kinematics.yaml`.
 The actual ROS parameter names that get passed by loading the yaml file are of the form :code:`robot_description_kinematics.<group_name>.<param_name>`, e.g. :code:`robot_description_kinematics.panda_arm.kinematics_solver`.
+
+Since :code:`moveit_servo` does not allow undeclared parameters found in the :code:`kinematics.yaml` file to be set on the Servo node, custom solver parameters need to be declared from inside your plugin code.
+
+For example, :code:`bio_ik` defines a :code:`getROSParam()` function in `bio_ik/src/kinematics_plugin.cpp <https://github.com/PickNikRobotics/bio_ik/blob/ros2/src/kinematics_plugin.cpp#L160>`_ that declares parameters if they're not found on the Servo Node.
 
 Setup on a New Robot
 --------------------

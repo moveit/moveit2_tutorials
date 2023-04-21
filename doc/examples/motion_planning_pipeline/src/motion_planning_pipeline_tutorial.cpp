@@ -75,7 +75,7 @@ int main(int argc, char** argv)
   robot_model_loader::RobotModelLoaderPtr robot_model_loader(
       new robot_model_loader::RobotModelLoader(node, "robot_description"));
 
-  // Using the RobotModelLoader, we can construct a planing scene monitor that
+  // Using the RobotModelLoader, we can construct a planning scene monitor that
   // will create a planning scene, monitors planning scene diffs, and apply the diffs to it's
   // internal planning scene. We then call startSceneMonitor, startWorldGeometryMonitor and
   // startStateMonitor to fully initialize the planning scene monitor
@@ -169,7 +169,7 @@ int main(int argc, char** argv)
   }
   /* Now, call the pipeline and check whether planning was successful. */
   /* Check that the planning was successful */
-  if (res.error_code_.val != res.error_code_.SUCCESS)
+  if (res.error_code.val != res.error_code.SUCCESS)
   {
     RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
     return 0;
@@ -220,7 +220,7 @@ int main(int argc, char** argv)
     planning_pipeline->generatePlan(lscene, req, res);
   }
   /* Check that the planning was successful */
-  if (res.error_code_.val != res.error_code_.SUCCESS)
+  if (res.error_code.val != res.error_code.SUCCESS)
   {
     RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
     return 0;
@@ -266,7 +266,7 @@ int main(int argc, char** argv)
     /* Now, call the pipeline and check whether planning was successful. */
     planning_pipeline->generatePlan(lscene, req, res);
   }
-  if (res.error_code_.val != res.error_code_.SUCCESS)
+  if (res.error_code.val != res.error_code.SUCCESS)
   {
     RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
     return 0;

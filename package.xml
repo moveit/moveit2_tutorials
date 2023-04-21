@@ -26,6 +26,7 @@
   <depend>moveit_servo</depend>
   <depend>moveit_hybrid_planning</depend>
   <depend>moveit_visual_tools</depend>
+  <depend>moveit_msgs</depend>
   <!-- <depend>pcl_conversions</depend> -->
   <!-- <depend>pcl_ros</depend> -->
   <depend>pluginlib</depend>
@@ -49,6 +50,7 @@
   <exec_depend>joint_state_publisher</exec_depend>
   <exec_depend>joint_trajectory_controller</exec_depend>
   <exec_depend>joy</exec_depend>
+  <exec_depend>jupyter-notebook</exec_depend>
   <exec_depend>moveit</exec_depend>
   <exec_depend>moveit_resources_panda_moveit_config</exec_depend>
   <exec_depend>moveit_configs_utils</exec_depend>

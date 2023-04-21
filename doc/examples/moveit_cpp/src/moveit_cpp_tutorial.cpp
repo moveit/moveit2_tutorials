@@ -40,6 +40,8 @@ int main(int argc, char** argv)
   //
   static const std::string PLANNING_GROUP = "panda_arm";
   static const std::string LOGNAME = "moveit_cpp_tutorial";
+  // ros2_controllers
+  static const std::vector<std::string> CONTROLLERS(1, "panda_arm_controller");
 
   /* Otherwise robot with zeros joint_states */
   rclcpp::sleep_for(std::chrono::seconds(1));
@@ -47,7 +49,7 @@ int main(int argc, char** argv)
   RCLCPP_INFO(LOGGER, "Starting MoveIt Tutorials...");
 
   auto moveit_cpp_ptr = std::make_shared<moveit_cpp::MoveItCpp>(node);
-  moveit_cpp_ptr->getPlanningSceneMonitor()->providePlanningSceneService();
+  moveit_cpp_ptr->getPlanningSceneMonitorNonConst()->providePlanningSceneService();
 
   auto planning_components = std::make_shared<moveit_cpp::PlanningComponent>(PLANNING_GROUP, moveit_cpp_ptr);
   auto robot_model_ptr = moveit_cpp_ptr->getRobotModel();
@@ -60,7 +62,7 @@ int main(int argc, char** argv)
   // The package MoveItVisualTools provides many capabilities for visualizing objects, robots,
   // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script
   moveit_visual_tools::MoveItVisualTools visual_tools(node, "panda_link0", "moveit_cpp_tutorial",
-                                                      moveit_cpp_ptr->getPlanningSceneMonitor());
+                                                      moveit_cpp_ptr->getPlanningSceneMonitorNonConst());
   visual_tools.deleteAllMarkers();
   visual_tools.loadRemoteControl();
 
@@ -95,7 +97,7 @@ int main(int argc, char** argv)
 
   // Now, we call the PlanningComponents to compute the plan and visualize it.
   // Note that we are just planning
-  auto plan_solution1 = planning_components->plan();
+  const planning_interface::MotionPlanResponse plan_solution1 = planning_components->plan();
 
   // Check if PlanningComponents succeeded in finding the plan
   if (plan_solution1)
@@ -110,7 +112,8 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    /* bool blocking = true; */
+    /* moveit_controller_manager::ExecutionStatus result = moveit_cpp_ptr->execute(plan_solution1.trajectory, blocking, CONTROLLERS); */
   }
 
   // Plan #1 visualization:
@@ -154,7 +157,8 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    /* bool blocking = true; */
+    /* moveit_cpp_ptr->execute(plan_solution2.trajectory, blocking, CONTROLLERS); */
   }
 
   // Plan #2 visualization:
@@ -198,7 +202,8 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    /* bool blocking = true; */
+    /* moveit_cpp_ptr->execute(plan_solution3.trajectory, blocking, CONTROLLERS); */
   }
 
   // Plan #3 visualization:
@@ -240,7 +245,8 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    /* bool blocking = true; */
+    /* moveit_cpp_ptr->execute(plan_solution4.trajectory, blocking, CONTROLLERS); */
   }
 
   // Plan #4 visualization:
@@ -279,7 +285,7 @@ int main(int argc, char** argv)
 
   // Add object to planning scene
   {  // Lock PlanningScene
-    planning_scene_monitor::LockedPlanningSceneRW scene(moveit_cpp_ptr->getPlanningSceneMonitor());
+    planning_scene_monitor::LockedPlanningSceneRW scene(moveit_cpp_ptr->getPlanningSceneMonitorNonConst());
     scene->processCollisionObjectMsg(collision_object);
   }  // Unlock PlanningScene
   planning_components->setStartStateToCurrentState();
@@ -293,7 +299,8 @@ int main(int argc, char** argv)
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
-    /* planning_components->execute(); // Execute the plan */
+    /* bool blocking = true; */
+    /* moveit_cpp_ptr->execute(plan_solution5.trajectory, blocking, CONTROLLERS); */
   }
 
   // Plan #5 visualization:

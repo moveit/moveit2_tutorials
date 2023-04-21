@@ -71,6 +71,8 @@ pygments_style = "sphinx"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 extensions = [
+    "sphinx.ext.autosectionlabel",
+    "sphinxcontrib.doxylink",
     "sphinx.ext.extlinks",
     "tutorialformatter",
     "sphinx.ext.intersphinx",
@@ -79,7 +81,12 @@ extensions = [
     "sphinx_rtd_theme",
     "sphinx.ext.ifconfig",
     "sphinx_copybutton",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
 ]
+
+autosectionlabel_prefix_document = True
 
 intersphinx_mapping = {
     "ros2": ("https://docs.ros.org/en/rolling/", None),
@@ -126,16 +133,15 @@ templates_path = [
 
 # smv_tag_whitelist = None
 
-smv_branch_whitelist = r"^(main|humble|galactic|foxy)$"
-
-smv_released_pattern = r"^refs/(heads|remotes/[^/]+)/(foxy|galactic|humble).*$"
-smv_remote_whitelist = r"^(origin)$"
+smv_branch_whitelist = r"^(main|humble)$"
+smv_released_pattern = r"^refs/(heads|remotes/[^/]+)/(humble).*$"
 smv_latest_version = "humble"
 smv_eol_versions = []
+smv_remote_whitelist = r"^(origin|upstream)$"
+smv_prefer_remote_refs = True
+current_dir = os.getcwd()
 
 distro_full_names = {
-    "foxy": "Foxy Fitzroy",
-    "galactic": "Galactic Geochelone",
     "humble": "Humble Hawksbill",
     "rolling": "Rolling Ridley",
 }
@@ -228,59 +234,7 @@ extlinks = {
         "",
     ),
     "rosdocs": ("http://docs.ros.org/" + ros1_distro + "/api/%s", ""),
-    "moveit_core": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_core/html/cpp/classmoveit_1_1core_1_1%s.html",
-        "",
-    ),
-    "planning_scene": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_core/html/cpp/classplanning__scene_1_1%s.html",
-        "",
-    ),
-    "planning_scene_monitor": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_ros_planning/html/classplanning__scene__monitor_1_1%s.html",
-        "",
-    ),
-    "collision_detection_struct": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_core/html/cpp/structcollision__detection_1_1%s.html",
-        "",
-    ),
-    "collision_detection_class": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_core/html/cpp/classcollision__detection_1_1%s.html",
-        "",
-    ),
-    "kinematic_constraints": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_core/html/cpp/classkinematic__constraints_1_1%s.html",
-        "",
-    ),
-    "moveit_core_files": (
-        "http://docs.ros.org/" + ros1_distro + "/api/moveit_core/html/cpp/%s.html",
-        "",
-    ),
     "moveit_website": ("http://moveit.ros.org/%s/", ""),
-    "locked_planning_scene": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_ros_planning/html/namespaceplanning__scene__monitor.html",
-        "",
-    ),
-    "planning_interface": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1%s.html",
-        "",
-    ),
     "sensor_msgs": (
         "http://docs.ros.org/" + ros1_distro + "/api/sensor_msgs/html/msg/%s.html",
         "",
@@ -296,6 +250,33 @@ extlinks = {
         "",
     ),
 }
+# Only used for local build, multiversion overwrites this in the smv_rewrite_configs() function
+doxylink = {"cpp_api": ("build/html/api/MoveIt.tag", "api/html")}
+add_function_parentheses = True
+
+
+autodoc_typehints = "signature"
+
+autodoc_default_options = {
+    "members": True,
+    "undoc-members": True,
+    "member-order": "bysource",
+}
+
+autosummary_generate = True
+
+# Napoleon settings
+napoleon_google_docstring = True
+napoleon_numpy_docstring = False
+napoleon_include_init_with_doc = False
+napoleon_include_private_with_doc = False
+napoleon_include_special_with_doc = False
+napoleon_use_admonition_for_examples = False
+napoleon_use_admonition_for_notes = False
+napoleon_use_admonition_for_references = False
+napoleon_use_ivar = False
+napoleon_use_param = False
+napoleon_use_rtype = False
 
 
 class RedirectFrom(Directive):
@@ -411,8 +392,6 @@ def smv_rewrite_configs(app, config):
         branch_distro = {
             "main": "rolling",
             "humble": "humble",
-            "galactic": "galactic",
-            "foxy": "foxy",
         }
 
         # Override default values
@@ -427,6 +406,12 @@ def smv_rewrite_configs(app, config):
         app.config.html_baseurl = app.config.html_baseurl + "/" + distro + "/"
         app.config.project = "MoveIt Documentation: " + distro.title()
         app.config.html_logo = "_static/images/" + distro + "-small.png"
+        app.config.doxylink = {
+            "cpp_api": (
+                current_dir + "/build/html/" + branch + "/api/MoveIt.tag",
+                "api/html",
+            )
+        }
     else:
         # If we are not building a multiversion build, default to the rolling logo
         app.config.html_logo = "_static/images/rolling-small.png"

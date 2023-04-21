@@ -2,6 +2,12 @@
 [Live tutorials here](https://moveit.picknik.ai/)
 
 This is the primary documentation for the MoveIt project.
+## Build Status
+
+This repository is built and deployed automatically by GitHub Actions:
+
+- **Rolling** (main): [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Amain) [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Amain) [![Deploy](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml?query=branch%3Amain)
+- **Humble**: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=humble)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Ahumble) [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=humble)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Ahumble) [![Deploy](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=humble)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml?query=branch%3Ahumble)
 
 ## Contributing
 
@@ -11,19 +17,19 @@ If you find an issue with the tutorials you are not able to fix yourself, please
 
 ## Helping with Porting Tutorials to ROS 2
 
-An issue has been created for each tutorial to be ported to ROS 2. At the top of each tutorial there is a tag: ":moveit1:", remove the tag
+An issue has been created for each tutorial to be ported to ROS 2. At the top of each tutorial, there is a tag: ":moveit1:", remove the tag
 after the tutorial has been successfully updated.
 
 Below are some links to help with the ports.
 
 * [colcon](https://colcon.readthedocs.io/en/released/user/how-to.html)
 * [ament](https://index.ros.org/doc/ros2/Tutorials/Ament-CMake-Documentation/)
-* [rclcpp](http://docs.ros2.org/foxy/api/rclcpp/index.html)
+* [rclcpp](https://docs.ros2.org/latest/api/rclcpp/index.html)
 
 
 ## MoveIt Tutorials Source Build
 
-Follow the [MoveIt Source Build](https://moveit.ros.org/install-moveit2/source/) instructions to setup a colcon workspace with MoveIt from source.
+Follow the [MoveIt Source Build](https://moveit.ros.org/install-moveit2/source/) instructions to set up a colcon workspace with MoveIt from the source.
 
 Open a command line to your colcon workspace:
 
@@ -42,7 +48,7 @@ Configure and build the workspace:
 
 ## Build HTML Pages Locally
 
-If you want to test the tutorials by generating the html pages locally on your machine, you can use the ``build_locally`` script by issuing the following commands in the root of the moveit2_tutorials package:
+If you want to test the tutorials by generating the HTML pages locally on your machine, you can use the ``build_locally`` script by issuing the following commands in the root of the moveit2_tutorials package:
 
     export ROS_DISTRO=rolling  # 20.04
 
@@ -55,7 +61,7 @@ The local website ``<LOCAL_PACKAGE_PATH>/build/html/index.html`` should automati
 ### Optional build_locally Settings
 
  - *noinstall* skip the dependencies install step to speed up the script
- - *loop* automatically rebuild the html if a change is detected
+ - *loop* automatically rebuilds the HTML if a change is detected
 
 ### Formatting and Style
 
@@ -63,10 +69,10 @@ These tutorials use the [reStructuredText](http://www.sphinx-doc.org/en/stable/r
 
 **Code Formatting**
 
-* These tutorials use the same [style guidelines](http://moveit.ros.org/documentation/contributing/code/) as the MoveIt project. When modifying or adding to these tutorials, it is required that code is auto formatted using [clang-format](http://moveit.ros.org/documentation/contributing/code/). To check and apply our style guidelines we use [pre-commit](https://pre-commit.com/).
+* These tutorials use the same [style guidelines](http://moveit.ros.org/documentation/contributing/code/) as the MoveIt project. When modifying or adding to these tutorials, it is required that code is auto-formatted using [clang format](http://moveit.ros.org/documentation/contributing/code/). To check and apply the style guidelines we use [pre-commit](https://pre-commit.com/).
 * Tutorials should exemplify best coding practices. If a contribution wouldn't pass review in the MoveIt project, then it shouldn't pass review in the tutorials.
 * Relevant code should be included and explained using the ``.. tutorial-formatter::`` tag.
-* Irrelevant code should be excluded from the generated html using the ``BEGIN_TUTORIAL``, ``END_TUTORIAL``, ``BEGIN_SUB_TUTORIAL``, and ``END_SUB_TUTORIAL`` tags.
+* Irrelevant code should be excluded from the generated HTML using the ``BEGIN_TUTORIAL``, ``END_TUTORIAL``, ``BEGIN_SUB_TUTORIAL``, and ``END_SUB_TUTORIAL`` tags.
 * Whenever possible, links should be created using the ``extlinks`` dictionary defined in ``conf.py``.
 * All demo code should be runnable from within the ``moveit2_tutorials`` package.
 * Python code should be run using ``ros2 run``.
@@ -75,7 +81,7 @@ These tutorials use the [reStructuredText](http://www.sphinx-doc.org/en/stable/r
 
 * Each tutorial should be focused on teaching the user one feature or interface within MoveIt.
 * Tutorials should flow from show to tell with videos and demos at the beginning followed by explanations.
-* New tutorials should match the formatting, style and flow of existing tutorials whenever possible.
+* New tutorials should match the formatting, style, and flow of existing tutorials whenever possible.
 
 **pre-commit**
 
@@ -83,11 +89,11 @@ pre-commit is a tool that is used in moveit2_tutorials to check and apply style 
 
     pip3 install pre-commit
 
-Then under moveit2_tutorials directory install the git hooks like this:
+Then under the moveit2_tutorials directory install the git hooks like this:
 
     cd $COLCON_WS/src/moveit2_tutorials && pre-commit install
 
-With this pre-commit will automatically run and check a list of styling including clang-format, end of files and trailing whitespaces whenever you run `git commit`. To run pre-commit any time other than `git commit`:
+With this pre-commit will automatically run and check a list of styling including clang-format, end of files, and trailing whitespaces whenever you run `git commit`. To run pre-commit any time other than `git commit`:
 
     cd $COLCON_WS/src/moveit2_tutorials && pre-commit run -a
 
@@ -103,10 +109,10 @@ This assumes that `filename.png` is in the same folder as the source `.rst` file
 
 [External Documentation](https://sublime-and-sphinx-guide.readthedocs.io/en/latest/images.html)
 
-Do **not** include animated gifs as the file format leads to very large files. Use a video format like `webm` and see the section on local video below.
+Do **not** include animated gifs as the file format leads to very large files. Use a video format like `webm` and see the section on the local video below.
 
 #### YouTube and other External Video
-You can embed video with raw html, like in this example from the Pick and Place Tutorial.
+You can embed video with raw HTML, like in this example from the Pick and Place Tutorial.
 ```
 .. raw:: html
 
@@ -114,17 +120,17 @@ You can embed video with raw html, like in this example from the Pick and Place 
         <iframe width="700px" height="400px" src="https://www.youtube.com/embed/QBJPxx_63Bs?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 ```
-This includes [Youtube's suggested embed html](https://support.google.com/youtube/answer/171780?hl=en).
+This includes [Youtube's suggested embed HTML](https://support.google.com/youtube/answer/171780?hl=en).
 
 #### Local Video
-To embed a video that is included in this repository, you also will use raw html, like this example from the Quickstart in RViz tutorial.
+To embed a video that is included in this repository, you also will use raw HTML, like this example from the Quickstart in RViz tutorial.
 
 ```
 .. raw:: html
 
     <video width="700px" controls="true" autoplay="true" loop="true">
         <source src="../../../_static/videos/rviz_joints_nullspace.webm" type="video/webm">
-        The joints moving while the end effector stays still
+        The joints move while the end effector stays still
     </video>
 ```
 
@@ -134,20 +140,4 @@ Note that the video file is in the `_static/videos` folder instead of the same f
 
 ## License
 
-All content in this repository is open source and released under the [BSD License v3](https://opensource.org/licenses/BSD-3-Clause). Each individual source code file should contain a copy of the license.
-
-## Build Status
-
-This repository is currently built automatically by Github Actions:
-
-- main: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Amain)
-- main: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Amain)
-- humble: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=humble)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Ahumble)
-- humble: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=humble)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Ahumble)
-
-- galactic: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=galactic)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Agalactic)
-- galactic: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=galactic)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Agalactic)
-- foxy: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Afoxy) (Foxy)
-- foxy: [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Afoxy) (Foxy)
-- foxy: [![Deploy](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml?query=branch%3Afoxy) (Foxy)
-- foxy: [Github Pages](https://moveit.picknik.ai/): (Foxy)
+All content in this repository is open source and released under the [BSD License v3](https://opensource.org/licenses/BSD-3-Clause). Each source code file should contain a copy of the license.

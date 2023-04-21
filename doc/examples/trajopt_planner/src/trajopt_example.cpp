@@ -39,7 +39,7 @@ int main(int argc, char** argv)
   robot_model_loader::RobotModelLoaderPtr robot_model_loader(
       new robot_model_loader::RobotModelLoader(ROBOT_DESCRIPTION));
 
-  // Create a planing scene monitor
+  // Create a planning scene monitor
   planning_scene_monitor::PlanningSceneMonitorPtr psm(
       new planning_scene_monitor::PlanningSceneMonitor(robot_model_loader));
 
