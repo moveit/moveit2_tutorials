@@ -72,9 +72,10 @@ Inverse Kinematics (IK) Solver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Many motion planning applications in MoveIt require solving inverse kinematics.
-For more information, refer to :doc:`Kinematics Configuration </doc/examples/kinematics_configuration/kinematics_configuration_tutorial>`.
 
-The default location of this file is in ``config/kinematics.yaml``.
+Both the IK solver plugin used and its parameters are configured through a file whose default location is ``config/kinematics.yaml``.
+
+For more information, refer to :doc:`Kinematics Configuration </doc/examples/kinematics_configuration/kinematics_configuration_tutorial>`.
 
 Motion Planning Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
