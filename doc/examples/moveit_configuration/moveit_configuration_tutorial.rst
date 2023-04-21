@@ -4,7 +4,7 @@ MoveIt Configuration
 The recommended way of configuring MoveIt for your robot is by creating a colcon package containing the MoveIt Configuration.
 
 Suppose you would like to create a configuration package for some robot named ``my_robot``.
-To do this, you can create a Colcon package named ``my_robot_moveit_config``, whose structure is as follows:
+To do this, you can create a colcon package named ``my_robot_moveit_config``, whose structure is as follows:
 
 .. code-block::
 
@@ -95,8 +95,6 @@ For example, a robot that can use both :doc:`OMPL </doc/examples/ompl_interface/
 By default, all parameter files that match this ``config/_*planning.yaml`` pattern will be loaded.
 If OMPL is configured as a planning pipeline, that will be the default; otherwise, it will be the first pipeline in the list.
 
-If you want to load a specific subset of motion planners, you can additionally create a ``config/planning_pipelines.yaml`` file to explicitly list the planning pipelines to load, as well as the default pipeline.
-
 To learn more about the contents of the individual planning configuration files, refer to the configuration documentation for those planners.
 
 Trajectory Execution Configuration
@@ -167,7 +165,7 @@ or you can include selected sub-components as follows:
 
 Note that the above syntax will automatically look for configuration files that match the default file naming patterns described in this document.
 If you have a different naming convention, you can use the functions available in ``MoveItConfigsBuilder`` to directly set file names.
-For example, to use a non-default robot description and IK solver file path:
+For example, to use a non-default robot description and IK solver file path, and configure planning pipelines:
 
 .. code-block:: python
 
@@ -177,6 +175,10 @@ For example, to use a non-default robot description and IK solver file path:
         MoveItConfigsBuilder("my_robot")
         .robot_description(file_path="config/my_robot.urdf.xacro")
         .robot_description_kinematics(file_path="config/my_kinematics_solver.yaml")
+        .planning_pipelines(
+            pipelines=["ompl", "pilz_industrial_motion_planner"],
+            default_planning_pipeline="pilz_industrial_motion_planner",
+        )
         .to_moveit_configs()
     )
 
