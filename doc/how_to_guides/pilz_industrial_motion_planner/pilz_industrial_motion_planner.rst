@@ -354,7 +354,7 @@ non of the commands in the sequence are executed.
 multiple groups (e.g. "Manipulator", "Gripper")
 
 User interface sequence capability
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A specialized MoveIt functionality known as the
 :moveit_codedir:`command list manager<moveit_planners/pilz_industrial_motion_planner/include/pilz_industrial_motion_planner/command_list_manager.h>`
@@ -375,7 +375,7 @@ Implementation details are available
 :moveit_codedir:`as PDF<moveit_planners/pilz_industrial_motion_planner/doc/MotionBlendAlgorithmDescription.pdf>`.
 
 Restrictions for ``MotionSequenceRequest``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  Only the first goal may have a start state. Following trajectories
    start at the previous goal.
@@ -384,7 +384,7 @@ Restrictions for ``MotionSequenceRequest``
    than the distance between the goals.
 
 Action interface
-^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~
 
 In analogy to the ``MoveGroup`` action interface, the user can plan and
 execute a ``moveit_msgs::MotionSequenceRequest`` through the action server
@@ -402,7 +402,7 @@ See the ``pilz_robot_programming`` package for a `ROS 1 Python script
 that shows how to use the capability.
 
 Service interface
-^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~
 
 The service ``plan_sequence_path`` allows the user to generate a joint
 trajectory for a ``moveit_msgs::msg::MotionSequenceRequest``.
