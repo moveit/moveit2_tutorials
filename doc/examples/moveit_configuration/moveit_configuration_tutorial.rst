@@ -1,7 +1,7 @@
 MoveIt Configuration
 ==================================
 
-The recommended way of configuring MoveIt for your robot is by creating a Colcon package containing the MoveIt Configuration.
+The recommended way of configuring MoveIt for your robot is by creating a colcon package containing the MoveIt Configuration.
 
 Suppose you would like to create a configuration package for some robot named ``my_robot``.
 To do this, you can create a Colcon package named ``my_robot_moveit_config``, whose structure is as follows:
@@ -79,8 +79,8 @@ The default location of this file is in ``config/kinematics.yaml``.
 Motion Planning Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-For each type of motion planner available in MoveIt, there is a corresponding ``config/*_planning.yaml`` file that describes its configuration.
-For example, a robot that uses both :doc:`OMPL </doc/examples/ompl_interface/ompl_interface_tutorial>` and :doc:`Pilz Industrial Motion Planner </doc/examples/pilz_industrial_motion_planner/pilz_industrial_motion_planner>` will have the following folder structure:
+For each type of motion planner plugin available in MoveIt, there is a corresponding ``config/*_planning.yaml`` file that describes its configuration.
+For example, a robot that can use both :doc:`OMPL </doc/examples/ompl_interface/ompl_interface_tutorial>` and :doc:`Pilz Industrial Motion Planner </doc/examples/pilz_industrial_motion_planner/pilz_industrial_motion_planner>` will have the following folder structure:
 
 .. code-block::
 
@@ -121,14 +121,10 @@ For more information, refer to the :doc:`Perception Pipeline Tutorial </doc/exam
 
 The default location of this file is in ``config/sensors_3d.yaml``.
 
-
-
 Loading Configuration Parameters into Launch Files
 --------------------------------------------------
 
 To easily load parameters from MoveIt configuration packages for use in your ROS 2 launch files, MoveIt provides a ``MoveItConfigsBuilder`` utility.
-
-
 To load the configuration parameters from your ``my_robot_moveit_config`` package:
 
 .. code-block:: python
