@@ -33,7 +33,6 @@
  *********************************************************************/
 
 /* Author: Wyatt Rees */
-
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include <moveit/robot_state/cartesian_interpolator.h>
@@ -151,7 +150,7 @@ int main(int argc, char** argv)
   const double weight = 0.0005;
   const auto cost_fn = [&weight, &compute_l2_norm](const geometry_msgs::msg::Pose& /*goal_pose*/,
                                                    const moveit::core::RobotState& solution_state,
-                                                   moveit::core::JointModelGroup* jmg,
+                                                   moveit::core::JointModelGroup const* jmg,
                                                    const std::vector<double>& seed_state) {
     std::vector<double> proposed_joint_positions;
     solution_state.copyJointGroupPositions(jmg, proposed_joint_positions);
@@ -160,8 +159,8 @@ int main(int argc, char** argv)
   };
 
   // Now, we request an IK solution twice for the same pose. Once with a cost function, and once without.
-  current_state->setFromIK(joint_model_group, target_pose, 0.0, callback_fn, opts, cost_fn);
-  copy_state->setFromIK(joint_model_group, target_pose, 0.0, callback_fn, opts);
+  current_state->setFromIK(joint_model_group, target_pose, 0.0 /* timeout */, callback_fn, opts, cost_fn);
+  copy_state->setFromIK(joint_model_group, target_pose, 0.0 /* timeout */, callback_fn, opts);
 
   std::vector<double> solution;
   current_state->copyJointGroupPositions(joint_model_group, solution);
@@ -193,7 +192,7 @@ int main(int argc, char** argv)
   visual_tools.deleteAllMarkers();
   visual_tools.publishAxisLabeled(target_pose, "goal_pose");
   visual_tools.publishText(text_pose, "Joint_Space_Goal", rvt::WHITE, rvt::XLARGE);
-  visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+  visual_tools.publishTrajectoryLine(my_plan.trajectory, joint_model_group);
   visual_tools.trigger();
 
   // Uncomment if you would like to execute the motion
