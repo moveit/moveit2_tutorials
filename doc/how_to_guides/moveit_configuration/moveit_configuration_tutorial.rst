@@ -92,7 +92,7 @@ For example, a robot that can use both :doc:`OMPL </doc/examples/ompl_interface/
             ...
         ...
 
-By default, all parameter files that match this ``config/_*planning.yaml`` pattern will be loaded.
+By default, all parameter files that match this ``config/*_planning.yaml`` pattern will be loaded.
 If OMPL is configured as a planning pipeline, that will be the default; otherwise, it will be the first pipeline in the list.
 
 To learn more about the contents of the individual planning configuration files, refer to the configuration documentation for those planners.
