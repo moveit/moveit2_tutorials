@@ -216,7 +216,7 @@ int main(int argc, char** argv)
   auto start_state = move_group.getCurrentState(10.0);
   std::vector<moveit::core::RobotStatePtr> traj;
   moveit::core::MaxEEFStep max_eef_step(0.01, 0.1);
-  // Here, were effectively disabling the jump threshold for joints. This is not recommended on real hardware.
+  // Here, we're effectively disabling the jump threshold for joints. This is not recommended on real hardware.
   moveit::core::JumpThreshold jump_thresh(0.0);
 
   // The trajectory, traj, passed to computeCartesianPath will contain several waypoints toward
