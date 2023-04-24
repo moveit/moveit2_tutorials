@@ -38,7 +38,6 @@ Building more complex applications with MoveIt often requires developers to dig 
    moveit_cpp/moveitcpp_tutorial
    bullet_collision_checker/bullet_collision_checker
    mobile_base_arm/mobile_base_arm_tutorial
-   kinematics_cost_function/kinematics_cost_function_tutorial
 
 Using MoveIt Directly Through the Python API
 --------------------------------------------
