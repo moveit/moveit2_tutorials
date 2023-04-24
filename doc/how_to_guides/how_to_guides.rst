@@ -11,6 +11,7 @@ Configuring and Using MoveIt
 .. toctree::
    :maxdepth: 1
 
+   kinematics_cost_function/kinematics_cost_function_tutorial
    moveit_configuration/moveit_configuration_tutorial
    pilz_industrial_motion_planner/pilz_industrial_motion_planner
    using_ompl_constrained_planning/ompl_constrained_planning
@@ -28,7 +29,3 @@ Developing and Documenting MoveIt
    how_to_generate_api_doxygen_locally
    how_to_setup_docker_containers_in_ubuntu
    how_to_write_doxygen
-   kinematics_cost_function/kinematics_cost_function_tutorial
-   using_ompl_constrained_planning/ompl_constrained_planning
-   parallel_planning/parallel_planning_tutorial
-   controller_teleoperation/controller_teleoperation
