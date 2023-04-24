@@ -3,6 +3,24 @@ How-To Guides
 
 These how-to guides will help you quickly solve specific problems using MoveIt.
 
+For more information, refer to :doc:`/doc/how_to_guides/how_to_guide`.
+
+Configuring and Using MoveIt
+----------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   moveit_configuration/moveit_configuration_tutorial
+   pilz_industrial_motion_planner/pilz_industrial_motion_planner
+   using_ompl_constrained_planning/ompl_constrained_planning
+   parallel_planning/parallel_planning_tutorial
+   controller_teleoperation/controller_teleoperation
+   persistent_scenes_and_states/persistent_scenes_and_states
+
+Developing and Documenting MoveIt
+---------------------------------
+
 .. toctree::
    :maxdepth: 1
 
