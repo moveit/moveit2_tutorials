@@ -45,10 +45,10 @@ In RViz, we should be able to see the following:
 
 The Entire Code
 ---------------
-The entire code can be seen :codedir:`here in the MoveIt GitHub project<examples/kinematics_cost_function/src/kinematics_cost_function_tutorial.cpp>`. Next, we step through the code piece by piece to explain its functionality.
+The entire code can be seen :codedir:`here in the MoveIt GitHub project<how_to_guides/kinematics_cost_function/src/kinematics_cost_function_tutorial.cpp>`. Next, we step through the code piece by piece to explain its functionality.
 
 .. tutorial-formatter:: ./src/kinematics_cost_function_tutorial.cpp
 
 The Launch File
 ---------------
-The entire launch file is :codedir:`here<examples/kinematics_cost_function/launch/kinematics_cost_function_tutorial.launch.py>` on GitHub. All the code in this tutorial can be run from the **moveit2_tutorials** package that you have as part of your MoveIt setup.
+The entire launch file is :codedir:`here<how_to_guides/kinematics_cost_function/launch/kinematics_cost_function_tutorial.launch.py>` on GitHub. All the code in this tutorial can be run from the **moveit2_tutorials** package that you have as part of your MoveIt setup.
