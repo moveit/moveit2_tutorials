@@ -241,7 +241,7 @@ Add *ready* pose for the arm
 
 Add *open* and *close* poses for the gripper
 
-* Follow the same steps for defning a pose for the arm, but select the *hand* group. 
+* Follow the same steps for defining a pose for the arm, but select the *hand* group. 
 
 * Add an *open* pose for the hand group with value 0.035
 
