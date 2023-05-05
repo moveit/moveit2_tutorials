@@ -316,7 +316,7 @@ then click the **Add Interface** button.
 Step 9: ROS 2 Controllers
 -------------------------
 
-The ROS 2 control is a framework for (real-time) control of robots using. 
+ROS 2 control is a framework for (real-time) control of robots using. 
 ROS 2 Control is designed to manage and simplify the integration of new robot hardware. 
 For more details please look at `ros2_control <https://control.ros.org/master/index.html>`_ documentation.
 
