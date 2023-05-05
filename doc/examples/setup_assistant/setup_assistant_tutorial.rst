@@ -375,7 +375,7 @@ MoveIt requires trajectory controllers with a FollowJointTrajectoryAction interf
 executing planned trajectories. This interface sends the generated trajectory to the robot ROS 2 Controllers.
 
 MoveIt Controllers pane can be used to auto-generate the controllers to be used by MoveIt controller manager. 
-Ensure that the controller names match those configured in the previous  ROS 2 controller step. 
+Ensure that the controller names match those configured in the previous ROS 2 controller step. 
 The user interface for this step is similar to the previous one.
 
 .. image:: moveit_controllers/setup_assistant_moveit_controllers.png
