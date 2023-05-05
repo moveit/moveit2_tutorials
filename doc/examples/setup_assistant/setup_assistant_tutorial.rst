@@ -16,7 +16,7 @@ To use the MoveIt Setup Assistant, you will need to have a URDF file for your ro
 Once you have a URDF file, you can open the MoveIt Setup Assistant and import your URDF.
 This tutorial will guide you through a series of steps to configure various aspects of your robot,
 such as defining its kinematic structure, specifying planning groups and end-effectors, and collision checking related setting.
-To learn more about the URDF and SRDF, you can refer to the `URDF_SRDF_Overview <https://moveit.picknik.ai/humble/doc/examples/urdf_srdf/urdf_srdf_tutorial.html#>`_ page.
+To learn more about the URDF and SRDF, you can refer to the `URDF SRDF Overview <https://moveit.picknik.ai/humble/doc/examples/urdf_srdf/urdf_srdf_tutorial.html#>`_ page.
 
 Getting Started
 ---------------
@@ -327,11 +327,11 @@ then click the **Add Interface** button.
 Step 9: ROS 2 Controllers
 -------------------------
 
-ROS 2 control is a framework for (real-time) control of robots using. 
-ROS 2 Control is designed to manage and simplify the integration of new robot hardware. 
-For more details please look at `ros2_control <https://control.ros.org/master/index.html>`_ documentation.
+ROS 2 Control is a framework for real-time control of robots, 
+designed to manage and simplify the integration of new robot hardware.
+For more details, please look at `ros2_control <https://control.ros.org/master/index.html>`_ documentation.
 
-ROS 2 Controllers tab can be used to auto generate simulated controllers to actuate the robot joints.
+**ROS 2 Controllers** pane can be used to auto generate simulated controllers to actuate the robot joints.
 
 .. image:: ros2_controllers/setup_assistant_ros2_controllers.png
    :width: 700px
@@ -351,11 +351,11 @@ Add the arm controllers
 .. image:: ros2_controllers/setup_assistant_panda_arm_ros2_controller_type.png
    :width: 700px
 
-* Next, we need to choose this controller joints. Joints can be added individually or by move group.
+* Next, we need to choose the controller joints. Joints can be added individually or by move group.
 
 * Now, click on **Add Planning Group Joints**.
 
-* Choose ``panda_arm`` planning group to add all the joints in that group to the arm controller.
+* Choose ``panda_arm`` group from the **Available Groups** and add it to the **Selected Groups**.
 
 * Click **Save** to save the selected controller.
   
@@ -374,7 +374,7 @@ Add the hand controllers
 .. image:: ros2_controllers/setup_assistant_hand_ros2_controller_group.png
    :width: 700px
 
-After selecting the arm and hand controllers, the controllers list should be as follows
+After selecting the arm and hand controllers, the controllers list should be as follows.
 
 .. image:: ros2_controllers/setup_assistant_ros2_controllers_done.png
    :width: 700px
@@ -385,7 +385,7 @@ Step 10: MoveIt Controllers
 MoveIt requires trajectory controllers with a ``FollowJointTrajectoryAction`` interface for 
 executing planned trajectories. This interface sends the generated trajectory to the robot ROS 2 Controllers.
 
-**MoveIt Controllers** pane can be used to auto-generate the controllers to be used by MoveIt controller manager. 
+**MoveIt Controllers** pane can be used to auto-generate the controllers to be used by the MoveIt controller manager. 
 Ensure that the controller names match those configured in the previous ROS 2 controller step. 
 The user interface for this step is similar to the previous one.
 
@@ -508,7 +508,8 @@ Get Started with MoveIt Motion Planning using RViz
 
 Write Your First C++ MoveIt Application
 
-* Write your first C++ application using MoveIt with this `tutorial <https://moveit.picknik.ai/humble/doc/tutorials/your_first_project/your_first_project.html>`_, and familiarize yourself with the ``MoveGroupInterface`` and use it to plan, execute, and visualize motion plans for your robot from this `example <https://moveit.picknik.ai/humble/doc/examples/move_group_interface/move_group_interface_tutorial.html>`_. 
+* Write your first C++ application using MoveIt with `this tutorial <https://moveit.picknik.ai/humble/doc/tutorials/your_first_project/your_first_project.html>`_, 
+  and familiarize yourself with the ``MoveGroupInterface`` and use it to plan, execute, and visualize motion plans for your robot from `this example <https://moveit.picknik.ai/humble/doc/examples/move_group_interface/move_group_interface_tutorial.html>`_. 
 
 URDF vs SRDF: Understand the Differences
 
@@ -517,5 +518,5 @@ URDF vs SRDF: Understand the Differences
 
 Setup IKFast Inverse Kinematics Solver
 
-* A faster IK solver than the default KDL solver, but takes some
-  additional steps to setup `Kinematics/IKFast <https://moveit.picknik.ai/humble/doc/examples/ikfast/ikfast_tutorial.html>`_
+* A faster IK solver than the default KDL solver is available, but it requires some additional setup steps. 
+  For more information, refer to the `Kinematics/IKFast <https://moveit.picknik.ai/humble/doc/examples/ikfast/ikfast_tutorial.html>`_.
