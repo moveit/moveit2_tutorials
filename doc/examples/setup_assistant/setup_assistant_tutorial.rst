@@ -351,7 +351,7 @@ Add the arm controllers
 
 * Now, click on **Add Planning Group Joints**.
 
-* Choose ``panda_arm`` group from the **Available Groups** and add it to the **Selected Groups**.
+* Choose ``panda_arm`` group from the **Available Groups** tab and add it to the **Selected Groups**.
 
 * Click **Save** to save the selected controller.
   
@@ -365,7 +365,9 @@ Add the hand controllers
 .. image:: ros2_controllers/setup_assistant_hand_ros2_controller_type.png
    :width: 700px
 
-* Then, add the joints using the ``hand`` move group and save the controller.
+* Choose ``hand`` group from the **Available Groups** tab and add it to the **Selected Groups**.
+
+* Click **Save** to save the selected controller.
 
 .. image:: ros2_controllers/setup_assistant_hand_ros2_controller_group.png
    :width: 700px
