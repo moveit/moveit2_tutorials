@@ -187,14 +187,14 @@ Add the gripper group
    :align: center
 
 * We will also add a group for the end
-  effector. Note that you will do this using a different procedure
-  than adding the arm.
+  effector. Note that the end effector is not made of links attached in a serial chain. 
+  Therefore, the group's **Kinematic Solver** should be set to **None**. 
 
   * Click on the **Add Group** button.
 
   * Enter **Group Name** as ``hand``.
 
-  * Let **Kinematic Solver** stay at its default value; **None**.
+  * Let **Kinematic Solver** stay at its default value, which is **None**.
 
   * Let **Kin. Search Resolution** and **Kin. Search Timeout** stay at their default values.
 
