@@ -13,14 +13,19 @@ RUN apt-get update && apt-get upgrade -y && rosdep update
 
 # Install packages required to run the demo
 RUN apt-get install -y --no-install-recommends \
-    ros-humble-moveit \
-    ros-humble-moveit-resources
+    ros-humble-moveit
 
 # Create Colcon workspace and clone the needed source code to run the demo
 RUN mkdir -p /root/isaac_moveit_tutorial_ws/src
 WORKDIR /root/isaac_moveit_tutorial_ws/src
 RUN git clone https://github.com/PickNikRobotics/topic_based_ros2_control.git
+
+WORKDIR /root/isaac_moveit_tutorial_ws/src
+RUN git clone https://github.com/ros-planning/moveit_resources.git -b humble
+
+WORKDIR /root/isaac_moveit_tutorial_ws/src
 COPY ./ moveit2_tutorials
+
 WORKDIR /root/isaac_moveit_tutorial_ws
 # hadolint ignore=SC1091
 RUN source /opt/ros/humble/setup.bash \
