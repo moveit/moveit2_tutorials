@@ -64,22 +64,18 @@ Step 1: Start
 Step 2: Generate Self-Collision Matrix
 --------------------------------------
 
-The default Self-Collision matrix generator can help reduce motion planning processing time
+The default Self-Collision matrix generator can help reduce motion planning time
 by disabling collision checking for pairs of links on the robot that are known to be safe.
 This is achieved by determining which pairs of links are always in collision, never in collision,
 in collision in the robot's default position, or adjacent to each other on the kinematic chain.
 
 You can set the sampling density, which determines how many random robot positions are checked for self-collision.
-Higher densities require more computation time, while lower densities may result in disabling pairs that should not be disabled.
-By default, the generator checks 10,000 random positions for self-collision.
+Although the generator checks 10,000 random positions by default, using maximum values for sampling density is 
+recommended to ensure more accurate results. The collision checking is done in parallel to reduce the overall 
+processing time for generating the collision matrix.
 
-To speed up collision checking, the processing is done in parallel.
-This reduces the overall processing time for generating the collision matrix.
-
-To generate the self-collision matrix, first select the **Self-Collisions** pane on the left-hand side of the MoveIt Setup Assistant.
-Here, you can adjust the self-collision sampling density to balance between computation time and accuracy of the results.
-
-Once you have selected the desired sampling density, click on the **Generate Collision Matrix** button to initiate the computation.
+To generate the collision matrix, select the **Self-Collisions** pane on the left-hand side of the MoveIt Setup Assistant 
+and adjust the self-collision sampling density. Then, click on the **Generate Collision Matrix** button to initiate the computation.
 The Setup Assistant will take a few seconds to compute the self-collision matrix, which involves checking for pairs 
 of links that can be safely disabled from collision checking.
 
