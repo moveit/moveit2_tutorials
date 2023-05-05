@@ -90,17 +90,17 @@ Links that are safe to disable are marked with a checkmark. You can manually adj
 Step 3: Add Virtual Joints
 --------------------------
 Virtual joints are used primarily to attach the robot to the world.
-For the Panda, we will define only one virtual joint attaching the *panda_link0*
-of the Panda to the *world* world frame. This virtual joint represents the motion of the base of the robot in a plane.
+For the Panda, we will define only one virtual joint attaching the ``panda_link0``
+of the Panda to the ``world`` frame. This virtual joint represents the motion of the base of the robot in a plane.
 
 
-* Click on the *Virtual Joints* pane selector. Click on *Add Virtual Joint*
+* Click on the *Virtual Joints* pane selector. Click on *Add Virtual Joint*.
 
-* Set the joint name as "virtual_joint"
+* Set the joint name as ``virtual_joint``.
 
-* Set the child link as "panda_link0" and the parent frame name as "world".
+* Set the child link as ``panda_link0`` and the parent frame name as ``world``.
 
-* Set the Joint Type as "fixed".
+* Set the Joint Type as ``fixed``.
 
 * Click *Save* and you should see this screen:
 
@@ -138,7 +138,7 @@ Add the arm group
 
 * We will first add Panda arm as a planning group
 
-  * Enter *Group Name* as **panda_arm**
+  * Enter *Group Name* as ``panda_arm``.
 
   * Choose *kdl_kinematics_plugin/KDLKinematicsPlugin* as the
     kinematics solver. *Note: if you have a custom robot and would
@@ -185,7 +185,7 @@ Add the gripper group
 
   * Click on the *Add Group* button.
 
-  * Enter *Group Name* as **hand**
+  * Enter *Group Name* as ``hand``.
 
   * Let *Kinematic Solver* stay at its default value; **None**.
 
@@ -193,7 +193,7 @@ Add the gripper group
 
   * Click on the *Add Links* button.
 
-  * Choose **panda_hand**, **panda_leftfinger**, and **panda_rightfinger** and add them
+  * Choose ``panda_hand``, ``panda_leftfinger``, and ``panda_rightfinger`` and add them
     to the list of *Selected Links* on the right hand side.
 
   * Click *Save*
@@ -230,7 +230,7 @@ Add *ready* pose for the arm
   how poses are associated with particular groups. You can save
   individual poses for each group.
 
-* Select the *panda_arm* and define a **ready** pose for it with the following joint values {0.0, -0.785, 0.0, -2.356, 0.0, 1.571, 0.785}.
+* Select the ``panda_arm`` and define a ``ready`` pose for it with the following joint values ``{0.0, -0.785, 0.0, -2.356, 0.0, 1.571, 0.785}``.
 
 * **IMPORTANT TIP**: Try to move all the joints around. If there is
   something wrong with the joint limits in your URDF, you should be able
@@ -239,24 +239,23 @@ Add *ready* pose for the arm
 .. image:: predefined_poses/setup_assistant_panda_predefined_arm_pose.png
    :width: 700px
 
-Add *open* and *close* poses for the gripper
+Add open and close poses for the gripper
 
-* Follow the same steps for defining a pose for the arm, but select the *hand* group. 
+* Follow the same steps for defining a pose for the arm, but select the ``hand`` group. 
 
-* Add an *open* pose for the hand group with value 0.035
+* Add an ``open`` pose for the ``hand`` group with joint value ``0.035``.
 
 .. image:: predefined_poses/setup_assistant_panda_predefined_hand_open_pose.png
    :width: 700px
 
-
-* Add a *close* pose for the hand with value 0.0
+* Add a ``close`` pose for the ``hand`` group with joint value ``0.0``.
 
 .. image:: predefined_poses/setup_assistant_panda_predefined_hand_close_pose.png
    :width: 700px
 
-Note: Only panda_finger_joint1 appears in the list as joint2 mimics its values.
+Note: Only ``panda_finger_joint1`` appears in the list as ``joint2`` mimics its values.
 
-After the previous steps, the following set of robot poses should be defined for the panda_arm and hand groups.
+After the previous steps, the following set of robot poses should be defined for the ``panda_arm`` and ``hand`` groups.
 
 .. image:: predefined_poses/setup_assistant_panda_predefined_poses_done.png
    :width: 700px
@@ -272,11 +271,11 @@ For example, end effectors can be used for attaching objects to the arm while ca
 
 * Click *Add End Effector*.
 
-* Choose **hand** as the *End Effector Name* for the gripper.
+* Choose ``hand`` as the *End Effector Name* for the gripper.
 
-* Select **hand** as the *End Effector Group*.
+* Select ``hand`` as the *End Effector Group*.
 
-* Select **panda_link8** as the *Parent Link* for this end-effector.
+* Select ``panda_link8`` as the *Parent Link* for this end-effector.
 
 * Leave *Parent Group* blank.
 
@@ -301,8 +300,8 @@ The ros2_control URDF Modification helps modify the robot URDF to work with
 `ros2_control <https://control.ros.org/master/index.html>`_.
 
 This modification adds tags for command and state interfaces for each joint in the defined move groups. 
-The command_interface tags define the types of commands that can be sent to control the joint.
-The state_interface tags define the types of state information that can be read from the joint.
+The ``command_interface`` tags define the types of commands that can be sent to control the joint.
+The ``state_interface`` tags define the types of state information that can be read from the joint.
 
 By default the MoveIt Setup Assistant assumes **position** command interface 
 and **position** and **velocity** state interfaces, and we will proceed with this setting. 
@@ -331,9 +330,9 @@ Add the arm controllers
 
 * Click on *Add Controller* and you should see the following screen:
 
-* We will first add Panda arm joint trajectory controller
+* We will first add Panda arm joint trajectory controller.
 
-* Enter *Controller Name* as **panda_arm_controller**
+* Enter *Controller Name* as ``panda_arm_controller``.
 
 * Choose **joint_trajectory_controller/JointTrajectoryController** as the controller type
 
@@ -344,7 +343,7 @@ Add the arm controllers
 
 * Now, click on Add Planning Group Joints.
 
-* Choose panda_arm planning group to add all the joints in that group to the arm controller.
+* Choose ``panda_arm`` planning group to add all the joints in that group to the arm controller.
 
 * Click *Save* to save the selected controller.
   
@@ -358,7 +357,7 @@ Add the hand controllers
 .. image:: ros2_controllers/setup_assistant_hand_ros2_controller_type.png
    :width: 700px
 
-* Then, add the joints using the hand move group and save the controller.
+* Then, add the joints using the ``hand`` move group and save the controller.
 
 .. image:: ros2_controllers/setup_assistant_hand_ros2_controller_group.png
    :width: 700px
@@ -371,7 +370,7 @@ After selecting the arm and hand controllers, the controllers list should be as 
 Step 10: MoveIt Controllers
 ---------------------------
 
-MoveIt requires trajectory controllers with a FollowJointTrajectoryAction interface for 
+MoveIt requires trajectory controllers with a ``FollowJointTrajectoryAction`` interface for 
 executing planned trajectories. This interface sends the generated trajectory to the robot ROS 2 Controllers.
 
 MoveIt Controllers pane can be used to auto-generate the controllers to be used by MoveIt controller manager. 
@@ -387,11 +386,11 @@ Add the arm MoveIt controllers
 
 * Click on Add Controller to create a new arm controller.
 
-* Enter Controller Name as panda_arm_controller
+* Enter Controller Name as ``panda_arm_controller``.
 
 * Choose **FollowJointTrajectory** Controller Type. 
 
-* Choose the controller joints with the panda_arm planning group.
+* Choose the controller joints with the ``panda_arm`` planning group.
 
 .. image:: moveit_controllers/setup_assistant_panda_arm_moveit_controller_type.png
    :width: 700px
@@ -401,7 +400,7 @@ Add the hand MoveIt controllers
 
 * Follow the same steps for the arm, but choose **Gripper Command** Controller Type. 
   
-* Add the joints using the hand move group and save the controller.
+* Add the joints using the ``hand`` move group and save the controller.
 
 .. image:: moveit_controllers/setup_assistant_hand_moveit_controller_type_gripper.png
    :width: 700px
@@ -428,9 +427,6 @@ To generate **point_cloud** configuration parameters:
    :width: 700px
 
 For more details about those parameters please refer to the `perception pipeline tutorial <https://moveit.picknik.ai/humble/doc/examples/perception_pipeline/perception_pipeline_tutorial.html>`_.
-
-
-
 
 Step 12: Launch Files
 ---------------------
@@ -499,7 +495,7 @@ Get Started with MoveIt Motion Planning using RViz
 
 Write Your First C++ MoveIt Application
 
-* Write your first C++ application using MoveIt with this `tutorial <https://moveit.picknik.ai/humble/doc/tutorials/your_first_project/your_first_project.html>`_, and familiarize yourself with the MoveGroupInterface and use it to plan, execute, and visualize motion plans for your robot from this `example <https://moveit.picknik.ai/humble/doc/examples/move_group_interface/move_group_interface_tutorial.html>`_. 
+* Write your first C++ application using MoveIt with this `tutorial <https://moveit.picknik.ai/humble/doc/tutorials/your_first_project/your_first_project.html>`_, and familiarize yourself with the ``MoveGroupInterface`` and use it to plan, execute, and visualize motion plans for your robot from this `example <https://moveit.picknik.ai/humble/doc/examples/move_group_interface/move_group_interface_tutorial.html>`_. 
 
 URDF vs SRDF: Understand the Differences
 
