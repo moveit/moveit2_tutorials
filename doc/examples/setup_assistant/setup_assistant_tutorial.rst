@@ -304,7 +304,7 @@ This modification adds tags for command and state interfaces for each joint in t
 The command_interface tags define the types of commands that can be sent to control the joint.
 The state_interface tags define the types of state information that can be read from the joint.
 
-By default the Setup Assistant assumes **position** command interface 
+By default the MoveIt Setup Assistant assumes **position** command interface 
 and **position** and **velocity** state interfaces, and we will proceed with this setting. 
 
 .. image:: ros2_control/setup_assistant_ros2_control_tags.png
