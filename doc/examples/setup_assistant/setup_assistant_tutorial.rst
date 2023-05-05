@@ -36,24 +36,24 @@ Step 1: Start
 
    ros2 launch moveit_setup_assistant setup_assistant.launch.py
 
-* This will bring up the start screen with two choices: *Create New
-  MoveIt Configuration Package* or *Edit Existing MoveIt
-  Configuration Package*.
+* This will bring up the start screen with two choices: **Create New
+  MoveIt Configuration Package** or **Edit Existing MoveIt
+  Configuration Package**.
 
-* Click on the *Create New MoveIt Configuration Package* button to
+* Click on the **Create New MoveIt Configuration Package** button to
   bring up the following screen:
 
 .. image:: setup_assistant_create_package.png
    :width: 700px
    :align: center
 
-* Click on the browse button and navigate to the *panda.urdf* file
+* Click on the **Browse** button and navigate to the *panda.urdf* file
   from the *moveit_resources_panda_description package* available in the following path: :: 
    
    ~/ws_moveit2/src/moveit_resources/panda_description/urdf/panda.urdf
    
    
-  Choose that file and then click *Load Files*. The
+  Choose that file and then click **Load Files**. The
   Setup Assistant will load the files (this might take a few seconds)
   and present you with this screen:
 
@@ -76,10 +76,10 @@ By default, the generator checks 10,000 random positions for self-collision.
 To speed up collision checking, the processing is done in parallel.
 This reduces the overall processing time for generating the collision matrix.
 
-**To generate the self-collision matrix**, first select the Self-Collisions pane on the left-hand side of the MoveIt Setup Assistant.
+To generate the self-collision matrix, first select the **Self-Collisions** pane on the left-hand side of the MoveIt Setup Assistant.
 Here, you can adjust the self-collision sampling density to balance between computation time and accuracy of the results.
 
-Once you have selected the desired sampling density, click on the Generate Collision Matrix button to initiate the computation.
+Once you have selected the desired sampling density, click on the **Generate Collision Matrix** button to initiate the computation.
 The Setup Assistant will take a few seconds to compute the self-collision matrix, which involves checking for pairs 
 of links that can be safely disabled from collision checking.
 
@@ -103,7 +103,7 @@ For the Panda, we will define only one virtual joint attaching the ``panda_link0
 of the Panda to the ``world`` frame. This virtual joint represents the motion of the base of the robot in a plane.
 
 
-* Click on the *Virtual Joints* pane selector. Click on *Add Virtual Joint*.
+* Click on the **Virtual Joints** pane selector. Click on **Add Virtual Joint**.
 
 * Set the joint name as ``virtual_joint``.
 
@@ -111,7 +111,7 @@ of the Panda to the ``world`` frame. This virtual joint represents the motion of
 
 * Set the Joint Type as ``fixed``.
 
-* Click *Save* and you should see this screen:
+* Click **Save** and you should see this screen:
 
 .. image:: setup_assistant_panda_virtual_joints.png
    :width: 700px
@@ -137,9 +137,9 @@ Move groups can also be represented by sets of links or joints corresponding on 
 For example, a move group might be defined to represent the gripper of a robot, 
 which would consist of all the links or joints necessary to move together to realize a gripper opening motion.
 
-* Click on the *Planning Groups* pane selector.
+* Click on the **Planning Groups** pane selector.
 
-* Click on *Add Group* and you should see the following screen:
+* Click on **Add Group** and you should see the following screen:
 
 .. image:: planning_groups/setup_assistant_panda_planning_groups.png
    :width: 700px
@@ -149,36 +149,36 @@ Add the arm group
 
 * We will first add Panda arm as a planning group
 
-  * Enter *Group Name* as ``panda_arm``.
+  * Enter **Group Name** as ``panda_arm``.
 
-  * Choose *kdl_kinematics_plugin/KDLKinematicsPlugin* as the
+  * Choose **kdl_kinematics_plugin/KDLKinematicsPlugin** as the
     kinematics solver. *Note: if you have a custom robot and would
     like a powerful custom IK solver, see* `Kinematics/IKFast <https://moveit.picknik.ai/humble/doc/examples/ikfast/ikfast_tutorial.html>`_
 
-  * Let *Kin. Search Resolution* and *Kin. Search Timeout* stay at
+  * Let **Kin. Search Resolution** and **Kin. Search Timeout** stay at
     their default values.
 
 .. image:: planning_groups/setup_assistant_panda_arm_group.png
    :width: 700px
    :align: center
 
-* Now, click on the *Add Joints* button. You will see a
-  list of joints on the left hand side. You need to choose all the
-  joints that belong to the arm and add them to the right hand
+* Now, click on the **Add Joints** button. You will see a
+  list of joints on the left-hand side. You need to choose all the
+  joints that belong to the arm and add them to the right-hand
   side. The joints are arranged in the order that they are stored in
   an internal tree structure. This makes it easy to select a serial
   chain of joints.
 
-  * Click on **virtual_joint**, hold down the **Shift**
+  * Click on ``virtual_joint``, hold down the **Shift**
     button on your keyboard and then click on the
-    *panda_joint8*. Now click on the **>** button to add these
-    joints into the list of selected joints on the right.
+    ``panda_joint8``. Now click on the **>** button to add these
+    joints into the list of **Selected Joints** on the right.
 
 .. image:: planning_groups/setup_assistant_panda_arm_group_joints.png 
    :width: 700px
    :align: center
 
-* Click *Save* to save the selected group.
+* Click **Save** to save the selected group.
 
 .. image:: planning_groups/setup_assistant_panda_arm_group_saved.png
    :width: 700px
@@ -191,23 +191,23 @@ Add the gripper group
    :align: center
 
 * We will also add a group for the end
-  effector. NOTE that you will do this using a different procedure
+  effector. Note that you will do this using a different procedure
   than adding the arm.
 
-  * Click on the *Add Group* button.
+  * Click on the **Add Group** button.
 
-  * Enter *Group Name* as ``hand``.
+  * Enter **Group Name** as ``hand``.
 
-  * Let *Kinematic Solver* stay at its default value; **None**.
+  * Let **Kinematic Solver** stay at its default value; **None**.
 
-  * Let *Kin. Search Resolution* and *Kin. Search Timeout* stay at their default values.
+  * Let **Kin. Search Resolution** and **Kin. Search Timeout** stay at their default values.
 
-  * Click on the *Add Links* button.
+  * Click on the **Add Links** button.
 
   * Choose ``panda_hand``, ``panda_leftfinger``, and ``panda_rightfinger`` and add them
-    to the list of *Selected Links* on the right hand side.
+    to the list of **Selected Links** on the right-hand side.
 
-  * Click *Save*
+  * Click **Save**.
 
 .. image:: planning_groups/setup_assistant_panda_hand_group_links.png 
    :width: 700px
@@ -220,7 +220,7 @@ After both arm and hand groups are added, the custom groups list should look as 
    :align: center
 
 
-Note: It is possible to build move groups composed of other move groups with the *Add Subgroup* option.
+Note: It is possible to build move groups composed of other move groups with the **Add Subgroup** option.
 This can be beneficial in cases where multiple move groups need to be controlled together, 
 such as when planning for simultaneous motions of multi-arm systems.
 
@@ -233,12 +233,12 @@ Later, the robot can be commanded to move to these poses using the MoveIt API.
 
 Add ready pose for the arm 
 
-* Click on the *Robot Poses* pane.
+* Click on the **Robot Poses** pane.
 
-* Click *Add Pose*. Choose a name for the pose. The robot will be in
+* Click **Add Pose**. Choose a name for the pose. The robot will be in
   its *Default* position where the joint values are set to the
   mid-range of the allowed joint value range. Move the individual
-  joints around until you are happy and then *Save* the pose. Note
+  joints around until you are happy and then **Save** the pose. Note
   how poses are associated with particular groups. You can save
   individual poses for each group.
 
@@ -279,17 +279,17 @@ Now that we have added the hand of the Panda as a move group, we can designate i
 as an end effector. By designating a group as an end effector, MoveIt can perform certain special operations on it.
 For example, end effectors can be used for attaching objects to the arm while carrying out pick-and-place tasks.
 
-* Click on the *End Effectors* pane.
+* Click on the **End Effectors** pane.
 
-* Click *Add End Effector*.
+* Click **Add End Effector**.
 
-* Choose ``hand`` as the *End Effector Name* for the gripper.
+* Choose ``hand`` as the **End Effector Name** for the gripper.
 
-* Select ``hand`` as the *End Effector Group*.
+* Select ``hand`` as the **End Effector Group**.
 
-* Select ``panda_link8`` as the *Parent Link* for this end-effector.
+* Select ``panda_link8`` as the **Parent Link** for this end-effector.
 
-* Leave *Parent Group* blank.
+* Leave **Parent Group** blank.
 
 .. image:: setup_assistant_panda_add_end_effector.png
    :width: 700px
@@ -297,7 +297,7 @@ For example, end effectors can be used for attaching objects to the arm while ca
 Step 7: Add Passive Joints
 --------------------------
 
-The passive joints pane is meant to allow specification of any passive
+The **Passive Joints** pane is meant to allow specification of any passive
 joints that might exist in a robot. These are joints that are unactuated, 
 meaning that they cannot be directly controlled. It's important to specify
 passive joints so that the planners are aware of their existence and can avoid
@@ -338,13 +338,13 @@ ROS 2 Controllers tab can be used to auto generate simulated controllers to actu
 
 Add the arm controllers
 
-* Click on the *ROS 2 Controllers* pane selector.
+* Click on the **ROS 2 Controllers** pane selector.
 
-* Click on *Add Controller* and you should see the following screen:
+* Click on **Add Controller** and you should see the following screen:
 
 * We will first add Panda arm joint trajectory controller.
 
-* Enter *Controller Name* as ``panda_arm_controller``.
+* Enter **Controller Name** as ``panda_arm_controller``.
 
 * Choose **joint_trajectory_controller/JointTrajectoryController** as the controller type
 
@@ -353,18 +353,18 @@ Add the arm controllers
 
 * Next, we need to choose this controller joints. Joints can be added individually or by move group.
 
-* Now, click on Add Planning Group Joints.
+* Now, click on **Add Planning Group Joints**.
 
 * Choose ``panda_arm`` planning group to add all the joints in that group to the arm controller.
 
-* Click *Save* to save the selected controller.
+* Click **Save** to save the selected controller.
   
 .. image:: ros2_controllers/setup_assistant_panda_arm_ros2_controller_group.png
    :width: 700px
 
 Add the hand controllers
 
-* Follow the same steps for the arm, but choose **position_controllers/GripperActionCOntroller** 
+* Follow the same steps for the arm, but choose **position_controllers/GripperActionController** 
 
 .. image:: ros2_controllers/setup_assistant_hand_ros2_controller_type.png
    :width: 700px
@@ -385,7 +385,7 @@ Step 10: MoveIt Controllers
 MoveIt requires trajectory controllers with a ``FollowJointTrajectoryAction`` interface for 
 executing planned trajectories. This interface sends the generated trajectory to the robot ROS 2 Controllers.
 
-MoveIt Controllers pane can be used to auto-generate the controllers to be used by MoveIt controller manager. 
+**MoveIt Controllers** pane can be used to auto-generate the controllers to be used by MoveIt controller manager. 
 Ensure that the controller names match those configured in the previous ROS 2 controller step. 
 The user interface for this step is similar to the previous one.
 
@@ -394,11 +394,11 @@ The user interface for this step is similar to the previous one.
 
 Add the arm MoveIt controllers
 
-* Click on the MoveIt Controllers pane selector.
+* Click on the **MoveIt Controllers** pane selector.
 
-* Click on Add Controller to create a new arm controller.
+* Click on **Add Controller** to create a new arm controller.
 
-* Enter Controller Name as ``panda_arm_controller``.
+* Enter **Controller Name** as ``panda_arm_controller``.
 
 * Choose **FollowJointTrajectory** Controller Type. 
 
@@ -443,7 +443,7 @@ For more details about those parameters please refer to the `perception pipeline
 Step 12: Launch Files
 ---------------------
 
-In the *Launch Files* pane, you can view the list of launch files that will be generated. 
+In the **Launch Files** pane, you can view the list of launch files that will be generated. 
 The default options are usually sufficient, but if you have specific requirements for your application, 
 you can make changes as necessary. Click on each of the files to view a summary of their functionality.
 
@@ -453,9 +453,9 @@ you can make changes as necessary. Click on each of the files to view a summary 
 Step 13: Add Author Information
 --------------------------------
 
-Catkin requires author information for publishing purposes
+Catkin requires author information for publishing purposes.
 
-* Click on the *Author Information* pane.
+* Click on the **Author Information** pane.
 * Enter your name and email address.
 
 
@@ -465,14 +465,14 @@ Step 14: Generate Configuration Files
 You are almost there. One last step - generating all the configuration
 files that you will need to start using MoveIt.
 
-* Click on the *Configuration Files* pane. Choose a location and
+* Click on the **Configuration Files** pane. Choose a location and
   name for the ROS 2 package that will be generated containing your new
-  set of configuration files. Click browse, select a good
+  set of configuration files. Click **Browse**, select a good
   location (for example, your ROS 2 workspace's src directory), click **Create Folder**, call it
-  "panda_moveit_config", and click **Open**. All generated files will go directly into the
+  ``panda_moveit_config``, and click **Open**. All generated files will go directly into the
   directory you have chosen.
 
-* Click on the *Generate Package* button. The Setup Assistant will
+* Click on the **Generate Package** button. The Setup Assistant will
   now generate a set of launch and config files into the
   directory of your choice. All the generated files will appear in the
   files to be generated tab and you can click on each of them for a
