@@ -7,10 +7,16 @@ MoveIt Setup Assistant
 
 Overview
 --------
-The MoveIt Setup Assistant is a graphical user interface for configuring any robot for use with MoveIt. Its primary function is generating a Semantic Robot Description Format (SRDF) file for your robot, which specifies additional information required by MoveIt such as planning groups, end-effectors, and various kinematic parameters. Additionally, it generates other necessary configuration files for use with the MoveIt pipeline.
+The MoveIt Setup Assistant is a graphical user interface for configuring any robot for use with MoveIt.
+Its primary function is generating a Semantic Robot Description Format (SRDF) file for your robot,
+which specifies additional information required by MoveIt such as planning groups, end-effectors, and various kinematic parameters.
+Additionally, it generates other necessary configuration files for use with the MoveIt pipeline.
 To use the MoveIt Setup Assistant, you will need to have a URDF file for your robot.
 
-Once you have a URDF file, you can open the MoveIt Setup Assistant and import your URDF. This tutorial will guide you through a series of steps to configure various aspects of your robot, such as defining its kinematic structure, specifying planning groups and end-effectors, and collision checking related setting. To learn more about the URDF and SRDF, you can refer to the `URDF_SRDF_Overview <https://moveit.picknik.ai/humble/doc/examples/urdf_srdf/urdf_srdf_tutorial.html#>`_ page.
+Once you have a URDF file, you can open the MoveIt Setup Assistant and import your URDF.
+This tutorial will guide you through a series of steps to configure various aspects of your robot,
+such as defining its kinematic structure, specifying planning groups and end-effectors, and collision checking related setting.
+To learn more about the URDF and SRDF, you can refer to the `URDF_SRDF_Overview <https://moveit.picknik.ai/humble/doc/examples/urdf_srdf/urdf_srdf_tutorial.html#>`_ page.
 
 Getting Started
 ---------------
@@ -74,14 +80,17 @@ This reduces the overall processing time for generating the collision matrix.
 Here, you can adjust the self-collision sampling density to balance between computation time and accuracy of the results.
 
 Once you have selected the desired sampling density, click on the Generate Collision Matrix button to initiate the computation.
-The Setup Assistant will take a few seconds to compute the self-collision matrix, which involves checking for pairs of links that can be safely disabled from collision checking.
+The Setup Assistant will take a few seconds to compute the self-collision matrix, which involves checking for pairs 
+of links that can be safely disabled from collision checking.
 
 .. image:: collision_matrix/setup_assistant_panda_collision_matrix.png
    :width: 700px
    :align: center
 
-Once the computation is complete, the results will be presented in the main table. The table shows the pairs of links that have been identified as either safe or unsafe to disable from collision checking.
-Links that are safe to disable are marked with a checkmark. You can manually adjust the checkmarks as needed to enable or disable self-collision checking for specific link pairs
+Once the computation is complete, the results will be presented in the main table.
+The table shows the pairs of links that have been identified as either safe or unsafe to disable from collision checking.
+Links that are safe to disable are marked with a checkmark. You can manually adjust the checkmarks as needed to 
+enable or disable self-collision checking for specific link pairs.
 
 .. image:: collision_matrix/setup_assistant_panda_collision_matrix_done.png
    :width: 700px
@@ -120,11 +129,13 @@ Planning groups in MoveIt semantically describe different parts of the robot,
 such as the arm or end effector, to facilitate motion planning.
 
 A move group can be configured to correspond to a specific kinematic chain on the robot,
-which is a set of links and joints that define a sequence of transformations from the base of the robot to the end effector.
-For example, a move group might be defined to represent the arm of a robot, which would consist of all the links and joints necessary to move the arm.
+which is a set of links and joints that define a sequence of transformations 
+from the base of the robot to the end effector. For example, a move group might be defined to 
+represent the arm of a robot, which would consist of all the links and joints necessary to move the arm.
 
 Move groups can also be represented by sets of links or joints corresponding on the robot.
-For example, a move group might be defined to represent the gripper of a robot, which would consist of all the links or joints necessary to move together to realize a gripper opening motion.
+For example, a move group might be defined to represent the gripper of a robot, 
+which would consist of all the links or joints necessary to move together to realize a gripper opening motion.
 
 * Click on the *Planning Groups* pane selector.
 
@@ -210,7 +221,8 @@ After both arm and hand groups are added, the custom groups list should look as 
 
 
 Note: It is possible to build move groups composed of other move groups with the *Add Subgroup* option.
-This can be beneficial in cases where multiple move groups need to be controlled together, such as when planning for simultaneous motions of multi-arm systems.
+This can be beneficial in cases where multiple move groups need to be controlled together, 
+such as when planning for simultaneous motions of multi-arm systems.
 
 Step 5: Add Robot Poses
 -----------------------
@@ -219,7 +231,7 @@ The Setup Assistant allows us to add predefined poses to the robot's configurati
 which can be useful for defining specific initial or ready poses. 
 Later, the robot can be commanded to move to these poses using the MoveIt API.
 
-Add *ready* pose for the arm 
+Add ready pose for the arm 
 
 * Click on the *Robot Poses* pane.
 
@@ -483,7 +495,8 @@ Start the MoveIt demo to interactively plan and execute motions for the robot in
 
    ros2 launch panda_moveit_config demo.launch.py
 
-Check out this `brief YouTube video <https://youtu.be/CXeF5KRa55Y>`_ for an example of how to command the robot to move to the pre-defined ready pose and execute open and close motions on the hand.
+Check out this `brief YouTube video <https://youtu.be/CXeF5KRa55Y>`_ for an example of how to 
+command the robot to move to the pre-defined ready pose and execute open and close motions on the hand.
 
 What's Next
 -----------
