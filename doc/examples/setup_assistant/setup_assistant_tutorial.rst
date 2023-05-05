@@ -23,11 +23,11 @@ Getting Started
 
 MoveIt and ROS 2
 
-* Follow the instructions for `installing MoveIt <https://moveit.picknik.ai/humble/doc/tutorials/getting_started/getting_started.html>`_
+* Follow the `instructions for installing MoveIt <https://moveit.picknik.ai/humble/doc/tutorials/getting_started/getting_started.html>`_
   first if you have not already done that.
 
 * We use the `moveit_resources_panda_description <https://github.com/ros-planning/moveit_resources/tree/humble/panda_description/urdf>`_
-  package for Humble, which was already included in your workspace if you followed the previous step.
+  package for Humble. This package should already be included in your workspace if you've completed the MoveIt installation instructions.
 
 Step 1: Start
 -------------
