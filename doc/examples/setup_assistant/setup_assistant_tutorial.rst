@@ -94,10 +94,11 @@ enable or disable self-collision checking for specific link pairs.
 
 Step 3: Add Virtual Joints
 --------------------------
-Virtual joints are used primarily to attach the robot to the world.
-For the Panda, we will define only one virtual joint attaching the ``panda_link0``
-of the Panda to the ``world`` frame. This virtual joint represents the motion of the base of the robot in a plane.
-
+Virtual joints are primarily used to connect robots to the world.
+In the case of the Panda arm, which is a fixed base manipulator, defining a fixed virtual joint
+is optional. However, we will define a ``fixed`` virtual joint that attaches the ``panda_link0``
+of the arm to the ``world`` frame. This virtual joint signifies that the base of the arm
+remains stationary in the world frame.
 
 * Click on the **Virtual Joints** pane selector. Click on **Add Virtual Joint**.
 
@@ -113,10 +114,11 @@ of the Panda to the ``world`` frame. This virtual joint represents the motion of
    :width: 700px
    :align: center
 
-The virtual joint feature is especially useful when we have a robot that is attached to a mobile base,
-such as a mobile manipulator. In such cases, the virtual joint allows us to model the motion
-of the robot's base, which is important for motion planning and control.
-
+Note: Virtual joints are particularly beneficial for robots with mobile bases,
+such as mobile manipulators. They enable modeling the motion of the robot's base,
+which is essential for motion planning and control. For instance, a virtual planar
+joint can be used to connect the robot base frame to the odometry frame,
+effectively representing the robot's movement in the environment.
 
 Step 4: Add Planning Groups
 ---------------------------
