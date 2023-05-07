@@ -431,7 +431,9 @@ In case of **sensors_3d.yaml** was not needed, choose **None** and proceed to th
 .. image:: perception/setup_assistant_panda_3d_perception.png
    :width: 700px
 
-To generate **point_cloud** configuration parameters:
+To generate **point_cloud** configuration parameters, see the following example:
+
+NOTE: this configuration is not valid for the Panda robot arm because it does not have a ``head_mounted_kinect`` camera.
 
 .. image:: perception/setup_assistant_panda_3d_perception_point_cloud.png
    :width: 700px
