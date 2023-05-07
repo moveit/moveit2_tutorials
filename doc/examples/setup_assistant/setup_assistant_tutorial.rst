@@ -304,7 +304,7 @@ result in invalid plans. The Panda robot arm does not have any passive joints so
 Step 8: ros2_control URDF Modification
 --------------------------------------
 
-The ros2_control URDF Modification helps modify the robot URDF to work with
+The **ros2_control URDF Modification** helps modify the robot URDF to work with
 `ros2_control <https://control.ros.org/master/index.html>`_.
 
 This modification adds tags for command and state interfaces for each joint in the defined move groups.
