@@ -476,8 +476,8 @@ files that you will need to start using MoveIt.
   now generate a set of launch and config files into the
   directory of your choice. All the generated files will appear in the
   files to be generated tab and you can click on each of them for a
-  description of what they do. For more details on the configuration files,
-  refer to :doc:`the documentation </doc/examples/examples>`.
+  description of what they do. For more information on the generated files,
+  see :doc:`the Configuration section in the documentation </doc/examples/examples>`.
 
 .. image:: setup_assistant_done.png
    :width: 700px
