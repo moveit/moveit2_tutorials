@@ -23,11 +23,11 @@ Getting Started
 
 MoveIt and ROS 2
 
-* Follow the `instructions for installing MoveIt <https://moveit.picknik.ai/humble/doc/tutorials/getting_started/getting_started.html>`_
+* Follow the :doc:`instructions for installing MoveIt </doc/tutorials/getting_started/getting_started>`
   first if you have not already done that.
 
 * We use the `moveit_resources_panda_description <https://github.com/ros-planning/moveit_resources/tree/humble/panda_description/urdf>`_
-  package for Humble. This package should already be included in your workspace if you've completed the MoveIt installation instructions.
+  package. This package should already be included in your workspace if you've completed the MoveIt installation instructions.
 
 Step 1: Start
 -------------
@@ -48,11 +48,11 @@ Step 1: Start
    :align: center
 
 * Click on the **Browse** button and navigate to the *panda.urdf* file
-  from the *moveit_resources_panda_description package* available in the following path: :: 
-   
+  from the *moveit_resources_panda_description package* available in the following path: ::
+
    ~/ws_moveit2/src/moveit_resources/panda_description/urdf/panda.urdf
-   
-   
+
+
   Choose that file and then click **Load Files**. The
   Setup Assistant will load the files (this might take a few seconds)
   and present you with this screen:
@@ -70,13 +70,13 @@ This is achieved by determining which pairs of links are always in collision, ne
 in collision in the robot's default position, or adjacent to each other on the kinematic chain.
 
 You can set the sampling density, which determines how many random robot positions are checked for self-collision.
-Although the generator checks 10,000 random positions by default, using maximum values for sampling density is 
-recommended to ensure more accurate results. The collision checking is done in parallel to reduce the overall 
+Although the generator checks 10,000 random positions by default, using maximum values for sampling density is
+recommended to ensure more accurate results. The collision checking is done in parallel to reduce the overall
 processing time for generating the collision matrix.
 
-To generate the collision matrix, select the **Self-Collisions** pane on the left-hand side of the MoveIt Setup Assistant 
+To generate the collision matrix, select the **Self-Collisions** pane on the left-hand side of the MoveIt Setup Assistant
 and adjust the self-collision sampling density. Then, click on the **Generate Collision Matrix** button to initiate the computation.
-The Setup Assistant will take a few seconds to compute the self-collision matrix, which involves checking for pairs 
+The Setup Assistant will take a few seconds to compute the self-collision matrix, which involves checking for pairs
 of links that can be safely disabled from collision checking.
 
 .. image:: collision_matrix/setup_assistant_panda_collision_matrix.png
@@ -85,7 +85,7 @@ of links that can be safely disabled from collision checking.
 
 Once the computation is complete, the results will be presented in the main table.
 The table shows the pairs of links that have been identified as either safe or unsafe to disable from collision checking.
-Links that are safe to disable are marked with a checkmark. You can manually adjust the checkmarks as needed to 
+Links that are safe to disable are marked with a checkmark. You can manually adjust the checkmarks as needed to
 enable or disable self-collision checking for specific link pairs.
 
 .. image:: collision_matrix/setup_assistant_panda_collision_matrix_done.png
@@ -121,16 +121,16 @@ of the robot's base, which is important for motion planning and control.
 Step 4: Add Planning Groups
 ---------------------------
 
-Planning groups in MoveIt semantically describe different parts of the robot, 
+Planning groups in MoveIt semantically describe different parts of the robot,
 such as the arm or end effector, to facilitate motion planning.
 
 A move group can be configured to correspond to a specific kinematic chain on the robot,
-which is a set of links and joints that define a sequence of transformations 
-from the base of the robot to the end effector. For example, a move group might be defined to 
+which is a set of links and joints that define a sequence of transformations
+from the base of the robot to the end effector. For example, a move group might be defined to
 represent the arm of a robot, which would consist of all the links and joints necessary to move the arm.
 
 Move groups can also be represented by sets of links or joints corresponding on the robot.
-For example, a move group might be defined to represent the gripper of a robot, 
+For example, a move group might be defined to represent the gripper of a robot,
 which would consist of all the links or joints necessary to move together to realize a gripper opening motion.
 
 * Click on the **Planning Groups** pane selector.
@@ -148,8 +148,8 @@ Add the arm group
   * Enter **Group Name** as ``panda_arm``.
 
   * Choose **kdl_kinematics_plugin/KDLKinematicsPlugin** as the
-    kinematics solver. *Note: if you have a custom robot and would
-    like a powerful custom IK solver, see* `Kinematics/IKFast <https://moveit.picknik.ai/humble/doc/examples/ikfast/ikfast_tutorial.html>`_
+    kinematics solver. Note: if you have a custom robot and would
+    like a powerful custom IK solver, see :doc:`IKFast Kinematics SolverIKFast </doc/examples/ikfast/ikfast_tutorial>` and :doc:`TRAC-IK Kinematics Solver </doc/examples/trac_ik/trac_ik_tutorial>`.
 
   * Let **Kin. Search Resolution** and **Kin. Search Timeout** stay at
     their default values.
@@ -170,7 +170,7 @@ Add the arm group
     ``panda_joint8``. Now click on the **>** button to add these
     joints into the list of **Selected Joints** on the right.
 
-.. image:: planning_groups/setup_assistant_panda_arm_group_joints.png 
+.. image:: planning_groups/setup_assistant_panda_arm_group_joints.png
    :width: 700px
    :align: center
 
@@ -187,8 +187,8 @@ Add the gripper group
    :align: center
 
 * We will also add a group for the end
-  effector. Note that the end effector is not made of links attached in a serial chain. 
-  Therefore, the group's **Kinematic Solver** should be set to **None**. 
+  effector. Note that the end effector is not made of links attached in a serial chain.
+  Therefore, the group's **Kinematic Solver** should be set to **None**.
 
   * Click on the **Add Group** button.
 
@@ -205,11 +205,11 @@ Add the gripper group
 
   * Click **Save**.
 
-.. image:: planning_groups/setup_assistant_panda_hand_group_links.png 
+.. image:: planning_groups/setup_assistant_panda_hand_group_links.png
    :width: 700px
    :align: center
 
-After both arm and hand groups are added, the custom groups list should look as follows. 
+After both arm and hand groups are added, the custom groups list should look as follows.
 
 .. image:: planning_groups/setup_assistant_panda_planning_groups_done.png
    :width: 700px
@@ -217,17 +217,17 @@ After both arm and hand groups are added, the custom groups list should look as 
 
 
 Note: It is possible to build move groups composed of other move groups with the **Add Subgroup** option.
-This can be beneficial in cases where multiple move groups need to be controlled together, 
+This can be beneficial in cases where multiple move groups need to be controlled together,
 such as when planning for simultaneous motions of multi-arm systems.
 
 Step 5: Add Robot Poses
 -----------------------
 
-The Setup Assistant allows us to add predefined poses to the robot's configuration, 
-which can be useful for defining specific initial or ready poses. 
+The Setup Assistant allows us to add predefined poses to the robot's configuration,
+which can be useful for defining specific initial or ready poses.
 Later, the robot can be commanded to move to these poses using the MoveIt API.
 
-Add ready pose for the arm 
+Add ready pose for the arm
 
 * Click on the **Robot Poses** pane.
 
@@ -249,7 +249,7 @@ Add ready pose for the arm
 
 Add open and close poses for the gripper
 
-* Follow the same steps for defining a pose for the arm, but select the ``hand`` group. 
+* Follow the same steps for defining a pose for the arm, but select the ``hand`` group.
 
 * Add an ``open`` pose for the ``hand`` group with joint value ``0.035``.
 
@@ -294,36 +294,36 @@ Step 7: Add Passive Joints
 --------------------------
 
 The **Passive Joints** pane is meant to allow specification of any passive
-joints that might exist in a robot. These are joints that are unactuated, 
+joints that might exist in a robot. These are joints that are unactuated,
 meaning that they cannot be directly controlled. It's important to specify
 passive joints so that the planners are aware of their existence and can avoid
-planning for them. If the planners do not know about the passive joints, they 
+planning for them. If the planners do not know about the passive joints, they
 might try to plan trajectories that involve moving the passive joints, which would
 result in invalid plans. The Panda robot arm does not have any passive joints so we will skip this step.
 
 Step 8: ros2_control URDF Modification
 --------------------------------------
 
-The ros2_control URDF Modification helps modify the robot URDF to work with 
+The ros2_control URDF Modification helps modify the robot URDF to work with
 `ros2_control <https://control.ros.org/master/index.html>`_.
 
-This modification adds tags for command and state interfaces for each joint in the defined move groups. 
+This modification adds tags for command and state interfaces for each joint in the defined move groups.
 The ``command_interface`` tags define the types of commands that can be sent to control the joint.
 The ``state_interface`` tags define the types of state information that can be read from the joint.
 
-By default the MoveIt Setup Assistant assumes **position** command interface 
-and **position** and **velocity** state interfaces, and we will proceed with this setting. 
+By default the MoveIt Setup Assistant assumes **position** command interface
+and **position** and **velocity** state interfaces, and we will proceed with this setting.
 
 .. image:: ros2_control/setup_assistant_ros2_control_tags.png
    :width: 700px
 
-If necessary, select the desired command or state interfaces for your robot joints and 
+If necessary, select the desired command or state interfaces for your robot joints and
 then click the **Add Interface** button.
 
 Step 9: ROS 2 Controllers
 -------------------------
 
-ROS 2 Control is a framework for real-time control of robots, 
+ROS 2 Control is a framework for real-time control of robots,
 designed to manage and simplify the integration of new robot hardware.
 For more details, please look at `ros2_control <https://control.ros.org/master/index.html>`_ documentation.
 
@@ -354,13 +354,13 @@ Add the arm controllers
 * Choose ``panda_arm`` group from the **Available Groups** tab and add it to the **Selected Groups**.
 
 * Click **Save** to save the selected controller.
-  
+
 .. image:: ros2_controllers/setup_assistant_panda_arm_ros2_controller_group.png
    :width: 700px
 
 Add the hand controllers
 
-* Follow the same steps for the arm, but choose **position_controllers/GripperActionController** 
+* Follow the same steps for the arm, but choose **position_controllers/GripperActionController**
 
 .. image:: ros2_controllers/setup_assistant_hand_ros2_controller_type.png
    :width: 700px
@@ -380,11 +380,11 @@ After selecting the arm and hand controllers, the controllers list should be as 
 Step 10: MoveIt Controllers
 ---------------------------
 
-MoveIt requires trajectory controllers with a ``FollowJointTrajectoryAction`` interface for 
+MoveIt requires trajectory controllers with a ``FollowJointTrajectoryAction`` interface for
 executing planned trajectories. This interface sends the generated trajectory to the robot ROS 2 Controllers.
 
-**MoveIt Controllers** pane can be used to auto-generate the controllers to be used by the MoveIt controller manager. 
-Ensure that the controller names match those configured in the previous ROS 2 controller step. 
+**MoveIt Controllers** pane can be used to auto-generate the controllers to be used by the MoveIt controller manager.
+Ensure that the controller names match those configured in the previous ROS 2 controller step.
 The user interface for this step is similar to the previous one.
 
 .. image:: moveit_controllers/setup_assistant_moveit_controllers.png
@@ -398,7 +398,7 @@ Add the arm MoveIt controllers
 
 * Enter **Controller Name** as ``panda_arm_controller``.
 
-* Choose **FollowJointTrajectory** Controller Type. 
+* Choose **FollowJointTrajectory** Controller Type.
 
 * Choose the controller joints with the ``panda_arm`` planning group.
 
@@ -408,13 +408,13 @@ Add the arm MoveIt controllers
 
 Add the hand MoveIt controllers
 
-* Follow the same steps for the arm, but choose **Gripper Command** Controller Type. 
-  
+* Follow the same steps for the arm, but choose **Gripper Command** Controller Type.
+
 * Add the joints using the ``hand`` move group and save the controller.
 
 .. image:: moveit_controllers/setup_assistant_hand_moveit_controller_type_gripper.png
    :width: 700px
-  
+
 After completing the previous steps, the MoveIt Controllers list for the arm and hand should appear as follows.
 
 .. image:: moveit_controllers/setup_assistant_moveit_controllers_done_gripper.png
@@ -423,7 +423,7 @@ After completing the previous steps, the MoveIt Controllers list for the arm and
 Step 11: Perception
 -------------------
 
-The Perception tab in the Setup Assistant is used to configure the settings 
+The Perception tab in the Setup Assistant is used to configure the settings
 for 3D sensors used by the robot. These settings are saved in a YAML configuration file named **sensors_3d.yaml**.
 
 In case of **sensors_3d.yaml** was not needed, choose **None** and proceed to the next step.
@@ -436,13 +436,13 @@ To generate **point_cloud** configuration parameters:
 .. image:: perception/setup_assistant_panda_3d_perception_point_cloud.png
    :width: 700px
 
-For more details about those parameters please refer to the `perception pipeline tutorial <https://moveit.picknik.ai/humble/doc/examples/perception_pipeline/perception_pipeline_tutorial.html>`_.
+For more details about those parameters please refer to the :doc:`Perception Pipeline tutorial </doc/examples/perception_pipeline/perception_pipeline_tutorial>`.
 
 Step 12: Launch Files
 ---------------------
 
-In the **Launch Files** pane, you can view the list of launch files that will be generated. 
-The default options are usually sufficient, but if you have specific requirements for your application, 
+In the **Launch Files** pane, you can view the list of launch files that will be generated.
+The default options are usually sufficient, but if you have specific requirements for your application,
 you can make changes as necessary. Click on each of the files to view a summary of their functionality.
 
 .. image:: setup_assistant_launch_files.png
@@ -474,7 +474,8 @@ files that you will need to start using MoveIt.
   now generate a set of launch and config files into the
   directory of your choice. All the generated files will appear in the
   files to be generated tab and you can click on each of them for a
-  description of what they do.
+  description of what they do. For more details on the configuration files,
+  refer to :doc:`the documentation </doc/examples/examples>`.
 
 .. image:: setup_assistant_done.png
    :width: 700px
@@ -489,11 +490,11 @@ To build only the generated panda_moveit_config package and run the demo, follow
    colcon build --packages-select panda_moveit_config
    source install/setup.bash
 
-Start the MoveIt demo to interactively plan and execute motions for the robot in RViz. :: 
+Start the MoveIt demo to interactively plan and execute motions for the robot in RViz. ::
 
    ros2 launch panda_moveit_config demo.launch.py
 
-Check out this `brief YouTube video <https://youtu.be/CXeF5KRa55Y>`_ for an example of how to 
+Check out this `brief YouTube video <https://youtu.be/CXeF5KRa55Y>`_ for an example of how to
 command the robot to move to the pre-defined ready pose and execute open and close motions on the hand.
 
 What's Next
@@ -501,20 +502,20 @@ What's Next
 
 Get Started with MoveIt Motion Planning using RViz
 
-* Learn how to use the generated configuration files to plan and visualize motion with MoveIt in RViz. 
-  Check out the `MoveIt Quickstart in Rviz tutorial <https://moveit.picknik.ai/humble/doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial.html>`_ for a step-by-step guide.
+* Learn how to use the generated configuration files to plan and visualize motion with MoveIt in RViz.
+  Check out the :doc:`MoveIt Quickstart in Rviz tutorial </doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial>` for a step-by-step guide.
 
 Write Your First C++ MoveIt Application
 
-* Write your first C++ application using MoveIt with `this tutorial <https://moveit.picknik.ai/humble/doc/tutorials/your_first_project/your_first_project.html>`_, 
-  and familiarize yourself with the ``MoveGroupInterface`` and use it to plan, execute, and visualize motion plans for your robot from `this example <https://moveit.picknik.ai/humble/doc/examples/move_group_interface/move_group_interface_tutorial.html>`_. 
+* Write your first C++ application using MoveIt with :doc:`this tutorial </doc/tutorials/your_first_project/your_first_project>`,
+  and familiarize yourself with the ``MoveGroupInterface`` and use it to plan, execute, and visualize motion plans for your robot from :doc:`this example </doc/examples/move_group_interface/move_group_interface_tutorial>`.
 
 URDF vs SRDF: Understand the Differences
 
-* See the `URDF and SRDF <https://moveit.picknik.ai/humble/doc/examples/urdf_srdf/urdf_srdf_tutorial.html>`_ page for more
+* See the :doc:`URDF and SRDF </doc/examples/urdf_srdf/urdf_srdf_tutorial>` page for more
   details on the components of the URDF and SRDF mentioned in this tutorial.
 
-Setup IKFast Inverse Kinematics Solver
+Setup Custom Inverse Kinematics Solvers
 
-* A faster IK solver than the default KDL solver is available, but it requires some additional setup steps. 
-  For more information, refer to the `Kinematics/IKFast <https://moveit.picknik.ai/humble/doc/examples/ikfast/ikfast_tutorial.html>`_.
+* Faster IK solvers than the default KDL solver are available.
+  For more information, refer to the :doc:`IKFast Kinematics SolverIKFast </doc/examples/ikfast/ikfast_tutorial>` and :doc:`TRAC-IK Kinematics Solver </doc/examples/trac_ik/trac_ik_tutorial>`.
