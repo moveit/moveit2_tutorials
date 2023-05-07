@@ -498,7 +498,7 @@ Start the MoveIt demo to interactively plan and execute motions for the robot in
 
    ros2 launch panda_moveit_config demo.launch.py
 
-Check out this `brief YouTube video <https://youtu.be/CXeF5KRa55Y>`_ for an example of how to
+Check out this `brief YouTube video <https://youtu.be/f__udZlnTdM>`_ for an example of how to
 command the robot to move to the pre-defined ready pose and execute open and close motions on the hand.
 
 What's Next
