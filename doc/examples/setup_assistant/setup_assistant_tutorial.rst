@@ -47,8 +47,8 @@ Step 1: Start
    :width: 700px
    :align: center
 
-* Click on the **Browse** button and navigate to the *panda.urdf* file
-  from the *moveit_resources_panda_description package* available in the following path: ::
+* Click on the **Browse** button and navigate to the ``panda.urdf`` file
+  from the ``moveit_resources_panda_description package`` available in the following path: ::
 
    ~/ws_moveit2/src/moveit_resources/panda_description/urdf/panda.urdf
 
