@@ -8,6 +8,8 @@
 
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
+// Cost functions
+#include <moveit/cost_functions/cost_functions.hpp>
 // Warehouse
 #include <moveit/warehouse/planning_scene_storage.h>
 #include <moveit/warehouse/planning_scene_storage.h>
@@ -182,6 +184,9 @@ public:
   {
     // Set start state as current state
     planning_component_->setStartStateToCurrentState();
+
+    // Set cost function
+    planning_component_->setStateCostFunction(moveit::cost_functions::getClearanceCostFn());
 
     auto plan_solution = planning_component_->plan();
 
