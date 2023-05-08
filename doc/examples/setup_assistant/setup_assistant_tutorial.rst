@@ -233,12 +233,11 @@ Add ready pose for the arm
 
 * Click on the **Robot Poses** pane.
 
-* Click **Add Pose**. Choose a name for the pose. The robot will be in
-  its *Default* position where the joint values are set to the
-  mid-range of the allowed joint value range. Move the individual
-  joints around until you are happy and then **Save** the pose. Note
-  how poses are associated with particular groups. You can save
-  individual poses for each group.
+* Click **Add Pose**. Choose a name for the pose. The robot will be
+  in the default pose, with all joints set to their zero values.
+  Move the individual joints around until you are happy and then
+  **Save** the pose. Note how poses are associated with particular
+  groups. You can save individual poses for each group.
 
 * Select the ``panda_arm`` and define a ``ready`` pose for it with the following joint values ``{0.0, -0.785, 0.0, -2.356, 0.0, 1.571, 0.785}``.
 
@@ -263,7 +262,7 @@ Add open and close poses for the gripper
 .. image:: predefined_poses/setup_assistant_panda_predefined_hand_close_pose.png
    :width: 700px
 
-Note: Only ``panda_finger_joint1`` appears in the list as ``joint2`` mimics its values.
+Note: Only ``panda_finger_joint1`` appears in the list as ``panda_finger_joint2`` mimics its values.
 
 After the previous steps, the following set of robot poses should be defined for the ``panda_arm`` and ``hand`` groups.
 
@@ -306,7 +305,7 @@ result in invalid plans. The Panda robot arm does not have any passive joints so
 Step 8: ros2_control URDF Modification
 --------------------------------------
 
-The **ros2_control URDF Modification** helps modify the robot URDF to work with
+The **ros2_control URDF Modification** pane helps modify the robot URDF to work with
 `ros2_control <https://control.ros.org/master/index.html>`_.
 
 This modification adds tags for command and state interfaces for each joint in the defined move groups.
@@ -320,7 +319,7 @@ and **position** and **velocity** state interfaces, and we will proceed with thi
    :width: 700px
 
 If necessary, select the desired command or state interfaces for your robot joints and
-then click the **Add Interface** button.
+then click the **Add Interfaces** button.
 
 Step 9: ROS 2 Controllers
 -------------------------
@@ -488,7 +487,7 @@ Congratulations! You are now done generating the configuration files you need fo
 
 Build the panda_moveit_config package and run the demo
 ------------------------------------------------------
-To build only the generated panda_moveit_config package and run the demo, follow these steps. ::
+To build only the generated ``panda_moveit_config`` package and run the demo, follow these steps. ::
 
    cd ~/ws_moveit2
    colcon build --packages-select panda_moveit_config
@@ -499,7 +498,7 @@ Start the MoveIt demo to interactively plan and execute motions for the robot in
    ros2 launch panda_moveit_config demo.launch.py
 
 Check out this `brief YouTube video <https://youtu.be/f__udZlnTdM>`_ for an example of how to
-command the robot to move to the pre-defined ready pose and execute open and close motions on the hand.
+command the robot to move to the pre-defined ``ready`` pose and execute ``open`` and ``close`` motions on the hand.
 
 What's Next
 -----------
