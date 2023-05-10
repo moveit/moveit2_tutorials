@@ -9,13 +9,13 @@ Overview
 --------
 The MoveIt Setup Assistant is a graphical user interface for configuring any robot for use with MoveIt.
 Its primary function is generating a Semantic Robot Description Format (SRDF) file for your robot,
-which specifies additional information required by MoveIt such as planning groups, end-effectors, and various kinematic parameters.
+which specifies additional information required by MoveIt such as planning groups, end effectors, and various kinematic parameters.
 Additionally, it generates other necessary configuration files for use with the MoveIt pipeline.
 To use the MoveIt Setup Assistant, you will need to have a URDF file for your robot.
 
 Once you have a URDF file, you can open the MoveIt Setup Assistant and import your URDF.
 This tutorial will guide you through a series of steps to configure various aspects of your robot,
-such as defining its kinematic structure, specifying planning groups and end-effectors, and collision checking related setting.
+such as defining its kinematic structure, specifying planning groups and end effectors, and collision checking related settings.
 To learn more about the URDF and SRDF, you can refer to the `URDF SRDF Overview <https://moveit.picknik.ai/humble/doc/examples/urdf_srdf/urdf_srdf_tutorial.html#>`_ page.
 
 Getting Started
@@ -51,8 +51,6 @@ Step 1: Start
   from the ``moveit_resources_panda_description package`` available in the following path: ::
 
    ~/ws_moveit2/src/moveit_resources/panda_description/urdf/panda.urdf
-
-
   Choose that file and then click **Load Files**. The
   Setup Assistant will load the files (this might take a few seconds)
   and present you with this screen:
@@ -133,7 +131,7 @@ represent the arm of a robot, which would consist of all the links and joints ne
 
 Move groups can also be represented by sets of links or joints corresponding on the robot.
 For example, a move group might be defined to represent the gripper of a robot,
-which would consist of all the links or joints necessary to move together to realize a gripper opening motion.
+which would consist of all the links or joints necessary to move together to realize a gripper opening or closing motion.
 
 * Click on the **Planning Groups** pane selector.
 
@@ -225,7 +223,7 @@ such as when planning for simultaneous motions of multi-arm systems.
 Step 5: Add Robot Poses
 -----------------------
 
-The Setup Assistant allows us to add predefined poses to the robot's configuration,
+The Setup Assistant allows you to add predefined poses to the robot's configuration,
 which can be useful for defining specific initial or ready poses.
 Later, the robot can be commanded to move to these poses using the MoveIt API.
 
@@ -352,7 +350,7 @@ Add the arm controllers
 
 * Now, click on **Add Planning Group Joints**.
 
-* Choose ``panda_arm`` group from the **Available Groups** tab and add it to the **Selected Groups**.
+* Choose the ``panda_arm`` group from the **Available Groups** tab and add it to the **Selected Groups**.
 
 * Click **Save** to save the selected controller.
 
@@ -384,7 +382,7 @@ Step 10: MoveIt Controllers
 MoveIt requires trajectory controllers with a ``FollowJointTrajectoryAction`` interface for
 executing planned trajectories. This interface sends the generated trajectory to the robot ROS 2 Controllers.
 
-**MoveIt Controllers** pane can be used to auto-generate the controllers to be used by the MoveIt controller manager.
+The **MoveIt Controllers** pane can be used to auto-generate the controllers to be used by the MoveIt controller manager.
 Ensure that the controller names match those configured in the previous ROS 2 controller step.
 The user interface for this step is similar to the previous one.
 
