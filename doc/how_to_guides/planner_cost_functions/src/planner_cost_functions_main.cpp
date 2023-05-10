@@ -186,7 +186,17 @@ public:
     planning_component_->setStartStateToCurrentState();
 
     // Set cost function
-    planning_component_->setStateCostFunction(moveit::cost_functions::getClearanceCostFn());
+    planning_component_->setStateCostFunction(
+        [this, LOGGER](const moveit::core::RobotState& robot_state, const planning_interface::MotionPlanRequest& request,
+                       const planning_scene::PlanningSceneConstPtr& planning_scene) mutable {
+          // Publish robot state
+          // auto const ee_tip = robot_state.getJointModelGroup(PLANNING_GROUP)->getOnlyOneEndEffectorTip();
+          // this->getVisualTools().publishSphere(robot_state.getGlobalLinkTransform(ee_tip), rviz_visual_tools::GREEN,
+          // rviz_visual_tools::MEDIUM); this->getVisualTools().trigger();
+
+          auto clearance_cost_fn = moveit::cost_functions::getClearanceCostFn();
+          return clearance_cost_fn(robot_state, request, planning_scene);
+        });
 
     auto plan_solution = planning_component_->plan();
 
@@ -209,6 +219,11 @@ public:
     visual_tools_.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
     visual_tools_.deleteAllMarkers();
     visual_tools_.trigger();
+  }
+
+  moveit_visual_tools::MoveItVisualTools& getVisualTools()
+  {
+    return visual_tools_;
   }
 
 private:
