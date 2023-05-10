@@ -8,7 +8,15 @@
 
 # Script to call the isaac launch system (see python.sh in the ISAAC_SCRIPT_DIR)
 
-ISAAC_SCRIPT_DIRS=($(ls -d -- $HOME/.local/share/ov/pkg/isaac_sim-*))
+OV_PKG_DIR=$HOME/.local/share/ov/pkg
+ISAAC_SCRIPT_DIRS=()
+for ISAAC_SCRIPT_DIR in $(ls -d -- $OV_PKG_DIR/isaac_sim-*);
+do
+    ISAAC_VER=${ISAAC_SCRIPT_DIR//$OV_PKG_DIR\/isaac_sim-/};
+    if [[ "$ISAAC_VER" =~ ^(2022.2.0|2022.2.1)$ ]]; then
+        ISAAC_SCRIPT_DIRS+=($ISAAC_SCRIPT_DIR)
+    fi
+done
 
 # Prepend the path to all arguments passed in
 CUR_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
