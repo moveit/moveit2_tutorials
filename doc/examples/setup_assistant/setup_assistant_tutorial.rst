@@ -454,7 +454,7 @@ you can make changes as necessary. Click on each of the files to view a summary 
 Step 13: Add Author Information
 --------------------------------
 
-Catkin requires author information for publishing purposes.
+Colcon requires author information for publishing purposes.
 
 * Click on the **Author Information** pane.
 * Enter your name and email address.
