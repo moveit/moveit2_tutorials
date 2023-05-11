@@ -16,7 +16,7 @@ To use the MoveIt Setup Assistant, you will need to have a URDF file for your ro
 Once you have a URDF file, you can open the MoveIt Setup Assistant and import your URDF.
 This tutorial will guide you through a series of steps to configure various aspects of your robot,
 such as defining its kinematic structure, specifying planning groups and end effectors, and collision checking related settings.
-To learn more about the URDF and SRDF, you can refer to the `URDF SRDF Overview <https://moveit.picknik.ai/humble/doc/examples/urdf_srdf/urdf_srdf_tutorial.html#>`_ page.
+To learn more about the URDF and SRDF, you can refer to the :doc:`URDF and SRDF Overview </doc/examples/urdf_srdf/urdf_srdf_tutorial>` page.
 
 Getting Started
 ---------------
@@ -26,7 +26,7 @@ MoveIt and ROS 2
 * Follow the :doc:`instructions for installing MoveIt </doc/tutorials/getting_started/getting_started>`
   first if you have not already done that.
 
-* We use the `moveit_resources_panda_description <https://github.com/ros-planning/moveit_resources/tree/humble/panda_description/urdf>`_
+* We use the `moveit_resources_panda_description <https://github.com/ros-planning/moveit_resources/tree/humble/panda_description>`_
   package. This package should already be included in your workspace if you've completed the MoveIt installation instructions.
 
 Step 1: Start
