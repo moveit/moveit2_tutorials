@@ -528,7 +528,7 @@ URDF vs SRDF: Understand the Differences
 * See the :doc:`URDF and SRDF </doc/examples/urdf_srdf/urdf_srdf_tutorial>` page for more
   details on the components of the URDF and SRDF mentioned in this tutorial.
 
-Setup Custom Inverse Kinematics Solvers
+Explore available Inverse Kinematics Solvers
 
-* Faster IK solvers than the default KDL solver are available.
-  For more information, refer to the :doc:`IKFast Kinematics SolverIKFast </doc/examples/ikfast/ikfast_tutorial>` and :doc:`TRAC-IK Kinematics Solver </doc/examples/trac_ik/trac_ik_tutorial>`.
+* Alternative IK solvers to the default KDL solver are available.
+  For more information, refer to :doc:`IKFast </doc/examples/ikfast/ikfast_tutorial>` and `pick_ik <https://github.com/PickNikRobotics/pick_ik>`_.
