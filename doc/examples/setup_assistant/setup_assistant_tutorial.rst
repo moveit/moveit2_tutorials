@@ -179,15 +179,13 @@ Add the arm group
    :width: 700px
    :align: center
 
-Add the gripper group
+Add the end effector group
 
 .. image:: planning_groups/setup_assistant_panda_hand_group.png
    :width: 700px
    :align: center
 
-We will also add a group for the end effector.
-
- .. note:: The end effector is not made of links attached in a serial chain.
+.. note:: The end effector is not made of links attached in a serial chain.
    Therefore, the group's **Kinematic Solver** should be set to **None**.
 
 * Proceed with the following steps.
