@@ -3,10 +3,10 @@ Tutorials
 
 These tutorials will quickly get you using the MoveIt 2 Motion Planning Framework.
 
-.. image:: quickstart_in_rviz/rviz_plugin_head.png
+.. image:: quickstart_in_rviz/kinova_rviz_plugin_head.png
    :width: 700px
 
-In these tutorials, the Franka Emika Panda robot is used as a quick-start demo.
+In these tutorials, Kinova's Gen 3 7-DOF robot arm with a Robotiq 2f-85 gripper is used as a quick-start demo.
 
 .. toctree::
    :maxdepth: 1
