@@ -406,15 +406,23 @@ Add the arm MoveIt controllers
 
 * Choose the controller joints with the ``panda_arm`` planning group.
 
+* Save the controller.
+
 .. image:: moveit_controllers/setup_assistant_panda_arm_moveit_controller_type.png
    :width: 700px
 
 
 Add the hand MoveIt controllers
 
-* Follow the same steps for the arm, but choose **Gripper Command** Controller Type.
+* Click on **Add Controller** to create a new controller.
 
-* Add the joints using the ``hand`` move group and save the controller.
+* Enter **Controller Name** as ``hand_controller``.
+
+* Choose **Gripper Command** Controller Type.
+
+* Choose the controller joints with the ``hand`` planning group.
+
+* Save the controller.
 
 .. image:: moveit_controllers/setup_assistant_hand_moveit_controller_type_gripper.png
    :width: 700px
