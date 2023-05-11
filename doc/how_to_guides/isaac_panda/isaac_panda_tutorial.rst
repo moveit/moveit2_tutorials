@@ -136,5 +136,5 @@ This will open up RViz with the Panda robot using the ``TopicBasedSystem`` inter
 .. raw:: html
 
     <div style="position: relative; padding-bottom: 5%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
-        <iframe width="700px" height="400px" src="https://www.youtube.com/embed/af3zkAOWk2Q" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe width="700px" height="400px" src="https://www.youtube.com/embed/EiLaJ7e4M-4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
