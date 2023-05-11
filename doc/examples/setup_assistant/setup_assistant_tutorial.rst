@@ -147,9 +147,8 @@ Add the arm group
 
   * Enter **Group Name** as ``panda_arm``.
 
-  * Choose **kdl_kinematics_plugin/KDLKinematicsPlugin** as the
-    kinematics solver. Note: if you have a custom robot and would
-    like a powerful custom IK solver, see :doc:`IKFast Kinematics SolverIKFast </doc/examples/ikfast/ikfast_tutorial>` and :doc:`TRAC-IK Kinematics Solver </doc/examples/trac_ik/trac_ik_tutorial>`.
+  * Choose **kdl_kinematics_plugin/KDLKinematicsPlugin** as the kinematics solver, as this is the default for MoveIt.
+    Alternatively, you can use other plugins such as :doc:`IKFast </doc/examples/ikfast/ikfast_tutorial>` or `pick_ik <https://github.com/PickNikRobotics/pick_ik>`_.
 
   * Let **Kin. Search Resolution** and **Kin. Search Timeout** stay at
     their default values.
