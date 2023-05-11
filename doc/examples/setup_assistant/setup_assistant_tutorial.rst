@@ -112,11 +112,11 @@ remains stationary in the world frame.
    :width: 700px
    :align: center
 
-Note: Virtual joints are particularly beneficial for robots with mobile bases,
-such as mobile manipulators. They enable modeling the motion of the robot's base,
-which is essential for motion planning and control. For instance, a virtual planar
-joint can be used to connect the robot base frame to the odometry frame,
-effectively representing the robot's movement in the environment.
+.. note:: Virtual joints are particularly beneficial for robots with mobile bases,
+   such as mobile manipulators. They enable modeling the motion of the robot's base,
+   which is essential for motion planning and control. For instance, a virtual planar
+   joint can be used to connect the robot base frame to the odometry frame,
+   effectively representing the robot's movement in the environment.
 
 Step 4: Add Planning Groups
 ---------------------------
@@ -186,9 +186,12 @@ Add the gripper group
    :width: 700px
    :align: center
 
-* We will also add a group for the end
-  effector. Note that the end effector is not made of links attached in a serial chain.
-  Therefore, the group's **Kinematic Solver** should be set to **None**.
+We will also add a group for the end effector.
+
+ .. note:: The end effector is not made of links attached in a serial chain.
+   Therefore, the group's **Kinematic Solver** should be set to **None**.
+
+* Proceed with the following steps.
 
   * Click on the **Add Group** button.
 
@@ -216,9 +219,9 @@ After both arm and hand groups are added, the custom groups list should look as 
    :align: center
 
 
-Note: It is possible to build move groups composed of other move groups with the **Add Subgroup** option.
-This can be beneficial in cases where multiple move groups need to be controlled together,
-such as when planning for simultaneous motions of multi-arm systems.
+.. note:: It is possible to build move groups composed of other move groups with the **Add Subgroup** option.
+   This can be beneficial in cases where multiple move groups need to be controlled together,
+   such as when planning for simultaneous motions of multi-arm systems.
 
 Step 5: Add Robot Poses
 -----------------------
@@ -260,7 +263,7 @@ Add open and close poses for the gripper
 .. image:: predefined_poses/setup_assistant_panda_predefined_hand_close_pose.png
    :width: 700px
 
-Note: Only ``panda_finger_joint1`` appears in the list as ``panda_finger_joint2`` mimics its values.
+.. note:: Only ``panda_finger_joint1`` appears in the list as ``panda_finger_joint2`` mimics its values.
 
 After the previous steps, the following set of robot poses should be defined for the ``panda_arm`` and ``hand`` groups.
 
@@ -305,6 +308,8 @@ Step 8: ros2_control URDF Modification
 
 The **ros2_control URDF Modification** pane helps modify the robot URDF to work with
 `ros2_control <https://control.ros.org/master/index.html>`_.
+
+.. note:: If your robot's URDF/xacro already includes a ``ros2_control.xacro``, you can skip this step.
 
 This modification adds tags for command and state interfaces for each joint in the defined move groups.
 The ``command_interface`` tags define the types of commands that can be sent to control the joint.
@@ -432,7 +437,7 @@ In case of **sensors_3d.yaml** was not needed, choose **None** and proceed to th
 
 To generate **point_cloud** configuration parameters, see the following example:
 
-NOTE: this configuration is not valid for the Panda robot arm because it does not have a ``head_mounted_kinect`` camera.
+.. note:: This configuration is not valid for the Panda robot arm because it does not have a ``head_mounted_kinect`` camera.
 
 .. image:: perception/setup_assistant_panda_3d_perception_point_cloud.png
    :width: 700px
