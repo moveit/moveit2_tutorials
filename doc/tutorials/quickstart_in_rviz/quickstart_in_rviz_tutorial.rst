@@ -88,7 +88,7 @@ The display states for each of these visualizations can be toggled on and off us
 
 * Play with all these checkboxes to switch on and off different visualizations.
 
-.. image:: rviz_plugin_visualize_robots.png
+.. image:: kinova_rviz_plugin_visualize_robots.png
    :width: 700px
 
 Step 3: Interact with the Kinova Gen 3
@@ -150,12 +150,12 @@ You can use the **Joints** tab to move single joints and the redundant joints of
 .. raw:: html
 
     <video width="700px" controls="true" autoplay="true" loop="true">
-        <source src="../../../_static/videos/rviz_joints_nullspace.webm" type="video/webm">
+        <source src="../../../_static/videos/kinova_rviz_joints_nullspace.webm" type="video/webm">
         The joints moving while the end effector stays still
     </video>
 
 Step 4: Use Motion Planning with the Kinova Gen 3
--------------------------------------------
+-------------------------------------------------
 
 * Now, you can start motion planning with the Kinova Gen 3 in the MoveIt RViz Plugin.
 
@@ -188,7 +188,7 @@ You can visually introspect trajectories point by point in RViz.
 Note: Once you placed your end-effector to a new goal, be sure to run *Plan* before running *Play* -- otherwise you'll see the waypoints for the previous goal if available.
 
 
-.. image:: rviz_plugin_slider.png
+.. image:: kinova_rviz_plugin_plan_slider.png
    :width: 700px
 
 Plan Cartesian motions
@@ -196,10 +196,10 @@ Plan Cartesian motions
 
 If the "Use Cartesian Path" checkbox is activated, the robot will attempt to move the end effector linearly in cartesian space.
 
-.. image:: kinova_rviz_plan_free.png
+.. image:: kinova_rviz_plugin_plan_free.png
    :width: 700px
 
-.. image:: kinova_rviz_plan_cartesian.png
+.. image:: kinova_rviz_plugin_plan_cartesian.png
    :width: 700px
 
 
@@ -210,7 +210,7 @@ Clicking "Plan & Execute" or "Execute" after a successful plan will send the tra
 
 Initially, the default velocity and acceleration are scaled to 10% (``0.1``) of the robot's maximum. You can change these scaling factors in the Planning tab shown below, or change these default values in the ``moveit_config`` of your robot (in ``joint_limits.yaml``).
 
-.. image:: rviz_plugin_collision_aware_ik_checkbox.png
+.. image:: kinova_rviz_plugin_collision_aware_ik_checkbox.png
    :width: 700px
 
 
@@ -226,7 +226,7 @@ From "*Panels*" menu, select "*Add New Panels*". From the menu, select "*RvizVis
 .. image:: rviz_add_rviz_visual_tools.png
    :width: 400px
 
-.. image:: rviz_panels.png
+.. image:: kinova_rviz_panels.png
    :width: 700px
 
 Saving Your Configuration
