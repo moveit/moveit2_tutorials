@@ -51,6 +51,7 @@ Step 1: Start
   from the ``moveit_resources_panda_description package`` available in the following path: ::
 
    ~/ws_moveit2/src/moveit_resources/panda_description/urdf/panda.urdf
+
   Choose that file and then click **Load Files**. The
   Setup Assistant will load the files (this might take a few seconds)
   and present you with this screen:
