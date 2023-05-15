@@ -58,7 +58,7 @@ If you have the ``panda_moveit_config`` from the `ros-planning/moveit_resources 
 
 STOMP Parameters
 ----------------
-STOMP's parameters are configurable using the `stomp_planning.yaml <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/config/stomp_planning.yaml>`_. All parameters are defined by the `stomp_moveit.yaml <https://github.com/ros-planning/moveit2/blob/main/moveit_planners/stomp/res/stomp_moveit.yaml>`_ which is used as input for the `generate_parameter_library <https://github.com/PickNikRobotics/generate_parameter_library>`_:
+STOMP's parameters are configurable using the `stomp_planning.yaml <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/config/stomp_planning.yaml>`_. All parameters are defined by the `stomp_moveit.yaml <https://github.com/ros-planning/moveit2/blob/main/moveit_planners/stomp/res/stomp_moveit.yaml>`_ which is used as input for the `generate_parameter_library <https://github.com/PickNikRobotics/generate_parameter_library>`_. In that file you can also find more information like default values and allowable ranges:
 
 **Optimization Parameters**:
 
@@ -70,17 +70,17 @@ STOMP's parameters are configurable using the `stomp_planning.yaml <https://gith
 
 - *num_rollouts*: this is the number of noisy trajectories generated per iteration.
 
-- *max_rollouts*: the combined maximum number of old and new rollouts that are considered for optimization at any iteration.
+- *max_rollouts*: the combined maximum number of new and old carry-over rollouts that are considered for optimization at any iteration.
 
 - *exponentiated_cost_sensitivity:* a factor for tweaking the exponentated costs used for probability calculation. Higher factors make STOMP optimize and converge quicker with the drawback of reduced robustness and less repeatable results.
 
-- *control_cost_weight*: this is the percentage of the trajectory accelerations cost to be applied in the total cost calculation.
+- *control_cost_weight*: this is the factor of the control cost to be applied in the total cost calculation. STOMP attempts to minimize the sum of squared accelerations needed for assumed equal waypoint timesteps to smooth out the resulting trajectory.
 
 - *delta_t*: assumed time change between consecutive points.
 
 - *path_marker_topic*: Name of the topic RViZ subscribes to for optional path visualization. If it is not set, the path won't be visualized.
 
-Choosing parameters for STOMP requires lesser intuition than CHOMP. One can have the default parameters for STOMP and this works well in most environments. However you could increase the number of timesteps or number of rollouts for STOMP to perform well under more complicated environments.
+The provided default parameters should let STOMP perform well in most environments. However you could increase the number of timesteps or number of rollouts for STOMP to perform well under more complicated environments. This might require increasing the allowed planning time for STOMP to terminate.
 
 
 Difference between plans obtained by STOMP, CHOMP, and OMPL
@@ -100,7 +100,7 @@ Below is a short overview of planner qualities comparing these different approac
 
 - **Local Minima Handling**: STOMP can avoid local minima due to its stochastic nature. CHOMP, however, is prone to and often gets stuck in local minima, thereby failing to find an optimal solution. As per the STOMP and CHOMP papers, STOMP performs better in most cases.
 
-- **Planning Time**: The planning times of STOMP and CHOMP are comparable, even though CHOMP requires more iterations to achieve success than STOMP. This is mainly because each iteration of STOMP requires multiple trajectory cost evaluations, but can make larger steps in a more stable fashion than the CHOMP gradient update rule. OMPL algorithms tend to be quicker in general and will even take comparably less time in difficult planning scenarios while potentially compromising on qualities like path length or smoothness.
+- **Planning Time**: The planning times of STOMP and CHOMP are comparable, even though CHOMP requires more iterations to achieve success than STOMP. This is mainly because each iteration of STOMP requires multiple trajectory cost evaluations, but can make larger steps in a more stable fashion than the CHOMP gradient update rule. OMPL algorithms - at least the ones not optimizing the solution - tend to be quicker in general and will even take comparably less time in difficult planning scenarios while potentially compromising on qualities like path length or smoothness.
 
 - **Parameter Tuning**: CHOMP generally requires additional parameter tuning than STOMP to obtain a successful solutions.
   OMPL does not require a lot of parameter tuning; the default parameters do a good job in most situations.
