@@ -59,6 +59,8 @@ In this tutorial we have included a Python script that loads a Panda robot
 and builds an `OmniGraph <https://docs.omniverse.nvidia.com/prod_extensions/prod_extensions/ext_omnigraph.html>`_
 to publish and subscribe to the ROS topics used to control the robot.
 The OmniGraph also contains nodes to publish RGB and Depth images from the camera mounted on the hand of the Panda.
+The RGB image is published to the topic ``/rgb``, the camera info to ``/camera_info``, and the depth image to ``/depth``.
+The frame ID of the camera frame is ``/sim_camera``.
 To learn about configuring your Isaac Sim robot to communicate with ROS 2 please see the
 `Joint Control tutorial <https://docs.omniverse.nvidia.com/app_isaacsim/app_isaacsim/tutorial_ros2_manipulation.html>`_
 on Omniverse.
