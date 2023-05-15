@@ -169,8 +169,7 @@ int main(int argc, char** argv)
   auto servo_param_listener = std::make_unique<const servo::ParamListener>(node_);
 
   // Initialize the Servo C++ interface by passing a pointer to the node, the parameters, and the PSM
-	moveit_servo::Servo servo(node_, planning_scene_monitor, std::move(servo_param_listener));
-
+  moveit_servo::Servo servo(node_, planning_scene_monitor, std::move(servo_param_listener));
 
   // You can start Servo directly using the C++ interface. If launched using the alternative ServoNode, a ROS
   // service is used to start Servo. Before it is started, MoveIt Servo will not accept any commands or move the robot

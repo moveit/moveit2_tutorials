@@ -80,9 +80,17 @@ def generate_launch_description():
         executable="static_transform_publisher",
         name="static_transform_publisher",
         output="log",
-        arguments=["0.04", "0.0", "0.04", "0.0", "0.0", "0.0", "panda_hand", "sim_camera"],
+        arguments=[
+            "0.04",
+            "0.0",
+            "0.04",
+            "0.0",
+            "0.0",
+            "0.0",
+            "panda_hand",
+            "sim_camera",
+        ],
     )
-
 
     # Publish TF
     robot_state_publisher = Node(
