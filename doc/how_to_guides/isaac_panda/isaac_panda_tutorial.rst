@@ -82,7 +82,7 @@ Computer Setup
 
   cd moveit2_tutorials/doc/how_to_guides/isaac_panda
 
-4. Build the Docker image.
+4. Build the Docker image. This docker image also contains ``pytorch``.
 
 .. code-block:: bash
 
