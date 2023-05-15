@@ -4,7 +4,7 @@ STOMP Motion Planner
 .. image:: stomp.gif
    :width: 700px
 
-Stochastic Trajectory Optimization for Motion Planning (STOMP) is a probabilistic optimization framework (`Kalakrishnan et al. 2011<https://www.researchgate.net/publication/221078155_STOMP_Stochastic_trajectory_optimization_for_motion_planning>`_ ).
+Stochastic Trajectory Optimization for Motion Planning (STOMP) is a probabilistic optimization framework (`Kalakrishnan et al. 2011 <https://www.researchgate.net/publication/221078155_STOMP_Stochastic_trajectory_optimization_for_motion_planning>`_).
 STOMP produces smooth well-behaved collision free paths within reasonable planning times.
 The approach relies on generating randomized noisy trajectories to explore the space around an initial (possibly infeasible) reference trajectory to produce a newly combined trajectory with lower cost.
 Trajectory costs are computed by problem-specific cost functions that compute waypoint cost penalties for collisions, waypoint constraint violations, smoothness, and control properties.
