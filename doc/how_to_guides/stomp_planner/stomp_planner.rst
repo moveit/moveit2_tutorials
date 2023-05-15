@@ -6,7 +6,7 @@ STOMP Motion Planner
 
 Stochastic Trajectory Optimization for Motion Planning (STOMP) is a probabilistic optimization framework (`Kalakrishnan et al. 2011<https://www.researchgate.net/publication/221078155_STOMP_Stochastic_trajectory_optimization_for_motion_planning>`_ ).
 STOMP produces smooth well-behaved collision free paths within reasonable planning times.
-The approach relies on generating randomized noisy trajectories to explore the space around an initial (possibly infeasible) reference trajectory in order to produce a newly combined trajectory with lower cost.
+The approach relies on generating randomized noisy trajectories to explore the space around an initial (possibly infeasible) reference trajectory to produce a newly combined trajectory with lower cost.
 Trajectory costs are computed by problem-specific cost functions that compute waypoint cost penalties for collisions, waypoint constraint violations, smoothness, and control properties.
 The optimization process is run iteratively, so that the reference trajectory is continuously improved without introducing jumps.
 STOMP doesn't require gradient information for its optimization algorithm which even allows including cost functions that don't support computation of derivatives (e.g. costs corresponding to constraints and motor torques).
@@ -78,32 +78,32 @@ STOMP's parameters are configurable using the `stomp_planning.yaml <https://gith
 
 - *delta_t*: assumed time change between consecutive points.
 
-- *path_marker_topic*: Name of the topic RViZ subscribes to for path visualization.
+- *path_marker_topic*: Name of the topic RViZ subscribes to for optional path visualization. If it is not set, the path won't be visualized.
 
 Choosing parameters for STOMP requires lesser intuition than CHOMP. One can have the default parameters for STOMP and this works well in most environments. However you could increase the number of timesteps or number of rollouts for STOMP to perform well under more complicated environments.
 
 
-Difference between plans obtained by STOMP, CHOMP and OMPL
-----------------------------------------------------------
+Difference between plans obtained by STOMP, CHOMP, and OMPL
+-----------------------------------------------------------
 
-In this section a distinction is made between paths obtained from STOMP, CHOMP and OMPL. STOMP.
+In this section, a distinction is made between paths obtained from STOMP, CHOMP, and OMPL.
 Some of the MoveIt planners tend to produce jerky trajectories and may introduce unnecessary robot movements.
 A post processing smoothing step is usually needed.
-In contrast as STOMP tends to produce smooth well behaved motion plans in a short time, there is no need for a post processing smoothing step as required by some other motion planners.
+In contrast, STOMP tends to produce smooth well behaved motion plans in a short time, so there is no need for a post processing smoothing step as required by some other motion planners.
 
-CHOMP is an optimizing planner that optimizes a given initial naive trajectory based on convarient and functional gradient approaches.
+CHOMP is an optimizing planner that optimizes a given initial naive trajectory based on covariant and functional gradient approaches.
 
 OMPL is an open source library for sampling-based motion planning algorithms which primarily rely on random sampling and graph search.
 Sampling-based algorithms are probabilistically complete: a solution will be eventually found if one exists, however non-existence of a solution cannot be reported.
 These algorithms are efficient and usually find a solution quickly.
 Below is a short overview of planner qualities comparing these different approaches:
 
-- **Local Minima Handling**: STOMP can avoid local minima due to its stochastic nature. CHOMP however is prone to and often gets stuck in local minima, thereby failing to find an optimal solution. As per the STOMP and CHOMP papers, STOMP performs better in most cases.
+- **Local Minima Handling**: STOMP can avoid local minima due to its stochastic nature. CHOMP, however, is prone to and often gets stuck in local minima, thereby failing to find an optimal solution. As per the STOMP and CHOMP papers, STOMP performs better in most cases.
 
 - **Planning Time**: The planning times of STOMP and CHOMP are comparable, even though CHOMP requires more iterations to achieve success than STOMP. This is mainly because each iteration of STOMP requires multiple trajectory cost evaluations, but can make larger steps in a more stable fashion than the CHOMP gradient update rule. OMPL algorithms tend to be quicker in general and will even take comparably less time in difficult planning scenarios while potentially compromising on qualities like path length or smoothness.
 
 - **Parameter Tuning**: CHOMP generally requires additional parameter tuning than STOMP to obtain a successful solutions.
-  OMPL does not require a lot of parameter tuning, the default parameters do a good job in most situations.
+  OMPL does not require a lot of parameter tuning; the default parameters do a good job in most situations.
 
 - **Obstacle Handling**: For scenes containing obstacles, STOMP often is able to successfully avoid obstacles due to its stochastic nature.
   CHOMP however generates paths which do not prefer smooth trajectories by addition of some noise (*ridge_factor*) in the cost function for the dynamical quantities of the robot (like acceleration, velocity). OMPL also generates collision free smooth paths in the presence of obstacles.
