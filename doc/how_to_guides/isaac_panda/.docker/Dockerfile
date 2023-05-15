@@ -17,7 +17,6 @@ RUN apt-get update && apt-get upgrade -y && rosdep update
 # Install packages required to run the demo
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-humble-moveit \
-    ros-humble-moveit-resources \
     wget \
     python3-pip
 
@@ -37,6 +36,7 @@ RUN pip3 install torch torchvision
 RUN mkdir -p /root/isaac_moveit_tutorial_ws/src
 WORKDIR /root/isaac_moveit_tutorial_ws/src
 RUN git clone https://github.com/PickNikRobotics/topic_based_ros2_control.git
+RUN git clone https://github.com/ros-planning/moveit_resources.git -b humble
 COPY ./ moveit2_tutorials
 WORKDIR /root/isaac_moveit_tutorial_ws
 # hadolint ignore=SC1091
