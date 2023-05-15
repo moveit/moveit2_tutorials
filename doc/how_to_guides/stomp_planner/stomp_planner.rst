@@ -9,6 +9,7 @@ STOMP produces smooth well-behaved collision free paths within reasonable planni
 The approach relies on generating randomized noisy trajectories to explore the space around an initial (possibly infeasible) reference trajectory to produce a newly combined trajectory with lower cost.
 Trajectory costs are computed by problem-specific cost functions that compute waypoint cost penalties for collisions, waypoint constraint violations, smoothness, and control properties.
 The optimization process is run iteratively, so that the reference trajectory is continuously improved without introducing jumps.
+
 STOMP doesn't require gradient information for its optimization algorithm which even allows including cost functions that don't support computation of derivatives (e.g. costs corresponding to constraints and motor torques).
 The main advantage of STOMP is that it enables incorporating additional objective functions such as torque limits, energy and tool constraints.
 Support for passing custom cost functions via MoveIt's planning plugin API is currently being investigated.
@@ -49,6 +50,24 @@ Using STOMP with Your Robot
       delta_t: 0.1
 
 #. Configure MoveIt to load the STOMP planning pipeline by adding "stomp" to your MoveItConfiguration launch statement next to "ompl" and the other planners. You can find an example for this in the `demo.launch.py <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py#L42>`_ of the Panda config.
+
+Using STOMP's planner adapter
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+STOMP can also be used for smoothing and optimizing trajectories from other planner plugins using the `StompSmoothingAdapter` plugin.
+The only step needed is to add the plugin name `stomp_moveit/StompSmoothingAdapter` to the `request_adapters` parameter list configured for the planning pipeline: ::
+
+    request_adapters: >-
+      default_planner_request_adapters/AddTimeOptimalParameterization
+      default_planner_request_adapters/FixWorkspaceBounds
+      default_planner_request_adapters/FixStartStateBounds
+      default_planner_request_adapters/FixStartStateCollision
+      default_planner_request_adapters/FixStartStatePathConstraints
+      stomp_moveit/StompSmoothingAdapter
+
+In addition, STOMP parameters can be specified just like for the usual planning setup.
+An important detail is that now the parameter `num_iterations_after_valid` is used for specifying the smoothing steps since the input trajectory is already valid.
+It should therefore be larger than 0 to have an effect.
 
 Running the Demo
 ----------------
@@ -96,6 +115,7 @@ CHOMP is an optimizing planner that optimizes a given initial naive trajectory b
 OMPL is an open source library for sampling-based motion planning algorithms which primarily rely on random sampling and graph search.
 Sampling-based algorithms are probabilistically complete: a solution will be eventually found if one exists, however non-existence of a solution cannot be reported.
 These algorithms are efficient and usually find a solution quickly.
+
 Below is a short overview of planner qualities comparing these different approaches:
 
 - **Local Minima Handling**: STOMP can avoid local minima due to its stochastic nature. CHOMP, however, is prone to and often gets stuck in local minima, thereby failing to find an optimal solution. As per the STOMP and CHOMP papers, STOMP performs better in most cases.
