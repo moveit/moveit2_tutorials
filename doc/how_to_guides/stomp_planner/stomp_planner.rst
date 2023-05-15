@@ -22,14 +22,14 @@ You should also have gone through the steps in :doc:`Visualization with MoveIt R
 
 Prerequisites
 -------------
- 1. A recent build of MoveIt `main` for your ROS 2 distribution. The STOMP library is provided as a separate ROS package for supported ROS 2 distributions and should be installed by `rosdep`.
+ 1. A recent build of MoveIt ``main`` for your ROS 2 distribution. The STOMP library is provided as a separate ROS package for supported ROS 2 distributions and should be installed by ``rosdep``.
  2. To use STOMP with your robot it's best to start with a functional MoveIt configuration package for your robot. For testing, you can also start with the Panda robot from `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ like described in this tutorial.
 
 Using STOMP with Your Robot
 ---------------------------
-**Note:** if you are following this demo using the ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository, these steps are already done for you and you can skip steps 1-3 and you only need to do step 4.
+**Note:** if you are following this demo using the ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository, these steps are already done for you and you can jump to launching the demo for testing STOMP with RViZ.
 
-#. Simply add the `stomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/ros2/config/stomp_planning.yaml>`_ configuration file into the config directory of your MoveIt config package. It contains the plugin identifier, a planning pipeline adapter list, and the STOMP planning parameters. **Note:** The latest version of MoveIt Setup Assistant will also generate this launch file for you. The file should look like below: ::
+#. Simply add the `stomp_planning.yaml <https://github.com/ros-planning/panda_moveit_config/blob/ros2/config/stomp_planning.yaml>`_ configuration file into the config directory of your MoveIt config package. It contains the plugin identifier, a planning pipeline adapter list, and the STOMP planning parameters. The config file should look like example below: ::
 
     planning_plugin: stomp_moveit/StompPlanner
     request_adapters: >-
@@ -54,8 +54,8 @@ Using STOMP with Your Robot
 Using STOMP's planner adapter
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-STOMP can also be used for smoothing and optimizing trajectories from other planner plugins using the `StompSmoothingAdapter` plugin.
-The only step needed is to add the plugin name `stomp_moveit/StompSmoothingAdapter` to the `request_adapters` parameter list configured for the planning pipeline: ::
+STOMP can also be used for smoothing and optimizing trajectories from other planner plugins using the ``StompSmoothingAdapter`` plugin.
+The only step needed is to add the plugin name ``stomp_moveit/StompSmoothingAdapter`` to the ``request_adapters`` parameter list configured for the planning pipeline: ::
 
     request_adapters: >-
       default_planner_request_adapters/AddTimeOptimalParameterization
@@ -66,7 +66,7 @@ The only step needed is to add the plugin name `stomp_moveit/StompSmoothingAdapt
       stomp_moveit/StompSmoothingAdapter
 
 In addition, STOMP parameters can be specified just like for the usual planning setup.
-An important detail is that now the parameter `num_iterations_after_valid` is used for specifying the smoothing steps since the input trajectory is already valid.
+An important detail is that now the parameter ``num_iterations_after_valid`` is used for specifying the smoothing steps since the input trajectory is already valid.
 It should therefore be larger than 0 to have an effect.
 
 Running the Demo
