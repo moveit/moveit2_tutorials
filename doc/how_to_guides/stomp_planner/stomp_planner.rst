@@ -89,7 +89,7 @@ Difference between plans obtained by STOMP, CHOMP, and OMPL
 In this section, a distinction is made between paths obtained from STOMP, CHOMP, and OMPL.
 Some of the MoveIt planners tend to produce jerky trajectories and may introduce unnecessary robot movements.
 A post processing smoothing step is usually needed.
-In contrast, STOMP tends to produce smooth well behaved motion plans in a short time, so there is no need for a post processing smoothing step as required by some other motion planners.
+In contrast, STOMP tends to produce smooth well behaved motion plans in a short time, so there may be no need for a post processing smoothing step as required by some other motion planners.
 
 CHOMP is an optimizing planner that optimizes a given initial naive trajectory based on covariant and functional gradient approaches.
 
