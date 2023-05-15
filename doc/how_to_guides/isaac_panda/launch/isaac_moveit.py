@@ -105,7 +105,7 @@ prims.create_prim(
 prims.create_prim(
     "/mustard_bottle",
     "Xform",
-    position=np.array([0.2, -0.25, 0.10]),
+    position=np.array([0.0, 0.15, 0.12]),
     orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(1, 0, 0), -90)),
     usd_path=assets_root_path
     + "/Isaac/Props/YCB/Axis_Aligned_Physics/006_mustard_bottle.usd",
@@ -186,6 +186,9 @@ try:
                 ("setCamera.outputs:execOut", "cameraHelperRgb.inputs:execIn"),
                 ("setCamera.outputs:execOut", "cameraHelperInfo.inputs:execIn"),
                 ("setCamera.outputs:execOut", "cameraHelperDepth.inputs:execIn"),
+                ("Context.outputs:context", "cameraHelperRgb.inputs:context"),
+                ("Context.outputs:context", "cameraHelperInfo.inputs:context"),
+                ("Context.outputs:context", "cameraHelperDepth.inputs:context"),
                 (
                     "getRenderProduct.outputs:renderProductPath",
                     "cameraHelperRgb.inputs:renderProductPath",
@@ -229,7 +232,7 @@ set_target_prims(
     primPath="/ActionGraph/PublishJointState", targetPrimPaths=[FRANKA_STAGE_PATH]
 )
 
-# Hack to fix camera settings
+# Fix camera settings since the defaults in the realsense model are inaccurate
 realsense_prim = camera_prim = UsdGeom.Camera(
     stage.get_current_stage().GetPrimAtPath(CAMERA_PRIM_PATH)
 )
