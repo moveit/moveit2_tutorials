@@ -176,7 +176,9 @@ public:
       planning_component_->setGoal(planning_query_request_.goal_constraints);
     }
     else
+    {
       RCLCPP_ERROR(LOGGER, "Planning query request does not contain any goal constraints");
+    }
   }
 
   /// \brief Request a motion plan based on the assumption that a goal is set and print debug information.
@@ -185,17 +187,28 @@ public:
     // Set start state as current state
     planning_component_->setStartStateToCurrentState();
 
+    // Get start state
+    auto robot_start_state = planning_component_->getStartState();
+
+    // Get planning scene
+    auto planning_scene_monitor = moveit_cpp_->getPlanningSceneMonitorNonConst();
+    planning_scene_monitor->updateFrameTransforms();
+    auto planning_scene = [planning_scene_monitor] {
+      planning_scene_monitor::LockedPlanningSceneRO ls(planning_scene_monitor);
+      return planning_scene::PlanningScene::clone(ls);
+    }();
+
+    auto group_name = planning_query_request_.group_name;
     // Set cost function
     planning_component_->setStateCostFunction(
-        [this, LOGGER](const moveit::core::RobotState& robot_state, const planning_interface::MotionPlanRequest& request,
-                       const planning_scene::PlanningSceneConstPtr& planning_scene) mutable {
+        [robot_start_state, group_name, planning_scene](const std::vector<double>& state_vector) mutable {
           // Publish robot state
           // auto const ee_tip = robot_state.getJointModelGroup(PLANNING_GROUP)->getOnlyOneEndEffectorTip();
           // this->getVisualTools().publishSphere(robot_state.getGlobalLinkTransform(ee_tip), rviz_visual_tools::GREEN,
           // rviz_visual_tools::MEDIUM); this->getVisualTools().trigger();
-
-          auto clearance_cost_fn = moveit::cost_functions::getClearanceCostFn();
-          return clearance_cost_fn(robot_state, request, planning_scene);
+          auto clearance_cost_fn =
+              moveit::cost_functions::getClearanceCostFn(*robot_start_state, group_name, planning_scene);
+          return clearance_cost_fn(state_vector);
         });
 
     auto plan_solution = planning_component_->plan();
@@ -205,7 +218,6 @@ public:
     {
       // Visualize the trajectory in Rviz
       auto robot_model_ptr = moveit_cpp_->getRobotModel();
-      auto robot_start_state = planning_component_->getStartState();
       auto joint_model_group_ptr = robot_model_ptr->getJointModelGroup(PLANNING_GROUP);
 
       visual_tools_.publishTrajectoryLine(plan_solution.trajectory, joint_model_group_ptr);
