@@ -42,7 +42,7 @@ def launch_setup(context, *args, **kwargs):
         .planning_scene_monitor(
             publish_robot_description=True, publish_robot_description_semantic=True
         )
-        .planning_pipelines("ompl", ["ompl"])
+        .planning_pipelines("ompl", ["ompl", "stomp"])
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .moveit_cpp(
             os.path.join(
