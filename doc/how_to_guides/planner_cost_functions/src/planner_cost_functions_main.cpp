@@ -270,14 +270,8 @@ int main(int argc, char** argv)
 
   RCLCPP_INFO(LOGGER, "Starting MoveIt Tutorials...");
 
-  // Experiment 1 - Short free-space motion, Pilz is expected to create the fastest and shortest solution
-  RCLCPP_INFO(LOGGER, "Experiment 1 - Short free-space motion");
-
-  demo.setJointGoal(0.0, -0.8144019900299497, 0.0, -2.6488387075338133, 0.0, 1.8344367175038623, 0.7849999829891612);
-  demo.planAndPrint();
-
-  // Experiment 2 - Long motion with collisions, CHOMP and Pilz are likely to fail here due to the difficulty of the planning problem
-  RCLCPP_INFO(LOGGER, "Experiment 2 - Long motion with collisions");
+  // Experiment - Long motion with collisions, CHOMP and Pilz are likely to fail here due to the difficulty of the planning problem
+  RCLCPP_INFO(LOGGER, "Experiment - Long motion with collisions");
   demo.setQueryGoal();
   demo.planAndPrint();
 
