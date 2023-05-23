@@ -70,7 +70,7 @@ Computer Setup
 
 .. code-block:: bash
 
-  git clone https://github.com/ros-planning/moveit2_tutorials.git -b humble --depth 1
+  git clone https://github.com/ros-planning/moveit2_tutorials.git -b main --depth 1
 
 3. Go to the folder in which you cloned the tutorials and then switch to the following directory.
 
