@@ -29,6 +29,63 @@ static const std::vector<std::string> CONTROLLERS(1, "panda_arm_controller");
 namespace plannner_cost_fn_example
 {
 
+// Color to string
+[[nodiscard]] std::string colorToString(rviz_visual_tools::Colors rviz_color)
+{
+  std::string color_str = "unknown";
+  switch (rviz_color)
+  {
+    case rviz_visual_tools::Colors::BLACK:
+      color_str = "black";
+      break;
+    case rviz_visual_tools::Colors::BROWN:
+      color_str = "brown";
+      break;
+    case rviz_visual_tools::Colors::BLUE:
+      color_str = "blue";
+      break;
+    case rviz_visual_tools::Colors::CYAN:
+      color_str = "cyan";
+      break;
+    case rviz_visual_tools::Colors::GREY:
+      color_str = "grey";
+      break;
+    case rviz_visual_tools::Colors::DARK_GREY:
+      color_str = "dark grey";
+      break;
+    case rviz_visual_tools::Colors::GREEN:
+      color_str = "green";
+      break;
+    case rviz_visual_tools::Colors::LIME_GREEN:
+      color_str = "lime green";
+      break;
+    case rviz_visual_tools::Colors::MAGENTA:
+      color_str = "magenta";
+      break;
+    case rviz_visual_tools::Colors::ORANGE:
+      color_str = "orange";
+      break;
+    case rviz_visual_tools::Colors::PURPLE:
+      color_str = "purple";
+      break;
+    case rviz_visual_tools::Colors::RED:
+      color_str = "red";
+      break;
+    case rviz_visual_tools::Colors::PINK:
+      color_str = "pink";
+      break;
+    case rviz_visual_tools::Colors::WHITE:
+      color_str = "white";
+      break;
+    case rviz_visual_tools::Colors::YELLOW:
+      color_str = "yellow";
+      break;
+    default:
+      break;
+  }
+  return color_str;
+}
+
 /// \brief Utility class to create and interact with the parallel planning demo
 class Demo
 {
@@ -173,6 +230,21 @@ public:
     // Set goal state
     if (!planning_query_request_.goal_constraints.empty())
     {
+      for (auto constraint : planning_query_request_.goal_constraints)
+      {
+        for (auto joint_constraint : constraint.joint_constraints)
+        {
+          RCLCPP_INFO_STREAM(LOGGER, "position: " << joint_constraint.position << "\n"
+                                                  << "tolerance_above: " << joint_constraint.tolerance_above << "\n"
+                                                  << "tolerance_below: " << joint_constraint.tolerance_below << "\n"
+                                                  << "weight: " << joint_constraint.weight << "\n");
+        }
+        for (auto position_constraint : constraint.position_constraints)
+        {
+          RCLCPP_WARN(LOGGER, "Goal constraints contain position constrains, please use joint constraints only in this "
+                              "example.");
+        }
+      }
       planning_component_->setGoal(planning_query_request_.goal_constraints);
     }
     else
@@ -182,8 +254,11 @@ public:
   }
 
   /// \brief Request a motion plan based on the assumption that a goal is set and print debug information.
-  void planAndPrint()
+  void planAndVisualize(std::vector<std::pair<std::string, std::string>> pipeline_planner_pairs)
   {
+    visual_tools_.deleteAllMarkers();
+    visual_tools_.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+
     // Set start state as current state
     planning_component_->setStartStateToCurrentState();
 
@@ -211,25 +286,42 @@ public:
           return clearance_cost_fn(state_vector);
         });
 
-    auto plan_solution = planning_component_->plan();
+    moveit_cpp::PlanningComponent::PlanRequestParameters plan_request_parameters;
+    plan_request_parameters.load(node_);
+    RCLCPP_DEBUG_STREAM(
+        LOGGER, "Default plan request parameters loaded with --"
+                    << " planning_pipeline: " << plan_request_parameters.planning_pipeline << ','
+                    << " planner_id: " << plan_request_parameters.planner_id << ','
+                    << " planning_time: " << plan_request_parameters.planning_time << ','
+                    << " planning_attempts: " << plan_request_parameters.planning_attempts << ','
+                    << " max_velocity_scaling_factor: " << plan_request_parameters.max_velocity_scaling_factor << ','
+                    << " max_acceleration_scaling_factor: " << plan_request_parameters.max_acceleration_scaling_factor);
 
-    // Check if PlanningComponents succeeded in finding the plan
-    if (plan_solution)
+    std::vector<planning_interface::MotionPlanResponse> solutions;
+    solutions.reserve(pipeline_planner_pairs.size());
+    for (auto const& pipeline_planner_pair : pipeline_planner_pairs)
     {
-      // Visualize the trajectory in Rviz
-      auto robot_model_ptr = moveit_cpp_->getRobotModel();
-      auto joint_model_group_ptr = robot_model_ptr->getJointModelGroup(PLANNING_GROUP);
-
-      visual_tools_.publishTrajectoryLine(plan_solution.trajectory, joint_model_group_ptr);
-      visual_tools_.trigger();
+      plan_request_parameters.planning_pipeline = pipeline_planner_pair.first;
+      plan_request_parameters.planner_id = pipeline_planner_pair.second;
+      solutions.push_back(planning_component_->plan(plan_request_parameters, planning_scene));
     }
 
-    // Execute the trajectory and block until it's finished
-    moveit_cpp_->execute(plan_solution.trajectory, true /* blocking*/, CONTROLLERS);
-
-    // Start the next plan
-    visual_tools_.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
-    visual_tools_.deleteAllMarkers();
+    int color_index = 1;
+    auto robot_model_ptr = moveit_cpp_->getRobotModel();
+    auto joint_model_group_ptr = robot_model_ptr->getJointModelGroup(PLANNING_GROUP);
+    // Check if PlanningComponents succeeded in finding the plan
+    for (auto const& plan_solution : solutions)
+    {
+      if (plan_solution.trajectory)
+      {
+        RCLCPP_INFO_STREAM(LOGGER, plan_solution.planner_id.c_str()
+                                       << ": " << colorToString(rviz_visual_tools::Colors(color_index)));
+        // Visualize the trajectory in Rviz
+        visual_tools_.publishTrajectoryLine(plan_solution.trajectory, joint_model_group_ptr,
+                                            rviz_visual_tools::Colors(color_index));
+        color_index++;
+      }
+    }
     visual_tools_.trigger();
   }
 
@@ -273,8 +365,11 @@ int main(int argc, char** argv)
   // Experiment - Long motion with collisions, CHOMP and Pilz are likely to fail here due to the difficulty of the planning problem
   RCLCPP_INFO(LOGGER, "Experiment - Long motion with collisions");
   demo.setQueryGoal();
-  demo.planAndPrint();
 
+  demo.planAndVisualize(
+      { { "ompl", "RRTConnectkConfigDefault" }, { "ompl", "RRTstarkConfigDefault" }, { "stomp", "stomp" } });
+
+  demo.getVisualTools().prompt("Press 'next' in the RvizVisualToolsGui window to finish the demo");
   rclcpp::shutdown();
   return 0;
 }

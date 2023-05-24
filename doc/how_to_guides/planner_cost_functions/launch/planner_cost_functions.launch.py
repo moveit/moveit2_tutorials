@@ -84,7 +84,7 @@ def launch_setup(context, *args, **kwargs):
     rviz_config_file = os.path.join(
         get_package_share_directory("moveit2_tutorials"),
         "config",
-        "parallel_planning_config.rviz",
+        "cost_fn_config.rviz",
     )
 
     rviz_node = Node(
