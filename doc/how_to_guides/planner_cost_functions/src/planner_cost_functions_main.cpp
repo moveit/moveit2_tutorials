@@ -276,7 +276,7 @@ public:
     auto group_name = planning_query_request_.group_name;
     // Set cost function
     planning_component_->setStateCostFunction(
-        [robot_start_state, group_name, planning_scene](const std::vector<double>& state_vector) mutable {
+        [robot_start_state, group_name, planning_scene](const Eigen::VectorXd& state_vector) mutable {
           // Publish robot state
           // auto const ee_tip = robot_state.getJointModelGroup(PLANNING_GROUP)->getOnlyOneEndEffectorTip();
           // this->getVisualTools().publishSphere(robot_state.getGlobalLinkTransform(ee_tip), rviz_visual_tools::GREEN,
