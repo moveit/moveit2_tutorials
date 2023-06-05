@@ -128,5 +128,3 @@ package to respond to parameter changes at every solve. This means that you can 
     ros2 param set /rviz2 robot_description_kinematics.panda_arm.mode global
 
     ros2 param set /rviz2 robot_description_kinematics.panda_arm.minimal_displacement_weight 0.001
-
-
