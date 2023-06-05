@@ -72,6 +72,10 @@ You can use :doc:`MoveIt Setup Assistant </doc/examples/setup_assistant/setup_as
         gd_step_size: 0.0001
 
 
+.. note:: To gain insight into the integration of ``pick_ik`` with MoveIt, you can follow the
+    :doc:`MoveIt Quickstart in RViz </doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial>` tutorial and change the ``kinematics.yaml`` file located at
+    ``moveit_resources/panda_moveit_config/config`` directory to use the above configuration.
+
 Parameter Description
 ^^^^^^^^^^^^^^^^^^^^^
 
