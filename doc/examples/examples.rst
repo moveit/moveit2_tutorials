@@ -63,7 +63,6 @@ Before attempting to integrate a new robot with MoveIt 2, check whether your rob
    hand_eye_calibration/hand_eye_calibration_tutorial
    ikfast/ikfast_tutorial
    trac_ik/trac_ik_tutorial
-   pick_ik/pick_ik_tutorial
 
 Configuration
 -------------
