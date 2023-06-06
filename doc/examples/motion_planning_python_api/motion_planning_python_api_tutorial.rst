@@ -164,7 +164,7 @@ We will also instantiate a ``rclpy`` logger object: ::
         panda_arm = panda.get_planning_component("panda_arm")
         logger.info("MoveItPy instance created")
 
-Using the planning component represented by the ``panda_arm`` variable we can begin to perform motion planning.
+Using the planning component represented by the ``panda_arm`` variable, we can begin to perform motion planning.
 We also define a helper function for planning and executing motions: ::
 
         def plan_and_execute(
@@ -211,7 +211,7 @@ We start exploring the ``moveit_py`` motion planning API through executing a sin
 
 Single Pipeline Planning - Robot State
 ----------------------------------------------------
-Next we will plan to a robot state.
+Next, we will plan to a robot state.
 Such a method is quite flexible as we can alter the robot state configuration as we wish (e.g., through setting joint values).
 Here, we will use the ``set_start_state_to_current_state`` method to set the start state of the robot to its current state and the ``set_goal_state`` method to set the goal state to a random configuration.
 We will then plan to the goal state and execute the plan: ::

@@ -1,18 +1,18 @@
 Getting Started
 ===============
 
-Here we will setup your environment for best running the tutorials.
-This will create a Colcon workspace, download all of the latest MoveIt source code, and build everything from source to ensure you have the latest fixes and improvements.
+Here, we will setup your environment for best running the tutorials.
+This will create a colcon workspace, download all of the latest MoveIt source code, and build everything from source to ensure you have the latest fixes and improvements.
 
 Building all the source code of MoveIt can take 20-30 minutes, depending on the CPU speed and available RAM of your computer.
 If you are on a less performant system, or generally just want to get started quicker, check out our :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>`.
 
-Install ROS 2 and Colcon
+Install ROS 2 and colcon
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 MoveIt 2 currently supports multiple versions of ROS.
 Install whichever version you prefer.
 We primarily support ROS installed Ubuntu 22.04 but other methods and platforms may work with small changes to the instructions listed below.
-If you are just getting started we would recommend you use the latest stable version of ROS (Iron) on Ubuntu 22.04 for the most seamless experience.
+If you are just getting started, we recommend you use the latest stable version of ROS (Iron) on Ubuntu 22.04 for the most seamless experience.
 
 * `Rolling Ridley <https://docs.ros.org/en/rolling/Installation.html>`_ - Rolling Development Release
 * `Iron Irwini <https://docs.ros.org/en/iron/Installation.html>`_ - Latest Stable Release - May 2023
@@ -120,4 +120,4 @@ As a workaround, switch to Cyclone DDS.
 Next Step
 ^^^^^^^^^
 Nice job!
-Next we will :doc:`Visualize a robot with the interactive motion planning plugin for RViz </doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial>`
+Next, we will :doc:`Visualize a robot with the interactive motion planning plugin for RViz </doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial>`
