@@ -23,7 +23,7 @@ Installation
 
 From binaries
 ^^^^^^^^^^^^^
-Make sure your ROS2 installation is sourced and run the following command ::
+Make sure your ROS 2 installation is sourced and run the following command ::
 
     sudo apt install ros-$ROS_DISTRO-pick-ik
 
