@@ -42,7 +42,8 @@ def launch_setup(context, *args, **kwargs):
             file_path=os.path.join(
                 get_package_share_directory("moveit2_tutorials"),
                 "config",
-                "kinematics_pick_ik.yaml")
+                "kinematics_pick_ik.yaml",
+            )
         )
         .to_moveit_configs()
     )
@@ -82,8 +83,7 @@ def launch_setup(context, *args, **kwargs):
         executable="static_transform_publisher",
         name="static_transform_publisher",
         output="log",
-        arguments=["0.0", "0.0", "0.0", "0.0",
-                   "0.0", "0.0", "world", "panda_link0"],
+        arguments=["0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "world", "panda_link0"],
     )
 
     # Publish TF
