@@ -34,27 +34,27 @@
 
 /* Author: Ridhwan Luthra */
 
-#include <ros/ros.h>
-#include <sensor_msgs/PointCloud2.h>
+#include <geometry_msgs/msg/pose.hpp>
+#include <moveit/planning_scene_interface/planning_scene_interface.h>
+#include <moveit_msgs/msg/collision_object.hpp>
+#include <rclcpp/rclcpp.hpp>
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl/filters/passthrough.h>
 #include <pcl/filters/extract_indices.h>
 #include <pcl/features/normal_3d.h>
 #include <pcl/segmentation/sac_segmentation.h>
+#include <sensor_msgs/msg/point_cloud2.hpp>
+#include "sensor_msgs/point_cloud2_iterator.hpp"
+#include "std_msgs/msg/string.hpp"
 
-#include <moveit/planning_scene_interface/planning_scene_interface.h>
-#include <moveit_msgs/CollisionObject.h>
-
-class CylinderSegment
+class CylinderSegment : public rclcpp::Node
 {
 public:
-  CylinderSegment()
+  CylinderSegment() : rclcpp::Node("cylinder_segment")
   {
-    ros::NodeHandle nh;
     // Initialize subscriber to the raw point cloud
-    ros::Subscriber sub = nh.subscribe("/camera/depth_registered/points", 1, &CylinderSegment::cloudCB, this);
-    // Spin
-    ros::spin();
+    subscription_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
+        "/camera/depth_registered/points", 10, std::bind(&CylinderSegment::cloudCB, this, std::placeholders::_1));
   }
 
   /** \brief Given the parameters of the cylinder add the cylinder to the planning scene.
@@ -67,24 +67,24 @@ public:
     // Adding Cylinder to Planning Scene
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     // Define a collision object ROS message.
-    moveit_msgs::CollisionObject collision_object;
+    moveit_msgs::msg::CollisionObject collision_object;
     collision_object.header.frame_id = "camera_rgb_optical_frame";
     collision_object.id = "cylinder";
 
     // Define a cylinder which will be added to the world.
-    shape_msgs::SolidPrimitive primitive;
+    shape_msgs::msg::SolidPrimitive primitive;
     primitive.type = primitive.CYLINDER;
     primitive.dimensions.resize(2);
     /* Setting height of cylinder. */
-    primitive.dimensions[0] = cylinder_params->height;
+    primitive.dimensions[0] = cylinder_params_->height;
     /* Setting radius of cylinder. */
-    primitive.dimensions[1] = cylinder_params->radius;
+    primitive.dimensions[1] = cylinder_params_->radius;
 
     // Define a pose for the cylinder (specified relative to frame_id).
-    geometry_msgs::Pose cylinder_pose;
+    geometry_msgs::msg::Pose cylinder_pose;
     /* Computing and setting quaternion from axis angle representation. */
-    Eigen::Vector3d cylinder_z_direction(cylinder_params->direction_vec[0], cylinder_params->direction_vec[1],
-                                         cylinder_params->direction_vec[2]);
+    Eigen::Vector3d cylinder_z_direction(cylinder_params_->direction_vec[0], cylinder_params_->direction_vec[1],
+                                         cylinder_params_->direction_vec[2]);
     Eigen::Vector3d origin_z_direction(0., 0., 1.);
     Eigen::Vector3d axis;
     axis = origin_z_direction.cross(cylinder_z_direction);
@@ -96,9 +96,9 @@ public:
     cylinder_pose.orientation.w = cos(angle / 2);
 
     // Setting the position of cylinder.
-    cylinder_pose.position.x = cylinder_params->center_pt[0];
-    cylinder_pose.position.y = cylinder_params->center_pt[1];
-    cylinder_pose.position.z = cylinder_params->center_pt[2];
+    cylinder_pose.position.x = cylinder_params_->center_pt[0];
+    cylinder_pose.position.y = cylinder_params_->center_pt[1];
+    cylinder_pose.position.z = cylinder_params_->center_pt[2];
 
     // Add cylinder as collision object
     collision_object.primitives.push_back(primitive);
@@ -154,18 +154,21 @@ public:
       }
     }
     /* Store the center point of cylinder */
-    cylinder_params->center_pt[0] = (highest_point[0] + lowest_point[0]) / 2;
-    cylinder_params->center_pt[1] = (highest_point[1] + lowest_point[1]) / 2;
-    cylinder_params->center_pt[2] = (highest_point[2] + lowest_point[2]) / 2;
+    cylinder_params_->center_pt[0] = (highest_point[0] + lowest_point[0]) / 2;
+    cylinder_params_->center_pt[1] = (highest_point[1] + lowest_point[1]) / 2;
+    cylinder_params_->center_pt[2] = (highest_point[2] + lowest_point[2]) / 2;
     /* Store the height of cylinder */
-    cylinder_params->height =
+    cylinder_params_->height =
         sqrt(pow((lowest_point[0] - highest_point[0]), 2) + pow((lowest_point[1] - highest_point[1]), 2) +
              pow((lowest_point[2] - highest_point[2]), 2));
     // END_SUB_TUTORIAL
   }
 
   /** \brief Given a pointcloud extract the ROI defined by the user.
-      @param cloud - Pointcloud whose ROI needs to be extracted. */
+   *     <- @TODO 20230607 @130s doesn't see user input anywhere in this .cpp file?
+   *
+   *   @param cloud - Pointcloud whose ROI needs to be extracted.
+   **/
   void passThroughFilter(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud)
   {
     pcl::PassThrough<pcl::PointXYZRGB> pass;
@@ -269,7 +272,29 @@ public:
     extract.filter(*cloud);
   }
 
-  void cloudCB(const sensor_msgs::PointCloud2ConstPtr& input)
+private:
+  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscription_;
+
+  // BEGIN_SUB_TUTORIAL param_struct
+  // There are 4 fields and a total of 7 parameters used to define this.
+  struct AddCylinderParams
+  {
+    /* Radius of the cylinder. */
+    double radius;
+    /* Direction vector towards the z-axis of the cylinder. */
+    double direction_vec[3];
+    /* Center point of the cylinder. */
+    double center_pt[3];
+    /* Height of the cylinder. */
+    double height;
+  };
+  // Declare a variable of type AddCylinderParams and store relevant values from ModelCoefficients.
+  AddCylinderParams* cylinder_params_;
+  // END_SUB_TUTORIAL
+
+  bool points_not_found_ = true;
+
+  void cloudCB(const sensor_msgs::msg::PointCloud2::SharedPtr input)
   {
     // BEGIN_SUB_TUTORIAL callback
     //
@@ -304,10 +329,10 @@ public:
     // END_SUB_TUTORIAL
     if (cloud->points.empty())
     {
-      ROS_ERROR_STREAM_NAMED("cylinder_segment", "Can't find the cylindrical component.");
+      RCLCPP_ERROR(this->get_logger(), "cylinder_segment, can't find the cylindrical component.");
       return;
     }
-    if (points_not_found)
+    if (points_not_found_)
     {
       // BEGIN_TUTORIAL
       // CALL_SUB_TUTORIAL callback
@@ -321,11 +346,11 @@ public:
       // |br|
       // CALL_SUB_TUTORIAL param_struct
       /* Store the radius of the cylinder. */
-      cylinder_params->radius = coefficients_cylinder->values[6];
+      cylinder_params_->radius = coefficients_cylinder->values[6];
       /* Store direction vector of z-axis of cylinder. */
-      cylinder_params->direction_vec[0] = coefficients_cylinder->values[3];
-      cylinder_params->direction_vec[1] = coefficients_cylinder->values[4];
-      cylinder_params->direction_vec[2] = coefficients_cylinder->values[5];
+      cylinder_params_->direction_vec[0] = coefficients_cylinder->values[3];
+      cylinder_params_->direction_vec[1] = coefficients_cylinder->values[4];
+      cylinder_params_->direction_vec[2] = coefficients_cylinder->values[5];
       //
       // Extracting Location and Height
       // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -336,35 +361,14 @@ public:
       addCylinder();
       // CALL_SUB_TUTORIAL add_cylinder
       // END_TUTORIAL
-      points_not_found = false;
+      points_not_found_ = false;
     }
   }
-
-private:
-  // BEGIN_SUB_TUTORIAL param_struct
-  // There are 4 fields and a total of 7 parameters used to define this.
-  struct AddCylinderParams
-  {
-    /* Radius of the cylinder. */
-    double radius;
-    /* Direction vector towards the z-axis of the cylinder. */
-    double direction_vec[3];
-    /* Center point of the cylinder. */
-    double center_pt[3];
-    /* Height of the cylinder. */
-    double height;
-  };
-  // Declare a variable of type AddCylinderParams and store relevant values from ModelCoefficients.
-  AddCylinderParams* cylinder_params;
-  // END_SUB_TUTORIAL
-
-  bool points_not_found = true;
 };
 
 int main(int argc, char** argv)
 {
   // Initialize ROS
-  ros::init(argc, argv, "cylinder_segment");
-  // Start the segmentor
-  CylinderSegment();
+  rclcpp::init(argc, argv);
+  rclcpp::spin(std::make_shared<CylinderSegment>());
 }

@@ -1,13 +1,20 @@
+find_package(PCL REQUIRED)
+set(SUBTUTORIAL_DEPENDS
+  geometry_msgs
+  pcl_conversions
+  sensor_msgs
+)
+foreach(dep IN ITEMS ${SUBTUTORIAL_DEPENDS})
+  find_package(${dep} REQUIRED)
+endforeach()
+
+include_directories(include ${PCL_INCLUDE_DIRS})
+
 add_executable(cylinder_segment src/cylinder_segment.cpp)
-target_link_libraries(cylinder_segment ${catkin_LIBRARIES})
+ament_target_dependencies(cylinder_segment
+  ${SUBTUTORIAL_DEPENDS}
+  ${THIS_PACKAGE_INCLUDE_DEPENDS})
 
-add_executable(bag_publisher_maintain_time src/bag_publisher_maintain_time.cpp)
-target_link_libraries(bag_publisher_maintain_time ${catkin_LIBRARIES} ${Boost_LIBRARIES})
-
-install(
-TARGETS
-    bag_publisher_maintain_time
-    cylinder_segment
-DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-
-install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+install(DIRECTORY bags launch
+    DESTINATION share/${PROJECT_NAME}
+)
