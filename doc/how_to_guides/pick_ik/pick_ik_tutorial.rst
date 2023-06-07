@@ -5,11 +5,11 @@ pick_ik Kinematics Solver
 developed by PickNik Robotics. It is designed to provide robust and customizable IK solutions,
 offering a wide range of features.
 
-The solver in ``pick_ik`` is a reimplementation of ``bio_ik``, integrating a global optimizer and a local optimizer.
-The global optimizer utilizes evolutionary algorithms to explore alternative solutions within the solution space
-and identify global optima. Building upon the results obtained by the global optimizer, the local optimizer applies
-gradient descent for iterative refinement of the solution. It takes a potential optimum solution provided by the global
-optimizer as input and aims to improve its accuracy and ultimately convergence to the most optimum solution.
+The solver in `pick_ik <https://github.com/PickNikRobotics/pick_ik>`_ is a reimplementation of `bio_ik <https://github.com/TAMS-Group/bio_ik>`_,
+integrating a global optimizer and a local optimizer. The global optimizer utilizes evolutionary algorithms to explore
+alternative solutions within the solution space and identify global optima. Building upon the results obtained by the global optimizer,
+the local optimizer applies gradient descent for iterative refinement of the solution. It takes a potential optimum solution provided
+by the global optimizer as input and aims to improve its accuracy and ultimately convergence to the most optimum solution.
 
 Getting Started
 ---------------
