@@ -84,7 +84,7 @@ robot's config directory to use pick_ik as the IK solver. ::
       ros2 launch moveit2_tutorials demo_pick_ik.launch.py
 
    The command starts a demo similar to the one in :doc:`MoveIt Quickstart in RViz </doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial>`
-   tutorial. However, this demo specifically utilizes the robot kinematics configuration file ``kinematics_pik_ik.yaml``
+   tutorial. However, this demo specifically utilizes the robot kinematics configuration file ``kinematics_pick_ik.yaml``
    located at the ``moveit2_tutorials/doc/pick_ik/config`` directory.
 
 Parameter Description
