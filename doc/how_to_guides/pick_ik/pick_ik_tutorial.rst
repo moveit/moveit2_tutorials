@@ -90,7 +90,7 @@ robot's config directory to use pick_ik as the IK solver. ::
 Parameter Description
 ^^^^^^^^^^^^^^^^^^^^^
 
-For an exhaustive list of parameters, refer to the `parameters YAML file <../src/pick_ik_parameters.yaml>`__.
+For an exhaustive list of parameters, refer to the `parameters YAML file <https://github.com/PickNikRobotics/pick_ik/blob/main/src/pick_ik_parameters.yaml>`__.
 
 Some key parameters you may want to start with are:
 
