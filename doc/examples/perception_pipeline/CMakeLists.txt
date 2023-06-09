@@ -2,6 +2,7 @@ find_package(PCL REQUIRED)
 set(SUBTUTORIAL_DEPENDS
   geometry_msgs
   pcl_conversions
+  pcl_ros
   sensor_msgs
 )
 foreach(dep IN ITEMS ${SUBTUTORIAL_DEPENDS})

@@ -273,7 +273,7 @@ public:
   }
 
 private:
-  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscription_;
+  rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr subscription_;
 
   // BEGIN_SUB_TUTORIAL param_struct
   // There are 4 fields and a total of 7 parameters used to define this.
