@@ -6,7 +6,7 @@ panda_arm:
   kinematics_solver_attempts: 3 # Maximum number of solver attempts to find a solution
   mode: global # Solver mode 'global' enables evolutionary algorithm with gradient descent, and 'local' uses only gradient descent
   rotation_scale: 0.5 # A scale factor for the orientation cost, setting this to 0.0 means position only IK
-  position_threshold: 0.001 # Threshold for pose difference in meters to consider a solutoin valid
+  position_threshold: 0.001 # Threshold for position difference in meters to consider a solution valid
   orientation_threshold: 0.01 # Threshold for orientation difference in radians to consider a solution valid
   cost_threshold: 0.001 # Maximum cost function value for a valid solution (all cost functions must return a value lower than this)
   minimal_displacement_weight: 0.0 # Weight for joint angle difference cost function. Leave it low for far goals, and make higher for interpolation or jogging
