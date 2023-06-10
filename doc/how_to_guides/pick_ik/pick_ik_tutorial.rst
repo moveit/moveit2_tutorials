@@ -67,6 +67,7 @@ robot's config directory to use pick_ik as the IK solver. ::
         kinematics_solver_timeout: 0.05
         kinematics_solver_attempts: 3
         mode: global
+        position_scale: 1.0
         rotation_scale: 0.5
         position_threshold: 0.001
         orientation_threshold: 0.01
@@ -118,6 +119,12 @@ Some key parameters you may want to start with are:
   that are significantly far from the goal frame. To prevent issues with such jumps in solutions,
   these parameters define maximum translational and rotation displacement.
   We recommend setting this to values around a few centimeters and a few degrees for most applications.
+
+- ``position_scale``: If you want rotation-only IK, set this to 0.0. If you want to solve for a custom ``IKCostFn``
+  (which you provide in your ``setFromIK()`` call), set both ``position_scale`` and ``rotation_scale`` to 0.0.
+  You can also use any other value to weight the position goal; it's part of the cost function.
+  Note that any checks using ``position_threshold`` will be ignored if you use ``position_scale = 0.0``.
+
 
 - ``rotation_scale``: If you want position-only IK, set this to 0.0. If you want to treat position and orientation equally,
   set this to 1.0. You can also use any value in between; it's part of the cost function. Note that any checks using ``orientation_threshold``
