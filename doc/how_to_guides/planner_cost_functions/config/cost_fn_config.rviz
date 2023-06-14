@@ -163,6 +163,20 @@ Visualization Manager:
       Topic:
         Depth: 5
         Durability Policy: Volatile
+        History Policy: Keep All
+        Reliability Policy: Reliable
+        Value: /stomp_visualization
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: MarkerArray
+      Namespaces:
+        Path: true
+        Sphere: true
+        Text: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /plannner_cost_fn_example
