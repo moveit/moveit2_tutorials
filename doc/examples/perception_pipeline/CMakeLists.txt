@@ -11,10 +11,12 @@ endforeach()
 
 include_directories(include ${PCL_INCLUDE_DIRS})
 
-add_executable(cylinder_segment src/cylinder_segment.cpp)
-ament_target_dependencies(cylinder_segment
+set(APP_CYLINDER detect_and_add_cylinder_collision_object_demo)
+add_executable(${APP_CYLINDER} src/detect_and_add_cylinder_collision_object_demo.cpp)
+ament_target_dependencies(${APP_CYLINDER}
   ${SUBTUTORIAL_DEPENDS}
   ${THIS_PACKAGE_INCLUDE_DEPENDS})
+install(TARGETS ${APP_CYLINDER} RUNTIME DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY bags launch
     DESTINATION share/${PROJECT_NAME}

@@ -148,7 +148,8 @@ This tutorial uses ``moveit2_tutorials`` that depends on ``moveit_task_construct
 
 Running the Interface
 +++++++++++++++++++++
-Roslaunch the launch file to run the code directly from moveit_tutorials: ::
+
+Launch the prepared launch file in moveit_tutorials to see the planning scene integrating sample point cloud data into an octomap: ::
 
  ros2 launch moveit_tutorials obstacle_avoidance_demo.launch
 
@@ -157,7 +158,7 @@ If not, you may have run into a `known OpenGL rendering issue <http://wiki.ros.o
 
  export LIBGL_ALWAYS_SOFTWARE=1
 
-You can test obstacle avoidance for yourself by setting the goal state manually and then planning and executing. To learn how to do that look at :doc:`MoveIt Quickstart in RViz </doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial>`
+You can test obstacle avoidance with the generated octomap for yourself by setting the goal state manually and then planning and executing. To learn how to do that look at `MoveIt Quickstart in RViz </doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial>`_
 
 Detecting and Adding Object as Collision Object
 -----------------------------------------------
@@ -172,17 +173,10 @@ After running the code, you should be able to see something like this in RViz:
 
 Running the Code
 ++++++++++++++++
-Roslaunch the launch file to run the code directly from moveit_tutorials: ::
 
- roslaunch moveit_tutorials detect_and_add_cylinder_collision_object_demo.launch
+Keep the launch file from above running and run the code directly from moveit_tutorials: ::
 
-KNOWN ISSUE - You may see the following error when running the demo ::
-
-  ros.moveit_ros_planning.planning_scene_monitor: Transform error: Lookup would require extrapolation into the future.  Requested time 1527473962.793050157 but the latest data is at time 1527473962.776993978, when looking up transform from frame [panda_link2] to frame [camera_rgb_optical_frame]
-  ros.moveit_ros_perception: Transform cache was not updated. Self-filtering may fail.
-
-We are working on fixing it, it should not break the working of the demo.
-You can follow its status in the `issue tracker <https://github.com/ros-planning/moveit_tutorials/issues/192>`_
+  ros2 run moveit2_tutorials detect_and_add_cylinder_collision_object_demo
 
 Relevant Code
 +++++++++++++
@@ -202,4 +196,4 @@ The details regarding the implementation of each of the perception pipeline func
 
    </code>
 
-.. tutorial-formatter:: ./src/cylinder_segment.cpp
+.. tutorial-formatter:: ./src/detect_and_add_cylinder_collision_object_demo.cpp
