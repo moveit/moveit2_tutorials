@@ -185,7 +185,7 @@ int main(int argc, char** argv)
   // Sending Commands
   // ^^^^^^^^^^^^^^^^
   // For this demo, we will use a simple ROS timer to send joint and twist commands to the robot
-  rclcpp::TimerBase::SharedPtr timer = node_->create_wall_timer(50ms, publishCommands);
+  // rclcpp::TimerBase::SharedPtr timer = node_->create_wall_timer(50ms, publishCommands);
 
   // CALL_SUB_TUTORIAL publishCommands
 
