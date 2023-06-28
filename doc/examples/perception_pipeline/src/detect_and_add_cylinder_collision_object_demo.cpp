@@ -303,15 +303,19 @@ private:
     pcl::fromROSMsg(*input, *cloud);
     // Use a passthrough filter to get the region of interest.
     // The filter removes points outside the specified range.
+    RCLCPP_DEBUG(this->get_logger(), "Before passThroughFilter");
     passThroughFilter(cloud);
     // Compute point normals for later sample consensus step.
     pcl::PointCloud<pcl::Normal>::Ptr cloud_normals(new pcl::PointCloud<pcl::Normal>);
+    RCLCPP_DEBUG(this->get_logger(), "Before computeNormals");
     computeNormals(cloud, cloud_normals);
     // inliers_plane will hold the indices of the point cloud that correspond to a plane.
     pcl::PointIndices::Ptr inliers_plane(new pcl::PointIndices);
     // Detect and remove points on the (planar) surface on which the cylinder is resting.
+    RCLCPP_DEBUG(this->get_logger(), "Before removePlaneSurface");
     removePlaneSurface(cloud, inliers_plane);
     // Remove surface points from normals as well
+    RCLCPP_DEBUG(this->get_logger(), "Before extractNormals");
     extractNormals(cloud_normals, inliers_plane);
     // ModelCoefficients will hold the parameters using which we can define a cylinder of infinite length.
     // It has a public attribute |code_start| values\ |code_end| of type |code_start| std::vector<float>\ |code_end|\ .
@@ -325,11 +329,11 @@ private:
     // END_SUB_TUTORIAL
     if (cloud->points.empty() || coefficients_cylinder->values.size() != 7)
     {
-      RCLCPP_ERROR(this->get_logger(), "detect_and_add_cylinder_collision_object_demo, can't find the cylindrical component.");
+      RCLCPP_ERROR(this->get_logger(), "Can't find the cylindrical component. Returning the callback.");
       return;
     }
 
-    RCLCPP_INFO(this->get_logger(), "Detected Cylinder - Adding CollisionObject to PlanningScene");
+    RCLCPP_INFO(this->get_logger(), "Detected a cylinder - Adding CollisionObject to PlanningScene");
 
     // BEGIN_TUTORIAL
     // CALL_SUB_TUTORIAL callback

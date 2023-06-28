@@ -11,7 +11,14 @@ Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>`.
 
-Particularly, use ``rolling`` for this tutorial as some dependencies may not be available in ``humble`` or earlier (explained in `moveit2_tutorials!700 <https://github.com/ros-planning/moveit2_tutorials/pull/700#issuecomment-1581411304>`_).
+* NOTE-1: Particularly, use ``rolling`` for this tutorial as some dependencies may not be available in ``humble`` or earlier (explained in `moveit2_tutorials!700 <https://github.com/ros-planning/moveit2_tutorials/pull/700#issuecomment-1581411304>`_).
+* NOTE-2: As of June 2023, the tutorial code is based on unmerged software changes in the upstream repo. `moveit_resources!181 <https://github.com/ros-planning/moveit_resources/pull/181>`_. Before it's merged, you need to have its source and build by commands e.g. ::
+
+   cd ~/ws_moveit/src
+   git clone https://github.com/130s/moveit_resources.git -b feature-panda-moveit-perception
+   cd ~/ws_moveit
+   sudo apt update && rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
+   colcon build --mixin release
 
 Configuration
 -------------
@@ -27,20 +34,22 @@ To use the Occupancy Map Updater, it is only necessary to set the appropriate pa
 YAML Configuration file (Point Cloud)
 +++++++++++++++++++++++++++++++++++++
 
-We will have to generate a YAML configuration file for configuring the 3D sensors. Please see :panda_codedir:`this example file <config/sensors_kinect_pointcloud.yaml>` for processing point clouds.
+We will have to generate a YAML configuration file for configuring the 3D sensors. Please see :panda_codedir:`this example file <config/sensors_3d.yaml>` for processing point clouds.
 
-Save this file in the config folder in the robot's moveit_config package with name "sensors_kinect_pointcloud.yaml": ::
+Save this file in the config folder in the robot's moveit_config package with name "sensors_3d.yaml": ::
 
- sensors:
-   - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
-     point_cloud_topic: /camera/depth_registered/points
-     max_range: 5.0
-     point_subsample: 1
-     padding_offset: 0.1
-     padding_scale: 1.0
-     max_update_rate: 1.0
-     filtered_cloud_topic: filtered_cloud
-     ns: kinect
+  sensors:
+    - kinect_pointcloud
+  kinect_pointcloud:
+      filtered_cloud_topic: filtered_cloud
+      max_range: 5.0
+      max_update_rate: 1.0
+      ns: kinect
+      padding_offset: 0.1
+      padding_scale: 0.5
+      point_cloud_topic: /camera/depth_registered/points
+      point_subsample: 1
+      sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
 
 **The general parameters are:**
 
@@ -66,21 +75,25 @@ Save this file in the config folder in the robot's moveit_config package with na
 YAML Configuration file (Depth Map)
 +++++++++++++++++++++++++++++++++++
 
-We will have to generate a YAML configuration file for configuring the 3D sensors. An :panda_codedir:`example file for processing depth images <config/sensors_kinect_depthmap.yaml>` can be found in the panda_moveit_config repository as well.
-Save this file in the config folder in the robot's moveit_config package with name "sensors_kinect_depthmap.yaml": ::
+We will have to generate a YAML configuration file for configuring the 3D sensors. An :panda_codedir:`example file for processing depth images <config/sensors_3d.yaml>` can be found in the panda_moveit_config repository as well.
+Save this file in the config folder in the robot's moveit_config package with name "sensors_3d.yaml": ::
 
- sensors:
-   - sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater
-     image_topic: /camera/depth_registered/image_raw
-     queue_size: 5
-     near_clipping_plane_distance: 0.3
-     far_clipping_plane_distance: 5.0
-     shadow_threshold: 0.2
-     padding_scale: 4.0
-     padding_offset: 0.03
-     max_update_rate: 1.0
-     filtered_cloud_topic: filtered_cloud
-     ns: kinect
+  sensors:
+    - kinect_depthimage
+  kinect_depthimage:
+      far_clipping_plane_distance: 5.0
+      filtered_cloud_topic: filtered_cloud
+      image_topic: /camera/depth_registered/image_raw
+      max_update_rate: 1.0
+      near_clipping_plane_distance: 0.3
+      ns: kinect
+      padding_offset: 0.03
+      padding_scale: 4.0
+      queue_size: 5
+      sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater
+      shadow_threshold: 0.2
+      skip_vertical_pixels: 4
+      skip_horizontal_pixels: 6
 
 **The general parameters are:**
 
@@ -114,9 +127,9 @@ Add the YAML file to the launch script
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 You will now need to create a *sensor_manager.launch* file in the "launch" directory of your panda_moveit_config directory (e.g. `on github <https://github.com/ros-planning/panda_moveit_config/blob/rolling-devel/launch/sensor_manager.launch.xml>`_) with this sensor information. You will need to add the following line into that file to configure the set of sensor sources for MoveIt to use: ::
 
- <param from="$(find panda_moveit_config)/config/sensors_kinect_pointcloud.yaml" />
+ <param from="$(find panda_moveit_config)/config/sensors_3d.yaml" />
 
-If you are using depthmap change the name of the yaml file to ``sensors_kinect_depthmap.yaml``.
+If you are using depthmap change the name of the yaml file to ``sensors_3d.yaml``.
 Note that you will need to input the path to the right file you have created above.
 
 Octomap Configuration
