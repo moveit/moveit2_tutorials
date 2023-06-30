@@ -36,14 +36,14 @@ private:
   rclcpp::Node::SharedPtr node_;
 };
 
-rclcpp::node_interfaces::NodeBaseInterface::SharedPtr MTCTaskNode::getNodeBaseInterface()
-{
-  return node_->get_node_base_interface();
-}
-
 MTCTaskNode::MTCTaskNode(const rclcpp::NodeOptions& options)
   : node_{ std::make_shared<rclcpp::Node>("mtc_node", options) }
 {
+}
+
+rclcpp::node_interfaces::NodeBaseInterface::SharedPtr MTCTaskNode::getNodeBaseInterface()
+{
+  return node_->get_node_base_interface();
 }
 
 void MTCTaskNode::setupPlanningScene()
@@ -149,10 +149,10 @@ mtc::Task MTCTaskNode::createTask()
   // In fact, `task` itself is a SerialContainer by default.
   {
     auto grasp = std::make_unique<mtc::SerialContainer>("pick object");
-    task.properties().exposeTo(grasp->properties(), { "eef", "hand", "group", "ik_frame" });
+    task.properties().exposeTo(grasp->properties(), { "eef", "group", "ik_frame" });
     // clang-format off
     grasp->properties().configureInitFrom(mtc::Stage::PARENT,
-                                          { "eef", "hand", "group", "ik_frame" });
+                                          { "eef", "group", "ik_frame" });
     // clang-format on
 
     {
@@ -259,7 +259,7 @@ mtc::Task MTCTaskNode::createTask()
     auto stage_move_to_place = std::make_unique<mtc::stages::Connect>(
         "move to place",
         mtc::stages::Connect::GroupPlannerVector{ { arm_group_name, sampling_planner },
-                                                  { hand_group_name, sampling_planner } });
+                                                  { hand_group_name, interpolation_planner } });
     // clang-format on
     stage_move_to_place->setTimeout(5.0);
     stage_move_to_place->properties().configureInitFrom(mtc::Stage::PARENT);
@@ -268,10 +268,10 @@ mtc::Task MTCTaskNode::createTask()
 
   {
     auto place = std::make_unique<mtc::SerialContainer>("place object");
-    task.properties().exposeTo(place->properties(), { "eef", "hand", "group", "ik_frame" });
+    task.properties().exposeTo(place->properties(), { "eef", "group", "ik_frame" });
     // clang-format off
     place->properties().configureInitFrom(mtc::Stage::PARENT,
-                                          { "eef", "hand", "group", "ik_frame" });
+                                          { "eef", "group", "ik_frame" });
     // clang-format on
 
     /****************************************************
