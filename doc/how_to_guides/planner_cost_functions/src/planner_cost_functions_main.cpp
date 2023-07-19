@@ -297,6 +297,17 @@ public:
                     << " max_velocity_scaling_factor: " << plan_request_parameters.max_velocity_scaling_factor << ','
                     << " max_acceleration_scaling_factor: " << plan_request_parameters.max_acceleration_scaling_factor);
 
+    // planning_component_->setStateCostFunction(
+    //     [robot_start_state, group_name, planning_scene](const std::vector<double>& state_vector) mutable {
+    //       // Publish robot state
+    //       // auto const ee_tip = robot_state.getJointModelGroup(PLANNING_GROUP)->getOnlyOneEndEffectorTip();
+    //       // this->getVisualTools().publishSphere(robot_state.getGlobalLinkTransform(ee_tip), rviz_visual_tools::GREEN,
+    //       // rviz_visual_tools::MEDIUM); this->getVisualTools().trigger();
+    //       auto clearance_cost_fn =
+    //           moveit::cost_functions::getClearanceCostFn(*robot_start_state, group_name, planning_scene);
+    //       return clearance_cost_fn(state_vector);
+    //     });
+
     std::vector<planning_interface::MotionPlanResponse> solutions;
     solutions.reserve(pipeline_planner_pairs.size());
     for (auto const& pipeline_planner_pair : pipeline_planner_pairs)
@@ -310,18 +321,18 @@ public:
     auto robot_model_ptr = moveit_cpp_->getRobotModel();
     auto joint_model_group_ptr = robot_model_ptr->getJointModelGroup(PLANNING_GROUP);
     // Check if PlanningComponents succeeded in finding the plan
-    for (auto const& plan_solution : solutions)
-    {
-      if (plan_solution.trajectory)
-      {
-        RCLCPP_INFO_STREAM(LOGGER, plan_solution.planner_id.c_str()
-                                       << ": " << colorToString(rviz_visual_tools::Colors(color_index)));
-        // Visualize the trajectory in Rviz
-        visual_tools_.publishTrajectoryLine(plan_solution.trajectory, joint_model_group_ptr,
-                                            rviz_visual_tools::Colors(color_index));
-        color_index++;
-      }
-    }
+    // for (auto const& plan_solution : solutions)
+    //{
+    //  if (plan_solution.trajectory)
+    //  {
+    //    RCLCPP_INFO_STREAM(LOGGER, plan_solution.planner_id.c_str()
+    //                                   << ": " << colorToString(rviz_visual_tools::Colors(color_index)));
+    //    // Visualize the trajectory in Rviz
+    //    visual_tools_.publishTrajectoryLine(plan_solution.trajectory, joint_model_group_ptr,
+    //                                        rviz_visual_tools::Colors(color_index));
+    //    color_index++;
+    //  }
+    //}
     visual_tools_.trigger();
   }
 
@@ -367,7 +378,7 @@ int main(int argc, char** argv)
   demo.setQueryGoal();
 
   demo.planAndVisualize(
-      { { "ompl", "RRTConnectkConfigDefault" }, { "ompl", "RRTstarkConfigDefault" }, { "stomp", "stomp" } });
+      { { "ompl_stomp", "RRTConnectkConfigDefault" }, /*{ "ompl", "RRTstarkConfigDefault" }, { "stomp", "stomp" }*/ });
 
   demo.getVisualTools().prompt("Press 'next' in the RvizVisualToolsGui window to finish the demo");
   rclcpp::shutdown();

@@ -42,7 +42,6 @@ def launch_setup(context, *args, **kwargs):
         .planning_scene_monitor(
             publish_robot_description=True, publish_robot_description_semantic=True
         )
-        .planning_pipelines("ompl", ["ompl", "stomp"])
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .moveit_cpp(
             os.path.join(
@@ -71,13 +70,39 @@ def launch_setup(context, *args, **kwargs):
         },
     }
 
+    # Load additional OMPL pipeline
+    ompl_stomp_planning_pipeline_config = {
+        "ompl_stomp": {
+            "planning_plugin": "ompl_interface/OMPLPlanner",
+            "request_adapters": """\
+                stomp_moveit/StompSmoothingAdapter \
+                default_planner_request_adapters/AddTimeOptimalParameterization \
+                default_planner_request_adapters/FixWorkspaceBounds \
+                default_planner_request_adapters/FixStartStateBounds \
+                default_planner_request_adapters/FixStartStateCollision \
+                default_planner_request_adapters/FixStartStatePathConstraints \
+              """,
+            "start_state_max_bounds_error": 0.1,
+            "planner_configs": {
+                "RRTConnectkConfigDefault": {
+                    "type": "geometric::RRTConnect",
+                    "range": 0.0,  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()}
+                }
+            },
+        }
+    }
+
     # MoveItCpp demo executable
     moveit_cpp_node = Node(
         name="planner_cost_functions_example",
         package="moveit2_tutorials",
         executable="planner_cost_functions_example",
         output="screen",
-        parameters=[moveit_config.to_dict(), warehouse_ros_config],
+        parameters=[
+            moveit_config.to_dict(),
+            ompl_stomp_planning_pipeline_config,
+            warehouse_ros_config,
+        ],
     )
 
     # RViz
