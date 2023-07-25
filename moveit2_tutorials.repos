@@ -3,4 +3,4 @@ repositories:
     type: git
     url: https://github.com/ros-planning/moveit_task_constructor.git
     version: ros2
-  # Empty but if necessary, dependencies that need to be build from source can be added here
+  # Empty but if necessary, dependencies that need to be built from source can be added here
