@@ -14,7 +14,7 @@ Step 1: Launch the Demo and Configure the Plugin
 
 * Launch the demo: ::
 
-   ros2 launch moveit2_tutorials kinova_demo.launch.py
+   ros2 launch moveit2_tutorials demo.launch.py
 
 * If you are doing this for the first time, you should see an empty world in RViz and will have to add the Motion Planning Plugin:
 
@@ -233,7 +233,7 @@ Saving Your Configuration
 +++++++++++++++++++++++++
 RViz enables you to save your configuration under ``File->Save Config``. You should do this before continuing on to the next tutorials. If you choose to save your configuration under a new name, you can use ``File->Save Config As`` and refer to your configuration file using: ::
 
-   ros2 launch moveit2_tutorials kinova_demo.launch.py rviz_config:=your_rviz_config.rviz
+   ros2 launch moveit2_tutorials demo.launch.py rviz_config:=your_rviz_config.rviz
 
 Replace ``your_rviz_config.rviz`` with the name of the file you saved to ``moveit2_tutorials/doc/tutorials/quickstart_in_rviz/launch/`` and build the workspace so it can be found.
 
