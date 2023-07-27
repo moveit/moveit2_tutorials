@@ -59,7 +59,7 @@ TEST_F(BringupTestFixture, BasicBringupTest)
   trajectory_msgs::msg::JointTrajectory traj_msg;
   traj_msg.joint_names = { "joint_1", "joint_2", "joint_3", "joint_4", "joint_5", "joint_6", "joint_7" };
   trajectory_msgs::msg::JointTrajectoryPoint point_msg;
-  point_msg.positions = { 0, -0.785, 0, -2.356, 0, 1.571, 0.785 };
+  point_msg.positions = { 0, 0.26, 3.14, -2.27, 0, 0.96, 1.57 };
   point_msg.time_from_start.sec = 1;
   traj_msg.points.push_back(point_msg);
   control_msgs::action::FollowJointTrajectory::Goal joint_traj_request;
