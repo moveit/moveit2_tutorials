@@ -166,6 +166,7 @@ Open ``mtc_node.cpp`` in your editor of choice, and paste in the following code.
       geometry_msgs::msg::Pose pose;
       pose.position.x = 0.5;
       pose.position.y = -0.25;
+      pose.orientation.w = 1.0;
       object.pose = pose;
 
       moveit::planning_interface::PlanningSceneInterface psi;
@@ -826,6 +827,7 @@ We then create a ``ComputeIK`` stage and pass it our ``GeneratePlacePose`` stage
           geometry_msgs::msg::PoseStamped target_pose_msg;
           target_pose_msg.header.frame_id = "object";
           target_pose_msg.pose.position.y = 0.5;
+          target_pose_msg.pose.orientation.w = 1.0;
           stage->setPose(target_pose_msg);
           stage->setMonitoredStage(attach_object_stage);  // Hook into attach_object_stage
 
