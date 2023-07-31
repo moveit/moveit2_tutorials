@@ -10,12 +10,12 @@ planning_scene_monitor_options:
 
 # Define which planning pipelines are loaded by moveit_cpp. These loaded pipelines will be available for simple and parallel planning
 planning_pipelines:
-  pipeline_names: ["ompl_stomp"]
+  pipeline_names: ["stomp", "ompl"]
 
 plan_request_params:
   planning_attempts: 1
-  planning_pipeline: ompl_stomp
+  planning_pipeline: stomp
   planner_id: "stomp"
   max_velocity_scaling_factor: 1.0
   max_acceleration_scaling_factor: 1.0
-  planning_time: 30.0
+  planning_time: 10.0

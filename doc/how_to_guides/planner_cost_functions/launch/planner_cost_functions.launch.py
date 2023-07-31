@@ -39,6 +39,7 @@ def launch_setup(context, *args, **kwargs):
     moveit_config = (
         MoveItConfigsBuilder("moveit_resources_panda")
         .robot_description(file_path="config/panda.urdf.xacro")
+        .planning_pipelines(pipelines=["ompl", "stomp"])
         .planning_scene_monitor(
             publish_robot_description=True, publish_robot_description_semantic=True
         )
@@ -55,9 +56,9 @@ def launch_setup(context, *args, **kwargs):
 
     # Warehouse config
     sqlite_database = os.path.join(
-        get_package_share_directory("moveit2_tutorials"),
-        "config",
-        "panda_test_db.sqlite",
+        get_package_share_directory("moveit_resources_benchmarking"),
+        "databases",
+        "panda_kitchen_test_db.sqlite",
     )
 
     warehouse_ros_config = {
@@ -71,26 +72,26 @@ def launch_setup(context, *args, **kwargs):
     }
 
     # Load additional OMPL pipeline
-    ompl_stomp_planning_pipeline_config = {
-        "ompl_stomp": {
-            "planning_plugin": "ompl_interface/OMPLPlanner",
-            "request_adapters": """\
-                stomp_moveit/StompSmoothingAdapter \
-                default_planner_request_adapters/AddTimeOptimalParameterization \
-                default_planner_request_adapters/FixWorkspaceBounds \
-                default_planner_request_adapters/FixStartStateBounds \
-                default_planner_request_adapters/FixStartStateCollision \
-                default_planner_request_adapters/FixStartStatePathConstraints \
-              """,
-            "start_state_max_bounds_error": 0.1,
-            "planner_configs": {
-                "RRTConnectkConfigDefault": {
-                    "type": "geometric::RRTConnect",
-                    "range": 0.0,  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()}
-                }
-            },
-        }
-    }
+    # ompl_stomp_planning_pipeline_config = {
+    #    "ompl_stomp": {
+    #        "planning_plugin": "ompl_interface/OMPLPlanner",
+    #        "request_adapters": """\
+    #            stomp_moveit/StompSmoothingAdapter \
+    #            default_planner_request_adapters/AddTimeOptimalParameterization \
+    #            default_planner_request_adapters/FixWorkspaceBounds \
+    #            default_planner_request_adapters/FixStartStateBounds \
+    #            default_planner_request_adapters/FixStartStateCollision \
+    #            default_planner_request_adapters/FixStartStatePathConstraints \
+    #          """,
+    #        "start_state_max_bounds_error": 0.1,
+    #        "planner_configs": {
+    #            "RRTConnectkConfigDefault": {
+    #                "type": "geometric::RRTConnect",
+    #                "range": 0.0,  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()}
+    #            }
+    #        },
+    #    }
+    # }
 
     # MoveItCpp demo executable
     moveit_cpp_node = Node(
@@ -100,7 +101,7 @@ def launch_setup(context, *args, **kwargs):
         output="screen",
         parameters=[
             moveit_config.to_dict(),
-            ompl_stomp_planning_pipeline_config,
+            # ompl_stomp_planning_pipeline_config,
             warehouse_ros_config,
         ],
     )
@@ -155,7 +156,7 @@ def launch_setup(context, *args, **kwargs):
         package="controller_manager",
         executable="ros2_control_node",
         parameters=[moveit_config.robot_description, ros2_controllers_path],
-        output="both",
+        output="screen",
     )
 
     joint_state_broadcaster_spawner = Node(
@@ -163,8 +164,6 @@ def launch_setup(context, *args, **kwargs):
         executable="spawner",
         arguments=[
             "joint_state_broadcaster",
-            "--controller-manager-timeout",
-            "300",
             "--controller-manager",
             "/controller_manager",
         ],
