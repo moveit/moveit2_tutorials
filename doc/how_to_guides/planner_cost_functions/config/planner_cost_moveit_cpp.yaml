@@ -18,4 +18,4 @@ plan_request_params:
   planner_id: "stomp"
   max_velocity_scaling_factor: 1.0
   max_acceleration_scaling_factor: 1.0
-  planning_time: 10.0
+  planning_time: 4.0

@@ -208,42 +208,22 @@ public:
     return true;
   }
 
-  /// \brief Set goal state for next planning attempt based on query loaded from the database
-  void setQueryGoal(moveit_msgs::msg::MotionPlanRequest const& motion_plan_request)
+  struct PipelineConfig
   {
-    // Set goal state
-    if (!motion_plan_request.goal_constraints.empty())
-    {
-      // for (auto constraint : motion_plan_request.goal_constraints)
-      // {
-      //   for (auto joint_constraint : constraint.joint_constraints)
-      //   {
-      //     RCLCPP_INFO_STREAM(LOGGER, "position: " << joint_constraint.position << "\n"
-      //                                             << "tolerance_above: " << joint_constraint.tolerance_above << "\n"
-      //                                             << "tolerance_below: " << joint_constraint.tolerance_below << "\n"
-      //                                             << "weight: " << joint_constraint.weight << "\n");
-      //   }
-      //   for (auto position_constraint : constraint.position_constraints)
-      //   {
-      //     RCLCPP_WARN(LOGGER, "Goal constraints contain position constrains, please use joint constraints only in this "
-      //                         "example.");
-      //   }
-      // }
-      planning_component_->setGoal(motion_plan_request.goal_constraints);
-    }
-    else
-    {
-      RCLCPP_ERROR(LOGGER, "Planning query request does not contain any goal constraints");
-    }
-  }
+    std::string planning_pipeline;
+    std::string planner_id;
+    bool use_cost_function;
+  };
 
   /// \brief Request a motion plan based on the assumption that a goal is set and print debug information.
-  void planAndVisualize(std::vector<std::pair<std::string, std::string>> pipeline_planner_pairs,
+  void planAndVisualize(std::vector<PipelineConfig> pipeline_configs,
                         moveit_msgs::msg::MotionPlanRequest const& motion_plan_request)
   {
     visual_tools_.deleteAllMarkers();
     visual_tools_.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
+    // Set goal state
+    planning_component_->setGoal(motion_plan_request.goal_constraints);
     // Set start state as current state
     planning_component_->setStartStateToCurrentState();
 
@@ -259,14 +239,6 @@ public:
     }();
 
     auto group_name = motion_plan_request.group_name;
-    // Set cost function
-    planning_component_->setStateCostFunction(
-        [robot_start_state, group_name, planning_scene](const Eigen::VectorXd& state_vector) mutable {
-          // rviz_visual_tools::MEDIUM); this->getVisualTools().trigger();
-          auto clearance_cost_fn =
-              moveit::cost_functions::getClearanceCostFn(*robot_start_state, group_name, planning_scene);
-          return clearance_cost_fn(state_vector);
-        });
 
     moveit_cpp::PlanningComponent::PlanRequestParameters plan_request_parameters;
     plan_request_parameters.load(node_);
@@ -280,11 +252,28 @@ public:
                     << " max_acceleration_scaling_factor: " << plan_request_parameters.max_acceleration_scaling_factor);
 
     std::vector<planning_interface::MotionPlanResponse> solutions;
-    solutions.reserve(pipeline_planner_pairs.size());
-    for (auto const& pipeline_planner_pair : pipeline_planner_pairs)
+    solutions.reserve(pipeline_configs.size());
+    for (auto const& pipeline_config : pipeline_configs)
     {
-      plan_request_parameters.planning_pipeline = pipeline_planner_pair.first;
-      plan_request_parameters.planner_id = pipeline_planner_pair.second;
+      plan_request_parameters.planning_pipeline = pipeline_config.planning_pipeline;
+      plan_request_parameters.planner_id = pipeline_config.planner_id;
+
+      // Set cost function
+      if (pipeline_config.use_cost_function)
+      {
+        planning_component_->setStateCostFunction(
+            [robot_start_state, group_name, planning_scene](const Eigen::VectorXd& state_vector) mutable {
+              // rviz_visual_tools::MEDIUM); this->getVisualTools().trigger();
+              auto clearance_cost_fn =
+                  moveit::cost_functions::getClearanceCostFn(*robot_start_state, group_name, planning_scene);
+              return clearance_cost_fn(state_vector);
+            });
+      }
+      else
+      {
+        planning_component_->setStateCostFunction(nullptr);
+      }
+
       solutions.push_back(planning_component_->plan(plan_request_parameters, planning_scene));
     }
 
@@ -297,7 +286,8 @@ public:
       if (plan_solution.trajectory)
       {
         RCLCPP_INFO_STREAM(LOGGER, plan_solution.planner_id.c_str()
-                                       << ": " << colorToString(rviz_visual_tools::Colors(color_index)));
+                                       << ", " << std::to_string(plan_solution.use_cost_function) << ": "
+                                       << colorToString(rviz_visual_tools::Colors(color_index)));
         // Visualize the trajectory in Rviz
         visual_tools_.publishTrajectoryLine(plan_solution.trajectory, joint_model_group_ptr,
                                             rviz_visual_tools::Colors(color_index));
@@ -350,8 +340,9 @@ int main(int argc, char** argv)
   RCLCPP_INFO(LOGGER, "Starting Cost Function Tutorial...");
   for (auto const& motion_plan_req : demo.getMotionPlanRequests())
   {
-    demo.setQueryGoal(motion_plan_req);
-    demo.planAndVisualize({ { "ompl", "RRTConnectkConfigDefault" }, { "stomp", "stomp" } }, motion_plan_req);
+    demo.planAndVisualize(
+        { { "ompl", "RRTConnectkConfigDefault", false }, { "stomp", "stomp", false }, { "stomp", "stomp", true } },
+        motion_plan_req);
   }
 
   demo.getVisualTools().prompt("Press 'next' in the RvizVisualToolsGui window to finish the demo");
