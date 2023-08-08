@@ -46,7 +46,7 @@ ee_frame: panda_hand  # The name of the end effector link, used to return the EE
 lower_singularity_threshold:  17.0  # Start decelerating when the condition number hits this (close to singularity)
 hard_stop_singularity_threshold: 30.0 # Stop when the condition number hits this
 joint_limit_margin: 0.1 # added as a buffer to joint limits [radians]. If moving quickly, make this larger.
-leaving_singularity_threshold_multiplier: 2.0 # Multiply the hard stop limit by this when leaving singularity (see https://github.com/ros-planning/moveit2/pull/620)
+leaving_singularity_threshold_multiplier: 2.0 # Multiply the hard stop limit by this when leaving singularity.
 
 ## Topic names
 cartesian_command_in_topic: ~/delta_twist_cmds  # Topic for incoming Cartesian twist commands

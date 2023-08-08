@@ -1,4 +1,44 @@
+/*********************************************************************
+ * Software License Agreement (BSD License)
+ *
+ *  Copyright (c) 2023, PickNik Inc.
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above
+ *     copyright notice, this list of conditions and the following
+ *     disclaimer in the documentation and/or other materials provided
+ *     with the distribution.
+ *   * Neither the name of PickNik Inc. nor the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ *  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ *  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ *  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
+ *********************************************************************/
 
+/*      Title       : pose_tracking_tutorial.cpp
+ *      Project     : moveit2_tutorials
+ *      Created     : 08/07/2023
+ *      Author      : V Mohammed Ibrahim
+ *
+ *      Description : Example of using pose tracking via the ROS API in a door opening scenario.
+ */
 
 #include <rclcpp/rclcpp.hpp>
 #include <tf2_eigen/tf2_eigen.hpp>
@@ -9,6 +49,9 @@
 #include <moveit_servo/utils/common.hpp>
 #include <moveit_msgs/srv/servo_command_type.hpp>
 
+/**
+ * \brief Handles the simulation of the collision object representing the door.
+ */
 class Door
 {
 public:
@@ -82,6 +125,9 @@ private:
   shape_msgs::msg::SolidPrimitive door_primitive_;
 };
 
+/**
+ * \brief Generates the path to follow when opening the door.
+ */
 std::vector<Eigen::Vector3d> getPath()
 {
   const double start_angle = M_PI / 2 + (M_PI / 8);
@@ -99,6 +145,9 @@ std::vector<Eigen::Vector3d> getPath()
   return traj;
 }
 
+/**
+ * \brief Creates an Rviz marker message to represent a waypoint in the path.
+ */
 visualization_msgs::msg::Marker getMarker(int id, const Eigen::Vector3d& position, const std::string& frame)
 {
   visualization_msgs::msg::Marker marker;
@@ -125,6 +174,9 @@ visualization_msgs::msg::Marker getMarker(int id, const Eigen::Vector3d& positio
   return marker;
 }
 
+/**
+ * \brief Generates a PoseStamped message with the given position and orientation.
+ */
 geometry_msgs::msg::PoseStamped getPose(const Eigen::Vector3d& position, const Eigen::Quaterniond& rotation)
 {
   geometry_msgs::msg::PoseStamped target_pose;
@@ -194,29 +246,34 @@ int main(int argc, char* argv[])
   const double publish_period = 0.15;
   rclcpp::WallRate rate(1 / publish_period);
 
-  size_t i = path.size() - 1;
-  while (i > 0)
+  // The path needs to be reversed since the last point in the path is where we want to start.
+  std::reverse(path.begin(), path.end());
+
+  for (auto& waypoint : path)
   {
-    auto target_pose = getPose(path[i], Eigen::Quaterniond(ee_pose.rotation()));
+    auto target_pose = getPose(waypoint, Eigen::Quaterniond(ee_pose.rotation()));
     target_pose.header.stamp = node->now();
     pose_publisher->publish(target_pose);
     rate.sleep();
-    i--;
   }
+
+  // Simulated door opening
 
   double door_angle = M_PI / 2;
   const double step = 0.01745329;  // 1 degree in radian
-  i = 0;
-  while (i < path.size())
+
+  // Reverse again to so that we follow that path in reverse order.
+  std::reverse(path.begin(), path.end());
+  for (auto& waypoint : path)
   {
     ee_pose.rotate(Eigen::AngleAxisd(-step, Eigen::Vector3d::UnitZ()));
-    auto target_pose = getPose(path[i], Eigen::Quaterniond(ee_pose.rotation()));
+    auto target_pose = getPose(waypoint, Eigen::Quaterniond(ee_pose.rotation()));
     target_pose.header.stamp = node->now();
     pose_publisher->publish(target_pose);
     rate.sleep();
+
     door.rotateDoor(door_angle);
     door_angle += step;
-    i++;
   }
 
   executor->cancel();

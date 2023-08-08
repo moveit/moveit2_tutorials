@@ -4,7 +4,7 @@ ament_target_dependencies(pose_tracking_tutorial  ${THIS_PACKAGE_INCLUDE_DEPENDS
 
 install(
   TARGETS
-  pose_tracking_tutorial
+    pose_tracking_tutorial
   DESTINATION
     lib/${PROJECT_NAME}
 )
