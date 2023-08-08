@@ -119,7 +119,7 @@ html_context = {
     "display_github": True,
     "github_user": "ros-planning",
     "github_repo": "moveit2_tutorials",
-    "github_version": "main/",
+    "github_version": "humble/",
     "conf_py_path": "",
     "source_suffix": ".rst",
 }
