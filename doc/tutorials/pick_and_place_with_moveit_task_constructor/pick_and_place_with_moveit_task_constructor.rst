@@ -165,6 +165,7 @@ Open ``mtc_tutorial.cpp`` in your editor of choice, and paste in the following c
       geometry_msgs::msg::Pose pose;
       pose.position.x = 0.5;
       pose.position.y = -0.25;
+      pose.orientation.w = 1.0;
       object.pose = pose;
 
       moveit::planning_interface::PlanningSceneInterface psi;
@@ -768,7 +769,17 @@ We also create a serial container for the place stages. This is done similarly t
         place->properties().configureInitFrom(mtc::Stage::PARENT,
                                               { "eef", "group", "ik_frame" });
 
+<<<<<<< HEAD
 This next stage generates the poses used to place the object and compute the inverse kinematics for those poses - it is somewhat similar to the ``generate grasp pose`` stage from the pick serial container. We start by creating a stage to generate the poses and inheriting the task properties. We specify the pose where we want to place the object with a ``PoseStamped`` message from ``geometry_msgs`` - in this case, we choose ``y = 0.5``. We then pass the target pose to the stage with ``setPose``.  Next, we use ``setMonitoredStage`` and pass it the pointer to the ``attach object stage`` from earlier. This allows the stage to know how the object is attached. We then create a ``ComputeIK`` stage and pass it our ``GeneratePlacePose`` stage - the rest follows the same logic as above with the pick stages.
+=======
+This next stage generates the poses used to place the object and compute the inverse kinematics for those poses - it is somewhat similar to the ``generate grasp pose`` stage from the pick serial container.
+We start by creating a stage to generate the poses and inheriting the task properties.
+We specify the pose where we want to place the object with a ``PoseStamped`` message from ``geometry_msgs`` - in this case, we choose ``y = 0.5`` in the ``"object"`` frame.
+We then pass the target pose to the stage with ``setPose``.
+Next, we use ``setMonitoredStage`` and pass it the pointer to the ``attach_object`` stage from earlier.
+This allows the stage to know how the object is attached.
+We then create a ``ComputeIK`` stage and pass it our ``GeneratePlacePose`` stage - the rest follows the same logic as above with the pick stages.
+>>>>>>> 35048cb (Fix place pose generation IK frame in MTC Tutorial (#727))
 
 .. code-block:: c++
 
@@ -782,6 +793,7 @@ This next stage generates the poses used to place the object and compute the inv
           geometry_msgs::msg::PoseStamped target_pose_msg;
           target_pose_msg.header.frame_id = "object";
           target_pose_msg.pose.position.y = 0.5;
+          target_pose_msg.pose.orientation.w = 1.0;
           stage->setPose(target_pose_msg);
           stage->setMonitoredStage(attach_object_stage);  // Hook into attach_object_stage
 
@@ -790,7 +802,7 @@ This next stage generates the poses used to place the object and compute the inv
               std::make_unique<mtc::stages::ComputeIK>("place pose IK", std::move(stage));
           wrapper->setMaxIKSolutions(2);
           wrapper->setMinSolutionDistance(1.0);
-          wrapper->setIKFrame(hand_frame);
+          wrapper->setIKFrame("object");
           wrapper->properties().configureInitFrom(mtc::Stage::PARENT, { "eef", "group" });
           wrapper->properties().configureInitFrom(mtc::Stage::INTERFACE, { "target_pose" });
           place->insert(std::move(wrapper));
