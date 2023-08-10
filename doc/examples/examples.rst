@@ -64,7 +64,6 @@ Configuration
    custom_constraint_samplers/custom_constraint_samplers_tutorial
    ompl_interface/ompl_interface_tutorial
    stomp_planner/stomp_planner_tutorial
-   stomp_planner/stomp_planner_tutorial
    trajopt_planner/trajopt_planner_tutorial
    pilz_industrial_motion_planner/pilz_industrial_motion_planner
    planning_adapters/planning_adapters_tutorial.rst
