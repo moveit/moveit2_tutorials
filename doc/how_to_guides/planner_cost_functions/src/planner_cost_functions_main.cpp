@@ -263,9 +263,8 @@ public:
       {
         planning_component_->setStateCostFunction(
             [robot_start_state, group_name, planning_scene](const Eigen::VectorXd& state_vector) mutable {
-              // rviz_visual_tools::MEDIUM); this->getVisualTools().trigger();
               auto clearance_cost_fn =
-                  moveit::cost_functions::getClearanceCostFn(*robot_start_state, group_name, planning_scene);
+                  moveit::cost_functions::getMinJointDisplacementCostFn(*robot_start_state, group_name, planning_scene);
               return clearance_cost_fn(state_vector);
             });
       }
@@ -286,8 +285,7 @@ public:
       if (plan_solution.trajectory)
       {
         RCLCPP_INFO_STREAM(LOGGER, plan_solution.planner_id.c_str()
-                                       << ", " << std::to_string(plan_solution.use_cost_function) << ": "
-                                       << colorToString(rviz_visual_tools::Colors(color_index)));
+                                       << ": " << colorToString(rviz_visual_tools::Colors(color_index)));
         // Visualize the trajectory in Rviz
         visual_tools_.publishTrajectoryLine(plan_solution.trajectory, joint_model_group_ptr,
                                             rviz_visual_tools::Colors(color_index));
