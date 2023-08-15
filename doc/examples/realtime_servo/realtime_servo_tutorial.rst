@@ -246,3 +246,11 @@ Once the demo is running, the robot can be teleoperated through the keyboard.
 Launch the keyboard demo: ``ros2 run moveit_servo servo_keyboard_input``.
 
 An example of using the pose commands in the context of servoing to open a door can be seen in this :codedir:`example <examples/realtime_servo/src/pose_tracking_tutorial.cpp>`.
+
+
+Thread Priority
+-----------------
+
+For best performance when controlling hardware you want the main servo loop to have as little jitter as possible. The normal linux kernel is optimized for computational throughput and therefore is not well suited for hardware control. The two easiest kernel options are the `Real-time Ubuntu 22.04 LTS Beta <https://ubuntu.com/blog/real-time-ubuntu-released>`_ or `linux-image-rt-amd64 <https://packages.debian.org/bullseye/linux-image-rt-amd64>`_ on Debian Bullseye.
+
+If you have a realtime kernel installed, the main thread of ``servo_calcs`` automatically attempts to configure ``SCHED_FIFO`` with a priority of ``40``. See more documentation at :moveit_codedir:`config/servo_parameters.yaml <moveit_ros/moveit_servo/config/servo_parameters.yaml>`.
