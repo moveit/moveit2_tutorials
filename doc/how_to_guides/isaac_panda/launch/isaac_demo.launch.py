@@ -31,7 +31,7 @@ def generate_launch_description():
         .robot_description_semantic(file_path="config/panda.srdf")
         .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
         .planning_pipelines(
-            pipelines=["ompl", "chomp", "pilz_industrial_motion_planner"]
+            pipelines=["ompl", "pilz_industrial_motion_planner"]
         )
         .to_moveit_configs()
     )
