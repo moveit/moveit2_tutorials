@@ -232,8 +232,8 @@ Open ``mtc_tutorial.cpp`` in your editor of choice, and paste in the following c
       auto interpolation_planner = std::make_shared<mtc::solvers::JointInterpolationPlanner>();
 
       auto cartesian_planner = std::make_shared<mtc::solvers::CartesianPath>();
-      cartesian_planner->setMaxVelocityScaling(1.0);
-      cartesian_planner->setMaxAccelerationScaling(1.0);
+      cartesian_planner->setMaxVelocityScalingFactor(1.0);
+      cartesian_planner->setMaxAccelerationScalingFactor(1.0);
       cartesian_planner->setStepSize(.01);
 
       auto stage_open_hand =
@@ -443,8 +443,8 @@ We also set some properties specific for to the Cartesian planner.
       auto interpolation_planner = std::make_shared<mtc::solvers::JointInterpolationPlanner>();
 
       auto cartesian_planner = std::make_shared<mtc::solvers::CartesianPath>();
-      cartesian_planner->setMaxVelocityScaling(1.0);
-      cartesian_planner->setMaxAccelerationScaling(1.0);
+      cartesian_planner->setMaxVelocityScalingFactor(1.0);
+      cartesian_planner->setMaxAccelerationScalingFactor(1.0);
       cartesian_planner->setStepSize(.01);
 
 Now that we added in the planners, we can add a stage that will move the robot. The following lines use a ``MoveTo`` stage (a propagator stage). Since opening the hand is a relatively simple movement, we can use the joint interpolation planner. This stage plans a move to the "open hand" pose, which is a named pose defined in the :moveit_resources_codedir:`SRDF<panda_moveit_config/config/panda.srdf>` for the panda robot. We return the task and finish with the createTask() function.
