@@ -7,102 +7,101 @@ Pick and Place with MoveIt Task Constructor
         MoveIt Task Constructor Pick and Place example
     </video>
 
-This tutorial will walk you through creating a package that plans a pick and place operation using `MoveIt Task Constructor <https://github.com/ros-planning/moveit_task_constructor/tree/ros2/>`_. MoveIt Task Constructor provides a way to plan for tasks that consist of multiple different subtasks (known as stages). If you just want to run the tutorial, you can follow the :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>` to start a container with the completed tutorial.
+This tutorial will walk you through creating a package that plans a pick and place operation using `MoveIt Task Constructor <https://github.com/ros-planning/moveit_task_constructor/tree/ros2/>`_. MoveIt Task Constructor provides a way to plan for tasks that consist of multiple different subtasks (known as stages). If you just want to run the tutorial, you can follow the :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>` to start a container with the completed tutorial. This tutorial is intended for those who have a basic understanding of MoveIt and the MoveIt Task Constructor :ref:`concepts <moveit_task_constructor_concepts>`. To learn more about these, read the  :doc:`MoveIt examples </doc/examples/examples>`, including the example page for :doc:`MoveIt Task Constructor </doc/examples/moveit_task_constructor/moveit_task_constructor_tutorial>`.
 
-1 Basic Concepts
-----------------
-
-The fundamental idea of MTC is that complex motion planning problems can be composed into a set of simpler subproblems.
-The top-level planning problem is specified as a **Task** while all subproblems are specified by **Stages**.
-Stages can be arranged in any arbitrary order and hierarchy only limited by the individual stages types.
-The order in which stages can be arranged is restricted by the direction in which results are passed.
-There are three possible stages relating to the result flow: generator, propagator, and connector stages:
-
-**Generators** compute their results independently of their neighbor stages and pass them in both directions, backwards and forwards.
-An example is an IK sampler for geometric poses where approaching and departing motions (neighbor stages) depend on the solution.
-
-**Propagators** receive the result of one neighbor stage, solve a subproblem and then propagate their result to the neighbor on the opposite site.
-Depending on the implementation, propagating stages can pass solutions forward, backward or in both directions separately.
-An example is a stage that computes a Cartesian path based on either a start or a goal state.
-
-**Connectors** do not propagate any results, but rather attempt to bridge the gap between the resulting states of both neighbors.
-An example is the computation of a free-motion plan from one given state to another.
-
-Additional to the order types, there are different hierarchy types allowing to encapsulate subordinate stages.
-Stages without subordinate stages are called **primitive stages**, higher-level stages are called **container stages**.
-There are three container types:
-
-**Wrappers** encapsulate a single subordinate stage and modify or filter the results.
-For example, a filter stage that only accepts solutions of its child stage that satisfy a certain constraint can be realized as a wrapper.
-Another standard use of this type includes the IK wrapper stage, which generates inverse kinematics solutions based on planning scenes annotated with a pose target property.
-
-**Serial Containers** hold a sequence of subordinate stages and only consider end-to-end solutions as results.
-An example is a picking motion that consists of a sequence of coherent steps.
-
-**Parallel Containers** combine set of subordinate stages and can be used for passing the best of alternative results, running fallback solvers or for merging multiple independent solutions.
-Examples are running alternative planners for a free-motion plan, picking objects with the right hand or with the left hand as a fallback, or moving the arm and opening the gripper at the same time.
-
-.. image:: mtc_stage_types.png
-   :width: 700px
-
-Stages not only support solving motion planning problems.
-They can also be used for all kinds of state transitions, as for instance modifying the planning scene.
-Combined with the possibility of using class inheritance it is possible to construct very complex behavior while only relying on a well-structured set of primitive stages.
-
-2 Getting Started
------------------
+Getting Started
+---------------
 If you haven't already done so, make sure you've completed the steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>`.
 
-2.1 Download MoveIt Task Constructor
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Download MoveIt Task Constructor
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Move into your colcon workspace and pull the MoveIt Task Constructor source: ::
 
-    cd ~/ws_moveit/src
-    git clone git@github.com:ros-planning/moveit_task_constructor.git -b ros2
+    cd ~/ws_moveit2/src
+    git clone https://github.com/ros-planning/moveit_task_constructor.git -b ros2
 
-3 Trying It Out
-------------------
-
-The MoveIt Task Constructor package contains several basic examples and a pick-and-place demo.
-For all demos you should launch the basic environment: ::
-
-  ros2 launch moveit_task_constructor_demo demo.launch.py
-
-Subsequently, you can run the individual demos: ::
-
-  ros2 run moveit_task_constructor_demo cartesian
-  ros2 run moveit_task_constructor_demo modular
-  ros2 launch moveit_task_constructor_demo pickplace.launch.py
-
-On the right side you should see the **Motion Planning Tasks** panel outlining the hierarchical stage structure of the tasks.
-When you select a particular stage, the list of successful and failed solutions will be
-shown in the right-most window. Selecting one of those solutions will start its visualization.
-
-.. image:: mtc_show_stages.gif
-   :width: 700px
-
-4 Setting up a Project with MoveIt Task Constructor
----------------------------------------------------
-
-This section walks through the steps required to build a simple task with MoveIt Task Constructor.
-
-4.1 Create a New Package
-^^^^^^^^^^^^^^^^^^^^^^^^
+Create a New Package
+^^^^^^^^^^^^^^^^^^^^
 
 Create a new package with the following command: ::
 
-    ros2 pkg create \
-    --build-type ament_cmake \
-    --dependencies moveit_task_constructor_core rclcpp \
-    --node-name mtc_node mtc_tutorial
+    ros2 pkg create --build-type ament_cmake --node-name mtc_tutorial mtc_tutorial
 
-This will create a new package and folder called ``mtc_tutorial`` with a dependency on ``moveit_task_constructor_core`` as well as a hello world example in ``src/mtc_node``.
+This will create a new folder called ``mtc_tutorial`` with a hello world example in ``src/mtc_node``. Next, add the dependencies to ``package.xml``. It should look similar to this: ::
 
-4.2 The Code
-^^^^^^^^^^^^
+    <?xml version="1.0"?>
+    <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+    <package format="3">
+    <name>mtc_tutorial</name>
+    <version>0.0.0</version>
+    <description>TODO: Package description</description>
+    <maintainer email="youremail@domain.com">user</maintainer>
+    <license>TODO: License declaration</license>
 
-Open ``mtc_node.cpp`` in your editor of choice, and paste in the following code.
+    <buildtool_depend>ament_cmake</buildtool_depend>
+
+    <depend>moveit_task_constructor_core</depend>
+    <depend>rclcpp</depend>
+
+    <test_depend>ament_lint_auto</test_depend>
+    <test_depend>ament_lint_common</test_depend>
+
+    <export>
+        <build_type>ament_cmake</build_type>
+    </export>
+    </package>
+
+Also, add the dependencies to ``CMakeLists.txt``. The file should look similar to this: ::
+
+    cmake_minimum_required(VERSION 3.8)
+    project(mtc_tutorial)
+
+    if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    add_compile_options(-Wall -Wextra -Wpedantic)
+    endif()
+
+    # find dependencies
+    find_package(ament_cmake REQUIRED)
+    find_package(moveit_task_constructor_core REQUIRED)
+    find_package(rclcpp REQUIRED)
+    # uncomment the following section in order to fill in
+    # further dependencies manually.
+    # find_package(<dependency> REQUIRED)
+
+    add_executable(mtc_tutorial src/mtc_tutorial.cpp)
+    ament_target_dependencies(mtc_tutorial moveit_task_constructor_core rclcpp)
+    target_include_directories(mtc_tutorial PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>)
+    target_compile_features(mtc_tutorial PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
+    install(TARGETS mtc_tutorial
+    DESTINATION lib/${PROJECT_NAME})
+
+    if(BUILD_TESTING)
+    find_package(ament_lint_auto REQUIRED)
+    # the following line skips the linter which checks for copyrights
+    # uncomment the line when a copyright and license is not present in all source files
+    #set(ament_cmake_copyright_FOUND TRUE)
+    # the following line skips cpplint (only works in a git repo)
+    # uncomment the line when this package is not in a git repo
+    #set(ament_cmake_cpplint_FOUND TRUE)
+    ament_lint_auto_find_test_dependencies()
+    endif()
+
+    ament_package()
+
+
+Setting up a Project with MoveIt Task Constructor
+-------------------------------------------------
+
+This section walks through the code required to build a minimal task using MoveIt Task Constructor.
+
+The Code
+^^^^^^^^
+
+Open ``mtc_tutorial.cpp`` in your editor of choice, and paste in the following code.
 
 .. code-block:: c++
 
@@ -144,14 +143,14 @@ Open ``mtc_node.cpp`` in your editor of choice, and paste in the following code.
       rclcpp::Node::SharedPtr node_;
     };
 
-    MTCTaskNode::MTCTaskNode(const rclcpp::NodeOptions& options)
-      : node_{ std::make_shared<rclcpp::Node>("mtc_node", options) }
-    {
-    }
-
     rclcpp::node_interfaces::NodeBaseInterface::SharedPtr MTCTaskNode::getNodeBaseInterface()
     {
       return node_->get_node_base_interface();
+    }
+
+    MTCTaskNode::MTCTaskNode(const rclcpp::NodeOptions& options)
+      : node_{ std::make_shared<rclcpp::Node>("mtc_node", options) }
+    {
     }
 
     void MTCTaskNode::setupPlanningScene()
@@ -271,15 +270,17 @@ Open ``mtc_node.cpp`` in your editor of choice, and paste in the following code.
     }
 
 
-4.3 Code Breakdown
-^^^^^^^^^^^^^^^^^^
+Code Breakdown
+^^^^^^^^^^^^^^
 
 The top of the code includes the ROS and MoveIt Libraries that this package uses.
 
  * ``rclcpp/rclcpp.hpp`` includes core ROS2 functionality
- * ``moveit/planning_scene/planning_scene.h`` and ``moveit/planning_scene_interface/planning_scene_interface.h`` include functionality to interface with the robot model and collision objects
+ * ``moveit/planning_scene/planning_scene.h`` and ``moveit/planning_scene_interface/planning_scene_interface.h`` includes functionality to interface with the robot model and collision objects
  * ``moveit/task_constructor/task.h``, ``moveit/task_constructor/solvers.h``, and ``moveit/task_constructor/stages.h`` include different components of MoveIt Task Constructor that are used in the example
  * ``tf2_geometry_msgs/tf2_geometry_msgs.hpp`` and ``tf2_eigen/tf2_eigen.hpp`` won't be used in this initial example, but they will be used for pose generation when we add more stages to the MoveIt Task Constructor task.
+
+The next line gets a logger for your new node. We also create a namespace alias for ``moveit::task_constructor`` for convenience.
 
 .. code-block:: c++
 
@@ -299,10 +300,6 @@ The top of the code includes the ROS and MoveIt Libraries that this package uses
     #else
     #include <tf2_eigen/tf2_eigen.h>
     #endif
-
-The next line gets a logger for our new node. We also create a namespace alias for ``moveit::task_constructor`` for convenience.
-
-.. code-block:: c++
 
     static const rclcpp::Logger LOGGER = rclcpp::get_logger("mtc_tutorial");
     namespace mtc = moveit::task_constructor;
@@ -329,16 +326,7 @@ We start by defining a class that will contain the main MoveIt Task Constructor 
       rclcpp::Node::SharedPtr node_;
     };
 
-These lines initialize the node with specified options (it is the constructor of our ``MTCTaskNode`` class).
-
-.. code-block:: c++
-
-    MTCTaskNode::MTCTaskNode(const rclcpp::NodeOptions& options)
-      : node_{ std::make_shared<rclcpp::Node>("mtc_node", options) }
-    {
-    }
-
-These next lines define a getter function to get the node base interface, which will be used for the executor later.
+These lines define a getter function to get the node base interface, which will be used for the executor later.
 
 .. code-block:: c++
 
@@ -347,8 +335,16 @@ These next lines define a getter function to get the node base interface, which 
       return node_->get_node_base_interface();
     }
 
-This class method is used to set up the planning scene that is used in the example. It creates a cylinder with dimensions specified by ``object.primitives[0].dimensions`` and position specified by ``pose.position.x`` and ``pose.position.y``.
-You can try changing these numbers to resize and move the cylinder around. If we move the cylinder out of the robot's reach, planning will fail.
+These next lines initialize the node with specified options.
+
+.. code-block:: c++
+
+    MTCTaskNode::MTCTaskNode(const rclcpp::NodeOptions& options)
+      : node_{ std::make_shared<rclcpp::Node>("mtc_node", options) }
+    {
+    }
+
+This class method is used to set up the planning scene that is used in the example. It creates a cylinder with dimensions specified by ``object.primitives[0].dimensions`` and position specified by ``pose.position.z`` and ``pose.position.x``. You can try changing these numbers to resize and move the cylinder around. If you move the cylinder out of the robot's reach, planning will fail.
 
 .. code-block:: c++
 
@@ -433,40 +429,25 @@ Now, we add an example stage to the node. The first line sets ``current_state_pt
       current_state_ptr = stage_state_current.get();
       task.add(std::move(stage_state_current));
 
-Solvers are used to define the type of robot motion. MoveIt Task Constructor has three options for solvers:
+In order to plan any robot motions, we need to specify a solver. MoveIt Task Constructor has three options for solvers:
 
+ * ``PipelinePlanner`` uses MoveIt's planning pipeline, which typically defaults to OMPL.
+ * ``CartesianPath`` is used to move the end effector in a straight line in Cartesian space.
+ * ``JointInterpolation`` is a simple planner that interpolates between the start and goal joint states. It is typically used for simple motions as it computes quickly but doesn't support complex motions.
 
-  **PipelinePlanner** uses MoveIt's planning pipeline, which typically defaults to `OMPL <https://github.com/ompl/ompl>`_.
-
-  .. code:: c++
-
-        auto sampling_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_);
-
-  **JointInterpolation** is a simple planner that interpolates between the start and goal joint states. It is typically used for simple motions as it computes quickly but doesn't support complex motions.
-
-  .. code:: c++
-
-        auto interpolation_planner = std::make_shared<mtc::solvers::JointInterpolationPlanner>();
-
-  **CartesianPath** is used to move the end effector in a straight line in Cartesian space.
-
-  .. code:: c++
-
-        auto cartesian_planner = std::make_shared<mtc::solvers::CartesianPath>();
-
-Feel free to try out the different solvers and see how the robot motion changes. For the first stage we will use the Cartesian planner, which requires the following properties to be set:
+We also set some properties specific for to the Cartesian planner.
 
 .. code-block:: c++
+
+      auto sampling_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_);
+      auto interpolation_planner = std::make_shared<mtc::solvers::JointInterpolationPlanner>();
 
       auto cartesian_planner = std::make_shared<mtc::solvers::CartesianPath>();
       cartesian_planner->setMaxVelocityScalingFactor(1.0);
       cartesian_planner->setMaxAccelerationScalingFactor(1.0);
       cartesian_planner->setStepSize(.01);
 
-Now that we added in the planners, we can add a stage that will move the robot.
-The following lines use a ``MoveTo`` stage (a propagator stage). Since opening the hand is a relatively simple movement, we can use the joint interpolation planner.
-This stage plans a move to the "open hand" pose, which is a named pose defined in the :moveit_resources_codedir:`SRDF<panda_moveit_config/config/panda.srdf>` for the Panda robot.
-We return the task and finish with the ``createTask()`` function.
+Now that we added in the planners, we can add a stage that will move the robot. The following lines use a ``MoveTo`` stage (a propagator stage). Since opening the hand is a relatively simple movement, we can use the joint interpolation planner. This stage plans a move to the "open hand" pose, which is a named pose defined in the :moveit_resources_codedir:`SRDF<panda_moveit_config/config/panda.srdf>` for the panda robot. We return the task and finish with the createTask() function.
 
 .. code-block:: c++
 
@@ -508,15 +489,15 @@ Finally, we have ``main``: the following lines create a node using the class def
     }
 
 
-5 Running the Demo
-------------------
+Running the Demo
+----------------
 
-5.1 Launch Files
-^^^^^^^^^^^^^^^^
+Launch files
+^^^^^^^^^^^^
 
-We will need a launch file to launch the ``move_group``, ``ros2_control``, ``static_tf``, ``robot_state_publisher``, and ``rviz`` nodes that provide us the environment to run the demo. The one we will use for this example can be found :codedir:`here<tutorials/pick_and_place_with_moveit_task_constructor/launch/mtc_demo.launch.py>`.
+We will need a launch file to launch ``move_group``, ``ros2_control``, ``static_tf``, ``robot_state_publisher``, and ``rviz``. :codedir:`Here <tutorials/pick_and_place_with_moveit_task_constructor/launch/mtc_demo.launch.py>` is the launch file we use in the tutorials package. Put this in the launch directory of your package.
 
-To run the MoveIt Task Constructor node, we will use a second launch file to start the ``mtc_tutorial`` executable with the proper parameters. Here we can load URDF, SRDF, and OMPL parameters, or use MoveIt Configs Utils to do so. Your launch file should look something like the one found in this tutorial package :codedir:`here <tutorials/pick_and_place_with_moveit_task_constructor/launch/pick_place_demo.launch.py>` (pay close attention to the ``package`` and ``executable`` arguments below as they are different from the launch file linked) :
+To run the MoveIt Task Constructor node, we need a second launch file to start the ``mtc_tutorial`` executable with the proper parameters. Either load your URDF, SRDF, and OMPL parameters, or use MoveIt Configs Utils to do so. Your launch file should look something like this:
 
 .. code-block:: python
 
@@ -530,7 +511,7 @@ To run the MoveIt Task Constructor node, we will use a second launch file to sta
         # MTC Demo node
         pick_place_demo = Node(
             package="mtc_tutorial",
-            executable="mtc_node",
+            executable="mtc_tutorial",
             output="screen",
             parameters=[
                 moveit_config,
@@ -539,28 +520,26 @@ To run the MoveIt Task Constructor node, we will use a second launch file to sta
 
         return LaunchDescription([pick_place_demo])
 
-Save a launch file as ``pick_place_demo.launch.py`` or download one to the package's launch directory. Make sure to edit the ``CMakeLists.txt`` so it includes the launch folder by adding the following lines: ::
+Save this file as ``pick_place_demo.launch.py`` in your package's launch directory. Make sure to add the following line to your ``CMakeLists.txt`` so that the launch files are properly installed. ::
 
-    install(DIRECTORY launch
-      DESTINATION share/${PROJECT_NAME}
-      )
+   install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
 
-Now we can build and source the colcon workspace. ::
+Now build and source your colcon workspace. ::
 
-    cd ~/ws_moveit
+    cd ~/ws_moveit2
     colcon build --mixin release
-    source ~/ws_moveit/install/setup.bash
+    source ~/ws_moveit2/install/setup.bash
 
-Start by launching the first launch file. If you want to use the one provided by the tutorials: ::
+Start by launching your first launch file. If you want to use the one provided by the tutorials: ::
 
     ros2 launch moveit2_tutorials mtc_demo.launch.py
 
-RViz will now load. If you're using your own launch file and haven't included an rviz config :codedir:`such as this<tutorials/pick_and_place_with_moveit_task_constructor/launch/mtc.rviz>`, you will need to configure RViz before you see anything displayed. If you're using the launch file from the tutorials package, RViz will already be configured for you and you can jump to the end of the next section.
+RViz should load. If you're using your own launch file, before we can see anything, we will need to configure RViz. If you're using the launch file from the tutorials package, this will already be configured for you.
 
-5.2 RViz Configuration
-^^^^^^^^^^^^^^^^^^^^^^
+RViz Configuration
+^^^^^^^^^^^^^^^^^^
 
-If you are not using the RViz configuration provided, we'll have to make some changes to the RViz configuration to see your robot and the MoveIt Task Constructor solutions. First, start RViz. The following steps will cover how to set up RViz for MoveIt Task Constructor solution visualization.
+In order to see your robot and the MoveIt Task Constructor solutions in RViz, we'll have to make some changes to the RViz configuration. First, start RViz. The following steps will cover how to set up RViz for MoveIt Task Constructor solution visualization.
 
 1. If the **MotionPlanning** display is active, uncheck it to hide it for now.
 2. Under **Global Options**, change the **Fixed Frame** from ``map`` to ``panda_link0`` if not already done.
@@ -570,10 +549,10 @@ If you are not using the RViz configuration provided, we'll have to make some ch
 
 You should see the panda arm in the main view with Motion Planning Tasks display open in the bottom left and nothing in it. Your MTC task will show up in this panel once you launch the ``mtc_tutorial`` node. If you're using ``mtc_demo.launch.py`` from the tutorials, jump back in here.
 
-5.3 Launching the Demo
-^^^^^^^^^^^^^^^^^^^^^^
+Launching the Demo
+^^^^^^^^^^^^^^^^^^
 
-Launch the ``mtc_tutorial`` node with  ::
+Launch your ``mtc_tutorial`` node with  ::
 
     ros2 launch mtc_tutorial pick_place_demo.launch.py
 
@@ -586,15 +565,15 @@ If you haven't made your own package, but still want to see what this looks like
 
     ros2 launch moveit2_tutorials mtc_demo_minimal.launch.py
 
-6 Adding Stages
----------------
+Adding Stages
+-------------
 
-So far, we've walked through creating and executing a simple task, which runs but does not do much. Now, we will start adding the pick-and-place stages to the task. The image below shows an outline of the stages we will use in our task.
+So far, we've walked through creating and executing a simple task, which runs but does not do much. Now, we will start adding the pick-and-place stages to the task. The image below shows an outline of the stages we will use in our task. To understand more about the concepts behind MoveIt Task Constructor and the different stage types, see the :doc:`example page for MoveIt Task Constructor </doc/examples/moveit_task_constructor/moveit_task_constructor_tutorial>`.
 
 .. image:: stages.png
    :width: 700px
 
-We will start adding stages after our existing open hand stage. Open ``mtc_node.cpp`` and locate the following lines:
+We will start adding stages after our existing open hand stage here:
 
 .. code-block:: c++
 
@@ -605,8 +584,8 @@ We will start adding stages after our existing open hand stage. Open ``mtc_node.
       task.add(std::move(stage_open_hand));
       // Add the next lines of codes to define more stages here
 
-6.1 Pick Stages
-^^^^^^^^^^^^^^^
+Pick Stages
+^^^^^^^^^^^
 
 We need to move the arm to a position where we can pick up our object. This is done with a ``Connect`` stage, which as its name implies, is a Connector stage. This means that it tries to bridge between the results of the stage before and after it. This stage is initialized with a name, ``move_to_pick``, and a ``GroupPlannerVector`` that specifies the planning group and the planner. We then set a timeout for the stage, set the properties for the stage, and add it to our task.
 
@@ -627,11 +606,7 @@ Next, we create a pointer to a MoveIt Task Constructor stage object, and set it 
       mtc::Stage* attach_object_stage =
           nullptr;  // Forward attach_object_stage to place pose generator
 
-This next block of code creates a ``SerialContainer``.
-This is a container that can be added to our task and can hold several substages.
-In this case, we create a serial container that will contain the stages relevant to the picking action.
-Instead of adding the stages to the task, we will add the relevant stages to the serial container. We use ``exposeTo()`` to declare the task properties from the parent task in the new serial container, and use ``configureInitFrom()`` to initialize them.
-This allows the contained stages to access these properties.
+This next block of code creates a ``SerialContainer``. This is a container that can be added to our task and can hold several substages. In this case, we create a serial container that will contain the stages relevant to the picking action. Instead of adding the stages to the task, we will add the relevant stages to the serial container. We use ``exposeTo`` to declare the task properties from the parent task in the new serial container, and use configureInitFrom() to initialize them. This allows the contained stages to access these properties.
 
 .. code-block:: c++
 
@@ -663,12 +638,7 @@ We then create a stage to approach the object. This stage is a ``MoveRelative`` 
           grasp->insert(std::move(stage));
         }
 
-Now, create a stage to generate the grasp pose.
-This is a generator stage, so it computes its results without regard to the stages before and after it.
-The first stage, ``CurrentState`` is a generator stage as well - to connect the first stage and this stage, a connecting stage must be used, which we already created above.
-This code sets the stage properties, sets the pose before grasping, the angle delta, and the monitored stage.
-Angle delta is a property of the ``GenerateGraspPose`` stage that is used to determine the number of poses to generate; when generating solutions, MoveIt Task Constructor will try to grasp the object from many different orientations, with the difference between the orientations specified by the angle delta. The smaller the delta, the closer together the grasp orientations will be. When defining the current stage, we set ``current_state_ptr``, which is now used to forward information about the object pose and shape to the inverse kinematics solver.
-This stage won't be directly added to the serial container like previously, as we still need to do inverse kinematics on the poses it generates.
+Now, create a stage to generate the grasp pose. This is a generator stage, so it computes its results without regard to the stages before and after it. The first stage, ``CurrentState`` is a generator stage as well - to connect the first stage and this stage, a connecting stage must be used, which we already created above. This code sets the stage properties, sets the pose before grasping, the angle delta, and the monitored stage. Angle delta is a property of the ``GenerateGraspPose`` stage that is used to determine the number of poses to generate; when generating solutions, MoveIt Task Constructor will try to grasp the object from many different orientations, with the difference between the orientations specified by the angle delta. The smaller the delta, the closer together the grasp orientations will be. When defining the current stage, we set ``current_state_ptr``, which is now used to forward information about the object pose and shape to the inverse kinematic solver. This stage won't be directly added to the serial container like previously, as we still need to do inverse kinematics on the poses it generates.
 
 .. code-block:: c++
 
@@ -710,7 +680,7 @@ Now, we create the ``ComputeIK`` stage, and give it the name ``generate pose IK`
           grasp->insert(std::move(wrapper));
         }
 
-To pick up the object, we must allow collision between the hand and the object. This can be done with a ``ModifyPlanningScene`` stage. The ``allowCollisions`` function lets us specify which collisions to disable.
+In order to pick up the object, we must allow collision between the hand and the object. This can be done with a ``ModifyPlanningScene`` stage. The ``allowCollisions`` function lets us specify which collisions to disable.
 ``allowCollisions`` can be used with a container of names, so we can use ``getLinkModelNamesWithCollisionGeometry`` to get all the names of links with collision geometry in the hand group.
 
 .. code-block:: c++
@@ -775,14 +745,11 @@ With this, we have all the stages needed to pick the object. Now, we add the ser
         task.add(std::move(grasp));
       }
 
-To test out the newly created stage, build the code and execute: ::
 
-  ros2 launch mtc_tutorial pick_place_demo.launch.py
+Place Stages
+^^^^^^^^^^^^
 
-6.2 Place Stages
-^^^^^^^^^^^^^^^^
-
-Now that the stages that define the pick are complete, we move on to defining the stages for placing the object. Picking up where we left off, we add a ``Connect`` stage to connect the two, as we will soon be using a generator stage to generate the pose for placing the object.
+Now that the stages that define the pick are complete, we move on to defining the stages for placing the object. We start with a ``Connect`` stage to connect the two, as we will soon be using a generator stage to generate the pose for placing the object.
 
 .. code-block:: c++
 
@@ -790,14 +757,13 @@ Now that the stages that define the pick are complete, we move on to defining th
         auto stage_move_to_place = std::make_unique<mtc::stages::Connect>(
             "move to place",
             mtc::stages::Connect::GroupPlannerVector{ { arm_group_name, sampling_planner },
-                                                      { hand_group_name, interpolation_planner } });
+                                                      { hand_group_name, sampling_planner } });
         stage_move_to_place->setTimeout(5.0);
         stage_move_to_place->properties().configureInitFrom(mtc::Stage::PARENT);
         task.add(std::move(stage_move_to_place));
       }
 
-We also create a serial container for the place stages. This is done similarly to the pick serial container.
-The next stages will be added to the serial container rather than the task.
+We also create a serial container for the place stages. This is done similarly to the pick serial container. The next stages will be added to the serial container rather than the task.
 
 .. code-block:: c++
 
@@ -807,6 +773,9 @@ The next stages will be added to the serial container rather than the task.
         place->properties().configureInitFrom(mtc::Stage::PARENT,
                                               { "eef", "group", "ik_frame" });
 
+<<<<<<< HEAD
+This next stage generates the poses used to place the object and compute the inverse kinematics for those poses - it is somewhat similar to the ``generate grasp pose`` stage from the pick serial container. We start by creating a stage to generate the poses and inheriting the task properties. We specify the pose where we want to place the object with a ``PoseStamped`` message from ``geometry_msgs`` - in this case, we choose ``y = 0.5``. We then pass the target pose to the stage with ``setPose``.  Next, we use ``setMonitoredStage`` and pass it the pointer to the ``attach object stage`` from earlier. This allows the stage to know how the object is attached. We then create a ``ComputeIK`` stage and pass it our ``GeneratePlacePose`` stage - the rest follows the same logic as above with the pick stages.
+=======
 This next stage generates the poses used to place the object and compute the inverse kinematics for those poses - it is somewhat similar to the ``generate grasp pose`` stage from the pick serial container.
 We start by creating a stage to generate the poses and inheriting the task properties.
 We specify the pose where we want to place the object with a ``PoseStamped`` message from ``geometry_msgs`` - in this case, we choose ``y = 0.5`` in the ``"object"`` frame.
@@ -814,6 +783,7 @@ We then pass the target pose to the stage with ``setPose``.
 Next, we use ``setMonitoredStage`` and pass it the pointer to the ``attach_object`` stage from earlier.
 This allows the stage to know how the object is attached.
 We then create a ``ComputeIK`` stage and pass it our ``GeneratePlacePose`` stage - the rest follows the same logic as above with the pick stages.
+>>>>>>> 35048cb (Fix place pose generation IK frame in MTC Tutorial (#727))
 
 .. code-block:: c++
 
@@ -853,8 +823,7 @@ Now that we're ready to place the object, we open the hand with ``MoveTo`` stage
           place->insert(std::move(stage));
         }
 
-We also can re-enable collisions with the object now that we no longer need to hold it.
-This is done using ``allowCollisions`` almost exactly the same way as disabling collisions, except setting the last argument to ``false`` rather than ``true``.
+We also can re-enable collisions with the object now that we no longer need to hold it. This is done using ``allowCollisions`` almost exactly the same way as disabling collisions, except setting the last argument to ``false`` rather than``true``.
 
 .. code-block:: c++
 
@@ -905,7 +874,7 @@ We finish our place serial container and add it to the task.
         task.add(std::move(place));
       }
 
-The final step is to return home: we use a ``MoveTo`` stage and pass it the goal pose of ``ready``, which is a pose defined in the Panda SRDF.
+The final step is to return home: we use a ``MoveTo`` stage and pass it the goal pose of ``ready``, which is a pose defined in the panda SRDF.
 
 .. code-block:: c++
 
@@ -925,13 +894,10 @@ All these stages should be added above these lines.
       return task;
     }
 
-Congratulations! You've now defined a pick and place task using MoveIt Task Constructor! To try it out, build the code and execute: ::
+Congratulations! You've now defined a pick and place task using MoveIt Task Constructor!
 
-  ros2 launch mtc_tutorial pick_place_demo.launch.py
-
-
-7 Further Discussion
---------------------
+Visualizing with RViz
+---------------------
 
 The task with each comprising stage is shown in the Motion Planning Tasks pane. Click on a stage and additional information about the stage will show up to the right. The right pane shows different solutions as well as their associated costs. Depending on the stage type and the robot configuration, there may only be one solution shown.
 
@@ -945,8 +911,8 @@ And in a second terminal: ::
 
     ros2 launch moveit2_tutorials pick_place_demo.launch.py
 
-7.1 Debugging Information Printed to the Terminal
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Debugging from terminal
+^^^^^^^^^^^^^^^^^^^^^^^
 
 When running MTC, it prints a diagram like this to terminal:
 
@@ -955,14 +921,7 @@ When running MTC, it prints a diagram like this to terminal:
     [demo_node-1]     1  - ←   1 →   -  0 / initial_state
     [demo_node-1]     -  0 →   0 →   -  0 / move_to_home
 
-This example^ shows two stages. The first stage ("initial_state") is a ``CurrentState`` type of stage, which initializes a ``PlanningScene`` and captures any collision objects that are present at that moment.
-A pointer to this stage can be used to retrieve the state of the robot.
-Since ``CurrentState`` inherits from  ``Generator``, it propagates solutions both forward and backward.
-This is denoted by the arrows in both directions.
-
-- The first ``1`` indicates that one solution was successfully propagated backwards to the previous stage.
-- The second ``1``, between the arrows, indicates that one solution was generated.
-- The ``0`` indicates that a solution was not propagated forward successfully to the next stage, because the next stage failed.
+This example^ shows two stages. The first stage ("initial_state") is a ``CurrentState`` type of stage, which initializes a PlanningScene and captures any collision objects that are present at that moment. A pointer to this stage can be used to retrieve the state of the robot. Since CurrentState inherits from  ``Generator``, it propagates solutions both forward and backward. This is denoted by the arrows in both directions. The first ``1`` indicates that one solution was successfully propagated backwards to the previous stage. The second ``1``, between the arrows, indicates that one solution was generated. The ``0`` indicates that a solution was not propagated forward successfully to the next stage, because the next stage failed.
 
 The second stage ("move_to_home") is a ``MoveTo`` type of stage. It inherits its propagation direction from the previous stage, so both arrows point forward. The ``0``'s indicate that this stage failed completely. From left to right, the ``0``'s mean:
 
@@ -972,17 +931,13 @@ The second stage ("move_to_home") is a ``MoveTo`` type of stage. It inherits its
 
 In this case, we could tell that "move_to_home" was the root cause of the failure. The problem was a home state that was in collision. Defining a new, collision-free home position fixed the issue.
 
-7.2 Stages
-^^^^^^^^^^
+Various hints
+^^^^^^^^^^^^^
 
 Information about individual stages can be retrieved from the task. For example, here we retrieve the unique ID for a stage: ::
 
     uint32_t const unique_stage_id = task_.stages()->findChild(stage_name)->introspectionId();
 
-A ``CurrentState`` type stage does not just retrieve the current state of the robot.
-It also initializes a ``PlanningScene`` object, capturing any collision objects that are present at that moment.
+A CurrentState type stage does not just retrieve the current state of the robot. It also initializes a PlanningScene object, capturing any collision objects that are present at that moment.
 
-MTC stages can be propagated in forward and backward order.
-You can easily check which direction a stage propagates by the arrow in the RViz GUI.
-When propagating backwards, the logic of many operations is reversed.
-For example, to allow collisions with an object in a ``ModifyPlanningScene`` stage, you would call ``allowCollisions(false)`` rather than ``allowCollisions(true)``. There is a discussion to be read `here. <https://github.com/ros-planning/moveit_task_constructor/issues/349>`_
+MTC stages can be propagated in forward and backward order. You can easily check which direction a stage propagates by the arrow in the RViz GUI. When propagating backwards, the logic of many operations is reversed. For example, to allow collisions with an object in a ``ModifyPlanningScene`` stage, you would call ``allowCollisions(false)`` rather than ``allowCollisions(true)``. There is a discussion to be read `here. <https://github.com/ros-planning/moveit_task_constructor/issues/349>`_
