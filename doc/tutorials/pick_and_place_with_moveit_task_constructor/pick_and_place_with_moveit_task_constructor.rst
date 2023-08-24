@@ -495,7 +495,7 @@ Running the Demo
 Launch files
 ^^^^^^^^^^^^
 
-We will need a launch file to launch ``move_group``, ``ros2_control``, ``static_tf``, ``robot_state_publisher``, and ``rviz``. :codedir:`Here <tutorials/pick_and_place_with_moveit_task_constructor/launch/pick_place_demo.launch.py>` is the launch file we use in the tutorials package. Put this in the launch directory of your package.
+We will need a launch file to launch ``move_group``, ``ros2_control``, ``static_tf``, ``robot_state_publisher``, and ``rviz``. :codedir:`Here <tutorials/pick_and_place_with_moveit_task_constructor/launch/mtc_demo.launch.py>` is the launch file we use in the tutorials package. Put this in the launch directory of your package.
 
 To run the MoveIt Task Constructor node, we need a second launch file to start the ``mtc_tutorial`` executable with the proper parameters. Either load your URDF, SRDF, and OMPL parameters, or use MoveIt Configs Utils to do so. Your launch file should look something like this:
 
@@ -520,7 +520,11 @@ To run the MoveIt Task Constructor node, we need a second launch file to start t
 
         return LaunchDescription([pick_place_demo])
 
-Save this file as ``pick_place_demo.launch.py`` in your package's launch directory, then build and source your colcon workspace. ::
+Save this file as ``pick_place_demo.launch.py`` in your package's launch directory. Make sure to add the following line to your ``CMakeLists.txt`` so that the launch files are properly installed. ::
+
+   install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
+
+Now build and source your colcon workspace. ::
 
     cd ~/ws_moveit2
     colcon build --mixin release
