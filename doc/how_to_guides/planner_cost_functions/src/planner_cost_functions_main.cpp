@@ -272,8 +272,13 @@ public:
       {
         planning_component_->setStateCostFunction(nullptr);
       }
+      auto solution = planning_component_->plan(plan_request_parameters, planning_scene);
+      if (pipeline_config.use_cost_function)
+      {
+        solution.planner_id += std::string("_with_cost_term");
+      }
 
-      solutions.push_back(planning_component_->plan(plan_request_parameters, planning_scene));
+      solutions.push_back(solution);
     }
 
     int color_index = 1;
@@ -285,7 +290,8 @@ public:
       if (plan_solution.trajectory)
       {
         RCLCPP_INFO_STREAM(LOGGER, plan_solution.planner_id.c_str()
-                                       << ": " << colorToString(rviz_visual_tools::Colors(color_index)));
+                                       << ": " << colorToString(rviz_visual_tools::Colors(color_index))
+                                       << ", Path length: " << robot_trajectory::path_length(*plan_solution.trajectory));
         // Visualize the trajectory in Rviz
         visual_tools_.publishTrajectoryLine(plan_solution.trajectory, joint_model_group_ptr,
                                             rviz_visual_tools::Colors(color_index));
