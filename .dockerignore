@@ -1,4 +1,10 @@
-_scripts/
-_static/
-_templates/
-.docker/
+__pycache__
+**/.git
+**/.github
+**/_scripts
+**/_static
+**/_templates
+**/build
+**/.vscode
+*.md
+*.rst

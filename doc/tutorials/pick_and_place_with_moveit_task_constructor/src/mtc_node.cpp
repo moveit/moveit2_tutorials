@@ -58,6 +58,7 @@ void MTCTaskNode::setupPlanningScene()
   geometry_msgs::msg::Pose pose;
   pose.position.x = 0.5;
   pose.position.y = -0.25;
+  pose.orientation.w = 1.0;
   object.pose = pose;
 
   moveit::planning_interface::PlanningSceneInterface psi;
@@ -119,8 +120,8 @@ mtc::Task MTCTaskNode::createTask()
   auto interpolation_planner = std::make_shared<mtc::solvers::JointInterpolationPlanner>();
 
   auto cartesian_planner = std::make_shared<mtc::solvers::CartesianPath>();
-  cartesian_planner->setMaxVelocityScaling(1.0);
-  cartesian_planner->setMaxAccelerationScaling(1.0);
+  cartesian_planner->setMaxVelocityScalingFactor(1.0);
+  cartesian_planner->setMaxAccelerationScalingFactor(1.0);
   cartesian_planner->setStepSize(.01);
 
   // clang-format off
@@ -259,7 +260,7 @@ mtc::Task MTCTaskNode::createTask()
     auto stage_move_to_place = std::make_unique<mtc::stages::Connect>(
         "move to place",
         mtc::stages::Connect::GroupPlannerVector{ { arm_group_name, sampling_planner },
-                                                  { hand_group_name, sampling_planner } });
+                                                  { hand_group_name, interpolation_planner } });
     // clang-format on
     stage_move_to_place->setTimeout(5.0);
     stage_move_to_place->properties().configureInitFrom(mtc::Stage::PARENT);
@@ -287,6 +288,7 @@ mtc::Task MTCTaskNode::createTask()
       geometry_msgs::msg::PoseStamped target_pose_msg;
       target_pose_msg.header.frame_id = "object";
       target_pose_msg.pose.position.y = 0.5;
+      target_pose_msg.pose.orientation.w = 1.0;
       stage->setPose(target_pose_msg);
       stage->setMonitoredStage(attach_object_stage);  // Hook into attach_object_stage
 
@@ -297,7 +299,7 @@ mtc::Task MTCTaskNode::createTask()
       // clang-format on
       wrapper->setMaxIKSolutions(2);
       wrapper->setMinSolutionDistance(1.0);
-      wrapper->setIKFrame(hand_frame);
+      wrapper->setIKFrame("object");
       wrapper->properties().configureInitFrom(mtc::Stage::PARENT, { "eef", "group" });
       wrapper->properties().configureInitFrom(mtc::Stage::INTERFACE, { "target_pose" });
       place->insert(std::move(wrapper));
