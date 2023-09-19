@@ -121,7 +121,7 @@ Once our MoveIt configuration is defined we start the following set of nodes:
                 executable="static_transform_publisher",
                 name="static_transform_publisher",
                 output="log",
-                arguments=["0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "world", "panda_link0"],
+                arguments=["--frame-id", "world", "--child-frame-id", "panda_link0"],
         )
 
         robot_state_publisher = Node(
@@ -292,7 +292,7 @@ First we create a helper function that we will use later when planning and execu
                 # execute the plan
                 if plan_result:
                         robot_trajectory = plan_result.trajectory
-                        robot.execute(robot_trajectory, blocking=True, controllers=[])
+                        robot.execute(robot_trajectory, controllers=[])
                 else:
                         print("Planning failed")
 
