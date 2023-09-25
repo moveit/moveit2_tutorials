@@ -24,10 +24,6 @@ repositories:
     type: git
     url: https://github.com/ros-planning/moveit_resources
     version: ros2
-  moveit_benchmark_resources:
-    type: git
-    url: https://github.com/ros-planning/moveit_benchmark_resources.git
-    version: main
   moveit_msgs:
     type: git
     url: https://github.com/ros-planning/moveit_msgs
