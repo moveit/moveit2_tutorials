@@ -84,7 +84,6 @@ def generate_launch_description():
     moveit_ros_benchmarks_node = Node(
         name="moveit_run_benchmark",
         package="moveit_ros_benchmarks",
-        # prefix='gdb --ex=run --args',
         executable="moveit_run_benchmark",
         output="screen",
         parameters=[
