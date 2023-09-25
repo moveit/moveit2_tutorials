@@ -29,10 +29,10 @@ To introspect the benchmark data, the log files need to be converted into a data
     ros2 run moveit_ros_benchmarks moveit_benchmark_statistics.py LOG_FILE_1 ... LOG_FILE_N
 
 This command will create a database containing the data form all benchmark log files included. An easier way to create the database is to create it with all log files from a given repository.
-For example the argument ``/tmp/moveit_benchmarks/*`` can be used to collect all log files in the given directory into a single database. This database is created in the location where the command
+For example, the argument ``/tmp/moveit_benchmarks/*`` can be used to collect all log files in the given directory into a single database. This database is created in the location where the command
 above is run in a file names ``benchmark.db``.
 
-The database can be visualized by uploading the the file to `plannerarena.org <http://plannerarena.org>`_ and interactively visualize the results.
+The database can be visualized by uploading the the file to `plannerarena.org <http://plannerarena.org>`_ and interactively visualizing the results.
 
 
 .. image:: planners_benchmark.png
