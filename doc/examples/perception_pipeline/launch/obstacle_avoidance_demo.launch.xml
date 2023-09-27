@@ -18,7 +18,6 @@
     <arg name="rviz_tutorial" value="false" />
   </include>
 
-  <!-- If needed, broadcast static tf for robot root -->
-  <node pkg="tf2_ros" exec="static_transform_publisher" name="to_panda" args="0 0 0 0 0 0 world panda_link0" />
+  <!-- If needed, broadcast static tf for robot root -->  
   <node pkg="tf2_ros" exec="static_transform_publisher" name="to_camera" args="0.00 -.40 0.60 0.19 0.07 -1.91 world camera_rgb_optical_frame" />
 </launch>

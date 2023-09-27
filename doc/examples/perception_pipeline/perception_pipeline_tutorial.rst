@@ -163,7 +163,6 @@ You will need ``sensors_3d.yaml`` to be read by your application. :moveit_resour
         .to_moveit_configs()
    )
 
-If you are using depthmap change the name of the yaml file to ``sensors_3d.yaml``.
 Note that you will need to input the path to the right file you have created above.
 
 Octomap Configuration
