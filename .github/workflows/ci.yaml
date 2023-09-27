@@ -36,7 +36,11 @@ jobs:
     name: ${{ matrix.env.IMAGE }}
     runs-on: ubuntu-latest
     steps:
+<<<<<<< HEAD
       - uses: actions/checkout@v2
+=======
+      - uses: actions/checkout@v4
+>>>>>>> 51a42b0 (🛠️ Bump actions/checkout from 3 to 4 (#773))
         with:
           fetch-depth: 0
       - name: cache upstream_ws

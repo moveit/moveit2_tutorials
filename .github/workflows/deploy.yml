@@ -17,6 +17,7 @@ jobs:
   htmlproofer:
     runs-on: ubuntu-latest
     steps:
+<<<<<<< HEAD
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
@@ -25,6 +26,9 @@ jobs:
       with:
         python-version: '3.8'
         cache: 'pip'
+=======
+    - uses: actions/checkout@v4
+>>>>>>> 51a42b0 (🛠️ Bump actions/checkout from 3 to 4 (#773))
 
     - name: Install Python dependencies
       run: |
@@ -55,7 +59,7 @@ jobs:
     container:
       image: ${{ matrix.container }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: 'main'
 
@@ -88,7 +92,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: upload_site_artifacts
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         ref: 'main'
