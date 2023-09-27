@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Checkout distro branch
         if: ${{ matrix.ROS_DISTRO != 'rolling' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ matrix.ROS_DISTRO }}
       - name: Set lower case for container name
