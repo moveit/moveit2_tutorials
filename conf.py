@@ -223,8 +223,10 @@ extlinks = {
     ),
     "moveit_resources_codedir": (
         "https://github.com/"
-        + html_context["github_user"]
-        + "/moveit_resources/tree/ros2"
+#        + html_context["github_user"]
+        + "130s"
+#        + "/moveit_resources/tree/ros2"
+        + "/moveit_resources/tree/feature-panda-moveit-perception"
         + "/%s",
         "",
     ),  # TODO(dlu): use ros_distro when noetic-devel branch is available
