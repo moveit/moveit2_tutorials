@@ -34,7 +34,7 @@ To use the Occupancy Map Updater, it is only necessary to set the appropriate pa
 YAML Configuration file (Point Cloud)
 +++++++++++++++++++++++++++++++++++++
 
-We will have to generate a YAML configuration file for configuring the 3D sensors. Please see :panda_codedir:`this example file <config/sensors_3d.yaml>` for processing point clouds.
+We will have to generate a YAML configuration file for configuring the 3D sensors. Please see :moveit_resources_codedir:`this example file <panda_moveit_config/config/sensors_3d.yaml>` for processing point clouds.
 
 Save this file in the config folder in the robot's moveit_config package with name "sensors_3d.yaml": ::
 
@@ -50,6 +50,20 @@ Save this file in the config folder in the robot's moveit_config package with na
       point_cloud_topic: /camera/depth_registered/points
       point_subsample: 1
       sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
+  kinect_depthimage:
+      far_clipping_plane_distance: 5.0
+      filtered_cloud_topic: filtered_cloud
+      image_topic: /camera/depth_registered/image_raw
+      max_update_rate: 1.0
+      near_clipping_plane_distance: 0.3
+      ns: kinect
+      padding_offset: 0.03
+      padding_scale: 4.0
+      queue_size: 5
+      sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater
+      shadow_threshold: 0.2
+      skip_vertical_pixels: 4
+      skip_horizontal_pixels: 6
 
 **The general parameters are:**
 
@@ -75,7 +89,7 @@ Save this file in the config folder in the robot's moveit_config package with na
 YAML Configuration file (Depth Map)
 +++++++++++++++++++++++++++++++++++
 
-We will have to generate a YAML configuration file for configuring the 3D sensors. An :panda_codedir:`example file for processing depth images <config/sensors_3d.yaml>` can be found in the panda_moveit_config repository as well.
+We will have to generate a YAML configuration file for configuring the 3D sensors. An :moveit_resources_codedir:`example file for processing depth images <panda_moveit_config/config/sensors_3d.yaml>` can be found in the panda_moveit_config repository as well.
 Save this file in the config folder in the robot's moveit_config package with name "sensors_3d.yaml": ::
 
   sensors:
@@ -125,21 +139,43 @@ Update the launch file
 
 Add the YAML file to the launch script
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-You will now need to create a *sensor_manager.launch* file in the "launch" directory of your panda_moveit_config directory (e.g. `on github <https://github.com/ros-planning/panda_moveit_config/blob/rolling-devel/launch/sensor_manager.launch.xml>`_) with this sensor information. You will need to add the following line into that file to configure the set of sensor sources for MoveIt to use: ::
+You will now need to create a *sensor_manager.launch* file in the "launch" directory of your ``panda_moveit_config`` directory with this sensor information, which is already done for you for convenience under :moveit_resources_codedir:`moveit_resources/panda_moveit_config <panda_moveit_config/config/sensor_manager.launch.xml>`.
 
- <param from="$(find panda_moveit_config)/config/sensors_3d.yaml" />
+You will need ``sensors_3d.yaml`` to be read by your application. :moveit_resources_codedir:`In panda_moveit_config/launch/demo.launch.py <panda_moveit_config/launch/demo.launch.py>` the file is already read like the following (It's convoluted, you should use ``demo.launch.py`` from ``moveit_resources`` repo unless you know what this piece of code does.): ::
+
+   from moveit_configs_utils import MoveItConfigsBuilder
+   :
+   moveit_config = (
+        MoveItConfigsBuilder("moveit_resources_panda")
+        .robot_description(
+            file_path="config/panda.urdf.xacro",
+            mappings={
+                "ros2_control_hardware_type": LaunchConfiguration(
+                    "ros2_control_hardware_type"
+                )
+            },
+        )
+        .robot_description_semantic(file_path="config/panda.srdf")
+        .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
+        .planning_pipelines(
+            pipelines=["ompl", "chomp", "pilz_industrial_motion_planner", "stomp"])
+        .sensors_3d("config/sensors_3d.yaml")
+        .to_moveit_configs()
+   )
 
 If you are using depthmap change the name of the yaml file to ``sensors_3d.yaml``.
 Note that you will need to input the path to the right file you have created above.
 
 Octomap Configuration
 ^^^^^^^^^^^^^^^^^^^^^
-You will also need to configure the `Octomap <http://octomap.github.io/>`_ by adding the following lines into the *sensor_manager.launch*: ::
+You will also need to configure the `Octomap <http://octomap.github.io/>`_. :moveit_resources_codedir:`In the pre-made example (panda_moveit_config/launch/demo.launch.py) <panda_moveit_config/launch/demo.launch.py>` the following does the job: ::
 
- <param name="octomap_frame" type="string" value="odom_combined" />
- <param name="octomap_resolution" type="double" value="0.05" />
- <param name="max_range" type="double" value="5.0" />
-
+   def _octomap_launch_params(params: ParameterBuilder):
+       params.parameter("octomap_frame", "camera_rgb_optical_frame")
+       params.parameter("octomap_resolution", 0.05)
+       params.parameter("max_range", 5.0)
+       return params.to_dict()
+ 
 MoveIt uses an octree-based framework to represent the world around it. The *Octomap* parameters above are configuration parameters for this representation:
  * *octomap_frame*: specifies the coordinate frame in which this representation will be stored. If you are working with a mobile robot, this frame should be a fixed frame in the world.
  * *octomap_resolution*: specifies the resolution at which this representation is maintained (in meters).

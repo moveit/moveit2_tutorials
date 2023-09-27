@@ -32,7 +32,3 @@ repositories:
     type: git
     url: https://github.com/PickNikRobotics/pick_ik
     version: main
-  panda_moveit_config:
-    type: git
-    url: https://github.com/ros-planning/panda_moveit_config
-
