@@ -19,14 +19,11 @@ jobs:
       PUSH: ${{ (github.ref_name == 'main') }}
 
     steps:
-<<<<<<< HEAD
-=======
       - name: Checkout distro branch
         if: ${{ matrix.ROS_DISTRO != 'rolling' }}
         uses: actions/checkout@v4
         with:
           ref: ${{ matrix.ROS_DISTRO }}
->>>>>>> 51a42b0 (🛠️ Bump actions/checkout from 3 to 4 (#773))
       - name: Set lower case for container name
         run: |
           echo "GH_IMAGE_LC=${GH_IMAGE,,}" >>${GITHUB_ENV}
