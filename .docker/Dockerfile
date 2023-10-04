@@ -39,8 +39,7 @@ RUN . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
         --dependencies moveit_task_constructor_core rclcpp \
         --node-name mtc_node mtc_tutorial
 
-# Remove the empty cpp file and replace it with the example file
-RUN rm src/mtc_tutorial/src/mtc_node.cpp
+# Replace template mtc_node.cpp with the example file
 COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/src/mtc_node.cpp src/mtc_tutorial/src/mtc_node.cpp
 
 # Add the launch folder to the tutorial package and CMakeLists.txt
