@@ -11,11 +11,8 @@ LABEL org.opencontainers.image.description "This container has working versions 
 # Copy MoveIt sources from docker context
 COPY . src/moveit2_tutorials
 
-# Commands are combined in single RUN statement with "apt/lists" folder removal to reduce image size
-# https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#minimize-the-number-of-layers
-RUN --mount=type=cache,target=/root/.ccache/ \
-    # Fetch required upstream sources for building
-    vcs import src < /root/ws_moveit/src/moveit2_tutorials/.github/upstream.repos
+# Fetch required upstream sources for building
+RUN vcs import src < .github/upstream.repos
 
 ######################### Hello World Tutorial  #########################################
 
@@ -28,10 +25,7 @@ RUN . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
     --dependencies moveit_ros_planning_interface moveit_visual_tools rclcpp \
     --node-name hello_moveit hello_moveit
 
-######################### Planning Around Objects  #######################################
-
-# Remove the hello_world tutorial cpp file and replace it with the planning_around_objects file
-RUN rm src/hello_moveit/src/hello_moveit.cpp
+# Replace template hello_moveit.cpp with implementation from planning_around_objects
 COPY ./doc/tutorials/planning_around_objects/hello_moveit.cpp src/hello_moveit/src/hello_moveit.cpp
 
 ######################### Pick and Place (MTC) Image  #########################################
@@ -58,7 +52,7 @@ RUN sed -i "s|ament_package()|install(DIRECTORY launch  DESTINATION share/\${PRO
 RUN --mount=type=cache,target=/root/.ccache/ \
     # Enable ccache
     . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
-     . "install/setup.sh" &&\
+    . "install/setup.sh" &&\
     sudo apt update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
     sudo apt install -y ros-${ROS_DISTRO}-rmw-cyclonedds-cpp && \
     colcon build \
