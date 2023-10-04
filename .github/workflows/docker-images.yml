@@ -38,6 +38,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           file: .docker/Dockerfile
+          context: .
           build-args: |
                 ROS_DISTRO=${{ matrix.ROS_DISTRO }}
           target: tutorial_image
