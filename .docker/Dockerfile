@@ -8,11 +8,11 @@ FROM moveit/moveit2:${ROS_DISTRO}-source as tutorial_image
 
 LABEL org.opencontainers.image.description "This container has working versions of the tutorials discussed here: https://moveit.picknik.ai/main/doc/tutorials/tutorials.html"
 
-# Copy MoveIt sources from docker context
+# Copy sources from docker context
 COPY . src/moveit2_tutorials
 
 # Fetch required upstream sources for building
-RUN vcs import src < .github/upstream.repos
+RUN vcs import src < src/moveit2_tutorials/.github/upstream.repos
 
 ######################### Hello World Tutorial  #########################################
 
