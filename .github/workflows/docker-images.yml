@@ -24,6 +24,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ matrix.ROS_DISTRO }}
+          fetch-depth: 1
+      - name: Checkout main branch
+        if: ${{ (matrix.ROS_DISTRO == 'rolling') }}
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1 
       - name: Set lower case for container name
         run: |
           echo "GH_IMAGE_LC=${GH_IMAGE,,}" >>${GITHUB_ENV}
