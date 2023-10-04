@@ -19,17 +19,10 @@ jobs:
       PUSH: ${{ (github.ref_name == 'main') }}
 
     steps:
-      - name: Checkout distro branch
-        if: ${{ (matrix.ROS_DISTRO != 'rolling') }}
+      - name: Checkout branch ${{ matrix.ROS_DISTRO == 'rolling' && 'main' || matrix.ROS_DISTRO }}
         uses: actions/checkout@v4
         with:
-          ref: ${{ matrix.ROS_DISTRO }}
-          fetch-depth: 1
-      - name: Checkout main branch
-        if: ${{ (matrix.ROS_DISTRO == 'rolling') }}
-        uses: actions/checkout@v4
-        with:
-          ref: main
+          ref: ${{ matrix.ROS_DISTRO == 'rolling' && 'main' || matrix.ROS_DISTRO }}
           fetch-depth: 1
       - name: Set lower case for container name
         run: |
