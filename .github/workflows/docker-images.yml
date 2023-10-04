@@ -20,10 +20,13 @@ jobs:
 
     steps:
       - name: Checkout distro branch
-        if: ${{ matrix.ROS_DISTRO != 'rolling' }}
+        if: ${{ matrix.ROS_DISTRO }} != 'rolling'
         uses: actions/checkout@v4
         with:
           ref: ${{ matrix.ROS_DISTRO }}
+          fetch-depth: 1
+      - name: Print current branch
+        run: git branch --show-current
       - name: Set lower case for container name
         run: |
           echo "GH_IMAGE_LC=${GH_IMAGE,,}" >>${GITHUB_ENV}
