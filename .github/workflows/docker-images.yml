@@ -19,10 +19,6 @@ jobs:
       PUSH: ${{ (github.ref_name == 'main') }}
 
     steps:
-      - name: Checkout humble branch
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ matrix.ROS_DISTRO }}
       - name: Set lower case for container name
         run: |
           echo "GH_IMAGE_LC=${GH_IMAGE,,}" >>${GITHUB_ENV}
@@ -38,10 +34,8 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           file: .docker/Dockerfile
-          context: .
           build-args: |
                 ROS_DISTRO=${{ matrix.ROS_DISTRO }}
-                BASE_BRANCH=${{ env.BASE_IMAGE_BRANCH }}
           target: tutorial_image
           push: ${{ env.PUSH }}
           no-cache: false
