@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ROS_DISTRO: [humble, rolling]
+        ROS_DISTRO: [rolling]
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -19,11 +19,6 @@ jobs:
       PUSH: ${{ (github.ref_name == 'main') }}
 
     steps:
-      - name: Checkout distro branch
-        if: ${{ matrix.ROS_DISTRO != 'rolling' }}
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ matrix.ROS_DISTRO }}
       - name: Set lower case for container name
         run: |
           echo "GH_IMAGE_LC=${GH_IMAGE,,}" >>${GITHUB_ENV}
