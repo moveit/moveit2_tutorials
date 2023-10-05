@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ROS_DISTRO: rolling
+        ROS_DISTRO: [rolling]
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -19,10 +19,6 @@ jobs:
       PUSH: ${{ (github.ref_name == 'main') }}
 
     steps:
-      - name: Checkout branch main
-        uses: actions/checkout@v4
-        with:
-          ref: main
       - name: Set lower case for container name
         run: |
           echo "GH_IMAGE_LC=${GH_IMAGE,,}" >>${GITHUB_ENV}
@@ -38,7 +34,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           file: .docker/Dockerfile
-          context: .
           build-args: |
                 ROS_DISTRO=${{ matrix.ROS_DISTRO }}
           target: tutorial_image
