@@ -101,17 +101,17 @@ mtc::Task MTCTaskNode::createTask()
 
   // Set up 3 separate pilz planners with different IDs
   auto pilz_ptp_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_, "pilz_industrial_motion_planner");
-  pilz_ptp_planner->setPlannerId("PTP");
+  pilz_ptp_planner->setPlannerId("pilz_industrial_motion_planner", "PTP");
   pilz_ptp_planner->setProperty("max_velocity_scaling_factor", 0.5);
   pilz_ptp_planner->setProperty("max_acceleration_scaling_factor", 0.5);
 
   auto pilz_lin_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_, "pilz_industrial_motion_planner");
-  pilz_lin_planner->setPlannerId("LIN");
+  pilz_lin_planner->setPlannerId("pilz_industrial_motion_planner", "LIN");
   pilz_lin_planner->setProperty("max_velocity_scaling_factor", 0.2);
   pilz_lin_planner->setProperty("max_acceleration_scaling_factor", 0.2);
 
   auto pilz_circ_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_, "pilz_industrial_motion_planner");
-  pilz_circ_planner->setPlannerId("CIRC");
+  pilz_circ_planner->setPlannerId("pilz_industrial_motion_planner", "CIRC");
   pilz_circ_planner->setProperty("max_velocity_scaling_factor", 0.3);
   pilz_circ_planner->setProperty("max_acceleration_scaling_factor", 0.3);
 
