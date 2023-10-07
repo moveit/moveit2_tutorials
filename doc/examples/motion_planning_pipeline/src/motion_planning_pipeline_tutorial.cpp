@@ -108,7 +108,7 @@ int main(int argc, char** argv)
   // We can now setup the PlanningPipeline object, which will use the ROS parameter server
   // to determine the set of request adapters and the planning plugin to use
   planning_pipeline::PlanningPipelinePtr planning_pipeline(
-      new planning_pipeline::PlanningPipeline(robot_model, node, "", "planning_plugin", "request_adapters"));
+      new planning_pipeline::PlanningPipeline(robot_model, node, ""));
 
   // Visualization
   // ^^^^^^^^^^^^^
@@ -165,16 +165,13 @@ int main(int argc, char** argv)
   {
     planning_scene_monitor::LockedPlanningSceneRO lscene(psm);
     /* Now, call the pipeline and check whether planning was successful. */
-    planning_pipeline->generatePlan(lscene, req, res);
+    /* Check that the planning was successful */
+    if (!planning_pipeline->generatePlan(lscene, req, res) || res.error_code.val != res.error_code.SUCCESS)
+    {
+      RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
+      return 0;
+    }
   }
-  /* Now, call the pipeline and check whether planning was successful. */
-  /* Check that the planning was successful */
-  if (res.error_code.val != res.error_code.SUCCESS)
-  {
-    RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
-    return 0;
-  }
-
   // Visualize the result
   // ^^^^^^^^^^^^^^^^^^^^
   rclcpp::Publisher<moveit_msgs::msg::DisplayTrajectory>::SharedPtr display_publisher =
@@ -217,13 +214,11 @@ int main(int argc, char** argv)
   {
     planning_scene_monitor::LockedPlanningSceneRO lscene(psm);
     /* Now, call the pipeline and check whether planning was successful. */
-    planning_pipeline->generatePlan(lscene, req, res);
-  }
-  /* Check that the planning was successful */
-  if (res.error_code.val != res.error_code.SUCCESS)
-  {
-    RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
-    return 0;
+    if (!planning_pipeline->generatePlan(lscene, req, res) || res.error_code.val != res.error_code.SUCCESS)
+    {
+      RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
+      return 0;
+    }
   }
   /* Visualize the trajectory */
   RCLCPP_INFO(LOGGER, "Visualizing the trajectory");
@@ -264,12 +259,11 @@ int main(int argc, char** argv)
   {
     planning_scene_monitor::LockedPlanningSceneRO lscene(psm);
     /* Now, call the pipeline and check whether planning was successful. */
-    planning_pipeline->generatePlan(lscene, req, res);
-  }
-  if (res.error_code.val != res.error_code.SUCCESS)
-  {
-    RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
-    return 0;
+    if (!planning_pipeline->generatePlan(lscene, req, res) || res.error_code.val != res.error_code.SUCCESS)
+    {
+      RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
+      return 0;
+    }
   }
   /* Visualize the trajectory */
   RCLCPP_INFO(LOGGER, "Visualizing the trajectory");
