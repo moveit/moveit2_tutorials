@@ -138,6 +138,7 @@ int main(int argc, char** argv)
   // We will now create a motion plan request for the right arm of the Panda
   // specifying the desired pose of the end-effector as input.
   planning_interface::MotionPlanRequest req;
+  req.allowed_planning_time = 1.0;
   planning_interface::MotionPlanResponse res;
   geometry_msgs::msg::PoseStamped pose;
   pose.header.frame_id = "panda_link0";
@@ -169,7 +170,8 @@ int main(int argc, char** argv)
     if (!planning_pipeline->generatePlan(lscene, req, res) || res.error_code.val != res.error_code.SUCCESS)
     {
       RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
-      return 0;
+      rclcpp::shutdown();
+      return -1;
     }
   }
   // Visualize the result
@@ -217,7 +219,8 @@ int main(int argc, char** argv)
     if (!planning_pipeline->generatePlan(lscene, req, res) || res.error_code.val != res.error_code.SUCCESS)
     {
       RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
-      return 0;
+      rclcpp::shutdown();
+      return -1;
     }
   }
   /* Visualize the trajectory */
@@ -262,7 +265,8 @@ int main(int argc, char** argv)
     if (!planning_pipeline->generatePlan(lscene, req, res) || res.error_code.val != res.error_code.SUCCESS)
     {
       RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
-      return 0;
+      rclcpp::shutdown();
+      return -1;
     }
   }
   /* Visualize the trajectory */
