@@ -34,10 +34,11 @@ pilz_lin:
     max_acceleration_scaling_factor: 1.0
     planning_time: 0.8
 
-chomp:
+chomp_planner:
   plan_request_params:
     planning_attempts: 1
     planning_pipeline: chomp
+    pipeline_id: chomp
     max_velocity_scaling_factor: 1.0
     max_acceleration_scaling_factor: 1.0
     planning_time: 1.5
