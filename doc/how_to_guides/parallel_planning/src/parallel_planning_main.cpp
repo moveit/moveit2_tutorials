@@ -225,7 +225,7 @@ public:
     // The MultiPipelinePlanRequestParameters choose a set of planning pipelines to be used for parallel planning. Here,
     // we use all available pipelines but it is also possible to use a subset of pipelines.
     moveit_cpp::PlanningComponent::MultiPipelinePlanRequestParameters multi_pipeline_plan_request{
-      node_, { "ompl_rrtc", "pilz_lin", "chomp", "ompl_rrt_star" }
+      node_, { "ompl_rrtc", "pilz_lin", "chomp_planner", "ompl_rrt_star" }
     };
 
     auto plan_solution = planning_component_->plan(multi_pipeline_plan_request, &getShortestSolution);
@@ -293,7 +293,6 @@ int main(int argc, char** argv)
   RCLCPP_INFO(LOGGER, "Experiment 2 - Long motion with collisions");
   demo.setQueryGoal();
   demo.planAndPrint();
-
   rclcpp::shutdown();
   return 0;
 }
