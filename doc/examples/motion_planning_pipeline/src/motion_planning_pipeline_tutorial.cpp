@@ -108,7 +108,7 @@ int main(int argc, char** argv)
   // We can now setup the PlanningPipeline object, which will use the ROS parameter server
   // to determine the set of request adapters and the planning plugin to use
   planning_pipeline::PlanningPipelinePtr planning_pipeline(
-      new planning_pipeline::PlanningPipeline(robot_model, node, ""));
+      new planning_pipeline::PlanningPipeline(robot_model, node, "ompl"));
 
   // Visualization
   // ^^^^^^^^^^^^^
@@ -138,6 +138,8 @@ int main(int argc, char** argv)
   // We will now create a motion plan request for the right arm of the Panda
   // specifying the desired pose of the end-effector as input.
   planning_interface::MotionPlanRequest req;
+  req.pipeline_id = "ompl";
+  req.planner_id = "RRTConnectkConfigDefault";
   req.allowed_planning_time = 1.0;
   planning_interface::MotionPlanResponse res;
   geometry_msgs::msg::PoseStamped pose;
@@ -149,8 +151,8 @@ int main(int argc, char** argv)
 
   // A tolerance of 0.01 m is specified in position
   // and 0.01 radians in orientation
-  std::vector<double> tolerance_pose(3, 0.01);
-  std::vector<double> tolerance_angle(3, 0.01);
+  std::vector<double> tolerance_pose(3, 0.1);
+  std::vector<double> tolerance_angle(3, 0.1);
 
   // We will create the request as a constraint using a helper
   // function available from the
