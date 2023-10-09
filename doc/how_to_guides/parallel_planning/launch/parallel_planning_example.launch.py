@@ -56,7 +56,7 @@ def launch_setup(context, *args, **kwargs):
 
     # Load additional OMPL pipeline
     ompl_planning_pipeline_config = {
-        "ompl_rrt_star": {
+        "ompl_2": {
             "planning_plugin": "ompl_interface/OMPLPlanner",
             "request_adapters": """\
                 default_planner_request_adapters/AddTimeOptimalParameterization \
@@ -71,7 +71,7 @@ def launch_setup(context, *args, **kwargs):
     ompl_planning_yaml = load_yaml(
         "moveit_resources_panda_moveit_config", "config/ompl_planning.yaml"
     )
-    ompl_planning_pipeline_config["ompl_rrt_star"].update(ompl_planning_yaml)
+    ompl_planning_pipeline_config["ompl_2"].update(ompl_planning_yaml)
 
     # Warehouse config
     sqlite_database = os.path.join(
@@ -96,7 +96,11 @@ def launch_setup(context, *args, **kwargs):
         package="moveit2_tutorials",
         executable="parallel_planning_example",
         output="screen",
-        parameters=[moveit_config.to_dict(), warehouse_ros_config],
+        parameters=[
+            moveit_config.to_dict(),
+            warehouse_ros_config,
+            ompl_planning_pipeline_config,
+        ],
     )
 
     # RViz

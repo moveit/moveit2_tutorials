@@ -10,7 +10,7 @@ planning_scene_monitor_options:
 
 # Define which planning pipelines are loaded by moveit_cpp. These loaded pipelines will be available for simple and parallel planning
 planning_pipelines:
-  pipeline_names: ["ompl", "pilz_industrial_motion_planner", "chomp", "ompl_rrt_star"]
+  pipeline_names: ["ompl", "pilz_industrial_motion_planner", "chomp", "ompl_2"]
 
 # Configure parameters of a multi-pipeline plan request. The actual request is created in the cpp code when calling for example:
 #   MultiPipelinePlanRequestParameters multi_pipeline_plan_request{
@@ -47,7 +47,7 @@ chomp_planner:
 ompl_rrt_star:
   plan_request_params:
     planning_attempts: 1
-    planning_pipeline: ompl_rrt_star # Different OMPL pipeline name!
+    planning_pipeline: ompl_2 # Different OMPL pipeline name!
     planner_id: "RRTstarkConfigDefault"
     max_velocity_scaling_factor: 1.0
     max_acceleration_scaling_factor: 1.0
