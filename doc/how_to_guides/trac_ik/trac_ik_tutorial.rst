@@ -19,12 +19,10 @@ Install
 -------
 
 The ``rolling-devel`` branch of the TRAC-IK repository has the latest ROS 2 implementation.
-For now, the repository must be built from source in your ROS 2 workspace, for example ``~/moveit2_ws``.
+For now, the repository must be built from source in your ROS 2 workspace, for example ``~/moveit2_ws``. ::
 
-```
-cd ~/moveit2_ws/src
-git clone -b rolling-devel https://bitbucket.org/traclabs/trac_ik.git
-```
+  cd ~/moveit2_ws/src
+  git clone -b rolling-devel https://bitbucket.org/traclabs/trac_ik.git
 
 Usage
 -----
@@ -42,7 +40,7 @@ Usage
 
 From the `trac_ik_lib <https://bitbucket.org/traclabs/trac_ik/src/rolling-devel/trac_ik_lib/>`_ package documentation (slightly modified), here is some information about the solve type parameter:
 
-  ``Speed``: returns very quickly the first solution found.
-  ``Distance``: runs for the full timeout, then returns the solution that minimizes sum of squares error (SSE) from the seed.
-  ``Manip1``: runs for full timeout, returns solution that maximizes ``sqrt(det(J*J^T))`` (the product of the singular values of the Jacobian).
-  ``Manip2``: runs for full timeout, returns solution that minimizes the ratio of min to max singular values of the Jacobian.
+  - ``Speed``: returns very quickly the first solution found.
+  - ``Distance``: runs for the full timeout, then returns the solution that minimizes sum of squares error (SSE) from the seed.
+  - ``Manip1``: runs for full timeout, returns solution that maximizes ``sqrt(det(J*J^T))`` (the product of the singular values of the Jacobian).
+  - ``Manip2``: runs for full timeout, returns solution that minimizes the ratio of min to max singular values of the Jacobian.
