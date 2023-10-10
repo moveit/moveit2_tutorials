@@ -46,8 +46,13 @@ Download Source Code of MoveIt and the Tutorials
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Move into your Colcon workspace and pull the MoveIt tutorials source: ::
 
+<<<<<<< HEAD
   cd ~/ws_moveit2/src
   git clone https://github.com/ros-planning/moveit2_tutorials -b humble --depth 1
+=======
+  cd ~/ws_moveit/src
+  git clone https://github.com/ros-planning/moveit2_tutorials
+>>>>>>> d4082eb (Remove the note about doing a shallow checkout of tutorials (#788))
 
 Next we will download the source code for the rest of MoveIt: ::
 
