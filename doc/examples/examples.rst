@@ -62,7 +62,6 @@ Before attempting to integrate a new robot with MoveIt 2, check whether your rob
    perception_pipeline/perception_pipeline_tutorial
    hand_eye_calibration/hand_eye_calibration_tutorial
    ikfast/ikfast_tutorial
-   trac_ik/trac_ik_tutorial
 
 Configuration
 -------------

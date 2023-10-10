@@ -1,5 +1,6 @@
 *~
 *.pyc
+doc/api/python_api/_autosummary/
 doc/manifest.yaml
 doc/html
 build
