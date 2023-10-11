@@ -1,23 +1,23 @@
-FROM osrf/ros:humble-desktop-jammy
+FROM osrf/ros:rolling-desktop-jammy
 
 SHELL ["/bin/bash", "-c", "-o", "pipefail"]
 
 ARG CUDA_MAJOR_VERSION=11
 ARG CUDA_MINOR_VERSION=7
 
-RUN echo "deb [trusted=yes] https://raw.githubusercontent.com/moveit/moveit2_packages/jammy-humble/ ./" \
+RUN echo "deb [trusted=yes] https://raw.githubusercontent.com/moveit/moveit2_packages/jammy-rolling/ ./" \
     | sudo tee /etc/apt/sources.list.d/moveit_moveit2_packages.list
-RUN echo "yaml https://raw.githubusercontent.com/moveit/moveit2_packages/jammy-humble/local.yaml humble" \
+RUN echo "yaml https://raw.githubusercontent.com/moveit/moveit2_packages/jammy-rolling/local.yaml rolling" \
     | sudo tee /etc/ros/rosdep/sources.list.d/1-moveit_moveit2_packages.list
 
-# Bring the container up to date to get the latest ROS2 humble sync on 01/27/23
+# Bring the container up to date to get the latest ROS2 rolling sync on 01/27/23
 # hadolint ignore=DL3008, DL3013
 RUN apt-get update && apt-get upgrade -y && rosdep update
 
 # Install packages required to run the demo
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ros-humble-moveit \
-    ros-humble-moveit-resources \
+    ros-rolling-moveit \
+    ros-rolling-moveit-resources \
     wget \
     python3-pip
 
@@ -40,7 +40,7 @@ RUN git clone https://github.com/PickNikRobotics/topic_based_ros2_control.git
 COPY ./ moveit2_tutorials
 WORKDIR /root/isaac_moveit_tutorial_ws
 # hadolint ignore=SC1091
-RUN source /opt/ros/humble/setup.bash \
+RUN source /opt/ros/rolling/setup.bash \
     && apt-get update -y \
     && rosdep install --from-paths src --ignore-src --rosdistro "$ROS_DISTRO" -y \
     && rm -rf /var/lib/apt/lists/*
@@ -56,7 +56,7 @@ ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 ENV NVIDIA_REQUIRE_CUDA "cuda>=${CUDA_MAJOR_VERSION}.${CUDA_MINOR_VERSION}"
 
 # Build the Colcon workspace for the user
-RUN source /opt/ros/humble/setup.bash && colcon build
+RUN source /opt/ros/rolling/setup.bash && colcon build
 
 # Set up the entrypoint for both container start and interactive terminals.
 COPY ./doc/how_to_guides/isaac_panda/.docker/ros_entrypoint.sh /opt/.ros/
