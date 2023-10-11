@@ -10,7 +10,7 @@ RUN echo "deb [trusted=yes] https://raw.githubusercontent.com/moveit/moveit2_pac
 RUN echo "yaml https://raw.githubusercontent.com/moveit/moveit2_packages/jammy-rolling/local.yaml rolling" \
     | sudo tee /etc/ros/rosdep/sources.list.d/1-moveit_moveit2_packages.list
 
-# Bring the container up to date to get the latest ROS2 rolling sync on 01/27/23
+# Bring the container up to date to get the latest ROS 2 sync
 # hadolint ignore=DL3008, DL3013
 RUN apt-get update && apt-get upgrade -y && rosdep update
 
