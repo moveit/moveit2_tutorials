@@ -71,12 +71,6 @@ The fix start state collision adapter will attempt to sample a new collision-fre
 The amount that it will perturb the values by is specified by the **jiggle_fraction** parameter that controls the perturbation as a percentage of the total range of motion for the joint.
 The other parameter for this adapter specifies how many random perturbations the adapter will sample before giving up.
 
-FixStartStatePathConstraints
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This adapter is applied when the start state for a motion plan does not obey the specified path constraints.
-It will attempt to plan a path between the current configuration of the robot to a new location where the path constraint is obeyed.
-The new location will serve as the start state for planning.
 
 AddTimeParameterization
 ^^^^^^^^^^^^^^^^^^^^^^^

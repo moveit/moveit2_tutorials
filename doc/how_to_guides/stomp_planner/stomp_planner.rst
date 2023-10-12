@@ -32,12 +32,13 @@ Using STOMP with Your Robot
 #. Simply add the `stomp_planning.yaml <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/config/stomp_planning.yaml>`__ configuration file into the config directory of your MoveIt config package. It contains the plugin identifier, a planning pipeline adapter list, and the STOMP planning parameters. The config file should look like example below: ::
 
     planning_plugin: stomp_moveit/StompPlanner
-    request_adapters: >-
-      default_planner_request_adapters/AddTimeOptimalParameterization
-      default_planner_request_adapters/FixWorkspaceBounds
-      default_planner_request_adapters/FixStartStateBounds
-      default_planner_request_adapters/FixStartStateCollision
-      default_planner_request_adapters/FixStartStatePathConstraints
+    request_adapters:
+      - default_planner_request_adapters/ResolveConstraintFrames
+      - default_planner_request_adapters/FixWorkspaceBounds
+      - default_planner_request_adapters/FixStartStateBounds
+      - default_planner_request_adapters/FixStartStateCollision
+    response_adapters:
+      - default_planner_response_adapters/AddTimeOptimalParameterization
 
     stomp_moveit:
       num_timesteps: 60
@@ -50,24 +51,6 @@ Using STOMP with Your Robot
       delta_t: 0.1
 
 #. Configure MoveIt to load the STOMP planning pipeline by adding "stomp" to your MoveItConfiguration launch statement next to "ompl" and the other planners. You can find an example for this in the `demo.launch.py <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py#L42>`_ of the Panda config.
-
-Using STOMP's planner adapter
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-STOMP can also be used for smoothing and optimizing trajectories from other planner plugins using the ``StompSmoothingAdapter`` plugin.
-The only step needed is to add the plugin name ``stomp_moveit/StompSmoothingAdapter`` to the ``request_adapters`` parameter list configured for the planning pipeline: ::
-
-    request_adapters: >-
-      default_planner_request_adapters/AddTimeOptimalParameterization
-      default_planner_request_adapters/FixWorkspaceBounds
-      default_planner_request_adapters/FixStartStateBounds
-      default_planner_request_adapters/FixStartStateCollision
-      default_planner_request_adapters/FixStartStatePathConstraints
-      stomp_moveit/StompSmoothingAdapter
-
-In addition, STOMP parameters can be specified just like for the usual planning setup.
-An important detail is that now the parameter ``num_iterations_after_valid`` is used for specifying the smoothing steps since the input trajectory is already valid.
-It should therefore be larger than 0 to have an effect.
 
 Running the Demo
 ----------------

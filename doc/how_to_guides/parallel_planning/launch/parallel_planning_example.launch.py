@@ -63,7 +63,6 @@ def launch_setup(context, *args, **kwargs):
                 default_planner_request_adapters/FixWorkspaceBounds \
                 default_planner_request_adapters/FixStartStateBounds \
                 default_planner_request_adapters/FixStartStateCollision \
-                default_planner_request_adapters/FixStartStatePathConstraints \
               """,
             "start_state_max_bounds_error": 0.1,
         }

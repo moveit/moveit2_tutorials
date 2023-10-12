@@ -34,7 +34,7 @@ Finally, add the Ruckig smoothing algorithm to the list of planning request adap
 
 .. code-block:: yaml
 
-      request_adapters: >-
-        default_planner_request_adapters/AddRuckigTrajectorySmoothing
-        default_planner_request_adapters/AddTimeOptimalParameterization
+      response_adapters:
+        - default_planner_request_adapters/AddRuckigTrajectorySmoothing
+        - default_planner_request_adapters/AddTimeOptimalParameterization
         ...
