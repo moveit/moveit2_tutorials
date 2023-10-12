@@ -159,7 +159,7 @@ def main():
 
     # initialise multi-pipeline plan request parameters
     multi_pipeline_plan_request_params = MultiPipelinePlanRequestParameters(
-        panda, ["ompl_rrtc", "pilz_lin", "chomp", "ompl_rrt_star"]
+        panda, ["ompl_rrtc", "pilz_lin", "chomp_planner"]
     )
 
     # plan to goal
