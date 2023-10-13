@@ -1,4 +1,4 @@
-FROM moveit/moveit2:main-tutorial-humble-tutorial-source
+FROM moveit/moveit2:main-humble-tutorial-source
 
 SHELL ["/bin/bash", "-c", "-o", "pipefail"]
 
