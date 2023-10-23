@@ -19,7 +19,7 @@
  *
  */
 
-static const rclcpp::Logger LOGGER = rclcpp::get_logger("pilz_mtc");
+static const rclcpp::Logger LOGGER = rclcpp::get_logger("pilz_mtc_node");
 namespace mtc = moveit::task_constructor;
 
 class MTCTaskNode
