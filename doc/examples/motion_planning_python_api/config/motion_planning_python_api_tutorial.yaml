@@ -41,4 +41,3 @@ chomp_planner:
     max_velocity_scaling_factor: 1.0
     max_acceleration_scaling_factor: 1.0
     planning_time: 1.5
-
