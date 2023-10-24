@@ -49,6 +49,8 @@ Install `vcstool <https://index.ros.org/d/python3-vcstool/>`_ : ::
 
   sudo apt install python3-vcstool
 
+.. _create_colcon_workspace:
+
 Create A Colcon Workspace and Download Tutorials
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 For tutorials you will need to have a :ros_documentation:`colcon <Tutorials/Colcon-Tutorial.html#install-colcon>` workspace setup. ::
@@ -105,6 +107,8 @@ Optional: add the previous command to your ``.bashrc``: ::
 .. note:: Sourcing the ``setup.bash`` automatically in your ``~/.bashrc`` is
    not required and often skipped by advanced users who use more than one
    Colcon workspace at a time, but we recommend it for simplicity.
+
+.. _cyclone_dds:
 
 Switch to Cyclone DDS
 ^^^^^^^^^^^^^^^^^^^^^
