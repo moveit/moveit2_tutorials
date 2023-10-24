@@ -268,13 +268,16 @@ Summary
 
 * You created a ROS 2 package and wrote your first program using MoveIt.
 * You learned about using the MoveGroupInterface to plan and execute moves.
-* :codedir:`Here is a copy of the full hello_moveit.cpp source at the end of this tutorial<tutorials/your_first_project/hello_moveit.cpp>`.
+* :codedir:`Here is a copy of the full hello_moveit.cpp source at the end of this tutorial<tutorials/your_first_project/kinova_hello_moveit.cpp>`.
 
 Further Reading
 ---------------
 
-- We used lambdas to be able to initialize objects as constants. This is known as a technique called IIFE.  `Read more about this pattern from C++ Stories <https://www.cppstories.com/2016/11/iife-for-complex-initialization/>`_.
-- We also declared everything we could as const.  `Read more about the usefulness of const here <https://www.cppstories.com/2016/12/please-declare-your-variables-as-const/>`_.
+- We used lambdas to be able to initialize objects as constants.
+  This is known as a technique called IIFE.
+  `Read more about this pattern from C++ Stories <https://www.cppstories.com/2016/11/iife-for-complex-initialization/>`_.
+- We also declared everything we could as const.
+  `Read more about the usefulness of const here <https://www.cppstories.com/2016/12/please-declare-your-variables-as-const/>`_.
 
 Next Step
 ---------

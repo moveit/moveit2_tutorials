@@ -267,7 +267,7 @@ By running
 
 ::
 
-    ros2 launch moveit2_tutorials demo.launch.py rviz_config:=panda_hello_moveit.rviz
+    ros2 launch moveit_resources_panda_moveit_config demo.launch.py
 
 you can interact with the planner through the RViz MotionPlanning panel.
 
@@ -280,7 +280,7 @@ To run this, execute the following commands in separate Terminals:
 
 ::
 
-    ros2 launch moveit2_tutorials demo.launch.py rviz_config:=panda_hello_moveit.rviz
+    ros2 launch moveit_resources_panda_moveit_config demo.launch.py
     ros2 run moveit2_tutorials pilz_move_group
 
 

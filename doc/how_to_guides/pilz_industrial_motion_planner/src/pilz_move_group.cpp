@@ -9,7 +9,7 @@
  * Pilz Example -- MoveGroup Interface
  *
  * To run this example, first run this launch file:
- * ros2 launch moveit2_tutorials demo.launch.py rviz_config:=panda_hello_moveit.rviz
+ * ros2 launch moveit_resources_panda_moveit_config demo.launch.py
  *
  * For best results, hide the "MotionPlanning" widget in RViz.
  *
@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
   auto spinner = std::thread([&executor]() { executor.spin(); });
 
   // Create a ROS logger
-  auto const logger = rclcpp::get_logger("pilz_move_group");
+  auto const logger = rclcpp::get_logger("pilz_move_group_node");
 
   // Create the MoveIt MoveGroup Interface
   using moveit::planning_interface::MoveGroupInterface;
