@@ -9,7 +9,6 @@ Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` or our :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>`.
 If you followed the Docker Guide, also follow the :ref:`create_colcon_workspace` guide onwards to set up the tutorials.
-As of Sep 26, 2022, ensure you have :ref:`enabled Cyclone DDS <cyclone_dds>`.
 
 Step 1: Launch the Demo and Configure the Plugin
 ------------------------------------------------
