@@ -11,7 +11,7 @@ def generate_launch_description():
         MoveItConfigsBuilder("moveit_resources_panda")
         .robot_description(file_path="config/panda.urdf.xacro")
         .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
-        .planning_pipelines("stomp", ["stomp"])
+        .planning_pipelines("ompl", ["ompl"])
         .moveit_cpp(
             file_path=get_package_share_directory("moveit2_tutorials")
             + "/config/moveit_cpp.yaml"
