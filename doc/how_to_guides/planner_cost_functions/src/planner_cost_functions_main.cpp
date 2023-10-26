@@ -264,7 +264,7 @@ public:
         planning_component_->setStateCostFunction(
             [robot_start_state, group_name, planning_scene](const Eigen::VectorXd& state_vector) mutable {
               auto clearance_cost_fn =
-                  moveit::cost_functions::getMinJointDisplacementCostFn(*robot_start_state, group_name, planning_scene);
+                  moveit::cost_functions::createMinJointDisplacementCostFn(*robot_start_state, group_name, planning_scene);
               return clearance_cost_fn(state_vector);
             });
       }
