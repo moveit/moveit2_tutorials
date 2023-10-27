@@ -53,7 +53,6 @@ RUN --mount=type=cache,target=/root/.ccache/ \
     . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
     . "install/setup.sh" &&\
     sudo apt update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
-    sudo apt install -y ros-${ROS_DISTRO}-rmw-cyclonedds-cpp && \
     colcon build \
         --cmake-args -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
                      -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
@@ -63,6 +62,5 @@ RUN --mount=type=cache,target=/root/.ccache/ \
     rm -rf /var/lib/apt/lists/* && \
     # Update /ros_entrypoint.sh to source our new workspace
     sed -i "s#/opt/ros/\$ROS_DISTRO/setup.bash#$ROS_UNDERLAY/install/setup.bash#g" /ros_entrypoint.sh && \
-    echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> /root/.bashrc && \
     echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /root/.bashrc && \
     echo "source /root/ws_moveit/install/setup.bash" >> /root/.bashrc
