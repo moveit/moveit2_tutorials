@@ -123,8 +123,8 @@ For this example, we're using the default stopping criterion and a solution sele
           // If both solutions were successful, check which path is shorter
           if (solution_a && solution_b)
           {
-            return robot_trajectory::path_length(*solution_a.trajectory_) <
-                   robot_trajectory::path_length(*solution_b.trajectory_);
+            return robot_trajectory::pathLength(*solution_a.trajectory_) <
+                   robot_trajectory::pathLength(*solution_b.trajectory_);
           }
           // If only solution a is successful, return a
           else if (solution_a)
