@@ -11,7 +11,7 @@ ModifyPlanningScene
 | By default, this stage propagates results in both direction.
 | The default cost term is a constant of 0.
 
-The stage contains function to 
+The stage contains function to
 * Enable and disable collision between links
 * Attach and detach objects to robot links
 * Spawn and remove objects from scene
@@ -67,7 +67,7 @@ MoveRelative
      - Perform twist motion on specified link.
    * - direction
      - void setDirection(geometry_msgs/Vector3Stamped direction)
-     - Translate link along given direction. 
+     - Translate link along given direction.
    * - direction
      - void setDirection(std::map<std::string, double> direction)
      - Move specified joint variables by given amount
@@ -159,7 +159,7 @@ FixCollisionObjects
      - Description
    * - direction
      - void setDirection(geometry_msgs/Vector3 direction)
-     - Direction vector to use for corrections. 
+     - Direction vector to use for corrections.
    * - penetration
      - void setMaxPenetration(double penetration)
      - Cutoff length up to which collision objects get fixed.

@@ -9,19 +9,19 @@ What is MoveIt Task Constructor?
 
 | The MoveIt Task Constructor framework helps break down complex planning tasks to multiple interdependent subtasks.
 | The MTC framework uses MoveIt to solve the subtasks and a common interface, based on MoveIt's PlanningScene, is used to pass solution hypotheses between stages.
- 
+
 MTC Stages
 -----------
-| A MTC stage refers to a component or step in the task execution pipeline. 
+| A MTC stage refers to a component or step in the task execution pipeline.
 | Stages can be arranged in any arbitrary order and its hierarchy is only limited by the individual stages types.
-| The order in which stages can be arranged is restricted by the direction in which results are passed. 
+| The order in which stages can be arranged is restricted by the direction in which results are passed.
 
 There are three possible stages relating to the result flow:
-  
+
 * Generators
-  
+
 * Propagators
-  
+
 * Connectors
 
 Generator Stage
@@ -31,14 +31,14 @@ Generator Stage
 | The most important generator stage is `CurrentState`, which provides the current robot state as the starting point for a planning pipeline.
 
 | Monitoring Generator - Generator that monitors the solution of another stage to make reuse of them.
-| Main example of Monitoring Generator - `GeneratePose`. It usually monitors a `CurrentState` or `ModifyPlanning Scene` stage. 
+| Main example of Monitoring Generator - `GeneratePose`. It usually monitors a `CurrentState` or `ModifyPlanning Scene` stage.
 
 Currently available generator stages:
 
 * CurrentState
-  
+
 * FixedState
-  
+
 * Monitoring Generators - GeneratePose, GenerateGraspPose, GeneratePlacePose, GenerateRandomPose
 
 | Link for more information on generator stages available to use :ref:`Generating Stages`.
@@ -58,7 +58,7 @@ Connectors do not propagate any results but attempt to bridge the gap between th
 
 Wrapper
 ^^^^^^^
-| Wrappers encapsulate a single stage and modify/filter the results. 
+| Wrappers encapsulate a single stage and modify/filter the results.
 | Currently available Wrappers - ComputeIK, PredicateFilter and PassThrough
 
 | Link for more information on wrappers available to use :ref:`Wrappers`.
@@ -79,13 +79,13 @@ Parallel Container
 Parallel containers combine a set of stages in the following formats
 
 * Alternatives - Solution of all children are collected and sorted by cost.
-  
+
 * Fallback - A fallback container executes children stages in order until one of them returns success or all stages return failure
-  
-* Merger - Solutions of all children (actuating disjoint groups) are planned and executed parallelly. 
+
+* Merger - Solutions of all children (actuating disjoint groups) are planned and executed parallelly.
 
 | Link for more information on how to use parallel container : TBD
-  
+
 Initializing a MTC Task
 -----------------------
 
@@ -103,7 +103,7 @@ The top-level planning problem is specified as a MTC Task and the subproblems wh
 Adding containers and stages to a MTC Task
 -------------------------------------------
 
-Adding a stage to MTC task - 
+Adding a stage to MTC task -
 
 .. code-block:: c++
 
@@ -124,12 +124,12 @@ Setting planning solvers
 Solvers available in MTC
 
 * PipelinePlanner - Uses MoveIt's planning pipeline
-  
+
 * JointInterpolation - Interpolates between the start and goal joint states. It does not support complex motions.
 
 * CartesianPath - Moves the end effector in a straight line in Cartesian space.
 
-Code Example on how to initialize the solver 
+Code Example on how to initialize the solver
 
 .. code-block:: c++
 
@@ -144,7 +144,7 @@ These solvers can be passed into each stage.
 Setting Properties
 ------------------
 
-| Each MTC stage has configurable properties. 
+| Each MTC stage has configurable properties.
 | Properties of different types can be set using the function below.
 | Information about properties required for each stage can be found in the stages docs.
 
@@ -164,7 +164,7 @@ CostTerm available in MTC
 * PathLength - Cost depends on trajectory length with optional weight for different joints
 
 * TrajectoryDuration - Cost depends on execution duration of the whole trajectory
-  
+
 * TrajectoryCostTerm - cost terms that only work on SubTrajectory solutions?
 
 * LamdaCostTerm - Pass in a Lamda function to calculate cost
@@ -199,7 +199,7 @@ After planning, extract the first successful solution and send the successful pl
   task.solutions().front()->toMsg(solution);
 
 
-Links to Additional Information 
+Links to Additional Information
 --------------------------------
 
 .. toctree::

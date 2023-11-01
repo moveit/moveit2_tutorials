@@ -39,7 +39,7 @@ FixedState
 
 Monitoring Generators
 ---------------------
-Monitoring Generators help monitor and use solutions of another stage. 
+Monitoring Generators help monitor and use solutions of another stage.
 
 GeneratePose
 ^^^^^^^^^^^^
@@ -78,8 +78,8 @@ GenerateGraspPose
    * - grasp
      - void setGraspPose(moveit_msgs/RobotState grasp)
      - Grasp pose
-  
-Example code 
+
+Example code
 
 .. code-block:: c++
 

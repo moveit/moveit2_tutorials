@@ -68,11 +68,11 @@ PredicateFilter is a stage wrapper to filter generated solutions by custom crite
    * - ignore_filter
      - void setIgnoreFilter(bool ignore)
      - Ignore predicate and forward all solutions
-  
+
 Code Example
 
 .. code-block:: c++
-  
+
   auto current_state = std::make_unique<moveit::task_constructor::stages::CurrentState>(kStageNameCurrentState);
 
   // Use Predicate filter to fail the MTC task if any links are in collision in planning scene
