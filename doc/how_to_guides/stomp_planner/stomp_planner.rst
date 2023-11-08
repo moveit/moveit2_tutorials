@@ -33,12 +33,14 @@ Using STOMP with Your Robot
 
     planning_plugin: stomp_moveit/StompPlanner
     request_adapters:
-      - default_planner_request_adapters/ResolveConstraintFrames
-      - default_planner_request_adapters/FixWorkspaceBounds
-      - default_planner_request_adapters/FixStartStateBounds
-      - default_planner_request_adapters/FixStartStateCollision
+      - default_planning_request_adapters/ResolveConstraintFrames
+      - default_planning_request_adapters/ValidateWorkspaceBounds
+      - default_planning_request_adapters/CheckStartStateBounds
+      - default_planning_request_adapters/CheckStartStateCollision
     response_adapters:
-      - default_planner_response_adapters/AddTimeOptimalParameterization
+      - default_planning_response_adapters/AddTimeOptimalParameterization
+      - default_planning_response_adapters/ValidateSolution
+      - default_planning_response_adapters/DisplayMotionPath
 
     stomp_moveit:
       num_timesteps: 60

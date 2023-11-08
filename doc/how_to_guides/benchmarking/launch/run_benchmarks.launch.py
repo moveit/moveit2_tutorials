@@ -48,12 +48,11 @@ def generate_launch_description():
         "ompl_rrtc": {
             "planning_plugin": "ompl_interface/OMPLPlanner",
             "request_adapters": """\
-                default_planner_request_adapters/AddTimeOptimalParameterization \
-                default_planner_request_adapters/FixWorkspaceBounds \
-                default_planner_request_adapters/FixStartStateBounds \
-                default_planner_request_adapters/FixStartStateCollision \
+                default_planning_request_adapters/AddTimeOptimalParameterization \
+                default_planning_request_adapters/ValidateWorkspaceBounds \
+                default_planning_request_adapters/CheckStartStateBounds \
+                default_planning_request_adapters/CheckStartStateCollision \
               """,
-            "start_state_max_bounds_error": 0.1,
         }
     }
     ompl_planning_yaml = load_yaml(
