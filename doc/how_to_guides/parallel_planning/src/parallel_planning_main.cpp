@@ -36,10 +36,10 @@ getShortestSolution(const std::vector<planning_interface::MotionPlanResponse>& s
   for (auto const& solution : solutions)
   {
     RCLCPP_INFO(LOGGER, "Planner '%s' returned '%s'", solution.planner_id.c_str(),
-                moveit::core::errorCodeToString(solution.error_code).c_str());
+                moveit::core::error_code_to_string(solution.error_code).c_str());
     if (solution.trajectory)
     {
-      RCLCPP_INFO(LOGGER, "Path length: '%f', Planning time: '%f'", robot_trajectory::pathLength(*solution.trajectory),
+      RCLCPP_INFO(LOGGER, "Path length: '%f', Planning time: '%f'", robot_trajectory::path_length(*solution.trajectory),
                   solution.planning_time);
     }
   }
@@ -50,8 +50,8 @@ getShortestSolution(const std::vector<planning_interface::MotionPlanResponse>& s
                                                     // If both solutions were successful, check which path is shorter
                                                     if (solution_a && solution_b)
                                                     {
-                                                      return robot_trajectory::pathLength(*solution_a.trajectory) <
-                                                             robot_trajectory::pathLength(*solution_b.trajectory);
+                                                      return robot_trajectory::path_length(*solution_a.trajectory) <
+                                                             robot_trajectory::path_length(*solution_b.trajectory);
                                                     }
                                                     // If only solution a is successful, return a
                                                     else if (solution_a)
