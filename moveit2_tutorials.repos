@@ -11,7 +11,7 @@ repositories:
   ros2_kortex:
     type: git
     url: https://github.com/Kinovarobotics/ros2_kortex.git
-    version: 740d21b
+    version: main
   rviz_visual_tools:
     type: git
     url: https://github.com/PickNikRobotics/rviz_visual_tools.git
