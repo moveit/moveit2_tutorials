@@ -19,4 +19,4 @@ repositories:
   ros2_kortex:
     type: git
     url: https://github.com/Kinovarobotics/ros2_kortex.git
-    version: main
+    version: 740d21b
