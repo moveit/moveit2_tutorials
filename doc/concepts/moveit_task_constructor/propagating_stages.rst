@@ -4,6 +4,20 @@
 Propagating Stages
 ##################
 
+| Propagators receive solutions from one neighbor state, solve a problem and then propagate the result to the neighbor on the opposite side.
+| Depending on the implementation, this stage can pass solutions forward, backward or in both directions.
+
+
+MTC provides the following propagating stages:
+
+* ModifyPlanning
+
+* MoveRelative
+
+* MoveTo
+
+* FixCollisionObjects
+
 ModifyPlanningScene
 -------------------
 
@@ -30,7 +44,7 @@ Example code to enable collision
   auto stage = std::make_unique<stages::ModifyPlanningScene>("Allow collision between object and gripper");
   stage->allowCollisions("object_name", "gripper_frame_name", true);
 
-Add link which contains information on all the other functions available.
+`API doc for ModifyPlanningScene <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1ModifyPlanningScene.html>`_.
 
 MoveRelative
 ------------
@@ -72,6 +86,8 @@ MoveRelative
      - void setDirection(std::map<std::string, double> direction)
      - Move specified joint variables by given amount
 
+`API doc for MoveRelative <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1MoveRelative.html>`_.
+
 Example code
 
 .. code-block:: c++
@@ -98,6 +114,9 @@ MoveTo
 | By default, this stage propagates results in both direction.
 | The default planning time for this stage is 1.0s.
 | The default cost term depends on path length.
+
+| The properties needed to be set for this stage are listed in the table below.
+| The goal can be specified in different formats.
 
 .. list-table:: Properties to be set by user
    :widths: 25 100 80
@@ -130,6 +149,8 @@ MoveTo
    * - path_constaints
      - void setPathConstraints(moveit_msgs:::Constraints path_constaints)
      - Constraints to maintain during trajectory
+
+`API doc for MoveTo <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1MoveTo.html>`_.
 
 Example code
 

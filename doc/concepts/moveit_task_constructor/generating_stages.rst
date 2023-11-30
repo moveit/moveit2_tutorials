@@ -4,6 +4,16 @@
 Generating Stages
 #################
 
+Generator stages get no input from adjacent stages. They compute results and pass them to adjacent stages.
+
+MTC provides the following generator stages:
+
+* CurrentState
+
+* FixedState
+
+* Monitoring Generators - GeneratePose, GenerateGraspPose, GeneratePlacePose and GenerateRandomPose.
+
 CurrentState
 -------------
 | The CurrentState stage fetches the current PlanningScene via the `get_planning_scene` service.
@@ -14,6 +24,8 @@ Example code
 .. code-block:: c++
 
   auto current_state = std::make_unique<moveit::task_constructor::stages::CurrentState>("current_state");
+
+`API doc for CurrentState <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1CurrentState.html>`_.
 
 FixedState
 ----------
@@ -37,18 +49,22 @@ FixedState
   auto initial = std::make_unique<stages::FixedState>();
   initial->setState(scene);
 
+`API doc for FixedState <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1FixedState.html>`_.
+
 Monitoring Generators
 ---------------------
 Monitoring Generators help monitor and use solutions of another stage.
 
 GeneratePose
 ^^^^^^^^^^^^
-GeneratePose is a monitoring generator stage which can be used to generate a pose based on solutions provided by the monitored stage.
+GeneratePose is a monitoring generator stage which can be used to generate poses based on solutions provided by the monitored stage.
 
 GenerateGraspPose
 ^^^^^^^^^^^^^^^^^
 | GenerateGraspPose stage is derived from GeneratePose, which is a monitoring generator.
+| This stage usually monitors the `CurrentState` stage since the stage requires the latest PlanningScene to find the location of object around which grasp poses will be generated.
 | This stage can by used to generate poses for grasping by setting the desired attributes.
+| There can be multiple ways to set the same property. For example, there are two functions to set the pre grasp pose as seen in the table below. The user can set this property by either using a string group state or by explicitly defining a RobotState.
 
 .. list-table:: Properties to be set by user
    :widths: 25 100 80
@@ -62,13 +78,13 @@ GenerateGraspPose
      - Name of end effector
    * - object
      - void setObject(std::string object)
-     - Object to grasp?
+     - Object to grasp. This object should exist in the planning scene.
    * - angle_delta
      - void setAngleDelta(double delta)
-     - Angular steps (rad). The target grasp pose is sampled around the object's z axis?
+     - Angular steps (rad). The target grasp pose is sampled around the object's z axis
    * - pregrasp
      - void setPreGraspPose(std::string pregrasp)
-     - Pregrasp pose
+     - Pregrasp pose. For example, the gripper has to be in an open state before grasp. The pregrasp string here corresponds to the group state in SRDF.
    * - pregrasp
      - void setPreGraspPose(moveit_msgs/RobotState pregrasp)
      - Pregrasp pose
@@ -79,20 +95,22 @@ GenerateGraspPose
      - void setGraspPose(moveit_msgs/RobotState grasp)
      - Grasp pose
 
+Refer the API docs for the latest state of code.
+`API doc for GenerateGraspPose <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1GenerateGraspPose.html>`_.
+
 Example code
 
 .. code-block:: c++
 
   auto initial_stage = std::make_unique<stages::CurrentState>("current state");
+  task->add(initial_stage);
+
   auto gengrasp = std::make_unique<stages::GenerateGraspPose>("generate grasp pose");
   gengrasp->setPreGraspPose("open");
   gengrasp->setObject("object");
   gengrasp->setAngleDelta(M_PI / 10.);
   gengrasp->setMonitoredStage(initial_stage);
-
-| Additional MTC Grasp stages provided by MoveIt Studio - GenerateCuboidGraspPose and GenerateVacuumGraspPose
-| GenerateCuboidGraspPose uses the grasp generation algorithms from MoveIt Grasps (https://github.com/ros-planning/moveit_grasps) for two finger grippers
-| GenerateVacuumGraspPose generates grasps normal to planar surfaces for vacuum grippers.
+  task->add(gengrasp);
 
 GeneratePlacePose
 ^^^^^^^^^^^^^^^^^
@@ -117,6 +135,9 @@ Example code
   p.pose.position.z += 0.5 * params.object_dimensions[0] + params.place_surface_offset;
   stage->setPose(p);
   stage->setMonitoredStage(pick_stage_ptr);  // hook into successful pick solutions
+
+`API doc for GeneratePlacePose <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1GeneratePlacePose.html>`_.
+
 
 GenerateRandomPose
 ^^^^^^^^^^^^^^^^^^

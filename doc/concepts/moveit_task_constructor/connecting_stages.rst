@@ -4,11 +4,13 @@
 Connecting Stages
 #################
 
+| MTC provides only one connecting stage called Connect.
+| A connect stage solves for a feasible trajectory between the start and goal states.
+
 Connect
 -------
 
-| The Connect stage connects two stages by finding a motion plan between them.
-| The start and goal states for this stage are passed through InterfaceState objects.
+| The Connect stage connects two stages by finding a motion plan between the start and end goal given by the adjacent stages.
 | The default cost term depends on path length.
 | The default planning time for this stage is 1.0s.
 
@@ -28,6 +30,8 @@ Connect
    * - merge_time_parameteriation
      -
      - Default is TOTG (Time-Optimal Trajectory Generation)
+
+`API doc for Connect <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1Connect.html>`_.
 
 Code Example
 

@@ -33,14 +33,6 @@ Generator Stage
 | Monitoring Generator is a stage that monitors the solution of another stage (not adjacent) to use the solutions for planning.
 | Example of Monitoring Generator - `GeneratePose`. It usually monitors a `CurrentState` or `ModifyPlanning Scene` stage. By monitoring the solutions of `CurrentState`, the `GeneratePose` stage can find the object or frame around which it should generate poses.
 
-Currently available generator stages:
-
-* CurrentState
-
-* FixedState
-
-* Monitoring Generators - GeneratePose. GenerateGraspPose, GeneratePlacePose and GenerateRandomPose derive from GeneratePose
-
 | List of generator stages provided by MTC :ref:`Generating Stages`.
 
 Propagating Stage
@@ -82,21 +74,11 @@ Serial Container
 | Serial containers organizes stages linearly and only consider end-to-end solutions as results.
 | A MTC Task by default is stored as a serial container.
 
-| Link for more information on how to use serial container : TBD
-
 Parallel Container
 ^^^^^^^^^^^^^^^^^^
 Parallel containers combine a set of stages to allow planning alternate solutions.
 
-Three stages provided by MTC to use within a parallel container
-
-* Alternatives - Solution of all children are collected and sorted by cost.
-
-* Fallback - A fallback container executes children stages in order until one of them returns success or all stages return failure
-
-* Merger - Solutions of all children (actuating disjoint groups) are planned and executed parallelly.
-
-| Link for more information on how to use parallel container : TBD
+| More information on parallel containers :ref:`Parallel Containers`.
 
 Initializing a MTC Task
 -----------------------
