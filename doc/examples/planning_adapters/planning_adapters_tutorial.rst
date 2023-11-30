@@ -7,6 +7,7 @@ Planning Adapter Tutorials
 ==========================
 
 Planning Request Adapters is a concept in MoveIt which can be used to modify the trajectory (pre-processing and/or post-processing) for a motion planner. Some examples of existing planning adapters in MoveIt include AddTimeParameterization, FixWorkspaceBounds, FixStartBounds, FixStartStateCollision, FixStartStatePathConstraints, CHOMPOptimizerAdapter, etc. ! Using the concepts of Planning Adapters, multiple motion planning algorithms can be used in a pipeline to produce robust motion plans. For example, a sample pipeline of motion plans might include an initial plan produced by OMPL which can then be optimized by CHOMP to produce a motion plan which would likely be better than a path produced by OMPL or CHOMP alone. Similarly, using the concept of Planning Adapters, other motion planners can be mixed and matched depending on the environment the robot is operating in. This section provides a step by step tutorial on using a mix and match of different motion planners and also provides insights on when to use which particular motion planners.
+
 Getting Started
 ---------------
 If you haven't already done so, make sure you've completed the steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>`.
