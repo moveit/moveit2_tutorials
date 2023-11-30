@@ -8,7 +8,7 @@ What is MoveIt Task Constructor?
 --------------------------------
 
 | The MoveIt Task Constructor framework helps break down complex planning tasks to multiple interdependent subtasks.
-| The MTC framework uses MoveIt to solve the subtasks and a common interface, based on MoveIt's PlanningScene, is used to pass solution hypotheses between stages.
+| The MTC framework uses MoveIt to solve the subtasks. Information from the subtasks are passes through the InterfaceState object.
 
 MTC Stages
 -----------
@@ -26,12 +26,12 @@ There are three possible stages relating to the result flow:
 
 Generator Stage
 ^^^^^^^^^^^^^^^
-| Generators compute results and pass them in both direction - upwards and downwards.
+| Generator stages get no input from adjacent stages. They compute results and pass them in both direction - upwards and downwards.
 | Execution of a MTC task starts with the Generator stages.
-| The most important generator stage is `CurrentState`, which provides the current robot state as the starting point for a planning pipeline.
+| The most important generator stage is `CurrentState`, which gets the current robot state as the starting point for a planning pipeline.
 
-| Monitoring Generator - Generator that monitors the solution of another stage to make reuse of them.
-| Main example of Monitoring Generator - `GeneratePose`. It usually monitors a `CurrentState` or `ModifyPlanning Scene` stage.
+| Monitoring Generator is a stage that monitors the solution of another stage (not adjacent) to use the solutions for planning.
+| Example of Monitoring Generator - `GeneratePose`. It usually monitors a `CurrentState` or `ModifyPlanning Scene` stage. By monitoring the solutions of `CurrentState`, the `GeneratePose` stage can find the object or frame around which it should generate poses.
 
 Currently available generator stages:
 
@@ -39,44 +39,56 @@ Currently available generator stages:
 
 * FixedState
 
-* Monitoring Generators - GeneratePose, GenerateGraspPose, GeneratePlacePose, GenerateRandomPose
+* Monitoring Generators - GeneratePose. GenerateGraspPose, GeneratePlacePose and GenerateRandomPose derive from GeneratePose
 
-| Link for more information on generator stages available to use :ref:`Generating Stages`.
+| List of generator stages provided by MTC :ref:`Generating Stages`.
 
 Propagating Stage
 ^^^^^^^^^^^^^^^^^
-| Propagators receive the result from one neighbor state, solve a subproblem and then propagate the result to the neighbor on the opposite side.
+| Propagators receive solutions from one neighbor state, solve a problem and then propagate the result to the neighbor on the opposite side.
 | Depending on the implementation, this stage can pass solutions forward, backward or in both directions.
+| Example of propagating stage - Move Relative to a pose. This stage is commonly use to approach close to an object to pick.
 
-| Link for more information on propagating stages available :ref:`Propagating Stages`.
+| List of propagating stages provided by MTC :ref:`Propagating Stages`.
 
 Connecting Stage
 ^^^^^^^^^^^^^^^^
-Connectors do not propagate any results but attempt to bridge the gap between the resulting states of both neighbors.
+| Connectors do not propagate any results but attempt to connect the start and goal inputs provided by adjacent stages.
+| A connect stage often solves for a feasible trajectory between the start and goal states.
 
-| Link for more information on how to use connect stage :ref:`Connecting Stages`.
+| List of connecting stages provided by MTC :ref:`Connecting Stages`.
 
 Wrapper
 ^^^^^^^
-| Wrappers encapsulate a single stage and modify/filter the results.
-| Currently available Wrappers - ComputeIK, PredicateFilter and PassThrough
+| Wrappers encapsulate another stage to modify or filter the results.
+| Example of wrapper - Compute IK for Generate Grasp Pose stage. A Generate Grasp Pose stage will produce cartesian pose solutions. By wrapping an Compute IK stage around Generate Pose stage, the cartesian pose solutions from Generate Pose stage can be used to produce IK solutions (i.e) produce joint state configuration of robot to reach the poses.
 
-| Link for more information on wrappers available to use :ref:`Wrappers`.
+| List of wrappers provided by MTC :ref:`Wrappers`.
 
 MTC Containers
 ---------------
-The MTC framework enables the hierarchical organization of stages using containers, allowing for sequential as well as parallel compositions.
+| The MTC framework enables the hierarchical organization of stages using containers, allowing for sequential as well as parallel compositions.
+| A MTC container helps organize the order of execution of the stages.
+| Programmatically, it is possible to add a container within another container.
+
+Currently available containers:
+
+* Serial
+
+* Parallel
 
 Serial Container
 ^^^^^^^^^^^^^^^^
-Serial containers hold a sequence of stages (and only consider end-to-end solutions as results)
-A MTC Task by default is stored as a serial container.
+| Serial containers organizes stages linearly and only consider end-to-end solutions as results.
+| A MTC Task by default is stored as a serial container.
 
 | Link for more information on how to use serial container : TBD
 
 Parallel Container
 ^^^^^^^^^^^^^^^^^^
-Parallel containers combine a set of stages in the following formats
+Parallel containers combine a set of stages to allow planning alternate solutions.
+
+Three stages provided by MTC to use within a parallel container
 
 * Alternatives - Solution of all children are collected and sorted by cost.
 
@@ -121,6 +133,8 @@ Containers derive from Stage and hence containers can be added to MTC task simil
 Setting planning solvers
 ------------------------
 
+Stages that does motion planning need solver information.
+
 Solvers available in MTC
 
 * PipelinePlanner - Uses MoveIt's planning pipeline
@@ -139,18 +153,19 @@ Code Example on how to initialize the solver
       std::make_shared<moveit::task_constructor::solvers::JointInterpolationPlanner>();
   const auto mtc_cartesian_planner = std::make_shared<moveit::task_constructor::solvers::CartesianPath>();
 
-These solvers can be passed into each stage.
+These solvers will be passed into stages like MoveTo, MoveRelative and Connect.
 
 Setting Properties
 ------------------
 
-| Each MTC stage has configurable properties.
+| Each MTC stage has configurable properties. Example - planning group, timeout, goal state, etc.
 | Properties of different types can be set using the function below.
-| Information about properties required for each stage can be found in the stages docs.
 
 .. code-block:: c++
 
   void setProperty(const std::string& name, const boost::any& value);
+
+| Children stages can easily inherit properties from their parents, thus reducing the configuration overhead.
 
 Cost calculator for Stages
 ---------------------------
@@ -182,6 +197,8 @@ Example code on how to set CostTerm using LamdaCostTerm
   stage->setCostTerm(moveit::task_constructor::LambdaCostTerm(
         [](const moveit::task_constructor::SubTrajectory& traj) { return 100 * traj.cost(); }));
 
+All stages provided by MTC have default cost terms. Stages which produce trajectories as solutions usually use path length to calculate cost.
+
 Planning and Executing a MTC Task
 ---------------------------------
 
@@ -191,12 +208,12 @@ Planning MTC task will return a MoveItErrorCode.
 
   auto error_code = task.plan()
 
-After planning, extract the first successful solution and send the successful plan to `execute_task_solution` action server.
+After planning, extract the first successful solution and pass it to the execute function. This will create an `execute_task_solution` action client and the action server resides in `execute_task_solution_capability` plugin provided by MTC.
+The plugin extends MoveGroupCapability. It constructs a MotionPlanRequest from the MTC solution and uses MoveIt's PlanExecution to actuate the robot.
 
 .. code-block:: c++
 
-  moveit_task_constructor_msgs::msg::Solution solution;
-  task.solutions().front()->toMsg(solution);
+  auto result = task.execute(*task.solutions().front());
 
 
 Links to Additional Information
