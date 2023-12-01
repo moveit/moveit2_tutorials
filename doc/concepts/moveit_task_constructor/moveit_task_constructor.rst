@@ -208,4 +208,5 @@ Links to Additional Information
     propagating_stages.rst
     connecting_stages.rst
     wrappers.rst
+    parallel_containers.rst
     debugging_mtc_task.rst
