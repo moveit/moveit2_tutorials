@@ -12,6 +12,16 @@ repositories:
     type: git
     url: https://github.com/Kinovarobotics/ros2_kortex.git
     version: main
+  # Remove ros2_robotiq_gripper when rolling binaries are available.
+  ros2_robotiq_gripper:
+    type: git
+    url: https://github.com/PickNikRobotics/ros2_robotiq_gripper.git
+    version: main
+  # Serial is a dependency of ros2_robotiq_gripper. Remove when ros2_robotiq_gripper binaries are available.
+  serial:
+    type: git
+    url: https://github.com/tylerjw/serial.git
+    version: ros2
   rviz_visual_tools:
     type: git
     url: https://github.com/PickNikRobotics/rviz_visual_tools.git
