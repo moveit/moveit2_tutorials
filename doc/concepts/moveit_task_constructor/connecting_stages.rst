@@ -27,7 +27,7 @@ Connect
    * - path_constaints
      - void setPathConstraints(moveit_msgs/Constraints path_constraints)
      - Constraints to maintain during trajectory
-   * - merge_time_parameteriation
+   * - merge_time_parameterization
      -
      - Default is TOTG (Time-Optimal Trajectory Generation)
 

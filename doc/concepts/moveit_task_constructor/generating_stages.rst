@@ -116,7 +116,7 @@ GeneratePlacePose
 ^^^^^^^^^^^^^^^^^
 | The GeneratePlacePose stage derives from GeneratePose, which is a monitoring generator.
 | This stage generates poses for the place pipeline.
-| Notice that whilst GenerateGraspPose spawns poses with an ``angle_delta`` interval, GeneratePlacePose samples a fixed amount, which is dependent on the objects shape.
+| Notice that while GenerateGraspPose spawns poses with an ``angle_delta`` interval, GeneratePlacePose samples a fixed amount, which is dependent on the object's shape.
 
 Example code
 

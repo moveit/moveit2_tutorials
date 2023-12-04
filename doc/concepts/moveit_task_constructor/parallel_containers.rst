@@ -6,7 +6,7 @@ Parallel Containers
 
 Parallel containers combine a set of stages to allow planning alternate solutions.
 
-Three stages provided by MTC to use within a parallel container
+Three stages provided by MTC to use within a parallel container:
 
 * Alternatives
 
@@ -66,7 +66,7 @@ Fallback
 
 Merger
 ^^^^^^
-| Stages in a Merger container combine multiple distinct problems (i.e) plan for different planning groups parallelly.
+| Stages in a Merger container combine multiple distinct problems (i.e) plan for different planning groups in parallel.
 | Solutions of all children are merged into a single solution for parallel execution.
 | Example - Open gripper while moving the arm to a location
 

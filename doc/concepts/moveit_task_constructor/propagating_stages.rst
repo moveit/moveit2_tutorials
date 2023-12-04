@@ -26,7 +26,7 @@ ModifyPlanningScene
 | The default cost term is a constant of 0.
 
 The stage contains function to
-* Enable and disable collision between links
+* Enable and disable collision checking between links
 * Attach and detach objects to robot links
 * Spawn and remove objects from scene
 
@@ -50,7 +50,7 @@ MoveRelative
 ------------
 
 | The MoveRelative stage is used to perform a cartesian motion.
-| By default, this stage propagates results in both direction.
+| By default, this stage propagates results in both directions.
 | The default planning time for this stage is 1.0s.
 | The default cost term depends on path length.
 

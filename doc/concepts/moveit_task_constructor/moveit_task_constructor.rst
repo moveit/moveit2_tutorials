@@ -13,7 +13,7 @@ What is MoveIt Task Constructor?
 MTC Stages
 -----------
 | A MTC stage refers to a component or step in the task execution pipeline.
-| Stages can be arranged in any arbitrary order and its hierarchy is only limited by the individual stages types.
+| Stages can be arranged in any arbitrary order and their hierarchy is only limited by the individual stage types.
 | The order in which stages can be arranged is restricted by the direction in which results are passed.
 
 There are three possible stages relating to the result flow:
@@ -26,7 +26,7 @@ There are three possible stages relating to the result flow:
 
 Generator Stage
 ^^^^^^^^^^^^^^^
-| Generator stages get no input from adjacent stages. They compute results and pass them in both direction - upwards and downwards.
+| Generator stages get no input from adjacent stages. They compute results and pass them in both directions - forward and backward.
 | Execution of a MTC task starts with the Generator stages.
 | The most important generator stage is ``CurrentState``, which gets the current robot state as the starting point for a planning pipeline.
 
@@ -154,7 +154,7 @@ Cost calculator for Stages
 
 CostTerm is the basic interface to compute costs for solutions for MTC stages.
 
-CostTerm available in MTC
+CostTerm implementations available in MTC
 
 * Constant - Adds a constant cost to each solution
 
@@ -164,7 +164,7 @@ CostTerm available in MTC
 
 * TrajectoryCostTerm - cost terms that only work on SubTrajectory solutions?
 
-* LamdaCostTerm - Pass in a Lamda function to calculate cost
+* LambdaCostTerm - Pass in a lambda expression to calculate cost
 
 * DistanceToReference - Cost depends on weighted joint space distance to a reference point
 
