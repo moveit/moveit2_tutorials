@@ -43,6 +43,7 @@ def generate_launch_description():
     )
 
     # RViz for visualization
+    # Get the path to the RViz configuration file
     rviz_config_arg = DeclareLaunchArgument(
         "rviz_config",
         default_value="kinova_moveit_config_demo.rviz",
@@ -52,6 +53,8 @@ def generate_launch_description():
     rviz_config = PathJoinSubstitution(
         [FindPackageShare("moveit2_tutorials"), "launch", rviz_base]
     )
+
+    # Launch RViz
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
