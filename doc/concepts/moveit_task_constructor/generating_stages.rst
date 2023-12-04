@@ -16,7 +16,7 @@ MTC provides the following generator stages:
 
 CurrentState
 -------------
-| The CurrentState stage fetches the current PlanningScene via the `get_planning_scene` service.
+| The CurrentState stage fetches the current PlanningScene via the ``get_planning_scene`` service.
 | This stage is often used at the beginning of the MTC task pipeline to set the start state from the current robot state.
 
 Example code
@@ -62,7 +62,7 @@ GeneratePose is a monitoring generator stage which can be used to generate poses
 GenerateGraspPose
 ^^^^^^^^^^^^^^^^^
 | GenerateGraspPose stage is derived from GeneratePose, which is a monitoring generator.
-| This stage usually monitors the `CurrentState` stage since the stage requires the latest PlanningScene to find the location of object around which grasp poses will be generated.
+| This stage usually monitors the ``CurrentState`` stage since the stage requires the latest PlanningScene to find the location of object around which grasp poses will be generated.
 | This stage can by used to generate poses for grasping by setting the desired attributes.
 | There can be multiple ways to set the same property. For example, there are two functions to set the pre grasp pose as seen in the table below. The user can set this property by either using a string group state or by explicitly defining a RobotState.
 
@@ -116,7 +116,7 @@ GeneratePlacePose
 ^^^^^^^^^^^^^^^^^
 | The GeneratePlacePose stage derives from GeneratePose, which is a monitoring generator.
 | This stage generates poses for the place pipeline.
-| Notice that whilst GenerateGraspPose spawns poses with an `angle_delta` interval, GeneratePlacePose samples a fixed amount, which is dependent on the objects shape.
+| Notice that whilst GenerateGraspPose spawns poses with an ``angle_delta`` interval, GeneratePlacePose samples a fixed amount, which is dependent on the objects shape.
 
 Example code
 

@@ -28,10 +28,10 @@ Generator Stage
 ^^^^^^^^^^^^^^^
 | Generator stages get no input from adjacent stages. They compute results and pass them in both direction - upwards and downwards.
 | Execution of a MTC task starts with the Generator stages.
-| The most important generator stage is `CurrentState`, which gets the current robot state as the starting point for a planning pipeline.
+| The most important generator stage is ``CurrentState``, which gets the current robot state as the starting point for a planning pipeline.
 
 | Monitoring Generator is a stage that monitors the solution of another stage (not adjacent) to use the solutions for planning.
-| Example of Monitoring Generator - `GeneratePose`. It usually monitors a `CurrentState` or `ModifyPlanning Scene` stage. By monitoring the solutions of `CurrentState`, the `GeneratePose` stage can find the object or frame around which it should generate poses.
+| Example of Monitoring Generator - ``GeneratePose``. It usually monitors a ``CurrentState`` or ``ModifyPlanning Scene`` stage. By monitoring the solutions of ``CurrentState``, the ``GeneratePose`` stage can find the object or frame around which it should generate poses.
 
 | List of generator stages provided by MTC :ref:`Generating Stages`.
 
@@ -190,7 +190,7 @@ Planning MTC task will return a MoveItErrorCode.
 
   auto error_code = task.plan()
 
-After planning, extract the first successful solution and pass it to the execute function. This will create an `execute_task_solution` action client and the action server resides in `execute_task_solution_capability` plugin provided by MTC.
+After planning, extract the first successful solution and pass it to the execute function. This will create an ``execute_task_solution`` action client and the action server resides in `execute_task_solution_capability` plugin provided by MTC.
 The plugin extends MoveGroupCapability. It constructs a MotionPlanRequest from the MTC solution and uses MoveIt's PlanExecution to actuate the robot.
 
 .. code-block:: c++
