@@ -14,7 +14,7 @@ Loading the MoveIt Configuration
 MoveIt requires several configuration parameters to include the robot description and semantic description files (:ref:`URDF and SRDF`), motion planning and kinematics plugins, trajectory execution, and more.
 These parameters are usually contained in a :ref:`MoveIt Configuration` package.
 
-A handy way to refer to a MoveIt configuration package is to use the `MoveItConfigsBuilder` utility in your Python launch files as follows:
+A handy way to refer to a MoveIt configuration package is to use the ``MoveItConfigsBuilder`` utility in your Python launch files as follows:
 
 .. code-block:: python
 
