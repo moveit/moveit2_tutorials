@@ -10,6 +10,8 @@ What is MoveIt Task Constructor?
 | The MoveIt Task Constructor framework helps break down complex planning tasks to multiple interdependent subtasks.
 | The MTC framework uses MoveIt to solve the subtasks. Information from the subtasks are passes through the InterfaceState object.
 
+.. image:: ./_static/images/mtc_task.png
+
 MTC Stages
 -----------
 | A MTC stage refers to a component or step in the task execution pipeline.
@@ -26,6 +28,8 @@ There are three possible stages relating to the result flow:
 
 Generator Stage
 ^^^^^^^^^^^^^^^
+.. image:: ./_static/images/generating_stage.png
+
 | Generator stages get no input from adjacent stages. They compute results and pass them in both directions - forward and backward.
 | Execution of a MTC task starts with the Generator stages.
 | The most important generator stage is ``CurrentState``, which gets the current robot state as the starting point for a planning pipeline.
@@ -37,6 +41,8 @@ Generator Stage
 
 Propagating Stage
 ^^^^^^^^^^^^^^^^^
+.. image:: ./_static/images/propagating_stage.png
+
 | Propagators receive solutions from one neighbor state, solve a problem and then propagate the result to the neighbor on the opposite side.
 | Depending on the implementation, this stage can pass solutions forward, backward or in both directions.
 | Example of propagating stage - Move Relative to a pose. This stage is commonly use to approach close to an object to pick.
@@ -45,6 +51,8 @@ Propagating Stage
 
 Connecting Stage
 ^^^^^^^^^^^^^^^^
+.. image:: ./_static/images/connecting_stage.png
+
 | Connectors do not propagate any results but attempt to connect the start and goal inputs provided by adjacent stages.
 | A connect stage often solves for a feasible trajectory between the start and goal states.
 

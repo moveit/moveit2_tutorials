@@ -16,6 +16,8 @@ Three stages provided by MTC to use within a parallel container:
 
 Alternatives
 ^^^^^^^^^^^^
+.. image:: ./_static/images/alternatives.png
+
 | Alternatives container allow adding stages to be executed parallelly.
 | All the solutions of the children stages are collected at the end and ordered by cost.
 | Example - Plan a trajectory with multiple cost terms.
@@ -39,8 +41,9 @@ Alternatives
    }
    t.add(std::move(alternatives));
 
-Fallback
-^^^^^^^^
+Fallbacks
+^^^^^^^^^
+.. image:: ./_static/images/fallbacks.png
 
 | A fallback container executes children stages in order until one of them returns success or all stages return failure.
 | Example - Plan with different solvers until we get successful solutions.
@@ -66,6 +69,8 @@ Fallback
 
 Merger
 ^^^^^^
+.. image:: ./_static/images/merger.png
+
 | Stages in a Merger container combine multiple distinct problems (i.e) plan for different planning groups in parallel.
 | Solutions of all children are merged into a single solution for parallel execution.
 | Example - Open gripper while moving the arm to a location
