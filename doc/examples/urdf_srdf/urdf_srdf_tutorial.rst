@@ -1,3 +1,5 @@
+.. _URDF and SRDF:
+
 URDF and SRDF
 ======================
 
