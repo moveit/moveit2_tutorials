@@ -1,3 +1,5 @@
+.. _Quickstart in RViz:
+
 MoveIt Quickstart in RViz
 ==========================
 .. image:: rviz_plugin_head.png

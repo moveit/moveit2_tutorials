@@ -13,6 +13,7 @@ Configuring and Using MoveIt
 
    kinematics_cost_function/kinematics_cost_function_tutorial
    moveit_configuration/moveit_configuration_tutorial
+   moveit_launch_files/moveit_launch_files_tutorial
    pilz_industrial_motion_planner/pilz_industrial_motion_planner
    stomp_planner/stomp_planner
    chomp_planner/chomp_planner_tutorial
