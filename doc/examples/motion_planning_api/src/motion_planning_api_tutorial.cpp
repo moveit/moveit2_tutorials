@@ -168,14 +168,14 @@ int main(int argc, char** argv)
   geometry_msgs::msg::PoseStamped pose;
   pose.header.frame_id = "panda_link0";
   pose.pose.position.x = 0.3;
-  pose.pose.position.y = 0.0;
+  pose.pose.position.y = 0.4;
   pose.pose.position.z = 0.75;
-  pose.pose.orientation.z = 1.0;
+  pose.pose.orientation.w = 1.0;
 
-  // A tolerance of 0.1 m is specified in position
-  // and 0.1 radians in orientation
-  std::vector<double> tolerance_pose(3, 0.1);
-  std::vector<double> tolerance_angle(3, 0.1);
+  // A tolerance of 0.01 m is specified in position
+  // and 0.01 radians in orientation
+  std::vector<double> tolerance_pose(3, 0.01);
+  std::vector<double> tolerance_angle(3, 0.01);
 
   // We will create the request as a constraint using a helper function available
   // from the
