@@ -99,7 +99,7 @@ int main(int argc, char** argv)
   // We will get the name of planning plugin we want to load
   // from the ROS parameter server, and then load the planner
   // making sure to catch all exceptions.
-  if (!motion_planning_api_tutorial_node->get_parameter("planning_plugin", planner_plugin_name))
+  if (!motion_planning_api_tutorial_node->get_parameter("ompl.planning_plugin", planner_plugin_name))
     RCLCPP_FATAL(LOGGER, "Could not find planner plugin name");
   try
   {
