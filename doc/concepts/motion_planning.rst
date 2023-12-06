@@ -48,7 +48,7 @@ Post-processing is needed for several other operations, e.g. to convert paths ge
 MoveIt provides a set of default motion planning adapters that each perform a very specific function.
 
 CheckStartStateBounds
-^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
 
 The fix start state bounds adapter fixes the start state to be within the joint limits specified in the URDF.
 The need for this adapter arises in situations where the joint limits for the physical robot are not properly configured.
@@ -59,13 +59,13 @@ However, this is obviously not the right solution every time - e.g. where the jo
 A parameter for the adapter specifies how much the joint can be outside its limits for it to be "fixable".
 
 ValidateWorkspaceBounds
-^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
 
 The fix workspace bounds adapter will specify a default workspace for planning: a cube of size 10 m x 10 m x 10 m.
 This workspace will only be specified if the planning request to the planner does not have these fields filled in.
 
 CheckStartStateCollision
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 The fix start state collision adapter will attempt to sample a new collision-free configuration near a specified configuration (in collision) by perturbing the joint values by a small amount.
 The amount that it will perturb the values by is specified by the **jiggle_fraction** parameter that controls the perturbation as a percentage of the total range of motion for the joint.
