@@ -39,50 +39,26 @@ def launch_setup(context, *args, **kwargs):
     moveit_config = (
         MoveItConfigsBuilder("moveit_resources_panda")
         .robot_description(file_path="config/panda.urdf.xacro")
+        .planning_pipelines(pipelines=["ompl", "stomp"])
         .planning_scene_monitor(
             publish_robot_description=True, publish_robot_description_semantic=True
         )
-        .planning_pipelines("ompl", ["ompl", "chomp", "pilz_industrial_motion_planner"])
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .moveit_cpp(
             os.path.join(
                 get_package_share_directory("moveit2_tutorials"),
                 "config",
-                "parallel_planning_moveit_cpp.yaml",
+                "testbench_moveit_cpp.yaml",
             )
         )
         .to_moveit_configs()
     )
 
-    # Load additional OMPL pipeline
-    ompl_planning_pipeline_config = {
-        "ompl_2": {
-            "planning_plugins": [
-                "ompl_interface/OMPLPlanner",
-            ],
-            "request_adapters": [
-                "default_planning_request_adapters/ResolveConstraintFrames",
-                "default_planning_request_adapters/ValidateWorkspaceBounds",
-                "default_planning_request_adapters/CheckStartStateBounds",
-                "default_planning_request_adapters/CheckStartStateCollision",
-            ],
-            "response_adapters": [
-                "default_planning_response_adapters/AddTimeOptimalParameterization",
-                "default_planning_response_adapters/ValidateSolution",
-                "default_planning_response_adapters/DisplayMotionPath",
-            ],
-        }
-    }
-    ompl_planning_yaml = load_yaml(
-        "moveit_resources_panda_moveit_config", "config/ompl_planning.yaml"
-    )
-    ompl_planning_pipeline_config["ompl_2"].update(ompl_planning_yaml)
-
     # Warehouse config
     sqlite_database = os.path.join(
-        get_package_share_directory("moveit2_tutorials"),
-        "config",
-        "panda_test_db.sqlite",
+        get_package_share_directory("moveit_benchmark_resources"),
+        "databases",
+        "panda_kitchen_test_db.sqlite",
     )
 
     warehouse_ros_config = {
@@ -95,16 +71,43 @@ def launch_setup(context, *args, **kwargs):
         },
     }
 
+    # Load additional OMPL-STOMP chain pipeline
+    ompl_stomp_planning_pipeline_config = {
+        "ompl_stomp": {
+            "planning_plugins": [
+                "ompl_interface/OMPLPlanner",
+                "stomp_moveit/StompPlanner",
+            ],
+            "request_adapters": [
+                "default_planning_request_adapters/ResolveConstraintFrames",
+                "default_planning_request_adapters/ValidateWorkspaceBounds",
+                "default_planning_request_adapters/CheckStartStateBounds",
+                "default_planning_request_adapters/CheckStartStateCollision",
+            ],
+            "response_adapters": [
+                "default_planning_response_adapters/AddTimeOptimalParameterization",
+                "default_planning_response_adapters/ValidateSolution",
+                "default_planning_response_adapters/DisplayMotionPath",
+            ],
+            "planner_configs": {
+                "RRTConnectkConfigDefault": {
+                    "type": "geometric::RRTConnect",
+                    "range": 0.0,  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()}
+                }
+            },
+        }
+    }
+
     # MoveItCpp demo executable
     moveit_cpp_node = Node(
-        name="parallel_planning_tutorial",
+        name="pipeline_testbench_example",
         package="moveit2_tutorials",
-        executable="parallel_planning_example",
+        executable="pipeline_testbench_example",
         output="screen",
         parameters=[
             moveit_config.to_dict(),
+            ompl_stomp_planning_pipeline_config,
             warehouse_ros_config,
-            ompl_planning_pipeline_config,
         ],
     )
 
@@ -112,7 +115,7 @@ def launch_setup(context, *args, **kwargs):
     rviz_config_file = os.path.join(
         get_package_share_directory("moveit2_tutorials"),
         "config",
-        "parallel_planning_config.rviz",
+        "testbench_config.rviz",
     )
 
     rviz_node = Node(
@@ -136,7 +139,7 @@ def launch_setup(context, *args, **kwargs):
         executable="static_transform_publisher",
         name="static_transform_publisher",
         output="log",
-        arguments=["--frame-id", "world", "--child-frame-id", "panda_link0"],
+        arguments=["0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "world", "panda_link0"],
     )
 
     # Publish TF
@@ -158,7 +161,7 @@ def launch_setup(context, *args, **kwargs):
         package="controller_manager",
         executable="ros2_control_node",
         parameters=[moveit_config.robot_description, ros2_controllers_path],
-        output="both",
+        output="screen",
     )
 
     joint_state_broadcaster_spawner = Node(
@@ -166,8 +169,6 @@ def launch_setup(context, *args, **kwargs):
         executable="spawner",
         arguments=[
             "joint_state_broadcaster",
-            "--controller-manager-timeout",
-            "300",
             "--controller-manager",
             "/controller_manager",
         ],

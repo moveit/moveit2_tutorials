@@ -1,3 +1,4 @@
+# Default configurations. More information can be found in the moveit_cpp and planning scene monitor tutorials
 planning_scene_monitor_options:
   name: "planning_scene_monitor"
   robot_description: "robot_description"
@@ -7,13 +8,14 @@ planning_scene_monitor_options:
   monitored_planning_scene_topic: "/moveit_cpp/monitored_planning_scene"
   wait_for_initial_state_timeout: 10.0
 
+# Define which planning pipelines are loaded by moveit_cpp. These loaded pipelines will be available for simple and parallel planning
 planning_pipelines:
-  #namespace: "moveit_cpp"  # optional, default is ~
-  pipeline_names: ["ompl"]
+  pipeline_names: ["stomp", "ompl", "ompl_stomp"]
 
 plan_request_params:
   planning_attempts: 1
-  planning_pipeline: ompl
-  planner_id: "RRTConnectkConfigDefault"
+  planning_pipeline: stomp
+  planner_id: "stomp"
   max_velocity_scaling_factor: 1.0
   max_acceleration_scaling_factor: 1.0
+  planning_time: 4.0

@@ -98,31 +98,3 @@ OMPL is a open source library for sampling based / randomized motion planning al
 CHOMP: While most high-dimensional motion planners separate trajectory generation into distinct planning and optimization stages, CHOMP capitalizes on covariant gradient and functional gradient approaches to the optimization stage to design a motion planning algorithm based entirely on trajectory optimization. Given an infeasible naive trajectory, CHOMP reacts to the surrounding environment to quickly pull the trajectory out of collision while simultaneously optimizing dynamic quantities such as joint velocities and accelerations. It rapidly converges to a smooth, collision-free trajectory that can be executed efficiently on the robot. A covariant update rule ensures that CHOMP quickly converges to a locally optimal trajectory.
 
 For scenes containing obstacles, CHOMP often generates paths which do not prefer smooth trajectories by addition of some noise (*ridge_factor*) in the cost function for the dynamic quantities of the robot (like acceleration, velocity). CHOMP is able to avoid obstacles in most cases, but it can fail if it gets stuck in local minima due to a bad initial guess for the trajectory. OMPL can be used to generate collision-free seed trajectories for CHOMP to mitigate this issue.
-
-Using CHOMP as a post-processor for OMPL
-----------------------------------------
-Here, we will demonstrate that CHOMP can also be used as a post-processing optimization technique for plans obtained by other planning algorithms. The intuition behind this is that some randomized planning algorithm produces an initial guess for CHOMP. CHOMP then takes this initial guess and further optimizes the trajectory.
-To achieve this, use the following steps:
-
-#. Edit ``ompl_planning.yaml`` in the ``<robot_moveit_config>/config`` folder of your robot. Add ``chomp/OptimizerAdapter`` to the bottom of the list of request_adapters: ::
-
-    request_adapters: >-
-      ...
-      default_planner_request_adapters/FixStartStatePathConstraints
-      chomp/OptimizerAdapter
-
-#. Change the ``trajectory_initialization_method`` parameter in ``chomp_planning.yaml`` to ``fillTrajectory`` so that OMPL can provide the input for the CHOMP algorithm: ::
-
-    trajectory_initialization_method: "fillTrajectory"
-
-#. Add the CHOMP config file to the launch file of your robot, ``<robot_moveit_config>/launch/chomp_demo.launch.py``, if it is not there already: ::
-
-    .planning_pipelines(pipelines=["ompl", "chomp"])
-
-#. Now you can launch the newly configured planning pipeline as follows: ::
-
-    ros2 launch moveit2_tutorials chomp_demo.launch.py rviz_tutorial:=True
-
-This will launch RViz. Select OMPL in the Motion Planning panel under the Context tab. Set the desired start and goal states by moving the end-effector around in the same way as was done for CHOMP above. Finally click on the Plan button to start planning. The planner will now first run OMPL, then run CHOMP on OMPL's output to produce an optimized path. To make the planner's task more challenging, add obstacles to the scene using: ::
-
-    ros2 run moveit2_tutorials collision_scene_example

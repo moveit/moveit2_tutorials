@@ -141,6 +141,8 @@ int main(int argc, char** argv)
   req.pipeline_id = "ompl";
   req.planner_id = "RRTConnectkConfigDefault";
   req.allowed_planning_time = 1.0;
+  req.max_velocity_scaling_factor = 1.0;
+  req.max_acceleration_scaling_factor = 1.0;
   planning_interface::MotionPlanResponse res;
   geometry_msgs::msg::PoseStamped pose;
   pose.header.frame_id = "panda_link0";
