@@ -111,6 +111,13 @@ int main(int argc, char** argv)
     RCLCPP_FATAL(LOGGER, "Exception while creating planning plugin loader %s", ex.what());
   }
 
+  if (planner_plugin_names.empty())
+  {
+    RCLCPP_ERROR(LOGGER,
+                 "No planner plugins defined. Please make sure that the planning_plugins parameter is not empty.");
+    return -1;
+  }
+
   const auto& planner_name = planner_plugin_names.at(0);
   try
   {
