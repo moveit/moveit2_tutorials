@@ -47,36 +47,30 @@ Pre-processing is useful in several situations, e.g. when a start state for the 
 Post-processing is needed for several other operations, e.g. to convert paths generated for a robot into time-parameterized trajectories.
 MoveIt provides a set of default motion planning adapters that each perform a very specific function.
 
-FixStartStateBounds
-^^^^^^^^^^^^^^^^^^^
+CheckStartStateBounds
+^^^^^^^^^^^^^^^^^^^^^
 
 The fix start state bounds adapter fixes the start state to be within the joint limits specified in the URDF.
 The need for this adapter arises in situations where the joint limits for the physical robot are not properly configured.
 The robot may then end up in a configuration where one or more of its joints is slightly outside its joint limits.
 In this case, the motion planner is unable to plan since it will think that the starting state is outside joint limits.
-The "FixStartStateBounds" planning request adapter will "fix" the start state by moving it to the joint limit.
+The "CheckStartStateBounds" planning request adapter will "fix" the start state by moving it to the joint limit.
 However, this is obviously not the right solution every time - e.g. where the joint is really outside its joint limits by a large amount.
 A parameter for the adapter specifies how much the joint can be outside its limits for it to be "fixable".
 
-FixWorkspaceBounds
-^^^^^^^^^^^^^^^^^^
+ValidateWorkspaceBounds
+^^^^^^^^^^^^^^^^^^^^^^^
 
 The fix workspace bounds adapter will specify a default workspace for planning: a cube of size 10 m x 10 m x 10 m.
 This workspace will only be specified if the planning request to the planner does not have these fields filled in.
 
-FixStartStateCollision
-^^^^^^^^^^^^^^^^^^^^^^
+CheckStartStateCollision
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 The fix start state collision adapter will attempt to sample a new collision-free configuration near a specified configuration (in collision) by perturbing the joint values by a small amount.
 The amount that it will perturb the values by is specified by the **jiggle_fraction** parameter that controls the perturbation as a percentage of the total range of motion for the joint.
 The other parameter for this adapter specifies how many random perturbations the adapter will sample before giving up.
 
-FixStartStatePathConstraints
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This adapter is applied when the start state for a motion plan does not obey the specified path constraints.
-It will attempt to plan a path between the current configuration of the robot to a new location where the path constraint is obeyed.
-The new location will serve as the start state for planning.
 
 AddTimeParameterization
 ^^^^^^^^^^^^^^^^^^^^^^^
