@@ -299,7 +299,7 @@ Using the planner
 The *pilz_industrial_motion_planner::CommandPlanner* is provided as a MoveIt Motion Planning
 Pipeline and, therefore, can be used with all other manipulators using
 MoveIt. Loading the plugin requires the param
-``/move_group/<pipeline_name>/planning_plugin`` to be set to ``pilz_industrial_motion_planner/CommandPlanner``
+``/move_group/<pipeline_name>/planning_plugins`` to be set to ``[pilz_industrial_motion_planner/CommandPlanner]``
 before the ``move_group`` node is started.
 For example, the `panda_moveit_config package
 <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config>`_
@@ -308,7 +308,7 @@ has a ``pilz_industrial_motion_planner`` pipeline set up as follows:
 
 ::
 
-    ros2 param get /move_group pilz_industrial_motion_planner.planning_plugin
+    ros2 param get /move_group pilz_industrial_motion_planner.planning_plugins
 
     String value is: pilz_industrial_motion_planner/CommandPlanner
 

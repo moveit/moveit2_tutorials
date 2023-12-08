@@ -94,13 +94,13 @@ int main(int argc, char** argv)
   // Note that we are using the ROS pluginlib library here.
   std::unique_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager>> planner_plugin_loader;
   planning_interface::PlannerManagerPtr planner_instance;
-  std::string planner_plugin_name;
+  std::vector<std::string> planner_plugin_names;
 
   // We will get the name of planning plugin we want to load
   // from the ROS parameter server, and then load the planner
   // making sure to catch all exceptions.
-  if (!motion_planning_api_tutorial_node->get_parameter("ompl.planning_plugin", planner_plugin_name))
-    RCLCPP_FATAL(LOGGER, "Could not find planner plugin name");
+  if (!motion_planning_api_tutorial_node->get_parameter("ompl.planning_plugins", planner_plugin_names))
+    RCLCPP_FATAL(LOGGER, "Could not find planner plugin names");
   try
   {
     planner_plugin_loader.reset(new pluginlib::ClassLoader<planning_interface::PlannerManager>(
@@ -110,9 +110,18 @@ int main(int argc, char** argv)
   {
     RCLCPP_FATAL(LOGGER, "Exception while creating planning plugin loader %s", ex.what());
   }
+
+  if (planner_plugin_names.empty())
+  {
+    RCLCPP_ERROR(LOGGER,
+                 "No planner plugins defined. Please make sure that the planning_plugins parameter is not empty.");
+    return -1;
+  }
+
+  const auto& planner_name = planner_plugin_names.at(0);
   try
   {
-    planner_instance.reset(planner_plugin_loader->createUnmanagedInstance(planner_plugin_name));
+    planner_instance.reset(planner_plugin_loader->createUnmanagedInstance(planner_name));
     if (!planner_instance->initialize(robot_model, motion_planning_api_tutorial_node,
                                       motion_planning_api_tutorial_node->get_namespace()))
       RCLCPP_FATAL(LOGGER, "Could not initialize planner instance");
@@ -124,7 +133,7 @@ int main(int argc, char** argv)
     std::stringstream ss;
     for (const auto& cls : classes)
       ss << cls << " ";
-    RCLCPP_ERROR(LOGGER, "Exception while loading planner '%s': %s\nAvailable plugins: %s", planner_plugin_name.c_str(),
+    RCLCPP_ERROR(LOGGER, "Exception while loading planner '%s': %s\nAvailable plugins: %s", planner_name.c_str(),
                  ex.what(), ss.str().c_str());
   }
 
@@ -185,16 +194,28 @@ int main(int argc, char** argv)
   req.group_name = PLANNING_GROUP;
   req.goal_constraints.push_back(pose_goal);
 
+  // Define workspace bounds
+  req.workspace_parameters.min_corner.x = req.workspace_parameters.min_corner.y =
+      req.workspace_parameters.min_corner.z = -5.0;
+  req.workspace_parameters.max_corner.x = req.workspace_parameters.max_corner.y =
+      req.workspace_parameters.max_corner.z = 5.0;
+
   // We now construct a planning context that encapsulate the scene,
   // the request and the response. We call the planner using this
   // planning context
   planning_interface::PlanningContextPtr context =
       planner_instance->getPlanningContext(planning_scene, req, res.error_code);
+
+  if (!context)
+  {
+    RCLCPP_ERROR(LOGGER, "Failed to create planning context");
+    return -1;
+  }
   context->solve(res);
   if (res.error_code.val != res.error_code.SUCCESS)
   {
     RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
-    return 0;
+    return -1;
   }
 
   // Visualize the result
@@ -246,7 +267,7 @@ int main(int argc, char** argv)
   if (res.error_code.val != res.error_code.SUCCESS)
   {
     RCLCPP_ERROR(LOGGER, "Could not compute plan successfully");
-    return 0;
+    return -1;
   }
   /* Visualize the trajectory */
   res.getMessage(response);
