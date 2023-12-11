@@ -1,6 +1,6 @@
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
@@ -10,22 +10,7 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 def generate_launch_description():
 
-    declared_arguments = []
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "rviz_config",
-            default_value="kinova_moveit_config_demo.rviz",
-            description="RViz configuration file",
-        )
-    )
-
-    return LaunchDescription(
-        declared_arguments + [OpaqueFunction(function=launch_setup)]
-    )
-
-
-def launch_setup(context, *args, **kwargs):
-
+    # Define xacro mappings for the robot description file
     launch_arguments = {
         "robot_ip": "xxx.yyy.zzz.www",
         "use_fake_hardware": "true",
@@ -33,6 +18,7 @@ def launch_setup(context, *args, **kwargs):
         "dof": "7",
     }
 
+    # Load the robot configuration
     moveit_config = (
         MoveItConfigsBuilder(
             "gen3", package_name="kinova_gen3_7dof_robotiq_2f_85_moveit_config"
@@ -56,12 +42,19 @@ def launch_setup(context, *args, **kwargs):
         parameters=[moveit_config.to_dict()],
     )
 
+    # RViz for visualization
+    # Get the path to the RViz configuration file
+    rviz_config_arg = DeclareLaunchArgument(
+        "rviz_config",
+        default_value="kinova_moveit_config_demo.rviz",
+        description="RViz configuration file",
+    )
     rviz_base = LaunchConfiguration("rviz_config")
     rviz_config = PathJoinSubstitution(
         [FindPackageShare("moveit2_tutorials"), "launch", rviz_base]
     )
 
-    # RViz
+    # Launch RViz
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
@@ -95,7 +88,7 @@ def launch_setup(context, *args, **kwargs):
         parameters=[moveit_config.robot_description],
     )
 
-    # ros2_control using FakeSystem as hardware
+    # ros2_control using mock hardware for trajectory execution
     ros2_controllers_path = os.path.join(
         get_package_share_directory("kinova_gen3_7dof_robotiq_2f_85_moveit_config"),
         "config",
@@ -129,15 +122,17 @@ def launch_setup(context, *args, **kwargs):
         executable="spawner",
         arguments=["robotiq_gripper_controller", "-c", "/controller_manager"],
     )
-    nodes_to_start = [
-        rviz_node,
-        static_tf,
-        robot_state_publisher,
-        run_move_group_node,
-        ros2_control_node,
-        joint_state_broadcaster_spawner,
-        arm_controller_spawner,
-        hand_controller_spawner,
-    ]
 
-    return nodes_to_start
+    return LaunchDescription(
+        [
+            rviz_config_arg,
+            rviz_node,
+            static_tf,
+            robot_state_publisher,
+            run_move_group_node,
+            ros2_control_node,
+            joint_state_broadcaster_spawner,
+            arm_controller_spawner,
+            hand_controller_spawner,
+        ]
+    )

@@ -1,3 +1,5 @@
+.. _MoveIt Configuration:
+
 MoveIt Configuration
 ==================================
 

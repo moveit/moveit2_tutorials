@@ -6,7 +6,7 @@
 Planning Adapter Tutorials
 ==========================
 
-Planning Request Adapters is a concept in MoveIt which can be used to modify the trajectory (pre-processing and/or post-processing) for a motion planner. Some examples of existing planning adapters in MoveIt include AddTimeParameterization, FixWorkspaceBounds, FixStartBounds, FixStartStateCollision, FixStartStatePathConstraints, CHOMPOptimizerAdapter, etc. ! Using the concepts of Planning Adapters, multiple motion planning algorithms can be used in a pipeline to produce robust motion plans. For example, a sample pipeline of motion plans might include an initial plan produced by OMPL which can then be optimized by CHOMP to produce a motion plan which would likely be better than a path produced by OMPL or CHOMP alone. Similarly, using the concept of Planning Adapters, other motion planners can be mixed and matched depending on the environment the robot is operating in. This section provides a step by step tutorial on using a mix and match of different motion planners and also provides insights on when to use which particular motion planners.
+Planning Request Adapters is a concept in MoveIt which can be used to modify the trajectory (pre-processing and/or post-processing) for a motion planner. Some examples of existing planning adapters in MoveIt include AddTimeParameterization, ValidateWorkspaceBounds, FixStartBounds, CheckStartStateCollision, CHOMPOptimizerAdapter, etc. ! Using the concepts of Planning Adapters, multiple motion planning algorithms can be used in a pipeline to produce robust motion plans. For example, a sample pipeline of motion plans might include an initial plan produced by OMPL which can then be optimized by CHOMP to produce a motion plan which would likely be better than a path produced by OMPL or CHOMP alone. Similarly, using the concept of Planning Adapters, other motion planners can be mixed and matched depending on the environment the robot is operating in. This section provides a step by step tutorial on using a mix and match of different motion planners and also provides insights on when to use which particular motion planners.
 
 Getting Started
 ---------------
@@ -46,14 +46,13 @@ To achieve this, follow the steps:
 #. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is this `file <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/launch/ompl_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
 
     <arg name="planning_adapters"
-         value="default_planner_request_adapters/AddTimeParameterization
-                default_planner_request_adapters/FixWorkspaceBounds
-                default_planner_request_adapters/FixStartStateBounds
-                default_planner_request_adapters/FixStartStateCollision
-                default_planner_request_adapters/FixStartStatePathConstraints
+         value="default_planning_request_adapters/AddTimeParameterization
+                default_planning_request_adapters/ValidateWorkspaceBounds
+                default_planning_request_adapters/CheckStartStateBounds
+                default_planning_request_adapters/CheckStartStateCollision
                 chomp/OptimizerAdapter" />
 
-#. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a :moveit_codedir:`call <moveit_planners/chomp/chomp_optimizer_adapter/src/chomp_optimizer_adapter.cpp#L169>` to OMPL is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it.
+#. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a call to OMPL is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by OMPL as the starting point to further optimize it.
 
 #. Find the line where ``<rosparam command="load" file="$(find panda_moveit_config)/config/ompl_planning.yaml"/>`` is mentioned and after this line, add the following: ::
 
@@ -81,11 +80,10 @@ To achieve this, follow the steps:
 
 #. Open the ``stomp_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is `this <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/launch/stomp_planning_pipeline.launch.xml>`_ file. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
 
-    <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization
-                   default_planner_request_adapters/FixWorkspaceBounds
-                   default_planner_request_adapters/FixStartStateBounds
-                   default_planner_request_adapters/FixStartStateCollision
-                   default_planner_request_adapters/FixStartStatePathConstraints
+    <arg name="planning_adapters" value="default_planning_request_adapters/AddTimeParameterization
+                   default_planning_request_adapters/ValidateWorkspaceBounds
+                   default_planning_request_adapters/CheckStartStateBounds
+                   default_planning_request_adapters/CheckStartStateCollision
                    chomp/OptimizerAdapter" />
 
 #. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the CHOMP adapter, a call to STOMP is made before invoking the CHOMP optimization solver, so CHOMP takes the initial path computed by STOMP as the starting point to further optimize it.
@@ -118,11 +116,10 @@ To achieve this, follow the steps:
 
 #. Open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch`` folder of your robot. For the Panda robot it is this `file <https://github.com/ros-planning/panda_moveit_config/blob/melodic-devel/launch/ompl_planning_pipeline.launch.xml>`_. Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and change it to: ::
 
-    <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization
-                   default_planner_request_adapters/FixWorkspaceBounds
-                   default_planner_request_adapters/FixStartStateBounds
-                   default_planner_request_adapters/FixStartStateCollision
-                   default_planner_request_adapters/FixStartStatePathConstraints
+    <arg name="planning_adapters" value="default_planning_request_adapters/AddTimeParameterization
+                   default_planning_request_adapters/ValidateWorkspaceBounds
+                   default_planning_request_adapters/CheckStartStateBounds
+                   default_planning_request_adapters/CheckStartStateCollision
                    stomp_moveit/StompSmoothingAdapter" />
 
 #. The values of the ``planning_adapters`` is the order in which the mentioned adapters are called / invoked. Order here matters. Inside the STOMP adapter, a call to OMPL is made before invoking the STOMP smoothing solver, so STOMP takes the initial path computed by OMPL as the starting point to further optimize it.
