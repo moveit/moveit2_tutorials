@@ -1,12 +1,13 @@
 How To Command Simulated Isaac Robot
 ====================================
 
-This tutorial requires a machine with ``Isaac Sim 2022.2.0`` or ``Isaac Sim 2022.2.1`` installed.
+This tutorial requires a machine with ``Isaac Sim 2023.1.x`` (recommended) or ``Isaac Sim 2022.2.x`` installed.
 For Isaac Sim requirements and installation please see the `Omniverse documentation <https://docs.omniverse.nvidia.com/isaacsim/latest/index.html>`_.
+To configure Isaac Sim to work with ROS 2 please see `this guide <https://docs.omniverse.nvidia.com/isaacsim/latest/installation/install_ros.html#running-native-ros>`_.
 
 This tutorial has the following assumptions on system configuration:
 
-1. NVIDIA Isaac Sim 2022.2.0 or 2022.2.1 is installed on a Ubuntu 20.04 host in the default location.
+1. NVIDIA Isaac Sim is installed in the default location. Docker based installations of Isaac sim are also supported but it is up to the user to configure the system.
 2. Docker is installed.
    If you plan to use your GPU with MoveIt, you will need to install `nvidia-docker <https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installing-on-ubuntu-and-debian>`_.
 3. You clone this repo so that you can build a Ubuntu 22.04 Humble based Docker image that can communicate with Isaac and run this tutorial.
@@ -118,7 +119,7 @@ Running the MoveIt Interactive Marker Demo with Isaac Sim
 
 2. Then run the following command to load the Panda Robot pre-configured to work with this tutorial.
 
-.. note:: This step assumes Isaac Sim version 2022.2.0 or 2022.2.1 is installed on the host in the ``$HOME/.local/share/ov/pkg/" directory``.
+.. note:: This step assumes that a compatible version of Isaac Sim is installed on the host in the ``$HOME/.local/share/ov/pkg/" directory``.
   This step also takes a few minutes to download the assets and setup Isaac Sim so please be
   patient and don't click the ``Force Quit`` dialog that pops up while the simulator starts.
 
