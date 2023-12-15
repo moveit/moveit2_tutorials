@@ -13,7 +13,7 @@ ISAAC_SCRIPT_DIRS=()
 for ISAAC_SCRIPT_DIR in $(ls -d -- $OV_PKG_DIR/isaac_sim-*);
 do
     ISAAC_VER=${ISAAC_SCRIPT_DIR//$OV_PKG_DIR\/isaac_sim-/};
-    if [[ "$ISAAC_VER" =~ ^(2022.2.0|2022.2.1)$ ]]; then
+    if [[ "$ISAAC_VER" =~ ^(2022.2.0|2022.2.1|2023.1.0|2023.1.1)$ ]]; then
         ISAAC_SCRIPT_DIRS+=($ISAAC_SCRIPT_DIR)
     fi
 done
