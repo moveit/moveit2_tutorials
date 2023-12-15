@@ -3,7 +3,7 @@ Dual Arms with MoveIt
 
 There are quite a few configuration steps to control two or more manipulators with MoveIt. Luckily it has gotten easier over time. Here, an example is provided and we list all the changes needed to go from 1 robot to X robots.
 
-The launch and configuration files in this example are available :codedir:`here. <examples/dual_arms>`
+The launch and configuration files in this example are available :moveit_resources_codedir:`here. <dual_arm_panda_moveit_config>`
 
 Running the Demo
 ----------------
