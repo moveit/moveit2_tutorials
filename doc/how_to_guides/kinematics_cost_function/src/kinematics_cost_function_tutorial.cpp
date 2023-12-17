@@ -217,7 +217,7 @@ int main(int argc, char** argv)
   std::vector<moveit::core::RobotStatePtr> traj;
   moveit::core::MaxEEFStep max_eef_step(0.01, 0.1);
   // Here, we're effectively disabling the jump threshold for joints. This is not recommended on real hardware.
-  moveit::core::JumpThreshold jump_thresh(0.0);
+  const auto jump_thresh = moveit::core::JumpThreshold::disabled();
 
   // The trajectory, traj, passed to computeCartesianPath will contain several waypoints toward
   // the goal pose, target. For each of these waypoints, the IK solver is queried with the given cost function.
