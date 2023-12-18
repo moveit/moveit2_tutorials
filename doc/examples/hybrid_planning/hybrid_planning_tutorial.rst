@@ -1,7 +1,7 @@
 Hybrid Planning
 ===============
 
-In this section, you will learn how to use  MoveIt 2's *Hybrid Planning* feature.
+In this section, you will learn how to use MoveIt 2's *Hybrid Planning* feature.
 
 Hybrid Planning enables you to (re)plan and execute robot motions online with MoveIt 2 and to add more planning logic into your robot's motion planning pipeline.
 
