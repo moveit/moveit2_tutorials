@@ -21,7 +21,7 @@ Requirements
 Steps
 -----
 
-1. Build the MoveIt2 workspace
+1. Build the MoveIt 2 workspace
 
   First, ``cd`` to the root directory of the moveit2 workspace. (if you followed the :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` tutorial, this will be ``~/ws_moveit/``).
 

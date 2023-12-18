@@ -71,7 +71,7 @@ Computer Setup
 
 1. Install `Isaac Sim <https://docs.omniverse.nvidia.com/isaacsim/latest/installation/install_workstation.html>`_.
 
-2. Perform a shallow clone of the MoveIt2 Tutorials repo.
+2. Perform a shallow clone of the MoveIt 2 Tutorials repo.
 
 .. code-block:: bash
 
