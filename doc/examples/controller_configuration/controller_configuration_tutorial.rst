@@ -6,7 +6,7 @@ MoveIt typically publishes manipulator motion commands to a `JointTrajectoryCont
 
 #. A launch file. This launch file must load the :code:`moveit_controllers` yaml file and specify the :code:`moveit_simple_controller_manager/MoveItSimpleControllerManager`. After these yaml files are loaded, they are passed as parameters to the Move Group node. `Example Move Group launch file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_.
 
-#. Launch the corresponding :code:`ros2_control` JointTrajectoryControllers. This is separate from the MoveIt2 ecosystem. `Example ros2_control launching <https://github.com/ros-controls/ros2_control_demos>`_. Each JointTrajectoryController provides an action interface. Given the yaml file above, MoveIt automatically connects to this action interface.
+#. Launch the corresponding :code:`ros2_control` JointTrajectoryControllers. This is separate from the MoveIt 2 ecosystem. `Example ros2_control launching <https://github.com/ros-controls/ros2_control_demos>`_. Each JointTrajectoryController provides an action interface. Given the yaml file above, MoveIt automatically connects to this action interface.
 
 #. Note: it is not required to use :code:`ros2_control` for your robot. You could write a proprietary action interface. In practice, 99% of users choose :code:`ros2_control`.
 

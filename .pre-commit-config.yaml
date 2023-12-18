@@ -38,7 +38,7 @@ repos:
         name: misspelled-moveit
         description: MoveIt should be spelled exactly as MoveIt
         language: pygrep
-        entry: Moveit\W|MoveIt!
+        entry: Moveit\W|MoveIt!|Moveit2|MoveIt2
         exclude: .pre-commit-config.yaml
       - id: clang-format
         name: clang-format
