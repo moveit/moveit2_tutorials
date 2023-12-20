@@ -38,7 +38,7 @@ endforeach()
 include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
 
 # add_subdirectory(doc/examples/bullet_collision_checker)
-# add_subdirectory(doc/examples/collision_environments)
+add_subdirectory(doc/examples/collision_environments)
 # add_subdirectory(doc/examples/controller_configuration)
 # add_subdirectory(doc/examples/creating_moveit_plugins/lerp_motion_planner)
 # add_subdirectory(doc/examples/interactivity)
