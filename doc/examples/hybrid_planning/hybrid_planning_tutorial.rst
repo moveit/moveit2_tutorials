@@ -1,7 +1,7 @@
 Hybrid Planning
 ===============
 
-In this section, you will learn how to use  Moveit 2's *Hybrid Planning* feature.
+In this section, you will learn how to use MoveIt 2's *Hybrid Planning* feature.
 
 Hybrid Planning enables you to (re)plan and execute robot motions online with MoveIt 2 and to add more planning logic into your robot's motion planning pipeline.
 
@@ -90,7 +90,7 @@ To include the Hybrid Planning Architecture into you project you need to add a *
 
 Customizing the Hybrid Planning Architecture
 --------------------------------------------
-As the rest of Moveit 2, the *Hybrid Planning Architecture* is designed to be highly customizable while also offering the possibility to easily re-use existing solutions. Each of the architecture's components is a ROS 2 node and can be completely replaced by your own custom ROS 2 node as long as it offers the API required by the other nodes. Each component's runtime behavior is defined by plugins. This section focuses on the customization of the *Hybrid Planning Architecture* by implementing your own plugins.
+As the rest of MoveIt 2, the *Hybrid Planning Architecture* is designed to be highly customizable while also offering the possibility to easily re-use existing solutions. Each of the architecture's components is a ROS 2 node and can be completely replaced by your own custom ROS 2 node as long as it offers the API required by the other nodes. Each component's runtime behavior is defined by plugins. This section focuses on the customization of the *Hybrid Planning Architecture* by implementing your own plugins.
 
 Global and Local Motion Planning
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

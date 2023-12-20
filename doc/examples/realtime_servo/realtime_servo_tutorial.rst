@@ -27,7 +27,7 @@ If you haven't already done so, make sure you've completed the steps in :doc:`Ge
 Design overview
 ---------------
 
-Moveit Servo consists of two main parts: The core implementation ``Servo`` which provides a C++ interface, and the ``ServoNode`` which
+MoveIt Servo consists of two main parts: The core implementation ``Servo`` which provides a C++ interface, and the ``ServoNode`` which
 wraps the C++ interface and provides a ROS interface.The configuration of Servo is done through ROS parameters specified in :moveit_codedir:`servo_parameters.yaml <moveit_ros/moveit_servo/config/servo_parameters.yaml>`
 
 In addition to the servoing capability, MoveIt Servo has some convenient features such as:

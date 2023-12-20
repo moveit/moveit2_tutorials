@@ -16,7 +16,7 @@ The code for this tutorial can be found `here <https://github.com/peterdavidfaga
 
 Getting Started
 ---------------
-To complete this tutorial, you must have set up a colcon workspace that includes MoveIt2 and its corresponding tutorials. An excellent outline on how to set up such a workspace is provided in the :doc:`Getting Started Guide </doc/tutorials/getting_started/getting_started>`.
+To complete this tutorial, you must have set up a colcon workspace that includes MoveIt 2 and its corresponding tutorials. An excellent outline on how to set up such a workspace is provided in the :doc:`Getting Started Guide </doc/tutorials/getting_started/getting_started>`.
 
 Once you have set up your workspace, you can execute the code for this tutorial by running the following command (the servo section of this tutorial requires a PS4 Dualshock, if you don't have one consider setting this parameter to false): ::
 
@@ -140,7 +140,10 @@ Once our MoveIt configuration is defined we start the following set of nodes:
         ros2_control_node = Node(
                 package="controller_manager",
                 executable="ros2_control_node",
-                parameters=[moveit_config.robot_description, ros2_controllers_path],
+                parameters=[ros2_controllers_path],
+                remappings=[
+                        ("/controller_manager/robot_description", "/robot_description"),
+                ],
                 output="both",
         )
 
