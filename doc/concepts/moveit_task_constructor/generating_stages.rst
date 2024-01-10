@@ -157,4 +157,4 @@ GenerateRandomPose
 
 FixedCartesianPose
 ------------------
-The FixedCartesianPose spawns a fixed Cartesian pose.
+The FixedCartesianPose spawns a fixed Cartesian pose. This stage does no sampling.

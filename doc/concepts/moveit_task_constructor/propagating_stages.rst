@@ -160,6 +160,10 @@ Example code
       std::make_shared<moveit::task_constructor::solvers::JointInterpolationPlanner>();
   auto stage =
         std::make_unique<moveit::task_constructor::stages::MoveTo>("close gripper", joint_interpolation_planner);
+  // Set trajectory execution info. This will contain the list of controllers used to actuate gripper and arm.
+  // Since this property is set during task initialization, we can inherit from it.
+  stage->properties().set("trajectory_execution_info",
+                          boost::any_cast<moveit::task_constructor::TrajectoryExecutionInfo>(task->properties().get("trajectory_execution_info")));
   stage->setGroup("gripper"));
   stage->setGoal("closed"); // Group state named in SRDF
   stage->setTimeout(2.0);

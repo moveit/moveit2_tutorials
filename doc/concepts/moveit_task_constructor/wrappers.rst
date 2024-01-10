@@ -52,8 +52,8 @@ Code Example
   auto wrapper = std::make_unique<moveit::task_constructor::stages::ComputeIK>("pose IK", std::move(stage));
   wrapper->setTimeout(0.05);
   wrapper->setIKFrame("tool_frame");
-  wrapper->properties().configureInitFrom(moveit::task_constructor::Stage::PARENT, { "eef", "group" });
-  wrapper->properties().configureInitFrom(moveit::task_constructor::Stage::INTERFACE, { "target_pose" });
+  wrapper->properties().configureInitFrom(moveit::task_constructor::Stage::PARENT, { "eef", "group" }); // Property value derived from parent stage
+  wrapper->properties().configureInitFrom(moveit::task_constructor::Stage::INTERFACE, { "target_pose" }); // Property value derived from child stage
 
   // Add callback to publish grasp solutions so they can be displayed within the UI
   wrapper->addSolutionCallback(

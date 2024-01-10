@@ -29,7 +29,7 @@ Connect
      - Constraints to maintain during trajectory
    * - merge_time_parameterization
      -
-     - Default is TOTG (Time-Optimal Trajectory Generation)
+     - Default is TOTG (Time-Optimal Trajectory Generation). Information about TOTG is available in :ref:`Time Parameterization tutorial <doc/examples/time_parameterization/time_parameterization_tutorial:Time Parameterization Algorithms>`
 
 `API doc for Connect <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1Connect.html>`_.
 
@@ -37,7 +37,7 @@ Code Example
 
 .. code-block:: c++
 
-  auto node = rclcpp::Node::make_shared("ur5");
+  auto node = std::make_shared<rclcpp::Node>();
   // planner used for connect
   auto pipeline = std::make_shared<solvers::PipelinePlanner>(node, "ompl", "RRTConnectkConfigDefault");
   // connect to pick

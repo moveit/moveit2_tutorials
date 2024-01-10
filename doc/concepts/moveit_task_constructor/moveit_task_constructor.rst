@@ -44,7 +44,7 @@ Propagating Stage
 .. image:: ./_static/images/propagating_stage.png
 
 | Propagators receive solutions from one neighbor state, solve a problem and then propagate the result to the neighbor on the opposite side.
-| Depending on the implementation, this stage can pass solutions forward, backward or in both directions.
+| Depending on the implementation, this stage can pass solutions forward, backward, or in both directions.
 | Example of propagating stage - Move Relative to a pose. This stage is commonly use to approach close to an object to pick.
 
 | List of propagating stages provided by MTC :ref:`Propagating Stages`.
@@ -98,7 +98,7 @@ The top-level planning problem is specified as a MTC Task and the subproblems wh
   auto node = std::make_shared<rclcpp::Node>();
   auto task = std::make_unique<moveit::task_constructor::Task>();
   task->loadRobotModel(node);
-  // Set controllers used to execute robot motion
+  // Set controllers used to execute robot motion. If not set, MoveIt has controller discovery logic.
   task->setProperty("trajectory_execution_info", "joint_trajectory_controller gripper_controller");
 
 
