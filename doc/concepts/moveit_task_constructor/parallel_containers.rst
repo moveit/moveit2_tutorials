@@ -8,11 +8,11 @@ Parallel containers combine a set of stages to allow planning alternate solution
 
 Three stages provided by MTC to use within a parallel container:
 
-* Alternatives
+* ``Alternatives``
 
-* Fallback
+* ``Fallback``
 
-* Merger
+* ``Merger``
 
 Alternatives
 ^^^^^^^^^^^^

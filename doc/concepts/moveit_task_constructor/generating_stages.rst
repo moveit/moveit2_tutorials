@@ -8,15 +8,15 @@ Generator stages get no input from adjacent stages. They compute results and pas
 
 MTC provides the following generator stages:
 
-* CurrentState
+* ``CurrentState``
 
-* FixedState
+* ``FixedState``
 
-* Monitoring Generators - GeneratePose, GenerateGraspPose, GeneratePlacePose and GenerateRandomPose.
+* Monitoring Generators - ``GeneratePose``, ``GenerateGraspPose``, ``GeneratePlacePose`` and ``GenerateRandomPose``.
 
 CurrentState
 -------------
-| The CurrentState stage fetches the current PlanningScene via the ``get_planning_scene`` service.
+| The ``CurrentState`` stage fetches the current PlanningScene via the ``get_planning_scene`` service.
 | This stage is often used at the beginning of the MTC task pipeline to set the start state from the current robot state.
 
 Example code
@@ -30,7 +30,7 @@ Example code
 FixedState
 ----------
 
-| The FixedState stage spawns a pre-defined PlanningScene State.
+| The ``FixedState`` stage spawns a pre-defined PlanningScene State.
 
 .. code-block:: c++
 
@@ -57,12 +57,12 @@ Monitoring Generators help monitor and use solutions of another stage.
 
 GeneratePose
 ^^^^^^^^^^^^
-GeneratePose is a monitoring generator stage which can be used to generate poses based on solutions provided by the monitored stage.
+``GeneratePose`` is a monitoring generator stage which can be used to generate poses based on solutions provided by the monitored stage.
 
 GenerateGraspPose
 ^^^^^^^^^^^^^^^^^
-| GenerateGraspPose stage is derived from GeneratePose, which is a monitoring generator.
-| This stage usually monitors the ``CurrentState`` stage since the stage requires the latest PlanningScene to find the location of object around which grasp poses will be generated.
+| ``GenerateGraspPose`` stage is derived from ``GeneratePose``, which is a monitoring generator.
+| This stage usually monitors the ``CurrentState`` stage since the stage requires the latest ``PlanningScene`` to find the location of object around which grasp poses will be generated.
 | This stage can by used to generate poses for grasping by setting the desired attributes.
 | There can be multiple ways to set the same property. For example, there are two functions to set the pre grasp pose as seen in the table below. The user can set this property by either using a string group state or by explicitly defining a RobotState.
 
@@ -114,9 +114,9 @@ Example code
 
 GeneratePlacePose
 ^^^^^^^^^^^^^^^^^
-| The GeneratePlacePose stage derives from GeneratePose, which is a monitoring generator.
+| The ``GeneratePlacePose`` stage derives from ``GeneratePose``, which is a monitoring generator.
 | This stage generates poses for the place pipeline.
-| Notice that while GenerateGraspPose spawns poses with an ``angle_delta`` interval, GeneratePlacePose samples a fixed amount, which is dependent on the object's shape.
+| Notice that while ``GenerateGraspPose`` spawns poses with an ``angle_delta`` interval, ``GeneratePlacePose`` samples a fixed amount, which is dependent on the object's shape.
 
 Example code
 
@@ -141,7 +141,7 @@ Example code
 
 GenerateRandomPose
 ^^^^^^^^^^^^^^^^^^
-| The GenerateRandomPose stage derives from GeneratePose, which is a monitoring generator.
+| The ``GenerateRandomPose`` stage derives from ``GeneratePose``, which is a monitoring generator.
 | This stage configures a RandomNumberDistribution (see https://en.cppreference.com/w/cpp/numeric/random) sampler for a PoseDimension (X/Y/Z/ROLL/PITCH/YAW) for randomizing the pose.
 
 .. list-table:: Properties to be set by user
@@ -157,4 +157,4 @@ GenerateRandomPose
 
 FixedCartesianPose
 ------------------
-The FixedCartesianPose spawns a fixed Cartesian pose. This stage does no sampling.
+The ``FixedCartesianPose`` spawns a fixed Cartesian pose. This stage does no sampling.

@@ -10,18 +10,18 @@ Propagating Stages
 
 MTC provides the following propagating stages:
 
-* ModifyPlanning
+* ``ModifyPlanning``
 
-* MoveRelative
+* ``MoveRelative``
 
-* MoveTo
+* ``MoveTo``
 
-* FixCollisionObjects
+* ``FixCollisionObjects``
 
 ModifyPlanningScene
 -------------------
 
-| The ModifyPlanningScene stage applies modifications to the PlanningScene without moving the robot.
+| The ``ModifyPlanningScene`` stage applies modifications to the PlanningScene without moving the robot.
 | By default, this stage propagates results in both direction.
 | The default cost term is a constant of 0.
 
@@ -49,7 +49,7 @@ Example code to enable collision
 MoveRelative
 ------------
 
-| The MoveRelative stage is used to perform a cartesian motion.
+| The ``MoveRelative`` stage is used to perform a cartesian motion.
 | By default, this stage propagates results in both directions.
 | The default planning time for this stage is 1.0s.
 | The default cost term depends on path length.
@@ -110,7 +110,7 @@ Example code
 MoveTo
 ------
 
-| The MoveTo stage is used to move to a joint state or cartesian goal pose.
+| The ``MoveTo`` stage is used to move to a joint state or cartesian goal pose.
 | By default, this stage propagates results in both direction.
 | The default planning time for this stage is 1.0s.
 | The default cost term depends on path length.
@@ -171,7 +171,7 @@ Example code
 FixCollisionObjects
 -------------------
 
-| The FixCollisionObjects stage checks for collisions and resolve them if applicable.
+| The ``FixCollisionObjects`` stage checks for collisions and resolve them if applicable.
 | By default, this stage propagates results in both direction.
 | The default cost term is a constant of 0.
 

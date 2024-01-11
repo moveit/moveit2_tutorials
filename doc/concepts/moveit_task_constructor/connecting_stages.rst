@@ -10,7 +10,7 @@ Connecting Stages
 Connect
 -------
 
-| The Connect stage connects two stages by finding a motion plan between the start and end goal given by the adjacent stages.
+| The ``Connect`` stage connects two stages by finding a motion plan between the start and end goal given by the adjacent stages.
 | The default cost term depends on path length.
 | The default planning time for this stage is 1.0s.
 

@@ -45,7 +45,7 @@ Propagating Stage
 
 | Propagators receive solutions from one neighbor state, solve a problem and then propagate the result to the neighbor on the opposite side.
 | Depending on the implementation, this stage can pass solutions forward, backward, or in both directions.
-| Example of propagating stage - Move Relative to a pose. This stage is commonly use to approach close to an object to pick.
+| Example of propagating stage - ``Move Relative`` to a pose. This stage is commonly use to approach close to an object to pick.
 
 | List of propagating stages provided by MTC :ref:`Propagating Stages`.
 
@@ -61,7 +61,7 @@ Connecting Stage
 Wrapper
 ^^^^^^^
 | Wrappers encapsulate another stage to modify or filter the results.
-| Example of wrapper - Compute IK for Generate Grasp Pose stage. A Generate Grasp Pose stage will produce cartesian pose solutions. By wrapping an Compute IK stage around Generate Pose stage, the cartesian pose solutions from Generate Pose stage can be used to produce IK solutions (i.e) produce joint state configuration of robot to reach the poses.
+| Example of wrapper - ``Compute IK`` for ``Generate Grasp Pose`` stage. A ``Generate Grasp Pose`` stage will produce cartesian pose solutions. By wrapping an ``Compute IK`` stage around ``Generate Pose`` stage, the cartesian pose solutions from ``Generate Pose`` stage can be used to produce IK solutions (i.e) produce joint state configuration of robot to reach the poses.
 
 | List of wrappers provided by MTC :ref:`Wrappers`.
 
@@ -127,11 +127,11 @@ Stages that does motion planning need solver information.
 
 Solvers available in MTC
 
-* PipelinePlanner - Uses MoveIt's planning pipeline
+* ``PipelinePlanner`` - Uses MoveIt's planning pipeline
 
-* JointInterpolation - Interpolates between the start and goal joint states. It does not support complex motions.
+* ``JointInterpolation`` - Interpolates between the start and goal joint states. It does not support complex motions.
 
-* CartesianPath - Moves the end effector in a straight line in Cartesian space.
+* ``CartesianPath`` - Moves the end effector in a straight line in Cartesian space.
 
 Code Example on how to initialize the solver
 
@@ -143,7 +143,7 @@ Code Example on how to initialize the solver
       std::make_shared<moveit::task_constructor::solvers::JointInterpolationPlanner>();
   const auto mtc_cartesian_planner = std::make_shared<moveit::task_constructor::solvers::CartesianPath>();
 
-These solvers will be passed into stages like MoveTo, MoveRelative and Connect.
+These solvers will be passed into stages like ``MoveTo``, ``MoveRelative`` and ``Connect``.
 
 Setting Properties
 ------------------
@@ -164,21 +164,21 @@ CostTerm is the basic interface to compute costs for solutions for MTC stages.
 
 CostTerm implementations available in MTC
 
-* Constant - Adds a constant cost to each solution
+* ``Constant`` - Adds a constant cost to each solution
 
-* PathLength - Cost depends on trajectory length with optional weight for different joints
+* ``PathLength`` - Cost depends on trajectory length with optional weight for different joints
 
-* TrajectoryDuration - Cost depends on execution duration of the whole trajectory
+* ``TrajectoryDuration`` - Cost depends on execution duration of the whole trajectory
 
-* TrajectoryCostTerm - cost terms that only work on SubTrajectory solutions?
+* ``TrajectoryCostTerm`` - cost terms that only work on SubTrajectory solutions?
 
-* LambdaCostTerm - Pass in a lambda expression to calculate cost
+* ``LambdaCostTerm`` - Pass in a lambda expression to calculate cost
 
-* DistanceToReference - Cost depends on weighted joint space distance to a reference point
+* ``DistanceToReference`` - Cost depends on weighted joint space distance to a reference point
 
-* LinkMotion - Cost depends on length of Cartesian trajectory of a link
+* ``LinkMotion`` - Cost depends on length of Cartesian trajectory of a link
 
-* Clearance - Cost is inverse of distance to collision
+* ``Clearance`` - Cost is inverse of distance to collision
 
 Example code on how to set CostTerm using LamdaCostTerm
 
@@ -199,7 +199,7 @@ Planning MTC task will return a MoveItErrorCode.
   auto error_code = task.plan()
 
 After planning, extract the first successful solution and pass it to the execute function. This will create an ``execute_task_solution`` action client and the action server resides in ``execute_task_solution_capability`` plugin provided by MTC.
-The plugin extends MoveGroupCapability. It constructs a MotionPlanRequest from the MTC solution and uses MoveIt's PlanExecution to actuate the robot.
+The plugin extends ``MoveGroupCapability``. It constructs a ``MotionPlanRequest`` from the MTC solution and uses MoveIt's ``PlanExecution`` to actuate the robot.
 
 .. code-block:: c++
 
