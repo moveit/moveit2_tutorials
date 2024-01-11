@@ -7,8 +7,8 @@ MoveIt Task Constructor
 What is MoveIt Task Constructor?
 --------------------------------
 
-| The MoveIt Task Constructor framework helps break down complex planning tasks to multiple interdependent subtasks.
-| The MTC framework uses MoveIt to solve the subtasks. Information from the subtasks are passes through the InterfaceState object.
+| The MoveIt Task Constructor (MTC) framework helps break down complex planning tasks to multiple interdependent subtasks.
+| MTC uses MoveIt to solve the subtasks. Information from the subtasks are passes through the InterfaceState object.
 
 .. image:: ./_static/images/mtc_task.png
 
