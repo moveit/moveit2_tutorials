@@ -29,7 +29,7 @@ Connect
      - Constraints to maintain during trajectory
    * - merge_time_parameterization
      -
-     - Default is TOTG (Time-Optimal Trajectory Generation). Information about TOTG is available in :ref:`Time Parameterization tutorial <doc/examples/time_parameterization/time_parameterization_tutorial:Time Parameterization Algorithms>`
+     - Default is TOTG (Time-Optimal Trajectory Generation). Information about TOTG is available in the :ref:`Time Parameterization tutorial <doc/examples/time_parameterization/time_parameterization_tutorial:Time Parameterization Algorithms>`
 
 `API doc for Connect <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1Connect.html>`_.
 
