@@ -209,6 +209,10 @@ The plugin extends ``MoveGroupCapability``. It constructs a ``MotionPlanRequest`
 Links to Additional Information
 --------------------------------
 
+Here is a :doc:`tutorial </doc/tutorials/pick_and_place_with_moveit_task_constructor/pick_and_place_with_moveit_task_constructor>` on how to create a Pick and Place pipeline using MTC.
+
+The links listed below contain more information on stages and containers provided by MTC
+
 .. toctree::
     :maxdepth: 1
 
