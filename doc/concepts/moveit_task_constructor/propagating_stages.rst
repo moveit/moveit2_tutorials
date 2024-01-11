@@ -5,7 +5,7 @@ Propagating Stages
 ##################
 
 | Propagators receive solutions from one neighbor state, solve a problem, and then propagate the result to the neighbor on the opposite side.
-| Depending on the implementation, this stage can pass solutions forward, backward or in both directions.
+| Depending on the implementation, this stage can pass solutions forward, backward, or in both directions.
 
 
 MTC provides the following propagating stages:
