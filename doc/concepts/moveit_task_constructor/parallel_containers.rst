@@ -71,7 +71,7 @@ Merger
 ^^^^^^
 .. image:: ./_static/images/merger.png
 
-| Stages in a Merger container combine multiple distinct problems (i.e) plan for different planning groups in parallel.
+| Stages in a Merger container combine multiple distinct problems, i.e., plan for different planning groups in parallel.
 | Solutions of all children are merged into a single solution for parallel execution.
 | Example - Open gripper while moving the arm to a location
 
