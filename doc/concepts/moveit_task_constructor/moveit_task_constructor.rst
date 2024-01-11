@@ -180,7 +180,7 @@ CostTerm implementations available in MTC
 
 * ``Clearance`` - Cost is inverse of distance to collision
 
-Example code on how to set CostTerm using LamdaCostTerm
+Example code on how to set CostTerm using LambdaCostTerm
 
 .. code-block:: c++
 
