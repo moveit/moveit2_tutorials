@@ -172,7 +172,7 @@ FixCollisionObjects
 -------------------
 
 | The ``FixCollisionObjects`` stage checks for collisions and resolve them if applicable.
-| By default, this stage propagates results in both direction.
+| By default, this stage propagates results in both directions.
 | The default cost term is a constant of 0.
 
 .. list-table:: Properties to be set by user
