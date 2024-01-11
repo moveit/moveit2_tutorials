@@ -25,7 +25,7 @@ ModifyPlanningScene
 | By default, this stage propagates results in both direction.
 | The default cost term is a constant of 0.
 
-The stage contains function to
+The stage contains functionality to
 * Enable and disable collision checking between links
 * Attach and detach objects to robot links
 * Spawn and remove objects from scene
