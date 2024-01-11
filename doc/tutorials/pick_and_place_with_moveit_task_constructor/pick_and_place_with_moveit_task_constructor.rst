@@ -49,6 +49,8 @@ Stages not only support solving motion planning problems.
 They can also be used for all kinds of state transitions, as for instance modifying the planning scene.
 Combined with the possibility of using class inheritance it is possible to construct very complex behavior while only relying on a well-structured set of primitive stages.
 
+More detailed information on MTC can be found in the :doc:`MoveIt Task Constructor concepts page </doc/concepts/moveit_task_constructor/moveit_task_constructor>`
+
 2 Getting Started
 -----------------
 If you haven't already done so, make sure you've completed the steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>`.
