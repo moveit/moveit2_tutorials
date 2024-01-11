@@ -143,7 +143,7 @@ Code Example on how to initialize the solver
       std::make_shared<moveit::task_constructor::solvers::JointInterpolationPlanner>();
   const auto mtc_cartesian_planner = std::make_shared<moveit::task_constructor::solvers::CartesianPath>();
 
-These solvers will be passed into stages like ``MoveTo``, ``MoveRelative`` and ``Connect``.
+These solvers will be passed into stages like ``MoveTo``, ``MoveRelative``, and ``Connect``.
 
 Setting Properties
 ------------------
