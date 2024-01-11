@@ -46,7 +46,7 @@ Fallbacks
 .. image:: ./_static/images/fallbacks.png
 
 | A fallback container executes child stages in order until one of them returns success or all stages return failure.
-| Example - Plan with different solvers until we get successful solutions.
+| Example - Plan with different solvers one at a time until we get a successful solution.
 
 .. code-block:: c++
 
