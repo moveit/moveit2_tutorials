@@ -111,7 +111,7 @@ MoveTo
 ------
 
 | The ``MoveTo`` stage is used to move to a joint state or cartesian goal pose.
-| By default, this stage propagates results in both direction.
+| By default, this stage propagates results in both directions.
 | The default planning time for this stage is 1.0s.
 | The default cost term depends on path length.
 
