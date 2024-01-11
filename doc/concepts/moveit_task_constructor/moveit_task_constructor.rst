@@ -123,7 +123,7 @@ Containers derive from Stage and hence containers can be added to MTC task simil
 Setting planning solvers
 ------------------------
 
-Stages that does motion planning need solver information.
+Stages that do motion planning need solver information.
 
 Solvers available in MTC
 
