@@ -18,7 +18,7 @@ Alternatives
 ^^^^^^^^^^^^
 .. image:: ./_static/images/alternatives.png
 
-| Alternatives container allow adding stages to be executed parallelly.
+| Alternatives containers allow adding stages to be executed in parallel.
 | All the solutions of the children stages are collected at the end and ordered by cost.
 | Example - Plan a trajectory with multiple cost terms.
 
