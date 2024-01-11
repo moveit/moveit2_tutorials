@@ -194,7 +194,7 @@ Planning and Executing a MTC Task
 
 Planning an MTC task will return a ``MoveItErrorCode``.
 Refer :moveit_msgs_codedir:`here<msg/MoveItErrorCodes.msg>` to identity the different error types.
-If planning succeeds, expect the plan function to return `moveit_msgs::msg::MoveItErrorCodes::SUCCESS`.
+If planning succeeds, you can expect the plan function to return ``moveit_msgs::msg::MoveItErrorCodes::SUCCESS``.
 
 .. code-block:: c++
 
