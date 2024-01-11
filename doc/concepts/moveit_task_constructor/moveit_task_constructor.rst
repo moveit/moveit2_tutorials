@@ -35,7 +35,7 @@ Generator Stage
 | The most important generator stage is ``CurrentState``, which gets the current robot state as the starting point for a planning pipeline.
 
 | Monitoring Generator is a stage that monitors the solution of another stage (not adjacent) to use the solutions for planning.
-| Example of Monitoring Generator - ``GeneratePose``. It usually monitors a ``CurrentState`` or ``ModifyPlanning Scene`` stage. By monitoring the solutions of ``CurrentState``, the ``GeneratePose`` stage can find the object or frame around which it should generate poses.
+| Example of Monitoring Generator - ``GeneratePose``. It usually monitors a ``CurrentState`` or ``ModifyPlanningScene`` stage. By monitoring the solutions of ``CurrentState``, the ``GeneratePose`` stage can find the object or frame around which it should generate poses.
 
 | List of generator stages provided by MTC :ref:`Generating Stages`.
 
