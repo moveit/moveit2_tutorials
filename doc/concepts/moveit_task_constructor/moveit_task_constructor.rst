@@ -37,7 +37,7 @@ Generator Stage
 | Monitoring Generator is a stage that monitors the solution of another stage (not adjacent) to use the solutions for planning.
 | Example of Monitoring Generator - ``GeneratePose``. It usually monitors a ``CurrentState`` or ``ModifyPlanningScene`` stage. By monitoring the solutions of ``CurrentState``, the ``GeneratePose`` stage can find the object or frame around which it should generate poses.
 
-| List of generator stages provided by MTC :ref:`Generating Stages`.
+| More information on generator stages provided by MTC can be found here - :ref:`Generating Stages`.
 
 Propagating Stage
 ^^^^^^^^^^^^^^^^^
@@ -47,7 +47,7 @@ Propagating Stage
 | Depending on the implementation, this stage can pass solutions forward, backward, or in both directions.
 | Example of propagating stage - ``Move Relative`` to a pose. This stage is commonly use to approach close to an object to pick.
 
-| List of propagating stages provided by MTC :ref:`Propagating Stages`.
+| More information on propagating stages provided by MTC can be found here - :ref:`Propagating Stages`.
 
 Connecting Stage
 ^^^^^^^^^^^^^^^^
@@ -56,14 +56,14 @@ Connecting Stage
 | Connectors do not propagate any results but attempt to connect the start and goal inputs provided by adjacent stages.
 | A connect stage often solves for a feasible trajectory between the start and goal states.
 
-| List of connecting stages provided by MTC :ref:`Connecting Stages`.
+| More information on connecting stages provided by MTC can be found here - :ref:`Connecting Stages`.
 
 Wrapper
 ^^^^^^^
 | Wrappers encapsulate another stage to modify or filter the results.
 | Example of wrapper - ``Compute IK`` for ``Generate Grasp Pose`` stage. A ``Generate Grasp Pose`` stage will produce cartesian pose solutions. By wrapping an ``Compute IK`` stage around ``Generate Pose`` stage, the cartesian pose solutions from ``Generate Pose`` stage can be used to produce IK solutions (i.e) produce joint state configuration of robot to reach the poses.
 
-| List of wrappers provided by MTC :ref:`Wrappers`.
+| More information on wrappers provided by MTC can be found here - :ref:`Wrappers`.
 
 MTC Containers
 ---------------
@@ -86,7 +86,7 @@ Parallel Container
 ^^^^^^^^^^^^^^^^^^
 Parallel containers combine a set of stages to allow planning alternate solutions.
 
-| More information on parallel containers :ref:`Parallel Containers`.
+| More information on parallel containers can be found here - :ref:`Parallel Containers`.
 
 Initializing a MTC Task
 -----------------------
@@ -170,7 +170,7 @@ CostTerm implementations available in MTC
 
 * ``TrajectoryDuration`` - Cost depends on execution duration of the whole trajectory
 
-* ``TrajectoryCostTerm`` - cost terms that only work on SubTrajectory solutions?
+* ``TrajectoryCostTerm`` - cost terms that only work on SubTrajectory solutions
 
 * ``LambdaCostTerm`` - Pass in a lambda expression to calculate cost
 
@@ -180,7 +180,7 @@ CostTerm implementations available in MTC
 
 * ``Clearance`` - Cost is inverse of distance to collision
 
-Example code on how to set CostTerm using LambdaCostTerm
+Example code on how to set CostTerm using ``LambdaCostTerm``
 
 .. code-block:: c++
 
@@ -192,7 +192,9 @@ All stages provided by MTC have default cost terms. Stages which produce traject
 Planning and Executing a MTC Task
 ---------------------------------
 
-Planning MTC task will return a MoveItErrorCode.
+Planning an MTC task will return a ``MoveItErrorCode``.
+Refer :moveit_msgs_codedir:`here<msg/MoveItErrorCodes.msg>` to identity the different error types.
+If planning succeeds, expect the plan function to return `moveit_msgs::msg::MoveItErrorCodes::SUCCESS`.
 
 .. code-block:: c++
 
