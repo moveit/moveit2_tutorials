@@ -79,7 +79,7 @@ Currently available containers:
 
 Serial Container
 ^^^^^^^^^^^^^^^^
-| Serial containers organizes stages linearly and only consider end-to-end solutions as results.
+| Serial containers organize stages linearly and only consider end-to-end solutions as results.
 | A MTC Task by default is stored as a serial container.
 
 Parallel Container
