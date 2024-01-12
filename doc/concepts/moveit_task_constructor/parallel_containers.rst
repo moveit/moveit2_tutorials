@@ -77,10 +77,10 @@ Merger
 
 .. code-block:: c++
 
-	auto cartesian_planner = std::make_shared<solvers::CartesianPath>();
-	const auto joint_interpolation_planner = std::make_shared<moveit::task_constructor::solvers::JointInterpolationPlanner>();
+  auto cartesian_planner = std::make_shared<solvers::CartesianPath>();
+  const auto joint_interpolation_planner = std::make_shared<moveit::task_constructor::solvers::JointInterpolationPlanner>();
 
-	auto merger = std::make_unique<Merger>("move arm and close gripper");
+  auto merger = std::make_unique<Merger>("move arm and close gripper");
 
   auto move_relative = std::make_unique<moveit::task_constructor::stages::MoveRelative>("Approach", cartesian_planner);
    merger->add(std::move(move_relative));
