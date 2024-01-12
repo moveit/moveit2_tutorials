@@ -105,7 +105,7 @@ The top-level planning problem is specified as a MTC Task and the subproblems wh
 Adding containers and stages to a MTC Task
 -------------------------------------------
 
-Adding a stage to MTC task -
+Adding a stage to MTC task
 
 .. code-block:: c++
 
