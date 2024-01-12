@@ -10,7 +10,7 @@ Propagating Stages
 
 MTC provides the following propagating stages:
 
-* ``ModifyPlanning``
+* ``ModifyPlanningScene``
 
 * ``MoveRelative``
 
@@ -163,7 +163,7 @@ Example code
   // Set trajectory execution info. This will contain the list of controllers used to actuate gripper and arm.
   // Since this property is set during task initialization, we can inherit from it.
   stage->properties().set("trajectory_execution_info",
-                          boost::any_cast<moveit::task_constructor::TrajectoryExecutionInfo>(task->properties().get("trajectory_execution_info")));
+                          std::any_cast<moveit::task_constructor::TrajectoryExecutionInfo>(task->properties().get("trajectory_execution_info")));
   stage->setGroup("gripper"));
   stage->setGoal("closed"); // Group state named in SRDF
   stage->setTimeout(2.0);
@@ -184,10 +184,10 @@ FixCollisionObjects
      - Description
    * - direction
      - void setDirection(geometry_msgs/Vector3 direction)
-     - Direction vector to use for corrections.
+     - Direction vector to fix collision by shifting object along correction direction. A default direction is calculated if not explicitly set.
    * - penetration
      - void setMaxPenetration(double penetration)
-     - Cutoff length up to which collision objects get fixed.
+     - Cutoff length up to which collision objects get fixed. If the object's collision length is greater than the value set, the collision will not be fixed.
 
 Example code
 

@@ -55,9 +55,10 @@ Code Example
   wrapper->properties().configureInitFrom(moveit::task_constructor::Stage::PARENT, { "eef", "group" }); // Property value derived from parent stage
   wrapper->properties().configureInitFrom(moveit::task_constructor::Stage::INTERFACE, { "target_pose" }); // Property value derived from child stage
 
-  // Add callback to publish grasp solutions so they can be displayed within the UI
+  // Users can add a callback function when grasp solutions are generated.
+  // Here we have added a custom function called publishGraspSolution which can publish the grasp solution to a certain topic.
   wrapper->addSolutionCallback(
-      [this](const moveit::task_constructor::SolutionBase& solution) { return onGraspSolution(solution); });
+      [this](const moveit::task_constructor::SolutionBase& solution) { return publishGraspSolution(solution); });
 
 PredicateFilter
 ---------------

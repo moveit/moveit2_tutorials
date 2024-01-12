@@ -44,7 +44,7 @@ FixedState
   state.setToDefaultValues(state.getJointModelGroup("left_arm"), "home");
   state.setToDefaultValues(state.getJointModelGroup("right_arm"), "home");
   state.update();
-  spawnObject(scene); // Add a CollisionObject to planning scene
+  spawnObject(scene); // User defined function to add a CollisionObject to planning scene
 
   auto initial = std::make_unique<stages::FixedState>();
   initial->setState(scene);

@@ -23,7 +23,7 @@ Connect
      - Description
    * - merge_mode
      -
-     - Define the merge strategy to use when performing planning operations. Can be SEQUENTIAL(Store sequential trajectories) or WAYPOINTS(Join trajectories by their waypoints). Default is WAYPOINTS.
+     - Define the merge strategy to use when performing planning operations. This parameter is an enum type. Can be SEQUENTIAL(Store sequential trajectories) or WAYPOINTS(Join trajectories by their waypoints). Default is WAYPOINTS.
    * - path_constaints
      - void setPathConstraints(moveit_msgs/Constraints path_constraints)
      - Constraints to maintain during trajectory
