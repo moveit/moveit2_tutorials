@@ -50,9 +50,9 @@ Fallbacks
 
 .. code-block:: c++
 
-	auto cartesian = std::make_shared<solvers::CartesianPath>();
-	auto ptp = std::make_shared<solvers::PipelinePlanner>(node, "pilz_industrial_motion_planner", "PTP")
-	auto rrtconnect = std::make_shared<solvers::PipelinePlanner>(node, "ompl", "RRTConnectkConfigDefault")
+  auto cartesian = std::make_shared<solvers::CartesianPath>();
+  auto ptp = std::make_shared<solvers::PipelinePlanner>(node, "pilz_industrial_motion_planner", "PTP")
+  auto rrtconnect = std::make_shared<solvers::PipelinePlanner>(node, "ompl", "RRTConnectkConfigDefault")
 
   // fallbacks to reach target_state
   auto fallbacks = std::make_unique<Fallbacks>("move to other side");
