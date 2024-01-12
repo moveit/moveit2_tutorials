@@ -200,7 +200,8 @@ If planning succeeds, you can expect the plan function to return ``moveit_msgs::
 
   auto error_code = task.plan()
 
-After planning, extract the first successful solution and pass it to the execute function. This will create an ``execute_task_solution`` action client and the action server resides in ``execute_task_solution_capability`` plugin provided by MTC.
+After planning, extract the first successful solution and pass it to the execute function. This will create an ``execute_task_solution`` action client.
+The action server resides in the ``execute_task_solution_capability`` plugin provided by MTC.
 The plugin extends ``MoveGroupCapability``. It constructs a ``MotionPlanRequest`` from the MTC solution and uses MoveIt's ``PlanExecution`` to actuate the robot.
 
 .. code-block:: c++
