@@ -45,7 +45,7 @@ Propagating Stage
 
 | Propagators receive solutions from one neighbor state, solve a problem and then propagate the result to the neighbor on the opposite side.
 | Depending on the implementation, this stage can pass solutions forward, backward, or in both directions.
-| Example of propagating stage - ``Move Relative`` to a pose. This stage is commonly use to approach close to an object to pick.
+| Example of propagating stage - ``Move Relative`` to a pose. This stage is commonly used to approach close to an object to pick.
 
 | More information on propagating stages provided by MTC can be found here - :ref:`Propagating Stages`.
 
