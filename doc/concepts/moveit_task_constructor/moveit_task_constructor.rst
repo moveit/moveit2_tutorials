@@ -170,7 +170,7 @@ CostTerm implementations available in MTC
 
 * ``TrajectoryDuration`` - Cost depends on execution duration of the whole trajectory
 
-* ``TrajectoryCostTerm`` - cost terms that only work on SubTrajectory solutions
+* ``TrajectoryCostTerm`` - Cost terms that only work on SubTrajectory solutions
 
 * ``LambdaCostTerm`` - Pass in a lambda expression to calculate cost
 
