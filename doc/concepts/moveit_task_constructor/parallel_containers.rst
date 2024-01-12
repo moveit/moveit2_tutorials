@@ -24,7 +24,7 @@ Alternatives
 
 .. code-block:: c++
 
-  auto pipeline{ std::make_shared<solvers::PipelinePlanner>(node) };
+   auto pipeline{ std::make_shared<solvers::PipelinePlanner>(node) };
 
    auto alternatives{ std::make_unique<Alternatives>("connect") };
    {
