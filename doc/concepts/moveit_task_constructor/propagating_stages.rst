@@ -171,7 +171,7 @@ Example code
 FixCollisionObjects
 -------------------
 
-| The ``FixCollisionObjects`` stage checks for collisions and resolve them if applicable.
+| The ``FixCollisionObjects`` stage checks for collisions and resolves them if applicable.
 | By default, this stage propagates results in both directions.
 | The default cost term is a constant of 0.
 
