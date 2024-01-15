@@ -1,7 +1,7 @@
 pip
 docutils==0.16
 sphinx>=5.0.0
-sphinx-tabs
+sphinx-tabs==3.4.4
 sphinx-multiversion
 sphinx-rtd-theme
 sphinx-copybutton
