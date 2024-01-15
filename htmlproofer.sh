@@ -29,7 +29,7 @@ rm -rf moveit2
 popd
 
 # Test build with non-ROS wrapped Sphinx command to allow warnings and errors to be caught
-sphinx-build -w -b html . build/html
+sphinx-build -b html . build/html
 
 # Replace Edit on Github links with local file paths
 grep -rl 'https:\/\/github.com\/ros-planning\/moveit2_tutorials\/blob\/main\/' ./build/ | \
