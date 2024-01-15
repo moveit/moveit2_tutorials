@@ -131,6 +131,8 @@ templates_path = [
     "_templates",
 ]
 
+autodoc_mock_imports = ["moveit"]
+
 # smv_tag_whitelist = None
 
 smv_branch_whitelist = r"^(main|humble)$"
