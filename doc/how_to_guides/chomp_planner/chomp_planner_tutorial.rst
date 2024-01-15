@@ -20,7 +20,7 @@ Using CHOMP with Your Robot
 ---------------------------
 **Note:** If you plan to use the ``panda_moveit_config`` package from the `ros-planning/moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_ repository, these steps are already done for you and you can skip this section. Otherwise, to add the configuration for your robot you must:
 
-#. Create a :codedir:`chomp_demo.launch.py<examples/chomp_planner/launch/chomp_demo.launch.py>` file in the launch directory for your MoveIt config package.
+#. Create a :codedir:`chomp_demo.launch.py<how_to_guides/chomp_planner/launch/chomp_demo.launch.py>` file in the launch directory for your MoveIt config package.
 #. Modify all references to Panda in ``chomp_demo.launch.py`` to point to your custom configuration instead
 #. Ensure you have included a  :moveit_resources_codedir:`chomp_planning.yaml <panda_moveit_config/config/chomp_planning.yaml>` file in the config directory of your MoveIt config package.
 #. Open ``chomp_planning.yaml`` in your favorite editor and change ``animate_endeffector_segment: "panda_rightfinger"`` to the appropriate link for your robot. Feel free to modify any parameters you think may better suit your needs.
