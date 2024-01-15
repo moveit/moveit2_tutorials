@@ -25,6 +25,9 @@ local-with-api: Makefile
 # intended to be leveraged for CI only
 generate_api_artifacts: Makefile
 	@echo Building Python API Artifacts
+ifeq ($(BRANCH), humble)
+	sed -i "s/autosummary_generate = True/autosummary_generate = False/g" conf.py
+endif
 	@echo Step 1 of 3: Ensure build folder exists
 	mkdir -p build/html
 	@echo Step 2 of 3: generate CPP API Artifacts
@@ -32,6 +35,9 @@ generate_api_artifacts: Makefile
 	sed -i "s/HTML_EXTRA_STYLESHEET  =.*/HTML_EXTRA_STYLESHEET  = ..\/..\/..\/theme.css/g" Doxyfile && DOXYGEN_OUTPUT_DIRECTORY="../api" doxygen &&  cd .. && rm -rf moveit2
 	@echo Step 3 of 3: Build Sphinx Artifacts
 	make html
+ifeq ($(BRANCH), humble)
+	sed -i "s/autosummary_generate = False/autosummary_generate = True/g" conf.py
+endif
 
 .PHONY: help local-with-api Makefile multiversion multiversion-with-api generate_api_artifacts
 

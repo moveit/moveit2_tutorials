@@ -263,9 +263,7 @@ autodoc_default_options = {
     "member-order": "bysource",
 }
 
-autosummary_generate = True
-autosummary_ignore_module_all = False
-autosummary_imported_members = True
+autosummary_generate = False
 
 # Napoleon settings
 napoleon_google_docstring = True
