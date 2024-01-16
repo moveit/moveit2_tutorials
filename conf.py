@@ -251,6 +251,16 @@ extlinks = {
 doxylink = {"cpp_api": ("build/html/api/MoveIt.tag", "api/html")}
 add_function_parentheses = True
 
+# Needed to support previous versions that did not include python bindings
+try:
+    import moveit
+except Exception as e:
+    autodoc_mock_imports = [
+        "moveit",
+        "moveit.core",
+        "moveit.planning",
+        "moveit.servo_client",
+    ]
 
 class RedirectFrom(Directive):
 

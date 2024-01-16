@@ -54,8 +54,6 @@ jobs:
       image: ${{ matrix.container }}
     steps:
     - uses: actions/checkout@v4
-      with:
-        ref: 'main'
 
     - name: Install Python dependencies
       run: |
@@ -89,11 +87,10 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-        ref: 'main'
 
     - uses: actions/setup-python@v4
       with:
-        python-version: '3.8'
+        python-version: '3.10'
         cache: 'pip'
 
     - name: Install Python dependencies
@@ -106,7 +103,7 @@ jobs:
 
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '2.7'
+        ruby-version: '3'
 
     # TODO (peterdavidfagan): don't hardcode branches for downloads
     - name: Download Rolling Artifacts
