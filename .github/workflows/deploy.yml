@@ -54,6 +54,8 @@ jobs:
       image: ${{ matrix.container }}
     steps:
     - uses: actions/checkout@v4
+      with:
+        ref: 'main'
 
     - name: Install Python dependencies
       run: |
@@ -87,6 +89,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
+        ref: 'main'
 
     - uses: actions/setup-python@v4
       with:
