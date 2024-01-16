@@ -136,9 +136,9 @@ jobs:
     # TODO(henningkayser): fix hack for using python api artifact in multiversion
     - name: Build multiversion
       run: |
-        cp build/html/main/doc/api/python_api/api.html .   # backup artifact html
+        cp -r build/html/main/doc/api/python_api/ .   # backup artifact html
         make multiversion
-        cp -f api.html build/html/main/doc/api/python_api/ # restore artifact html
+        cp -rf python_api/ build/html/main/doc/api/   # restore artifact html
 
     - name: Upload pages artifact
       uses: actions/upload-pages-artifact@v2
