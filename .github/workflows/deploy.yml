@@ -141,9 +141,9 @@ jobs:
     # TODO(henningkayser): fix hack for using python api artifact in multiversion
     - name: Build multiversion
       run: |
-        cp build/html/main/doc/api/python_api/api.html .   # backup artifact html
+        cp -r build/html/main/doc/api/python_api/ .   # backup artifact html
         make multiversion
-        cp -f api.html build/html/main/doc/api/python_api/ # restore artifact html
+        cp -rf api.html build/html/main/doc/api/      # restore artifact html
 
     - name: Upload pages artifact
       uses: actions/upload-pages-artifact@v3
@@ -152,7 +152,7 @@ jobs:
         path: build/html
 
   deploy:
-    if: github.repository_owner == 'ros-planning' && github.ref == 'refs/heads/main'
+    if: github.repository_owner == 'ros-planning'
     runs-on: ubuntu-latest
     needs: collate_site_artifacts
     environment:
