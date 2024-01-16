@@ -131,8 +131,6 @@ templates_path = [
     "_templates",
 ]
 
-autodoc_mock_imports = ["moveit", "moveit.core"]
-
 # smv_tag_whitelist = None
 
 smv_branch_whitelist = r"^(main|humble)$"
@@ -256,6 +254,13 @@ extlinks = {
 doxylink = {"cpp_api": ("build/html/api/MoveIt.tag", "api/html")}
 add_function_parentheses = True
 
+try:
+    import moveit
+except Exception as e:
+    autodoc_mock_imports = ["moveit",
+                            "moveit.core",
+                            "moveit.planning",
+                            "moveit.servo_client"]
 
 autodoc_typehints = "signature"
 
