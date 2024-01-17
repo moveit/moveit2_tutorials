@@ -93,7 +93,7 @@ jobs:
 
     - uses: actions/setup-python@v4
       with:
-        python-version: '3.8'
+        python-version: '3.10'
         cache: 'pip'
 
     - name: Install Python dependencies
@@ -106,7 +106,7 @@ jobs:
 
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '2.7'
+        ruby-version: '3'
 
     # TODO (peterdavidfagan): don't hardcode branches for downloads
     - name: Download Rolling Artifacts
@@ -139,9 +139,9 @@ jobs:
     # TODO(henningkayser): fix hack for using python api artifact in multiversion
     - name: Build multiversion
       run: |
-        cp build/html/main/doc/api/python_api/api.html .   # backup artifact html
+        cp -r build/html/main/doc/api/python_api/ .   # backup artifact html
         make multiversion
-        cp -f api.html build/html/main/doc/api/python_api/ # restore artifact html
+        cp -rf python_api/ build/html/main/doc/api/   # restore artifact html
 
     - name: Upload pages artifact
       uses: actions/upload-pages-artifact@v2
