@@ -10,7 +10,7 @@ Install ROS 2 and Colcon
 :ros_documentation:`Install ROS 2 {DISTRO_TITLE}<Installation.html>`.
 It is easy to miss steps when going through the ROS 2 installation tutorial. If you run into errors in the next few steps, a good place to start is to go back and make sure you have installed ROS 2 correctly.  One that users commonly forget is to source the ROS 2 install itself.  ::
 
-  source /opt/ros/humble/setup.bash
+  source /opt/ros/{DISTRO}/setup.bash
 
 .. note:: Unlike ROS 1 setup scripts, in ROS 2 the setup scripts do not attempt to switch what version of ROS you are using.  This means that if you have previously sourced a different version of ROS, including from within your ``.bashrc`` file, you will run into errors during the building step.  To fix this change what is sourced in your ``.bashrc`` and start a new terminal.
 
@@ -47,7 +47,7 @@ Download Source Code of MoveIt and the Tutorials
 Move into your Colcon workspace and pull the MoveIt tutorials source: ::
 
   cd ~/ws_moveit2/src
-  git clone -b humble https://github.com/ros-planning/moveit2_tutorials
+  git clone --branch {DISTRO} https://github.com/ros-planning/moveit2_tutorials
 
 Next we will download the source code for the rest of MoveIt: ::
 
@@ -68,7 +68,7 @@ The next command will configure your Colcon workspace: ::
 
 This build command will likely take a long time (20+ minutes) depending on your computer speed and amount of RAM available (we recommend 32 GB). If you are short on computer memory or generally your build is struggling to complete on your computer, you can append the argument ``--parallel-workers 1`` to the colcon command above.
 
-If everything goes well, you should see the message "finished". If you have problems, try re-checking your `ROS Installation <https://docs.ros.org/en/humble/Installation.html>`_.
+If everything goes well, you should see the message "finished". If you have problems, try re-checking your `ROS Installation <https://docs.ros.org/en/{DISTRO}/Installation.html>`_.
 
 Setup Your Colcon Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -90,7 +90,7 @@ Switch to Cyclone DDS
 
 As of Sep 26, 2022, the default ROS 2 middleware (RMW) implementation has an issue. As a workaround, switch to Cyclone DDS. (Note: this makes all nodes started using this RMW incompatible with any other nodes not using Cyclone DDS.) ::
 
-  sudo apt install ros-humble-rmw-cyclonedds-cpp
+  sudo apt install ros-{DISTRO}-rmw-cyclonedds-cpp
   # You may want to add this to ~/.bashrc to source it automatically
   export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
