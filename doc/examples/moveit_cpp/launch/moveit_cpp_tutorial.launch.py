@@ -13,11 +13,15 @@ def generate_launch_description():
         .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
         .planning_pipelines("ompl", ["ompl"])
         .moveit_cpp(
-            file_path=get_package_share_directory("moveit2_tutorials")
-            + "/config/moveit_cpp.yaml"
+            file_path=os.path.join(
+                get_package_share_directory("moveit2_tutorials"),
+                "config",
+                "moveit_cpp.yaml",
+            )
         )
         .to_moveit_configs()
     )
+
     # MoveItCpp demo executable
     moveit_cpp_node = Node(
         name="moveit_cpp_tutorial",
@@ -28,9 +32,10 @@ def generate_launch_description():
     )
 
     # RViz
-    rviz_config_file = (
-        get_package_share_directory("moveit2_tutorials")
-        + "/launch/moveit_cpp_tutorial.rviz"
+    rviz_config_file = os.path.join(
+        get_package_share_directory("moveit2_tutorials"),
+        "launch",
+        "moveit_cpp_tutorial.rviz",
     )
     rviz_node = Node(
         package="rviz2",
