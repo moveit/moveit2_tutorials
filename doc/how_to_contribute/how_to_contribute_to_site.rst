@@ -16,6 +16,10 @@ Requirements
 - ROS 2 Galactic
 - Docker
 - A colcon workspace with a copy of `the moveit2_tutorials repo <https://github.com/ros-planning/moveit2_tutorials>`_ (if you don't already have one, :doc:`/doc/tutorials/getting_started/getting_started` will walk you through the process of creating one).
+- Sphinx pages generator with `multitab`, `multiversion`, and `copybutton` extensions:
+  ```
+  pip3 install sphinx-multiversion sphinx-tabs sphinx-copybutton  # use `sudo` for system-wide installation
+  ```
 
 Steps
 -----
