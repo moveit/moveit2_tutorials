@@ -84,6 +84,7 @@ The architecture is structured in three ROS component nodes:
   * Solves the local planning problem based on robot state, world and reference trajectory
   * Sends position/velocity commands to the robot driver
 
+
 The architecture components are designed to be generic and highly customizable. Since the components only interact via ROS 2 message interfaces, it’s very easy to replace implementations of each of the architecture’s components or plugins. The plugin interfaces are designed to be minimal and to abstract from the actual algorithm implementation as much as possible. That allows the developer to fully focus on the isolated logic or solvers without having to implement any parts of the infrastructure. This also allows reusing the same components for different setups or planning problems.
 
 
