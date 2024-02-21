@@ -270,6 +270,7 @@ To continue, press ``Next`` again to see your robot execute the plan.
 
 .. image:: executing.png
 
+.. note:: If the robot does not move, you may need to switch to CycloneDDS middleware, as described in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>`.
 
 Summary
 -------
