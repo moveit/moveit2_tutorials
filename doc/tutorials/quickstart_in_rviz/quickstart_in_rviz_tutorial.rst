@@ -49,7 +49,7 @@ Step 1: Launch the Demo and Configure the Plugin
 .. |D| image:: rviz_start.png
                :width: 700px
 
-* Once you have the Motion Planning Plugin loaded, we can configure it. In the "Global Options" tab of the "Displays" subwindow, set the **Fixed Frame** field to ``/base_link``
+* Once you have the Motion Planning Plugin loaded, we can configure it. In the "Global Options" tab of the "Displays" subwindow, set the **Fixed Frame** field to ``panda_link0``
 
 * Now, you can start configuring the Plugin for your robot (the Kinova Gen 3 in this case). Click on "MotionPlanning" within "Displays".
 
@@ -60,7 +60,7 @@ Step 1: Launch the Demo and Configure the Plugin
 
   * Make sure the **Trajectory Topic** under **Planned Path** is set to ``/display_planned_path``.
 
-  * In **Planning Request**, change the **Planning Group** to ``manipulator``. You can also see this in the MotionPlanning panel in the bottom left.
+  * In **Planning Request**, change the **Planning Group** to ``panda_arm``. You can also see this in the MotionPlanning panel in the bottom left.
 
 
 .. image:: rviz_plugin_start.png
