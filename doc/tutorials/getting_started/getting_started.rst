@@ -27,6 +27,8 @@ Note to source the version of ROS you installed.  ::
 
 .. note:: Unlike ROS 1 setup scripts, in ROS 2 the setup scripts do not attempt to switch what version of ROS you are using.  This means that if you have previously sourced a different version of ROS, including from within your ``.bashrc`` file, you will run into errors during the building step.  To fix this change what is sourced in your ``.bashrc`` and start a new terminal.
 
+.. note:: If you are coming from the main page `Moveit2 Source Build <https://moveit.ros.org/install-moveit2/source/>`_, you may need to delete your .cache and /ws_moveit2 folder that you built Moveit in. Otherwise you may get weird namespace collision warnings.
+
 Install `rosdep <http://wiki.ros.org/rosdep>`_ to install system dependencies : ::
 
   sudo apt install python3-rosdep
