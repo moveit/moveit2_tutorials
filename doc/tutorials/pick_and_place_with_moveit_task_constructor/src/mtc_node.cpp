@@ -138,6 +138,7 @@ mtc::Task MTCTaskNode::createTask()
       mtc::stages::Connect::GroupPlannerVector{ { arm_group_name, sampling_planner } });
   // clang-format on
   stage_move_to_pick->setTimeout(5.0);
+  stage_move_to_pick->setMaxDistance(1e-2);
   stage_move_to_pick->properties().configureInitFrom(mtc::Stage::PARENT);
   task.add(std::move(stage_move_to_pick));
 
@@ -263,6 +264,7 @@ mtc::Task MTCTaskNode::createTask()
                                                   { hand_group_name, interpolation_planner } });
     // clang-format on
     stage_move_to_place->setTimeout(5.0);
+    stage_move_to_place->setMaxDistance(1e-2);
     stage_move_to_place->properties().configureInitFrom(mtc::Stage::PARENT);
     task.add(std::move(stage_move_to_place));
   }
