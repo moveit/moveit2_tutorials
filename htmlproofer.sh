@@ -32,7 +32,7 @@ popd
 sphinx-build -W -b html . build/html
 
 # Replace Edit on Github links with local file paths
-grep -rl 'https:\/\/github.com\/ros-planning\/moveit2_tutorials\/blob\/main\/' ./build/ | \
+grep -rl 'https:\/\/github.com\/moveit\/moveit2_tutorials\/blob\/main\/' ./build/ | \
  xargs sed -i "s|https://github.com/moveit/moveit2_tutorials/blob/main/|file://$PWD|g"
 
 # Replace internal links with local file paths
