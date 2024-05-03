@@ -618,6 +618,7 @@ We need to move the arm to a position where we can pick up our object. This is d
           "move to pick",
           mtc::stages::Connect::GroupPlannerVector{ { arm_group_name, sampling_planner } });
       stage_move_to_pick->setTimeout(5.0);
+      stage_move_to_pick->setMaxDistance(1e-2);
       stage_move_to_pick->properties().configureInitFrom(mtc::Stage::PARENT);
       task.add(std::move(stage_move_to_pick));
 
@@ -794,6 +795,7 @@ Now that the stages that define the pick are complete, we move on to defining th
             mtc::stages::Connect::GroupPlannerVector{ { arm_group_name, sampling_planner },
                                                       { hand_group_name, interpolation_planner } });
         stage_move_to_place->setTimeout(5.0);
+        stage_move_to_place->setMaxDistance(1e-2);
         stage_move_to_place->properties().configureInitFrom(mtc::Stage::PARENT);
         task.add(std::move(stage_move_to_place));
       }
