@@ -286,7 +286,7 @@ You extended the program you wrote with MoveIt to interact with the Gui in RViz,
 Further Reading
 ---------------
 
-- MoveItVisualTools has many more useful features for visualizing robot motions. `You can read more about it here <https://github.com/ros-planning/moveit_visual_tools/tree/ros2>`_.
+- MoveItVisualTools has many more useful features for visualizing robot motions. `You can read more about it here <https://github.com/moveit/moveit_visual_tools/tree/ros2>`_.
 - There are also more examples of using ``MoveItVisualTools`` in :doc:`MoveItCpp Tutorial </doc/examples/moveit_cpp/moveitcpp_tutorial>`.
 - :codedir:`Here is a copy of the full hello_moveit.cpp source<tutorials/visualizing_in_rviz/hello_moveit.cpp>`.
 

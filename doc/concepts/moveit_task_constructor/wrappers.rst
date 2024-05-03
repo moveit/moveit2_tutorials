@@ -42,7 +42,7 @@ The ``ComputeIK`` is a wrapper for any pose generator stage to compute the inver
      - void setMinSolutionDistance(double distance)
      - Minimum distance between separate IK solutions for the same target. Default is 0.1.
 
-`API doc for ComputeIK <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1ComputeIK.html>`_.
+`API doc for ComputeIK <https://moveit.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1ComputeIK.html>`_.
 
 Code Example
 
@@ -78,7 +78,7 @@ PredicateFilter
      - void setIgnoreFilter(bool ignore)
      - Ignore predicate and forward all solutions
 
-`API doc for PredicateFilter <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1PredicateFilter.html>`_.
+`API doc for PredicateFilter <https://moveit.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1PredicateFilter.html>`_.
 
 Code Example
 
