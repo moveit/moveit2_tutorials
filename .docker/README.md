@@ -4,6 +4,6 @@ For more information see the pages [Continuous Integration and Docker](http://mo
 
 To build the Docker image locally, run the following from the root folder of this repository.
 
-    docker build -f .docker/Dockerfile -t moveit2_tutorials --build-arg ROS_DISTRO=${ROS_DISTRO} .
+    docker build -f .docker/Dockerfile -t moveit2_tutorials --build-arg ROS_DISTRO=${ROS_DISTRO}.
 
 where `${ROS_DISTRO}` should be available if you have a ROS installation sourced locally, else you can pick a target release, e.g., `humble` or `rolling`.
