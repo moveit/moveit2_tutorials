@@ -11,7 +11,7 @@ This repository is built and deployed automatically by GitHub Actions:
 
 ## Contributing
 
-We strongly encourage you to help improve MoveIt's documentation. Please consider helping improve the tutorials, port old ones from ROS 1, and write new tutorials. We recommend you  read the quality standards below as well as the [How to Write a MoveIt Tutorial](https://moveit.picknik.ai/main/doc/how_to_contribute/how_to_write_tutorials.html) page.
+We strongly encourage you to help improve MoveIt's documentation. Please consider helping improve the tutorials, port old ones from ROS 1, and write new tutorials. We recommend you read the quality standards below as well as the [How to Write a MoveIt Tutorial](https://moveit.picknik.ai/main/doc/how_to_contribute/how_to_write_tutorials.html) page.
 
 If you find an issue with the tutorials you are not able to fix yourself, please [open an issue on GitHub](https://github.com/ros-planning/moveit2_tutorials/issues/new) or open a PR with proposed changes.
 
@@ -120,7 +120,7 @@ You can embed video with raw HTML, like in this example from the Pick and Place 
         <iframe width="700px" height="400px" src="https://www.youtube.com/embed/QBJPxx_63Bs?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 ```
-This includes [Youtube's suggested embed HTML](https://support.google.com/youtube/answer/171780?hl=en).
+This includes [YouTube's suggested embed HTML](https://support.google.com/youtube/answer/171780?hl=en).
 
 #### Local Video
 To embed a video that is included in this repository, you also will use raw HTML, like this example from the Quickstart in RViz tutorial.
