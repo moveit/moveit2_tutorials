@@ -1,0 +1,21 @@
+sensors:
+  - camera_1_pointcloud
+  - camera_2_pointcloud
+camera_1_pointcloud:
+    sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
+    point_cloud_topic: /camera_1/points
+    max_range: 5.0
+    point_subsample: 1
+    padding_offset: 0.1
+    padding_scale: 1.0
+    max_update_rate: 1.0
+    filtered_cloud_topic: /camera_1/filtered_points
+camera_2_pointcloud:
+    sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
+    point_cloud_topic: /camera_2/points
+    max_range: 5.0
+    point_subsample: 1
+    padding_offset: 0.1
+    padding_scale: 1.0
+    max_update_rate: 1.0
+    filtered_cloud_topic: /camera_2/filtered_points
