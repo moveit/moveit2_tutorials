@@ -4,7 +4,7 @@ How to Write a MoveIt Tutorial
 This guide explains how to write tutorials for the MoveIt documentation.
 Tutorials are one of the most useful contributions you can make because they are the first thing many new users see.
 This guide is intended for any contributor who wants to submit a new tutorial.
-There are many additional quality standards and how-tos for contributing to the tutorials located in this repository's `README <https://github.com/ros-planning/moveit2_tutorials/blob/main/README.md>`_.
+There are many additional quality standards and how-tos for contributing to the tutorials located in this repository's `README <https://github.com/moveit/moveit2_tutorials/blob/main/README.md>`_.
 
 Learning Objectives
 -------------------
@@ -20,7 +20,7 @@ Requirements
 Steps
 -----
 
-1. Fork the `MoveIt 2 Tutorials repository <https://github.com/ros-planning/moveit2_tutorials.git>`_ and start a new branch with an intuitive name (e.g., ``jack/how-to-tutorials``).
+1. Fork the `MoveIt 2 Tutorials repository <https://github.com/moveit/moveit2_tutorials.git>`_ and start a new branch with an intuitive name (e.g., ``jack/how-to-tutorials``).
 
 #. Create a new file in the ``doc/tutorials`` directory with a ``.rst`` extension. The title should be a concise description (e.g., "MoveIt Quickstart in RViz").
 
@@ -42,7 +42,7 @@ Steps
 
 #. Add a link to the next tutorial the reader should follow.
 
-#. Submit the new page as a PR to the `MoveIt 2 Tutorials repository <https://github.com/ros-planning/moveit2_tutorials.git>`_.
+#. Submit the new page as a PR to the `MoveIt 2 Tutorials repository <https://github.com/moveit/moveit2_tutorials.git>`_.
 
 Template
 --------

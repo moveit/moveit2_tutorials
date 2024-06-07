@@ -41,7 +41,7 @@ that forwards the incoming ``command_interface`` values to the tracked ``state_i
 For us to expand our Panda robot to Isaac Sim we first have to introduce `topic_based_ros2_control <https://github.com/PickNikRobotics/topic_based_ros2_control>`_.
 This Hardware Interface is a ``System`` that subscribes and publishes on configured topics.
 For this tutorial the topic ``/isaac_joint_states`` will contain the robot's current state and ``/isaac_joint_commands`` will be used to actuate it.
-The `moveit_resources_panda_moveit_config <https://github.com/ros-planning/moveit_resources/blob/humble/panda_moveit_config/config/panda.ros2_control.xacro#L7>`_
+The `moveit_resources_panda_moveit_config <https://github.com/moveit/moveit_resources/blob/humble/panda_moveit_config/config/panda.ros2_control.xacro#L7>`_
 we are using in this tutorial does not support connecting to hardware, so our ``ros2_control.xacro`` is now
 updated to load the ``TopicBasedSystem`` plugin when the flag ``ros2_control_hardware_type`` is set to ``isaac``.
 
@@ -75,7 +75,7 @@ Computer Setup
 
 .. code-block:: bash
 
-  git clone https://github.com/ros-planning/moveit2_tutorials.git -b main
+  git clone https://github.com/moveit/moveit2_tutorials.git -b main
 
 3. Go to the folder in which you cloned the tutorials and then switch to the following directory.
 

@@ -20,7 +20,7 @@ MoveIt can support different algorithms for post-processing a kinematic trajecto
 
 * :moveit_codedir:`Time-optimal Trajectory Generation<moveit_core/trajectory_processing/src/time_optimal_trajectory_generation.cpp>`
 
-Time-optimal Trajectory Generation (TOTG) was introduced in PRs `#809 <https://github.com/ros-planning/moveit/pull/809>`_ and `#1365 <https://github.com/ros-planning/moveit/pull/1365>`_. It produces trajectories with very smooth and continuous velocity profiles. The method is based on fitting path segments to the original trajectory and then sampling new waypoints from the optimized path. This is different from strict time parameterization methods as resulting waypoints may divert from the original trajectory within a certain tolerance. As a consequence, additional collision checks might be required when using this method. It is the default everywhere in MoveIt 2.
+Time-optimal Trajectory Generation (TOTG) was introduced in PRs `#809 <https://github.com/moveit/moveit/pull/809>`_ and `#1365 <https://github.com/moveit/moveit/pull/1365>`_. It produces trajectories with very smooth and continuous velocity profiles. The method is based on fitting path segments to the original trajectory and then sampling new waypoints from the optimized path. This is different from strict time parameterization methods as resulting waypoints may divert from the original trajectory within a certain tolerance. As a consequence, additional collision checks might be required when using this method. It is the default everywhere in MoveIt 2.
 
 Usage of a time parameterization algorithm as a Planning Request Adapter is documented in `this tutorial <../motion_planning_pipeline/motion_planning_pipeline_tutorial.html#using-a-planning-request-adapter>`_.
 
