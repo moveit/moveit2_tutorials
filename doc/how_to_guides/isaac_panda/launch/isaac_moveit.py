@@ -59,7 +59,7 @@ from omni.isaac.version import get_version
 # Check the major version number of Isaac Sim to see if it's four digits, corresponding
 # to Isaac Sim 2023.1.1 or older.  The version numbering scheme changed with the
 # Isaac Sim 4.0 release in 2024.
-is_legacy_isaacsim = (len(get_version()[2]) == 4)
+is_legacy_isaacsim = len(get_version()[2]) == 4
 
 # More imports that need to compare after we create the app
 from omni.isaac.core import SimulationContext  # noqa E402
