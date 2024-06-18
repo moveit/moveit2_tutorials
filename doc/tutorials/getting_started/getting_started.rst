@@ -59,7 +59,7 @@ For tutorials you will need to have a :ros_documentation:`colcon <Tutorials/Colc
 
 Download Source Code of MoveIt and the Tutorials
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Move into your Colcon workspace and pull the MoveIt tutorials source, where ``<branch>`` is ``humble`` for ROS Humble, or ``main`` for ROS Iron : ::
+Move into your Colcon workspace and pull the MoveIt tutorials source, where ``<branch>`` can be e.g. ``humble`` for ROS Humble, or ``main`` for the latest version of the tutorials : ::
 
   cd ~/ws_moveit/src
   git clone -b <branch> https://github.com/ros-planning/moveit2_tutorials
