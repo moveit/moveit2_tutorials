@@ -20,7 +20,7 @@ rm -rf build
 # Build API docs
 mkdir -p build/html
 pushd build/html
-git clone https://github.com/ros-planning/moveit2 -b $MOVEIT_BRANCH --depth 1
+git clone https://github.com/moveit/moveit2 -b $MOVEIT_BRANCH --depth 1
 pushd moveit2
 sed -i "s/HTML_EXTRA_STYLESHEET  =.*/HTML_EXTRA_STYLESHEET  = ..\/..\/..\/theme.css/g" Doxyfile
 DOXYGEN_OUTPUT_DIRECTORY="../api" doxygen
@@ -32,8 +32,8 @@ popd
 sphinx-build -W -b html . build/html
 
 # Replace Edit on Github links with local file paths
-grep -rl 'https:\/\/github.com\/ros-planning\/moveit2_tutorials\/blob\/main\/' ./build/ | \
- xargs sed -i "s|https://github.com/ros-planning/moveit2_tutorials/blob/main/|file://$PWD|g"
+grep -rl 'https:\/\/github.com\/moveit\/moveit2_tutorials\/blob\/main\/' ./build/ | \
+ xargs sed -i "s|https://github.com/moveit/moveit2_tutorials/blob/main/|file://$PWD|g"
 
 # Replace internal links with local file paths
 grep -rl 'https:\/\/moveit.picknik.ai\/rolling\/' ./build/ | \

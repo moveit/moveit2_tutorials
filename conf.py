@@ -120,7 +120,7 @@ html_theme_options = {
 
 html_context = {
     "display_github": True,
-    "github_user": "ros-planning",
+    "github_user": "moveit",
     "github_repo": "moveit2_tutorials",
     "github_version": "main/",
     "conf_py_path": "",

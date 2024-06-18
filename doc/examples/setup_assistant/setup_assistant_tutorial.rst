@@ -26,7 +26,7 @@ MoveIt and ROS 2
 * Follow the :doc:`instructions for installing MoveIt </doc/tutorials/getting_started/getting_started>`
   first if you have not already done that.
 
-* We use the `moveit_resources_panda_description <https://github.com/ros-planning/moveit_resources/tree/humble/panda_description>`_
+* We use the `moveit_resources_panda_description <https://github.com/moveit/moveit_resources/tree/humble/panda_description>`_
   package. This package should already be included in your workspace if you've completed the MoveIt installation instructions.
 
 Step 1: Start

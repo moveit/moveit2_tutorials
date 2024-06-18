@@ -302,7 +302,7 @@ MoveIt. Loading the plugin requires the param
 ``/move_group/<pipeline_name>/planning_plugins`` to be set to ``[pilz_industrial_motion_planner/CommandPlanner]``
 before the ``move_group`` node is started.
 For example, the `panda_moveit_config package
-<https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config>`_
+<https://github.com/moveit/moveit_resources/blob/ros2/panda_moveit_config>`_
 has a ``pilz_industrial_motion_planner`` pipeline set up as follows:
 
 
@@ -323,7 +323,7 @@ Cartesian limits have to be defined at ``/robot_description_planning``.
 You can set these using a ``pilz_cartesian_limits.yaml`` file in your
 ``*_moveit_config`` package.
 An example showing this file can be found in `panda_moveit_config
-<https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/config/pilz_cartesian_limits.yaml>`_.
+<https://github.com/moveit/moveit_resources/blob/ros2/panda_moveit_config/config/pilz_cartesian_limits.yaml>`_.
 
 To verify the limits were set correctly, you can check the parameters for your
 ``move_group`` node. For example,
