@@ -23,13 +23,13 @@ You should also have gone through the steps in :doc:`Visualization with MoveIt R
 Prerequisites
 -------------
  1. A recent build of MoveIt ``main`` for your ROS 2 distribution. The STOMP library is provided as a separate ROS package for supported ROS 2 distributions and should be installed by ``rosdep``.
- 2. To use STOMP with your robot it's best to start with a functional MoveIt configuration package for your robot. For testing, you can also start with the Panda robot from `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ like described in this tutorial.
+ 2. To use STOMP with your robot it's best to start with a functional MoveIt configuration package for your robot. For testing, you can also start with the Panda robot from `moveit/panda_moveit_config <https://github.com/moveit/panda_moveit_config>`_ like described in this tutorial.
 
 Using STOMP with Your Robot
 ---------------------------
-**Note:** if you are following this demo using the ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository, these steps are already done for you and you can directly launch the demo for testing STOMP in RViZ.
+**Note:** if you are following this demo using the ``panda_moveit_config`` from the `moveit/panda_moveit_config <https://github.com/moveit/panda_moveit_config>`_ repository, these steps are already done for you and you can directly launch the demo for testing STOMP in RViZ.
 
-#. Simply add the `stomp_planning.yaml <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/config/stomp_planning.yaml>`__ configuration file into the config directory of your MoveIt config package. It contains the plugin identifier, a planning pipeline adapter list, and the STOMP planning parameters. The config file should look like example below: ::
+#. Simply add the `stomp_planning.yaml <https://github.com/moveit/moveit_resources/blob/ros2/panda_moveit_config/config/stomp_planning.yaml>`__ configuration file into the config directory of your MoveIt config package. It contains the plugin identifier, a planning pipeline adapter list, and the STOMP planning parameters. The config file should look like example below: ::
 
     planning_plugins:
       - stomp_moveit/StompPlanner
@@ -53,17 +53,17 @@ Using STOMP with Your Robot
       control_cost_weight: 0.1
       delta_t: 0.1
 
-#. Configure MoveIt to load the STOMP planning pipeline by adding "stomp" to your MoveItConfiguration launch statement next to "ompl" and the other planners. You can find an example for this in the `demo.launch.py <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py#L42>`_ of the Panda config.
+#. Configure MoveIt to load the STOMP planning pipeline by adding "stomp" to your MoveItConfiguration launch statement next to "ompl" and the other planners. You can find an example for this in the `demo.launch.py <https://github.com/moveit/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py#L42>`_ of the Panda config.
 
 Running the Demo
 ----------------
-If you have the ``panda_moveit_config`` from the `ros-planning/moveit_resources <https://github.com/ros-planning/moveit_resources>`_ repository you should be able to simply launch the demo setup and start planning with STOMP in RViZ ::
+If you have the ``panda_moveit_config`` from the `moveit/moveit_resources <https://github.com/moveit/moveit_resources>`_ repository you should be able to simply launch the demo setup and start planning with STOMP in RViZ ::
 
   ros2 launch moveit_resources_panda_moveit_config demo.launch.py
 
 STOMP Parameters
 ----------------
-STOMP's parameters are configurable using the `stomp_planning.yaml <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/config/stomp_planning.yaml>`__. All parameters are defined by the `stomp_moveit.yaml <https://github.com/ros-planning/moveit2/blob/main/moveit_planners/stomp/res/stomp_moveit.yaml>`_ which is used as input for the `generate_parameter_library <https://github.com/PickNikRobotics/generate_parameter_library>`_. In that file you can also find more information like default values and allowable ranges:
+STOMP's parameters are configurable using the `stomp_planning.yaml <https://github.com/moveit/moveit_resources/blob/ros2/panda_moveit_config/config/stomp_planning.yaml>`__. All parameters are defined by the `stomp_moveit.yaml <https://github.com/moveit/moveit2/blob/main/moveit_planners/stomp/res/stomp_moveit.yaml>`_ which is used as input for the `generate_parameter_library <https://github.com/PickNikRobotics/generate_parameter_library>`_. In that file you can also find more information like default values and allowable ranges:
 
 **Optimization Parameters**:
 

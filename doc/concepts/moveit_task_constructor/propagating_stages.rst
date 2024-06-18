@@ -44,7 +44,7 @@ Example code to enable collision
   auto stage = std::make_unique<stages::ModifyPlanningScene>("Allow collision between object and gripper");
   stage->allowCollisions("object_name", "gripper_frame_name", true);
 
-`API doc for ModifyPlanningScene <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1ModifyPlanningScene.html>`_.
+`API doc for ModifyPlanningScene <https://moveit.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1ModifyPlanningScene.html>`_.
 
 MoveRelative
 ------------
@@ -86,7 +86,7 @@ MoveRelative
      - void setDirection(std::map<std::string, double> direction)
      - Move specified joint variables by given amount
 
-`API doc for MoveRelative <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1MoveRelative.html>`_.
+`API doc for MoveRelative <https://moveit.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1MoveRelative.html>`_.
 
 Example code
 
@@ -150,7 +150,7 @@ MoveTo
      - void setPathConstraints(moveit_msgs:::Constraints path_constaints)
      - Constraints to maintain during trajectory
 
-`API doc for MoveTo <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1MoveTo.html>`_.
+`API doc for MoveTo <https://moveit.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1MoveTo.html>`_.
 
 Example code
 

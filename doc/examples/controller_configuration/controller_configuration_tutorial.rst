@@ -2,9 +2,9 @@ Low Level Controllers
 =====================
 MoveIt typically publishes manipulator motion commands to a `JointTrajectoryController <https://github.com/ros-controls/ros2_controllers/tree/master/joint_trajectory_controller>`_. This tutorial assumes MoveGroup is being used to control the robot rather than MoveItCpp or MoveIt Servo. A minimal setup is as follows:
 
-#. A YAML config file. As best practice, we suggest naming this :code:`moveit_controllers.yaml`. It tells MoveIt which controllers are available, which joints are associated with each, and the MoveIt controller interface type (:code:`FollowJointTrajectory` or :code:`GripperCommand`). `Example controller config file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/config/moveit_controllers.yaml>`_.
+#. A YAML config file. As best practice, we suggest naming this :code:`moveit_controllers.yaml`. It tells MoveIt which controllers are available, which joints are associated with each, and the MoveIt controller interface type (:code:`FollowJointTrajectory` or :code:`GripperCommand`). `Example controller config file <https://github.com/moveit/moveit_resources/blob/ros2/panda_moveit_config/config/moveit_controllers.yaml>`_.
 
-#. A launch file. This launch file must load the :code:`moveit_controllers` yaml file and specify the :code:`moveit_simple_controller_manager/MoveItSimpleControllerManager`. After these yaml files are loaded, they are passed as parameters to the Move Group node. `Example Move Group launch file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_.
+#. A launch file. This launch file must load the :code:`moveit_controllers` yaml file and specify the :code:`moveit_simple_controller_manager/MoveItSimpleControllerManager`. After these yaml files are loaded, they are passed as parameters to the Move Group node. `Example Move Group launch file <https://github.com/moveit/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_.
 
 #. Launch the corresponding :code:`ros2_control` JointTrajectoryControllers. This is separate from the MoveIt 2 ecosystem. `Example ros2_control launching <https://github.com/ros-controls/ros2_control_demos>`_. Each JointTrajectoryController provides an action interface. Given the yaml file above, MoveIt automatically connects to this action interface.
 
@@ -12,7 +12,7 @@ MoveIt typically publishes manipulator motion commands to a `JointTrajectoryCont
 
 MoveIt Controller Managers
 --------------------------
-The base class of controller managers is called MoveItControllerManager (MICM). One of the child classes of MICM is known as Ros2ControlManager (R2CM) and it is the best way to interface with ros2_control. The R2CM can parse the joint names in a trajectory command coming from MoveIt and activate the appropriate controllers. For example, it can automatically switch between controlling two manipulators in a single joint group at once to a single manipulator. To use a R2CM, just set :code:`moveit_manage_controllers = true` in the launch file. `Example R2CM launch file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_.
+The base class of controller managers is called MoveItControllerManager (MICM). One of the child classes of MICM is known as Ros2ControlManager (R2CM) and it is the best way to interface with ros2_control. The R2CM can parse the joint names in a trajectory command coming from MoveIt and activate the appropriate controllers. For example, it can automatically switch between controlling two manipulators in a single joint group at once to a single manipulator. To use a R2CM, just set :code:`moveit_manage_controllers = true` in the launch file. `Example R2CM launch file <https://github.com/moveit/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_.
 
 MoveIt Controller Interfaces
 ----------------------------

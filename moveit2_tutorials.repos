@@ -1,11 +1,11 @@
 repositories:
   moveit_task_constructor:
     type: git
-    url: https://github.com/ros-planning/moveit_task_constructor.git
+    url: https://github.com/moveit/moveit_task_constructor.git
     version: ros2
   moveit_visual_tools:
     type: git
-    url: https://github.com/ros-planning/moveit_visual_tools
+    url: https://github.com/moveit/moveit_visual_tools
     version: ros2
   # Remove ros2_kortex when rolling binaries are available.
   ros2_kortex:
@@ -28,15 +28,15 @@ repositories:
     version: ros2
   moveit2:
     type: git
-    url: https://github.com/ros-planning/moveit2
+    url: https://github.com/moveit/moveit2
     version: main
   moveit_resources:
     type: git
-    url: https://github.com/ros-planning/moveit_resources
+    url: https://github.com/moveit/moveit_resources
     version: ros2
   moveit_msgs:
     type: git
-    url: https://github.com/ros-planning/moveit_msgs
+    url: https://github.com/moveit/moveit_msgs
     version: ros2
   pick_ik:
     type: git
