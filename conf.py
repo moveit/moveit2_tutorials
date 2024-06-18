@@ -58,7 +58,7 @@ release = ""
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -120,7 +120,7 @@ html_theme_options = {
 
 html_context = {
     "display_github": True,
-    "github_user": "ros-planning",
+    "github_user": "moveit",
     "github_repo": "moveit2_tutorials",
     "github_version": "main/",
     "conf_py_path": "",
@@ -254,6 +254,16 @@ extlinks = {
 doxylink = {"cpp_api": ("build/html/api/MoveIt.tag", "api/html")}
 add_function_parentheses = True
 
+# Needed to support previous versions that did not include python bindings
+try:
+    import moveit
+except Exception as e:
+    autodoc_mock_imports = [
+        "moveit",
+        "moveit.core",
+        "moveit.planning",
+        "moveit.servo_client",
+    ]
 
 autodoc_typehints = "signature"
 
