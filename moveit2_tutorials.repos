@@ -8,10 +8,13 @@ repositories:
     url: https://github.com/moveit/moveit_visual_tools
     version: ros2
   # Remove ros2_kortex when rolling binaries are available.
+  # We temporarily depend on a fork because ros2_kortex includes
+  # the unavailable dependency to gazebo_ros2_control
+  # See https://github.com/moveit/moveit2/issues/2864
   ros2_kortex:
     type: git
-    url: https://github.com/Kinovarobotics/ros2_kortex.git
-    version: main
+    url: https://github.com/PickNikRobotics/ros2_kortex.git
+    version: fix_gz_ros2_control
   # Remove ros2_robotiq_gripper when rolling binaries are available.
   ros2_robotiq_gripper:
     type: git

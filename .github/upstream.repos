@@ -18,8 +18,8 @@ repositories:
   # Remove ros2_kortex when rolling binaries are available.
   ros2_kortex:
     type: git
-    url: https://github.com/Kinovarobotics/ros2_kortex.git
-    version: main
+    url: https://github.com/PickNikRobotics/ros2_kortex.git
+    version: fix_gz_ros2_control
   # Remove ros2_robotiq_gripper when rolling binaries are available.
   ros2_robotiq_gripper:
     type: git
