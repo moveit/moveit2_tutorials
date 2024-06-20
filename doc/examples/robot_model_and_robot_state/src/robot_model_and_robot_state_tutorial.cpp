@@ -69,7 +69,7 @@ int main(int argc, char** argv)
   // :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.h>` for us to use.
   //
   // .. _RobotModelLoader:
-  //     https://github.com/ros-planning/moveit2/blob/main/moveit_ros/planning/robot_model_loader/include/moveit/robot_model_loader/robot_model_loader.h
+  //     https://github.com/moveit/moveit2/blob/main/moveit_ros/planning/robot_model_loader/include/moveit/robot_model_loader/robot_model_loader.h
   robot_model_loader::RobotModelLoader robot_model_loader(node);
   const moveit::core::RobotModelPtr& kinematic_model = robot_model_loader.getModel();
   RCLCPP_INFO(LOGGER, "Model frame: %s", kinematic_model->getModelFrame().c_str());

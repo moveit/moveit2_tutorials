@@ -15,7 +15,7 @@ Requirements
 - Ubuntu 20.04
 - ROS 2 Galactic
 - Docker
-- A colcon workspace with a copy of `the moveit2_tutorials repo <https://github.com/ros-planning/moveit2_tutorials>`_ (if you don't already have one, :doc:`/doc/tutorials/getting_started/getting_started` will walk you through the process of creating one).
+- A colcon workspace with a copy of `the moveit2_tutorials repo <https://github.com/moveit/moveit2_tutorials>`_ (if you don't already have one, :doc:`/doc/tutorials/getting_started/getting_started` will walk you through the process of creating one).
 
 Steps
 -----
