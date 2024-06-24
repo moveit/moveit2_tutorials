@@ -4,10 +4,10 @@ Warehouse - Persistent Scenes and States
 The "MotionPlanning" plugin of RViz offers the possibility to save
 complete planning scenes and robot states persistently.
 Currently, two storage plugins (based on
-`warehouse_ros <https://github.com/ros-planning/warehouse_ros>`_) are available:
+`warehouse_ros <https://github.com/moveit/warehouse_ros>`_) are available:
 
-* `warehouse_ros_mongo <https://github.com/ros-planning/warehouse_ros_mongo>`_, which uses MongoDB as backend
-* `warehouse_ros_sqlite <https://github.com/ros-planning/warehouse_ros_sqlite>`_, which uses SQLite as backend
+* `warehouse_ros_mongo <https://github.com/moveit/warehouse_ros_mongo>`_, which uses MongoDB as backend
+* `warehouse_ros_sqlite <https://github.com/moveit/warehouse_ros_sqlite>`_, which uses SQLite as backend
 
 You can install both of them with your favourite package manager
 (e.g. ``apt-get install ros-{DISTRO}-warehouse-ros-mongo``) or
@@ -32,7 +32,7 @@ If the database file does not exist yet, an empty database will be created.
 Connecting to the storage backend
 ---------------------------------
 
-To run the demo you need to install git lfs by running ``git lfs install`` and clone [moveit_benchmark_resources](https://github.com/ros-planning/moveit_benchmark_resources.git) into your workspace.
+To run the demo you need to install git lfs by running ``git lfs install`` and clone [moveit_benchmark_resources](https://github.com/moveit/moveit_benchmark_resources.git) into your workspace.
 
 After choosing the storage plugin and configuring the launch.py file,
 run RViz using ::

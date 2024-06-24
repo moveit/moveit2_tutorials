@@ -6,14 +6,14 @@ This is the primary documentation for the MoveIt project.
 
 This repository is built and deployed automatically by GitHub Actions:
 
-- **Rolling** (main): [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Amain) [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Amain) [![Deploy](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml?query=branch%3Amain)
-- **Humble**: [![CI](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=humble)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Ahumble) [![Format](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=humble)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Ahumble) [![Deploy](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=humble)](https://github.com/ros-planning/moveit2_tutorials/actions/workflows/deploy.yml?query=branch%3Ahumble)
+- **Rolling** (main): [![CI](https://github.com/moveit/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/moveit/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Amain) [![Format](https://github.com/moveit/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=main)](https://github.com/moveit/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Amain) [![Deploy](https://github.com/moveit/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/moveit/moveit2_tutorials/actions/workflows/deploy.yml?query=branch%3Amain)
+- **Humble**: [![CI](https://github.com/moveit/moveit2_tutorials/actions/workflows/ci.yaml/badge.svg?branch=humble)](https://github.com/moveit/moveit2_tutorials/actions/workflows/ci.yaml?query=branch%3Ahumble) [![Format](https://github.com/moveit/moveit2_tutorials/actions/workflows/format.yml/badge.svg?branch=humble)](https://github.com/moveit/moveit2_tutorials/actions/workflows/format.yml?query=branch%3Ahumble) [![Deploy](https://github.com/moveit/moveit2_tutorials/actions/workflows/deploy.yml/badge.svg?branch=humble)](https://github.com/moveit/moveit2_tutorials/actions/workflows/deploy.yml?query=branch%3Ahumble)
 
 ## Contributing
 
 We strongly encourage you to help improve MoveIt's documentation. Please consider helping improve the tutorials, port old ones from ROS 1, and write new tutorials. We recommend you read the quality standards below as well as the [How to Write a MoveIt Tutorial](https://moveit.picknik.ai/main/doc/how_to_contribute/how_to_write_tutorials.html) page.
 
-If you find an issue with the tutorials you are not able to fix yourself, please [open an issue on GitHub](https://github.com/ros-planning/moveit2_tutorials/issues/new) or open a PR with proposed changes.
+If you find an issue with the tutorials you are not able to fix yourself, please [open an issue on GitHub](https://github.com/moveit/moveit2_tutorials/issues/new) or open a PR with proposed changes.
 
 ## Helping with Porting Tutorials to ROS 2
 
@@ -37,7 +37,7 @@ Open a command line to your colcon workspace:
 
 Download the MoveIt Tutorials source code:
 
-    git clone https://github.com/ros-planning/moveit2_tutorials.git
+    git clone https://github.com/moveit/moveit2_tutorials.git
     vcs import < moveit2_tutorials/moveit2_tutorials.repos
     rosdep install -r --from-paths . --ignore-src --rosdistro rolling -y
 
