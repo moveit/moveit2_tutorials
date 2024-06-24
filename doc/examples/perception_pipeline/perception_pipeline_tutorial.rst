@@ -7,7 +7,10 @@ MoveIt serves sensor plugins for utilizing 3D sensor data in planning pipeline. 
 
 .. raw:: html
 
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/bpMHFxcbRXg" title="MoveIt Perception Pipeline Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <video width="700px" controls="true" autoplay="true" loop="true">
+            <source src="../../../_static/videos/perception_pipeline_demo.webm" type="video/webm">
+            MoveIt Perception Pipeline Demo
+        </video>
 
 Getting Started
 ---------------
@@ -15,7 +18,7 @@ Even though you haven't completed :doc:`Getting Started </doc/tutorials/getting_
 
 Get The Necessary 3D Pointcloud Data For Octomap Creation
 ---------------------------------------------------------
-In this tutorial, you can use `previously recorded 3D pointcloud data <https://drive.google.com/file/d/1fPtDAtJKIiw2gpFOOwA2TrPZOfFU053W/view?usp=sharing>`_ or you can record your own bag file. For recording bag, firstly, it can be both ran ``depth_camera_envrionment.launch.py`` and recorded bag using following commands.
+In this tutorial, you can use `previously recorded 3D pointcloud data <https://drive.google.com/file/d/1fPtDAtJKIiw2gpFOOwA2TrPZOfFU053W/view?usp=sharing>`_ or you can record your own bag file. For recording bag, firstly, it can be both run ``depth_camera_envrionment.launch.py`` and recorded bag using following commands.
 
 In shell 1, run this command: ::
 
