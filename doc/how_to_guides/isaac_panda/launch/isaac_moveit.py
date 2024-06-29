@@ -1,11 +1,31 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2020-2022, NVIDIA CORPORATION.  All rights reserved.
+# Copyright (c) 2020-2024 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# Copyright (c) 2023 PickNik, LLC. All rights reserved.
 #
-# NVIDIA CORPORATION and its licensors retain all intellectual property
-# and proprietary rights in and to this software, related documentation
-# and any modifications thereto.  Any use, reproduction, disclosure or
-# distribution of this software and related documentation without an express
-# license agreement from NVIDIA CORPORATION is strictly prohibited.
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# * Redistributions of source code must retain the above copyright notice, this
+#   list of conditions and the following disclaimer.
+#
+# * Redistributions in binary form must reproduce the above copyright notice,
+#   this list of conditions and the following disclaimer in the documentation
+#   and/or other materials provided with the distribution.
+#
+# * Neither the name of the copyright holder nor the names of its
+#   contributors may be used to endorse or promote products derived from
+#   this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import sys
 import re
@@ -14,7 +34,13 @@ import os
 import carb
 import numpy as np
 from pathlib import Path
-from omni.isaac.kit import SimulationApp
+
+# In older versions of Isaac Sim (prior to 4.0), SimulationApp is imported from
+# omni.isaac.kit rather than isaacsim.
+try:
+    from isaacsim import SimulationApp
+except:
+    from omni.isaac.kit import SimulationApp
 
 FRANKA_STAGE_PATH = "/Franka"
 FRANKA_USD_PATH = "/Isaac/Robots/Franka/franka_alt_fingers.usd"
@@ -26,10 +52,14 @@ REALSENSE_VIEWPORT_NAME = "realsense_viewport"
 
 CONFIG = {"renderer": "RayTracedLighting", "headless": False}
 
-# Example ROS2 bridge sample demonstrating the manual loading of stages
-# and creation of ROS components
 simulation_app = SimulationApp(CONFIG)
 
+from omni.isaac.version import get_version
+
+# Check the major version number of Isaac Sim to see if it's four digits, corresponding
+# to Isaac Sim 2023.1.1 or older.  The version numbering scheme changed with the
+# Isaac Sim 4.0 release in 2024.
+is_legacy_isaacsim = len(get_version()[2]) == 4
 
 # More imports that need to compare after we create the app
 from omni.isaac.core import SimulationContext  # noqa E402
@@ -123,8 +153,32 @@ except KeyError:
     print("ROS_DOMAIN_ID environment variable is not set. Setting value to 0")
     ros_domain_id = 0
 
-# Creating a action graph with ROS component nodes
+# Create an action graph with ROS component nodes
 try:
+    og_keys_set_values = [
+        ("Context.inputs:domain_id", ros_domain_id),
+        # Set the /Franka target prim to Articulation Controller node
+        ("ArticulationController.inputs:robotPath", FRANKA_STAGE_PATH),
+        ("PublishJointState.inputs:topicName", "isaac_joint_states"),
+        ("SubscribeJointState.inputs:topicName", "isaac_joint_commands"),
+        ("createViewport.inputs:name", REALSENSE_VIEWPORT_NAME),
+        ("createViewport.inputs:viewportId", 1),
+        ("cameraHelperRgb.inputs:frameId", "sim_camera"),
+        ("cameraHelperRgb.inputs:topicName", "rgb"),
+        ("cameraHelperRgb.inputs:type", "rgb"),
+        ("cameraHelperInfo.inputs:frameId", "sim_camera"),
+        ("cameraHelperInfo.inputs:topicName", "camera_info"),
+        ("cameraHelperInfo.inputs:type", "camera_info"),
+        ("cameraHelperDepth.inputs:frameId", "sim_camera"),
+        ("cameraHelperDepth.inputs:topicName", "depth"),
+        ("cameraHelperDepth.inputs:type", "depth"),
+    ]
+
+    # In older versions of Isaac Sim, the articulation controller node contained a
+    # "usePath" checkbox input that should be enabled.
+    if is_legacy_isaacsim:
+        og_keys_set_values.insert(1, ("ArticulationController.inputs:usePath", True))
+
     og.Controller.edit(
         {"graph_path": GRAPH_PATH, "evaluator_name": "execution"},
         {
@@ -212,25 +266,7 @@ try:
                     "cameraHelperDepth.inputs:renderProductPath",
                 ),
             ],
-            og.Controller.Keys.SET_VALUES: [
-                ("Context.inputs:domain_id", ros_domain_id),
-                # Setting the /Franka target prim to Articulation Controller node
-                ("ArticulationController.inputs:usePath", True),
-                ("ArticulationController.inputs:robotPath", FRANKA_STAGE_PATH),
-                ("PublishJointState.inputs:topicName", "isaac_joint_states"),
-                ("SubscribeJointState.inputs:topicName", "isaac_joint_commands"),
-                ("createViewport.inputs:name", REALSENSE_VIEWPORT_NAME),
-                ("createViewport.inputs:viewportId", 1),
-                ("cameraHelperRgb.inputs:frameId", "sim_camera"),
-                ("cameraHelperRgb.inputs:topicName", "rgb"),
-                ("cameraHelperRgb.inputs:type", "rgb"),
-                ("cameraHelperInfo.inputs:frameId", "sim_camera"),
-                ("cameraHelperInfo.inputs:topicName", "camera_info"),
-                ("cameraHelperInfo.inputs:type", "camera_info"),
-                ("cameraHelperDepth.inputs:frameId", "sim_camera"),
-                ("cameraHelperDepth.inputs:topicName", "depth"),
-                ("cameraHelperDepth.inputs:type", "depth"),
-            ],
+            og.Controller.Keys.SET_VALUES: og_keys_set_values,
         },
     )
 except Exception as e:

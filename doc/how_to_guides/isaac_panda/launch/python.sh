@@ -18,6 +18,13 @@ do
     fi
 done
 
+# When installed from the Omniverse Launcher, recent versions of Isaac Sim have a dash
+# rather than underscore in their installation directory name (e.g., isaac-sim-4.0.0).
+for ISAAC_SCRIPT_DIR in $(ls -d -- $OV_PKG_DIR/isaac-sim-*);
+do
+    ISAAC_SCRIPT_DIRS+=($ISAAC_SCRIPT_DIR)
+done
+
 # Prepend the path to all arguments passed in
 CUR_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 NEW_ARGS=""
