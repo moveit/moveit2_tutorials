@@ -9,12 +9,13 @@
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
 #include <moveit_msgs/msg/motion_sequence_item.hpp>
-#include <moveit_msgs/action/move_group_sequence.hpp>
 #include <moveit_msgs/msg/motion_sequence_request.hpp>
 #include <moveit_msgs/msg/planning_options.hpp>
+#include <moveit_msgs/srv/get_motion_sequence.hpp>
+#include <moveit_msgs/action/move_group_sequence.hpp>
 
 /**
- * Pilz Example -- MoveGroupSequence action
+ * Pilz Example -- MoveGroupSequence service and action
  *
  * To run this example, first run this launch file:
  * ros2 launch moveit2_tutorials pilz_moveit.launch.py
@@ -129,7 +130,7 @@ int main(int argc, char** argv)
     geometry_msgs::msg::PoseStamped msg;
     msg.header.frame_id = "world";
     msg.pose.position.x = 0.3;
-    msg.pose.position.y = 0;
+    msg.pose.position.y = -0.2;
     msg.pose.position.z = 0.8;
     msg.pose.orientation.x = 1.0;
     msg.pose.orientation.y = 0;
@@ -142,7 +143,55 @@ int main(int argc, char** argv)
   // Second MotionSequenceItem 
   sequence_request.items.push_back(item2);
 
+  // [ --------------------------------------------------------------- ]
+  // [ ------------------ MoveGroupSequence Service ------------------ ]
+  // [ --------------------------------------------------------------- ]
+  // The trajectory is returned but not executed
+
+  using GetMotionSequence = moveit_msgs::srv::GetMotionSequence;
+  auto service_client = node->create_client<GetMotionSequence>("/plan_sequence_path");
+
+  while (!service_client->wait_for_service(std::chrono::seconds(10))) {
+    RCLCPP_WARN(LOGGER, "Waiting for service /plan_sequence_path to be available...");
+  }
   
+  // Create request
+  auto service_request = std::make_shared<GetMotionSequence::Request>();
+  service_request->request.items.push_back(item1);
+  service_request->request.items.push_back(item2);
+
+  // Call the service and process the result
+  auto future = service_client->async_send_request(service_request);
+
+  // Function to draw the trajectory
+  auto const draw_trajectory_tool_path =
+    [&moveit_visual_tools, jmg = move_group_interface.getRobotModel()->getJointModelGroup("panda_arm")](
+        auto const& trajectories) {
+      for (const auto& trajectory : trajectories) {
+        moveit_visual_tools.publishTrajectoryLine(trajectory, jmg);
+      }
+    };
+
+  auto response = future.get();
+  if (response->response.error_code.val == moveit_msgs::msg::MoveItErrorCodes::SUCCESS) {
+    RCLCPP_INFO(LOGGER, "Planning successful");
+
+    // Access the planned trajectory
+    auto trajectory = response->response.planned_trajectories;
+    draw_trajectory_tool_path(trajectory);
+    moveit_visual_tools.trigger();
+  
+  } else {
+    RCLCPP_ERROR(LOGGER, "Planning failed with error code: %d", response->response.error_code.val);
+  }
+  
+  moveit_visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+  
+  // [ --------------------------------------------------------------- ]
+  // [ ------------------ MoveGroupSequence Action ------------------- ]
+  // [ --------------------------------------------------------------- ]
+  // Plans and executes the trajectory
+
   // MoveGroupSequence action client
   using MoveGroupSequence = moveit_msgs::action::MoveGroupSequence;
   auto client = rclcpp_action::create_client<MoveGroupSequence>(node, "/sequence_move_group");
@@ -204,10 +253,10 @@ int main(int argc, char** argv)
 
   // Wait for the result
   if (future_result.valid()) {
-      auto result = future_result.get();  // Blocks the program execution until it gets a response
-      RCLCPP_INFO(LOGGER, "Action completed. Result: %d",  static_cast<int>(result.code));
+    auto result = future_result.get();  // Blocks the program execution until it gets a response
+    RCLCPP_INFO(LOGGER, "Action completed. Result: %d",  static_cast<int>(result.code));
   } else {
-      RCLCPP_ERROR(LOGGER, "Action couldn't be completed.");
+    RCLCPP_ERROR(LOGGER, "Action couldn't be completed.");
   }
 
   moveit_visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
@@ -216,22 +265,22 @@ int main(int argc, char** argv)
   // [ ------------------------- Stop Motion ------------------------- ]
   // [ --------------------------------------------------------------- ]
   
-  // Repeat the motion, but after 2 seconds cancel the action
+  // Repeats the motion but after 2 seconds cancels the action
   auto goal_handle_future_new = client->async_send_goal(goal_msg, send_goal_options);
   sleep(2);
   auto future_cancel_motion = client->async_cancel_goal(goal_handle_future_new.get());
 
   // Wait until action cancel
   if (future_cancel_motion.valid()) {
-      auto cancel_response = future_cancel_motion.get();  // Blocks the program execution until it gets a response
+    auto cancel_response = future_cancel_motion.get();  // Blocks the program execution until it gets a response
 
-      if (!cancel_response->return_code) {
-        RCLCPP_INFO(LOGGER, "The action has been cancel by the action server.");
-      } else {
-        RCLCPP_INFO(LOGGER, "Action cancel error. Code: %d.", cancel_response->return_code);
-      }
+    if (!cancel_response->return_code) {
+      RCLCPP_INFO(LOGGER, "The action has been cancel by the action server.");
+    } else {
+      RCLCPP_INFO(LOGGER, "Action cancel error. Code: %d.", cancel_response->return_code);
+    }
   } else {
-      RCLCPP_ERROR(LOGGER, "Action couldn't be cancel.");
+    RCLCPP_ERROR(LOGGER, "Action couldn't be cancel.");
   }
     
   rclcpp::shutdown();
