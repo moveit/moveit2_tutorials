@@ -401,6 +401,7 @@ To use the MoveGroupSequenceAction and the ``MoveGroupSequenceService`` refer to
 To run this, execute the following commands in separate Terminals:
 
 ::
+
     ros2 launch moveit2_tutorials pilz_moveit.launch.py
     ros2 run moveit2_tutorials pilz_sequence
 
@@ -409,7 +410,8 @@ The new
 :codedir:`the pilz_moveit.launch.py <how_to_guides/pilz_industrial_motion_planner/launch/pilz_moveit.launch.py>` 
 is used instead:
 
-::    
+::
+
     moveit_config = (
        MoveItConfigsBuilder("moveit_resources_panda")
        .robot_description(file_path="config/panda.urdf.xacro")
@@ -431,6 +433,7 @@ is used instead:
 The sequence script creates 2 targets poses that will be reach sequentially.
 
 ::
+
     // ----- Motion Sequence Item 1
     // Create a MotionSequenceItem
     moveit_msgs::msg::MotionSequenceItem item1;
@@ -468,6 +471,7 @@ The sequence script creates 2 targets poses that will be reach sequentially.
 The action client needs to be initialize:
 
 ::
+
     // MoveGroupSequence action client
     using MoveGroupSequence = moveit_msgs::action::MoveGroupSequence;
     auto client = rclcpp_action::create_client<MoveGroupSequence>(node, "/sequence_move_group");
@@ -481,6 +485,7 @@ The action client needs to be initialize:
 Then, the request is created:
 
 ::
+   
     // Create a MotionSequenceRequest
     moveit_msgs::msg::MotionSequenceRequest sequence_request;
     sequence_request.items.push_back(item1);
@@ -489,6 +494,7 @@ Then, the request is created:
 Create goal and planning options. A goal response callback and result callback can be included as well.
 
 ::
+
     // Create action goal
     auto goal_msg = MoveGroupSequence::Goal();
     goal_msg.request = sequence_request;
@@ -501,6 +507,7 @@ Create goal and planning options. A goal response callback and result callback c
 Finally, send the goal request and wait for the response:
 
 ::
+
     // Send the action goal
     auto goal_handle_future = client->async_send_goal(goal_msg, send_goal_options);
  
@@ -518,6 +525,7 @@ Finally, send the goal request and wait for the response:
 To stop the motion, the action needs to be cancel with:
 
 ::
+
     auto future_cancel_motion = client->async_cancel_goal(goal_handle_future_new.get());
 
 See the ``pilz_robot_programming`` package for a `ROS 1 Python script
@@ -534,6 +542,7 @@ The trajectory is returned and not executed.
 The service client needs to be initialize:
 
 ::
+
     // MoveGroupSequence service client
     using GetMotionSequence = moveit_msgs::srv::GetMotionSequence;
     auto service_client = node->create_client<GetMotionSequence>("/plan_sequence_path");
@@ -546,6 +555,7 @@ The service client needs to be initialize:
 Then, the request is created:
 
 ::
+
     // Create request
     auto service_request = std::make_shared<GetMotionSequence::Request>();
     service_request->request.items.push_back(item1);
@@ -554,6 +564,7 @@ Then, the request is created:
 Service call and response. The method ``future.get()`` blocks the execution of the program until the server response arrives.
 
 ::
+   
     // Call the service and process the result
     auto future = service_client->async_send_request(service_request);
  
