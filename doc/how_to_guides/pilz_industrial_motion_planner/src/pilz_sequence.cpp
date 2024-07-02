@@ -67,12 +67,6 @@ int main(int argc, char** argv)
   // [ ----------------------- Motion Sequence ----------------------- ]
   // [ --------------------------------------------------------------- ]
   
-  // TODO: Con el service no se devuelve el plan? Solo me sirve para poder graficarlo
-
-  // Create a MotionSequenceRequest
-  moveit_msgs::msg::MotionSequenceRequest sequence_request;
-
-  
   // ----- Motion Sequence Item 1
   // Create a MotionSequenceItem
   moveit_msgs::msg::MotionSequenceItem item1;
@@ -107,9 +101,6 @@ int main(int argc, char** argv)
   } ();
   item1.req.goal_constraints.push_back(kinematic_constraints::constructGoalConstraints("panda_link8", target_pose_item1));
 
-  // First MotionSequenceItem 
-  sequence_request.items.push_back(item1);
-  
   // ----- Motion Sequence Item 2
   // Create a MotionSequenceItem
   moveit_msgs::msg::MotionSequenceItem item2;
@@ -140,17 +131,16 @@ int main(int argc, char** argv)
   } ();
   item2.req.goal_constraints.push_back(kinematic_constraints::constructGoalConstraints("panda_link8", target_pose_item2));
   
-  // Second MotionSequenceItem 
-  sequence_request.items.push_back(item2);
-
   // [ --------------------------------------------------------------- ]
   // [ ------------------ MoveGroupSequence Service ------------------ ]
   // [ --------------------------------------------------------------- ]
   // The trajectory is returned but not executed
 
+  // MoveGroupSequence service client
   using GetMotionSequence = moveit_msgs::srv::GetMotionSequence;
   auto service_client = node->create_client<GetMotionSequence>("/plan_sequence_path");
 
+  // Verify that the action server is up and running
   while (!service_client->wait_for_service(std::chrono::seconds(10))) {
     RCLCPP_WARN(LOGGER, "Waiting for service /plan_sequence_path to be available...");
   }
@@ -201,6 +191,11 @@ int main(int argc, char** argv)
     RCLCPP_ERROR(LOGGER, "Error waiting for action server /sequence_move_group");
     return -1;
   }
+  
+  // Create a MotionSequenceRequest
+  moveit_msgs::msg::MotionSequenceRequest sequence_request;
+  sequence_request.items.push_back(item1);
+  sequence_request.items.push_back(item2);
 
   // Create action goal
   auto goal_msg = MoveGroupSequence::Goal();
