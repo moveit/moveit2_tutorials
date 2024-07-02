@@ -38,7 +38,9 @@ int main(int argc, char* argv[])
 
   // Construct and initialize MoveItVisualTools
   auto moveit_visual_tools =
-      moveit_visual_tools::MoveItVisualTools{ node, "panda_link0", rviz_visual_tools::RVIZ_MARKER_TOPIC,
+      // moveit_visual_tools::MoveItVisualTools{ node, "panda_link0", rviz_visual_tools::RVIZ_MARKER_TOPIC,
+      //                                         move_group_interface.getRobotModel() };
+      moveit_visual_tools::MoveItVisualTools{ node, "panda_link0", "move_group_tutorial",
                                               move_group_interface.getRobotModel() };
   moveit_visual_tools.deleteAllMarkers();
   moveit_visual_tools.loadRemoteControl();
