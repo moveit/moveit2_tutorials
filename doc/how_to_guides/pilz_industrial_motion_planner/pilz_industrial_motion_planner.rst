@@ -522,15 +522,16 @@ Finally, send the goal request and wait for the response:
        RCLCPP_ERROR(LOGGER, "Action couldn't be completed.");
     }
 
-To stop the motion, the action needs to be cancel with:
+If the motion need to be stopped mid trajectory, the action have to be cancel with:
 
 ::
 
     auto future_cancel_motion = client->async_cancel_goal(goal_handle_future_new.get());
 
-See the ``pilz_robot_programming`` package for a `ROS 1 Python script
+
+The ``pilz_robot_programming`` package for a `ROS 1 Python script
 <https://github.com/PilzDE/pilz_industrial_motion/blob/melodic-devel/pilz_robot_programming/examples/demo_program.py>`_
-that shows how to use the capability.
+shows how to use the capability.
 
 Service interface
 ~~~~~~~~~~~~~~~~~
@@ -564,7 +565,7 @@ Then, the request is created:
 Service call and response. The method ``future.get()`` blocks the execution of the program until the server response arrives.
 
 ::
-   
+
     // Call the service and process the result
     auto future = service_client->async_send_request(service_request);
  
