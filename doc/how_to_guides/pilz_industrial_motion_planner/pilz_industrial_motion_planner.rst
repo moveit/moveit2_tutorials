@@ -405,118 +405,120 @@ To run this, execute the following commands in separate Terminals:
     ros2 run moveit2_tutorials pilz_sequence
 
 For this action and service, the move_group launch file needs to be modify to include these Pilz Motion Planner capabilities.
-The new :codedir:`the pilz_moveit.launch.py <how_to_guides/pilz_industrial_motion_planner/launch/pilz_moveit.launch.py>` is used instead:
+The new 
+:codedir:`the pilz_moveit.launch.py <how_to_guides/pilz_industrial_motion_planner/launch/pilz_moveit.launch.py>` 
+is used instead:
 
 ::    
-   moveit_config = (
-      MoveItConfigsBuilder("moveit_resources_panda")
-      .robot_description(file_path="config/panda.urdf.xacro")
-      .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
-      .planning_scene_monitor(
-         publish_robot_description=True, publish_robot_description_semantic=True
-      )
-      .planning_pipelines(
-         pipelines=["pilz_industrial_motion_planner"]
-      )
-      .to_moveit_configs()
-   )
-
-   # Starts Pilz Industrial Motion Planner MoveGroupSequenceAction and MoveGroupSequenceService servers
-   move_group_capabilities = {
-      "capabilities": "pilz_industrial_motion_planner/MoveGroupSequenceAction pilz_industrial_motion_planner/MoveGroupSequenceService"
-   }
+    moveit_config = (
+       MoveItConfigsBuilder("moveit_resources_panda")
+       .robot_description(file_path="config/panda.urdf.xacro")
+       .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
+       .planning_scene_monitor(
+          publish_robot_description=True, publish_robot_description_semantic=True
+       )
+       .planning_pipelines(
+          pipelines=["pilz_industrial_motion_planner"]
+       )
+       .to_moveit_configs()
+    )
+ 
+    # Starts Pilz Industrial Motion Planner MoveGroupSequenceAction and MoveGroupSequenceService servers
+    move_group_capabilities = {
+       "capabilities": "pilz_industrial_motion_planner/MoveGroupSequenceAction pilz_industrial_motion_planner/MoveGroupSequenceService"
+    }
 
 The sequence script creates 2 targets poses that will be reach sequentially.
 
 ::
-   // ----- Motion Sequence Item 1
-   // Create a MotionSequenceItem
-   moveit_msgs::msg::MotionSequenceItem item1;
-   
-   // Set pose blend radius
-   item1.blend_radius = 0.1;
-
-   // MotionSequenceItem configuration
-   item1.req.group_name = PLANNING_GROUP;
-   item1.req.planner_id = "LIN";
-   item1.req.allowed_planning_time = 5;
-   item1.req.max_velocity_scaling_factor = 0.1;
-   item1.req.max_acceleration_scaling_factor = 0.1;
-         
-   moveit_msgs::msg::Constraints constraints_item1;
-   moveit_msgs::msg::PositionConstraint pos_constraint_item1;
-   pos_constraint_item1.header.frame_id = "world";
-   pos_constraint_item1.link_name = "panda_hand";
-   
-   // Set a constraint pose
-   auto target_pose_item1 = [] {
-      geometry_msgs::msg::PoseStamped msg;
-      msg.header.frame_id = "world";
-      msg.pose.position.x = 0.3;
-      msg.pose.position.y = -0.2;
-      msg.pose.position.z = 0.6;
-      msg.pose.orientation.x = 1.0;
-      msg.pose.orientation.y = 0;
-      msg.pose.orientation.z = 0;
-      msg.pose.orientation.w = 0;
-      return msg;
-   } ();
-   item1.req.goal_constraints.push_back(kinematic_constraints::constructGoalConstraints("panda_link8", target_pose_item1));
+    // ----- Motion Sequence Item 1
+    // Create a MotionSequenceItem
+    moveit_msgs::msg::MotionSequenceItem item1;
+    
+    // Set pose blend radius
+    item1.blend_radius = 0.1;
+ 
+    // MotionSequenceItem configuration
+    item1.req.group_name = PLANNING_GROUP;
+    item1.req.planner_id = "LIN";
+    item1.req.allowed_planning_time = 5;
+    item1.req.max_velocity_scaling_factor = 0.1;
+    item1.req.max_acceleration_scaling_factor = 0.1;
+          
+    moveit_msgs::msg::Constraints constraints_item1;
+    moveit_msgs::msg::PositionConstraint pos_constraint_item1;
+    pos_constraint_item1.header.frame_id = "world";
+    pos_constraint_item1.link_name = "panda_hand";
+    
+    // Set a constraint pose
+    auto target_pose_item1 = [] {
+       geometry_msgs::msg::PoseStamped msg;
+       msg.header.frame_id = "world";
+       msg.pose.position.x = 0.3;
+       msg.pose.position.y = -0.2;
+       msg.pose.position.z = 0.6;
+       msg.pose.orientation.x = 1.0;
+       msg.pose.orientation.y = 0;
+       msg.pose.orientation.z = 0;
+       msg.pose.orientation.w = 0;
+       return msg;
+    } ();
+    item1.req.goal_constraints.push_back(kinematic_constraints::constructGoalConstraints("panda_link8", target_pose_item1));
 
 The action client needs to be initialize:
 
 ::
-   // MoveGroupSequence action client
-   using MoveGroupSequence = moveit_msgs::action::MoveGroupSequence;
-   auto client = rclcpp_action::create_client<MoveGroupSequence>(node, "/sequence_move_group");
-
-   // Verify that the action server is up and running
-   if (!client->wait_for_action_server(std::chrono::seconds(10))) {
-      RCLCPP_ERROR(LOGGER, "Error waiting for action server /sequence_move_group");
-      return -1;
-   }
+    // MoveGroupSequence action client
+    using MoveGroupSequence = moveit_msgs::action::MoveGroupSequence;
+    auto client = rclcpp_action::create_client<MoveGroupSequence>(node, "/sequence_move_group");
+ 
+    // Verify that the action server is up and running
+    if (!client->wait_for_action_server(std::chrono::seconds(10))) {
+       RCLCPP_ERROR(LOGGER, "Error waiting for action server /sequence_move_group");
+       return -1;
+    }
   
 Then, the request is created:
 
 ::
-   // Create a MotionSequenceRequest
-   moveit_msgs::msg::MotionSequenceRequest sequence_request;
-   sequence_request.items.push_back(item1);
-   sequence_request.items.push_back(item2);
+    // Create a MotionSequenceRequest
+    moveit_msgs::msg::MotionSequenceRequest sequence_request;
+    sequence_request.items.push_back(item1);
+    sequence_request.items.push_back(item2);
 
 Create goal and planning options. A goal response callback and result callback can be included as well.
 
 ::
-   // Create action goal
-   auto goal_msg = MoveGroupSequence::Goal();
-   goal_msg.request = sequence_request;
-
-   // Planning options
-   goal_msg.planning_options.planning_scene_diff.is_diff = true;
-   goal_msg.planning_options.planning_scene_diff.robot_state.is_diff = true;
-   // goal_msg.planning_options.plan_only = true;
+    // Create action goal
+    auto goal_msg = MoveGroupSequence::Goal();
+    goal_msg.request = sequence_request;
+ 
+    // Planning options
+    goal_msg.planning_options.planning_scene_diff.is_diff = true;
+    goal_msg.planning_options.planning_scene_diff.robot_state.is_diff = true;
+    // goal_msg.planning_options.plan_only = true;
 
 Finally, send the goal request and wait for the response:
 
 ::
-   // Send the action goal
-   auto goal_handle_future = client->async_send_goal(goal_msg, send_goal_options);
-
-   // Get result
-   auto future_result = client->async_get_result(goal_handle_future.get());
-
-   // Wait for the result
-   if (future_result.valid()) {
-      auto result = future_result.get();  // Blocks the program execution until it gets a response
-      RCLCPP_INFO(LOGGER, "Action completed. Result: %d",  static_cast<int>(result.code));
-   } else {
-      RCLCPP_ERROR(LOGGER, "Action couldn't be completed.");
-   }
+    // Send the action goal
+    auto goal_handle_future = client->async_send_goal(goal_msg, send_goal_options);
+ 
+    // Get result
+    auto future_result = client->async_get_result(goal_handle_future.get());
+ 
+    // Wait for the result
+    if (future_result.valid()) {
+       auto result = future_result.get();  // Blocks the program execution until it gets a response
+       RCLCPP_INFO(LOGGER, "Action completed. Result: %d",  static_cast<int>(result.code));
+    } else {
+       RCLCPP_ERROR(LOGGER, "Action couldn't be completed.");
+    }
 
 To stop the motion, the action needs to be cancel with:
 
 ::
-   auto future_cancel_motion = client->async_cancel_goal(goal_handle_future_new.get());
+    auto future_cancel_motion = client->async_cancel_goal(goal_handle_future_new.get());
 
 See the ``pilz_robot_programming`` package for a `ROS 1 Python script
 <https://github.com/PilzDE/pilz_industrial_motion/blob/melodic-devel/pilz_robot_programming/examples/demo_program.py>`_
@@ -532,50 +534,50 @@ The trajectory is returned and not executed.
 The service client needs to be initialize:
 
 ::
-   // MoveGroupSequence service client
-   using GetMotionSequence = moveit_msgs::srv::GetMotionSequence;
-   auto service_client = node->create_client<GetMotionSequence>("/plan_sequence_path");
-
-   // Verify that the action server is up and running
-   while (!service_client->wait_for_service(std::chrono::seconds(10))) {
-      RCLCPP_WARN(LOGGER, "Waiting for service /plan_sequence_path to be available...");
-   }
+    // MoveGroupSequence service client
+    using GetMotionSequence = moveit_msgs::srv::GetMotionSequence;
+    auto service_client = node->create_client<GetMotionSequence>("/plan_sequence_path");
+ 
+    // Verify that the action server is up and running
+    while (!service_client->wait_for_service(std::chrono::seconds(10))) {
+       RCLCPP_WARN(LOGGER, "Waiting for service /plan_sequence_path to be available...");
+    }
 
 Then, the request is created:
 
 ::
-   // Create request
-   auto service_request = std::make_shared<GetMotionSequence::Request>();
-   service_request->request.items.push_back(item1);
-   service_request->request.items.push_back(item2);
+    // Create request
+    auto service_request = std::make_shared<GetMotionSequence::Request>();
+    service_request->request.items.push_back(item1);
+    service_request->request.items.push_back(item2);
 
 Service call and response. The method ``future.get()`` blocks the execution of the program until the server response arrives.
 
 ::
-   // Call the service and process the result
-   auto future = service_client->async_send_request(service_request);
-
-   // Function to draw the trajectory
-   auto const draw_trajectory_tool_path =
-      [&moveit_visual_tools, jmg = move_group_interface.getRobotModel()->getJointModelGroup("panda_arm")](
-         auto const& trajectories) {
-      for (const auto& trajectory : trajectories) {
-         moveit_visual_tools.publishTrajectoryLine(trajectory, jmg);
-      }
-   };
-
-   auto response = future.get();
-   if (response->response.error_code.val == moveit_msgs::msg::MoveItErrorCodes::SUCCESS) {
-      RCLCPP_INFO(LOGGER, "Planning successful");
-
-      // Access the planned trajectory
-      auto trajectory = response->response.planned_trajectories;
-      draw_trajectory_tool_path(trajectory);
-      moveit_visual_tools.trigger();
-
-   } else {
-      RCLCPP_ERROR(LOGGER, "Planning failed with error code: %d", response->response.error_code.val);
-   }
+    // Call the service and process the result
+    auto future = service_client->async_send_request(service_request);
+ 
+    // Function to draw the trajectory
+    auto const draw_trajectory_tool_path =
+       [&moveit_visual_tools, jmg = move_group_interface.getRobotModel()->getJointModelGroup("panda_arm")](
+          auto const& trajectories) {
+       for (const auto& trajectory : trajectories) {
+          moveit_visual_tools.publishTrajectoryLine(trajectory, jmg);
+       }
+    };
+ 
+    auto response = future.get();
+    if (response->response.error_code.val == moveit_msgs::msg::MoveItErrorCodes::SUCCESS) {
+       RCLCPP_INFO(LOGGER, "Planning successful");
+ 
+       // Access the planned trajectory
+       auto trajectory = response->response.planned_trajectories;
+       draw_trajectory_tool_path(trajectory);
+       moveit_visual_tools.trigger();
+ 
+    } else {
+       RCLCPP_ERROR(LOGGER, "Planning failed with error code: %d", response->response.error_code.val);
+    }
 
 In this case, the planned trajectory is drawn.
 
