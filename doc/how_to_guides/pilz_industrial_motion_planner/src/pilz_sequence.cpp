@@ -13,6 +13,19 @@
 #include <moveit_msgs/msg/motion_sequence_request.hpp>
 #include <moveit_msgs/msg/planning_options.hpp>
 
+/**
+ * Pilz Example -- MoveGroupSequence action
+ *
+ * To run this example, first run this launch file:
+ * ros2 launch moveit2_tutorials pilz_moveit.launch.py
+ *
+ * Then, run this file:
+ * ros2 run moveit2_tutorials pilz_sequence
+ * 
+ */
+
+/* Author: Alejo Mancinelli - 02/07/2024 */
+
 using moveit_msgs::action::MoveGroupSequence;
 using GoalHandleMoveGroupSequence = rclcpp_action::ClientGoalHandle<MoveGroupSequence>;
 
@@ -35,6 +48,19 @@ int main(int argc, char** argv)
 
   // Planning group
   static const std::string PLANNING_GROUP = "panda_arm";
+
+  // Create the MoveIt MoveGroup Interface
+  // In this case, this is just necessary por the visual interface
+  using moveit::planning_interface::MoveGroupInterface;
+  auto move_group_interface = MoveGroupInterface(node, PLANNING_GROUP);
+
+  // Construct and initialize MoveItVisualTools
+  auto moveit_visual_tools =
+      moveit_visual_tools::MoveItVisualTools{ node, "panda_link0", "move_group_tutorial",
+                                              move_group_interface.getRobotModel() };
+  moveit_visual_tools.deleteAllMarkers();
+  moveit_visual_tools.loadRemoteControl();
+  moveit_visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // [ --------------------------------------------------------------- ]
   // [ ----------------------- Motion Sequence ----------------------- ]
@@ -183,6 +209,8 @@ int main(int argc, char** argv)
   } else {
       RCLCPP_ERROR(LOGGER, "Action couldn't be completed.");
   }
+
+  moveit_visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // [ --------------------------------------------------------------- ]
   // [ ------------------------- Stop Motion ------------------------- ]
