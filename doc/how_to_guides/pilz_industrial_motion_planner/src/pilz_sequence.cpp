@@ -51,7 +51,7 @@ int main(int argc, char** argv)
   static const std::string PLANNING_GROUP = "panda_arm";
 
   // Create the MoveIt MoveGroup Interface
-  // In this case, this is just necessary por the visual interface
+  // In this case, this is just necessary for the visual interface
   using moveit::planning_interface::MoveGroupInterface;
   auto move_group_interface = MoveGroupInterface(node, PLANNING_GROUP);
 
@@ -270,12 +270,12 @@ int main(int argc, char** argv)
     auto cancel_response = future_cancel_motion.get();  // Blocks the program execution until it gets a response
 
     if (!cancel_response->return_code) {
-      RCLCPP_INFO(LOGGER, "The action has been cancel by the action server.");
+      RCLCPP_INFO(LOGGER, "The action has been canceled by the action server.");
     } else {
       RCLCPP_INFO(LOGGER, "Action cancel error. Code: %d.", cancel_response->return_code);
     }
   } else {
-    RCLCPP_ERROR(LOGGER, "Action couldn't be cancel.");
+    RCLCPP_ERROR(LOGGER, "Action couldn't be canceled.");
   }
     
   rclcpp::shutdown();

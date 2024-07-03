@@ -397,7 +397,7 @@ constraints of an individual ``moveit_msgs::msg::MotionPlanRequest`` are
 already satisfied but the ``MoveGroupSequenceAction`` capability doesn't
 implement such a check to allow moving on a circular or comparable path.
 
-To use the MoveGroupSequenceAction and the ``MoveGroupSequenceService`` refer to the :codedir:`the Pilz Motion Planner sequence example <how_to_guides/pilz_industrial_motion_planner/src/pilz_sequence.cpp>`.
+To use the MoveGroupSequenceAction and the ``MoveGroupSequenceService``, refer to the :codedir:`Pilz Motion Planner sequence example <how_to_guides/pilz_industrial_motion_planner/src/pilz_sequence.cpp>`.
 To run this, execute the following commands in separate Terminals:
 
 ::
@@ -468,7 +468,7 @@ The sequence script creates 2 targets poses that will be reach sequentially.
     } ();
     item1.req.goal_constraints.push_back(kinematic_constraints::constructGoalConstraints("panda_link8", target_pose_item1));
 
-The action client needs to be initialize:
+The action client needs to be initialized:
 
 ::
 
@@ -522,7 +522,7 @@ Finally, send the goal request and wait for the response:
        RCLCPP_ERROR(LOGGER, "Action couldn't be completed.");
     }
 
-If the motion need to be stopped mid trajectory, the action have to be cancel with:
+If the motion needs to be stopped mid-execution, the action can be canceled with:
 
 ::
 
@@ -540,7 +540,7 @@ The service ``plan_sequence_path`` allows the user to generate a joint
 trajectory for a ``moveit_msgs::msg::MotionSequenceRequest``.
 The trajectory is returned and not executed.
 
-The service client needs to be initialize:
+The service client needs to be initialized:
 
 ::
 

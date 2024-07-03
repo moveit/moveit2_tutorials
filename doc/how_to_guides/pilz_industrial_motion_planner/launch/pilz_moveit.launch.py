@@ -32,7 +32,8 @@ def generate_launch_description():
         output="screen",
         parameters=[
             moveit_config.to_dict(),
-            move_group_capabilities,],
+            move_group_capabilities,
+        ],
     )
 
     # RViz
