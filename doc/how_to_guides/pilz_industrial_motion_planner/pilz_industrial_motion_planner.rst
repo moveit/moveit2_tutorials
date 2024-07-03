@@ -280,7 +280,7 @@ To run this, execute the following commands in separate Terminals:
 
 ::
 
-    ros2 launch moveit_resources_panda_moveit_config demo.launch.py
+    ros2 launch moveit2_tutorials pilz_moveit.launch.py
     ros2 run moveit2_tutorials pilz_move_group
 
 
@@ -383,21 +383,14 @@ Restrictions for ``MotionSequenceRequest``
    ``blend_radius``\ (i) + ``blend_radius``\ (i+1) has to be smaller
    than the distance between the goals.
 
-Action interface
-~~~~~~~~~~~~~~~~
+Service interface
+~~~~~~~~~~~~~~~~~
 
-In analogy to the ``MoveGroup`` action interface, the user can plan and
-execute a ``moveit_msgs::MotionSequenceRequest`` through the action server
-at ``/sequence_move_group``.
+The service ``plan_sequence_path`` allows the user to generate a joint
+trajectory for a ``moveit_msgs::msg::MotionSequenceRequest``.
+The trajectory is returned and not executed.
 
-In one point the ``MoveGroupSequenceAction`` differs from the standard
-MoveGroup capability: If the robot is already at the goal position, the
-path is still executed. The underlying PlannerManager can check, if the
-constraints of an individual ``moveit_msgs::msg::MotionPlanRequest`` are
-already satisfied but the ``MoveGroupSequenceAction`` capability doesn't
-implement such a check to allow moving on a circular or comparable path.
-
-To use the MoveGroupSequenceAction and the ``MoveGroupSequenceService``, refer to the :codedir:`Pilz Motion Planner sequence example <how_to_guides/pilz_industrial_motion_planner/src/pilz_sequence.cpp>`.
+To use the ``MoveGroupSequenceService`` and the ``MoveGroupSequenceAction``, refer to the :codedir:`Pilz Motion Planner sequence example <how_to_guides/pilz_industrial_motion_planner/src/pilz_sequence.cpp>`.
 To run this, execute the following commands in separate Terminals:
 
 ::
@@ -405,7 +398,7 @@ To run this, execute the following commands in separate Terminals:
     ros2 launch moveit2_tutorials pilz_moveit.launch.py
     ros2 run moveit2_tutorials pilz_sequence
 
-For this action and service, the move_group launch file needs to be modify to include these Pilz Motion Planner capabilities.
+For this service and action, the move_group launch file needs to be modify to include these Pilz Motion Planner capabilities.
 The new 
 :codedir:`the pilz_moveit.launch.py <how_to_guides/pilz_industrial_motion_planner/launch/pilz_moveit.launch.py>` 
 is used instead:
@@ -430,7 +423,9 @@ is used instead:
        "capabilities": "pilz_industrial_motion_planner/MoveGroupSequenceAction pilz_industrial_motion_planner/MoveGroupSequenceService"
     }
 
-The sequence script creates 2 targets poses that will be reach sequentially.
+The 
+:codedir:`pilz_sequence.cpp file <how_to_guides/pilz_industrial_motion_planner/src/pilz_sequence.launch.py>`
+creates 2 target poses that will be reached sequentially.
 
 ::
 
@@ -467,6 +462,76 @@ The sequence script creates 2 targets poses that will be reach sequentially.
        return msg;
     } ();
     item1.req.goal_constraints.push_back(kinematic_constraints::constructGoalConstraints("panda_link8", target_pose_item1));
+
+The service client needs to be initialized:
+
+::
+
+    // MoveGroupSequence service client
+    using GetMotionSequence = moveit_msgs::srv::GetMotionSequence;
+    auto service_client = node->create_client<GetMotionSequence>("/plan_sequence_path");
+ 
+    // Verify that the action server is up and running
+    while (!service_client->wait_for_service(std::chrono::seconds(10))) {
+       RCLCPP_WARN(LOGGER, "Waiting for service /plan_sequence_path to be available...");
+    }
+
+Then, the request is created:
+
+::
+
+    // Create request
+    auto service_request = std::make_shared<GetMotionSequence::Request>();
+    service_request->request.items.push_back(item1);
+    service_request->request.items.push_back(item2);
+
+Service call and response. The method ``future.get()`` blocks the execution of the program until the server response arrives.
+
+::
+
+    // Call the service and process the result
+    auto future = service_client->async_send_request(service_request);
+ 
+    // Function to draw the trajectory
+    auto const draw_trajectory_tool_path =
+       [&moveit_visual_tools, jmg = move_group_interface.getRobotModel()->getJointModelGroup("panda_arm")](
+          auto const& trajectories) {
+       for (const auto& trajectory : trajectories) {
+          moveit_visual_tools.publishTrajectoryLine(trajectory, jmg);
+       }
+    };
+ 
+    auto response = future.get();
+    if (response->response.error_code.val == moveit_msgs::msg::MoveItErrorCodes::SUCCESS) {
+       RCLCPP_INFO(LOGGER, "Planning successful");
+ 
+       // Access the planned trajectory
+       auto trajectory = response->response.planned_trajectories;
+       draw_trajectory_tool_path(trajectory);
+       moveit_visual_tools.trigger();
+ 
+    } else {
+       RCLCPP_ERROR(LOGGER, "Planning failed with error code: %d", response->response.error_code.val);
+    }
+
+In this case, the planned trajectory is drawn. Here is a comparison of a blend radius of 0 and 0.1 for the first and second trajectory respectively. 
+
+.. figure:: trajectory_comparison.jpeg
+   :alt: trajectory comparison
+
+Action interface
+~~~~~~~~~~~~~~~~
+
+In analogy to the ``MoveGroup`` action interface, the user can plan and
+execute a ``moveit_msgs::MotionSequenceRequest`` through the action server
+at ``/sequence_move_group``.
+
+In one point the ``MoveGroupSequenceAction`` differs from the standard
+MoveGroup capability: If the robot is already at the goal position, the
+path is still executed. The underlying PlannerManager can check, if the
+constraints of an individual ``moveit_msgs::msg::MotionPlanRequest`` are
+already satisfied but the ``MoveGroupSequenceAction`` capability doesn't
+implement such a check to allow moving on a circular or comparable path.
 
 The action client needs to be initialized:
 
@@ -527,69 +592,3 @@ If the motion needs to be stopped mid-execution, the action can be canceled with
 ::
 
     auto future_cancel_motion = client->async_cancel_goal(goal_handle_future_new.get());
-
-
-The ``pilz_robot_programming`` package for a `ROS 1 Python script
-<https://github.com/PilzDE/pilz_industrial_motion/blob/melodic-devel/pilz_robot_programming/examples/demo_program.py>`_
-shows how to use the capability.
-
-Service interface
-~~~~~~~~~~~~~~~~~
-
-The service ``plan_sequence_path`` allows the user to generate a joint
-trajectory for a ``moveit_msgs::msg::MotionSequenceRequest``.
-The trajectory is returned and not executed.
-
-The service client needs to be initialized:
-
-::
-
-    // MoveGroupSequence service client
-    using GetMotionSequence = moveit_msgs::srv::GetMotionSequence;
-    auto service_client = node->create_client<GetMotionSequence>("/plan_sequence_path");
- 
-    // Verify that the action server is up and running
-    while (!service_client->wait_for_service(std::chrono::seconds(10))) {
-       RCLCPP_WARN(LOGGER, "Waiting for service /plan_sequence_path to be available...");
-    }
-
-Then, the request is created:
-
-::
-
-    // Create request
-    auto service_request = std::make_shared<GetMotionSequence::Request>();
-    service_request->request.items.push_back(item1);
-    service_request->request.items.push_back(item2);
-
-Service call and response. The method ``future.get()`` blocks the execution of the program until the server response arrives.
-
-::
-
-    // Call the service and process the result
-    auto future = service_client->async_send_request(service_request);
- 
-    // Function to draw the trajectory
-    auto const draw_trajectory_tool_path =
-       [&moveit_visual_tools, jmg = move_group_interface.getRobotModel()->getJointModelGroup("panda_arm")](
-          auto const& trajectories) {
-       for (const auto& trajectory : trajectories) {
-          moveit_visual_tools.publishTrajectoryLine(trajectory, jmg);
-       }
-    };
- 
-    auto response = future.get();
-    if (response->response.error_code.val == moveit_msgs::msg::MoveItErrorCodes::SUCCESS) {
-       RCLCPP_INFO(LOGGER, "Planning successful");
- 
-       // Access the planned trajectory
-       auto trajectory = response->response.planned_trajectories;
-       draw_trajectory_tool_path(trajectory);
-       moveit_visual_tools.trigger();
- 
-    } else {
-       RCLCPP_ERROR(LOGGER, "Planning failed with error code: %d", response->response.error_code.val);
-    }
-
-In this case, the planned trajectory is drawn.
-
