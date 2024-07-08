@@ -16,10 +16,12 @@ repositories:
     url: https://github.com/PickNikRobotics/rviz_visual_tools.git
     version: ros2
   # Remove ros2_kortex when rolling binaries are available.
+  # Need to use this fork since ros2_kortex depends on Gazebo classic packages:
+  # https://github.com/Kinovarobotics/ros2_kortex/issues/217
   ros2_kortex:
     type: git
-    url: https://github.com/Kinovarobotics/ros2_kortex.git
-    version: main
+    url: https://github.com/sea-bass/ros2_kortex.git
+    version: remove-gazebo-classic
   # Remove ros2_robotiq_gripper when rolling binaries are available.
   ros2_robotiq_gripper:
     type: git
@@ -30,9 +32,3 @@ repositories:
     type: git
     url: https://github.com/tylerjw/serial.git
     version: ros2
-  # This needs to be included due to the ros2_kortex repo:
-  # https://github.com/Kinovarobotics/ros2_kortex/issues/217
-  gazebo_ros2_control:
-    type: git
-    url: https://github.com/ros-controls/gazebo_ros2_control
-    version: master
