@@ -151,7 +151,7 @@ int main(int argc, char** argv)
   service_request->request.items.push_back(item2);
 
   // Call the service and process the result
-  auto future = service_client->async_send_request(service_request);
+  auto service_future = service_client->async_send_request(service_request);
 
   // Function to draw the trajectory
   auto const draw_trajectory_tool_path =
@@ -162,17 +162,37 @@ int main(int argc, char** argv)
       }
     };
 
-  auto response = future.get();
-  if (response->response.error_code.val == moveit_msgs::msg::MoveItErrorCodes::SUCCESS) {
+  // Wait for the result
+  std::future_status service_status; 
+  do {
+    switch (service_status = service_future.wait_for(std::chrono::seconds(1)); service_status) {
+      case std::future_status::deferred:
+        RCLCPP_ERROR(LOGGER, "Deferred");
+        break;
+      case std::future_status::timeout:
+        RCLCPP_INFO(LOGGER, "Waiting for trajectory plan...");
+        break;
+      case std::future_status::ready:
+        RCLCPP_INFO(LOGGER, "Service ready!");
+        break;
+    }
+  }
+  while (service_status != std::future_status::ready);
+
+  auto service_response = service_future.get();
+  if (service_response->response.error_code.val == moveit_msgs::msg::MoveItErrorCodes::SUCCESS) {
     RCLCPP_INFO(LOGGER, "Planning successful");
 
     // Access the planned trajectory
-    auto trajectory = response->response.planned_trajectories;
+    auto trajectory = service_response->response.planned_trajectories;
     draw_trajectory_tool_path(trajectory);
     moveit_visual_tools.trigger();
   
   } else {
-    RCLCPP_ERROR(LOGGER, "Planning failed with error code: %d", response->response.error_code.val);
+    RCLCPP_ERROR(LOGGER, "Planning failed with error code: %d", service_response->response.error_code.val);
+
+    rclcpp::shutdown();
+    return 0;
   }
   
   moveit_visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
@@ -184,10 +204,10 @@ int main(int argc, char** argv)
 
   // MoveGroupSequence action client
   using MoveGroupSequence = moveit_msgs::action::MoveGroupSequence;
-  auto client = rclcpp_action::create_client<MoveGroupSequence>(node, "/sequence_move_group");
+  auto action_client = rclcpp_action::create_client<MoveGroupSequence>(node, "/sequence_move_group");
 
   // Verify that the action server is up and running
-  if (!client->wait_for_action_server(std::chrono::seconds(10))) {
+  if (!action_client->wait_for_action_server(std::chrono::seconds(10))) {
     RCLCPP_ERROR(LOGGER, "Error waiting for action server /sequence_move_group");
     return -1;
   }
@@ -241,14 +261,30 @@ int main(int argc, char** argv)
   };
 
   // Send the action goal
-  auto goal_handle_future = client->async_send_goal(goal_msg, send_goal_options);
+  auto goal_handle_future = action_client->async_send_goal(goal_msg, send_goal_options);
 
   // Get result
-  auto future_result = client->async_get_result(goal_handle_future.get());
+  auto action_result_future = action_client->async_get_result(goal_handle_future.get());
 
   // Wait for the result
-  if (future_result.valid()) {
-    auto result = future_result.get();  // Blocks the program execution until it gets a response
+  std::future_status action_status; 
+  do {
+    switch (action_status = action_result_future.wait_for(std::chrono::seconds(1)); action_status) {
+      case std::future_status::deferred:
+        RCLCPP_ERROR(LOGGER, "Deferred");
+        break;
+      case std::future_status::timeout:
+        RCLCPP_INFO(LOGGER, "Executing trajectory...");
+        break;
+      case std::future_status::ready:
+        RCLCPP_INFO(LOGGER, "Action ready!");
+        break;
+    }
+  }
+  while (action_status != std::future_status::ready);
+
+  if (action_result_future.valid()) {
+    auto result = action_result_future.get();  
     RCLCPP_INFO(LOGGER, "Action completed. Result: %d",  static_cast<int>(result.code));
   } else {
     RCLCPP_ERROR(LOGGER, "Action couldn't be completed.");
@@ -261,13 +297,29 @@ int main(int argc, char** argv)
   // [ --------------------------------------------------------------- ]
   
   // Repeats the motion but after 2 seconds cancels the action
-  auto goal_handle_future_new = client->async_send_goal(goal_msg, send_goal_options);
+  auto cancel_goal_handle_future = action_client->async_send_goal(goal_msg, send_goal_options);
   sleep(2);
-  auto future_cancel_motion = client->async_cancel_goal(goal_handle_future_new.get());
+  auto cancel_action_result_future = action_client->async_cancel_goal(cancel_goal_handle_future.get());
 
-  // Wait until action cancel
-  if (future_cancel_motion.valid()) {
-    auto cancel_response = future_cancel_motion.get();  // Blocks the program execution until it gets a response
+  // Wait for the result
+  std::future_status action_cancel_status; 
+  do {
+    switch (action_cancel_status = cancel_action_result_future.wait_for(std::chrono::seconds(1)); action_cancel_status) {
+      case std::future_status::deferred:
+        RCLCPP_ERROR(LOGGER, "Deferred");
+        break;
+      case std::future_status::timeout:
+        RCLCPP_INFO(LOGGER, "Waiting for trajectory stop...");
+        break;
+      case std::future_status::ready:
+        RCLCPP_INFO(LOGGER, "Action cancel!");
+        break;
+    }
+  }
+  while (action_cancel_status != std::future_status::ready);
+
+  if (cancel_action_result_future.valid()) {
+    auto cancel_response = cancel_action_result_future.get();  
 
     if (!cancel_response->return_code) {
       RCLCPP_INFO(LOGGER, "The action has been canceled by the action server.");
