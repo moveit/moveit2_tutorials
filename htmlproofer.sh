@@ -7,12 +7,14 @@ export REPOSITORY_NAME=${PWD##*/}
 export MOVEIT_BRANCH=main
 echo "Testing branch $MOVEIT_BRANCH of $REPOSITORY_NAME"
 
-# Install htmlpoofer
+# Install htmlproofer
 gem install --user-install html-proofer -v 3.19.4 # newer 4.x requires different cmdline options
 PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 
 # Install python dependencies
-pip3 install --user --upgrade -r requirements.txt
+# NOTE: This needs to be moved to a virtual environment on Ubunty 24.04 or later,
+# instead of adding the --break-system-packages flag.
+pip3 install --break-system-packages --user --upgrade -r requirements.txt
 
 # Clear out any previous builds
 rm -rf build
