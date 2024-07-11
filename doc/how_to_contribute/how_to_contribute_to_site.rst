@@ -40,7 +40,7 @@ Steps
 
 2. Test for broken links
 
-  To test for broken links, run the ``htmlproofer`` script. Note that running this script may require you to install some Python dependencies. If using ``pip`` to install these dependencies, you may want to create a virtual environment. 
+  To test for broken links, run the ``htmlproofer`` script. Note that running this script may require you to install some Python dependencies. If using ``pip`` to install these dependencies, you may want to create a virtual environment.
 
   .. code-block:: bash
 
