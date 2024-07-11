@@ -1,4 +1,5 @@
 #!/bin/bash
+# Note that a virtual environment is required when running this script in CI
 set -e
 
 # Define some config vars
