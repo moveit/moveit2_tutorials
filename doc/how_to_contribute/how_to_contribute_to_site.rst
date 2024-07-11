@@ -53,7 +53,7 @@ Steps
 
     pip3 install --upgrade --requirement requirements.txt
 
-  You can run the script with this command:
+  You can run the ``htmlproofer`` script with this command:
 
   .. code-block:: bash
 
