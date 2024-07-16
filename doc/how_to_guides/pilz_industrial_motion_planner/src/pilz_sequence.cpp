@@ -273,6 +273,13 @@ int main(int argc, char** argv)
     RCLCPP_INFO(LOGGER, "Result received");
   };
 
+  // Feedback callback
+  // It does not show the state of the sequence, but the state of the robot: PLANNING, MONITOR, IDLE
+  send_goal_options.feedback_callback = [](GoalHandleMoveGroupSequence::SharedPtr,
+                                           const std::shared_ptr<const GoalHandleMoveGroupSequence::Feedback> feedback) {
+    RCLCPP_INFO(LOGGER, "Feedback: %s", feedback->state.c_str());
+  };
+
   // Send the action goal
   auto goal_handle_future = action_client->async_send_goal(goal_msg, send_goal_options);
 
