@@ -25,9 +25,18 @@ jobs:
         cache: 'pip'
 
     - name: Install Python dependencies
+      shell: bash
       run: |
+<<<<<<< HEAD
         python -m pip install --upgrade pip
         pip install --upgrade --requirement requirements.txt
+=======
+        sudo apt-get update -y
+        sudo apt-get install -y python3-pip python3-venv
+        python3 -m venv .venv
+        source .venv/bin/activate
+        pip3 install --upgrade --requirement requirements.txt
+>>>>>>> 1709ece (Use venv in CI (#916))
 
     - name: Install doxygen and graphviz
       run: sudo apt-get install -y doxygen graphviz
@@ -37,7 +46,16 @@ jobs:
         ruby-version: '3'
 
     - name: Run htmlproofer.sh
+<<<<<<< HEAD
       run: ./htmlproofer.sh
+=======
+      shell: bash
+      run: |
+        source /opt/ros/rolling/setup.bash
+        source /root/ws_moveit/install/setup.bash
+        source .venv/bin/activate
+        ./htmlproofer.sh
+>>>>>>> 1709ece (Use venv in CI (#916))
 
   upload_site_artifacts:
     strategy:
@@ -58,9 +76,12 @@ jobs:
         ref: 'main'
 
     - name: Install Python dependencies
+      shell: bash
       run: |
         sudo apt-get update -y
-        sudo apt-get install -y python3-pip
+        sudo apt-get install -y python3-pip python3-venv
+        python3 -m venv .venv
+        source .venv/bin/activate
         pip3 install --upgrade --requirement requirements.txt
 
     - name: Install doxygen and graphviz
@@ -71,6 +92,7 @@ jobs:
       run: |
         source /opt/ros/${{ matrix.rosdistro }}/setup.bash
         source /root/ws_moveit/install/setup.bash
+        source .venv/bin/activate
         make generate_api_artifacts BRANCH=${{ matrix.branch }}
 
     - name: Compress Artifact
