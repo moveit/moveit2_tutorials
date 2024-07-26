@@ -1,4 +1,5 @@
 #!/bin/bash
+# Note that a virtual environment is required when running this script in CI
 set -e
 
 # Define some config vars
@@ -12,7 +13,7 @@ gem install --user-install html-proofer -v 3.19.4 # newer 4.x requires different
 PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 
 # Install python dependencies
-pip3 install --user --upgrade -r requirements.txt
+pip3 install --upgrade -r requirements.txt
 
 # Clear out any previous builds
 rm -rf build
