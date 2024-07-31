@@ -1,8 +1,8 @@
 pip
-docutils==0.18.1
+docutils
 sphinx>=5.0.0
-sphinx-tabs==3.4.4
+sphinx-tabs
 sphinx-multiversion
 sphinx-rtd-theme
 sphinx-copybutton
-sphinxcontrib-doxylink
+sphinxcontrib-doxylink@git+https://github.com/sea-bass/doxylink.git@fix-parse-tag-file

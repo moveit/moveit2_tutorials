@@ -50,7 +50,7 @@ Further Reading
   refer to `this blog post <https://picknik.ai/ros/robotics/docker/2021/07/20/Vatan-Aksoy-Tezer-Docker.html>`_
   from PickNik's Vatan Aksoy Tezer and Brennard Pierce.
 
-- You can find a list of tagged tutorial images `here <https://github.com/moveit/moveit2_tutorials/pkgs/container/moveit2_tutorials>`__. There are tagged images for both ``rolling`` and ``humble`` which are built on top of the ``rolling-source`` and ``humble-source`` MoveIt 2 Docker images `here <https://hub.docker.com/r/moveit/moveit2/tags>`__.
+- There are tagged images for both ``rolling`` and ``humble`` which are built on top of the ``rolling-source`` and ``humble-source`` MoveIt 2 Docker images `here <https://hub.docker.com/r/moveit/moveit2/tags>`__.
 
 - You can find more tagged images for MoveIt 2 Docker containers `here <https://hub.docker.com/r/moveit/moveit2/tags>`__.
   The tagged images coincide with ROS2 version releases. The ``release`` version of the container provides an environment in which MoveIt 2 is installed via the binaries.
