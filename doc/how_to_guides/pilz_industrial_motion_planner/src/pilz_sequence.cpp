@@ -76,7 +76,7 @@ int main(int argc, char** argv)
   // MotionSequenceItem configuration
   item1.req.group_name = PLANNING_GROUP;
   item1.req.planner_id = "LIN";
-  item1.req.allowed_planning_time = 5;
+  item1.req.allowed_planning_time = 5.0;
   item1.req.max_velocity_scaling_factor = 0.1;
   item1.req.max_acceleration_scaling_factor = 0.1;
 
@@ -93,9 +93,9 @@ int main(int argc, char** argv)
     msg.pose.position.y = -0.2;
     msg.pose.position.z = 0.6;
     msg.pose.orientation.x = 1.0;
-    msg.pose.orientation.y = 0;
-    msg.pose.orientation.z = 0;
-    msg.pose.orientation.w = 0;
+    msg.pose.orientation.y = 0.0;
+    msg.pose.orientation.z = 0.0;
+    msg.pose.orientation.w = 0.0;
     return msg;
   }();
   item1.req.goal_constraints.push_back(
@@ -107,12 +107,12 @@ int main(int argc, char** argv)
 
   // Set pose blend radius
   // For the last pose, it must be 0!
-  item2.blend_radius = 0;
+  item2.blend_radius = 0.0;
 
   // MotionSequenceItem configuration
   item2.req.group_name = PLANNING_GROUP;
   item2.req.planner_id = "LIN";
-  item2.req.allowed_planning_time = 5;
+  item2.req.allowed_planning_time = 5.0;
   item2.req.max_velocity_scaling_factor = 0.1;
   item2.req.max_acceleration_scaling_factor = 0.1;
 
@@ -124,9 +124,9 @@ int main(int argc, char** argv)
     msg.pose.position.y = -0.2;
     msg.pose.position.z = 0.8;
     msg.pose.orientation.x = 1.0;
-    msg.pose.orientation.y = 0;
-    msg.pose.orientation.z = 0;
-    msg.pose.orientation.w = 0;
+    msg.pose.orientation.y = 0.0;
+    msg.pose.orientation.z = 0.0;
+    msg.pose.orientation.w = 0.0;
     return msg;
   }();
   item2.req.goal_constraints.push_back(
@@ -231,7 +231,7 @@ int main(int argc, char** argv)
   // Planning options
   goal_msg.planning_options.planning_scene_diff.is_diff = true;
   goal_msg.planning_options.planning_scene_diff.robot_state.is_diff = true;
-  // goal_msg.planning_options.plan_only = true;
+  // goal_msg.planning_options.plan_only = true; // Uncomment to only plan the trajectory
 
   // Goal response callback
   auto send_goal_options = rclcpp_action::Client<MoveGroupSequence>::SendGoalOptions();
@@ -271,13 +271,6 @@ int main(int argc, char** argv)
         break;
     }
     RCLCPP_INFO(LOGGER, "Result received");
-  };
-
-  // Feedback callback
-  // It does not show the state of the sequence, but the state of the robot: PLANNING, MONITOR, IDLE
-  send_goal_options.feedback_callback = [](GoalHandleMoveGroupSequence::SharedPtr,
-                                           const std::shared_ptr<const GoalHandleMoveGroupSequence::Feedback> feedback) {
-    RCLCPP_INFO(LOGGER, "Feedback: %s", feedback->state.c_str());
   };
 
   // Send the action goal

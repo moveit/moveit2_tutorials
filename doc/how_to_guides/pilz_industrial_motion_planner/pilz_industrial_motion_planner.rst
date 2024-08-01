@@ -486,10 +486,10 @@ Then, the request is created:
     service_request->request.items.push_back(item1);
     service_request->request.items.push_back(item2);
 
-Service call and response. The method ``future.wait_for(timeout_duration)`` waits for the
-result to become available. The method blocks until specified ``timeout_duration`` has elapsed or the
-result becomes available, whichever comes first. The return value identifies the state of
-the result. This is perform every 1 seconds until the future is ready.
+Once the service call is completed, the method ``future.wait_for(timeout_duration)`` blocks until 
+a specified ``timeout_duration`` has elapsed or the result becomes available, whichever comes 
+first. The return value identifies the state of the result. This is performed every second 
+until the future is ready.
 
 
 ::
@@ -589,7 +589,7 @@ Then, the request is created:
     sequence_request.items.push_back(item1);
     sequence_request.items.push_back(item2);
 
-Create goal and planning options. A goal response callback and result callback can be included as well.
+The goal and planning options are configured. A goal response callback and result callback can be included as well.
 
 ::
 
@@ -600,7 +600,7 @@ Create goal and planning options. A goal response callback and result callback c
     // Planning options
     goal_msg.planning_options.planning_scene_diff.is_diff = true;
     goal_msg.planning_options.planning_scene_diff.robot_state.is_diff = true;
-    // goal_msg.planning_options.plan_only = true;
+    // goal_msg.planning_options.plan_only = true; // Uncomment to only plan the trajectory
 
 Finally, send the goal request and wait for the response:
 
