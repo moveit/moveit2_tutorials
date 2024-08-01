@@ -486,9 +486,9 @@ Then, the request is created:
     service_request->request.items.push_back(item1);
     service_request->request.items.push_back(item2);
 
-Once the service call is completed, the method ``future.wait_for(timeout_duration)`` blocks until 
-a specified ``timeout_duration`` has elapsed or the result becomes available, whichever comes 
-first. The return value identifies the state of the result. This is performed every second 
+Once the service call is completed, the method ``future.wait_for(timeout_duration)`` blocks until
+a specified ``timeout_duration`` has elapsed or the result becomes available, whichever comes
+first. The return value identifies the state of the result. This is performed every second
 until the future is ready.
 
 
