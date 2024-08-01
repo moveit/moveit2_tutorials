@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1.3
 
 ARG ROS_DISTRO=rolling
-ARG GZ_VERSION=8
+ARG GZ_VERSION=harmonic
 
 ######################### Tutorial Image  #################################################
 
@@ -52,7 +52,7 @@ COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/launch src/mtc_
 RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
     wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add - && \
     sudo apt update && \
-    sudo apt-get install -y "libgz-sim${GZ_VERSION}-dev"
+    sudo apt-get install -y "gz-${GZ_VERSION}"
 
 # Add install(DIRECTORY launch  DESTINATION share/${PROJECT_NAME}) to CMakeLists.txt
 RUN sed -i "s|ament_package()|install(DIRECTORY launch  DESTINATION share/\${PROJECT_NAME})\nament_package()|g" src/mtc_tutorial/CMakeLists.txt
