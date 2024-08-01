@@ -439,7 +439,7 @@ creates two target poses that will be reached sequentially.
     // MotionSequenceItem configuration
     item1.req.group_name = PLANNING_GROUP;
     item1.req.planner_id = "LIN";
-    item1.req.allowed_planning_time = 5;
+    item1.req.allowed_planning_time = 5.0;
     item1.req.max_velocity_scaling_factor = 0.1;
     item1.req.max_acceleration_scaling_factor = 0.1;
 
@@ -456,9 +456,9 @@ creates two target poses that will be reached sequentially.
        msg.pose.position.y = -0.2;
        msg.pose.position.z = 0.6;
        msg.pose.orientation.x = 1.0;
-       msg.pose.orientation.y = 0;
-       msg.pose.orientation.z = 0;
-       msg.pose.orientation.w = 0;
+       msg.pose.orientation.y = 0.0;
+       msg.pose.orientation.z = 0.0;
+       msg.pose.orientation.w = 0.0;
        return msg;
     } ();
     item1.req.goal_constraints.push_back(kinematic_constraints::constructGoalConstraints("panda_link8", target_pose_item1));
