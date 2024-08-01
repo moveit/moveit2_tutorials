@@ -391,16 +391,16 @@ trajectory for a ``moveit_msgs::msg::MotionSequenceRequest``.
 The trajectory is returned and not executed.
 
 To use the ``MoveGroupSequenceService`` and the ``MoveGroupSequenceAction``, refer to the :codedir:`Pilz Motion Planner sequence example <how_to_guides/pilz_industrial_motion_planner/src/pilz_sequence.cpp>`.
-To run this, execute the following commands in separate Terminals:
+To run this, execute the following commands in separate terminals:
 
 ::
 
     ros2 launch moveit2_tutorials pilz_moveit.launch.py
     ros2 run moveit2_tutorials pilz_sequence
 
-For this service and action, the move_group launch file needs to be modify to include these Pilz Motion Planner capabilities.
+For this service and action, the move_group launch file needs to be modified to include these Pilz Motion Planner capabilities.
 The new
-:codedir:`the pilz_moveit.launch.py <how_to_guides/pilz_industrial_motion_planner/launch/pilz_moveit.launch.py>`
+:codedir:`pilz_moveit.launch.py <how_to_guides/pilz_industrial_motion_planner/launch/pilz_moveit.launch.py>`
 is used instead:
 
 ::
@@ -425,7 +425,7 @@ is used instead:
 
 The
 :codedir:`pilz_sequence.cpp file <how_to_guides/pilz_industrial_motion_planner/src/pilz_sequence.launch.py>`
-creates 2 target poses that will be reached sequentially.
+creates two target poses that will be reached sequentially.
 
 ::
 
@@ -487,7 +487,7 @@ Then, the request is created:
     service_request->request.items.push_back(item2);
 
 Service call and response. The method ``future.wait_for(timeout_duration)`` waits for the
-result to become available. Blocks until specified ``timeout_duration`` has elapsed or the
+result to become available. The method blocks until specified ``timeout_duration`` has elapsed or the
 result becomes available, whichever comes first. The return value identifies the state of
 the result. This is perform every 1 seconds until the future is ready.
 
@@ -546,7 +546,7 @@ The future response is read with the ``future.get()`` method.
        return 0;
     }
 
-In this case, the planned trajectory is drawn. Here is a comparison of a blend radius of 0 and 0.1 for the first and second trajectory respectively.
+In this case, the planned trajectory is drawn. Here is a comparison of a blend radius of 0 and 0.1 for the first and second trajectory, respectively.
 
 .. figure:: trajectory_comparison.jpeg
    :alt: trajectory comparison
