@@ -85,7 +85,7 @@ jobs:
       run: tar cvzf artifact.tar.gz --directory=build/html .
 
     - name: Upload HTML Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: '${{ matrix.branch }}_html_artifacts'
         path: artifact.tar.gz
@@ -117,7 +117,7 @@ jobs:
 
     # TODO (peterdavidfagan): don't hardcode branches for downloads
     - name: Download Rolling Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: main_html_artifacts
         path: .
@@ -129,7 +129,7 @@ jobs:
         rm artifact.tar.gz
 
     - name: Download Humble Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: humble_html_artifacts
         path: .
@@ -151,7 +151,7 @@ jobs:
         cp -rf python_api/ build/html/main/doc/api/   # restore artifact html
 
     - name: Upload pages artifact
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v4
       if: github.repository_owner == 'moveit'
       with:
         path: build/html
