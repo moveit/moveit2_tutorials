@@ -43,7 +43,7 @@ For the commands in Shell 2, we must save both camera topics and tf topics due t
 
 By the way, you can also use :codedir:`this rviz file <examples/perception_pipeline/rviz2/depth_camera_environment.rviz>` on Github to visualize poincloud topics in rviz.
 
-In next step, it will be used this recorded bag file for octomap creation.
+In next step, we will use the recorded bag file to create an octomap.
 
 
 Configuration For 3D Sensors
