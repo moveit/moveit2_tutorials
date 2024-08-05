@@ -59,7 +59,7 @@ For tutorials you will need to have a :ros_documentation:`colcon <Tutorials/Colc
 
 Download Source Code of MoveIt and the Tutorials
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Move into your Colcon workspace and pull the MoveIt tutorials source: ::
+Move into your Colcon workspace and pull the MoveIt tutorials source, where ``<branch>`` can be e.g. ``humble`` for ROS Humble, or ``main`` for the latest version of the tutorials : ::
 
   cd ~/ws_moveit/src
   git clone https://github.com/moveit/moveit2_tutorials
@@ -73,6 +73,10 @@ You can just press Enter until it moves on (ignore the "Authentication failed" e
 
 Build your Colcon Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+First remove all previously installed moveit binaries: ::
+
+  sudo apt remove ros-$ROS_DISTRO-moveit*
+
 The following will install from Debian any package dependencies not already in your workspace.
 This is the step that will install MoveIt and all of its dependencies: ::
 
