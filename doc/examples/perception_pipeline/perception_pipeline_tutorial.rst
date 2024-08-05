@@ -15,7 +15,7 @@ Once properly configured, you should see something like this in rviz:
 
 Getting Started
 ---------------
-Even though you haven't completed :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` ever, you can still run this tutorial's demo. Whereas, it is suggested to start with steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` for understanding what's going on in this tutorial.
+Even though you haven't completed :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` ever, you can still run this tutorial's demo. But, it is suggested to start with steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` for better understanding what's going on in this tutorial.
 
 Get The Necessary 3D Pointcloud Data For Octomap Creation
 ---------------------------------------------------------
