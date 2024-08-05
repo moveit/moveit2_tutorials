@@ -25,7 +25,7 @@ Example code
 
   auto current_state = std::make_unique<moveit::task_constructor::stages::CurrentState>("current_state");
 
-`API doc for CurrentState <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1CurrentState.html>`_.
+`API doc for CurrentState <https://moveit.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1CurrentState.html>`_.
 
 FixedState
 ----------
@@ -49,7 +49,7 @@ FixedState
   auto initial = std::make_unique<stages::FixedState>();
   initial->setState(scene);
 
-`API doc for FixedState <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1FixedState.html>`_.
+`API doc for FixedState <https://moveit.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1FixedState.html>`_.
 
 Monitoring Generators
 ---------------------
@@ -96,7 +96,7 @@ GenerateGraspPose
      - Grasp pose
 
 Refer the API docs for the latest state of code.
-`API doc for GenerateGraspPose <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1GenerateGraspPose.html>`_.
+`API doc for GenerateGraspPose <https://moveit.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1GenerateGraspPose.html>`_.
 
 Example code
 
@@ -136,7 +136,7 @@ Example code
   stage->setPose(p);
   stage->setMonitoredStage(pick_stage_ptr);  // hook into successful pick solutions
 
-`API doc for GeneratePlacePose <https://ros-planning.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1GeneratePlacePose.html>`_.
+`API doc for GeneratePlacePose <https://moveit.github.io/moveit_task_constructor/_static/classmoveit_1_1task__constructor_1_1stages_1_1GeneratePlacePose.html>`_.
 
 
 GenerateRandomPose

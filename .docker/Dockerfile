@@ -1,12 +1,15 @@
 # syntax = docker/dockerfile:1.3
 
 ARG ROS_DISTRO=rolling
+ARG GZ_VERSION=harmonic
 
 ######################### Tutorial Image  #################################################
 
 FROM moveit/moveit2:${ROS_DISTRO}-source as tutorial_image
 
 LABEL org.opencontainers.image.description "This container has working versions of the tutorials discussed here: https://moveit.picknik.ai/main/doc/tutorials/tutorials.html"
+
+ARG GZ_VERSION
 
 # Copy sources from docker context
 COPY . src/moveit2_tutorials
@@ -44,6 +47,12 @@ COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/src/mtc_node.cp
 
 # Add the launch folder to the tutorial package and CMakeLists.txt
 COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/launch src/mtc_tutorial/launch
+
+# Install Gazebo, which is needed by some dependencies.
+RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
+    wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add - && \
+    sudo apt update && \
+    sudo apt-get install -y "gz-${GZ_VERSION}"
 
 # Add install(DIRECTORY launch  DESTINATION share/${PROJECT_NAME}) to CMakeLists.txt
 RUN sed -i "s|ament_package()|install(DIRECTORY launch  DESTINATION share/\${PROJECT_NAME})\nament_package()|g" src/mtc_tutorial/CMakeLists.txt
