@@ -15,7 +15,7 @@ Requirements
 - Ubuntu 20.04
 - ROS 2 Galactic
 - Docker
-- A colcon workspace with a copy of `the moveit2_tutorials repo <https://github.com/ros-planning/moveit2_tutorials>`_ (if you don't already have one, :doc:`/doc/tutorials/getting_started/getting_started` will walk you through the process of creating one).
+- A colcon workspace with a copy of `the moveit2_tutorials repo <https://github.com/moveit/moveit2_tutorials>`_ (if you don't already have one, :doc:`/doc/tutorials/getting_started/getting_started` will walk you through the process of creating one).
 
 Steps
 -----
@@ -40,7 +40,20 @@ Steps
 
 2. Test for broken links
 
-  To test for broken links run this command:
+  To test for broken links, run the ``htmlproofer`` script. Note that running this script may require you to install some Python dependencies. If using ``pip`` to install these dependencies, you may want to create a virtual environment.
+
+  .. code-block:: bash
+
+    python3 -m venv .venv
+    source .venv/bin/activate
+
+  You can then install requirements using ``pip``:
+
+  .. code-block:: bash
+
+    pip3 install --upgrade --requirement requirements.txt
+
+  You can run the ``htmlproofer`` script with this command:
 
   .. code-block:: bash
 

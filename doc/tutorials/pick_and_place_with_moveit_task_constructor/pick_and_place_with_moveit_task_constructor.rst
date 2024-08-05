@@ -7,7 +7,7 @@ Pick and Place with MoveIt Task Constructor
         MoveIt Task Constructor Pick and Place example
     </video>
 
-This tutorial will walk you through creating a package that plans a pick and place operation using `MoveIt Task Constructor <https://github.com/ros-planning/moveit_task_constructor/tree/ros2/>`_. MoveIt Task Constructor provides a way to plan for tasks that consist of multiple different subtasks (known as stages). If you just want to run the tutorial, you can follow the :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>` to start a container with the completed tutorial.
+This tutorial will walk you through creating a package that plans a pick and place operation using `MoveIt Task Constructor <https://github.com/moveit/moveit_task_constructor/tree/ros2/>`_. MoveIt Task Constructor provides a way to plan for tasks that consist of multiple different subtasks (known as stages). If you just want to run the tutorial, you can follow the :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>` to start a container with the completed tutorial.
 
 1 Basic Concepts
 ----------------
@@ -61,7 +61,7 @@ If you haven't already done so, make sure you've completed the steps in :doc:`Ge
 Move into your colcon workspace and pull the MoveIt Task Constructor source: ::
 
     cd ~/ws_moveit/src
-    git clone git@github.com:ros-planning/moveit_task_constructor.git -b ros2
+    git clone git@github.com:moveit/moveit_task_constructor.git -b ros2
 
 3 Trying It Out
 ------------------
@@ -73,8 +73,8 @@ For all demos you should launch the basic environment: ::
 
 Subsequently, you can run the individual demos: ::
 
-  ros2 run moveit_task_constructor_demo cartesian.launch.py
-  ros2 run moveit_task_constructor_demo modular.launch.py
+  ros2 launch moveit_task_constructor_demo cartesian.launch.py
+  ros2 launch moveit_task_constructor_demo modular.launch.py
   ros2 launch moveit_task_constructor_demo pickplace.launch.py
 
 On the right side you should see the **Motion Planning Tasks** panel outlining the hierarchical stage structure of the tasks.
@@ -987,4 +987,4 @@ It also initializes a ``PlanningScene`` object, capturing any collision objects 
 MTC stages can be propagated in forward and backward order.
 You can easily check which direction a stage propagates by the arrow in the RViz GUI.
 When propagating backwards, the logic of many operations is reversed.
-For example, to allow collisions with an object in a ``ModifyPlanningScene`` stage, you would call ``allowCollisions(false)`` rather than ``allowCollisions(true)``. There is a discussion to be read `here. <https://github.com/ros-planning/moveit_task_constructor/issues/349>`_
+For example, to allow collisions with an object in a ``ModifyPlanningScene`` stage, you would call ``allowCollisions(false)`` rather than ``allowCollisions(true)``. There is a discussion to be read `here. <https://github.com/moveit/moveit_task_constructor/issues/349>`_

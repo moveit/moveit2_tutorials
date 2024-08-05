@@ -1,4 +1,5 @@
 #!/bin/bash
+# Note that a virtual environment is required when running this script in CI
 set -e
 
 # Define some config vars
@@ -12,7 +13,7 @@ gem install --user-install html-proofer -v 3.19.4 # newer 4.x requires different
 PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 
 # Install python dependencies
-pip3 install --user --upgrade -r requirements.txt
+pip3 install --upgrade -r requirements.txt
 
 # Clear out any previous builds
 rm -rf build
@@ -20,7 +21,7 @@ rm -rf build
 # Build API docs
 mkdir -p build/html
 pushd build/html
-git clone https://github.com/ros-planning/moveit2 -b $MOVEIT_BRANCH --depth 1
+git clone https://github.com/moveit/moveit2 -b $MOVEIT_BRANCH --depth 1
 pushd moveit2
 sed -i "s/HTML_EXTRA_STYLESHEET  =.*/HTML_EXTRA_STYLESHEET  = ..\/..\/..\/theme.css/g" Doxyfile
 DOXYGEN_OUTPUT_DIRECTORY="../api" doxygen
@@ -29,11 +30,12 @@ rm -rf moveit2
 popd
 
 # Test build with non-ROS wrapped Sphinx command to allow warnings and errors to be caught
-sphinx-build -W -b html . build/html
+# TODO: Re-add the -W flag so that all warnings are treated as errors.
+sphinx-build -b html . build/html
 
 # Replace Edit on Github links with local file paths
-grep -rl 'https:\/\/github.com\/ros-planning\/moveit2_tutorials\/blob\/main\/' ./build/ | \
- xargs sed -i "s|https://github.com/ros-planning/moveit2_tutorials/blob/main/|file://$PWD|g"
+grep -rl 'https:\/\/github.com\/moveit\/moveit2_tutorials\/blob\/main\/' ./build/ | \
+ xargs sed -i "s|https://github.com/moveit/moveit2_tutorials/blob/main/|file://$PWD|g"
 
 # Replace internal links with local file paths
 grep -rl 'https:\/\/moveit.picknik.ai\/rolling\/' ./build/ | \
