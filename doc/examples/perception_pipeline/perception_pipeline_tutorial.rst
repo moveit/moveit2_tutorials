@@ -3,7 +3,8 @@ Perception Pipeline Tutorial
 
 Introduction
 ------------
-MoveIt serves sensor plugins for utilizing 3D sensor data in planning pipeline. When it's ran the demo of this tutorial, it should be seen the following rviz screen.
+MoveIt allows for seamless integration of 3D sensors using `Octomap <http://octomap.github.io/>`_.
+Once properly configured, you should see something like this in rviz:
 
 .. raw:: html
 
