@@ -9,7 +9,7 @@
  * Pilz Example -- MoveGroup Interface
  *
  * To run this example, first run this launch file:
- * ros2 launch moveit_resources_panda_moveit_config demo.launch.py
+ * ros2 launch moveit2_tutorials pilz_moveit.launch.py
  *
  * For best results, hide the "MotionPlanning" widget in RViz.
  *
