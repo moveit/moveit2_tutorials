@@ -22,9 +22,12 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Install Python dependencies
+      shell: bash
       run: |
         sudo apt-get update -y
-        sudo apt-get install -y python3-pip
+        sudo apt-get install -y python3-pip python3-venv
+        python3 -m venv .venv
+        source .venv/bin/activate
         pip3 install --upgrade --requirement requirements.txt
 
     - name: Install doxygen and graphviz
@@ -39,6 +42,7 @@ jobs:
       run: |
         source /opt/ros/rolling/setup.bash
         source /root/ws_moveit/install/setup.bash
+        source .venv/bin/activate
         ./htmlproofer.sh
 
   upload_site_artifacts:
@@ -58,9 +62,12 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Install Python dependencies
+      shell: bash
       run: |
         sudo apt-get update -y
-        sudo apt-get install -y python3-pip
+        sudo apt-get install -y python3-pip python3-venv
+        python3 -m venv .venv
+        source .venv/bin/activate
         pip3 install --upgrade --requirement requirements.txt
 
     - name: Install doxygen and graphviz
@@ -71,6 +78,7 @@ jobs:
       run: |
         source /opt/ros/${{ matrix.rosdistro }}/setup.bash
         source /root/ws_moveit/install/setup.bash
+        source .venv/bin/activate
         make generate_api_artifacts BRANCH=${{ matrix.branch }}
 
     - name: Compress Artifact
@@ -109,7 +117,7 @@ jobs:
 
     # TODO (peterdavidfagan): don't hardcode branches for downloads
     - name: Download Rolling Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: main_html_artifacts
         path: .
@@ -121,7 +129,7 @@ jobs:
         rm artifact.tar.gz
 
     - name: Download Humble Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: humble_html_artifacts
         path: .
@@ -143,7 +151,7 @@ jobs:
         cp -rf python_api/ build/html/main/doc/api/   # restore artifact html
 
     - name: Upload pages artifact
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v4
       if: github.repository_owner == 'moveit'
       with:
         path: build/html

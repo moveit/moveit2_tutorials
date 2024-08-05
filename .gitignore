@@ -7,5 +7,6 @@ build
 Gemfile
 native_build
 *.gdb
+.venv
 # For local rst builds
 _build/
