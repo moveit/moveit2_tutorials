@@ -4,6 +4,9 @@ Perception Pipeline Tutorial
 Introduction
 ------------
 MoveIt allows for seamless integration of 3D sensors using `Octomap <http://octomap.github.io/>`_.
+
+
+
 Once properly configured, you should see something like this in rviz:
 
 .. raw:: html
@@ -15,11 +18,14 @@ Once properly configured, you should see something like this in rviz:
 
 Getting Started
 ---------------
-Even though you haven't completed :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` ever, you can still run this tutorial's demo. But, it is suggested to start with steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` for better understanding what's going on in this tutorial.
+Even though you haven't completed :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` ever, you can still run this tutorial's demo. But, it is suggested to start with steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` for better understanding what's going on in this tutorial. In this section, we will walk through configuring the 3D sensors on your robot with MoveIt. The primary component in MoveIt that deals with 3D perception is the Occupancy Map Updater. The updater uses a plugin architecture to process different types of input. The currently available plugins in MoveIt are:
+
+* The PointCloud Occupancy Map Updater: which can take as input point clouds (``sensor_msgs/msg/PointCloud2``)
+* The Depth Image Occupancy Map Updater: which can take as input Depth Images (``sensor_msgs/msg/Image``)
 
 How to create 3D Pointcloud Data for Octomap Creation
 ---------------------------------------------------------
-In this tutorial, you can use `previously recorded 3D pointcloud data <https://drive.google.com/file/d/1fPtDAtJKIiw2gpFOOwA2TrPZOfFU053W/view?usp=sharing>`_ or you can record your own bag file. For recording bag, firstly, it can be both run ``depth_camera_envrionment.launch.py`` and recorded bag using following commands.
+In this tutorial, you can use `previously recorded 3D pointcloud data <https://drive.google.com/file/d/1fPtDAtJKIiw2gpFOOwA2TrPZOfFU053W/view?usp=sharing>`_ or you can record your own bag file. For recording bag, firstly, we can run ``depth_camera_envrionment.launch.py`` file and then record the bag using following commands.
 
 In shell 1, run this command: ::
 
@@ -48,7 +54,12 @@ In next step, we will use the recorded bag file to create an octomap.
 
 Configuration For 3D Sensors
 ----------------------------
-Now whatever you get bag file, you will see ``/camera_1/points``, ``/camera_2/points``, ``/tf`` and ``/tf_static`` in both way when played bag file. It should be created following config file for MoveIt to process these pointcloud topics in planning pipeline. You can also go to :codedir:`here <examples/perception_pipeline/config/sensors_3d.yaml>` for seeing all ``sensors_3d.yaml`` config file on Github.
+MoveIt uses an octree-based framework to represent the world around it. The *Octomap* parameters above are configuration parameters for this representation:
+    * *octomap_frame*: specifies the coordinate frame in which this representation will be stored. If you are working with a mobile robot, this frame should be a fixed frame in the world. We can set this frame for plugin by frame_id field of ros messages like pointcloud and image topic.
+    * *octomap_resolution*: specifies the resolution at which this representation is maintained (in meters).
+    * *max_range*: specifies the maximum range value to be applied for any sensor input to this node.
+
+Now we will see ``/camera_1/points``, ``/camera_2/points``, ``/tf`` and ``/tf_static`` when playing bag file. We should create the following config file for MoveIt to process these pointcloud topics in planning pipeline. You can also go to :codedir:`here <examples/perception_pipeline/config/sensors_3d.yaml>` to see all ``sensors_3d.yaml`` config file on Github.
 
 .. tutorial-formatter:: config/sensors_3d.yaml
 
@@ -75,6 +86,27 @@ sensors_3d.yaml: ::
         padding_scale: 1.0
         max_update_rate: 1.0
         filtered_cloud_topic: /camera_2/filtered_points
+
+The general parameters are:
+
+* *sensor_plugin*: The name of the plugin that we are using.
+
+* *max_update_rate*: The octomap representation will be updated at rate less than or equal to this value.
+
+Parameters specific to the Point cloud updater are:
+
+* *point_cloud_topic*: This specifies the topic to listen on for a point cloud.
+
+* *max_range*: (in m) Points further than this will not be used.
+
+* *point_subsample*: Choose one of every point_subsample points.
+
+* *padding_offset*: The size of the padding (in cm).
+
+* *padding_scale*: The scale of the padding.
+
+* *filtered_cloud_topic*: The topic on which the filtered cloud will be published (mainly for debugging). The filtering cloud is the resultant cloud after self-filtering has been performed.
+
 
 Running Demo
 ------------
