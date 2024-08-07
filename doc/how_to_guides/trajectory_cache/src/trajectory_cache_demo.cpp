@@ -88,12 +88,19 @@
 #include <thread>
 
 #include <moveit/move_group_interface/move_group_interface.h>
+#include <moveit/trajectory_cache/cache_insert_policies/cache_insert_policy_interface.hpp>
+#include <moveit/trajectory_cache/features/constant_features.hpp>
+#include <moveit/trajectory_cache/features/features_interface.hpp>
 #include <moveit/trajectory_cache/trajectory_cache.hpp>
+#include <moveit/trajectory_cache/utils/utils.hpp>
 
 #include <moveit_msgs/msg/attached_collision_object.hpp>
 #include <moveit_msgs/msg/collision_object.hpp>
 #include <moveit_msgs/msg/display_robot_state.hpp>
 #include <moveit_msgs/msg/display_trajectory.hpp>
+#include <moveit_msgs/msg/motion_plan_request.hpp>
+#include <moveit_msgs/msg/robot_trajectory.hpp>
+#include <moveit_msgs/srv/get_cartesian_path.hpp>
 
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
@@ -107,6 +114,18 @@ namespace  // Helpers.
 namespace rvt = rviz_visual_tools;
 
 using TrajectoryCacheEntryPtr = warehouse_ros::MessageWithMetadata<moveit_msgs::msg::RobotTrajectory>::ConstPtr;
+
+using MotionPlanCacheInsertPolicy =
+    moveit_ros::trajectory_cache::CacheInsertPolicyInterface<moveit_msgs::msg::MotionPlanRequest,
+                                                             moveit::planning_interface::MoveGroupInterface::Plan,
+                                                             moveit_msgs::msg::RobotTrajectory>;
+
+using CartesianCacheInsertPolicy =
+    moveit_ros::trajectory_cache::CacheInsertPolicyInterface<moveit_msgs::srv::GetCartesianPath::Request,
+                                                             moveit_msgs::srv::GetCartesianPath::Response,
+                                                             moveit_msgs::msg::RobotTrajectory>;
+
+using CartesianFeatures = moveit_ros::trajectory_cache::FeaturesInterface<moveit_msgs::srv::GetCartesianPath::Request>;
 
 static const size_t N_MOTION_PLANS_PER_ITERATION = 10;
 static const double MIN_EXECUTABLE_FRACTION = 0.95;
@@ -234,6 +253,10 @@ void vizCachedTrajectories(moveit_visual_tools::MoveItVisualTools& visual_tools,
     bool found_exclude = false;
     for (const auto& exclude_trajectory : exclude_trajectories)
     {
+      if (!exclude_trajectory)
+      {
+        continue;
+      }
       if (*exclude_trajectory == *cached_trajectory)
       {
         found_exclude = true;
@@ -281,10 +304,13 @@ void vizAllCachedMotionPlanTrajectories(moveit_visual_tools::MoveItVisualTools& 
                                         const std::vector<TrajectoryCacheEntryPtr>& exclude_trajectories = {})
 {
   // We do this in a very hacky way, by specifying a ridiculously high tolerance and removing all constraints.
-  for (const auto& cached_trajectory :
-       trajectory_cache.fetchAllMatchingTrajectories(move_group, /*cache_namespace=*/PLANNING_GROUP,
-                                                     /*plan_request=*/motion_plan_request_msg, /*start_tolerance=*/9999,
-                                                     /*goal_tolerance=*/9999))
+  for (const auto& cached_trajectory : trajectory_cache.fetchAllMatchingTrajectories(
+           move_group, /*cache_namespace=*/PLANNING_GROUP,
+           /*plan_request=*/motion_plan_request_msg,
+           /*features=*/
+           moveit_ros::trajectory_cache::TrajectoryCache::getDefaultFeatures(/*start_tolerance=*/9999,
+                                                                             /*goal_tolerance=*/9999),
+           /*sort_by=*/moveit_ros::trajectory_cache::TrajectoryCache::getDefaultSortFeature()))
   {
     bool found_exclude = false;
     for (const auto& exclude_trajectory : exclude_trajectories)
@@ -316,9 +342,12 @@ void vizAllCachedCartesianPlanTrajectories(moveit_visual_tools::MoveItVisualTool
   // We do this in a very hacky way, by specifying a ridiculously high tolerance and removing all constraints.
   for (const auto& cached_trajectory : trajectory_cache.fetchAllMatchingCartesianTrajectories(
            move_group, /*cache_namespace=*/PLANNING_GROUP,
-           /*plan_request=*/cartesian_plan_request_msg, /*min_fraction=*/0.0,
-           /*start_tolerance=*/9999,
-           /*goal_tolerance=*/9999))
+           /*plan_request=*/cartesian_plan_request_msg,
+           /*features=*/
+           moveit_ros::trajectory_cache::TrajectoryCache::getDefaultCartesianFeatures(/*start_tolerance=*/9999,
+                                                                                      /*goal_tolerance=*/9999,
+                                                                                      /*min_fraction=*/0.0),
+           /*sort_by=*/moveit_ros::trajectory_cache::TrajectoryCache::getDefaultSortFeature()))
   {
     bool found_exclude = false;
     for (const auto& exclude_trajectory : exclude_trajectories)
@@ -528,23 +557,24 @@ int main(int argc, char** argv)
 
   /** [TUTORIAL NOTE]
    *
-   * exact_match_precision:
+   * `exact_match_precision`:
    *   Tolerance for float precision comparison for what counts as an exact match.
    *
    *   An exact match is when:
    *     (candidate >= value - (exact_match_precision / 2)
    *      && candidate <= value + (exact_match_precision / 2))
    *
+   * When using the default cache features and default cache insert policy (which this demo does):
    *   Cache entries are matched based off their start and goal states (and other parameters),
    *
    *   And are considered "better" if they higher priority in the sorting order specified by
-   *  `sort_by` than exactly matching .
+   *   `sort_by` (execution time by default) than exactly matching entries.
    *
-   *   A cache entry is "exactly matching" if its parm are close enough to another cache entry.
+   *   A cache entry is "exactly matching" if its parameters are close enough to another cache entry.
    *   The tolerance for this depends on the `exact_match_precision` arg passed in the cache
    *   trajectory's init() method.
    *
-   * cartesian_max_step and cartesian_jump_threshold:
+   * `cartesian_max_step` and `cartesian_jump_threshold`:
    *   Used for constraining cartesian planning.
    */
   double exact_match_precision;
@@ -608,7 +638,7 @@ int main(int argc, char** argv)
   options.db_path = cache_db_host;
   options.db_port = cache_db_port;
   options.exact_match_precision = exact_match_precision;
-  options.num_additional_trajectories_to_preserve_when_deleting_worse = 0;
+  options.num_additional_trajectories_to_preserve_when_pruning_worse = 0;
 
   if (!trajectory_cache.init(options))
   {
@@ -655,8 +685,14 @@ int main(int argc, char** argv)
   // Main loop. ====================================================================================
 
   moveit_msgs::msg::MotionPlanRequest to_target_motion_plan_request_msg;
-  moveit_msgs::srv::GetCartesianPath::Request cartesian_path_request_msg;
+  moveit_msgs::srv::GetCartesianPath::Request cartesian_path_request;
   moveit_msgs::msg::MotionPlanRequest to_home_motion_plan_request_msg;
+
+  std::unique_ptr<MotionPlanCacheInsertPolicy> default_cache_insert_policy =
+      moveit_ros::trajectory_cache::TrajectoryCache::getDefaultCacheInsertPolicy();
+
+  std::unique_ptr<CartesianCacheInsertPolicy> default_cartesian_cache_insert_policy =
+      moveit_ros::trajectory_cache::TrajectoryCache::getDefaultCartesianCacheInsertPolicy();
 
   /** [TUTORIAL NOTE]
    *
@@ -679,7 +715,7 @@ int main(int argc, char** argv)
    * The executed plan will always be the best plan from the cache that matches the planning request
    * constraints, which will be from a plan in the current or prior iterations.
    *
-   * (In this case "best" means smallest execution time.)
+   * (In this case "best" means smallest execution time, by default.)
    *
    * CACHE CONVERGENCE
    * ^^^^^^^^^^^^^^^^^
@@ -721,39 +757,59 @@ int main(int argc, char** argv)
 
             /** [TUTORIAL NOTE]
              *
-             * It's good to use the execution time from the plan instead of the actual time, because
-             * real world conditions can change (e.g. if the robot loses power), which has no true
-             * bearing on the optimality of the plan.
-             */
-            double execution_time =
-                rclcpp::Duration(to_target_motion_plan.trajectory.joint_trajectory.points.back().time_from_start)
-                    .seconds();
-
-            /** [TUTORIAL NOTE]
-             *
              * For more information about how the cache works or the cache keying logic, see the
              * associated guide instead.
              *
-             * PUTTING MOTION PLANS
-             * ^^^^^^^^^^^^^^^^^^^^
-             * Cache entries are only put if they are the best seen so far amongst other exactly
-             * matching cache entries (i.e. all properties "exactly match").
+             * INSERTING MOTION PLANS
+             * ^^^^^^^^^^^^^^^^^^^^^^
+             * The TrajectoryCache inserts plans based off a CacheInsertPolicy that you can specify.
+             *
+             * You can specify what cache insert policy to use using the `cache_insert_policy`
+             * argument.
+             *
+             * The default policy inserts cache entries only if they have the best seen execution
+             * time so far amongst other exactly matching cache entries.
+             *
+             * You may obtain a reusable instance of the default policy to pass by calling the
+             * static `TrajectoryCache::getDefaultCacheInsertPolicy()` method.
+             *
+             * INSERT POLICIES AND FEATURES
+             * ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             * The cache insert policy you use also constrains what features you can use to fetch
+             * cache entries with. This is because the insert policy makes certain assumptions about
+             * what cache features to extract and append to the cache entry to key the entry on.
+             *
+             * Be sure to check what features the cache insert policy you use supports!
+             *
+             * This will be further discussed in a later section of this demo.
+             *
+             * Additionally, a user may decide to attach additional features using the
+             * `additional_features` field to append to the cache entry (provided it is also not
+             * covered by the cache insert policy used) for use in fetching.
              *
              * CACHE PRUNING
              * ^^^^^^^^^^^^^
-             * Related to this, EVEN IF A TRAJECTORY IT NOT PUT (i.e., if it is not the best seen so
-             * far), if `prune_worse_trajectories` is true, then if other exactly matching
-             * trajectories exist that are "worse" than it, then the cache will delete them.
+             * The cache insert policy selected also helps inform the cache for when an entry should
+             * be pruned. Pruning allows for the cache memory/storage usage to be reduced, and also
+             * reduces query time.
              *
-             * This allows for the cache memory/storage usage to be reduced, and also reduces query
-             * time.
+             * The default policy marks "worse" (in terms of best seen execution time) exactly
+             * matching cache entries for deletion, which the cache will use to execute cache
+             * pruning.
+             *
+             * The cache's `num_additional_trajectories_to_preserve_when_pruning_worse` option can
+             * be used to override the pruning behavior and preserve additional cache entries.
+             *
+             * NOTE:
+             *   Pruning still happens even if a trajectory was not inserted, as long as the
+             *   requirements for pruning are met.
              */
             trajectory_cache.insertTrajectory(  // Returns bool. True if put.
-                move_group, /*cache_namespace=*/PLANNING_GROUP, to_target_motion_plan_request_msg,
-                to_target_motion_plan.trajectory,
-                /*execution_time_s=*/execution_time,
-                /*planning_time_s=*/to_target_motion_plan.planning_time,
-                /*prune_worse_trajectories=*/reconfigurable_parameters.prune_worse_trajectories);
+                move_group, /*cache_namespace=*/PLANNING_GROUP, /*plan_request=*/to_target_motion_plan_request_msg,
+                /*plan=*/to_target_motion_plan,
+                /*cache_insert_policy=*/*default_cache_insert_policy,
+                /*prune_worse_trajectories=*/reconfigurable_parameters.prune_worse_trajectories,
+                /*additional_features=*/{});
           }
           else
           {
@@ -767,35 +823,72 @@ int main(int argc, char** argv)
          *
          * FETCHING PLANS
          * ^^^^^^^^^^^^^^
-         * The cache is keyed on the plan request message (and the robot state from the move group).
+         * The TrajectoryCache fetches plans based off a vector of Features of the plan request that
+         * you can specify. These cache features will be used to fuzzily fetch either all matching
+         * trajectories, or just the "best" one, sorted by some feature.
          *
-         * You can fetch either all matching trajectories, or just the best one, sorted by some
-         * cache DB column.
+         * You can specify what cache features to use to fetch and sort the fetched plans with using
+         * the `features` and `sort_by` arguments respectively.
+         *
+         * As mentioned in the previous section, you can only fetch an inserted plan using a subset
+         * of the features supported by the cache insert policy used to insert it (and/or any
+         * `additional_features` provided at time of insert).
+         *
+         * Using any features not used during insert will cause the cache entry to fail to match,
+         * and hence fail to be included in the returned fetch response.
+         *
+         * The default policy keys the entry on the plan request message (and the robot state from
+         * the move group), including details such as:
+         *   - Planning workspace
+         *   - Starting joint state
+         *   - Max velocity scaling, acceleration scaling, and cartesian speed
+         *   - Goal constraints
+         *   - Path constraints
+         *   - Trajectory constraints
+         *
+         * The default sort feature is execution time.
+         *
+         * You may obtain a reusable instance of the default features and sort feature to pass for
+         * given tolerances by calling the static `TrajectoryCache::getDefaultFeatures()` and
+         * `TrajectoryCache::getDefaultSortFeature()` methods respectively.
+         *
+         * The default features uses all the features supported by the default cache insert policy,
+         * and they are intended to be used together.
          *
          * MATCH TOLERANCES
          * ^^^^^^^^^^^^^^^^
-         * It is recommended to have a loose start_tolerance and a strict goal_tolerance.
+         * For the default cache features, it is recommended to have a loose `start_tolerance` and a
+         * stricter `goal_tolerance`.
          *
-         * This is because even if the manipulator is further away in configuration space from the
-         * first trajectory point, on execution of the trajectory, the manipulator will "snap" to
-         * the start any way.
+         * This is because, in most cases, the final position requested by a plan request is more
+         * important. Consider:
+         *   Even if the manipulator starts further away in configuration space than the first
+         *   trajectory point of a fetched trajectory, on execution of the trajectory, the manipulator
+         *   will "snap" to the start of the trajectory and follow it to the end point.
          *
-         * Whereas it is much more important that the cached trajectory's end point is close to the
+         * As such, the start tolerance is only important to make sure that the "snapping" of the
+         * manipulator to the start state of the fetched trajectory will be valid, whereas the goal
+         * tolerance is important to make sure that the manipulator actually ends up close to the
          * requested goal.
          */
         std::vector<TrajectoryCacheEntryPtr> matched_to_target_trajectories;
         matched_to_target_trajectories = trajectory_cache.fetchAllMatchingTrajectories(
             move_group, /*cache_namespace=*/PLANNING_GROUP, /*plan_request=*/to_target_motion_plan_request_msg,
-            reconfigurable_parameters.start_tolerance, reconfigurable_parameters.goal_tolerance,
-            /*metadata_only=*/false, /*sort_by=*/"execution_time_s", /*ascending=*/true);
+            /*features=*/
+            moveit_ros::trajectory_cache::TrajectoryCache::getDefaultFeatures(reconfigurable_parameters.start_tolerance,
+                                                                              reconfigurable_parameters.goal_tolerance),
+            /*sort_by=*/moveit_ros::trajectory_cache::TrajectoryCache::getDefaultSortFeature(), /*ascending=*/true,
+            /*metadata_only=*/false);
 
         TrajectoryCacheEntryPtr best_to_target_trajectory;
 
         auto best_to_target_fetch_start = move_group_node->now();
         best_to_target_trajectory = trajectory_cache.fetchBestMatchingTrajectory(
             move_group, /*cache_namespace=*/PLANNING_GROUP, /*plan_request=*/to_target_motion_plan_request_msg,
-            reconfigurable_parameters.start_tolerance, reconfigurable_parameters.goal_tolerance,
-            /*metadata_only=*/false, /*sort_by=*/"execution_time_s", /*ascending=*/true);
+            moveit_ros::trajectory_cache::TrajectoryCache::getDefaultFeatures(reconfigurable_parameters.start_tolerance,
+                                                                              reconfigurable_parameters.goal_tolerance),
+            /*sort_by=*/moveit_ros::trajectory_cache::TrajectoryCache::getDefaultSortFeature(), /*ascending=*/true,
+            /*metadata_only=*/false);
         auto best_to_target_fetch_end = move_group_node->now();
 
         if (matched_to_target_trajectories.empty() || !best_to_target_trajectory)
@@ -817,7 +910,7 @@ int main(int argc, char** argv)
                                            /*exclude=*/matched_to_target_trajectories);
 
         vizAllCachedCartesianPlanTrajectories(visual_tools, joint_model_group, trajectory_cache, move_group,
-                                              cartesian_path_request_msg, rvt::Colors::DARK_GREY,
+                                              cartesian_path_request, rvt::Colors::DARK_GREY,
                                               /*exclude=*/matched_to_target_trajectories);
 
         vizAllCachedMotionPlanTrajectories(visual_tools, joint_model_group, trajectory_cache, move_group,
@@ -857,46 +950,86 @@ int main(int argc, char** argv)
         // Plan and execute to target cartesian pose. ==============================================
 
         // Plan and Cache.
-        cartesian_path_request_msg = trajectory_cache.constructGetCartesianPathRequest(
+        cartesian_path_request = moveit_ros::trajectory_cache::constructGetCartesianPathRequest(
             move_group, { target_pose.pose, target_cartesian_pose.pose }, cartesian_max_step, cartesian_jump_threshold);
 
         // Cartesian plans are one-off, so we don't need to plan multiple times.
-        moveit_msgs::msg::RobotTrajectory cartesian_trajectory;
+        moveit_msgs::srv::GetCartesianPath::Response cartesian_path_response;
 
         auto cartesian_plan_start = move_group_node->now();
-        double fraction = move_group.computeCartesianPath(cartesian_path_request_msg.waypoints, cartesian_max_step,
-                                                          cartesian_jump_threshold, cartesian_trajectory);
+        cartesian_path_response.fraction =
+            move_group.computeCartesianPath(cartesian_path_request.waypoints, cartesian_max_step,
+                                            cartesian_jump_threshold, cartesian_path_response.solution);
         auto cartesian_plan_end = move_group_node->now();
 
-        if (fraction >= MIN_EXECUTABLE_FRACTION)
+        if (cartesian_path_response.fraction >= MIN_EXECUTABLE_FRACTION)
         {
-          double execution_time =
-              rclcpp::Duration(cartesian_trajectory.joint_trajectory.points.back().time_from_start).seconds();
+          /** [TUTORIAL NOTE]
+           *
+           * CARTESIAN PLANS
+           * ^^^^^^^^^^^^^^^
+           * The TrajectoryCache also supports inserting and fetching cartesian plans, with similar
+           * capabilities to pass user-specified cache insert policies and cache features.
+           *
+           * Just call the cartesian variants of the cache methods, and use the cartesian variants of
+           * the cache insert policies and cache features.
+           *
+           * For example:
+           *   - `TrajectoryCache::getDefaultCartesianCacheInsertPolicy()`
+           *   - `TrajectoryCache::getDefaultCartesianFeatures()`
+           *
+           * The default policy for cartesian plans keys the entry on the plan request message (and
+           * the robot state from the move group), including details such as:
+           *   - Planning workspace
+           *   - Starting joint state
+           *   - Max velocity scaling, acceleration scaling, and cartesian speed
+           *   - Max end effector step and jump thresholds
+           *   - Requested waypoints
+           *   - Path constraints
+           *
+           * ADDITIONAL FEATURES
+           * ^^^^^^^^^^^^^^^^^^^
+           * In this example we also add a custom user-specified feature for planning time, since that
+           * information is not found in the plan request or response to insert.
+           *
+           * Adding this feature will allow us to fetch and sort the cache entry we are inserting
+           * using the "planning_time_s" feature.
+           */
+          std::vector<std::unique_ptr<CartesianFeatures>> additional_features;
+          additional_features.push_back(
+              std::make_unique<
+                  moveit_ros::trajectory_cache::MetadataOnlyFeature<double, moveit_msgs::srv::GetCartesianPath::Request>>(
+                  "planning_time_s", (cartesian_plan_end - cartesian_plan_start).seconds()));
 
           trajectory_cache.insertCartesianTrajectory(  // Returns bool. True if put.
-              move_group, /*cache_namespace=*/PLANNING_GROUP, cartesian_path_request_msg, cartesian_trajectory,
-              /*execution_time_s=*/execution_time,
-              /*planning_time_s=*/(cartesian_plan_end - cartesian_plan_start).seconds(),
-              /*fraction=*/fraction,
-              /*prune_worse_trajectories=*/reconfigurable_parameters.prune_worse_trajectories);
+              move_group, /*cache_namespace=*/PLANNING_GROUP, cartesian_path_request, cartesian_path_response,
+              /*cache_insert_policy=*/*default_cartesian_cache_insert_policy,
+              /*prune_worse_trajectories=*/reconfigurable_parameters.prune_worse_trajectories,
+              /*additional_features=*/additional_features);
         }
 
         // Fetch.
         std::vector<TrajectoryCacheEntryPtr> matched_to_cartesian_trajectories;
         matched_to_cartesian_trajectories = trajectory_cache.fetchAllMatchingCartesianTrajectories(
-            move_group, /*cache_namespace=*/PLANNING_GROUP, /*plan_request=*/cartesian_path_request_msg,
-            /*min_fraction=*/MIN_EXECUTABLE_FRACTION, reconfigurable_parameters.start_tolerance,
-            reconfigurable_parameters.goal_tolerance, /*metadata_only=*/false, /*sort_by=*/"execution_time_s",
-            /*ascending=*/true);
+            move_group, /*cache_namespace=*/PLANNING_GROUP, /*plan_request=*/cartesian_path_request,
+            /*features=*/
+            moveit_ros::trajectory_cache::TrajectoryCache::getDefaultCartesianFeatures(
+                reconfigurable_parameters.start_tolerance, reconfigurable_parameters.goal_tolerance,
+                MIN_EXECUTABLE_FRACTION),
+            /*sort_by=*/moveit_ros::trajectory_cache::TrajectoryCache::getDefaultSortFeature(),
+            /*ascending=*/true, /*metadata_only=*/false);
 
         TrajectoryCacheEntryPtr best_to_cartesian_trajectory;
 
         auto best_to_cartesian_fetch_start = move_group_node->now();
         best_to_cartesian_trajectory = trajectory_cache.fetchBestMatchingCartesianTrajectory(
-            move_group, /*cache_namespace=*/PLANNING_GROUP, /*plan_request=*/cartesian_path_request_msg,
-            /*min_fraction=*/MIN_EXECUTABLE_FRACTION, reconfigurable_parameters.start_tolerance,
-            reconfigurable_parameters.goal_tolerance, /*metadata_only=*/false, /*sort_by=*/"execution_time_s",
-            /*ascending=*/true);
+            move_group, /*cache_namespace=*/PLANNING_GROUP, /*plan_request=*/cartesian_path_request,
+            /*features=*/
+            moveit_ros::trajectory_cache::TrajectoryCache::getDefaultCartesianFeatures(
+                reconfigurable_parameters.start_tolerance, reconfigurable_parameters.goal_tolerance,
+                MIN_EXECUTABLE_FRACTION),
+            /*sort_by=*/moveit_ros::trajectory_cache::TrajectoryCache::getDefaultSortFeature(),
+            /*ascending=*/true, /*metadata_only=*/false);
         auto best_to_cartesian_fetch_end = move_group_node->now();
 
         if (matched_to_cartesian_trajectories.empty() || !best_to_cartesian_trajectory)
@@ -924,7 +1057,7 @@ int main(int argc, char** argv)
                                            /*exclude=*/matched_to_cartesian_trajectories);
 
         vizAllCachedCartesianPlanTrajectories(visual_tools, joint_model_group, trajectory_cache, move_group,
-                                              cartesian_path_request_msg, rvt::Colors::WHITE,
+                                              cartesian_path_request, rvt::Colors::WHITE,
                                               /*exclude=*/matched_to_cartesian_trajectories);
 
         vizAllCachedMotionPlanTrajectories(visual_tools, joint_model_group, trajectory_cache, move_group,
@@ -941,7 +1074,8 @@ int main(int argc, char** argv)
         rclcpp::sleep_for(std::chrono::seconds(1));
 
         // Execute.
-        if (run_execute.load() && fraction >= MIN_EXECUTABLE_FRACTION)
+        if (run_execute.load() && best_to_cartesian_trajectory &&
+            best_to_cartesian_trajectory->lookupDouble("fraction") >= MIN_EXECUTABLE_FRACTION)
         {
           move_group.execute(*best_to_cartesian_trajectory);
         }
@@ -968,14 +1102,10 @@ int main(int argc, char** argv)
             visual_tools.publishTrajectoryLine(to_home_motion_plan.trajectory, joint_model_group,
                                                rvt::Colors::TRANSLUCENT_LIGHT);
 
-            double execution_time =
-                rclcpp::Duration(to_home_motion_plan.trajectory.joint_trajectory.points.back().time_from_start).seconds();
-
             trajectory_cache.insertTrajectory(  // Returns bool. True if put.
-                move_group, /*cache_namespace=*/PLANNING_GROUP, to_home_motion_plan_request_msg,
-                to_home_motion_plan.trajectory,
-                /*execution_time_s=*/execution_time,
-                /*planning_time_s=*/to_home_motion_plan.planning_time,
+                move_group, /*cache_namespace=*/PLANNING_GROUP, /*plan_request=*/to_home_motion_plan_request_msg,
+                /*plan=*/to_home_motion_plan,
+                /*cache_insert_policy=*/*default_cache_insert_policy,
                 /*prune_worse_trajectories=*/reconfigurable_parameters.prune_worse_trajectories);
           }
           else
@@ -989,16 +1119,22 @@ int main(int argc, char** argv)
         std::vector<TrajectoryCacheEntryPtr> matched_to_home_trajectories;
         matched_to_home_trajectories = trajectory_cache.fetchAllMatchingTrajectories(
             move_group, /*cache_namespace=*/PLANNING_GROUP, /*plan_request=*/to_home_motion_plan_request_msg,
-            reconfigurable_parameters.start_tolerance, reconfigurable_parameters.goal_tolerance,
-            /*metadata_only=*/false, /*sort_by=*/"execution_time_s", /*ascending=*/true);
+            /*features=*/
+            moveit_ros::trajectory_cache::TrajectoryCache::getDefaultFeatures(reconfigurable_parameters.start_tolerance,
+                                                                              reconfigurable_parameters.goal_tolerance),
+            /*sort_by=*/moveit_ros::trajectory_cache::TrajectoryCache::getDefaultSortFeature(), /*ascending=*/true,
+            /*metadata_only=*/false);
 
         TrajectoryCacheEntryPtr best_to_home_trajectory;
 
         auto best_to_home_fetch_start = move_group_node->now();
         best_to_home_trajectory = trajectory_cache.fetchBestMatchingTrajectory(
             move_group, /*cache_namespace=*/PLANNING_GROUP, /*plan_request=*/to_home_motion_plan_request_msg,
-            reconfigurable_parameters.start_tolerance, reconfigurable_parameters.goal_tolerance,
-            /*metadata_only=*/false, /*sort_by=*/"execution_time_s", /*ascending=*/true);
+            /*features=*/
+            moveit_ros::trajectory_cache::TrajectoryCache::getDefaultFeatures(reconfigurable_parameters.start_tolerance,
+                                                                              reconfigurable_parameters.goal_tolerance),
+            /*sort_by=*/moveit_ros::trajectory_cache::TrajectoryCache::getDefaultSortFeature(), /*ascending=*/true,
+            /*metadata_only=*/false);
         auto best_to_home_fetch_end = move_group_node->now();
 
         if (matched_to_home_trajectories.empty() || !best_to_home_trajectory)
@@ -1020,7 +1156,7 @@ int main(int argc, char** argv)
                                            /*exclude=*/matched_to_home_trajectories);
 
         vizAllCachedCartesianPlanTrajectories(visual_tools, joint_model_group, trajectory_cache, move_group,
-                                              cartesian_path_request_msg, rvt::Colors::DARK_GREY,
+                                              cartesian_path_request, rvt::Colors::DARK_GREY,
                                               /*exclude=*/matched_to_home_trajectories);
 
         vizAllCachedMotionPlanTrajectories(visual_tools, joint_model_group, trajectory_cache, move_group,

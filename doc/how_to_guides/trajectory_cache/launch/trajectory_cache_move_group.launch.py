@@ -3,10 +3,9 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess
-from launch.substitutions import LaunchConfiguration, TextSubstitution
-
+from launch.actions import ExecuteProcess, TimerAction
 from launch_ros.actions import Node
+
 from moveit_configs_utils import MoveItConfigsBuilder
 
 joint_limits_path = os.path.join(
@@ -108,8 +107,8 @@ def generate_launch_description():
             rviz_node,
             static_tf,
             robot_state_publisher,
-            run_move_group_node,
             ros2_control_node,
+            TimerAction(period=2.0, actions=[run_move_group_node]),
         ]
         + load_controllers
     )
