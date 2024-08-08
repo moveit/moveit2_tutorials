@@ -38,6 +38,7 @@
   <depend>tf2_ros</depend>
   <depend>moveit_task_constructor_core</depend>
   <depend>pick_ik</depend>
+  <depend>warehouse_ros_sqlite</depend>
 
   <build_depend>eigen</build_depend>
   <build_depend>geometric_shapes</build_depend>
