@@ -3,6 +3,8 @@ project(moveit2_tutorials)
 
 # Common cmake code applied to all moveit packages
 find_package(moveit_common REQUIRED)
+find_package(OpenSSL REQUIRED)
+
 moveit_package()
 
 set(THIS_PACKAGE_INCLUDE_DIRS
@@ -20,14 +22,14 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   moveit_ros_planning
   moveit_ros_planning_interface
   moveit_ros_trajectory_cache
-  moveit_servo
-  moveit_task_constructor_core
-  moveit_visual_tools
+ # moveit_servo
+ # moveit_task_constructor_core
+ # moveit_visual_tools
   pluginlib
   rclcpp
   rclcpp_action
-  rviz_visual_tools
-  tf2_geometry_msgs
+#  rviz_visual_tools
+#  tf2_geometry_msgs
   tf2_geometry_msgs
   tf2_ros
   warehouse_ros_sqlite
@@ -77,9 +79,6 @@ add_subdirectory(doc/tutorials/pick_and_place_with_moveit_task_constructor)
 add_subdirectory(doc/tutorials/quickstart_in_rviz)
 add_subdirectory(doc/how_to_guides/pick_ik)
 
-ament_export_dependencies(
-  ${THIS_PACKAGE_INCLUDE_DEPENDS}
-)
 
 ament_export_include_directories(include)
 
