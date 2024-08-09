@@ -414,12 +414,18 @@ void vizLegendText(moveit_visual_tools::MoveItVisualTools& visual_tools, const E
   static const std::string legend_text = []() {
     std::stringstream ss;
     ss << "[[LEGEND]]\n";
-    ss << "TRANSLUCENT:" << HAIR_SPACE << "planner_plans" << "\n";
-    ss << "GREY:" << HAIR_SPACE << "all_cached_plans" << "\n";
-    ss << "WHITE:" << HAIR_SPACE << "matchable_cached_plans" << "\n";
-    ss << "YELLOW:" << HAIR_SPACE << "matched_cached_plans" << "\n";
-    ss << "GREEN:" << HAIR_SPACE << "best_cached_plan" << "\n";
-    ss << "RED:" << HAIR_SPACE << "diff_to_trajectory" << "\n";
+    ss << "TRANSLUCENT:" << HAIR_SPACE << "planner_plans"
+       << "\n";
+    ss << "GREY:" << HAIR_SPACE << "all_cached_plans"
+       << "\n";
+    ss << "WHITE:" << HAIR_SPACE << "matchable_cached_plans"
+       << "\n";
+    ss << "YELLOW:" << HAIR_SPACE << "matched_cached_plans"
+       << "\n";
+    ss << "GREEN:" << HAIR_SPACE << "best_cached_plan"
+       << "\n";
+    ss << "RED:" << HAIR_SPACE << "diff_to_trajectory"
+       << "\n";
     return ss.str();
   }();
 

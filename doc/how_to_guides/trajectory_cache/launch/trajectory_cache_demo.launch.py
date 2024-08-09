@@ -20,63 +20,61 @@ moveit_config = (
 
 configurable_parameters = {
     # Cache DB
-    'cache_db_plugin': {
-        'default': 'warehouse_ros_sqlite::DatabaseConnection',
-        'description': 'Plugin to use for the trajectory cache database.'
+    "cache_db_plugin": {
+        "default": "warehouse_ros_sqlite::DatabaseConnection",
+        "description": "Plugin to use for the trajectory cache database.",
     },
-    'cache_db_host': {
-        'default': '":memory:"',
-        'description': 'Host for the trajectory cache database. Use ":memory:" for an in-memory database.'
+    "cache_db_host": {
+        "default": '":memory:"',
+        "description": 'Host for the trajectory cache database. Use ":memory:" for an in-memory database.',
     },
-    'cache_db_port': {
-        'default': '0',
-        'description': 'Port for the trajectory cache database.'
+    "cache_db_port": {
+        "default": "0",
+        "description": "Port for the trajectory cache database.",
     },
-
     # Reconfigurable (these can be set at runtime and will update)
-    'start_tolerance': {  # Trajectory cache param
-        'default': '0.025',
-        'description': 'Reconfigurable cache param. Tolerance for the start state of the trajectory.'
+    "start_tolerance": {  # Trajectory cache param
+        "default": "0.025",
+        "description": "Reconfigurable cache param. Tolerance for the start state of the trajectory.",
     },
-    'goal_tolerance': {  # Trajectory cache param
-        'default': '0.001',
-        'description': 'Reconfigurable cache param. Tolerance for the goal state of the trajectory.'
+    "goal_tolerance": {  # Trajectory cache param
+        "default": "0.001",
+        "description": "Reconfigurable cache param. Tolerance for the goal state of the trajectory.",
     },
-    'prune_worse_trajectories': {  # Trajectory cache param
-        'default': 'false',
-        'description': 'Reconfigurable cache param. Whether to delete trajectories that are worse than the current trajectory.'
+    "prune_worse_trajectories": {  # Trajectory cache param
+        "default": "false",
+        "description": "Reconfigurable cache param. Whether to delete trajectories that are worse than the current trajectory.",
     },
-    'planner': {
-        'default': 'RRTstar',
-        'description': 'Reconfigurable. Planner to use for trajectory planning.'
+    "planner": {
+        "default": "RRTstar",
+        "description": "Reconfigurable. Planner to use for trajectory planning.",
     },
-
     # Tutorial
-    'num_target_poses': {
-        'default': '4',
-        'description': 'Number of target poses to generate.'
+    "num_target_poses": {
+        "default": "4",
+        "description": "Number of target poses to generate.",
     },
-    'num_cartesian_target_paths_per_target_pose': {
-        'default': '2', 'description': 'Number of Cartesian paths to generate for each target pose.'
+    "num_cartesian_target_paths_per_target_pose": {
+        "default": "2",
+        "description": "Number of Cartesian paths to generate for each target pose.",
     },
-    'cartesian_path_distance_m': {
-        'default': '0.10',
-        'description': 'Length of the Cartesian path to set the goal for.'
+    "cartesian_path_distance_m": {
+        "default": "0.10",
+        "description": "Length of the Cartesian path to set the goal for.",
     },
-
     # Trajectory Cache
-    'exact_match_precision': {
+    "exact_match_precision": {
         # Purposely set a relatively high value to make pruning obvious.
-        'default': '0.0001',
-        'description': 'Precision for checking if two trajectories are exactly the same.'
+        "default": "0.0001",
+        "description": "Precision for checking if two trajectories are exactly the same.",
     },
-    'cartesian_max_step': {
-        'default': '0.001',
-        'description': 'Maximum step size for the Cartesian path.'
+    "cartesian_max_step": {
+        "default": "0.001",
+        "description": "Maximum step size for the Cartesian path.",
     },
-    'cartesian_jump_threshold': {
-        'default': '0.0',
-        'description': 'Threshold for the jump distance between points in the Cartesian path.'
+    "cartesian_jump_threshold": {
+        "default": "0.0",
+        "description": "Threshold for the jump distance between points in the Cartesian path.",
     },
 }
 
@@ -84,17 +82,15 @@ configurable_parameters = {
 def declare_configurable_parameters(parameters):
     return [
         DeclareLaunchArgument(
-            param_name,
-            default_value=param['default'],
-            description=param['description']
-        ) for param_name, param in parameters.items()
+            param_name, default_value=param["default"], description=param["description"]
+        )
+        for param_name, param in parameters.items()
     ]
 
 
 def set_configurable_parameters(parameters):
     return {
-        param_name: LaunchConfiguration(param_name)
-        for param_name in parameters.keys()
+        param_name: LaunchConfiguration(param_name) for param_name in parameters.keys()
     }
 
 
@@ -114,8 +110,6 @@ def generate_launch_description():
     )
 
     return LaunchDescription(
-        declare_configurable_parameters(configurable_parameters) +
-        [
-            trajectory_cache_demo
-        ]
+        declare_configurable_parameters(configurable_parameters)
+        + [trajectory_cache_demo]
     )

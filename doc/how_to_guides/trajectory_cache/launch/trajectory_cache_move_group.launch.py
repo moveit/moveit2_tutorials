@@ -36,8 +36,8 @@ def generate_launch_description():
 
     # RViz
     rviz_config_file = (
-        get_package_share_directory(
-            "moveit2_tutorials") + "/launch/trajectory_cache.rviz"
+        get_package_share_directory("moveit2_tutorials")
+        + "/launch/trajectory_cache.rviz"
     )
     rviz_node = Node(
         package="rviz2",
@@ -97,8 +97,7 @@ def generate_launch_description():
     ]:
         load_controllers += [
             ExecuteProcess(
-                cmd=["ros2 run controller_manager spawner {}".format(
-                    controller)],
+                cmd=["ros2 run controller_manager spawner {}".format(controller)],
                 shell=True,
                 output="screen",
             )
