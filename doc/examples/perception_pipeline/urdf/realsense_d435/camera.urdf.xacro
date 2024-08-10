@@ -72,7 +72,6 @@
             <camera>
                 <horizontal_fov>1.089</horizontal_fov>
                 <image>
-                    <format>B8G8R8</format>
                     <width>640</width>
                     <height>480</height>
                 </image>
@@ -88,6 +87,7 @@
                    <cameraInfoTopicName>/$(arg camera_name)/camera_info</cameraInfoTopicName>
                    <depthImageTopicName>/$(arg camera_name)/depth_image</depthImageTopicName>
                    <pointCloudTopicName>/$(arg camera_name)/pointcloud</pointCloudTopicName>
+                   <useDepth16UC1Format>true</useDepth16UC1Format>
                 </ros>
                 <min_depth>0.1</min_depth>
                 <max_depth>10.0</max_depth>
