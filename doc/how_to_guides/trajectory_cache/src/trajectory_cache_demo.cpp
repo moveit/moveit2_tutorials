@@ -56,13 +56,20 @@
  *
  * NOTE:
  *   Tutorial notes will be commented like this block!
- *
+ * 
  * PRE-REQUISITES
  * ^^^^^^^^^^^^^^
  * This tutorial assumes knowledge of the MoveGroupInterface.
  *
  * INTERACTIVITY
  * ^^^^^^^^^^^^^
+ * This demo has four phases that can be advanced using the `rviz_visual_tools` dialog box.
+ * 
+ * 1. Plan and cache (no pruning)
+ * 2. Plan and cache (with pruning)
+ * 3. Fetch from cache and execute (while still planning and caching with pruning)
+ * 4. Fetch from cache and execute, except with large start tolerances
+ * 
  * This tutorial also supports "reconfigurable" parameters!:
  *
  * You can adjust them with:
@@ -71,7 +78,7 @@
  * Tutorial parameters:
  *   - planner:
  *       Defaults to "RRTstar". The OMPL planner used.
- *       It's better to use a random-sampling, non-optimal planner to see the cache working.
+ *       It is better to use a random-sampling, non-optimal planner to see the cache working.
  *
  * Cache parameters:
  *   - start_tolerance:
@@ -647,6 +654,19 @@ int main(int argc, char** argv)
   }
 
   // Interactivity. ================================================================================
+
+  /** [TUTORIAL NOTE]
+   * This demo has four phases that can be advanced using the `rviz_visual_tools` dialog box.
+   * 
+   * 1. Plan and cache (no pruning)
+   *   - Showcases basic cache functionality.
+   * 2. Plan and cache (with pruning)
+   *   - Showcases pruning functionality.
+   * 3. Fetch from cache and execute (while still planning and caching with pruning)
+   *   - Showcases cache fetches.
+   * 4. Fetch from cache and execute, except with large start tolerances
+   *   - Showcases fuzzy matching, and the impact of start tolerance.
+   */
 
   std::atomic<size_t> demo_phase = 0;
   std::atomic<bool> run_execute = false;
