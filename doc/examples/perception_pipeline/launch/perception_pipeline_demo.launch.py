@@ -19,7 +19,6 @@ def generate_launch_description():
         description="RViz configuration file",
     )
 
-
     ros2_control_hardware_type = DeclareLaunchArgument(
         "ros2_control_hardware_type",
         default_value="mock_components",
@@ -138,7 +137,6 @@ def generate_launch_description():
         executable="spawner",
         arguments=["panda_hand_controller", "-c", "/controller_manager"],
     )
-
 
     return LaunchDescription(
         [

@@ -1,8 +1,8 @@
 Perception Pipeline Tutorial
 ============================
 
-1 Introduction
---------------
+Introduction
+------------
 MoveIt allows for seamless integration of 3D sensors using `Octomap <http://octomap.github.io/>`_.
 
 
@@ -16,20 +16,20 @@ Once properly configured, you should see something like this in rviz:
             MoveIt Perception Pipeline Demo
         </video>
 
-2 Getting Started
------------------
+Getting Started
+---------------
 Even though you haven't completed :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` ever, you can still run this tutorial's demo. But, it is suggested to start with steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` for better understanding what's going on in this tutorial. In this section, we will walk through configuring the 3D sensors on your robot with MoveIt. The primary component in MoveIt that deals with 3D perception is the Occupancy Map Updater. The updater uses a plugin architecture to process different types of input. The currently available plugins in MoveIt are:
 
 * The PointCloud Occupancy Map Updater: which can take as input point clouds (``sensor_msgs/msg/PointCloud2``)
 * The Depth Image Occupancy Map Updater: which can take as input Depth Images (``sensor_msgs/msg/Image``)
 
-3 Connecting to the storage backend
+Connecting to the storage backend
 ---------------------------------
 
 To run the demo you need to install git lfs by running ``git lfs install`` and clone `moveit_benchmark_resources <https://github.com/moveit/moveit_benchmark_resources.git>`_ into your workspace.
 
-4 How to create 3D Pointcloud Data for Octomap Creation
--------------------------------------------------------
+How to create 3D Pointcloud Data for Octomap Creation
+-----------------------------------------------------
 In this tutorial, you can use `previously recorded 3D pointcloud data inside moveit_benchmark_resources <https://github.com/moveit/moveit_benchmark_resources/tree/main/moveit_benchmark_resources/bag_files/depth_camera_bag>`_ or you can record your own bag file. For recording bag, firstly, we can run ``depth_camera_envrionment.launch.py`` file and then record the bag using following commands.
 
 In shell 1, run this command: ::
@@ -57,8 +57,8 @@ By the way, you can also use :codedir:`this rviz file <examples/perception_pipel
 In next step, we will use the recorded bag file to create an octomap.
 
 
-5 Configuration For 3D Sensors
-------------------------------
+Configuration For 3D Sensors
+----------------------------
 MoveIt uses an octree-based framework to represent the world around it. The *Octomap* parameters above are configuration parameters for this representation:
     * *octomap_frame*: specifies the coordinate frame in which this representation will be stored. If you are working with a mobile robot, this frame should be a fixed frame in the world. We can set this frame for plugin by frame_id field of ros messages like pointcloud and image topic.
     * *octomap_resolution*: specifies the resolution at which this representation is maintained (in meters).
@@ -93,8 +93,8 @@ sensors_3d.yaml: ::
         max_update_rate: 1.0
         filtered_cloud_topic: /camera_2/filtered_points
 
-5.1 Configurations for Point Cloud
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Configurations for Point Cloud
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The general parameters are:
 
@@ -116,8 +116,8 @@ Parameters specific to the Point cloud updater are:
 
 * *filtered_cloud_topic*: The topic on which the filtered cloud will be published (mainly for debugging). The filtering cloud is the resultant cloud after self-filtering has been performed.
 
-5.2 Configurations for Depth Image
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Configurations for Depth Image
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **The general parameters are:**
 
@@ -142,8 +142,8 @@ Parameters specific to the Point cloud updater are:
 
 * *filtered_cloud_topic*: The topic on which the filtered cloud will be published (mainly for debugging). The filtering cloud is the resultant cloud after self-filtering has been performed.
 
-6 Running Demo
---------------
+Running Demo
+------------
 The last step is to run ``perception_pipeline_demo.launch.py`` and play the bag file we recorded previously. You can apply these substeps using following commands.
 
 In Shell 3: ::
