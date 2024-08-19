@@ -146,7 +146,6 @@ def generate_launch_description():
     return LaunchDescription(
         [
             rviz_config_arg,
-            db_arg,
             ros2_control_hardware_type,
             rviz_node,
             static_tf_node,
