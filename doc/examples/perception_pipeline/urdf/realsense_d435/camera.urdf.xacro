@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<robot name="mr_camera" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="macros.xacro"/>
+
+    <xacro:arg name="camera_name" default="camera_in_alice_wonderland" />
+    <xacro:arg name="camera_x" default="0" />
+    <xacro:arg name="camera_y" default="0" />
+    <xacro:arg name="camera_yaw" default="0" />
+
+    <link name="$(arg camera_name)_base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.2 0.2 0.4"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.2 0.2 0.4"/>
+            </geometry>
+        </collision>
+        <inertial>
+          <mass value="0.2" />
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <xacro:box_inertia mass="0.2" x="0.2" y="0.2" z="0.4"/>
+        </inertial>
+    </link>
+
+    <joint name="$(arg camera_name)_joint" type="fixed">
+        <parent link="$(arg camera_name)_base_link"/>
+        <child link="$(arg camera_name)_link"/>
+        <origin xyz="0 0 0.5" rpy="0 0.1 0"/>
+    </joint>
+
+    <link name="$(arg camera_name)_link">
+        <visual>
+            <origin xyz="${d435_cam_mount_from_center_offset} ${-d435_cam_depth_py} 0" rpy="${pi/2} 0 ${pi/2}"/>
+            <geometry>
+                <mesh filename="$(find moveit2_tutorials)/meshes/d435.dae" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 ${-d435_cam_depth_py} 0" rpy="0 0 0"/>
+            <geometry>
+              <box size="${d435_cam_depth} ${d435_cam_width} ${d435_cam_height}"/>
+            </geometry>
+        </collision>
+        <inertial>
+          <mass value="${d435_cam_mass}" />
+          <origin xyz="0 ${-d435_cam_depth_py} 0" rpy="0 0 0"/>
+          <xacro:box_inertia mass="${d435_cam_mass}" x="${d435_cam_depth}" y="${d435_cam_width}" z="${d435_cam_height}"/>
+        </inertial>
+    </link>
+
+
+    <joint name="$(arg camera_name)_optical_joint" type="fixed">
+        <parent link="$(arg camera_name)_link"/>
+        <child link="$(arg camera_name)_link_optical"/>
+        <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+    </joint>
+
+    <link name="$(arg camera_name)_link_optical"></link>
+
+
+    <gazebo reference="$(arg camera_name)_link">
+        <material>Gazebo/Red</material>
+        <sensor name="$(arg camera_name)" type="depth">
+            <pose> 0 0 0 0 0 0 </pose>
+            <visualize>true</visualize>
+            <update_rate>10</update_rate>
+            <camera>
+                <horizontal_fov>1.089</horizontal_fov>
+                <image>
+                    <width>640</width>
+                    <height>480</height>
+                </image>
+                <clip>
+                    <near>0.05</near>
+                    <far>8.0</far>
+                </clip>
+            </camera>
+            <plugin name="$(arg camera_name)_controller" filename="libgazebo_ros_camera.so">
+                <frame_name>$(arg camera_name)_link_optical</frame_name>
+                <ros>
+                   <imageTopicName>$(arg camera_name)</imageTopicName>
+                   <cameraInfoTopicName>/$(arg camera_name)/camera_info</cameraInfoTopicName>
+                   <depthImageTopicName>/$(arg camera_name)/depth_image</depthImageTopicName>
+                   <pointCloudTopicName>/$(arg camera_name)/pointcloud</pointCloudTopicName>
+                   <useDepth16UC1Format>true</useDepth16UC1Format>
+                </ros>
+                <min_depth>0.1</min_depth>
+                <max_depth>10.0</max_depth>
+            </plugin>
+        </sensor>
+    </gazebo>
+</robot>
