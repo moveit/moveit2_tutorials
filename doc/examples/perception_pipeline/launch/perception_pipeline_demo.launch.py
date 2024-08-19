@@ -19,9 +19,6 @@ def generate_launch_description():
         description="RViz configuration file",
     )
 
-    db_arg = DeclareLaunchArgument(
-        "db", default_value="False", description="Database flag"
-    )
 
     ros2_control_hardware_type = DeclareLaunchArgument(
         "ros2_control_hardware_type",
