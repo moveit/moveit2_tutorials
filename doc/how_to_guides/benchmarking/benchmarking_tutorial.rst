@@ -11,7 +11,7 @@ The example below demonstrates how the benchmarking can be run.
 Example
 -------
 
-To run the example you need to install git lfs by running ``git lfs install`` and clone [moveit_benchmark_resources](https://github.com/moveit/moveit_benchmark_resources.git) into your workspace.
+To run the example you need to install git lfs by running ``git lfs install`` and clone `moveit_benchmark_resources <https://github.com/moveit/moveit_benchmark_resources.git`_ into your workspace.
 
 Start the benchmarks by running: ::
 
