@@ -66,23 +66,10 @@ Move into your Colcon workspace and pull the MoveIt tutorials source, where ``<b
 
 Next we will download the source code for the rest of MoveIt: ::
 
-  vcs import < moveit2_tutorials/moveit2_tutorials.repos
+  vcs import --recursive < moveit2_tutorials/moveit2_tutorials.repos
 
 The import command may ask for your GitHub credentials.
 You can just press Enter until it moves on (ignore the "Authentication failed" error).
-
-Next update submodules: ::
-
-  # Loop over all directories that might contain submodules
-  for dir in */; do
-      cd "$dir"
-      # Check if .gitmodules exists and if so, init and update submodules
-      if [ -f .gitmodules ]; then
-          echo "Initializing and updating submodules in $dir"
-          git submodule update --init --recursive
-      fi
-      cd ..
-  done
 
 Build your Colcon Workspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
