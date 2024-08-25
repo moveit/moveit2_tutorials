@@ -62,7 +62,7 @@ Download Source Code of MoveIt and the Tutorials
 Move into your Colcon workspace and pull the MoveIt tutorials source, where ``<branch>`` can be e.g. ``humble`` for ROS Humble, or ``main`` for the latest version of the tutorials : ::
 
   cd ~/ws_moveit/src
-  git clone https://github.com/moveit/moveit2_tutorials
+  git clone -b <branch> https://github.com/moveit/moveit2_tutorials
 
 Next we will download the source code for the rest of MoveIt: ::
 
