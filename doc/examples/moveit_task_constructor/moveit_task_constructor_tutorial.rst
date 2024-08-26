@@ -30,7 +30,7 @@ Install missing packages with rosdep: ::
 
 Build the workspace: ::
 
-  cd ~/ws_moveit 
+  cd ~/ws_moveit
   colcon build --mixin release
 
 Running the Demo
