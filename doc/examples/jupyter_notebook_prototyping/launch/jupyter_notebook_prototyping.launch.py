@@ -1,6 +1,7 @@
 """
 A launch file that starts a Jupyter notebook server and nodes that support motion planning with the MoveIt Python library.
 """
+
 import os
 import yaml
 from launch import LaunchDescription
@@ -18,7 +19,9 @@ def load_yaml(package_name, file_path):
     try:
         with open(absolute_file_path, "r") as file:
             return yaml.safe_load(file)
-    except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
+    except (
+        EnvironmentError
+    ):  # parent of IOError, OSError *and* WindowsError where available
         return None
 
 
