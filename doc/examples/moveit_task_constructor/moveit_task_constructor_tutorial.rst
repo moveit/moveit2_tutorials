@@ -1,8 +1,3 @@
-:moveit1:
-
-..
-   Once updated for MoveIt 2, remove all lines above title (including this comment and :moveit1: tag)
-
 MoveIt Task Constructor
 =======================
 
@@ -24,15 +19,10 @@ Installing MoveIt Task Constructor
 Install From Source
 ^^^^^^^^^^^^^^^^^^^
 
-Go into your catkin workspace and initialize wstool if necessary (assuming **~/ws_moveit** as workspace path): ::
+Move into your colcon workspace and pull the MoveIt Task Constructor source, where ``<branch>`` can be e.g. ``humble`` for ROS Humble, or ``ros2`` for the latest version compatible with MoveIt 2 ``main``: ::
 
   cd ~/ws_moveit/src
-  wstool init
-
-Clone MoveIt Task Constructor and source dependencies: ::
-
-  wstool merge https://raw.githubusercontent.com/ros-planning/moveit_task_constructor/master/.rosinstall
-  wstool update
+  git clone -b <branch> https://github.com/moveit/moveit_task_constructor.git
 
 Install missing packages with rosdep: ::
 
@@ -40,7 +30,8 @@ Install missing packages with rosdep: ::
 
 Build the workspace: ::
 
-  catkin build
+  cd ~/ws_moveit
+  colcon build --mixin release
 
 Running the Demo
 ----------------
@@ -48,13 +39,13 @@ Running the Demo
 The MoveIt Task Constructor package contains several basic examples and a pick-and-place demo.
 For all demos you should launch the basic environment: ::
 
-  roslaunch moveit_task_constructor_demo demo.launch
+  ros2 launch moveit_task_constructor_demo demo.launch.py
 
 Subsequently, you can run the individual demos: ::
 
-  rosrun moveit_task_constructor_demo cartesian
-  rosrun moveit_task_constructor_demo modular
-  roslaunch moveit_task_constructor_demo pickplace.launch
+  ros2 launch moveit_task_constructor_demo run.launch.py exe:=cartesian
+  ros2 launch moveit_task_constructor_demo run.launch.py exe:=modular
+  ros2 launch moveit_task_constructor_demo run.launch.py exe:=pick_place_demo
 
 On the right side you should see the **Motion Planning Tasks** panel outlining the hierarchical stage structure of the tasks.
 When you select a particular stage, the list of successful and failed solutions will be
