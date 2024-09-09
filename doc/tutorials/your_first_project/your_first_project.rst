@@ -177,7 +177,7 @@ In the workspace directory, ``ws_moveit``, run this command:
 
   colcon build --mixin debug
 
-After this succeeds, we need to re-use the demo launch file from the previous tutorial to start RViz and the MoveGroup node.
+After this succeeds, we need to reuse the demo launch file from the previous tutorial to start RViz and the MoveGroup node.
 In a separate terminal, source the workspace and then execute this:
 
 .. code-block:: bash
