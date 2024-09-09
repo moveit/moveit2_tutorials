@@ -432,7 +432,7 @@ As mentioned above, this function creates a MoveIt Task Constructor object and s
       task.setProperty("eef", hand_group_name);
       task.setProperty("ik_frame", hand_frame);
 
-Now, we add an example stage to the node. The first line sets ``current_state_ptr`` to ``nullptr``; this creates a pointer to a stage such that we can re-use stage information in specific scenarios. This line is not used at this moment, but will be used later when more stages are added to the task. Next, we make a ``current_state`` stage (a generator stage) and add it to our task - this starts the robot off in its current state. Now that we've created the ``CurrentState`` stage, we save a pointer to it in the ``current_state_ptr`` for later use.
+Now, we add an example stage to the node. The first line sets ``current_state_ptr`` to ``nullptr``; this creates a pointer to a stage such that we can reuse stage information in specific scenarios. This line is not used at this moment, but will be used later when more stages are added to the task. Next, we make a ``current_state`` stage (a generator stage) and add it to our task - this starts the robot off in its current state. Now that we've created the ``CurrentState`` stage, we save a pointer to it in the ``current_state_ptr`` for later use.
 
 .. code-block:: c++
 
