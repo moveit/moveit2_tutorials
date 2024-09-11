@@ -90,7 +90,7 @@ To include the Hybrid Planning Architecture into you project you need to add a *
 
 Customizing the Hybrid Planning Architecture
 --------------------------------------------
-As the rest of MoveIt 2, the *Hybrid Planning Architecture* is designed to be highly customizable while also offering the possibility to easily re-use existing solutions. Each of the architecture's components is a ROS 2 node and can be completely replaced by your own custom ROS 2 node as long as it offers the API required by the other nodes. Each component's runtime behavior is defined by plugins. This section focuses on the customization of the *Hybrid Planning Architecture* by implementing your own plugins.
+As the rest of MoveIt 2, the *Hybrid Planning Architecture* is designed to be highly customizable while also offering the possibility to easily reuse existing solutions. Each of the architecture's components is a ROS 2 node and can be completely replaced by your own custom ROS 2 node as long as it offers the API required by the other nodes. Each component's runtime behavior is defined by plugins. This section focuses on the customization of the *Hybrid Planning Architecture* by implementing your own plugins.
 
 Global and Local Motion Planning
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

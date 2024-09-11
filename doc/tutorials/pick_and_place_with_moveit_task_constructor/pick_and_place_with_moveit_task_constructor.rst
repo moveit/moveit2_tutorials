@@ -55,13 +55,19 @@ More detailed information on MTC can be found in the :doc:`MoveIt Task Construct
 -----------------
 If you haven't already done so, make sure you've completed the steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>`.
 
-2.1 Download MoveIt Task Constructor
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Move into your colcon workspace and pull the MoveIt Task Constructor source: ::
+Move into your colcon workspace and pull the MoveIt Task Constructor source, where ``<branch>`` can be e.g. ``humble`` for ROS Humble, or ``ros2`` for the latest version compatible with MoveIt 2 ``main``: ::
 
     cd ~/ws_moveit/src
-    git clone git@github.com:moveit/moveit_task_constructor.git -b ros2
+    git clone -b <branch> https://github.com/moveit/moveit_task_constructor.git
+
+Install missing packages with rosdep: ::
+
+    rosdep install --from-paths . --ignore-src --rosdistro $ROS_DISTRO
+
+Build the workspace: ::
+
+    cd ~/ws_moveit
+    colcon build --mixin release
 
 3 Trying It Out
 ------------------
@@ -73,9 +79,9 @@ For all demos you should launch the basic environment: ::
 
 Subsequently, you can run the individual demos: ::
 
-  ros2 launch moveit_task_constructor_demo cartesian.launch.py
-  ros2 launch moveit_task_constructor_demo modular.launch.py
-  ros2 launch moveit_task_constructor_demo pickplace.launch.py
+  ros2 launch moveit_task_constructor_demo run.launch.py exe:=cartesian
+  ros2 launch moveit_task_constructor_demo run.launch.py exe:=modular
+  ros2 launch moveit_task_constructor_demo run.launch.py exe:=pick_place_demo
 
 On the right side you should see the **Motion Planning Tasks** panel outlining the hierarchical stage structure of the tasks.
 When you select a particular stage, the list of successful and failed solutions will be
@@ -426,7 +432,7 @@ As mentioned above, this function creates a MoveIt Task Constructor object and s
       task.setProperty("eef", hand_group_name);
       task.setProperty("ik_frame", hand_frame);
 
-Now, we add an example stage to the node. The first line sets ``current_state_ptr`` to ``nullptr``; this creates a pointer to a stage such that we can re-use stage information in specific scenarios. This line is not used at this moment, but will be used later when more stages are added to the task. Next, we make a ``current_state`` stage (a generator stage) and add it to our task - this starts the robot off in its current state. Now that we've created the ``CurrentState`` stage, we save a pointer to it in the ``current_state_ptr`` for later use.
+Now, we add an example stage to the node. The first line sets ``current_state_ptr`` to ``nullptr``; this creates a pointer to a stage such that we can reuse stage information in specific scenarios. This line is not used at this moment, but will be used later when more stages are added to the task. Next, we make a ``current_state`` stage (a generator stage) and add it to our task - this starts the robot off in its current state. Now that we've created the ``CurrentState`` stage, we save a pointer to it in the ``current_state_ptr`` for later use.
 
 .. code-block:: c++
 
