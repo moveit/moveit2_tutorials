@@ -95,7 +95,7 @@ The process of creating the IKFast MoveIt plugin comprises several steps, perfor
 
      ros2 run collada_urdf urdf_to_collada $MYROBOT_NAME.urdf $MYROBOT_NAME.dae
 
-   Sometimes floating point issues arise in converting a URDF file to Collada, which prevents OpenRAVE to find IK solutions.
+   Sometimes floating point issues arise in converting a URDF file to Collada, which prevents OpenRAVE from finding IK solutions.
    Using a utility script, one can easily round all numbers down to n decimal places in your .dae file.
    From experience we recommend 5 decimal places, but if the OpenRave ikfast generator takes too long to find a solution (say more than an hour), lowering the accuracy should help. For example: ::
 
