@@ -29,7 +29,7 @@ You should have a MoveIt configuration package for your robot that was created b
 OpenRAVE is a planning framework as complex as MoveIt itself and installing it is tricky -- particularly because its public documentation is not maintained anymore.
 Fortunately, personalrobotics provide a `docker image <https://hub.docker.com/r/personalrobotics/ros-openrave>`_ based on Ubuntu 14.04 with OpenRAVE 0.9.0 and ROS Indigo installed, which can be used to generate the solver code once.
 
-The script below downloads this docker image and starts it automatically.
+The commands provided in this tutorial automatically download and start this Docker image, so no extra steps are needed for now.
 
 Creating the IKFast MoveIt plugin
 ---------------------------------
