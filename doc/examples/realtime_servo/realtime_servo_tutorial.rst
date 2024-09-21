@@ -200,9 +200,11 @@ The user can use status for higher-level decision making.
 See :moveit_codedir:`moveit_servo/demos <moveit_ros/moveit_servo/demos/cpp_interface>` for complete examples of using the C++ interface.
 The demos can be launched using the launch files found in :moveit_codedir:`moveit_servo/launch <moveit_ros/moveit_servo/launch>`.
 
-    - ``ros2 launch moveit_servo demo_joint_jog.launch.py``
-    - ``ros2 launch moveit_servo demo_twist.launch.py``
-    - ``ros2 launch moveit_servo demo_pose.launch.py``
+.. code-block:: bash
+
+    ros2 launch moveit_servo demo_joint_jog.launch.py
+    ros2 launch moveit_servo demo_twist.launch.py
+    ros2 launch moveit_servo demo_pose.launch.py
 
 
 Using the ROS API
@@ -222,7 +224,11 @@ selected using the *command_out_type* parameter, and published on the topic spec
 
 The command type can be selected using the ``ServoCommandType`` service, see definition :moveit_msgs_codedir:`ServoCommandType <srv/ServoCommandType.srv>`.
 
-From cli : ``ros2 service call /<node_name>/switch_command_type moveit_msgs/srv/ServoCommandType "{command_type: 1}"``
+From the CLIP:
+
+.. code-block:: bash
+
+    ros2 service call /<node_name>/switch_command_type moveit_msgs/srv/ServoCommandType "{command_type: 1}"
 
 Programmatically:
 
@@ -248,10 +254,22 @@ Similarly, servoing can be paused using the pause service ``<node_name>/pause_se
 
 When using the ROS interface, the status of Servo is available on the topic ``/<node_name>/status``, see definition :moveit_msgs_codedir:`ServoStatus <msg/ServoStatus.msg>`.
 
-Launch ROS interface demo: ``ros2 launch moveit_servo demo_ros_api.launch.py``.
+Launch ROS interface demo:
+
+.. code-block:: bash
+
+    ros2 launch moveit_servo demo_ros_api.launch.py
 
 Once the demo is running, the robot can be teleoperated through the keyboard.
 
-Launch the keyboard demo: ``ros2 run moveit_servo servo_keyboard_input``.
+Launch the keyboard demo:
+
+.. code-block:: bash
+
+    ros2 run moveit_servo servo_keyboard_input
 
 An example of using the pose commands in the context of servoing to open a door can be seen in this :codedir:`example <examples/realtime_servo/src/pose_tracking_tutorial.cpp>`.
+
+.. code-block:: bash
+
+    ros2 launch moveit2_tutorials pose_tracking_tutorial.launch.py
