@@ -19,7 +19,7 @@ def generate_launch_description():
 
     # Launch Servo as a standalone node or as a "node component" for better latency/efficiency
     launch_as_standalone_node = LaunchConfiguration(
-        "launch_as_standalone_node", default="true"
+        "launch_as_standalone_node", default="false"
     )
 
     # Get parameters for the Servo node

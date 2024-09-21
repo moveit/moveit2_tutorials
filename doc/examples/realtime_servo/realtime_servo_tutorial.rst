@@ -224,7 +224,7 @@ selected using the *command_out_type* parameter, and published on the topic spec
 
 The command type can be selected using the ``ServoCommandType`` service, see definition :moveit_msgs_codedir:`ServoCommandType <srv/ServoCommandType.srv>`.
 
-From the CLIP:
+From the CLI:
 
 .. code-block:: bash
 
