@@ -44,8 +44,3 @@ repositories:
     type: git
     url: https://github.com/PickNikRobotics/pick_ik
     version: main
-  # Doesn't seem to be available from binaries yet
-  gz_ros2_control:
-    type: git
-    url: https://github.com/ros-controls/gz_ros2_control.git
-    version: rolling

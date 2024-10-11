@@ -32,8 +32,3 @@ repositories:
     type: git
     url: https://github.com/tylerjw/serial.git
     version: ros2
-  # Doesn't seem to be available from binaries yet
-  gz_ros2_control:
-    type: git
-    url: https://github.com/ros-controls/gz_ros2_control.git
-    version: rolling
