@@ -25,6 +25,7 @@ Configuring and Using MoveIt
    pick_ik/pick_ik_tutorial
    trac_ik/trac_ik_tutorial
    benchmarking/benchmarking_tutorial
+   trajectory_cache/trajectory_cache_tutorial
 
 Developing and Documenting MoveIt
 ---------------------------------
