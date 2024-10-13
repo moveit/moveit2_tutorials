@@ -139,7 +139,7 @@ In place of the comment that says "Next step goes here", add this code:
 
   // Create the MoveIt MoveGroup Interface
   using moveit::planning_interface::MoveGroupInterface;
-  auto move_group_interface = MoveGroupInterface(node, "manipulator");
+  auto move_group_interface = MoveGroupInterface(node, "panda_arm");
 
   // Set a target Pose
   auto const target_pose = []{
@@ -222,7 +222,7 @@ That is the group of joints as defined in the robot description that we are goin
 .. code-block:: C++
 
   using moveit::planning_interface::MoveGroupInterface;
-  auto move_group_interface = MoveGroupInterface(node, "manipulator");
+  auto move_group_interface = MoveGroupInterface(node, "panda_arm");
 
 Then, we set our target pose and plan. Note that only the target pose is set (via ``setPoseTarget``).
 The starting pose is implicitly the position published by the joint state publisher, which could be changed using the
