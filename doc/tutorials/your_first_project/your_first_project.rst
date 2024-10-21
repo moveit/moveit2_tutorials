@@ -139,7 +139,7 @@ In place of the comment that says "Next step goes here", add this code:
 
   // Create the MoveIt MoveGroup Interface
   using moveit::planning_interface::MoveGroupInterface;
-  auto move_group_interface = MoveGroupInterface(node, "manipulator");
+  auto move_group_interface = MoveGroupInterface(node, "panda_arm");
 
   // Set a target Pose
   auto const target_pose = []{
