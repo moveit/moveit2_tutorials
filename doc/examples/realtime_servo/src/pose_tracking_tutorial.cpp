@@ -208,7 +208,7 @@ int main(int argc, char* argv[])
   executor->add_node(node);
 
   // Spin the node.
-  std::thread executor_thread([&]() { executor->spin(); });
+  std::thread executor_thread([&executor]() { executor->spin(); });
 
   visualization_msgs::msg::MarkerArray marray;
   std::vector<Eigen::Vector3d> path = getPath();
@@ -231,20 +231,25 @@ int main(int argc, char* argv[])
   // Create the ROS message.
   auto request = std::make_shared<moveit_msgs::srv::ServoCommandType::Request>();
   request->command_type = moveit_msgs::srv::ServoCommandType::Request::POSE;
-  auto response = switch_input_client->async_send_request(request);
+  auto response_future = switch_input_client->async_send_request(request);
+  if (response_future.wait_for(std::chrono::duration<double>(3.0)) == std::future_status::timeout)
+  {
+    RCLCPP_ERROR_STREAM(node->get_logger(), "Timed out waiting for MoveIt servo command switching request.");
+  }
+  const auto response = response_future.get();
   if (response.get()->success)
   {
-    RCLCPP_INFO_STREAM(node->get_logger(), "Switched to input type: Pose");
+    RCLCPP_INFO_STREAM(node->get_logger(), "Switched to command input type: Pose");
   }
   else
   {
-    RCLCPP_WARN_STREAM(node->get_logger(), "Could not switch input to: Pose");
+    RCLCPP_ERROR_STREAM(node->get_logger(), "Could not switch MoveIt servo command input type.");
   }
 
   // Follow the trajectory
 
   const double publish_period = 0.15;
-  rclcpp::WallRate rate(1 / publish_period);
+  rclcpp::WallRate rate(1.0 / publish_period);
 
   // The path needs to be reversed since the last point in the path is where we want to start.
   std::reverse(path.begin(), path.end());

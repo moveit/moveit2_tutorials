@@ -6,7 +6,7 @@ These tutorials will quickly get you using the MoveIt 2 Motion Planning Framewor
 .. image:: quickstart_in_rviz/rviz_plugin_head.png
    :width: 700px
 
-In these tutorials, the Franka Emika Panda robot is used as a quick-start demo.
+In these tutorials, the `Kinova Gen3 <https://github.com/Kinovarobotics/ros2_kortex>`_ robot is used as a quick-start demo.
 
 .. toctree::
    :maxdepth: 1
