@@ -216,14 +216,15 @@ int main(int argc, char** argv)
   auto start_state = move_group.getCurrentState(10.0);
   std::vector<moveit::core::RobotStatePtr> traj;
   moveit::core::MaxEEFStep max_eef_step(0.01, 0.1);
-  // Here, we're effectively disabling the jump threshold for joints. This is not recommended on real hardware.
-  const auto jump_thresh = moveit::core::JumpThreshold::disabled();
+  moveit::core::CartesianPrecision cartesian_precision{ .translational = 0.001,
+                                                        .rotational = 0.01,
+                                                        .max_resolution = 1e-3 };
 
   // The trajectory, traj, passed to computeCartesianPath will contain several waypoints toward
   // the goal pose, target. For each of these waypoints, the IK solver is queried with the given cost function.
   const auto frac = moveit::core::CartesianInterpolator::computeCartesianPath(
       start_state.get(), joint_model_group, traj, joint_model_group->getLinkModel("panda_link8"), target, true,
-      max_eef_step, jump_thresh, callback_fn, opts, cost_fn);
+      max_eef_step, cartesian_precision, callback_fn, opts, cost_fn);
 
   RCLCPP_INFO(LOGGER, "Computed %f percent of cartesian path.", frac.value * 100.0);
 

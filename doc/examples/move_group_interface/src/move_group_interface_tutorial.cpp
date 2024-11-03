@@ -304,15 +304,10 @@ int main(int argc, char** argv)
   target_pose3.position.x -= 0.2;
   waypoints.push_back(target_pose3);  // up and left
 
-  // We want the Cartesian path to be interpolated at a resolution of 1 cm
-  // which is why we will specify 0.01 as the max step in Cartesian
-  // translation.  We will specify the jump threshold as 0.0, effectively disabling it.
-  // Warning - disabling the jump threshold while operating real hardware can cause
-  // large unpredictable motions of redundant joints and could be a safety issue
-  moveit_msgs::msg::RobotTrajectory trajectory;
-  const double jump_threshold = 0.0;
+  // We want the Cartesian path to be interpolated at a resolution of 1 cm.
   const double eef_step = 0.01;
-  double fraction = move_group.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
+  moveit_msgs::msg::RobotTrajectory trajectory;
+  double fraction = move_group.computeCartesianPath(waypoints, eef_step, trajectory);
   RCLCPP_INFO(LOGGER, "Visualizing plan 4 (Cartesian path) (%.2f%% achieved)", fraction * 100.0);
 
   // Visualize the plan in RViz
