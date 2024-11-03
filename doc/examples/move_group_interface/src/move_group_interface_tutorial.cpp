@@ -304,7 +304,8 @@ int main(int argc, char** argv)
   target_pose3.position.x -= 0.2;
   waypoints.push_back(target_pose3);  // up and left
 
-  // We want the Cartesian path to be interpolated at a resolution of 1 cm.
+  // We want the Cartesian path to be interpolated at a resolution of 1 cm,
+  // which is why we will specify 0.01 as the max step in Cartesian translation.
   const double eef_step = 0.01;
   moveit_msgs::msg::RobotTrajectory trajectory;
   double fraction = move_group.computeCartesianPath(waypoints, eef_step, trajectory);
