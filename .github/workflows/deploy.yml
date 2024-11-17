@@ -17,7 +17,7 @@ jobs:
   htmlproofer:
     runs-on: ubuntu-latest
     container:
-      image: moveit/moveit2:humble-source
+      image: moveit/moveit2:rolling-source
     steps:
     - uses: actions/checkout@v4
 
@@ -40,7 +40,7 @@ jobs:
     - name: Run htmlproofer.sh
       shell: bash
       run: |
-        source /opt/ros/humble/setup.bash
+        source /opt/ros/rolling/setup.bash
         source /root/ws_moveit/install/setup.bash
         source .venv/bin/activate
         ./htmlproofer.sh
