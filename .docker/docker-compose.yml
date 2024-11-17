@@ -1,5 +1,5 @@
 # Example command:
-#   Humble on a Nvidia system:
+#   Humble on a NVIDIA system:
 #   DOCKER_IMAGE=humble-humble-tutorial-source docker compose run gpu
 #   Rolling without discrete graphics:
 #   DOCKER_IMAGE=main-rolling-tutorial-source compose run cpu

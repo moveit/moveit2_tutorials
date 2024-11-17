@@ -38,7 +38,7 @@ If you do not complete these additional steps you will need to preface all ``doc
    You can replace ``DOCKER_IMAGE`` with other Docker image names, such as ``main-jazzy-tutorial-source`` or ``humble-humble-tutorial source``.
    This is based on the convention ``<MoveIt branch name>-<ROS distro name>-tutorial-source``.
 
-   Similarly, you can replace the ``gpu`` service name with ``cpu`` if you do not wish to run using Nvidia GPU drivers and you can change the name of the container by replacing ``moveit2_container``.
+   Similarly, you can replace the ``gpu`` service name with ``cpu`` if you do not wish to run using NVIDIA GPU drivers and you can change the name of the container by replacing ``moveit2_container``.
    The ``--rm`` argument will remove the container when you stop (or exit) it, otherwise you can keep your modified container on disk and start it using ``docker start moveit2_container``.
 
 4. You should now be inside of your Docker container, in the workspace directory, with the completed :doc:`Planning Around Objects </doc/tutorials/planning_around_objects/planning_around_objects>` and :doc:`Pick and Place with MoveIt Task Constructor </doc/tutorials/pick_and_place_with_moveit_task_constructor/pick_and_place_with_moveit_task_constructor>` tutorials.
