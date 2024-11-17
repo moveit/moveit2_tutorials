@@ -60,6 +60,8 @@ jobs:
       image: ${{ matrix.container }}
     steps:
     - uses: actions/checkout@v4
+      with:
+        ref: 'main'
 
     - name: Install Python dependencies
       shell: bash
