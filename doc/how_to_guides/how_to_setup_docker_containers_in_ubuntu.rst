@@ -62,4 +62,4 @@ Further Reading
   The tagged images coincide with ROS 2 version releases.
   The ``release`` version of the container provides an environment in which MoveIt 2 is installed via the binaries.
   The ``source`` version of the Docker image will build MoveIt 2 from source.
-  You can use any of these images by substituting the ``DOCKER_IMAGE `` environment variable with a tag name from the above link (like ``main-rolling-tutorial-source``), but you must use `this docker-compose.yml <https://raw.githubusercontent.com/moveit/moveit2_tutorials/main/_scripts/docker-compose.yml>`_ instead (simply copy it to a different location and run your ``docker compose`` command there).
+  You can use any of these images by substituting the ``DOCKER_IMAGE`` environment variable with a tag name from the above link (like ``main-rolling-tutorial-source``), but you must use `this docker-compose.yml <https://raw.githubusercontent.com/moveit/moveit2_tutorials/main/_scripts/docker-compose.yml>`_ instead (simply copy it to a different location and run your ``docker compose`` command there).
