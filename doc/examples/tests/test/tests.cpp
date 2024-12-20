@@ -36,8 +36,8 @@
 
 // The Testing Framework and Utils
 #include <gtest/gtest.h>
-#include <moveit/robot_model/robot_model.h>
-#include <moveit/utils/robot_model_test_utils.h>
+#include <moveit/robot_model/robot_model.hpp>
+#include <moveit/utils/robot_model_test_utils.hpp>
 
 // TF2
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
