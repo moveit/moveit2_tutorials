@@ -1,11 +1,11 @@
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_action/rclcpp_action.hpp>
 
-#include <moveit/move_group_interface/move_group_interface.h>
-#include <moveit/planning_pipeline/planning_pipeline.h>
-#include <moveit/robot_trajectory/robot_trajectory.h>
-#include <moveit/robot_state/conversions.h>
-#include <moveit/kinematic_constraints/utils.h>
+#include <moveit/move_group_interface/move_group_interface.hpp>
+#include <moveit/planning_pipeline/planning_pipeline.hpp>
+#include <moveit/robot_trajectory/robot_trajectory.hpp>
+#include <moveit/robot_state/conversions.hpp>
+#include <moveit/kinematic_constraints/utils.hpp>
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
 #include <moveit_msgs/msg/motion_sequence_item.hpp>

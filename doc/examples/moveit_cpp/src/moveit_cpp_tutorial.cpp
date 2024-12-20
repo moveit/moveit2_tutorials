@@ -1,8 +1,8 @@
 #include <rclcpp/rclcpp.hpp>
 #include <memory>
 // MoveitCpp
-#include <moveit/moveit_cpp/moveit_cpp.h>
-#include <moveit/moveit_cpp/planning_component.h>
+#include <moveit/moveit_cpp/moveit_cpp.hpp>
+#include <moveit/moveit_cpp/planning_component.hpp>
 
 #include <geometry_msgs/msg/point_stamped.h>
 

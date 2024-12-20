@@ -37,14 +37,14 @@
 #include <pluginlib/class_loader.hpp>
 
 // MoveIt
-#include <moveit/robot_model_loader/robot_model_loader.h>
-#include <moveit/planning_interface/planning_interface.h>
-#include <moveit/planning_scene/planning_scene.h>
-#include <moveit/kinematic_constraints/utils.h>
+#include <moveit/robot_model_loader/robot_model_loader.hpp>
+#include <moveit/planning_interface/planning_interface.hpp>
+#include <moveit/planning_scene/planning_scene.hpp>
+#include <moveit/kinematic_constraints/utils.hpp>
 #include <moveit_msgs/msg/display_trajectory.hpp>
 #include <moveit_msgs/msg/planning_scene.h>
 #include <moveit_visual_tools/moveit_visual_tools.h>
-#include <moveit/move_group_interface/move_group_interface.h>
+#include <moveit/move_group_interface/move_group_interface.hpp>
 
 static const rclcpp::Logger LOGGER = rclcpp::get_logger("motion_planning_api_tutorial");
 
