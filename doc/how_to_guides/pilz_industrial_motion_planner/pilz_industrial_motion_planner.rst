@@ -357,7 +357,7 @@ User interface sequence capability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A specialized MoveIt functionality known as the
-:moveit_codedir:`command list manager<moveit_planners/pilz_industrial_motion_planner/include/pilz_industrial_motion_planner/command_list_manager.h>`
+:moveit_codedir:`command list manager<moveit_planners/pilz_industrial_motion_planner/include/pilz_industrial_motion_planner/command_list_manager.hpp>`
 takes a ``moveit_msgs::msg::MotionSequenceRequest`` as input.
 The request contains a list of subsequent goals as described above and an additional
 ``blend_radius`` parameter. If the given ``blend_radius`` in meter is

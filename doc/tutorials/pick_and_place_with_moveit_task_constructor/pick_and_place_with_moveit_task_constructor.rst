@@ -115,8 +115,8 @@ Open ``mtc_node.cpp`` in your editor of choice, and paste in the following code.
 .. code-block:: c++
 
     #include <rclcpp/rclcpp.hpp>
-    #include <moveit/planning_scene/planning_scene.h>
-    #include <moveit/planning_scene_interface/planning_scene_interface.h>
+    #include <moveit/planning_scene/planning_scene.hpp>
+    #include <moveit/planning_scene_interface/planning_scene_interface.hpp>
     #include <moveit/task_constructor/task.h>
     #include <moveit/task_constructor/solvers.h>
     #include <moveit/task_constructor/stages.h>
@@ -285,15 +285,15 @@ Open ``mtc_node.cpp`` in your editor of choice, and paste in the following code.
 The top of the code includes the ROS and MoveIt Libraries that this package uses.
 
  * ``rclcpp/rclcpp.hpp`` includes core ROS2 functionality
- * ``moveit/planning_scene/planning_scene.h`` and ``moveit/planning_scene_interface/planning_scene_interface.h`` include functionality to interface with the robot model and collision objects
+ * ``moveit/planning_scene/planning_scene.hpp`` and ``moveit/planning_scene_interface/planning_scene_interface.hpp`` include functionality to interface with the robot model and collision objects
  * ``moveit/task_constructor/task.h``, ``moveit/task_constructor/solvers.h``, and ``moveit/task_constructor/stages.h`` include different components of MoveIt Task Constructor that are used in the example
  * ``tf2_geometry_msgs/tf2_geometry_msgs.hpp`` and ``tf2_eigen/tf2_eigen.hpp`` won't be used in this initial example, but they will be used for pose generation when we add more stages to the MoveIt Task Constructor task.
 
 .. code-block:: c++
 
     #include <rclcpp/rclcpp.hpp>
-    #include <moveit/planning_scene/planning_scene.h>
-    #include <moveit/planning_scene_interface/planning_scene_interface.h>
+    #include <moveit/planning_scene/planning_scene.hpp>
+    #include <moveit/planning_scene_interface/planning_scene_interface.hpp>
     #include <moveit/task_constructor/task.h>
     #include <moveit/task_constructor/solvers.h>
     #include <moveit/task_constructor/stages.h>

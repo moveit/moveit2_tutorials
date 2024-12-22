@@ -75,7 +75,7 @@ int main(int argc, char** argv)
   static const std::string PLANNING_GROUP = "panda_arm";
 
   // The
-  // :moveit_codedir:`MoveGroupInterface<moveit_ros/planning_interface/move_group_interface/include/moveit/move_group_interface/move_group_interface.h>`
+  // :moveit_codedir:`MoveGroupInterface<moveit_ros/planning_interface/move_group_interface/include/moveit/move_group_interface/move_group_interface.hpp>`
   // class can be easily set up using just the name of the planning group you would like to control and plan for.
   moveit::planning_interface::MoveGroupInterface move_group(node, PLANNING_GROUP);
 

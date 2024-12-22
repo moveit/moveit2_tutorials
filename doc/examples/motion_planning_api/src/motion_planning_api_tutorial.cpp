@@ -42,7 +42,7 @@
 #include <moveit/planning_scene/planning_scene.hpp>
 #include <moveit/kinematic_constraints/utils.hpp>
 #include <moveit_msgs/msg/display_trajectory.hpp>
-#include <moveit_msgs/msg/planning_scene.h>
+#include <moveit_msgs/msg/planning_scene.hpp>
 #include <moveit_visual_tools/moveit_visual_tools.h>
 #include <moveit/move_group_interface/move_group_interface.hpp>
 
@@ -68,10 +68,10 @@ int main(int argc, char** argv)
   // interface to load any planner that you want to use. Before we can
   // load the planner, we need two objects, a RobotModel and a
   // PlanningScene. We will start by instantiating a
-  // :moveit_codedir:`RobotModelLoader<moveit_ros/planning/robot_model_loader/include/moveit/robot_model_loader/robot_model_loader.h>`
+  // :moveit_codedir:`RobotModelLoader<moveit_ros/planning/robot_model_loader/include/moveit/robot_model_loader/robot_model_loader.hpp>`
   // object, which will look up the robot description on the ROS
   // parameter server and construct a
-  // :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.h>`
+  // :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.hpp>`
   // for us to use.
   const std::string PLANNING_GROUP = "panda_arm";
   robot_model_loader::RobotModelLoader robot_model_loader(motion_planning_api_tutorial_node, "robot_description");
@@ -81,9 +81,9 @@ int main(int argc, char** argv)
   const moveit::core::JointModelGroup* joint_model_group = robot_state->getJointModelGroup(PLANNING_GROUP);
 
   // Using the
-  // :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.h>`,
+  // :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.hpp>`,
   // we can construct a
-  // :moveit_codedir:`PlanningScene<moveit_core/planning_scene/include/moveit/planning_scene/planning_scene.h>`
+  // :moveit_codedir:`PlanningScene<moveit_core/planning_scene/include/moveit/planning_scene/planning_scene.hpp>`
   // that maintains the state of the world (including the robot).
   planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
 
@@ -186,7 +186,7 @@ int main(int argc, char** argv)
 
   // We will create the request as a constraint using a helper function available
   // from the
-  // :moveit_codedir:`kinematic_constraints<moveit_core/kinematic_constraints/include/moveit/kinematic_constraints/kinematic_constraint.h>`
+  // :moveit_codedir:`kinematic_constraints<moveit_core/kinematic_constraints/include/moveit/kinematic_constraints/kinematic_constraint.hpp>`
   // package.
   moveit_msgs::msg::Constraints pose_goal =
       kinematic_constraints::constructGoalConstraints("panda_link8", pose, tolerance_pose, tolerance_angle);
