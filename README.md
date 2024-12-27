@@ -48,12 +48,20 @@ Configure and build the workspace:
 
 ## Build HTML Pages Locally
 
-If you want to test the tutorials by generating the HTML pages locally on your machine, you can use the ``build_locally`` script by issuing the following commands in the root of the moveit2_tutorials package:
+If you want to test the tutorials by generating the HTML pages locally on your machine, you can use the ``build_locally.sh`` script in this repo.
 
-    export ROS_DISTRO=rolling  # 20.04
+If you are using Ubuntu 24.04 (or Python 3.11 or greater), you should first create a virtual environment.
+
+    python3 -m venv .venv
+    source .venv/bin/activate
+
+Then, issue the following commands in the root of the ``moveit2_tutorials`` package:
 
     cd $COLCON_WS/src/moveit2_tutorials
+
+    export ROS_DISTRO=rolling  # 24.04
     source /opt/ros/$ROS_DISTRO/setup.bash
+
     ./build_locally.sh
 
 The local website ``<LOCAL_PACKAGE_PATH>/build/html/index.html`` should automatically open in your web browser.

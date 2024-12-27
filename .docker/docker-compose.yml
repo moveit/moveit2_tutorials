@@ -1,12 +1,12 @@
 # Example command:
-#   Humble on a Nvidia system:
-#   DOCKER_IMAGE=humble-tutorial docker compose run gpu
+#   Humble on a NVIDIA system:
+#   DOCKER_IMAGE=humble-humble-tutorial-source docker compose run gpu
 #   Rolling without discrete graphics:
-#   DOCKER_IMAGE=rolling-tutorial docker compose run cpu
+#   DOCKER_IMAGE=main-rolling-tutorial-source compose run cpu
 
 services:
   cpu:
-    image: ghcr.io/moveit/moveit2_tutorials:$DOCKER_IMAGE
+    image: moveit/moveit2:${DOCKER_IMAGE}
     container_name: moveit2_container
     privileged: true
     network_mode: host
@@ -18,7 +18,7 @@ services:
       QT_X11_NO_MITSHM: 1
       DISPLAY: $DISPLAY
   gpu:
-    image: ghcr.io/moveit/moveit2_tutorials:$DOCKER_IMAGE
+    image: moveit/moveit2:${DOCKER_IMAGE}
     container_name: moveit2_container
     privileged: true
     network_mode: host
