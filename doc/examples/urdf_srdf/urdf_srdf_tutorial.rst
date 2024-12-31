@@ -187,5 +187,5 @@ Then all of the other nodes may subscribe to the string message that gets publis
 
 Under the Hood: RDFLoader
 ^^^^^^^^^^^^^^^^^^^^^^^^^
-In many places in the MoveIt code, the robot description and semantics are loaded using the :moveit_codedir:`RDFLoader<moveit_ros/planning/rdf_loader/include/moveit/rdf_loader/rdf_loader.h>`
+In many places in the MoveIt code, the robot description and semantics are loaded using the :moveit_codedir:`RDFLoader<moveit_ros/planning/rdf_loader/include/moveit/rdf_loader/rdf_loader.hpp>`
 class, which will attempt to read the parameters from the node, and if that fails, will attempt to subscribe to the String topic for a short period of time. If both methods fail to get the parameter, then a warning will be printed to the console.
