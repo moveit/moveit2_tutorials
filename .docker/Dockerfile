@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1.3
 
 ARG ROS_DISTRO=rolling
-ARG GZ_VERSION=harmonic
+ARG GZ_VERSION=ionic
 
 ######################### Tutorial Image  #################################################
 
