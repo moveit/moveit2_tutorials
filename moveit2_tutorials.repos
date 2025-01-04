@@ -46,4 +46,3 @@ repositories:
     type: git
     url: https://github.com/ros-controls/gz_ros2_control.git
     version: rolling
-
