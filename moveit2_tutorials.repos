@@ -8,12 +8,10 @@ repositories:
     url: https://github.com/moveit/moveit_visual_tools
     version: ros2
   # Remove ros2_kortex when rolling binaries are available.
-  # Need to use this fork since ros2_kortex depends on Gazebo classic packages:
-  # https://github.com/Kinovarobotics/ros2_kortex/issues/217
   ros2_kortex:
     type: git
-    url: https://github.com/sea-bass/ros2_kortex.git
-    version: remove-gazebo-classic
+    url: https://github.com/Kinovarobotics/ros2_kortex.git
+    version: main
   # Remove ros2_robotiq_gripper when rolling binaries are available.
   ros2_robotiq_gripper:
     type: git
