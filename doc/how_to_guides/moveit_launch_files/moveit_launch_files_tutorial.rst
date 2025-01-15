@@ -52,7 +52,7 @@ As seen above, ``gen3`` is the robot name, and MoveIt looks for the package ``ki
 
 ``.robot_description`` can optionally take a file path to ``robot_name.urdf`` and/or assign a dictionary of argument mappings that are passed to the robot's urdf.xacro file.
 The file path to ``robot_name.urdf`` must be relative to your robot package, so if your robot package is ``/robot_package`` and the urdf (or urdf xacro) file is ``robot_package/config/robot_name.urdf``
-you would pass ``.robot_descrition(filepath="config/robot_name.urdf")``.
+you would pass ``.robot_description(filepath="config/robot_name.urdf")``.
 If you don't provide a file path, but you do give ``MoveItConfigsBuilder`` a robot name (see above paragraph), MoveIt will look for ``robot_package/config/robot_name.urdf``.
 
 ``.trajectory_execution`` loads trajectory execution and MoveIt controller manager's parameters from an optionally provided file path.
@@ -252,7 +252,7 @@ Finally, we can tell our launch file to actually launch everything we described 
 Launching a custom .cpp file
 ----------------------------
 
-While not part of the the Getting Started tutorial, another common node to luanch is one that executes a custom .cpp file:
+While not part of the Getting Started tutorial, another common node to launch is one that executes a custom .cpp file:
 
 .. code-block:: python
 
