@@ -27,7 +27,9 @@ Below are some links to help with the ports.
 * [rclcpp](https://docs.ros2.org/latest/api/rclcpp/index.html)
 
 
-## MoveIt Tutorials Source Build (only needed if contrinuting executable code)
+## MoveIt Tutorials Source Build
+
+(This section can be skipped if you aren't adding executable code. You don't need to build MoveIt to add an explanation about something.)
 
 Follow the [MoveIt Source Build](https://moveit.ros.org/install-moveit2/source/) instructions to set up a colcon workspace with MoveIt from the source.
 

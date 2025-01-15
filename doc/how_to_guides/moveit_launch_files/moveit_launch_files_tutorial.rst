@@ -55,16 +55,16 @@ The file path to ``robot_name.urdf`` must be relative to your robot package, so 
 you would pass ``.robot_descrition(filepath="config/robot_name.urdf")``.
 If you don't provide a file path, but you do give ``MoveItConfigsBuilder`` a robot name (see above paragraph), MoveIt will look for ``robot_package/config/robot_name.urdf``.
 
-``.trajectory_execution`` loads trajectory execution and MoveIt controller managers' parameters from an optionally provided file path.
-If a file path isn't given, MoveIt looks for files in the packages ``config`` folder for files ending with ``controllers.yaml``.
+``.trajectory_execution`` loads trajectory execution and MoveIt controller manager's parameters from an optionally provided file path.
+If a file path isn't given, MoveIt looks for files in the package's ``config`` folder for files ending with ``controllers.yaml``.
 
 ``.planning_scene_monitor`` allows you to set various parameters about what scene information is published and how often is it published.
 
 ``.planning_pipelines`` allows to you to list the names of the planners you want available to be used by your robot.
 If you opt to not list pipelines, as in ``.planning_pipelines()``, MoveIt will look in the config folder of your package for files that end with "_planning.yaml".
-Additionally, if no pipelinesare listed, MoveIt will load a set of planners from its own library - this can be disabled adding ``load_all=False`` as an argument to ``.planning_pipelines``.
-Listing the plaaner names specifiies which planners MoveIt should load; again these should be in your config folder.
-MoveIt will also pick one of ypur planners to be the default planner.
+Additionally, if no pipelines are listed, MoveIt will load a set of planners from its own library - this can be disabled adding ``load_all=False`` as an argument to ``.planning_pipelines``.
+Listing the planner names specifiies which planners MoveIt should load; again these should be in your config folder.
+MoveIt will also pick one of your planners to be the default planner.
 If OMPL is one of your planners, it will be the default planner unless you set ``default_planning_pipeline`` to your desired default planner as in
 
 .. code-block:: python
