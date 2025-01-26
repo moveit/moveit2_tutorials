@@ -273,3 +273,28 @@ An example of using the pose commands in the context of servoing to open a door 
 .. code-block:: bash
 
     ros2 launch moveit2_tutorials pose_tracking_tutorial.launch.py
+
+Signal Smoothing
+----------------
+
+Reviewing :moveit_codedir:`servo_parameters.yaml <moveit_ros/moveit_servo/config/servo_parameters.yaml>`, notice the parameter `smoothing_filter_plugin_name`. This helps smooth out any irregularities in joint commands to the robot, for example if there is an inconsistent period between commands. It can greatly reduce wear-and-tear on the robot's actuators and, in fact, many robots will not move unless incoming commands are sufficiently smooth.
+
+The current options are:
+
+`online_signal_smoothing::ButterworthFilterPlugin`: This is a very simple low-pass filter, slightly more advanced than a moving average.
+
+Benefits: computationally efficient, never overshoots the command in joint space.
+
+Drawbacks: may deviate slightly from "straight line motion" in Cartesian space. Does not expliticly limit actuator jerk or acceleration.
+
+`online_signal_smoothing::AccelerationLimitedPlugin`: This is an optimization-based algorithm that obeys the robot's acceleration limits (if feasible). Read more at https://github.com/moveit/moveit2/pull/2651
+
+Benefits: Maintains the desired direction of motion as long as it's kinematically feasible to do so. Can be useful for "sharp corners." Ensures robot joint acceleration limits are not violated.
+
+Drawbacks: Does not explicitly limit actuator jerk. Still can deviate from the intended direction of motion if the incoming command is not possible.
+
+`online_signal_smoothing::RuckigFilterPlugin`: This uses the well-known Ruckig library to ensure robot motions always obey joint and acceleration limits. Read more at https://github.com/moveit/moveit2/pull/2956
+
+Benefits: The smoothest option. Required for certain industrial robots.
+
+Drawbacks: Sometimes deviates from the intended direction of motion. For example, tends to make a swirling motion at sharp corners. To prevent the swirling motion requires extra logic on the incoming commands, outside of MoveIt Servo.
