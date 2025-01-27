@@ -285,16 +285,16 @@ The current options are:
 
 Benefits: computationally efficient, never overshoots the command in joint space.
 
-Drawbacks: may deviate slightly from "straight line motion" in Cartesian space. Does not expliticly limit actuator jerk or acceleration.
+Drawbacks: may deviate slightly from "straight line motion" in Cartesian space. Does not explicitly limit actuator jerk or acceleration.
 
 `online_signal_smoothing::AccelerationLimitedPlugin`: This is an optimization-based algorithm that obeys the robot's acceleration limits (if feasible). Read more at https://github.com/moveit/moveit2/pull/2651
 
 Benefits: Maintains the desired direction of motion as long as it's kinematically feasible to do so. Can be useful for "sharp corners." Ensures robot joint acceleration limits are not violated.
 
-Drawbacks: Does not explicitly limit actuator jerk. Still can deviate from the intended direction of motion if the incoming command is not possible.
+Drawbacks: Does not explicitly limit actuator jerk. Still can deviate from the intended direction of motion if the incoming command is not possible. May overshoot.
 
-`online_signal_smoothing::RuckigFilterPlugin`: This uses the well-known Ruckig library to ensure robot motions always obey joint and acceleration limits. Read more at https://github.com/moveit/moveit2/pull/2956
+`online_signal_smoothing::RuckigFilterPlugin`: This uses the well-known `Ruckig library <https://github.com/pantor/ruckig>`_ to ensure robot motions always obey joint and acceleration limits. Read more at https://github.com/moveit/moveit2/pull/2956
 
 Benefits: The smoothest option. Required for certain industrial robots.
 
-Drawbacks: Sometimes deviates from the intended direction of motion. For example, tends to make a swirling motion at sharp corners. To prevent the swirling motion requires extra logic on the incoming commands, outside of MoveIt Servo.
+Drawbacks: Sometimes deviates from the intended direction of motion. For example, tends to make a swirling motion at sharp corners. To prevent the swirling motion requires extra logic on the incoming commands, outside of MoveIt Servo. May overshoot.
