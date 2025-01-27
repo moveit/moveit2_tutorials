@@ -277,7 +277,7 @@ An example of using the pose commands in the context of servoing to open a door 
 Signal Smoothing
 ----------------
 
-Reviewing :moveit_codedir:`servo_parameters.yaml <moveit_ros/moveit_servo/config/servo_parameters.yaml>`, notice the parameter `smoothing_filter_plugin_name`. This helps smooth out any irregularities in joint commands to the robot, for example if there is an inconsistent period between commands. It can greatly reduce wear-and-tear on the robot's actuators and, in fact, many robots will not move unless incoming commands are sufficiently smooth.
+Reviewing :moveit_codedir:`servo_parameters.yaml <moveit_ros/moveit_servo/config/servo_parameters.yaml>`, notice the parameter `smoothing_filter_plugin_name`. This helps smooth out any irregularities in joint commands to the robot, for example if there is an inconsistent period between commands. It can greatly reduce wear-and-tear on the robot's actuators and, in fact, many robots will not move unless incoming commands are sufficiently smooth. These are plugins so any user can write their own.
 
 The current options are:
 
