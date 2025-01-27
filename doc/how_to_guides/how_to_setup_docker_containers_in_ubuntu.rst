@@ -35,7 +35,7 @@ If you do not complete these additional steps you will need to preface all ``doc
 
     DOCKER_IMAGE=main-rolling-tutorial-source docker compose run --rm --name moveit2_container gpu
 
-   You can replace ``DOCKER_IMAGE`` with other Docker image names, such as ``main-jazzy-tutorial-source`` or ``humble-humble-tutorial source``.
+   You can replace ``DOCKER_IMAGE`` with other Docker image names, such as ``main-jazzy-tutorial-source`` or ``humble-humble-tutorial-source``.
    This is based on the convention ``<MoveIt branch name>-<ROS distro name>-tutorial-source``.
 
    Similarly, you can replace the ``gpu`` service name with ``cpu`` if you do not wish to run using NVIDIA GPU drivers and you can change the name of the container by replacing ``moveit2_container``.
