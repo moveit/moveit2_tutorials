@@ -44,40 +44,6 @@ A handy way to refer to a MoveIt configuration package is to use the ``MoveItCon
         .to_moveit_configs()
     )
 
-``MoveItConfigsBuilder`` (`defined here <https://github.com/moveit/moveit2/blob/main/moveit_configs_utils/moveit_configs_utils/moveit_configs_builder.py>`_) can take a few different types of arguments.
-``MoveItConfigsBuilder(package_name="package_name")``  will search for a package named "package_name".
-``MoveItConfigsBuilder("robot_name")`` will search for an explicitly given package name.
-Both arguments can be given, in which case the robot name is stored and the package with the explicitly given name will be loaded.
-As seen above, ``gen3`` is the robot name, and MoveIt looks for the package ``kinova_gen3_7dof_robotiq_2f_85_moveit_config`` instead of ``gen3_moveit_config``.
-
-``.robot_description`` can optionally take a file path to ``robot_name.urdf`` and/or assign a dictionary of argument mappings that are passed to the robot's urdf.xacro file.
-The file path to ``robot_name.urdf`` must be relative to your robot package, so if your robot package is ``/robot_package`` and the urdf (or urdf xacro) file is ``robot_package/config/robot_name.urdf``
-you would pass ``.robot_description(filepath="config/robot_name.urdf")``.
-If you don't provide a file path, but you do give ``MoveItConfigsBuilder`` a robot name (see above paragraph), MoveIt will look for ``robot_package/config/robot_name.urdf``.
-
-``.trajectory_execution`` loads trajectory execution and MoveIt controller manager's parameters from an optionally provided file path.
-If a file path isn't given, MoveIt looks for files in the package's ``config`` folder for files ending with ``controllers.yaml``.
-
-``.planning_scene_monitor`` allows you to set various parameters about what scene information is published and how often is it published.
-
-``.planning_pipelines`` allows to you to list the names of the planners you want available to be used by your robot.
-If you opt to not list pipelines, as in ``.planning_pipelines()``, MoveIt will look in the config folder of your package for files that end with "_planning.yaml".
-Additionally, if no pipelines are listed, MoveIt will load a set of planners from its own library - this can be disabled adding ``load_all=False`` as an argument to ``.planning_pipelines``.
-Listing the planner names specifiies which planners MoveIt should load; again these should be in your config folder.
-MoveIt will also pick one of your planners to be the default planner.
-If OMPL is one of your planners, it will be the default planner unless you set ``default_planning_pipeline`` to your desired default planner as in
-
-.. code-block:: python
-
-    .planning_pipelines(
-            pipelines=["ompl", "your_favorite_planner"],
-            default_planning_pipeline="your_favorite_planner",
-        )
-
-If OMPL is not in your planner list and you don't set a default planner, MoveIt will pick the first planner in the list.
-
-
-
 Launching Move Group
 --------------------
 
@@ -249,22 +215,7 @@ Finally, we can tell our launch file to actually launch everything we described 
             ]
         )
 
-Launching a custom .cpp file
+Launching a custom executable
 ----------------------------
 
-While not part of the Getting Started tutorial, another common node to launch is one that executes a custom .cpp file:
-
-.. code-block:: python
-
-    moveit_cpp_node = Node(
-        name="custom_program",
-        package="custom_program_package",
-        executable="custom_program",
-        output="screen",
-        parameters=[your,
-                    parameters,
-                    here],
-    )
-
-where ``moveit_cpp_node_parameters`` is a list of parameters for that node. See Ros2 documentation for more information on launching .cpp files.
-Additionally, the tutorials on this site provide more examples on how to create programs to customize MoveIt's capabilities for your project.
+Later on these tutorials (:doc:`/doc/examples/moveit_cpp/moveit_cpp_tutorial`), you will learn how to create and launch a custom executable.
