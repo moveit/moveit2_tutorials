@@ -499,6 +499,7 @@ set_targets(
     target_prim_paths=[CAMERA_PRIM_PATH],
 )
 
+# Run app update for multiple frames to re-initialize the ROS action graph after setting new prim inputs
 simulation_app.update()
 simulation_app.update()
 
