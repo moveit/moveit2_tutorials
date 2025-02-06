@@ -30,9 +30,10 @@ repositories:
     type: git
     url: https://github.com/tylerjw/serial.git
     version: ros2
-  # This package was removed from binaries in the 2025-01-02 Rolling sync.
-  # If/when this is re-added, can remove from this list.
-  gz_ros2_control:
+  # This package was removed from binaries in the 2025-02-03 Rolling sync.
+  # If/when https://github.com/PickNikRobotics/picknik_controllers/pull/14 is merged and the package is re-added,
+  # we can remove from this list.
+  picknik_controllers:
     type: git
-    url: https://github.com/ros-controls/gz_ros2_control.git
-    version: rolling
+    url: https://github.com/sea-bass/picknik_controllers.git
+    version: fix-deprecated-realtime-tools-imports
