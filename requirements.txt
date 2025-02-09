@@ -5,4 +5,4 @@ sphinx-tabs
 sphinx-multiversion
 sphinx-rtd-theme
 sphinx-copybutton
-sphinxcontrib-doxylink@git+https://github.com/sphinx-contrib/doxylink.git@master
+sphinxcontrib-doxylink>=1.12.4
