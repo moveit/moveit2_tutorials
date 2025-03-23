@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2020-2024 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# Copyright (c) 2020-2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # Copyright (c) 2023 PickNik, LLC. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -54,7 +54,17 @@ CONFIG = {"renderer": "RayTracedLighting", "headless": False}
 
 simulation_app = SimulationApp(CONFIG)
 
-from omni.isaac.version import get_version
+# Use this flag to identify whether current release is Isaac Sim 4.5 or higher
+isaac_sim_ge_4_5_version = True
+
+# In older versions of Isaac Sim (prior to 4.5), get_version is imported from
+# omni.isaac.kit rather than isaacsim.core.version.
+try:
+    from isaacsim.core.version import get_version
+except:
+    from omni.isaac.version import get_version
+
+    isaac_sim_ge_4_5_version = False
 
 # Check the major version number of Isaac Sim to see if it's four digits, corresponding
 # to Isaac Sim 2023.1.1 or older.  The version numbering scheme changed with the
@@ -62,23 +72,48 @@ from omni.isaac.version import get_version
 is_legacy_isaacsim = len(get_version()[2]) == 4
 
 # More imports that need to compare after we create the app
-from omni.isaac.core import SimulationContext  # noqa E402
-from omni.isaac.core.utils.prims import set_targets
-from omni.isaac.core.utils import (  # noqa E402
-    extensions,
-    nucleus,
-    prims,
-    rotations,
-    stage,
-    viewports,
-)
-from omni.isaac.core_nodes.scripts.utils import set_target_prims  # noqa E402
+
+# In older versions of Isaac Sim (prior to 4.5), modules are imported from
+# omni.isaac.core rather than isaacsim.core.
+try:
+    from isaacsim.core.api import SimulationContext  # noqa E402
+    from isaacsim.core.utils.prims import set_targets  # noqa E402
+    from isaacsim.core.utils import (  # noqa E402
+        extensions,
+        prims,
+        rotations,
+        stage,
+        viewports,
+    )
+except:
+    from omni.isaac.core import SimulationContext  # noqa E402
+    from omni.isaac.core.utils.prims import set_targets  # noqa E402
+    from omni.isaac.core.utils import (  # noqa E402
+        extensions,
+        prims,
+        rotations,
+        stage,
+        viewports,
+    )
+
+# In older versions of Isaac Sim (prior to 4.5), nucleus is imported from
+# omni.isaac.core.utils rather than isaacsim.storage.native.
+if isaac_sim_ge_4_5_version:
+    from isaacsim.storage.native import nucleus
+else:
+    from omni.isaac.core.utils import nucleus  # noqa E402
+
 from pxr import Gf, UsdGeom  # noqa E402
 import omni.graph.core as og  # noqa E402
 import omni
 
 # enable ROS2 bridge extension
-extensions.enable_extension("omni.isaac.ros2_bridge")
+# In older versions of Isaac Sim (prior to 4.5), the ROS 2 bridge is loaded from
+# omni.isaac.ros2_bridge rather than isaacsim.ros2.bridge
+if isaac_sim_ge_4_5_version:
+    extensions.enable_extension("isaacsim.ros2.bridge")
+else:
+    extensions.enable_extension("omni.isaac.ros2_bridge")
 
 simulation_context = SimulationContext(stage_units_in_meters=1.0)
 
@@ -152,131 +187,302 @@ except ValueError:
 except KeyError:
     print("ROS_DOMAIN_ID environment variable is not set. Setting value to 0")
     ros_domain_id = 0
+if isaac_sim_ge_4_5_version:
+    # Create an action graph with ROS component nodes from Isaac Sim 4.5 release and higher
+    try:
+        og_keys_set_values = [
+            ("Context.inputs:domain_id", ros_domain_id),
+            # Set the /Franka target prim to Articulation Controller node
+            ("ArticulationController.inputs:robotPath", FRANKA_STAGE_PATH),
+            ("PublishJointState.inputs:topicName", "isaac_joint_states"),
+            ("SubscribeJointState.inputs:topicName", "isaac_joint_commands"),
+            ("createViewport.inputs:name", REALSENSE_VIEWPORT_NAME),
+            ("createViewport.inputs:viewportId", 1),
+            ("cameraHelperRgb.inputs:frameId", "sim_camera"),
+            ("cameraHelperRgb.inputs:topicName", "rgb"),
+            ("cameraHelperRgb.inputs:type", "rgb"),
+            ("cameraHelperInfo.inputs:frameId", "sim_camera"),
+            ("cameraHelperInfo.inputs:topicName", "camera_info"),
+            ("cameraHelperDepth.inputs:frameId", "sim_camera"),
+            ("cameraHelperDepth.inputs:topicName", "depth"),
+            ("cameraHelperDepth.inputs:type", "depth"),
+        ]
 
-# Create an action graph with ROS component nodes
-try:
-    og_keys_set_values = [
-        ("Context.inputs:domain_id", ros_domain_id),
-        # Set the /Franka target prim to Articulation Controller node
-        ("ArticulationController.inputs:robotPath", FRANKA_STAGE_PATH),
-        ("PublishJointState.inputs:topicName", "isaac_joint_states"),
-        ("SubscribeJointState.inputs:topicName", "isaac_joint_commands"),
-        ("createViewport.inputs:name", REALSENSE_VIEWPORT_NAME),
-        ("createViewport.inputs:viewportId", 1),
-        ("cameraHelperRgb.inputs:frameId", "sim_camera"),
-        ("cameraHelperRgb.inputs:topicName", "rgb"),
-        ("cameraHelperRgb.inputs:type", "rgb"),
-        ("cameraHelperInfo.inputs:frameId", "sim_camera"),
-        ("cameraHelperInfo.inputs:topicName", "camera_info"),
-        ("cameraHelperInfo.inputs:type", "camera_info"),
-        ("cameraHelperDepth.inputs:frameId", "sim_camera"),
-        ("cameraHelperDepth.inputs:topicName", "depth"),
-        ("cameraHelperDepth.inputs:type", "depth"),
-    ]
+        # In older versions of Isaac Sim, the articulation controller node contained a
+        # "usePath" checkbox input that should be enabled.
+        if is_legacy_isaacsim:
+            og_keys_set_values.insert(
+                1, ("ArticulationController.inputs:usePath", True)
+            )
 
-    # In older versions of Isaac Sim, the articulation controller node contained a
-    # "usePath" checkbox input that should be enabled.
-    if is_legacy_isaacsim:
-        og_keys_set_values.insert(1, ("ArticulationController.inputs:usePath", True))
+        og.Controller.edit(
+            {"graph_path": GRAPH_PATH, "evaluator_name": "execution"},
+            {
+                og.Controller.Keys.CREATE_NODES: [
+                    ("OnImpulseEvent", "omni.graph.action.OnImpulseEvent"),
+                    ("ReadSimTime", "isaacsim.core.nodes.IsaacReadSimulationTime"),
+                    ("Context", "isaacsim.ros2.bridge.ROS2Context"),
+                    ("PublishJointState", "isaacsim.ros2.bridge.ROS2PublishJointState"),
+                    (
+                        "SubscribeJointState",
+                        "isaacsim.ros2.bridge.ROS2SubscribeJointState",
+                    ),
+                    (
+                        "ArticulationController",
+                        "isaacsim.core.nodes.IsaacArticulationController",
+                    ),
+                    ("PublishClock", "isaacsim.ros2.bridge.ROS2PublishClock"),
+                    ("OnTick", "omni.graph.action.OnTick"),
+                    ("createViewport", "isaacsim.core.nodes.IsaacCreateViewport"),
+                    (
+                        "getRenderProduct",
+                        "isaacsim.core.nodes.IsaacGetViewportRenderProduct",
+                    ),
+                    ("setCamera", "isaacsim.core.nodes.IsaacSetCameraOnRenderProduct"),
+                    ("cameraHelperRgb", "isaacsim.ros2.bridge.ROS2CameraHelper"),
+                    ("cameraHelperInfo", "isaacsim.ros2.bridge.ROS2CameraInfoHelper"),
+                    ("cameraHelperDepth", "isaacsim.ros2.bridge.ROS2CameraHelper"),
+                ],
+                og.Controller.Keys.CONNECT: [
+                    (
+                        "OnImpulseEvent.outputs:execOut",
+                        "PublishJointState.inputs:execIn",
+                    ),
+                    (
+                        "OnImpulseEvent.outputs:execOut",
+                        "SubscribeJointState.inputs:execIn",
+                    ),
+                    ("OnImpulseEvent.outputs:execOut", "PublishClock.inputs:execIn"),
+                    (
+                        "OnImpulseEvent.outputs:execOut",
+                        "ArticulationController.inputs:execIn",
+                    ),
+                    ("Context.outputs:context", "PublishJointState.inputs:context"),
+                    ("Context.outputs:context", "SubscribeJointState.inputs:context"),
+                    ("Context.outputs:context", "PublishClock.inputs:context"),
+                    (
+                        "ReadSimTime.outputs:simulationTime",
+                        "PublishJointState.inputs:timeStamp",
+                    ),
+                    (
+                        "ReadSimTime.outputs:simulationTime",
+                        "PublishClock.inputs:timeStamp",
+                    ),
+                    (
+                        "SubscribeJointState.outputs:jointNames",
+                        "ArticulationController.inputs:jointNames",
+                    ),
+                    (
+                        "SubscribeJointState.outputs:positionCommand",
+                        "ArticulationController.inputs:positionCommand",
+                    ),
+                    (
+                        "SubscribeJointState.outputs:velocityCommand",
+                        "ArticulationController.inputs:velocityCommand",
+                    ),
+                    (
+                        "SubscribeJointState.outputs:effortCommand",
+                        "ArticulationController.inputs:effortCommand",
+                    ),
+                    ("OnTick.outputs:tick", "createViewport.inputs:execIn"),
+                    (
+                        "createViewport.outputs:execOut",
+                        "getRenderProduct.inputs:execIn",
+                    ),
+                    (
+                        "createViewport.outputs:viewport",
+                        "getRenderProduct.inputs:viewport",
+                    ),
+                    ("getRenderProduct.outputs:execOut", "setCamera.inputs:execIn"),
+                    (
+                        "getRenderProduct.outputs:renderProductPath",
+                        "setCamera.inputs:renderProductPath",
+                    ),
+                    ("setCamera.outputs:execOut", "cameraHelperRgb.inputs:execIn"),
+                    ("setCamera.outputs:execOut", "cameraHelperInfo.inputs:execIn"),
+                    ("setCamera.outputs:execOut", "cameraHelperDepth.inputs:execIn"),
+                    ("Context.outputs:context", "cameraHelperRgb.inputs:context"),
+                    ("Context.outputs:context", "cameraHelperInfo.inputs:context"),
+                    ("Context.outputs:context", "cameraHelperDepth.inputs:context"),
+                    (
+                        "getRenderProduct.outputs:renderProductPath",
+                        "cameraHelperRgb.inputs:renderProductPath",
+                    ),
+                    (
+                        "getRenderProduct.outputs:renderProductPath",
+                        "cameraHelperInfo.inputs:renderProductPath",
+                    ),
+                    (
+                        "getRenderProduct.outputs:renderProductPath",
+                        "cameraHelperDepth.inputs:renderProductPath",
+                    ),
+                ],
+                og.Controller.Keys.SET_VALUES: og_keys_set_values,
+            },
+        )
+    except Exception as e:
+        print(e)
 
-    og.Controller.edit(
-        {"graph_path": GRAPH_PATH, "evaluator_name": "execution"},
-        {
-            og.Controller.Keys.CREATE_NODES: [
-                ("OnImpulseEvent", "omni.graph.action.OnImpulseEvent"),
-                ("ReadSimTime", "omni.isaac.core_nodes.IsaacReadSimulationTime"),
-                ("Context", "omni.isaac.ros2_bridge.ROS2Context"),
-                ("PublishJointState", "omni.isaac.ros2_bridge.ROS2PublishJointState"),
-                (
-                    "SubscribeJointState",
-                    "omni.isaac.ros2_bridge.ROS2SubscribeJointState",
-                ),
-                (
-                    "ArticulationController",
-                    "omni.isaac.core_nodes.IsaacArticulationController",
-                ),
-                ("PublishClock", "omni.isaac.ros2_bridge.ROS2PublishClock"),
-                ("OnTick", "omni.graph.action.OnTick"),
-                ("createViewport", "omni.isaac.core_nodes.IsaacCreateViewport"),
-                (
-                    "getRenderProduct",
-                    "omni.isaac.core_nodes.IsaacGetViewportRenderProduct",
-                ),
-                ("setCamera", "omni.isaac.core_nodes.IsaacSetCameraOnRenderProduct"),
-                ("cameraHelperRgb", "omni.isaac.ros2_bridge.ROS2CameraHelper"),
-                ("cameraHelperInfo", "omni.isaac.ros2_bridge.ROS2CameraHelper"),
-                ("cameraHelperDepth", "omni.isaac.ros2_bridge.ROS2CameraHelper"),
-            ],
-            og.Controller.Keys.CONNECT: [
-                ("OnImpulseEvent.outputs:execOut", "PublishJointState.inputs:execIn"),
-                ("OnImpulseEvent.outputs:execOut", "SubscribeJointState.inputs:execIn"),
-                ("OnImpulseEvent.outputs:execOut", "PublishClock.inputs:execIn"),
-                (
-                    "OnImpulseEvent.outputs:execOut",
-                    "ArticulationController.inputs:execIn",
-                ),
-                ("Context.outputs:context", "PublishJointState.inputs:context"),
-                ("Context.outputs:context", "SubscribeJointState.inputs:context"),
-                ("Context.outputs:context", "PublishClock.inputs:context"),
-                (
-                    "ReadSimTime.outputs:simulationTime",
-                    "PublishJointState.inputs:timeStamp",
-                ),
-                ("ReadSimTime.outputs:simulationTime", "PublishClock.inputs:timeStamp"),
-                (
-                    "SubscribeJointState.outputs:jointNames",
-                    "ArticulationController.inputs:jointNames",
-                ),
-                (
-                    "SubscribeJointState.outputs:positionCommand",
-                    "ArticulationController.inputs:positionCommand",
-                ),
-                (
-                    "SubscribeJointState.outputs:velocityCommand",
-                    "ArticulationController.inputs:velocityCommand",
-                ),
-                (
-                    "SubscribeJointState.outputs:effortCommand",
-                    "ArticulationController.inputs:effortCommand",
-                ),
-                ("OnTick.outputs:tick", "createViewport.inputs:execIn"),
-                ("createViewport.outputs:execOut", "getRenderProduct.inputs:execIn"),
-                ("createViewport.outputs:viewport", "getRenderProduct.inputs:viewport"),
-                ("getRenderProduct.outputs:execOut", "setCamera.inputs:execIn"),
-                (
-                    "getRenderProduct.outputs:renderProductPath",
-                    "setCamera.inputs:renderProductPath",
-                ),
-                ("setCamera.outputs:execOut", "cameraHelperRgb.inputs:execIn"),
-                ("setCamera.outputs:execOut", "cameraHelperInfo.inputs:execIn"),
-                ("setCamera.outputs:execOut", "cameraHelperDepth.inputs:execIn"),
-                ("Context.outputs:context", "cameraHelperRgb.inputs:context"),
-                ("Context.outputs:context", "cameraHelperInfo.inputs:context"),
-                ("Context.outputs:context", "cameraHelperDepth.inputs:context"),
-                (
-                    "getRenderProduct.outputs:renderProductPath",
-                    "cameraHelperRgb.inputs:renderProductPath",
-                ),
-                (
-                    "getRenderProduct.outputs:renderProductPath",
-                    "cameraHelperInfo.inputs:renderProductPath",
-                ),
-                (
-                    "getRenderProduct.outputs:renderProductPath",
-                    "cameraHelperDepth.inputs:renderProductPath",
-                ),
-            ],
-            og.Controller.Keys.SET_VALUES: og_keys_set_values,
-        },
+else:
+
+    # Create an action graph with ROS component nodes from a pre Isaac Sim 4.5 release
+    try:
+        og_keys_set_values = [
+            ("Context.inputs:domain_id", ros_domain_id),
+            # Set the /Franka target prim to Articulation Controller node
+            ("ArticulationController.inputs:robotPath", FRANKA_STAGE_PATH),
+            ("PublishJointState.inputs:topicName", "isaac_joint_states"),
+            ("SubscribeJointState.inputs:topicName", "isaac_joint_commands"),
+            ("createViewport.inputs:name", REALSENSE_VIEWPORT_NAME),
+            ("createViewport.inputs:viewportId", 1),
+            ("cameraHelperRgb.inputs:frameId", "sim_camera"),
+            ("cameraHelperRgb.inputs:topicName", "rgb"),
+            ("cameraHelperRgb.inputs:type", "rgb"),
+            ("cameraHelperInfo.inputs:frameId", "sim_camera"),
+            ("cameraHelperInfo.inputs:topicName", "camera_info"),
+            ("cameraHelperInfo.inputs:type", "camera_info"),
+            ("cameraHelperDepth.inputs:frameId", "sim_camera"),
+            ("cameraHelperDepth.inputs:topicName", "depth"),
+            ("cameraHelperDepth.inputs:type", "depth"),
+        ]
+
+        # In older versions of Isaac Sim, the articulation controller node contained a
+        # "usePath" checkbox input that should be enabled.
+        if is_legacy_isaacsim:
+            og_keys_set_values.insert(
+                1, ("ArticulationController.inputs:usePath", True)
+            )
+
+        og.Controller.edit(
+            {"graph_path": GRAPH_PATH, "evaluator_name": "execution"},
+            {
+                og.Controller.Keys.CREATE_NODES: [
+                    ("OnImpulseEvent", "omni.graph.action.OnImpulseEvent"),
+                    ("ReadSimTime", "omni.isaac.core_nodes.IsaacReadSimulationTime"),
+                    ("Context", "omni.isaac.ros2_bridge.ROS2Context"),
+                    (
+                        "PublishJointState",
+                        "omni.isaac.ros2_bridge.ROS2PublishJointState",
+                    ),
+                    (
+                        "SubscribeJointState",
+                        "omni.isaac.ros2_bridge.ROS2SubscribeJointState",
+                    ),
+                    (
+                        "ArticulationController",
+                        "omni.isaac.core_nodes.IsaacArticulationController",
+                    ),
+                    ("PublishClock", "omni.isaac.ros2_bridge.ROS2PublishClock"),
+                    ("OnTick", "omni.graph.action.OnTick"),
+                    ("createViewport", "omni.isaac.core_nodes.IsaacCreateViewport"),
+                    (
+                        "getRenderProduct",
+                        "omni.isaac.core_nodes.IsaacGetViewportRenderProduct",
+                    ),
+                    (
+                        "setCamera",
+                        "omni.isaac.core_nodes.IsaacSetCameraOnRenderProduct",
+                    ),
+                    ("cameraHelperRgb", "omni.isaac.ros2_bridge.ROS2CameraHelper"),
+                    ("cameraHelperInfo", "omni.isaac.ros2_bridge.ROS2CameraHelper"),
+                    ("cameraHelperDepth", "omni.isaac.ros2_bridge.ROS2CameraHelper"),
+                ],
+                og.Controller.Keys.CONNECT: [
+                    (
+                        "OnImpulseEvent.outputs:execOut",
+                        "PublishJointState.inputs:execIn",
+                    ),
+                    (
+                        "OnImpulseEvent.outputs:execOut",
+                        "SubscribeJointState.inputs:execIn",
+                    ),
+                    ("OnImpulseEvent.outputs:execOut", "PublishClock.inputs:execIn"),
+                    (
+                        "OnImpulseEvent.outputs:execOut",
+                        "ArticulationController.inputs:execIn",
+                    ),
+                    ("Context.outputs:context", "PublishJointState.inputs:context"),
+                    ("Context.outputs:context", "SubscribeJointState.inputs:context"),
+                    ("Context.outputs:context", "PublishClock.inputs:context"),
+                    (
+                        "ReadSimTime.outputs:simulationTime",
+                        "PublishJointState.inputs:timeStamp",
+                    ),
+                    (
+                        "ReadSimTime.outputs:simulationTime",
+                        "PublishClock.inputs:timeStamp",
+                    ),
+                    (
+                        "SubscribeJointState.outputs:jointNames",
+                        "ArticulationController.inputs:jointNames",
+                    ),
+                    (
+                        "SubscribeJointState.outputs:positionCommand",
+                        "ArticulationController.inputs:positionCommand",
+                    ),
+                    (
+                        "SubscribeJointState.outputs:velocityCommand",
+                        "ArticulationController.inputs:velocityCommand",
+                    ),
+                    (
+                        "SubscribeJointState.outputs:effortCommand",
+                        "ArticulationController.inputs:effortCommand",
+                    ),
+                    ("OnTick.outputs:tick", "createViewport.inputs:execIn"),
+                    (
+                        "createViewport.outputs:execOut",
+                        "getRenderProduct.inputs:execIn",
+                    ),
+                    (
+                        "createViewport.outputs:viewport",
+                        "getRenderProduct.inputs:viewport",
+                    ),
+                    ("getRenderProduct.outputs:execOut", "setCamera.inputs:execIn"),
+                    (
+                        "getRenderProduct.outputs:renderProductPath",
+                        "setCamera.inputs:renderProductPath",
+                    ),
+                    ("setCamera.outputs:execOut", "cameraHelperRgb.inputs:execIn"),
+                    ("setCamera.outputs:execOut", "cameraHelperInfo.inputs:execIn"),
+                    ("setCamera.outputs:execOut", "cameraHelperDepth.inputs:execIn"),
+                    ("Context.outputs:context", "cameraHelperRgb.inputs:context"),
+                    ("Context.outputs:context", "cameraHelperInfo.inputs:context"),
+                    ("Context.outputs:context", "cameraHelperDepth.inputs:context"),
+                    (
+                        "getRenderProduct.outputs:renderProductPath",
+                        "cameraHelperRgb.inputs:renderProductPath",
+                    ),
+                    (
+                        "getRenderProduct.outputs:renderProductPath",
+                        "cameraHelperInfo.inputs:renderProductPath",
+                    ),
+                    (
+                        "getRenderProduct.outputs:renderProductPath",
+                        "cameraHelperDepth.inputs:renderProductPath",
+                    ),
+                ],
+                og.Controller.Keys.SET_VALUES: og_keys_set_values,
+            },
+        )
+    except Exception as e:
+        print(e)
+
+    simulation_app.update()
+
+if isaac_sim_ge_4_5_version:
+    # Setting the /Franka target prim to Publish JointState node
+    set_targets(
+        prim=stage.get_current_stage().GetPrimAtPath("/ActionGraph/PublishJointState"),
+        attribute="inputs:targetPrim",
+        target_prim_paths=[FRANKA_STAGE_PATH],
     )
-except Exception as e:
-    print(e)
+else:
+    from omni.isaac.core_nodes.scripts.utils import set_target_prims  # noqa E402
 
-
-# Setting the /Franka target prim to Publish JointState node
-set_target_prims(
-    primPath="/ActionGraph/PublishJointState", targetPrimPaths=[FRANKA_STAGE_PATH]
-)
+    # Setting the /Franka target prim to Publish JointState node
+    set_target_prims(
+        primPath="/ActionGraph/PublishJointState", targetPrimPaths=[FRANKA_STAGE_PATH]
+    )
 
 # Fix camera settings since the defaults in the realsense model are inaccurate
 realsense_prim = camera_prim = UsdGeom.Camera(
@@ -293,12 +499,15 @@ set_targets(
     target_prim_paths=[CAMERA_PRIM_PATH],
 )
 
+# Run app update for multiple frames to re-initialize the ROS action graph after setting new prim inputs
+simulation_app.update()
 simulation_app.update()
 
 # need to initialize physics getting any articulation..etc
 simulation_context.initialize_physics()
 
 simulation_context.play()
+simulation_app.update()
 
 # Dock the second camera window
 viewport = omni.ui.Workspace.get_window("Viewport")

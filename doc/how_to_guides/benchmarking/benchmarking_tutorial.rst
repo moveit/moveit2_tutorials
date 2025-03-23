@@ -36,7 +36,7 @@ The database can be visualized by uploading the the file to `plannerarena.org <h
 ROS 2 parameters to configure a benchmark
 -----------------------------------------
 
-The benchmarks are configured by a set of ROS 2 parameters. You can learn more about these parameters in the :moveit_codedir:`BenchmarkOptions.h <moveit_ros/benchmarks/include/moveit/benchmarks/BenchmarkOptions.h>` file.
+The benchmarks are configured by a set of ROS 2 parameters. You can learn more about these parameters in the :moveit_codedir:`BenchmarkOptions.hpp <moveit_ros/benchmarks/include/moveit/benchmarks/BenchmarkOptions.hpp>` file.
 
 
 The BenchmarkExecutor Class

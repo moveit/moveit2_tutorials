@@ -35,9 +35,9 @@
 /* Author: Sachin Chitta, Michael Lautman*/
 
 // MoveIt
-#include <moveit/robot_model_loader/robot_model_loader.h>
-#include <moveit/robot_model/robot_model.h>
-#include <moveit/robot_state/robot_state.h>
+#include <moveit/robot_model_loader/robot_model_loader.hpp>
+#include <moveit/robot_model/robot_model.hpp>
+#include <moveit/robot_state/robot_state.hpp>
 
 int main(int argc, char** argv)
 {
@@ -66,18 +66,18 @@ int main(int argc, char** argv)
   // `RobotModelLoader`_
   // object, which will look up
   // the robot description on the ROS parameter server and construct a
-  // :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.h>` for us to use.
+  // :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.hpp>` for us to use.
   //
   // .. _RobotModelLoader:
-  //     https://github.com/moveit/moveit2/blob/main/moveit_ros/planning/robot_model_loader/include/moveit/robot_model_loader/robot_model_loader.h
+  //     https://github.com/moveit/moveit2/blob/main/moveit_ros/planning/robot_model_loader/include/moveit/robot_model_loader/robot_model_loader.hpp
   robot_model_loader::RobotModelLoader robot_model_loader(node);
   const moveit::core::RobotModelPtr& kinematic_model = robot_model_loader.getModel();
   RCLCPP_INFO(LOGGER, "Model frame: %s", kinematic_model->getModelFrame().c_str());
 
-  // Using the :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.h>`, we can
-  // construct a :moveit_codedir:`RobotState<moveit_core/robot_state/include/moveit/robot_state/robot_state.h>` that
+  // Using the :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.hpp>`, we can
+  // construct a :moveit_codedir:`RobotState<moveit_core/robot_state/include/moveit/robot_state/robot_state.hpp>` that
   // maintains the configuration of the robot. We will set all joints in the state to their default values. We can then
-  // get a :moveit_codedir:`JointModelGroup<moveit_core/robot_model/include/moveit/robot_model/joint_model_group.h>`,
+  // get a :moveit_codedir:`JointModelGroup<moveit_core/robot_model/include/moveit/robot_model/joint_model_group.hpp>`,
   // which represents the robot model for a particular group, e.g. the "panda_arm" of the Panda robot.
   moveit::core::RobotStatePtr robot_state(new moveit::core::RobotState(kinematic_model));
   robot_state->setToDefaultValues();
@@ -149,7 +149,8 @@ int main(int argc, char** argv)
 
   // Get the Jacobian
   // ^^^^^^^^^^^^^^^^
-  // We can also get the Jacobian from the :moveit_codedir:`RobotState<moveit_core/robot_state/include/moveit/robot_state/robot_state.h>`.
+  // We can also get the Jacobian from the
+  // :moveit_codedir:`RobotState<moveit_core/robot_state/include/moveit/robot_state/robot_state.hpp>`.
   Eigen::Vector3d reference_point_position(0.0, 0.0, 0.0);
   Eigen::MatrixXd jacobian;
   robot_state->getJacobian(joint_model_group, robot_state->getLinkModel(joint_model_group->getLinkModelNames().back()),

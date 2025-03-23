@@ -1,4 +1,4 @@
-# A detailed description for all parameters can be found in BenchmarkOptions.h
+# A detailed description for all parameters can be found in BenchmarkOptions.hpp
 
 parameters:
     name: FullBenchmark

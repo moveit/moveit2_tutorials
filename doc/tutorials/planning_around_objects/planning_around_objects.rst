@@ -19,7 +19,7 @@ At the top of your source file, add this to the list of includes:
 
 .. code-block:: C++
 
-  #include <moveit/planning_scene_interface/planning_scene_interface.h>
+  #include <moveit/planning_scene_interface/planning_scene_interface.hpp>
 
 2 Change the Target Pose
 ^^^^^^^^^^^^^^^^^^^^^^^^

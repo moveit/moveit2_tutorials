@@ -1,12 +1,12 @@
 #include <rclcpp/rclcpp.hpp>
 
 // MoveIt
-#include <moveit/common_planning_interface_objects/common_objects.h>
-#include <moveit/kinematic_constraints/utils.h>
-#include <moveit/move_group_interface/move_group_interface.h>
-#include <moveit/planning_scene/planning_scene.h>
-#include <moveit/planning_scene_interface/planning_scene_interface.h>
-#include <moveit/robot_model_loader/robot_model_loader.h>
+#include <moveit/common_planning_interface_objects/common_objects.hpp>
+#include <moveit/kinematic_constraints/utils.hpp>
+#include <moveit/move_group_interface/move_group_interface.hpp>
+#include <moveit/planning_scene/planning_scene.hpp>
+#include <moveit/planning_scene_interface/planning_scene_interface.hpp>
+#include <moveit/robot_model_loader/robot_model_loader.hpp>
 // TF2
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 
