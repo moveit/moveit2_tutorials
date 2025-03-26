@@ -56,7 +56,7 @@
  *
  * NOTE:
  *   Tutorial notes will be commented like this block!
- * 
+ *
  * PRE-REQUISITES
  * ^^^^^^^^^^^^^^
  * This tutorial assumes knowledge of the MoveGroupInterface.
@@ -64,12 +64,12 @@
  * INTERACTIVITY
  * ^^^^^^^^^^^^^
  * This demo has four phases that can be advanced using the `rviz_visual_tools` dialog box.
- * 
+ *
  * 1. Plan and cache (no pruning)
  * 2. Plan and cache (with pruning)
  * 3. Fetch from cache and execute (while still planning and caching with pruning)
  * 4. Fetch from cache and execute, except with large start tolerances
- * 
+ *
  * This tutorial also supports "reconfigurable" parameters!:
  *
  * You can adjust them with:
@@ -657,7 +657,7 @@ int main(int argc, char** argv)
 
   /** [TUTORIAL NOTE]
    * This demo has four phases that can be advanced using the `rviz_visual_tools` dialog box.
-   * 
+   *
    * 1. Plan and cache (no pruning)
    *   - Showcases basic cache functionality.
    * 2. Plan and cache (with pruning)

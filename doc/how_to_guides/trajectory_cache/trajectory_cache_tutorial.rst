@@ -10,10 +10,11 @@ Furthermore, the cache supports pruning and ranking of fetched trajectories, wit
 
     <video width="450px" controls="true" autoplay="true" loop="true">
         <source src="../../../_static/videos/trajectory_cache/01_cache_and_execute_loop.webm" type="video/webm">
-        Introduction video showing the trajectory cache working. 
+        Introduction video showing the trajectory cache working.
     </video>
 
 For more info, please see the :moveit_codedir:`package README <moveit_ros/trajectory_cache/README.md>`.
+Or check out the `ROSCon 2024 Talk <https://vimeo.com/1024968990>`_ and `slides <https://roscon.ros.org/2024/talks/A_Fuzzy-Matching_Trajectory_Cache_for_MoveIt_2.pdf>`_!
 
 .. warning::
   The cache does NOT support collision detection and some other constraints (e.g. multi-DoF joints, planning scene, constraint regions, and visibility constraints)!
@@ -118,7 +119,7 @@ This demo has four phases that can be advanced using the ``rviz_visual_tools`` d
 3. Fetch from cache and execute (while still planning and caching with pruning)
 4. Fetch from cache and execute, except with large start tolerances
 
-Additionally, the `demo source code itself <how_to_guides/trajectory_cache/src/trajectory_cache_demo.cpp>`_ is heavily annotated with comments and tutorial notes, should you wish to inspect the code and dive deeper.
+Additionally, the :codedir:`demo source code itself <how_to_guides/trajectory_cache/src/trajectory_cache_demo.cpp>` is heavily annotated with comments and tutorial notes, should you wish to inspect the code and dive deeper.
 
 Pre-Requisites
 ++++++++++++++
@@ -147,14 +148,14 @@ Click ``next`` on the rviz window to advance the demo.
 .. note::
   Sometimes a randomly generated demo goal pose is unreachable (or the ``move_group`` fails to initialize properly).
   If this happens, the demo will halt in the first phase due to a failed planning call or other issue.
-  
+
   Just restart the demo, which will generate new demo goal poses, and resolve the issue.
 
 Configuring the Demo
 ++++++++++++++++++++
 
 Additionally, the demo's launch file exposes launch arguments that allows you to change many aspects of the demo.
-Look at the `demo's launch file <how_to_guides/trajectory_cache/launch/trajectory_cache_demo.launch.py>`_ for the full list of configurable launch arguments.
+Look at the :codedir:`demo's launch file <how_to_guides/trajectory_cache/launch/trajectory_cache_demo.launch.py>` for the full list of configurable launch arguments.
 
 For example, you can specify a disk path for the cache to be saved to and loaded from, instead of memory:
 
@@ -192,7 +193,7 @@ To interpret the visualization:
 
 .. note::
   You may note how in the visualization that the green trajectory (the best trajectory) appears to be much more optimal than some of the other candidate plans.
-  
+
   And furthermore, that most of the time, the fetch times are shorter than the planning times, even in this no-obstruction case, showing how the cache is saving the process planning time.
 
 The default cache insert policy inserts a cache plan only if it is the best seen (in terms of execution time) so far.
@@ -247,7 +248,7 @@ Observe that the executed trajectory is always locked to the best matching traje
 .. image:: images/demo_CacheAndExecute_best_trajectory.png
     :width: 450px
 
-Furthermore, notice that the set of matchable trajectories (indicated by white) is an even more constrained set from 
+Furthermore, notice that the set of matchable trajectories (indicated by white) is an even more constrained set from
 This shows that the cache is partitionable and able to filter out unmatchable entries by nature of the constraints that key them.
 
 To interpret the visualization, with the same legend as before:
@@ -311,7 +312,7 @@ Customizable Behavior
 +++++++++++++++++++++
 
 It is possible to extend the cache to key on custom user-defined features, and also to change the cache insertion, sorting, and pruning logic.
-You do this by implementing the features and cache insert policy interfaces, then feeding them into the 
+You do this by implementing the features and cache insert policy interfaces, then feeding them into the
 
 For example, you may decide to write your own feature extractor to key the cache, and decide when to insert or prune a cache entry on features such as:
 
