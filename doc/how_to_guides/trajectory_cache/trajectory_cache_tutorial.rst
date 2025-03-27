@@ -322,5 +322,5 @@ For example, you may decide to write your own feature extractor to key the cache
 
 See:
 
-- :moveit_codedir:`package README <moveit_ros/trajectory_cache/include/moveit/trajectory_cache/features/features_interface.hpp>`
-- :moveit_codedir:`package README <moveit_ros/trajectory_cache/include/moveit/trajectory_cache/cache_insert_policies/cache_insert_policy_interface.hpp>`
+- :moveit_codedir:`FeaturesInterface<FeatureSourceT <moveit_ros/trajectory_cache/include/moveit/trajectory_cache/features/features_interface.hpp>`
+- :moveit_codedir:`CacheInsertPolicyInterface <moveit_ros/trajectory_cache/include/moveit/trajectory_cache/cache_insert_policies/cache_insert_policy_interface.hpp>`
