@@ -312,7 +312,7 @@ Customizable Behavior
 +++++++++++++++++++++
 
 It is possible to extend the cache to key on custom user-defined features, and also to change the cache insertion, sorting, and pruning logic.
-You do this by implementing the features and cache insert policy interfaces, then feeding them into the
+You do this by implementing the features and cache insert policy interfaces, then feeding them into the appropriate cache methods.
 
 For example, you may decide to write your own feature extractor to key the cache, and decide when to insert or prune a cache entry on features such as:
 
