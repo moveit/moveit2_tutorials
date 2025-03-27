@@ -23,6 +23,7 @@
   <depend>moveit_core</depend>
   <depend>moveit_ros_perception</depend>
   <depend>moveit_ros_planning_interface</depend>
+  <depend>moveit_ros_trajectory_cache</depend>
   <depend>moveit_servo</depend>
   <depend>moveit_hybrid_planning</depend>
   <depend>moveit_visual_tools</depend>
@@ -36,6 +37,7 @@
   <depend>tf2_geometry_msgs</depend>
   <depend>tf2_ros</depend>
   <depend>moveit_task_constructor_core</depend>
+  <depend>warehouse_ros_sqlite</depend>
 
   <build_depend>eigen</build_depend>
   <build_depend>geometric_shapes</build_depend>
