@@ -107,9 +107,8 @@ Once our MoveIt configuration is defined we start the following set of nodes:
         rviz_node = Node(
                 package="rviz2",
                 executable="rviz2",
-                name="rviz2",
                 output="log",
-                arguments=["-d", rviz_config_file],
+                arguments=["-d", rviz_config_file, "--ros-args", "--remap", "rviz:__name:=rviz2"],
                 parameters=[
                         moveit_config.robot_description,
                         moveit_config.robot_description_semantic,

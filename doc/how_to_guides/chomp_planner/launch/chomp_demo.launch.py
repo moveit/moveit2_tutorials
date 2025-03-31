@@ -47,9 +47,14 @@ def generate_launch_description():
     rviz_node_tutorial = Node(
         package="rviz2",
         executable="rviz2",
-        name="rviz2",
         output="log",
-        arguments=["-d", rviz_empty_config],
+        arguments=[
+            "-d",
+            rviz_empty_config,
+            "--ros-args",
+            "--remap",
+            "rviz:__name:=rviz2",
+        ],
         parameters=[
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
@@ -61,9 +66,14 @@ def generate_launch_description():
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
-        name="rviz2",
         output="log",
-        arguments=["-d", rviz_full_config],
+        arguments=[
+            "-d",
+            rviz_full_config,
+            "--ros-args",
+            "--remap",
+            "rviz:__name:=rviz2",
+        ],
         parameters=[
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
