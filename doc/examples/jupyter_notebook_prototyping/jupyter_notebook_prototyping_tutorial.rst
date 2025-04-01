@@ -107,7 +107,6 @@ Once our MoveIt configuration is defined we start the following set of nodes:
         rviz_node = Node(
                 package="rviz2",
                 executable="rviz2",
-                name="rviz2",
                 output="log",
                 arguments=["-d", rviz_config_file],
                 parameters=[

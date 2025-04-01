@@ -119,7 +119,6 @@ def launch_setup(context, *args, **kwargs):
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
-        name="rviz2",
         output="log",
         arguments=["-d", rviz_config_file],
         parameters=[

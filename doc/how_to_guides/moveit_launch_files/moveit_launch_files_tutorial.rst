@@ -88,7 +88,6 @@ The following code uses a launch argument to receive an RViz configuration file 
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
-        name="rviz2",
         output="log",
         arguments=["-d", rviz_config],
         parameters=[
