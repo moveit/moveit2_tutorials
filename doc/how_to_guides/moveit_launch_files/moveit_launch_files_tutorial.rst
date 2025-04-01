@@ -89,7 +89,7 @@ The following code uses a launch argument to receive an RViz configuration file 
         package="rviz2",
         executable="rviz2",
         output="log",
-        arguments=["-d", rviz_config, "--ros-args", "--remap", "rviz:__name:=rviz2"],
+        arguments=["-d", rviz_config],
         parameters=[
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,

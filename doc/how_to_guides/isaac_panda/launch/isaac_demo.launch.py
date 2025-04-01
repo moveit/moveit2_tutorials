@@ -54,13 +54,7 @@ def generate_launch_description():
         package="rviz2",
         executable="rviz2",
         output="log",
-        arguments=[
-            "-d",
-            rviz_config_file,
-            "--ros-args",
-            "--remap",
-            "rviz:__name:=rviz2",
-        ],
+        arguments=["-d", rviz_config_file],
         parameters=[
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
