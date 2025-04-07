@@ -53,7 +53,7 @@ For each controller it is optional to set the *allowed_execution_duration_scalin
     allowed_execution_duration_scaling: 1.2
     allowed_goal_duration_margin: 0.5
 
-Optional Parameters
+Optional Parameters for ros_control Interface
 ------------------
 
 When using the MoveIt ROS Control interface, you can configure several parameters to optimize its behavior:
@@ -126,7 +126,7 @@ Controller Switching and Namespaces
 
 All controller names get prefixed by the namespace of their ros_control node. For this reason controller names should not contain slashes, and can't be named ``/``. For a particular node MoveIt can decide which controllers to have started or stopped. Since only controller names with registered allocator plugins are handled over MoveIt, MoveIt takes care of stopping controllers based on their claimed resources if a to-be-started controller needs any of those resources.
 
-When working with controller switching, you can configure the timeout for controller manager service calls using the :code:`controller_service_call_timeout` parameter (default: 3.0 seconds). This is particularly useful in complex setups where controller switching might take longer than the default timeout.
+When working with controller switching through the ROS Control interface managers, you can configure the timeout for controller manager service calls using the :code:`controller_service_call_timeout` parameter (default: 3.0 seconds). This is particularly useful in complex setups where controller switching might take longer than the default timeout.
 
 Controllers for Multiple Nodes
 ------------------------------
