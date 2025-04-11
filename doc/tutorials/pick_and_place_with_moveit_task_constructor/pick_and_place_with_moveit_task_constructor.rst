@@ -21,7 +21,7 @@ Move into your colcon workspace and pull the MoveIt Task Constructor source: ::
     cd ~/ws_moveit2/src
     git clone https://github.com/ros-planning/moveit_task_constructor.git -b ros2
 
-Attention: If you are ``ros2 humble`` user, you should use ``humble`` branch to clone a correct version code: ::
+Note: If you are using ROS 2 Humble, you should instead clone the ``humble`` branch of the repository: ::
 
     cd ~/ws_moveit2/src
     git clone https://github.com/ros-planning/moveit_task_constructor.git -b humble
