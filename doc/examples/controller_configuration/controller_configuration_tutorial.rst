@@ -53,6 +53,24 @@ For each controller it is optional to set the *allowed_execution_duration_scalin
     allowed_execution_duration_scaling: 1.2
     allowed_goal_duration_margin: 0.5
 
+Optional Parameters for ros_control Interface
+------------------
+
+When using the MoveIt ROS Control interface, you can configure several parameters to optimize its behavior:
+
+**controller_service_call_timeout** (double, default: 3.0 seconds)
+  This parameter controls how long MoveIt will wait for responses from controller manager services like list_controllers and switch_controller. On resource-constrained systems or congested networks, controller discovery and switching operations can take longer than the default timeout. Increasing this parameter in your configuration can prevent these timeout issues.
+
+**ros_control_namespace** (string, default: "/")
+  Namespace of the ros_control node.
+
+.. code-block:: yaml
+
+     # In your moveit_controllers.yaml configuration
+     ros_control_namespace: /my_robot
+     controller_service_call_timeout: 5.0  # Increase timeout to 5 seconds
+
+
 Debugging Information
 ---------------------
 
@@ -106,9 +124,9 @@ If you do not have a physical robot, :code:`ros2_control` makes it very easy to 
 Controller Switching and Namespaces
 -----------------------------------
 
-(TODO: update for ROS2)
-
 All controller names get prefixed by the namespace of their ros_control node. For this reason controller names should not contain slashes, and can't be named ``/``. For a particular node MoveIt can decide which controllers to have started or stopped. Since only controller names with registered allocator plugins are handled over MoveIt, MoveIt takes care of stopping controllers based on their claimed resources if a to-be-started controller needs any of those resources.
+
+When working with controller switching through the ROS Control interface managers, you can configure the timeout for controller manager service calls using the :code:`controller_service_call_timeout` parameter (default: 3.0 seconds). This is particularly useful in complex setups where controller switching might take longer than the default timeout.
 
 Controllers for Multiple Nodes
 ------------------------------
@@ -116,3 +134,5 @@ Controllers for Multiple Nodes
 There is a variation on the Ros2ControlManager, the Ros2ControlMultiManager. Ros2ControlMultiManager can be used for more than one ros_control nodes. It works by creating several Ros2ControlManagers, one for each node. It instantiates them with their respective namespace and takes care of proper delegation. To use it must be added to the launch file. ::
 
   <param name="moveit_controller_manager" value="moveit_ros_control_interface::Ros2ControlMultiManager" />
+
+The :code:`controller_service_call_timeout` parameter can also be set with the Ros2ControlMultiManager and will be used by all discovered controller managers.
