@@ -110,9 +110,9 @@ Parameters specific to the Point cloud updater are:
 
 * *point_subsample*: Choose one of every point_subsample points.
 
-* *padding_offset*: The size of the padding (in cm).
+* *padding_offset*: Specifies the padding size (in meters) to be applied to the robot's mesh when filtering links from the octree.
 
-* *padding_scale*: The scale of the padding.
+* *padding_scale*: Specifies the scaling factor to be applied to the robot's mesh when filtering links from the octree.
 
 * *filtered_cloud_topic*: The topic on which the filtered cloud will be published (mainly for debugging). The filtering cloud is the resultant cloud after self-filtering has been performed.
 
