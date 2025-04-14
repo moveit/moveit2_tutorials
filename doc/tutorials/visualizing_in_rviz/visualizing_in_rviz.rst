@@ -54,33 +54,42 @@ To test that this all worked, open a terminal in the workspace directory (rememb
 2 Create a ROS executor and spin the node on a thread
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Before we can initialize MoveItVisualTools, we need to have a executor spinning on our ROS node.
-This is necessary because of how MoveItVisualTools interacts with ROS services and topics.
+Before we can initialize MoveItVisualTools, we need to have a executor spinning on our ROS node. This is necessary because of how MoveItVisualTools interacts with ROS services and topics. First, add the threading library to your includes at the top.
 
 .. code-block:: C++
 
   #include <thread>  // <---- add this to the set of includes at the top
 
-    ...
+By creating and naming loggers, we are able to keep our program logs organized.
 
-    // Create a ROS logger
-    auto const logger = rclcpp::get_logger("hello_moveit");
+.. code-block:: C++
 
-    // We spin up a SingleThreadedExecutor so MoveItVisualTools interact with ROS
-    rclcpp::executors::SingleThreadedExecutor executor;
-    executor.add_node(node);
-    auto spinner = std::thread([&executor]() { executor.spin(); });
+  // Create a ROS logger
+  auto const logger = rclcpp::get_logger("hello_moveit");
 
-    // Create the MoveIt MoveGroup Interface
-    ...
+Next, add your executor before creating the MoveIt MoveGroup Interface.
 
-    // Shutdown ROS
-    rclcpp::shutdown();  // <--- This will cause the spin function in the thread to return
-    spinner.join();  // <--- Join the thread before exiting
-    return 0;
-  }
+.. code-block:: C++
 
-After each one of these changes, you should rebuild your workspace to make sure you don't have any syntax errors.
+  // Spin up a SingleThreadedExecutor for MoveItVisualTools to interact with ROS
+  rclcpp::executors::SingleThreadedExecutor executor;
+  executor.add_node(node);
+  auto spinner = std::thread([&executor]() { executor.spin(); });
+  
+  // Create the MoveIt MoveGroup Interface
+  
+  ...
+
+Finally, make sure to join the thread before exiting.
+
+.. code-block:: C++
+
+  // Shutdown ROS
+  rclcpp::shutdown();  // <--- This will cause the spin function in the thread to return
+  spinner.join();  // <--- Join the thread before exiting
+  return 0;
+
+After making these changes, rebuild your workspace to make sure you don’t have any syntax errors.
 
 3 Create and Initialize MoveItVisualTools
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
