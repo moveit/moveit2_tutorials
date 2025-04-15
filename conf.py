@@ -112,8 +112,6 @@ html_theme_options = {
     "collapse_navigation": True,
     "sticky_navigation": True,
     "navigation_depth": -1,
-    # This is the Google Analytics account used by moveit.ros.org, not picknik.ai
-    "analytics_id": "UA-108532843-1",
     # Only display the logo image, do not display the project name at the top of the sidebar
     "logo_only": True,
 }
