@@ -12,7 +12,7 @@ planning_pipelines:
   pipeline_names: ["ompl"]
 ompl:
   planning_plugin: ompl_interface/OMPLPlanner
-
+  # Add additional planning pipeline config here
 plan_request_params:
   planning_attempts: 1
   planning_pipeline: ompl
