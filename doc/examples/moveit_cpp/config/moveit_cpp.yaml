@@ -12,6 +12,19 @@ planning_pipelines:
   pipeline_names: ["ompl"]
 ompl:
   planning_plugin: ompl_interface/OMPLPlanner
+  request_adapters: >-
+    default_planner_request_adapters/AddTimeOptimalParameterization
+    default_planner_request_adapters/FixWorkspaceBounds
+    default_planner_request_adapters/FixStartStateBounds
+    default_planner_request_adapters/FixStartStateCollision
+    default_planner_request_adapters/FixStartStatePathConstraints
+  planner_configs:
+    PRMstarkConfigDefault:
+      type: geometric::PRMstar
+  # Define planner(s) for each move_group
+  panda_arm:
+    planner_configs:
+      - PRMstarkConfigDefault
   # Add additional planning pipeline config here
 plan_request_params:
   planning_attempts: 1
