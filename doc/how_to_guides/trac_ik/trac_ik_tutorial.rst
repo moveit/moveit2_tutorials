@@ -12,17 +12,18 @@ From their documentation:
   By default, the IK search returns immediately when either of these algorithms converges to an answer.
   Secondary constraints of distance and manipulability are also provided in order to receive back the "best" IK solution.
 
-The package `trac_ik_kinematics_plugin <https://bitbucket.org/traclabs/trac_ik/src/rolling-devel/trac_ik_kinematics_plugin/>`_ provides a ``KinematicsBase`` MoveIt interface that can replace the default KDL solver.
+The package `trac_ik_kinematics_plugin <https://bitbucket.org/traclabs/trac_ik/src/rolling/trac_ik_kinematics_plugin/>`_ provides a ``KinematicsBase`` MoveIt interface that can replace the default KDL solver.
 Currently, mimic joints are *not* supported.
 
 Install
 -------
 
-The ``rolling-devel`` branch of the TRAC-IK repository has the latest ROS 2 implementation.
-For now, the repository must be built from source in your ROS 2 workspace, for example ``~/moveit2_ws``. ::
+The ``rolling`` branch of the TRAC-IK repository has the latest ROS 2 implementation, but it is also available as binaries.
+
+If you instead want to build from source, go to your ROS 2 workspace, for example ``~/moveit2_ws``. ::
 
   cd ~/moveit2_ws/src
-  git clone -b rolling-devel https://bitbucket.org/traclabs/trac_ik.git
+  git clone -b rolling https://bitbucket.org/traclabs/trac_ik.git
 
 Usage
 -----
@@ -38,7 +39,7 @@ Usage
   - **kinematics\_solver\_attempts** parameter is unneeded: unlike KDL, TRAC-IK solver already restarts when it gets stuck.
   - **kinematics\_solver\_search\_resolution** is not applicable here.
 
-From the `trac_ik_lib <https://bitbucket.org/traclabs/trac_ik/src/rolling-devel/trac_ik_lib/>`_ package documentation (slightly modified), here is some information about the solve type parameter:
+From the `trac_ik_lib <https://bitbucket.org/traclabs/trac_ik/src/rolling/trac_ik_lib/>`_ package documentation (slightly modified), here is some information about the solve type parameter:
 
   - ``Speed``: returns very quickly the first solution found.
   - ``Distance``: runs for the full timeout, then returns the solution that minimizes sum of squares error (SSE) from the seed.
