@@ -18,11 +18,12 @@ Currently, mimic joints are *not* supported.
 Install
 -------
 
-The ``rolling-devel`` branch of the TRAC-IK repository has the latest ROS 2 implementation.
-For now, the repository must be built from source in your ROS 2 workspace, for example ``~/moveit2_ws``. ::
+The ``rolling`` branch of the TRAC-IK repository has the latest ROS 2 implementation, but it is also available as binaries.
+
+If you instead want to build from source, go to your ROS 2 workspace, for example ``~/moveit2_ws``. ::
 
   cd ~/moveit2_ws/src
-  git clone -b rolling-devel https://bitbucket.org/traclabs/trac_ik.git
+  git clone -b rolling https://bitbucket.org/traclabs/trac_ik.git
 
 Usage
 -----
