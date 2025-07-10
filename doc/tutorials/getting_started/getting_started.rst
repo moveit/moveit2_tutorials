@@ -95,6 +95,17 @@ This build command will likely take a long time (20+ minutes) depending on your 
   If you are low on computer memory, or if the build is generally having trouble completing on your computer,
   you can try appending ``--executor sequential`` to the ``colcon`` command above to build only one package at a time, or ``--parallel-workers <X>`` to limit the number of simultaneous builds. For even more limited machines, you can try running ``MAKEFLAGS="-j4 -l1" colcon build --executor sequential``.
 
+.. note::
+
+   To greatly reduce the build time of subsecuent builds, make sure you have installed and properly configured ``ccache`` on your compiler.
+
+   .. code-block:: bash
+
+      sudo apt install -y ccache
+      sudo /usr/sbin/update-ccache-symlinks
+      echo 'export PATH="/usr/lib/ccache:$PATH"' | tee -a ~/.bashrc
+      source ~/.bashrc && echo $PATH
+
 If everything goes well, you should see the message "Summary: X packages finished" where X might be 50. If you have problems, try re-checking your `ROS Installation <https://docs.ros.org/en/rolling/Installation.html>`_.
 
 Setup Your Colcon Workspace
