@@ -250,6 +250,7 @@ int main(int argc, char** argv)
   att_coll_object.object.id = "cylinder";
   att_coll_object.link_name = "panda_hand";
   att_coll_object.object.operation = att_coll_object.object.ADD;
+  att_coll_object.touch_links = std::vector<std::string>{ "panda_hand", "panda_leftfinger", "panda_rightfinger" };
   RCLCPP_INFO_STREAM(LOGGER, "Attaching cylinder to robot.");
   planning_scene_interface.applyAttachedCollisionObject(att_coll_object);
   // END_SUB_TUTORIAL
@@ -426,6 +427,7 @@ int main(int argc, char** argv)
       att_coll_object.object.id = "cylinder";
       att_coll_object.link_name = "panda_hand";
       att_coll_object.object.operation = att_coll_object.object.ADD;
+      att_coll_object.touch_links = std::vector<std::string>{ "panda_hand", "panda_leftfinger", "panda_rightfinger" };
       RCLCPP_INFO_STREAM(LOGGER, "Attaching cylinder to robot.");
       planning_scene_interface.applyAttachedCollisionObject(att_coll_object);
     }
