@@ -244,13 +244,15 @@ int main(int argc, char** argv)
   // Preparing the scene
   // ^^^^^^^^^^^^^^^^^^^
   // In the main function, we first spawn the objects in the planning scene, then attach the cylinder to the robot.
+  // We expect the cylinder to be touching the panda fingers, so we set the touch links accordingly so collision
+  // checking knows these collisions are expected.
   // Attaching the cylinder turns it purple in Rviz.
   spawnCollisionObjects(planning_scene_interface);
   moveit_msgs::msg::AttachedCollisionObject att_coll_object;
   att_coll_object.object.id = "cylinder";
   att_coll_object.link_name = "panda_hand";
   att_coll_object.object.operation = att_coll_object.object.ADD;
-  att_coll_object.touch_links = std::vector<std::string>{ "panda_hand", "panda_leftfinger", "panda_rightfinger" };
+  att_coll_object.touch_links = std::vector<std::string>{ "panda_leftfinger", "panda_rightfinger" };
   RCLCPP_INFO_STREAM(LOGGER, "Attaching cylinder to robot.");
   planning_scene_interface.applyAttachedCollisionObject(att_coll_object);
   // END_SUB_TUTORIAL
@@ -427,7 +429,7 @@ int main(int argc, char** argv)
       att_coll_object.object.id = "cylinder";
       att_coll_object.link_name = "panda_hand";
       att_coll_object.object.operation = att_coll_object.object.ADD;
-      att_coll_object.touch_links = std::vector<std::string>{ "panda_hand", "panda_leftfinger", "panda_rightfinger" };
+      att_coll_object.touch_links = std::vector<std::string>{ "panda_leftfinger", "panda_rightfinger" };
       RCLCPP_INFO_STREAM(LOGGER, "Attaching cylinder to robot.");
       planning_scene_interface.applyAttachedCollisionObject(att_coll_object);
     }
