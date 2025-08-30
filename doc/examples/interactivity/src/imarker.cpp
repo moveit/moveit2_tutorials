@@ -41,21 +41,25 @@
 #include <tf2_eigen/tf2_eigen.h>
 
 #include <utility>
+#include <rclcpp/logging.hpp>
+
+static const rclcpp::Logger LOGGER = rclcpp::get_logger("imarker");
 
 /* default callback which just prints the current pose */
-void IMarker::printFeedback(const visualization_msgs::InteractiveMarkerFeedbackConstPtr& feedback)
+void IMarker::printFeedback(const visualization_msgs::msg::InteractiveMarkerFeedback::ConstSharedPtr& feedback)
 {
-  ROS_INFO_STREAM(feedback->marker_name.c_str() << "is now at :" << PoseString(feedback->pose));
+  const std::string log_msg = feedback->marker_name + "is now at :" + PoseString(feedback->pose);
+  RCLCPP_INFO(LOGGER, "%s", log_msg.c_str());
 }
 
 /* create 1 cylinder as part of a 3-cylinder axis (used to visualize pose
  * manipulation) */
-visualization_msgs::Marker IMarker::makeAxisCyl(IMarker::Axis axis)
+visualization_msgs::msg::Marker IMarker::makeAxisCyl(IMarker::Axis axis)
 {
-  visualization_msgs::Marker marker;
+  visualization_msgs::msg::Marker marker;
   double scale = imarker_.scale * 0.4;
 
-  marker.type = visualization_msgs::Marker::CYLINDER;
+  marker.type = visualization_msgs::msg::Marker::CYLINDER;
   marker.scale.x = scale * 0.15;
   marker.scale.y = scale * 0.15;
   marker.scale.z = scale;
@@ -90,7 +94,7 @@ visualization_msgs::Marker IMarker::makeAxisCyl(IMarker::Axis axis)
 /* create a positional control no marker */
 void IMarker::makeBallControl()
 {
-  visualization_msgs::InteractiveMarkerControl control;
+  visualization_msgs::msg::InteractiveMarkerControl control;
   control.always_visible = true;
   imarker_.controls.push_back(control);
 }
@@ -98,7 +102,7 @@ void IMarker::makeBallControl()
 /* create an orientation/position control with an axis marker */
 void IMarker::makeAxisControl()
 {
-  visualization_msgs::InteractiveMarkerControl control;
+  visualization_msgs::msg::InteractiveMarkerControl control;
   control.always_visible = true;
   control.markers.push_back(makeAxisCyl(X));
   control.markers.push_back(makeAxisCyl(Y));
@@ -114,11 +118,11 @@ void IMarker::move(const Eigen::Isometry3d& pose)
 }
 
 /* initialize the marker.  All constructors call this. */
-void IMarker::initialize(interactive_markers::InteractiveMarkerServer& server, const std::string& name,
-                         const Eigen::Vector3d& position, const Eigen::Quaterniond& orientation,
-                         const std::string& frame_id,
-                         boost::function<void(const visualization_msgs::InteractiveMarkerFeedbackConstPtr&)> callback,
-                         IMarker::Dof dof)
+void IMarker::initialize(
+    interactive_markers::InteractiveMarkerServer& server, const std::string& name, const Eigen::Vector3d& position,
+    const Eigen::Quaterniond& orientation, const std::string& frame_id,
+    std::function<void(const visualization_msgs::msg::InteractiveMarkerFeedback::ConstSharedPtr&)> callback,
+    IMarker::Dof dof)
 {
   server_ = &server;
   imarker_.header.frame_id = frame_id;
@@ -142,9 +146,9 @@ void IMarker::initialize(interactive_markers::InteractiveMarkerServer& server, c
       break;
   }
 
-  visualization_msgs::InteractiveMarkerControl control;
+  visualization_msgs::msg::InteractiveMarkerControl control;
 
-  control.orientation_mode = visualization_msgs::InteractiveMarkerControl::FIXED;
+  control.orientation_mode = visualization_msgs::msg::InteractiveMarkerControl::FIXED;
 
   // add orientation and/or position controls
   for (int i = 0; i < 3; i++)
@@ -171,13 +175,13 @@ void IMarker::initialize(interactive_markers::InteractiveMarkerServer& server, c
     if (dof == ORIENT || dof == BOTH)
     {
       control.name = std::string("rotate_") + std::string(1, dirname[i]);
-      control.interaction_mode = visualization_msgs::InteractiveMarkerControl::ROTATE_AXIS;
+      control.interaction_mode = visualization_msgs::msg::InteractiveMarkerControl::ROTATE_AXIS;
       imarker_.controls.push_back(control);
     }
     if (dof == POS || dof == BOTH)
     {
       control.name = std::string("move_") + std::string(1, dirname[i]);
-      control.interaction_mode = visualization_msgs::InteractiveMarkerControl::MOVE_AXIS;
+      control.interaction_mode = visualization_msgs::msg::InteractiveMarkerControl::MOVE_AXIS;
       imarker_.controls.push_back(control);
     }
   }

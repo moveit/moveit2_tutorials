@@ -39,9 +39,10 @@
 #ifndef MOVEIT_TUTORIALS_INTERACTIVITY_SRC_IMARKER_H_
 #define MOVEIT_TUTORIALS_INTERACTIVITY_SRC_IMARKER_H_
 
-#include <interactive_markers/interactive_marker_server.h>
+#include <interactive_markers/interactive_marker_server.hpp>
 #include <Eigen/Geometry>
 #include <utility>
+#include <visualization_msgs/msg/detail/interactive_marker_feedback__struct.hpp>
 
 /* Interactive marker.
  *
@@ -66,7 +67,8 @@ public:
   /** create an interactive marker at the origin */
   IMarker(interactive_markers::InteractiveMarkerServer& server, const std::string& name,
           const std::string& frame_id = "/panda_link0",
-          boost::function<void(const visualization_msgs::InteractiveMarkerFeedbackConstPtr&)> callback = printFeedback,
+          std::function<void(const visualization_msgs::msg::InteractiveMarkerFeedback::ConstSharedPtr&)> callback =
+              printFeedback,
           Dof dof = BOTH)
     : imarker_()
   {
@@ -77,7 +79,8 @@ public:
   /** create an interactive marker with an initial pose */
   IMarker(interactive_markers::InteractiveMarkerServer& server, const std::string& name, const Eigen::Isometry3d& pose,
           const std::string& frame_id = "/panda_link0",
-          boost::function<void(const visualization_msgs::InteractiveMarkerFeedbackConstPtr&)> callback = printFeedback,
+          std::function<void(const visualization_msgs::msg::InteractiveMarkerFeedback::ConstSharedPtr&)> callback =
+              printFeedback,
           Dof dof = BOTH)
     : imarker_()
   {
@@ -91,7 +94,8 @@ public:
   IMarker(interactive_markers::InteractiveMarkerServer& server, const std::string& name,
           const Eigen::Vector3d& position, const Eigen::Quaterniond& orientation,
           const std::string& frame_id = "/panda_link0",
-          boost::function<void(const visualization_msgs::InteractiveMarkerFeedbackConstPtr&)> callback = printFeedback,
+          std::function<void(const visualization_msgs::msg::InteractiveMarkerFeedback::ConstSharedPtr&)> callback =
+              printFeedback,
           Dof dof = BOTH)
     : imarker_()
   {
@@ -101,7 +105,8 @@ public:
   /** create an interactive marker with an initial position */
   IMarker(interactive_markers::InteractiveMarkerServer& server, const std::string& name,
           const Eigen::Vector3d& position, const std::string& frame_id = "/panda_link0",
-          boost::function<void(const visualization_msgs::InteractiveMarkerFeedbackConstPtr&)> callback = printFeedback,
+          std::function<void(const visualization_msgs::msg::InteractiveMarkerFeedback::ConstSharedPtr&)> callback =
+              printFeedback,
           Dof dof = BOTH)
     : imarker_()
   {
@@ -112,14 +117,15 @@ public:
   void move(const Eigen::Isometry3d& pose);
 
   /** default callback which just prints new position and orientation */
-  static void printFeedback(const visualization_msgs::InteractiveMarkerFeedbackConstPtr& /*feedback*/);
+  static void printFeedback(const visualization_msgs::msg::InteractiveMarkerFeedback::ConstSharedPtr& /*feedback*/);
 
 private:
   /* called by constructors */
-  void initialize(interactive_markers::InteractiveMarkerServer& server, const std::string& name,
-                  const Eigen::Vector3d& position, const Eigen::Quaterniond& orientation, const std::string& frame_id,
-                  boost::function<void(const visualization_msgs::InteractiveMarkerFeedbackConstPtr&)> callback,
-                  Dof dof);
+  void
+  initialize(interactive_markers::InteractiveMarkerServer& server, const std::string& name,
+             const Eigen::Vector3d& position, const Eigen::Quaterniond& orientation, const std::string& frame_id,
+             std::function<void(const visualization_msgs::msg::InteractiveMarkerFeedback::ConstSharedPtr&)> callback,
+             Dof dof);
 
   enum Axis
   {
@@ -127,12 +133,12 @@ private:
     Y,
     Z
   };
-  visualization_msgs::Marker makeAxisCyl(Axis axis);
-  visualization_msgs::Marker makeBall();
+  visualization_msgs::msg::Marker makeAxisCyl(Axis axis);
+  visualization_msgs::msg::Marker makeBall();
   void makeBallControl();
   void makeAxisControl();
 
-  visualization_msgs::InteractiveMarker imarker_;
+  visualization_msgs::msg::InteractiveMarker imarker_;
   interactive_markers::InteractiveMarkerServer* server_;
 };
 

@@ -39,13 +39,16 @@
 #ifndef MOVEIT_TUTORIALS_INTERACTIVITY_SRC_INTERACTIVE_ROBOT_H_
 #define MOVEIT_TUTORIALS_INTERACTIVITY_SRC_INTERACTIVE_ROBOT_H_
 
-#include <ros/ros.h>
+#include <memory>
+#include <rclcpp/rclcpp.hpp>
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <moveit/robot_model/robot_model.h>
 #include <moveit/robot_state/robot_state.h>
-#include <moveit_msgs/DisplayRobotState.h>
+#include <moveit_msgs/msg/display_robot_state.hpp>
 
+#include <rclcpp/timer.hpp>
 #include <utility>
+#include <functional>
 
 #include "imarker.h"
 
@@ -72,7 +75,7 @@ public:
   void setWorldObjectPose(const Eigen::Isometry3d& pose);
 
   /** set a callback to call when updates occur */
-  void setUserCallback(boost::function<void(InteractiveRobot& robot)> callback)
+  void setUserCallback(std::function<void(InteractiveRobot& robot)> callback)
   {
     user_callback_ = std::move(callback);
   }
@@ -110,7 +113,7 @@ private:
   bool setCallbackTimer(bool new_update_request);
 
   /* update the world and robot state and publish to rviz */
-  void updateCallback(const ros::TimerEvent& e);
+  void updateCallback(/*const rclcpp::TimerEvent& e*/);
 
   /* functions to calculate new state and publish to rviz */
   void updateAll();
@@ -118,20 +121,22 @@ private:
   void publishWorldState();
 
   /* callback called when marker moves.  Moves right hand to new marker pose. */
-  static void movedRobotMarkerCallback(InteractiveRobot* robot,
-                                       const visualization_msgs::InteractiveMarkerFeedbackConstPtr& feedback);
+  static void
+  movedRobotMarkerCallback(InteractiveRobot* robot,
+                           const visualization_msgs::msg::InteractiveMarkerFeedback::ConstSharedPtr& feedback);
 
   /* callback called when marker moves.  Moves world object to new pose. */
-  static void movedWorldMarkerCallback(InteractiveRobot* robot,
-                                       const visualization_msgs::InteractiveMarkerFeedbackConstPtr& feedback);
+  static void
+  movedWorldMarkerCallback(InteractiveRobot* robot,
+                           const visualization_msgs::msg::InteractiveMarkerFeedback::ConstSharedPtr& feedback);
 
   /* marker publishers */
-  ros::NodeHandle nh_;
-  ros::Publisher robot_state_publisher_;
-  ros::Publisher world_state_publisher_;
+  rclcpp::Node::SharedPtr nh_;
+  rclcpp::Publisher<moveit_msgs::msg::DisplayRobotState>::SharedPtr robot_state_publisher_;
+  rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr world_state_publisher_;
   interactive_markers::InteractiveMarkerServer interactive_marker_server_;
-  IMarker* imarker_robot_;
-  IMarker* imarker_world_;
+  std::unique_ptr<IMarker> imarker_robot_;
+  std::unique_ptr<IMarker> imarker_world_;
 
   /* robot info */
   robot_model_loader::RobotModelLoader rm_loader_;
@@ -148,14 +153,14 @@ private:
   static const Eigen::Isometry3d DEFAULT_WORLD_OBJECT_POSE_;
 
   /* user callback function */
-  boost::function<void(InteractiveRobot& robot)> user_callback_;
+  std::function<void(InteractiveRobot& robot)> user_callback_;
 
   /* timer info for rate limiting */
-  ros::Timer publish_timer_;
-  ros::Time init_time_;
-  ros::Time last_callback_time_;
-  ros::Duration average_callback_duration_;
-  static const ros::Duration min_delay_;
+  rclcpp::WallTimer<std::function<void()>>::SharedPtr publish_timer_;
+  rclcpp::Time init_time_;
+  rclcpp::Time last_callback_time_;
+  rclcpp::Duration average_callback_duration_;
+  static const rclcpp::Duration min_delay_;
   int schedule_request_count_;
 };
 

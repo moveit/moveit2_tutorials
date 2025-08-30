@@ -39,13 +39,13 @@
 #include "interactivity/pose_string.h"
 
 // tf2
-#include <tf2_eigen/tf2_eigen.h>
+#include <tf2_eigen/tf2_eigen.hpp>
 
 #include <iostream>
 #include <iomanip>
 
 /** return a string describing a pose (position and quaternion) */
-std::string PoseString(const geometry_msgs::Pose& pose)
+std::string PoseString(const geometry_msgs::msg::Pose& pose)
 {
   std::stringstream ss;
   ss << "p(";

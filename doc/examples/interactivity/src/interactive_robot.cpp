@@ -39,6 +39,15 @@
 #include "interactivity/interactive_robot.h"
 #include <tf2_eigen/tf2_eigen.h>
 #include <moveit/robot_state/conversions.h>
+#include <chrono>
+#include <memory>
+#include <moveit_msgs/msg/detail/robot_state__struct.hpp>
+#include <rclcpp/logging.hpp>
+#include <rclcpp/node.hpp>
+#include <rclcpp/time.hpp>
+#include "interactivity/imarker.h"
+
+static const rclcpp::Logger LOGGER = rclcpp::get_logger("imarker_robot");
 
 // default world object position is just in front and left of Panda robot.
 const Eigen::Isometry3d
@@ -48,28 +57,37 @@ const Eigen::Isometry3d
 const double InteractiveRobot::WORLD_BOX_SIZE_ = 0.15;
 
 // minimum delay between calls to callback function
-const ros::Duration InteractiveRobot::min_delay_(0.01);
+const rclcpp::Duration InteractiveRobot::min_delay_(std::chrono::milliseconds(100));
 
 InteractiveRobot::InteractiveRobot(const std::string& robot_description, const std::string& robot_topic,
                                    const std::string& marker_topic, const std::string& imarker_topic)
   : user_data_(nullptr)
-  , nh_()  // this node handle is used to create the publishers
+  // this node handle is used to create the publishers
+  , nh_(rclcpp::Node::make_shared("interactive_robot"))
   // create publishers for markers and robot state
-  , robot_state_publisher_(nh_.advertise<moveit_msgs::DisplayRobotState>(robot_topic, 1))
-  , world_state_publisher_(nh_.advertise<visualization_msgs::Marker>(marker_topic, 100))
+  , robot_state_publisher_(nh_->create_publisher<moveit_msgs::msg::DisplayRobotState>(robot_topic, rclcpp::QoS(1)))
+  , world_state_publisher_(nh_->create_publisher<visualization_msgs::msg::Marker>(marker_topic, rclcpp::QoS(1)))
   // create an interactive marker server for displaying interactive markers
-  , interactive_marker_server_(imarker_topic)
-  , imarker_robot_(nullptr)
-  , imarker_world_(nullptr)
+  // ! error in initialization
+  , interactive_marker_server_("interactive_robot", imarker_topic)
+  // Create a marker to control the "panda_arm" group
+  , imarker_robot_(std::make_unique<IMarker>(
+        interactive_marker_server_, "robot", desired_group_end_link_pose_ /* a bug*/, "/panda_link0",
+        std::bind(movedRobotMarkerCallback, this, std::placeholders::_1), IMarker::BOTH))
+  // create an interactive marker to control the world geometry (the yellow cube)
+  , imarker_world_(
+        std::make_unique<IMarker>(interactive_marker_server_, "world", DEFAULT_WORLD_OBJECT_POSE_, "/panda_link0",
+                                  std::bind(movedWorldMarkerCallback, this, std::placeholders::_1), IMarker::POS))
   // load the robot description
-  , rm_loader_(robot_description)
+  , rm_loader_(nh_, robot_description)
   , group_(nullptr)
+  , average_callback_duration_(min_delay_)
 {
   // get the RobotModel loaded from urdf and srdf files
   robot_model_ = rm_loader_.getModel();
   if (!robot_model_)
   {
-    ROS_ERROR("Could not load robot description");
+    RCLCPP_ERROR(LOGGER, "Could not load robot description");
     throw RobotLoadException();
   }
 
@@ -77,7 +95,7 @@ InteractiveRobot::InteractiveRobot(const std::string& robot_description, const s
   robot_state_.reset(new moveit::core::RobotState(robot_model_));
   if (!robot_state_)
   {
-    ROS_ERROR("Could not get RobotState from Model");
+    RCLCPP_ERROR(LOGGER, "Could not get RobotState from Model");
     throw RobotLoadException();
   }
   robot_state_->setToDefaultValues();
@@ -87,21 +105,21 @@ InteractiveRobot::InteractiveRobot(const std::string& robot_description, const s
   std::string end_link = group_->getLinkModelNames().back();
   desired_group_end_link_pose_ = robot_state_->getGlobalLinkTransform(end_link);
 
-  // Create a marker to control the "panda_arm" group
-  imarker_robot_ = new IMarker(interactive_marker_server_, "robot", desired_group_end_link_pose_, "/panda_link0",
-                               boost::bind(movedRobotMarkerCallback, this, _1), IMarker::BOTH),
+  // imarker_robot_ = new IMarker(interactive_marker_server_, "robot", desired_group_end_link_pose_, "/panda_link0",
+  //                              boost::bind(movedRobotMarkerCallback, this, _1), IMarker::BOTH),
 
-  // create an interactive marker to control the world geometry (the yellow cube)
-      desired_world_object_pose_ = DEFAULT_WORLD_OBJECT_POSE_;
-  imarker_world_ = new IMarker(interactive_marker_server_, "world", desired_world_object_pose_, "/panda_link0",
-                               boost::bind(movedWorldMarkerCallback, this, _1), IMarker::POS),
+  // desired_world_object_pose_ = DEFAULT_WORLD_OBJECT_POSE_;
+  // imarker_world_ = new IMarker(interactive_marker_server_, "world", desired_world_object_pose_, "/panda_link0",
+  //                              boost::bind(movedWorldMarkerCallback, this, _1), IMarker::POS),
 
   // start publishing timer.
-      init_time_ = ros::Time::now();
+  init_time_ = rclcpp::Time(std::chrono::steady_clock::now().time_since_epoch().count());
   last_callback_time_ = init_time_;
-  average_callback_duration_ = min_delay_;
   schedule_request_count_ = 0;
-  publish_timer_ = nh_.createTimer(average_callback_duration_, &InteractiveRobot::updateCallback, this, true);
+
+  // ! problem
+  // publish_timer_ =
+  //     nh_->create_wall_timer(std::chrono::milliseconds(100), std::bind(&InteractiveRobot::updateCallback, this));
 
   // begin publishing robot state
   scheduleUpdate();
@@ -109,13 +127,13 @@ InteractiveRobot::InteractiveRobot(const std::string& robot_description, const s
 
 InteractiveRobot::~InteractiveRobot()
 {
-  delete imarker_world_;
-  delete imarker_robot_;
+  // delete imarker_world_;
+  // delete imarker_robot_;
 }
 
 // callback called when marker moves.  Moves right hand to new marker pose.
-void InteractiveRobot::movedRobotMarkerCallback(InteractiveRobot* robot,
-                                                const visualization_msgs::InteractiveMarkerFeedbackConstPtr& feedback)
+void InteractiveRobot::movedRobotMarkerCallback(
+    InteractiveRobot* robot, const visualization_msgs::msg::InteractiveMarkerFeedback::ConstSharedPtr& feedback)
 {
   Eigen::Isometry3d pose;
   tf2::fromMsg(feedback->pose, pose);
@@ -123,8 +141,8 @@ void InteractiveRobot::movedRobotMarkerCallback(InteractiveRobot* robot,
 }
 
 // callback called when marker moves.  Moves world object to new pose.
-void InteractiveRobot::movedWorldMarkerCallback(InteractiveRobot* robot,
-                                                const visualization_msgs::InteractiveMarkerFeedbackConstPtr& feedback)
+void InteractiveRobot::movedWorldMarkerCallback(
+    InteractiveRobot* robot, const visualization_msgs::msg::InteractiveMarkerFeedback::ConstSharedPtr& feedback)
 {
   Eigen::Isometry3d pose;
   tf2::fromMsg(feedback->pose, pose);
@@ -135,24 +153,26 @@ void InteractiveRobot::movedWorldMarkerCallback(InteractiveRobot* robot,
 // Return true if callback should happen immediately
 bool InteractiveRobot::setCallbackTimer(bool new_update_request)
 {
-  publish_timer_.stop();
+  publish_timer_.reset();
 
-  const ros::Time now = ros::Time::now();
-  const ros::Duration desired_delay = std::max(min_delay_, average_callback_duration_ * 1.2);
-  ros::Duration sec_since_last_callback = now - last_callback_time_;
-  ros::Duration sec_til_next_callback = desired_delay - sec_since_last_callback;
+  const rclcpp::Time now{ std::chrono::steady_clock::now().time_since_epoch().count() };
+  const rclcpp::Duration desired_delay = std::max(min_delay_, average_callback_duration_ * 1.2);
+  rclcpp::Duration sec_since_last_callback = now - last_callback_time_;
+  rclcpp::Duration sec_til_next_callback = desired_delay - sec_since_last_callback;
 
   if (schedule_request_count_)
   {
     // need a callback desired_delay seconds after previous callback
     schedule_request_count_ += new_update_request ? 1 : 0;
-    if (sec_til_next_callback <= ros::Duration(0.0001))
+    if (sec_til_next_callback <= /* maybe 0.1 milliseconds*/ rclcpp::Duration(std::chrono::milliseconds(1)))
     {
       // just run the callback now
       return true;
     }
-    publish_timer_.setPeriod(sec_til_next_callback);
-    publish_timer_.start();
+    // publish_timer_.setPeriod(sec_til_next_callback);
+    // publish_timer_.start();
+    publish_timer_->reset();
+    publish_timer_->call();
     return false;
   }
   else if (new_update_request)
@@ -165,27 +185,29 @@ bool InteractiveRobot::setCallbackTimer(bool new_update_request)
       sec_since_last_callback = desired_delay - sec_til_next_callback;
       last_callback_time_ = now - sec_since_last_callback;
     }
-    publish_timer_.setPeriod(sec_til_next_callback);
-    publish_timer_.start();
+    // todo: error
+    // publish_timer_.setPeriod(sec_til_next_callback);
+    // publish_timer_.start();
     return false;
   }
-  else if (!init_time_.isZero())
-  {
-    // for the first few seconds after startup call the callback periodically
-    // to ensure rviz gets the initial state.
-    // Without this rviz does not show some state until markers are moved.
-    if ((now - init_time_).sec >= 8)
-    {
-      init_time_ = ros::Time(0, 0);
-      return false;
-    }
-    else
-    {
-      publish_timer_.setPeriod(std::max(ros::Duration(1.0), average_callback_duration_ * 2));
-      publish_timer_.start();
-      return false;
-    }
-  }
+  // todo: error
+  // else if (!init_time_.isZero())
+  // {
+  //   // for the first few seconds after startup call the callback periodically
+  //   // to ensure rviz gets the initial state.
+  //   // Without this rviz does not show some state until markers are moved.
+  //   if ((now - init_time_).sec >= 8)
+  //   {
+  //     init_time_ = ros::Time(0, 0);
+  //     return false;
+  //   }
+  //   else
+  //   {
+  //     publish_timer_.setPeriod(std::max(ros::Duration(1.0), average_callback_duration_ * 2));
+  //     publish_timer_.start();
+  //     return false;
+  //   }
+  // }
   else
   {
     // nothing to do.  No callback needed.
@@ -200,22 +222,22 @@ void InteractiveRobot::scheduleUpdate()
   // schedule an update callback for the future.
   // If the callback should run now, call it.
   if (setCallbackTimer(true))
-    updateCallback(ros::TimerEvent());
+    updateCallback();
 }
 
 /* callback called when it is time to publish */
-void InteractiveRobot::updateCallback(const ros::TimerEvent& /*event*/)
+void InteractiveRobot::updateCallback()
 {
-  ros::Time tbegin = ros::Time::now();
-  publish_timer_.stop();
+  // ros::Time tbegin = ros::Time::now();
+  // publish_timer_.stop();
 
   // do the actual calculations and publishing
   updateAll();
 
   // measure time spent in callback for rate limiting
-  ros::Time tend = ros::Time::now();
-  average_callback_duration_ = (average_callback_duration_ + (tend - tbegin)) * 0.5;
-  last_callback_time_ = tend;
+  // ros::Time tend = ros::Time::now();
+  // average_callback_duration_ = (average_callback_duration_ + (tend - tbegin)) * 0.5;
+  // last_callback_time_ = tend;
   schedule_request_count_ = 0;
 
   // schedule another callback if needed
@@ -242,7 +264,8 @@ void InteractiveRobot::setGroup(const std::string& name)
   const moveit::core::JointModelGroup* group = robot_state_->getJointModelGroup(name);
   if (!group)
   {
-    ROS_ERROR_STREAM("No joint group named " << name);
+    // ROS_ERROR_STREAM("No joint group named " << name);
+    RCLCPP_ERROR_STREAM(LOGGER, "No joint group named " << name);
     if (!group_)
       throw RobotLoadException();
   }
@@ -271,9 +294,9 @@ void InteractiveRobot::setGroupPose(const Eigen::Isometry3d& pose)
 /* publish robot pose to rviz */
 void InteractiveRobot::publishRobotState()
 {
-  moveit_msgs::DisplayRobotState msg;
+  moveit_msgs::msg::DisplayRobotState msg;
   moveit::core::robotStateToRobotStateMsg(*robot_state_, msg.state);
-  robot_state_publisher_.publish(msg);
+  robot_state_publisher_->publish(msg);
 }
 
 /* remember new world object position and schedule an update */
@@ -286,13 +309,13 @@ void InteractiveRobot::setWorldObjectPose(const Eigen::Isometry3d& pose)
 /* publish world object position to rviz */
 void InteractiveRobot::publishWorldState()
 {
-  visualization_msgs::Marker marker;
+  visualization_msgs::msg::Marker marker;
   marker.header.frame_id = "/panda_link0";
-  marker.header.stamp = ros::Time::now();
+  marker.header.stamp = rclcpp::Time(std::chrono::steady_clock::now().time_since_epoch().count());
   marker.ns = "world_box";
   marker.id = 0;
-  marker.type = visualization_msgs::Marker::CUBE;
-  marker.action = visualization_msgs::Marker::ADD;
+  marker.type = visualization_msgs::msg::Marker::CUBE;
+  marker.action = visualization_msgs::msg::Marker::ADD;
   marker.scale.x = WORLD_BOX_SIZE_;
   marker.scale.y = WORLD_BOX_SIZE_;
   marker.scale.z = WORLD_BOX_SIZE_;
@@ -300,9 +323,9 @@ void InteractiveRobot::publishWorldState()
   marker.color.g = 1.0f;
   marker.color.b = 0.0f;
   marker.color.a = 0.4f;
-  marker.lifetime = ros::Duration();
+  marker.lifetime = rclcpp::Duration(std::chrono::seconds(1));
   marker.pose = tf2::toMsg(desired_world_object_pose_);
-  world_state_publisher_.publish(marker);
+  world_state_publisher_->publish(marker);
 }
 
 /* get world object pose and size */
