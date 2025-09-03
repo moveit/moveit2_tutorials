@@ -29,8 +29,6 @@
 #include <tf2_ros/transform_listener.h>
 #endif
 
-
-
 /* Author: Omid Heidari
    Desc: This file is a test for using trajopt in MoveIt. The goal is to make different types of constraints in
    MotionPlanRequest and visualize the result calculated using the trajopt planner.
