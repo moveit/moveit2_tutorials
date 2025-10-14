@@ -40,7 +40,7 @@
  *      Description : Example of using pose tracking via the ROS API in a door opening scenario.
  */
 
-#include <rclcpp/rclcpp.hpp>
+//#include <rclcpp/rclcpp.hpp>
 #include <tf2_eigen/tf2_eigen.hpp>
 #include <moveit_msgs/msg/planning_scene.hpp>
 #include <visualization_msgs/msg/marker.hpp>
@@ -119,7 +119,7 @@ private:
 
   rclcpp::Node::SharedPtr node_;
   Eigen::Vector3d hinge_, center_, dims_;
-  double angle_, step_, rotation_radius_;
+  double angle_, rotation_radius_;
   rclcpp::Publisher<moveit_msgs::msg::PlanningScene>::SharedPtr collision_object_publisher_;
   moveit_msgs::msg::CollisionObject collision_object_;
   shape_msgs::msg::SolidPrimitive door_primitive_;

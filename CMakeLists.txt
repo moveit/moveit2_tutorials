@@ -53,6 +53,8 @@ add_subdirectory(doc/examples/collision_environments)
 # add_subdirectory(doc/examples/tests)
 # add_subdirectory(doc/examples/trajopt_planner)
 # add_subdirectory(doc/examples/visualizing_collisions)
+
+
 add_subdirectory(doc/examples/perception_pipeline)
 add_subdirectory(doc/examples/jupyter_notebook_prototyping)
 add_subdirectory(doc/examples/motion_planning_api)
@@ -62,8 +64,9 @@ add_subdirectory(doc/examples/move_group_interface)
 add_subdirectory(doc/examples/moveit_cpp)
 add_subdirectory(doc/examples/planning_scene)
 add_subdirectory(doc/examples/planning_scene_ros_api)
-add_subdirectory(doc/examples/realtime_servo)
+add_subdirectory(doc/examples/realtime_servo) ##problemi
 add_subdirectory(doc/examples/robot_model_and_robot_state)
+
 add_subdirectory(doc/how_to_guides/benchmarking)
 add_subdirectory(doc/how_to_guides/isaac_panda)
 add_subdirectory(doc/how_to_guides/kinematics_cost_function)
