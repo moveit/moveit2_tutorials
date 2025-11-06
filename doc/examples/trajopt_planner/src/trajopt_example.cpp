@@ -17,7 +17,6 @@
 #include <moveit_msgs/PlanningScene.h>
 
 #include <geometry_msgs/TransformStamped.h>
-
 #include <tf2/utils.hpp>
 #include <tf2_eigen/tf2_eigen.hpp>
 #include <tf2_ros/transform_listener.hpp>
