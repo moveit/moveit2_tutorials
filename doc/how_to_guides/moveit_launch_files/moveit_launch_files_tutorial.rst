@@ -47,7 +47,7 @@ A handy way to refer to a MoveIt configuration package is to use the ``MoveItCon
 Launching Move Group
 --------------------
 
-Once all the MoveIt configuration parameters have been loaded, you can launch the :ref:`Move Group Interface` using the entire set of loaded MoveIt parameters.
+Once all the MoveIt configuration parameters have been loaded, you can define the :ref:`Move Group Interface` Node using the entire set of loaded MoveIt parameters.
 
 .. code-block:: python
 
@@ -186,6 +186,7 @@ In our example, we have:
         arguments=["robotiq_gripper_controller", "-c", "/controller_manager"],
     )
 
+
 Launching all the nodes
 -----------------------
 
@@ -212,3 +213,8 @@ Finally, we can tell our launch file to actually launch everything we described 
                 hand_controller_spawner,
             ]
         )
+
+Launching a custom executable
+----------------------------
+
+Later on these tutorials (:doc:`/doc/examples/moveit_cpp/moveit_cpp_tutorial`), you will learn how to create and launch a custom executable.
