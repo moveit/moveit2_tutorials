@@ -19,7 +19,7 @@ jobs:
     container:
       image: moveit/moveit2:rolling-source
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Install Python dependencies
       shell: bash
@@ -59,7 +59,7 @@ jobs:
     container:
       image: ${{ matrix.container }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Install Python dependencies
       shell: bash
@@ -94,7 +94,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: upload_site_artifacts
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0
 
