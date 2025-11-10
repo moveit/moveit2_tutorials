@@ -151,7 +151,7 @@ jobs:
         cp -rf python_api/ build/html/main/doc/api/   # restore artifact html
 
     - name: Upload pages artifact
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v4
       if: github.repository_owner == 'moveit'
       with:
         path: build/html
