@@ -63,8 +63,7 @@ The OmniGraph also contains nodes to publish RGB and Depth images from the camer
 The RGB image is published to the topic ``/rgb``, the camera info to ``/camera_info``, and the depth image to ``/depth``.
 The frame ID of the camera frame is ``/sim_camera``.
 To learn about configuring your Isaac Sim robot to communicate with ROS 2 please see the
-`Joint Control tutorial <https://docs.isaacsim
-omniverse.nvidia.com/latest/ros2_tutorials/tutorial_ros2_manipulation.html>`_
+`Joint Control tutorial <https://docs.isaacsim.omniverse.nvidia.com/latest/ros2_tutorials/tutorial_ros2_manipulation.html>`_
 on Omniverse.
 
 Computer Setup
