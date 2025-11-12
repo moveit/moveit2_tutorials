@@ -35,18 +35,18 @@
 /* Author: Sachin Chitta, Michael Lautman */
 
 #include <rclcpp/rclcpp.hpp>
-#include <geometry_msgs/msg/pose.hpp>
+//#include <geometry_msgs/msg/pose.hpp>
 
 // MoveIt
-#include <moveit_msgs/msg/planning_scene.hpp>
-#include <moveit_msgs/msg/attached_collision_object.hpp>
-#include <moveit_msgs/srv/get_state_validity.hpp>
-#include <moveit_msgs/msg/display_robot_state.hpp>
+//#include <moveit_msgs/msg/planning_scene.hpp>
+//#include <moveit_msgs/msg/attached_collision_object.hpp>
+//#include <moveit_msgs/srv/get_state_validity.hpp>
+//#include <moveit_msgs/msg/display_robot_state.hpp>
 #include <moveit_msgs/srv/apply_planning_scene.hpp>
 
-#include <moveit/robot_model_loader/robot_model_loader.hpp>
-#include <moveit/robot_state/robot_state.hpp>
-#include <moveit/robot_state/conversions.hpp>
+//#include <moveit/robot_model_loader/robot_model_loader.hpp>
+//#include <moveit/robot_state/robot_state.hpp>
+//#include <moveit/robot_state/conversions.hpp>
 
 #include <rviz_visual_tools/rviz_visual_tools.hpp>
 
