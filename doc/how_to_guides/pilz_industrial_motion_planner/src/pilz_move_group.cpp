@@ -171,6 +171,74 @@ int main(int argc, char* argv[])
   }
 
   {
+    auto const goal_pose = [] {
+      geometry_msgs::msg::PoseStamped msg;
+      msg.header.frame_id = "world";
+      msg.pose.orientation.x = 1.0;
+      msg.pose.orientation.y = 0.0;
+      msg.pose.orientation.z = 0.0;
+      msg.pose.orientation.w = 0.0;
+      msg.pose.position.x = 0.3;
+      msg.pose.position.y = 0.0;
+      msg.pose.position.z = 0.6;
+      return msg;
+    }();
+    // Move back home using the PTP planner.
+    move_group_interface.setPlannerId("PTP");
+    move_group_interface.setPoseTarget(goal_pose, "panda_hand");
+    plan_and_execute("[PTP] Return");
+  }
+  // Clear Marker to show polyline path clearly
+  moveit_visual_tools.deleteAllMarkers();
+  moveit_visual_tools.trigger();
+  {
+    // Move in a heart-shaped Cartesian path using the POLYLINE.
+    move_group_interface.setPlannerId("POLYLINE");
+    // To prevent failure due to exceeding cartesian limits.
+    move_group_interface.setMaxVelocityScalingFactor(0.05);
+    move_group_interface.setMaxAccelerationScalingFactor(0.05);
+    // Define Heart Shape Parametric Equation to collect waypoints
+    auto heart_eq = [](double t) -> Eigen::Vector3d {
+      Eigen::Vector3d p;
+      p.x() = 0.3 + 0.0068 * (17 + 13 * std::cos(t) - 5 * std::cos(2 * t) - 2 * std::cos(3 * t) - cos(4 * t));
+      p.y() = 0.0068 * (16.0 * std::pow(std::sin(t), 3));
+      p.z() = 0.6;
+      return p;
+    };
+
+    geometry_msgs::msg::PoseStamped msg;
+    msg.header.frame_id = "world";
+    moveit_msgs::msg::Constraints path_constraints;
+    const int num_points = 40;
+    for (int i = 0; i <= num_points; ++i)
+    {
+      // Get waypoint from parametric equation of heart shape
+      double t = M_PI + 2.0 * i * M_PI / float(num_points);
+      Eigen::Vector3d p = heart_eq(t);
+      msg.pose.position.x = p.x();
+      msg.pose.position.y = p.y();
+      msg.pose.position.z = p.z();
+      msg.pose.orientation.x = 1.0;
+      msg.pose.orientation.y = 0.0;
+      msg.pose.orientation.z = 0.0;
+      msg.pose.orientation.w = 0.0;
+      // Add waypoint as position constraint
+      moveit_msgs::msg::PositionConstraint pos_constraint;
+      pos_constraint.header.frame_id = "world";
+      pos_constraint.link_name = "panda_hand";
+      pos_constraint.constraint_region.primitive_poses.resize(1);
+      pos_constraint.constraint_region.primitive_poses[0] = msg.pose;
+      pos_constraint.weight = 1.0;
+      path_constraints.position_constraints.push_back(pos_constraint);
+    }
+    // Set all position constraints as path constraints
+    move_group_interface.setPathConstraints(path_constraints);
+    // Set the last pose as goal
+    move_group_interface.setPoseTarget(msg, "panda_hand");
+    plan_and_execute("[POLYLINE] Heart");
+  }
+
+  {
     // Move back home using the PTP planner.
     move_group_interface.setPlannerId("PTP");
     move_group_interface.setNamedTarget("ready");
