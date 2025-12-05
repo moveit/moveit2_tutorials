@@ -266,7 +266,7 @@ CIRC Planning Result in ``moveit_msg::MotionPlanResponse``
 -  ``error_code/val``: error code of the motion planning
 
 The POLYLINE motion command
-----------------------
+---------------------------------
 
 This planner generates a continuous Cartesian trajectory passing through a sequence of waypoints.
 The generated path is a combination of linear segments connected by
@@ -282,7 +282,7 @@ the Cartesian velocity/acceleration scaling factor if the motion plan fails due 
 the planner will fail if three or more consecutive waypoints are collinear.
 
 POLYLINE Input Parameters in ``moveit_msgs::MotionPlanRequest``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  ``planner_id``: ``"POLYLINE"``
 -  ``group_name``: the name of the planning group
@@ -294,9 +294,10 @@ POLYLINE Input Parameters in ``moveit_msgs::MotionPlanRequest``
 -  ``start_state/joint_state/(name, position and velocity``: joint
    name/position of the start state.
 -  ``path_constraints``: a list of position constraints to be followed in
-   Cartesian space. Each waypoint is defined as a ``moveit_msgs::msg::PositionConstraint``.
+   Cartesian space. Each waypoint is defined as a ``moveit_msgs::msg::PositionConstraint``
+   
       -  ``path_constraints/position_constraints/constraint_region/primitive_poses/point``:
-      pose of the point
+         pose of the point
 -  ``goal_constraints`` (the last goal point)
       -  ``goal_constraints/position_constraints/header/frame_id``:
          frame this data is associated with
