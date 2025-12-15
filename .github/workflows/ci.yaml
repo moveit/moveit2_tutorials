@@ -41,7 +41,7 @@ jobs:
       - name: cache upstream_ws
         uses: actions/cache@v4
         with:
-          save-always: true
+          id: cache-primes-restore
           path: ${{ env.BASEDIR }}/upstream_ws
           key: upstream_ws-${{ env.CACHE_PREFIX }}-${{ hashFiles('.github/upstream.repos') }}-${{ github.run_id }}
           restore-keys: |
@@ -51,7 +51,7 @@ jobs:
       - name: cache target_ws
         uses: actions/cache@v4
         with:
-          save-always: true
+          id: cache-primes-restore
           path: ${{ env.BASEDIR }}/target_ws
           key: target_ws-${{ env.CACHE_PREFIX }}-${{ hashFiles('**/CMakeLists.txt', '**/package.xml') }}-${{ github.run_id }}
           restore-keys: |
@@ -59,7 +59,7 @@ jobs:
       - name: cache ccache
         uses: actions/cache@v4
         with:
-          save-always: true
+          id: cache-primes-restore
           path: ${{ env.CCACHE_DIR }}
           key: ccache-${{ env.CACHE_PREFIX }}-${{ github.sha }}-${{ github.run_id }}
           restore-keys: |
