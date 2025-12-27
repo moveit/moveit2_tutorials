@@ -35,11 +35,11 @@ jobs:
     name: ${{ matrix.env.IMAGE }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: cache upstream_ws
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           id: cache-primes-restore
           path: ${{ env.BASEDIR }}/upstream_ws
@@ -49,7 +49,7 @@ jobs:
       # The target directory cache doesn't include the source directory because
       # that comes from the checkout.  See "prepare target_ws for cache" task below
       - name: cache target_ws
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           id: cache-primes-restore
           path: ${{ env.BASEDIR }}/target_ws
@@ -57,7 +57,7 @@ jobs:
           restore-keys: |
             target_ws-${{ env.CACHE_PREFIX }}-${{ hashFiles('**/CMakeLists.txt', '**/package.xml') }}
       - name: cache ccache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           id: cache-primes-restore
           path: ${{ env.CCACHE_DIR }}
