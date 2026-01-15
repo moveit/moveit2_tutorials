@@ -9,8 +9,8 @@ repositories:
     version: ros2
   picknik_controllers:
     type: git
-    url: https://github.com/PickNikRobotics/picknik_controllers.git
-    version: main
+    url: https://github.com/sea-bass/picknik_controllers.git
+    version: fix-deprecated-realtime-tools-imports
   # Remove ros2_kortex when rolling binaries are available.
   ros2_kortex:
     type: git
