@@ -28,7 +28,6 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   rclcpp_action
   rviz_visual_tools
   tf2_geometry_msgs
-  tf2_geometry_msgs
   tf2_ros
   warehouse_ros_sqlite
 )
