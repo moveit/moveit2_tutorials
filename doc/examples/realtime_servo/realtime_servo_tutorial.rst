@@ -28,7 +28,7 @@ Design overview
 ---------------
 
 MoveIt Servo consists of two main parts: The core implementation ``Servo`` which provides a C++ interface, and the ``ServoNode`` which
-wraps the C++ interface and provides a ROS interface.The configuration of Servo is done through ROS parameters specified in :moveit_codedir:`servo_parameters.yaml <moveit_ros/moveit_servo/config/servo_parameters.yaml>`
+wraps the C++ interface and provides a ROS interface. The configuration of Servo is done through ROS parameters specified in :moveit_codedir:`servo_parameters.yaml <moveit_ros/moveit_servo/config/servo_parameters.yaml>`.
 
 In addition to the servoing capability, MoveIt Servo has some convenient features such as:
 
@@ -40,7 +40,10 @@ In addition to the servoing capability, MoveIt Servo has some convenient feature
 Singularity checking and collision checking are safety features that scale down the velocities when approaching singularities or collisions (self collision or collision with other objects).
 The collision checking and smoothing are optional features that can be disabled using the ``check_collisions`` parameter and the ``use_smoothing`` parameters respectively.
 
-The inverse kinematics is handled through either the inverse Jacobain or the robot's IK solver if one was provided.
+The inverse kinematics is handled through either the inverse Jacobian or the robot's IK solver if one was provided.
+
+If your robot has subgroups (for example, a dual-arm setup), you can switch which subgroup
+Servo actuates at runtime using the ``active_subgroup`` parameter.
 
 
 Inverse Kinematics in Servo
@@ -74,7 +77,7 @@ Once your :code:`kinematics.yaml` file has been populated, include it with the R
     )
 
 
-The above excerpt is taken from :moveit_codedir:`servo_example.launch.py <moveit_ros/moveit_servo/launch/demo_ros_api.launch.py>` in MoveIt.
+The above excerpt is taken from :moveit_codedir:`demo_ros_api.launch.py <moveit_ros/moveit_servo/launch/demo_ros_api.launch.py>` in MoveIt.
 In the above example, the :code:`kinematics.yaml` file is taken from the :moveit_resources_codedir:`moveit_resources </>` repository in the workspace, specifically :code:`moveit_resources/panda_moveit_config/config/kinematics.yaml`.
 The actual ROS parameter names that get passed by loading the yaml file are of the form :code:`robot_description_kinematics.<group_name>.<param_name>`, e.g. :code:`robot_description_kinematics.panda_arm.kinematics_solver`.
 
@@ -117,6 +120,7 @@ The first step is to create a ``Servo`` instance.
     // Import the Servo headers.
     #include <moveit_servo/servo.hpp>
     #include <moveit_servo/utils/common.hpp>
+    #include <trajectory_msgs/msg/joint_trajectory.hpp>
 
     // The node to be used by Servo.
     rclcpp::Node::SharedPtr node = std::make_shared<rclcpp::Node>("servo_tutorial");
@@ -134,8 +138,20 @@ The first step is to create a ``Servo`` instance.
     // Create a Servo instance.
     Servo servo = Servo(node, servo_param_listener, planning_scene_monitor);
 
+    // Create a publisher for sending trajectory commands to the robot controller.
+    auto trajectory_publisher = node->create_publisher<trajectory_msgs::msg::JointTrajectory>(
+        servo_params.command_out_topic, rclcpp::SystemDefaultsQoS());
+
+    // Get the current robot state. This is needed by getNextJointState().
+    auto robot_state = planning_scene_monitor->getStateMonitor()->getCurrentState();
+    const moveit::core::JointModelGroup* joint_model_group =
+        robot_state->getJointModelGroup(servo_params.move_group_name);
+
+Once you have a ``Servo`` instance and a ``robot_state``, you can send commands.
+Each command type is shown below.
 
 Using the JointJogCommand
+"""""""""""""""""""""""""
 
 .. code-block:: c++
 
@@ -143,34 +159,35 @@ Using the JointJogCommand
 
     // Create the command.
     JointJogCommand command;
-    command.joint_names = {"panda_link7"};
-    command.velocities = {0.1};
+    command.names = {"panda_joint7"};
+    command.velocities = {0.4};
 
     // Set JointJogCommand as the input type.
     servo.setCommandType(CommandType::JOINT_JOG);
 
     // Get the joint states required to follow the command.
     // This is generally run in a loop.
-    KinematicState next_joint_state = servo.getNextJointState(command);
+    KinematicState next_joint_state = servo.getNextJointState(robot_state, command);
 
 Using the TwistCommand
+""""""""""""""""""""""
 
 .. code-block:: c++
 
     using namespace moveit_servo;
 
-    // Create the command.
-    TwistCommand command{"panda_link0", {0.1, 0.0, 0.0, 0.0, 0.0, 0.0};
+    // Create the command: frame_id and {linear_x, linear_y, linear_z, angular_x, angular_y, angular_z}.
+    TwistCommand command{"panda_link0", {0.0, 0.0, 0.05, 0.0, 0.0, 0.4}};
 
     // Set the command type.
     servo.setCommandType(CommandType::TWIST);
 
     // Get the joint states required to follow the command.
     // This is generally run in a loop.
-    KinematicState next_joint_state = servo.getNextJointState(command);
-
+    KinematicState next_joint_state = servo.getNextJointState(robot_state, command);
 
 Using the PoseCommand
+"""""""""""""""""""""
 
 .. code-block:: c++
 
@@ -185,17 +202,52 @@ Using the PoseCommand
 
     // Get the joint states required to follow the command.
     // This is generally run in a loop.
-    KinematicState next_joint_state = servo.getNextJointState(command);
+    KinematicState next_joint_state = servo.getNextJointState(robot_state, command);
 
-The ``next_joint_state`` result can then be used for further steps in the control pipeline.
+Publishing the Output
+"""""""""""""""""""""
+
+The ``next_joint_state`` result must be published to the robot controller. Servo provides
+utility functions for composing trajectory messages and maintaining a sliding window of
+recent states:
+
+.. code-block:: c++
+
+    using namespace moveit_servo;
+
+    std::deque<KinematicState> joint_cmd_rolling_window;
+
+    // In your control loop (using the command from one of the sections above):
+    KinematicState next_joint_state = servo.getNextJointState(robot_state, command);
+    StatusCode status = servo.getStatus();
+
+    if (status != StatusCode::INVALID)
+    {
+      updateSlidingWindow(next_joint_state, joint_cmd_rolling_window,
+                          servo_params.max_expected_latency, node->now());
+      if (const auto msg = composeTrajectoryMessage(servo_params, joint_cmd_rolling_window))
+      {
+        trajectory_publisher->publish(msg.value());
+      }
+      // Update the robot state for the next iteration.
+      if (!joint_cmd_rolling_window.empty())
+      {
+        robot_state->setJointGroupPositions(joint_model_group,
+                                            joint_cmd_rolling_window.back().positions);
+        robot_state->setJointGroupVelocities(joint_model_group,
+                                             joint_cmd_rolling_window.back().velocities);
+      }
+    }
 
 The status of MoveIt Servo resulting from the last command can be obtained by:
 
 .. code-block:: c++
 
     StatusCode status = servo.getStatus();
+    std::string status_msg = servo.getStatusMessage();
 
-The user can use status for higher-level decision making.
+Use the status for higher-level decision making — for example, to stop sending commands
+when the arm reaches a singularity or collision.
 
 See :moveit_codedir:`moveit_servo/demos <moveit_ros/moveit_servo/demos/cpp_interface>` for complete examples of using the C++ interface.
 The demos can be launched using the launch files found in :moveit_codedir:`moveit_servo/launch <moveit_ros/moveit_servo/launch>`.
@@ -215,7 +267,7 @@ To use MoveIt Servo through the ROS interface, it must be launched as a ``Node``
 When using MoveIt Servo with the ROS interface the commands are ROS messages of the following types published to respective topics specified by the Servo parameters.
 
     1. ``control_msgs::msg::JointJog`` on the topic specified by the ``joint_command_in_topic`` parameter.
-    2. ``geometry_msgs::msg::TwistStamped`` on the topic specified by the ``cartesian_command_in_topic`` parameter. For now, the twist message must be in the planning frame of the robot. (This will be updated soon.)
+    2. ``geometry_msgs::msg::TwistStamped`` on the topic specified by the ``cartesian_command_in_topic`` parameter.
     3. ``geometry_msgs::msg::PoseStamped`` on the topic specified by the ``pose_command_in_topic`` parameter.
 
 Twist and Pose commands require that the ``header.frame_id`` is always specified.
