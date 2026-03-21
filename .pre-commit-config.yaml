@@ -28,7 +28,7 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/psf/black
-    rev: 26.3.1
+    rev: 22.6.0
     hooks:
       - id: black
 
@@ -43,7 +43,7 @@ repos:
         args: ['-fallback-style=none', '-i']
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.2
+    rev: v2.2.0
     hooks:
       - id: codespell
         args: ['--write-changes']
