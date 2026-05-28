@@ -1,0 +1,44 @@
+{
+  "name": "moveit2_tutorials_devcontainer",
+  "dockerComposeFile": ["../.docker/docker-compose.yml"],
+  "service": "gpu",
+  "shutdownAction": "stopCompose",
+  "workspaceFolder": "/root/ws_moveit/src",
+  "remoteUser": "root",
+  "mounts": [
+    "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.Xauthority,target=/home/root/.Xauthority,type=bind",
+    "source=${localWorkspaceFolder},target=/root/ws_moveit/src/moveit2_tutorials,type=bind,consistency=cached"
+  ],
+  "remoteEnv": {
+    "ROS_DISTRO": "jazzy"
+  },
+  "containerEnv": {
+    "RCUTILS_COLORIZED_OUTPUT": "1",
+    "RCUTILS_CONSOLE_OUTPUT_FORMAT": "[{severity} {time}] [{name}]: {message} ({function_name}() at {file_name}:{line_number})",
+    "DISPLAY": "${localEnv:DISPLAY}",
+    "LIBGL_ALWAYS_SOFTWARE": "1"
+  },
+  "initializeCommand": "bash .devcontainer/initializeCommand.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.autopep8",
+        "skellock.just",
+        "cheshirekow.cmake-format",
+        "ms-vscode.cmake-tools",
+        "redhat.vscode-xml",
+        "redhat.vscode-yaml",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "lextudio.restructuredtext-pack",
+        "bbenoist.Doxygen",
+        "ms-vscode.live-server",
+        "esbenp.prettier-vscode",
+        "EditorConfig.EditorConfig",
+        "DavidAnson.vscode-markdownlint",
+        "mine.cpplint"
+      ]
+    }
+  }
+}
