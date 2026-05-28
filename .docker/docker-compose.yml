@@ -3,7 +3,7 @@
 #   DOCKER_IMAGE=main-rolling-tutorial-source compose run cpu
 
 x-common: &common-service
-  image: ghcr.io/ros-planning/moveit2_tutorials:rolling-tutorial
+  image: moveit/moveit2:main-jazzy-tutorial-source
   privileged: true
   network_mode: host
   command: /bin/bash
