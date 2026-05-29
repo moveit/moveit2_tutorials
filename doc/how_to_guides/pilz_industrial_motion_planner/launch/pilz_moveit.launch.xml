@@ -1,19 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <launch>
+  <arg name="robot_description_xml_path" default="$(find-pkg-share moveit_resources_panda_moveit_config)/config/panda.urdf.xacro" />
+  <arg name="srdf_path" default="$(find-pkg-share moveit_resources_panda_moveit_config)/config/panda.srdf" />
   <let name="moveitconfig_share_dir"
        value="$(find-pkg-share moveit_resources_panda_moveit_config)" />
   <let name="tutorials_share" value="$(find-pkg-share moveit2_tutorials)" />
-  <let name="robot_description_xml"
-       value="$(exec-subst 'xacro $(find-pkg-share moveit_resources_panda_moveit_config)/config/panda.urdf.xacro')" />
-  <let name="robot_description_semantic_xml"
-       value="$(read-file '$(var moveitconfig_share_dir)/config/panda.srdf')" />
   <let name="child_frame_statictf" value="panda_link0" />
   <let name="arm_controller" value="panda_arm_controller" />
   <let name="gripper_controller" value="panda_hand_controller" />
 
   <node pkg="rviz2" exec="rviz2" output="log"
         args="-d $(var tutorials_share)/launch/move_group.rviz">
-    <param name="robot_description" value="$(var robot_description_xml)" />
-    <param name="robot_description_semantic" value="$(var robot_description_semantic_xml)" />
+    <param name="robot_description" value="$(command 'xacro $(var robot_description_xml_path)')" />
+    <param from="$(var srdf_path)" />
     <param from="$(var moveitconfig_share_dir)/config/kinematics.yaml" />
     <param from="$(var moveitconfig_share_dir)/config/joint_limits.yaml" />
     <param from="$(var moveitconfig_share_dir)/config/pilz_industrial_motion_planner_planning.yaml" />
@@ -24,17 +23,15 @@
 
   <node pkg="robot_state_publisher"
         exec="robot_state_publisher" name="robot_state_publisher" output="both">
-    <param name="robot_description" value="$(var robot_description_xml)" />
+    <param name="robot_description" value="$(command 'xacro $(var robot_description_xml_path)')" />
   </node>
 
   <node pkg="moveit_ros_move_group" exec="move_group" output="screen">
     <param name="capabilities" value="pilz_industrial_motion_planner/MoveGroupSequenceAction pilz_industrial_motion_planner/MoveGroupSequenceService" />
-    
-    <param name="robot_description" value="$(var robot_description_xml)" />
-    <param name="robot_description_semantic" value="$(var robot_description_semantic_xml)" />
+    <param name="robot_description" value="$(command 'xacro $(var robot_description_xml_path)')" />
+    <param from="$(var srdf_path)" />
     <param name="publish_robot_description" value="True" />
-    <param name="publish_robot_description_semantic" value="True" />
-    
+    <param name="publish_robot_description_semantic" value="True" />    
     <param from="$(var moveitconfig_share_dir)/config/kinematics.yaml" />
     <param from="$(var moveitconfig_share_dir)/config/joint_limits.yaml" />
     <param from="$(var moveitconfig_share_dir)/config/gripper_moveit_controllers.yaml" />
@@ -42,7 +39,7 @@
   </node>
 
   <node pkg="controller_manager" exec="ros2_control_node" output="both">
-    <param name="robot_description" value="$(var robot_description_xml)" />
+    <param name="robot_description" value="$(command 'xacro $(var robot_description_xml_path)')" />
     <param from="$(var moveitconfig_share_dir)/config/ros2_controllers.yaml" />
   </node>
 
