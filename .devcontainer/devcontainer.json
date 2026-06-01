@@ -3,7 +3,7 @@
   "dockerComposeFile": ["../.docker/docker-compose.yml"],
   "service": "gpu",
   "shutdownAction": "stopCompose",
-  "workspaceFolder": "/root/ws_moveit/src",
+  "workspaceFolder": "/root/ws_moveit",
   "remoteUser": "root",
   "mounts": [
     "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
