@@ -279,7 +279,7 @@ The planner uses Cartesian limits to generate a trapezoidal
 velocity profile in Cartesian space. This planner only accepts a 
 start state with zero velocity. The planning result is a joint trajectory. The user needs to adapt 
 the Cartesian velocity/acceleration scaling factor if the motion plan fails due to violation of cartesian limits.
-the planner will fail if three or more consecutive waypoints are collinear.
+The planner will fail if three or more consecutive waypoints are collinear.
 
 POLYLINE Input Parameters in ``moveit_msgs::MotionPlanRequest``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
