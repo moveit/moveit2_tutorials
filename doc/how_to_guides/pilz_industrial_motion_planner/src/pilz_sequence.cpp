@@ -143,7 +143,7 @@ int main(int argc, char** argv)
   item3.req.max_velocity_scaling_factor = 0.1;
   item3.req.max_acceleration_scaling_factor = 0.1;
 
-  // For the item, it must be 0!
+  // For the last pose, the blending radius must be 0!
   item3.blend_radius = 0.0;
   // Set max_cartesian_speed (overwrite the max_trans_vel)
   item3.req.max_cartesian_speed = 0.1;
