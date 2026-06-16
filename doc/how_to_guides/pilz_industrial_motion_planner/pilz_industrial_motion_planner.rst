@@ -469,7 +469,7 @@ is used instead:
     }
 
 The
-:codedir:`pilz_sequence.cpp file <how_to_guides/pilz_industrial_motion_planner/src/pilz_sequence.launch.py>`
+:codedir:`pilz_sequence.cpp file <how_to_guides/pilz_industrial_motion_planner/src/pilz_sequence.cpp>`
 creates a sequence of three commands.
 
 ::
