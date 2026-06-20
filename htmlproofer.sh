@@ -1,12 +1,26 @@
 #!/bin/bash
 # Note that a virtual environment is required when running this script in CI
+#
+# Usage: ./htmlproofer.sh [ros_distro]
+#   ros_distro: ROS distro to build docs against (e.g. rolling, jazzy, humble).
+#               Defaults to the ROS_DISTRO environment variable, or "rolling".
 set -e
+
+# Resolve the target ROS distro from the first argument, the ROS_DISTRO env var, or fall back to rolling
+ROS_DISTRO_ARG=${1:-${ROS_DISTRO:-rolling}}
+
+# Map the ROS distro to the corresponding moveit2 git branch.
+# main serves both rolling and jazzy; humble has its own branch.
+case "$ROS_DISTRO_ARG" in
+  humble) MOVEIT_BRANCH=humble ;;
+  *)      MOVEIT_BRANCH=main ;;
+esac
 
 # Define some config vars
 export NOKOGIRI_USE_SYSTEM_LIBRARIES=true
 export REPOSITORY_NAME=${PWD##*/}
-export MOVEIT_BRANCH=main
-echo "Testing branch $MOVEIT_BRANCH of $REPOSITORY_NAME"
+export MOVEIT_BRANCH
+echo "Testing branch $MOVEIT_BRANCH of $REPOSITORY_NAME (ROS distro: $ROS_DISTRO_ARG)"
 
 # Install htmlpoofer
 gem install --user-install html-proofer -v 3.19.4 # newer 4.x requires different cmdline options
@@ -38,8 +52,8 @@ grep -rl 'https:\/\/github.com\/moveit\/moveit2_tutorials\/blob\/main\/' ./build
  xargs sed -i "s|https://github.com/moveit/moveit2_tutorials/blob/main/|file://$PWD|g"
 
 # Replace internal links with local file paths
-grep -rl 'https:\/\/moveit.picknik.ai\/rolling\/' ./build/ | \
- xargs sed -i "s|https://moveit.picknik.ai/rolling/|file://$PWD|g"
+grep -rl "https:\/\/moveit.picknik.ai\/${ROS_DISTRO_ARG}\/" ./build/ | \
+ xargs sed -i "s|https://moveit.picknik.ai/${ROS_DISTRO_ARG}/|file://$PWD|g"
 
 # Run HTML tests on generated build output to check for 404 errors, etc
 # 429 or 403 - happens when GitHub rate-limits requests

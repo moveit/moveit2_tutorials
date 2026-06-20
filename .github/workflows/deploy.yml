@@ -15,9 +15,19 @@ permissions:
 
 jobs:
   htmlproofer:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - container: 'moveit/moveit2:rolling-source'
+            rosdistro: 'rolling'
+          - container: 'moveit/moveit2:jazzy-source'
+            rosdistro: 'jazzy'
+          - container: 'moveit/moveit2:humble-source'
+            rosdistro: 'humble'
     runs-on: ubuntu-latest
     container:
-      image: moveit/moveit2:jazzy-release
+      image: ${{ matrix.container }}
     steps:
     - uses: actions/checkout@v4
 
@@ -40,10 +50,10 @@ jobs:
     - name: Run htmlproofer.sh
       shell: bash
       run: |
-        source /opt/ros/rolling/setup.bash
+        source /opt/ros/${{ matrix.rosdistro }}/setup.bash
         source /root/ws_moveit/install/setup.bash
         source .venv/bin/activate
-        ./htmlproofer.sh
+        ./htmlproofer.sh ${{ matrix.rosdistro }}
 
   upload_site_artifacts:
     strategy:
