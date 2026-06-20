@@ -19,8 +19,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - container: 'moveit/moveit2:rolling-source'
-            rosdistro: 'rolling'
           - container: 'moveit/moveit2:main-jazzy-tutorial-source'
             rosdistro: 'jazzy'
           - container: 'moveit/moveit2:humble-source'
