@@ -21,11 +21,11 @@ jobs:
         include:
           - container: 'moveit/moveit2:rolling-source'
             rosdistro: 'rolling'
-          - container: 'moveit/moveit2:jazzy-source'
+          - container: 'moveit/moveit2:main-jazzy-tutorial-source'
             rosdistro: 'jazzy'
           - container: 'moveit/moveit2:humble-source'
             rosdistro: 'humble'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
       image: ${{ matrix.container }}
     steps:
@@ -59,13 +59,13 @@ jobs:
     strategy:
       matrix:
         include:
-          - container: 'moveit/moveit2:rolling-source'
+          - container: 'moveit/moveit2:main-jazzy-tutorial-source'
             branch: 'main'
-            rosdistro: 'rolling'
+            rosdistro: 'jazzy'
           - container: 'moveit/moveit2:humble-source'
             branch: 'humble'
             rosdistro: 'humble'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
       image: ${{ matrix.container }}
     steps:
