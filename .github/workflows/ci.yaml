@@ -18,22 +18,31 @@ on:
 jobs:
   default:
     strategy:
+      fail-fast: false
       matrix:
         env:
+          - IMAGE: jazzy-release
+          - IMAGE: main-jazzy-tutorial-source
           - IMAGE: rolling-source
+        include:
+          - env:
+              IMAGE: rolling-source
+            continue-on-error: true
+
+    continue-on-error: ${{ matrix.continue-on-error || false }}
 
     env:
       DOCKER_IMAGE: moveit/moveit2:${{ matrix.env.IMAGE }}
       UPSTREAM_WORKSPACE: .github/upstream.repos
       AFTER_SETUP_UPSTREAM_WORKSPACE: vcs pull $BASEDIR/upstream_ws/src
-      AFTER_SETUP_UPSTREAM_WORKSPACE_EMBED: set +u && source ~/ws_moveit/install/setup.bash && set - u
+      BEFORE_BUILD_TARGET_WORKSPACE: set +u && if [ -f ~/ws_moveit/install/setup.bash ]; then source ~/ws_moveit/install/setup.bash; fi && set -u
       TARGET_CMAKE_ARGS: -DCMAKE_BUILD_TYPE=Release
       CCACHE_DIR: ${{ github.workspace }}/.ccache
       BASEDIR: ${{ github.workspace }}/.work
       CACHE_PREFIX: ${{ matrix.env.IMAGE }}
 
     name: ${{ matrix.env.IMAGE }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
         with:
