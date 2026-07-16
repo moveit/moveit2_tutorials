@@ -487,7 +487,10 @@ We return the task and finish with the ``createTask()`` function.
       return task;
     }
 
-Finally, we have ``main``: the following lines create a node using the class defined above, and calls the class methods to set up and execute a basic MTC task. In this example, we do not cancel the executor once the task has finished executing to keep the node alive to inspect the solutions in RViz.
+Finally, we have ``main``: the following lines create a node using the class defined above, and calls the class methods to set up and execute a basic MTC task. 
+In this example, we do not cancel the executor once the task has finished executing to keep the program running to inspect the solutions in RViz. 
+Note that it's the internal executor and node inside ``task_.introspection()`` that responds to RViz's introspect request when you click on the solutions in Task Tree, in RViz. 
+The sole purpose of not cancelling the executor is simply, not letting the program to quit until you CTRL-C on it. 
 
 .. code-block:: c++
 
