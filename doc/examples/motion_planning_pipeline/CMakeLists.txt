@@ -1,3 +1,9 @@
+==== BASE ====
+find_package(graph_msgs REQUIRED)
+find_package(moveit_visual_tools REQUIRED)
+find_package(rviz_visual_tools REQUIRED)
+
+==== BASE ====
 add_executable(motion_planning_pipeline_tutorial
     src/motion_planning_pipeline_tutorial.cpp)
 target_include_directories(motion_planning_pipeline_tutorial
