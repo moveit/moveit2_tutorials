@@ -33,6 +33,7 @@ jobs:
 
     env:
       DOCKER_IMAGE: moveit/moveit2:${{ matrix.env.IMAGE }}
+      BEFORE_INIT: git config --global --add safe.directory '*'
       UPSTREAM_WORKSPACE: .github/upstream.repos
       AFTER_SETUP_UPSTREAM_WORKSPACE: vcs pull $BASEDIR/upstream_ws/src
       BEFORE_BUILD_TARGET_WORKSPACE: set +u && if [ -f ~/ws_moveit/install/setup.bash ]; then source ~/ws_moveit/install/setup.bash; fi && set -u
