@@ -30,3 +30,8 @@ repositories:
     type: git
     url: https://github.com/tylerjw/serial.git
     version: ros2
+  # picknik_controllers, which is removed for rolling in https://github.com/moveit/moveit2_tutorials/pull/1104, is a dependency of ros2_kortex. Remove when rolling binaries are available.
+  picknik_controllers:
+    type: git
+    url: https://github.com/PickNikRobotics/picknik_controllers.git
+    version: 0.0.4
