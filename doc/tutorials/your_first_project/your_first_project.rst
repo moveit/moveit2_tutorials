@@ -268,7 +268,7 @@ Summary
 
 * You created a ROS 2 package and wrote your first program using MoveIt.
 * You learned about using the MoveGroupInterface to plan and execute moves.
-* :codedir:`Here is a copy of the full hello_moveit.cpp source at the end of this tutorial<tutorials/your_first_project/panda_hello_moveit.cpp>`.
+* :codedir:`Here is a copy of the full hello_moveit.cpp source at the end of this tutorial<tutorials/your_first_project/kinova_hello_moveit.cpp>`.
 
 Further Reading
 ---------------
