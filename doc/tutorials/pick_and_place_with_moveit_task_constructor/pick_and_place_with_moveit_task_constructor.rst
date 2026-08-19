@@ -487,7 +487,10 @@ We return the task and finish with the ``createTask()`` function.
       return task;
     }
 
-Finally, we have ``main``: the following lines create a node using the class defined above, and calls the class methods to set up and execute a basic MTC task. In this example, we do not cancel the executor once the task has finished executing to keep the node alive to inspect the solutions in RViz.
+Finally, we have ``main``: the following lines create a node using the class defined above, and calls the class methods to set up and execute a basic MTC task. 
+In this example, we do not cancel the executor once the task has finished executing to keep the program running and thus to allow inspection of the solutions in RViz. 
+Note that RViz only lazily caches submitted solutions. If you click on not yet viewed solutions in RViz' MTC Task Tree, RViz requests the solution information from the planning program. (Actually, it's the executor and node owned by the task's `Introspection` instance that respond to those requests.)
+Thus, by keeping the program alive, one can inspect all solution in peace. The program will quit if you CTRL-C it. 
 
 .. code-block:: c++
 
