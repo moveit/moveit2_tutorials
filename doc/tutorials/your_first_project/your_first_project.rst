@@ -3,6 +3,8 @@ Your First C++ MoveIt Project
 
 This tutorial will step you through writing your first C++ application with MoveIt.
 
+Warning: Most features in MoveIt will not work properly since additional parameters are required for full Move Group functionality. For a full setup, please continue with the :doc:`Move Group C++ Interface Tutorial </doc/examples/move_group_interface/move_group_interface_tutorial>`.
+
 Prerequisites
 -------------
 
@@ -49,7 +51,7 @@ This first block of code is a bit of boilerplate but you should be used to seein
   #include <memory>
 
   #include <rclcpp/rclcpp.hpp>
-  #include <moveit/move_group_interface/move_group_interface.h>
+  #include <moveit/move_group_interface/move_group_interface.hpp>
 
   int main(int argc, char * argv[])
   {
@@ -75,7 +77,7 @@ This first block of code is a bit of boilerplate but you should be used to seein
 
 We will build and run the program to see that everything is right before we move on.
 
-Change directory back to the workspace directory ``ws_moveit`` and run this command:
+Change the directory back to the workspace directory ``ws_moveit`` and run this command:
 
 .. code-block:: bash
 
@@ -99,7 +101,7 @@ The program should run and exit without error.
 2.2 Examine the code
 ~~~~~~~~~~~~~~~~~~~~
 
-The headers included at the top are just some standard C++ headers and the header for ROS and MoveIt that we will use later.
+The headers included at the top are just some standard C++ headers and the headers for ROS and MoveIt that we will use later.
 
 After that, we have the normal call to initialize rclcpp, and then we create our Node.
 
@@ -110,21 +112,34 @@ After that, we have the normal call to initialize rclcpp, and then we create our
     rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
   );
 
-The first argument is a string that ROS will use to make a unique node.
+The first argument is a string that ROS will use to name a unique node.
 The second is needed for MoveIt because of how we use ROS Parameters.
 
+Next, we `create a logger <https://docs.ros.org/en/humble/Tutorials/Demos/Logging-and-logger-configuration.html>`_ named "hello_moveit" to keep our log outputs organized and configurable.
+
+.. code-block:: C++
+
+  // Create a ROS logger
+  auto const logger = rclcpp::get_logger("hello_moveit");
+
 Lastly, we have the code to shutdown ROS.
+
+.. code-block:: C++
+
+  // Shutdown ROS
+  rclcpp::shutdown();
+  return 0;
 
 3 Plan and Execute using MoveGroupInterface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In place of the comment that says "Next step goes here," add this code:
+In place of the comment that says "Next step goes here", add this code:
 
 .. code-block:: C++
 
   // Create the MoveIt MoveGroup Interface
   using moveit::planning_interface::MoveGroupInterface;
-  auto move_group_interface = MoveGroupInterface(node, "panda_arm");
+  auto move_group_interface = MoveGroupInterface(node, "manipulator");
 
   // Set a target Pose
   auto const target_pose = []{
@@ -148,7 +163,7 @@ In place of the comment that says "Next step goes here," add this code:
   if(success) {
     move_group_interface.execute(plan);
   } else {
-    RCLCPP_ERROR(logger, "Planing failed!");
+    RCLCPP_ERROR(logger, "Planning failed!");
   }
 
 3.1 Build and Run
@@ -162,7 +177,7 @@ In the workspace directory, ``ws_moveit``, run this command:
 
   colcon build --mixin debug
 
-After this succeeds, we need to re-use the demo launch file from the previous tutorial to start RViz and the MoveGroup node.
+After this succeeds, we need to reuse the demo launch file from the previous tutorial to start RViz and the MoveGroup node.
 In a separate terminal, source the workspace and then execute this:
 
 .. code-block:: bash
@@ -185,7 +200,7 @@ This should cause the robot in RViz to move and end up in this pose:
 .. image:: rviz_2.png
    :width: 300px
 
-Note that if you ran the node ``hello_moveit`` without launching the demo launch file first, it will wait for 10 seconds and then print this error and exit.
+Note that if you run the node ``hello_moveit`` without launching the demo launch file first, it will wait for 10 seconds and then print this error and exit.
 
 .. code-block:: bash
 
@@ -198,21 +213,24 @@ If it fails to find that within 10 seconds, it prints this error and terminates 
 3.2 Examine the code
 ~~~~~~~~~~~~~~~~~~~~
 
-The first thing we do is create the MoveGroupInterface. This object will be used to interact with move_group, which allows us to plan and execute trajectories.
+The first thing we do is create the ``MoveGroupInterface``.
+This object will be used to interact with ``move_group``, which allows us to plan and execute trajectories.
 Note that this is the only mutable object that we create in this program.
-Another thing to take note of is the second argument to the ``MoveGroupInterface`` object we are creating here: ``"panda_arm"``.
+Another thing to take note of is the second argument to the ``MoveGroupInterface`` object we are creating here: ``"manipulator"``.
 That is the group of joints as defined in the robot description that we are going to operate on with this ``MoveGroupInterface``.
 
 .. code-block:: C++
 
   using moveit::planning_interface::MoveGroupInterface;
-  auto move_group_interface = MoveGroupInterface(node, "panda_arm");
+  auto move_group_interface = MoveGroupInterface(node, "manipulator");
 
-Then, we set our target pose and plan. Note that only the target pose is set (via ``setPoseTarget``. The starting pose is implicitly the position published by joint state publisher, which could be changed using the ``MoveGroupInterface::setStartState*`` family of functions (but is not in this tutorial).
+Then, we set our target pose and plan. Note that only the target pose is set (via ``setPoseTarget``).
+The starting pose is implicitly the position published by the joint state publisher, which could be changed using the
+``MoveGroupInterface::setStartState*`` family of functions (but is not in this tutorial).
 
 One more thing to note about this next section is the use of lambdas for constructing the message type ``target_pose`` and planning.
 This is a pattern you'll find in modern C++ codebases that enables writing in a more declarative style.
-For more information about this pattern there is a couple of links at the end of this tutorial.
+For more information about this pattern, there are a couple of links at the end of this tutorial.
 
 .. code-block:: C++
 
@@ -234,7 +252,7 @@ For more information about this pattern there is a couple of links at the end of
     return std::make_pair(ok, msg);
   }();
 
-Finally, we execute our plan if planning was successful, otherwise we log an error:
+Finally, we execute our plan if planning is successful, otherwise, we log an error:
 
 .. code-block:: C++
 
@@ -250,13 +268,16 @@ Summary
 
 * You created a ROS 2 package and wrote your first program using MoveIt.
 * You learned about using the MoveGroupInterface to plan and execute moves.
-* :codedir:`Here is a copy of the full hello_moveit.cpp source at the end of this tutorial<tutorials/your_first_project/hello_moveit.cpp>`.
+* :codedir:`Here is a copy of the full hello_moveit.cpp source at the end of this tutorial<tutorials/your_first_project/kinova_hello_moveit.cpp>`.
 
 Further Reading
 ---------------
 
-- We used lambdas to be able to initialize objects as constants. This is known as a technique called IIFE.  `Read more about this pattern from C++ Stories <https://www.cppstories.com/2016/11/iife-for-complex-initialization/>`_.
-- We also declared everything we could as const.  `Read more about the usefulness of const here <https://www.cppstories.com/2016/12/please-declare-your-variables-as-const/>`_.
+- We used lambdas to be able to initialize objects as constants.
+  This is known as a technique called IIFE.
+  `Read more about this pattern from C++ Stories <https://www.cppstories.com/2016/11/iife-for-complex-initialization/>`_.
+- We also declared everything we could as const.
+  `Read more about the usefulness of const here <https://www.cppstories.com/2016/12/please-declare-your-variables-as-const/>`_.
 
 Next Step
 ---------

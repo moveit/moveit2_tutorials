@@ -1,0 +1,41 @@
+name: Update Tutorial Images
+
+on:
+  schedule:
+    # 5 PM UTC every Sunday
+    - cron:  '0 17 * * 6'
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  call-docker-images:
+    uses: ./.github/workflows/docker-images.yml
+    secrets: inherit
+
+  delete-untagged:
+    runs-on: ubuntu-latest
+    needs:
+      - call-docker-images
+    steps:
+      - name: Delete Untagged Images
+        if: (github.event_name == 'schedule')
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.DELETE_PACKAGES_TOKEN }}
+          script: |
+            const response = await github.request("GET /orgs/${{ env.OWNER }}/packages/container/${{ env.PACKAGE_NAME }}/versions", {
+                per_page: ${{ env.PER_PAGE }}
+              });
+            for(version of response.data) {
+                if (version.metadata.container.tags.length == 0) {
+                    console.log("delete " + version.id)
+                    const deleteResponse = await github.request("DELETE /orgs/${{ env.OWNER }}/packages/container/${{ env.PACKAGE_NAME }}/versions/" + version.id, { });
+                    console.log("status " + deleteResponse.status)
+                }
+            }
+        env:
+          OWNER: ${{ github.repository_owner }}
+          PACKAGE_NAME: moveit2_tutorials
+          PER_PAGE: 100

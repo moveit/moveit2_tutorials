@@ -2,17 +2,17 @@ Low Level Controllers
 =====================
 MoveIt typically publishes manipulator motion commands to a `JointTrajectoryController <https://github.com/ros-controls/ros2_controllers/tree/master/joint_trajectory_controller>`_. This tutorial assumes MoveGroup is being used to control the robot rather than MoveItCpp or MoveIt Servo. A minimal setup is as follows:
 
-#. A YAML config file. As best practice, we suggest naming this :code:`moveit_controllers.yaml`. It tells MoveIt which controllers are available, which joints are associated with each, and the MoveIt controller interface type (:code:`FollowJointTrajectory` or :code:`GripperCommand`). `Example controller config file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/config/moveit_controllers.yaml>`_.
+#. A YAML config file. As best practice, we suggest naming this :code:`moveit_controllers.yaml`. It tells MoveIt which controllers are available, which joints are associated with each, and the MoveIt controller interface type (:code:`FollowJointTrajectory` or :code:`GripperCommand`). `Example controller config file <https://github.com/moveit/moveit_resources/blob/ros2/panda_moveit_config/config/moveit_controllers.yaml>`_.
 
-#. A launch file. This launch file must load the :code:`moveit_controllers` yaml file and specify the :code:`moveit_simple_controller_manager/MoveItSimpleControllerManager`. After these yaml files are loaded, they are passed as parameters to the Move Group node. `Example Move Group launch file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_.
+#. A launch file. This launch file must load the :code:`moveit_controllers` yaml file and specify the :code:`moveit_simple_controller_manager/MoveItSimpleControllerManager`. After these yaml files are loaded, they are passed as parameters to the Move Group node. `Example Move Group launch file <https://github.com/moveit/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_.
 
-#. Launch the corresponding :code:`ros2_control` JointTrajectoryControllers. This is separate from the MoveIt2 ecosystem. `Example ros2_control launching <https://github.com/ros-controls/ros2_control_demos>`_. Each JointTrajectoryController provides an action interface. Given the yaml file above, MoveIt automatically connects to this action interface.
+#. Launch the corresponding :code:`ros2_control` JointTrajectoryControllers. This is separate from the MoveIt 2 ecosystem. `Example ros2_control launching <https://github.com/ros-controls/ros2_control_demos>`_. Each JointTrajectoryController provides an action interface. Given the yaml file above, MoveIt automatically connects to this action interface.
 
 #. Note: it is not required to use :code:`ros2_control` for your robot. You could write a proprietary action interface. In practice, 99% of users choose :code:`ros2_control`.
 
-MoveIt Controller Manager
--------------------------
-If using the Move Group or MoveItCpp, a MoveItControllerManager (MICM) can be used to manage controller switching. The MICM can parse the joint names in any command coming from MoveIt and activate the appropriate controllers. For example, it can automatically switch between controlling two manipulators in a single joint group at once to a single manipulator. To use a MICM, just set :code:`moveit_manage_controllers = true` in the launch file. `Example MICM launch file <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_. Frankly, the MICM is a candidate to be deprecated soon and we do not recommend its use.
+MoveIt Controller Managers
+--------------------------
+The base class of controller managers is called MoveItControllerManager (MICM). One of the child classes of MICM is known as Ros2ControlManager (R2CM) and it is the best way to interface with ros2_control. The R2CM can parse the joint names in a trajectory command coming from MoveIt and activate the appropriate controllers. For example, it can automatically switch between controlling two manipulators in a single joint group at once to a single manipulator. To use a R2CM, just set :code:`moveit_manage_controllers = true` in the launch file. `Example R2CM launch file <https://github.com/moveit/moveit_resources/blob/ros2/panda_moveit_config/launch/demo.launch.py>`_.
 
 MoveIt Controller Interfaces
 ----------------------------
@@ -52,6 +52,24 @@ For each controller it is optional to set the *allowed_execution_duration_scalin
     type: FollowJointTrajectory
     allowed_execution_duration_scaling: 1.2
     allowed_goal_duration_margin: 0.5
+
+Optional Parameters for ros_control Interface
+------------------
+
+When using the MoveIt ROS Control interface, you can configure several parameters to optimize its behavior:
+
+**controller_service_call_timeout** (double, default: 3.0 seconds)
+  This parameter controls how long MoveIt will wait for responses from controller manager services like list_controllers and switch_controller. On resource-constrained systems or congested networks, controller discovery and switching operations can take longer than the default timeout. Increasing this parameter in your configuration can prevent these timeout issues.
+
+**ros_control_namespace** (string, default: "/")
+  Namespace of the ros_control node.
+
+.. code-block:: yaml
+
+     # In your moveit_controllers.yaml configuration
+     ros_control_namespace: /my_robot
+     controller_service_call_timeout: 5.0  # Increase timeout to 5 seconds
+
 
 Debugging Information
 ---------------------
@@ -106,15 +124,15 @@ If you do not have a physical robot, :code:`ros2_control` makes it very easy to 
 Controller Switching and Namespaces
 -----------------------------------
 
-(TODO: update for ROS2)
-
 All controller names get prefixed by the namespace of their ros_control node. For this reason controller names should not contain slashes, and can't be named ``/``. For a particular node MoveIt can decide which controllers to have started or stopped. Since only controller names with registered allocator plugins are handled over MoveIt, MoveIt takes care of stopping controllers based on their claimed resources if a to-be-started controller needs any of those resources.
+
+When working with controller switching through the ROS Control interface managers, you can configure the timeout for controller manager service calls using the :code:`controller_service_call_timeout` parameter (default: 3.0 seconds). This is particularly useful in complex setups where controller switching might take longer than the default timeout.
 
 Controllers for Multiple Nodes
 ------------------------------
 
-(TODO: update for ROS2)
+There is a variation on the Ros2ControlManager, the Ros2ControlMultiManager. Ros2ControlMultiManager can be used for more than one ros_control nodes. It works by creating several Ros2ControlManagers, one for each node. It instantiates them with their respective namespace and takes care of proper delegation. To use it must be added to the launch file. ::
 
-MoveItMultiControllerManager can be used for more than one ros_control nodes. It works by creating several MoveItControllerManagers, one for each node. It instantiates them with their respective namespace and takes care of proper delegation. To use it must be added to the launch file. ::
+  <param name="moveit_controller_manager" value="moveit_ros_control_interface::Ros2ControlMultiManager" />
 
-  <param name="moveit_controller_manager" value="moveit_ros_control_interface::MoveItMultiControllerManager" />
+The :code:`controller_service_call_timeout` parameter can also be set with the Ros2ControlMultiManager and will be used by all discovered controller managers.

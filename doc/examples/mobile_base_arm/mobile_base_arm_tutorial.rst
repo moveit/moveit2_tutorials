@@ -80,7 +80,7 @@ This's used to config the planar joint model, it can have two values:
 min_translational_distance
 ++++++++++++++++++++++++++
 
-If the distance between two states is less than ``min_translational_distance`` the motion will be pure rotation, the default value is ``1e-5``, for more info see `computeTurnDriveTurnGeometry <https://github.com/ros-planning/moveit2/blob/main/moveit_core/robot_model/src/planar_joint_model.cpp#L149>`_ for why this's needed
+If the distance between two states is less than ``min_translational_distance`` the motion will be pure rotation, the default value is ``1e-5``, for more info see `computeTurnDriveTurnGeometry <https://github.com/moveit/moveit2/blob/main/moveit_core/robot_model/src/planar_joint_model.cpp#L149>`_ for why this's needed
 
 .. code-block:: xml
 

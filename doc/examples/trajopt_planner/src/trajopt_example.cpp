@@ -17,9 +17,9 @@
 #include <moveit_msgs/PlanningScene.h>
 
 #include <geometry_msgs/TransformStamped.h>
-#include <tf2/utils.h>
-#include <tf2_eigen/tf2_eigen.h>
-#include <tf2_ros/transform_listener.h>
+#include <tf2/utils.hpp>
+#include <tf2_eigen/tf2_eigen.hpp>
+#include <tf2_ros/transform_listener.hpp>
 
 /* Author: Omid Heidari
    Desc: This file is a test for using trajopt in MoveIt. The goal is to make different types of constraints in
@@ -39,7 +39,7 @@ int main(int argc, char** argv)
   robot_model_loader::RobotModelLoaderPtr robot_model_loader(
       new robot_model_loader::RobotModelLoader(ROBOT_DESCRIPTION));
 
-  // Create a planing scene monitor
+  // Create a planning scene monitor
   planning_scene_monitor::PlanningSceneMonitorPtr psm(
       new planning_scene_monitor::PlanningSceneMonitor(robot_model_loader));
 

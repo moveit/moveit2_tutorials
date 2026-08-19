@@ -16,17 +16,17 @@ Here we review important configuration settings for OMPL. These settings can typ
 Longest Valid Segment Fraction
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The ``longest_valid_segment_fraction`` defines the discretization of robot motions used for collision checking and greatly affects the performance and reliability of OMPL-based solutions. A ``motion`` in this context can be thought of as an edge between two nodes in a graph, where nodes are waypoints along a trajectory. The default motion collision checker in OMPL simply discretizes the edge into a number of sub-states to collision check. No continuous collision checking is currently available in OMPL/MoveIt, though this is an area of current `discussion <https://github.com/ros-planning/moveit/issues/29>`_.
+The ``longest_valid_segment_fraction`` defines the discretization of robot motions used for collision checking and greatly affects the performance and reliability of OMPL-based solutions. A ``motion`` in this context can be thought of as an edge between two nodes in a graph, where nodes are waypoints along a trajectory. The default motion collision checker in OMPL simply discretizes the edge into a number of sub-states to collision check. No continuous collision checking is currently available in OMPL/MoveIt, though this is an area of current `discussion <https://github.com/moveit/moveit/issues/29>`_.
 
 Specifically, ``longest_valid_segment_fraction`` is the fraction of the robot's state space that, given the robot isn't currently in collision, we assume the robot can travel while remaining collision free. For example, if ``longest_valid_segment_fraction = 0.01``, then we assume that if an edge between two nodes is less than 1/100th of the state space, then we don't need to explicitly check any sub-states along that edge, just the two nodes it connects.
 
-In addition to the ``longest_valid_segment_fraction`` parameter in the ``ompl_planning.yaml`` file, there is also the ``maximum_waypoint_distance``, found in the `dynamic reconfigure file <https://github.com/ros-planning/moveit/blob/master/moveit_planners/ompl/ompl_interface/cfg/OMPLDynamicReconfigure.cfg#L9>`_. ``maximum_waypoint_distance`` defines the same discretization of robot motions for collision checking, but it does so at an absolute level instead of using fractions of the state space. For example, if ``maximum_waypoint_distance = 0.1``, then if an edge is shorter than ``0.1`` in state space distance, then we don't explicitly check any sub-states along that edge.
+In addition to the ``longest_valid_segment_fraction`` parameter in the ``ompl_planning.yaml`` file, there is also the ``maximum_waypoint_distance``, found in the `dynamic reconfigure file <https://github.com/moveit/moveit/blob/master/moveit_planners/ompl/ompl_interface/cfg/OMPLDynamicReconfigure.cfg#L9>`_. ``maximum_waypoint_distance`` defines the same discretization of robot motions for collision checking, but it does so at an absolute level instead of using fractions of the state space. For example, if ``maximum_waypoint_distance = 0.1``, then if an edge is shorter than ``0.1`` in state space distance, then we don't explicitly check any sub-states along that edge.
 
 If both ``longest_valid_segment_fraction`` and ``maximum_waypoint_distance`` are set, then the variable that produces the most conservative discretization (the one that would generate the most states to collision check on a given edge) is chosen.
 
 Set ``longest_valid_segment_fraction`` (or ``maximum_waypoint_distance``) too low, and collision checking / motion planning will be very slow. Set too high and collisions will be missed around small or narrow objects. In addition, a high collision checking resolution will cause the path smoothers to output incomprehensible motions because they are able to "catch" the invalid path and then attempt to repair them by sampling around it, but imperfectly.
 
-A quick analysis of the effect of this parameter on two of the MoveIt tutorial examples is documented `here <https://github.com/ros-planning/moveit/pull/337>`_.
+A quick analysis of the effect of this parameter on two of the MoveIt tutorial examples is documented `here <https://github.com/moveit/moveit/pull/337>`_.
 
 Projection Evaluator
 ^^^^^^^^^^^^^^^^^^^^
@@ -142,27 +142,29 @@ By default the planning algorithms start from scratch for each motion planning r
 
     PersistentLazyPRMstar: # use this with a representative environment to create a roadmap
         type: geometric::LazyPRMstar
-        multi_query_planning_enabled: true
-        store_planner_data: true
-        load_planner_data: false
+        multi_query_planning_enabled: 1
+        store_planner_data: 1
+        load_planner_data: 0
         planner_data_path: /tmp/roadmap.graph
     PersistentLazyPRM: # use this to load a previously created roadmap
         type: geometric::LazyPRM
-        multi_query_planning_enabled: true
-        store_planner_data: false
-        load_planner_data: true
+        multi_query_planning_enabled: 1
+        store_planner_data: 0
+        load_planner_data: 1
         planner_data_path: /tmp/roadmap.graph
     SemiPersistentLazyPRMstar: # reuses roadmap during lifetime of node but doesn't save/load roadmap to/from disk
         type: geometric::LazyPRMstar
-        multi_query_planning_enabled: true
-        store_planner_data: false
-        load_planner_data: false
+        multi_query_planning_enabled: 1
+        store_planner_data: 0
+        load_planner_data: 0
     SemiPersistentLazyPRM: # reuses roadmap during lifetime of node but doesn't save/load roadmap to/from disk
         type: geometric::LazyPRM
-        multi_query_planning_enabled: true
-        store_planner_data: false
-        load_planner_data: false
+        multi_query_planning_enabled: 1
+        store_planner_data: 0
+        load_planner_data: 0
 
 The first planner configuration, ``PersistentLazyPRMstar``, will use LazyPRM* to keep growing a roadmap of asymptotically optimal paths between sampled robot configurations with each motion planning request. Upon destruction of the planner instance, it will save the roadmap to disk. The ``PersistentLazyPRM`` configuration is similar, except it will *load* a roadmap from disk but not *save* it upon destruction. The ``SemiPersistent`` planner configurations do not load/save roadmaps, but do keep extending a roadmap with each motion planning request (rather than the default behavior of clearing it before planning). The four planners that support the persistent planning features are: PRM, PRM*, LazyPRM, and LazyPRM*. The critical difference between them is that the lazy variants will re-validate the validity of nodes and edges as needed when searching the roadmap for a valid path. The non-lazy variants will not check if the roadmap is still valid for the current environment. In other words, use the non-lazy variants for static environments, the lazy variants for environments with small changes, and a non-persistent planner if the environment can change significantly.
+
+It makes sense to use ``PersistentLazyPRMstar`` or ``PersistentPRMstar`` to create and store the roadmap initially since they are asymptotically optimal planners. After a roadmap is available, ``PersistentLazyPRM`` or ``PersistentPRM`` are often used for future planning attempts. They usually plan faster than the ``star`` variants while starting from the cached roadmap means the plan remains close to optimal. But, this order is not mandatory.
 
 *Note that saving and loading roadmaps is only available in OMPL 1.5.0 and newer.*

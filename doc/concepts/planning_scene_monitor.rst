@@ -5,6 +5,10 @@ Planning Scene Monitor
 The ``planning scene`` is an object used for storing the representation of the world around the robot and also the state of the robot itself.
 The internal state of the ``planning_scene`` object is typically maintained by a ``planning_scene_monitor`` component that enables reading and writing the state in a thread-safe manner.
 
+Particularly, the ``move_group`` node as well as the rviz planning scene plugin maintain their own Planning Scene Monitor (PSM).
+The ``move_group`` node's PSM *listens* to the topic ``/planning_scene`` and *publishes* its planning scene state to the topic ``monitored_planning_scene``.
+The latter is listened to by the rviz planning scene plugin.
+
 .. image:: /_static/images/planning_scene_monitor.svg
 
 World Geometry Monitor

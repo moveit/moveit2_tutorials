@@ -40,7 +40,7 @@
 
 #include <pluginlib/class_loader.h>
 
-// MoveIt!
+// MoveIt
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <moveit/planning_interface/planning_interface.h>
 #include <moveit/planning_scene/planning_scene.h>
@@ -67,7 +67,7 @@ int main(int argc, char** argv)
   robot_model_loader::RobotModelLoaderPtr robot_model_loader(
       new robot_model_loader::RobotModelLoader(ROBOT_DESCRIPTION));
 
-  // Create a planing scene monitor
+  // Create a planning scene monitor
   planning_scene_monitor::PlanningSceneMonitorPtr psm(
       new planning_scene_monitor::PlanningSceneMonitor(robot_model_loader));
 

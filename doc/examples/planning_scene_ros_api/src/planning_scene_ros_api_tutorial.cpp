@@ -44,9 +44,9 @@
 #include <moveit_msgs/msg/display_robot_state.hpp>
 #include <moveit_msgs/srv/apply_planning_scene.hpp>
 
-#include <moveit/robot_model_loader/robot_model_loader.h>
-#include <moveit/robot_state/robot_state.h>
-#include <moveit/robot_state/conversions.h>
+#include <moveit/robot_model_loader/robot_model_loader.hpp>
+#include <moveit/robot_state/robot_state.hpp>
+#include <moveit/robot_state/conversions.hpp>
 
 #include <rviz_visual_tools/rviz_visual_tools.hpp>
 

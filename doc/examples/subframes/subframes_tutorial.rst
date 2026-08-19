@@ -69,5 +69,5 @@ For older moveit_config packages that you have not generated yourself recently, 
 required for subframes might not be configured, and the subframe link might not be found. To fix this for your
 moveit_config package, open the ``ompl_planning_pipeline.launch`` file in the ``<robot_moveit_config>/launch``
 folder of your robot. For the Panda robot it is :panda_codedir:`this <launch/ompl_planning_pipeline.launch.xml>` file.
-Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and insert ``default_planner_request_adapters/ResolveConstraintFrames`` after
-the line ``default_planner_request_adapters/FixStartStatePathConstraints``.
+Edit this launch file, find the lines where ``<arg name="planning_adapters">`` is mentioned and insert ``default_planning_request_adapters/ResolveConstraintFrames`` after
+the line ``default_planning_request_adapters/FixStartStatePathConstraints``.

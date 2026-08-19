@@ -1,5 +1,5 @@
-#include <moveit/move_group_interface/move_group_interface.h>
-#include <moveit/planning_scene_interface/planning_scene_interface.h>
+#include <moveit/move_group_interface/move_group_interface.hpp>
+#include <moveit/planning_scene_interface/planning_scene_interface.hpp>
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
 #include <memory>
@@ -24,11 +24,11 @@ int main(int argc, char* argv[])
 
   // Create the MoveIt MoveGroup Interface
   using moveit::planning_interface::MoveGroupInterface;
-  auto move_group_interface = MoveGroupInterface(node, "panda_arm");
+  auto move_group_interface = MoveGroupInterface(node, "manipulator");
 
   // Construct and initialize MoveItVisualTools
   auto moveit_visual_tools =
-      moveit_visual_tools::MoveItVisualTools{ node, "panda_link0", rviz_visual_tools::RVIZ_MARKER_TOPIC,
+      moveit_visual_tools::MoveItVisualTools{ node, "base_link", rviz_visual_tools::RVIZ_MARKER_TOPIC,
                                               move_group_interface.getRobotModel() };
   moveit_visual_tools.deleteAllMarkers();
   moveit_visual_tools.loadRemoteControl();
@@ -44,16 +44,17 @@ int main(int argc, char* argv[])
   };
   auto const prompt = [&moveit_visual_tools](auto text) { moveit_visual_tools.prompt(text); };
   auto const draw_trajectory_tool_path =
-      [&moveit_visual_tools, jmg = move_group_interface.getRobotModel()->getJointModelGroup("panda_arm")](
+      [&moveit_visual_tools, jmg = move_group_interface.getRobotModel()->getJointModelGroup("manipulator")](
           auto const trajectory) { moveit_visual_tools.publishTrajectoryLine(trajectory, jmg); };
 
-  // Set a target Pose
+  // Set a target Pose with updated values !!!
   auto const target_pose = [] {
     geometry_msgs::msg::Pose msg;
-    msg.orientation.w = 1.0;
-    msg.position.x = 0.28;
-    msg.position.y = 0.4;  // <---- This value was changed
-    msg.position.z = 0.5;
+    msg.orientation.y = 0.8;
+    msg.orientation.w = 0.6;
+    msg.position.x = 0.1;
+    msg.position.y = 0.4;
+    msg.position.z = 0.4;
     return msg;
   }();
   move_group_interface.setPoseTarget(target_pose);
@@ -103,7 +104,7 @@ int main(int argc, char* argv[])
   // Execute the plan
   if (success)
   {
-    draw_trajectory_tool_path(plan.trajectory_);
+    draw_trajectory_tool_path(plan.trajectory);
     moveit_visual_tools.trigger();
     prompt("Press 'next' in the RvizVisualToolsGui window to execute");
     draw_title("Executing");
@@ -114,7 +115,7 @@ int main(int argc, char* argv[])
   {
     draw_title("Planning Failed!");
     moveit_visual_tools.trigger();
-    RCLCPP_ERROR(logger, "Planing failed!");
+    RCLCPP_ERROR(logger, "Planning failed!");
   }
 
   // Shutdown ROS

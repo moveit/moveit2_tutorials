@@ -1,0 +1,40 @@
+# Example command:
+#   Humble on a NVIDIA system:
+#   DOCKER_IMAGE=humble-humble-tutorial-source docker compose run gpu
+#   Rolling without discrete graphics:
+#   DOCKER_IMAGE=main-rolling-tutorial-source compose run cpu
+
+services:
+  cpu:
+    image: moveit/moveit2:${DOCKER_IMAGE}
+    container_name: moveit2_container
+    privileged: true
+    network_mode: host
+    command: /bin/bash
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - $XAUTHORITY:/root/.Xauthority
+    environment:
+      QT_X11_NO_MITSHM: 1
+      DISPLAY: $DISPLAY
+  gpu:
+    image: moveit/moveit2:${DOCKER_IMAGE}
+    container_name: moveit2_container
+    privileged: true
+    network_mode: host
+    command: /bin/bash
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - $XAUTHORITY:/root/.Xauthority
+    environment:
+      QT_X11_NO_MITSHM: 1
+      DISPLAY: $DISPLAY
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all

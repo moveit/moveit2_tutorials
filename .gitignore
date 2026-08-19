@@ -1,10 +1,12 @@
 *~
 *.pyc
+doc/api/python_api/_autosummary/
 doc/manifest.yaml
 doc/html
 build
 Gemfile
 native_build
 *.gdb
+.venv
 # For local rst builds
 _build/
