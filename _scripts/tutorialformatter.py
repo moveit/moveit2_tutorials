@@ -1,69 +1,69 @@
 """
-    tutorialformatter
-    ===========================
+tutorialformatter
+===========================
 
-    This extension provides a directive to include a source code file
-    in a document, but with certain comments from the file formatted
-    as regular document text.  This allows code for a tutorial to look like:
+This extension provides a directive to include a source code file
+in a document, but with certain comments from the file formatted
+as regular document text.  This allows code for a tutorial to look like:
 
-        /// BEGIN_TUTORIAL
-        /// This next line adds one.
-        i = i + 1;
-        /// Then we need to double it.
-        i = i * 2;
-        /// END_TUTORIAL
+    /// BEGIN_TUTORIAL
+    /// This next line adds one.
+    i = i + 1;
+    /// Then we need to double it.
+    i = i * 2;
+    /// END_TUTORIAL
 
-    And have it formatted as
+And have it formatted as
 
-    This next line adds one.::
-        i = i + 1;
+This next line adds one.::
+    i = i + 1;
 
-    Then we need to double it.::
-        i = i * 2;
+Then we need to double it.::
+    i = i * 2;
 
-    The special-looking comment character sequence at the start of
-    each text line can be anything not starting or ending with
-    whitespace.  tutorialformatter starts by scanning the file for the
-    string BEGIN_TUTORIAL.  When it finds it, it takes all the
-    characters before BEGIN_TUTORIAL on that line, strips whitespace
-    from the left, and uses that as the text marker.  So this would
-    also be fine:
+The special-looking comment character sequence at the start of
+each text line can be anything not starting or ending with
+whitespace.  tutorialformatter starts by scanning the file for the
+string BEGIN_TUTORIAL.  When it finds it, it takes all the
+characters before BEGIN_TUTORIAL on that line, strips whitespace
+from the left, and uses that as the text marker.  So this would
+also be fine:
 
-        #My Tutorial# BEGIN_TUTORIAL
-        #My Tutorial# This next line adds one.
-        i = i + 1
-        #My Tutorial# Then we need to double it.
-        i = i * 2
-        #My Tutorial# END_TUTORIAL
+    #My Tutorial# BEGIN_TUTORIAL
+    #My Tutorial# This next line adds one.
+    i = i + 1
+    #My Tutorial# Then we need to double it.
+    i = i * 2
+    #My Tutorial# END_TUTORIAL
 
-    Sometimes the order that makes sense in the tutorial is not
-    compatible with the computer language of the code, like when a
-    callback function in C++ is defined outside of the main tutorial
-    code.  To support this, you can use the tags BEGIN_SUB_TUTORIAL,
-    END_SUB_TUTORIAL, and CALL_SUB_TUTORIAL.  They look like this:
+Sometimes the order that makes sense in the tutorial is not
+compatible with the computer language of the code, like when a
+callback function in C++ is defined outside of the main tutorial
+code.  To support this, you can use the tags BEGIN_SUB_TUTORIAL,
+END_SUB_TUTORIAL, and CALL_SUB_TUTORIAL.  They look like this:
 
-        # BEGIN_SUB_TUTORIAL callbackFunction
-        def callback():
-            print("in callback")
-        # END_SUB_TUTORIAL
+    # BEGIN_SUB_TUTORIAL callbackFunction
+    def callback():
+        print("in callback")
+    # END_SUB_TUTORIAL
 
-        # BEGIN_TUTORIAL
-        # Here we call a special callback:
-        callback()
-        # which is defined as:
-        # CALL_SUB_TUTORIAL callbackFunction
-        # and then we move on to the next topic.
+    # BEGIN_TUTORIAL
+    # Here we call a special callback:
+    callback()
+    # which is defined as:
+    # CALL_SUB_TUTORIAL callbackFunction
+    # and then we move on to the next topic.
 
-    Both the BEGIN_SUB_TUTORIAL and CALL_SUB_TUTORIAL tags take an
-    argument, which is the name of the "sub-tutorial".  That name does
-    not need to correspond to anything in the code.  Sub-tutorials
-    cannot be nested, and they only work within a single source file
-    processed by tutorialformatter.  They have no outside meaning.
-    The implementation simply slices out sub-tutorials from the input
-    lines and copies them into the output lines where-ever the
-    corresponding "call" tags are found.
+Both the BEGIN_SUB_TUTORIAL and CALL_SUB_TUTORIAL tags take an
+argument, which is the name of the "sub-tutorial".  That name does
+not need to correspond to anything in the code.  Sub-tutorials
+cannot be nested, and they only work within a single source file
+processed by tutorialformatter.  They have no outside meaning.
+The implementation simply slices out sub-tutorials from the input
+lines and copies them into the output lines where-ever the
+corresponding "call" tags are found.
 
-    .. moduleauthor::  Dave Hershberger <hersh@willowgarage.com>
+.. moduleauthor::  Dave Hershberger <hersh@willowgarage.com>
 """
 
 # 0.1.0: First version.
