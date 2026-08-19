@@ -23,10 +23,13 @@ jobs:
         env:
           - IMAGE: rolling-source
           - IMAGE: rolling-release
+          - IMAGE: lyrical-release
+          - IMAGE: jazzy-release
 
     env:
       DOCKER_IMAGE: moveit/moveit2:${{ matrix.env.IMAGE }}
       UPSTREAM_WORKSPACE: .github/upstream.repos
+      BEFORE_SETUP_UPSTREAM_WORKSPACE: git config --global --add safe.directory "*"
       AFTER_SETUP_UPSTREAM_WORKSPACE: vcs pull $BASEDIR/upstream_ws/src
       TARGET_CMAKE_ARGS: -DCMAKE_BUILD_TYPE=Release
       CCACHE_DIR: ${{ github.workspace }}/.ccache
