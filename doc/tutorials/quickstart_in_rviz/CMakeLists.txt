@@ -6,7 +6,7 @@ if(BUILD_TESTING)
   find_package(ros_testing REQUIRED)
   find_package(control_msgs REQUIRED)
   find_package(moveit_msgs REQUIRED)
-  find_package(Boost REQUIRED COMPONENTS filesystem)
+  find_package(Boost CONFIG REQUIRED COMPONENTS filesystem)
 
   # Run all lint tests in package.xml
   ament_lint_auto_find_test_dependencies()

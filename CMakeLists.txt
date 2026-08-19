@@ -10,7 +10,7 @@ set(THIS_PACKAGE_INCLUDE_DIRS
 )
 
 find_package(ament_cmake)
-find_package(Boost)
+find_package(Boost CONFIG REQUIRED)
 find_package(control_msgs)
 find_package(Eigen3)
 find_package(interactive_markers)
