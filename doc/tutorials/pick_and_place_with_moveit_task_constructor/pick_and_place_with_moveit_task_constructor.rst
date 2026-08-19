@@ -699,7 +699,7 @@ Before we compute inverse kinematics for the poses generated above, we first nee
 
 .. code-block:: c++
 
-          Eigen::Isometry3d grasp_frame_transform;
+          Eigen::Isometry3d grasp_frame_transform = Eigen::Isometry3d::Identity();
           Eigen::Quaterniond q = Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitX()) *
                                 Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitY()) *
                                 Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitZ());
