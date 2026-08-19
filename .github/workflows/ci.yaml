@@ -28,6 +28,8 @@ jobs:
 
     env:
       DOCKER_IMAGE: moveit/moveit2:${{ matrix.env.IMAGE }}
+      # Use /root/ws_moveit/install as UNDERLAY in *-source images
+      UNDERLAY: ${{ endsWith(matrix.env.IMAGE, '-source') && '/root/ws_moveit/install' || '' }}
       UPSTREAM_WORKSPACE: .github/upstream.repos
       BEFORE_SETUP_UPSTREAM_WORKSPACE: git config --global --add safe.directory "*"
       AFTER_SETUP_UPSTREAM_WORKSPACE: vcs pull $BASEDIR/upstream_ws/src
