@@ -30,11 +30,11 @@ A time parameterization algorithm such as TOTG calculates velocities and acceler
 
 To apply the Ruckig smoothing algorithm, jerk limits should be defined in a ``joint_limits.yaml`` file. If you do not specify a jerk limit for any joint, a reasonable default will be applied and a warning printed.
 
-Finally, add the Ruckig smoothing algorithm to the list of planning request adapters (typically in ``ompl_planning.yaml``). The Ruckig smoothing algorithm should run last, so put it at the top of list:
+Finally, add the Ruckig smoothing algorithm to the list of planning response adapters (typically in ``ompl_planning.yaml``). The Ruckig smoothing algorithm should run after AddTimeOptimalParameterization, so put it below AddTimeOptimalParameterization in the list:
 
 .. code-block:: yaml
 
       response_adapters:
-        - default_planning_request_adapters/AddRuckigTrajectorySmoothing
-        - default_planning_request_adapters/AddTimeOptimalParameterization
+        - default_planning_response_adapters/AddTimeOptimalParameterization
+        - default_planning_response_adapters/AddRuckigTrajectorySmoothing
         ...
