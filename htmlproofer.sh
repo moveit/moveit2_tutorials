@@ -43,10 +43,11 @@ grep -rl 'https:\/\/moveit.picknik.ai\/rolling\/' ./build/ | \
 
 # Run HTML tests on generated build output to check for 404 errors, etc
 # 429 or 403 - happens when GitHub rate-limits requests
+# 415 - happens when servers (e.g. doxygen.nl) reject automated probes
 htmlproofer ./build \
-  --only-4xx --check-html --http-status-ignore "429" --http-status-ignore "403" \
+  --only-4xx --check-html --http-status-ignore "403,415,429" \
   --file-ignore ./build/html/genindex.html,./build/html/search.html,/html/api/ \
-  --alt-ignore '/.*/' --url-ignore '#'
+  --alt-ignore '/.*/' --url-ignore "/#/,/doxygen\.nl/"
 
 # Tell GitHub Pages (on deploy) to bypass Jekyll processing
 touch build/.nojekyll
