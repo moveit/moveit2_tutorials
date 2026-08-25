@@ -33,9 +33,8 @@ Further down in the file extend the ``target_link_libraries`` macro call to incl
 
   target_link_libraries(
     hello_moveit
-    "moveit_ros_planning_interface"
-    "moveit_visual_tools"
-    "rclcpp"
+    moveit_ros_planning_interface::moveit_move_group_interface
+    moveit_visual_tools::moveit_visual_tools
   )
 
 To verify that you added the dependency correctly, add the required include to your source file ``hello_moveit.cpp``:
