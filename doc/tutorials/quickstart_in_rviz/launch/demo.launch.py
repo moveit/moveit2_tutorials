@@ -1,6 +1,7 @@
 import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
+from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
@@ -43,7 +44,11 @@ def generate_launch_description():
     )
 
     # RViz for visualization
-    # Get the path to the RViz configuration file
+    launch_rviz_arg = DeclareLaunchArgument(
+        "launch_rviz",
+        default_value="true",
+        description="Launch RViz",
+    )
     rviz_config_arg = DeclareLaunchArgument(
         "rviz_config",
         default_value="kinova_moveit_config_demo.rviz",
@@ -67,6 +72,7 @@ def generate_launch_description():
             moveit_config.planning_pipelines,
             moveit_config.joint_limits,
         ],
+        condition=IfCondition(LaunchConfiguration("launch_rviz")),
     )
 
     # Static TF
@@ -89,17 +95,14 @@ def generate_launch_description():
 
     # ros2_control using mock hardware for trajectory execution
     ros2_controllers_path = os.path.join(
-        get_package_share_directory("kinova_gen3_7dof_robotiq_2f_85_moveit_config"),
+        get_package_share_directory("moveit2_tutorials"),
         "config",
         "ros2_controllers.yaml",
     )
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[ros2_controllers_path],
-        remappings=[
-            ("/controller_manager/robot_description", "/robot_description"),
-        ],
+        parameters=[moveit_config.robot_description, ros2_controllers_path],
         output="both",
     )
 
@@ -116,17 +119,30 @@ def generate_launch_description():
     arm_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["joint_trajectory_controller", "-c", "/controller_manager"],
+        arguments=[
+            "joint_trajectory_controller",
+            "-c",
+            "/controller_manager",
+            "--param-file",
+            ros2_controllers_path,
+        ],
     )
 
     hand_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["robotiq_gripper_controller", "-c", "/controller_manager"],
+        arguments=[
+            "robotiq_gripper_controller",
+            "-c",
+            "/controller_manager",
+            "--param-file",
+            ros2_controllers_path,
+        ],
     )
 
     return LaunchDescription(
         [
+            launch_rviz_arg,
             rviz_config_arg,
             rviz_node,
             static_tf,

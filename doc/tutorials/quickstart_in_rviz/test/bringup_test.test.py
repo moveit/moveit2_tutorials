@@ -21,6 +21,7 @@ def generate_test_description():
     )
     base_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(demo_path),
+        launch_arguments={"launch_rviz": "false"}.items(),
     )
 
     # Launch the test
