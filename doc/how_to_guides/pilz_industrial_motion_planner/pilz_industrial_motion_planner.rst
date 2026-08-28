@@ -275,9 +275,9 @@ determine smoothness by scaling the max possible rounding radius.
 The planner automatically filters waypoints that are positioned too closely;
 however, the user must ensure the angle between consecutive segments is
 sufficiently large to avoid violating minimum rounding constraints.
-The planner uses Cartesian limits to generate a trapezoidal 
-velocity profile in Cartesian space. This planner only accepts a 
-start state with zero velocity. The planning result is a joint trajectory. The user needs to adapt 
+The planner uses Cartesian limits to generate a trapezoidal
+velocity profile in Cartesian space. This planner only accepts a
+start state with zero velocity. The planning result is a joint trajectory. The user needs to adapt
 the Cartesian velocity/acceleration scaling factor if the motion plan fails due to violation of cartesian limits.
 The planner will fail if three or more consecutive waypoints are collinear.
 
@@ -295,7 +295,7 @@ POLYLINE Input Parameters in ``moveit_msgs::MotionPlanRequest``
    name/position of the start state.
 -  ``path_constraints``: a list of position constraints to be followed in
    Cartesian space. Each waypoint is defined as a ``moveit_msgs::msg::PositionConstraint``
-   
+
       -  ``path_constraints/position_constraints/constraint_region/primitive_poses/point``:
          pose of the point
 -  ``goal_constraints`` (the last goal point)

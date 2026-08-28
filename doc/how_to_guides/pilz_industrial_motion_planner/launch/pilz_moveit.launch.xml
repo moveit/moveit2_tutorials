@@ -31,7 +31,7 @@
     <param name="robot_description" value="$(command 'xacro $(var robot_description_xml_path)')" />
     <param from="$(var srdf_path)" />
     <param name="publish_robot_description" value="True" />
-    <param name="publish_robot_description_semantic" value="True" />    
+    <param name="publish_robot_description_semantic" value="True" />
     <param from="$(var moveitconfig_share_dir)/config/kinematics.yaml" />
     <param from="$(var moveitconfig_share_dir)/config/joint_limits.yaml" />
     <param from="$(var moveitconfig_share_dir)/config/gripper_moveit_controllers.yaml" />
