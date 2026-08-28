@@ -6,7 +6,7 @@ Welcome to the unified MoveIt documentation, which includes tutorials, how-to gu
 MoveIt 2 is the robotic manipulation platform for ROS 2 and incorporates the latest advances in motion planning, manipulation, 3D perception, kinematics, control, and navigation. MoveIt 2 was first released in 2019; for ROS 1 documentation, see `MoveIt 1 tutorials <https://moveit.github.io/moveit_tutorials>`_.
 For the commercially supported version see `MoveIt Pro tutorials <https://docs.picknik.ai/en/stable/>`_.
 
-.. image:: http://moveit.ros.org/assets/images/roadmap.png
+.. image:: https://moveit.ai/assets/logo/moveit_logo-white.png
    :width: 400px
 
 How-To Use This Website
@@ -42,5 +42,5 @@ Help us improve these docs and we'll be happy to include you here also!
 Corporate Sponsorship
 ---------------------
 
-* The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with `PickNik Robotics <https://picknik.ai/>`_ (`Check out the blog post! <http://moveit.ros.org/moveit!/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
+* The tutorials had a major update in 2018 during a code sprint sponsored by Franka Emika in collaboration with `PickNik Robotics <https://picknik.ai/>`_ (`Check out the blog post! <https://moveit.ai/moveit!/ros/2018/02/26/tutorials-documentation-codesprint.html>`_)
 * The tutorials had another major update in 2022 during a doc-a-thon sponsored by `PickNik Robotics <https://picknik.ai/>`_.

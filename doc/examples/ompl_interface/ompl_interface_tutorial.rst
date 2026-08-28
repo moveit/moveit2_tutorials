@@ -133,7 +133,7 @@ You can adjust the amount of time MoveIt spends on smoothing by increasing the p
 
 Although not currently exposed at the top levels of MoveIt (TODO), more smoothing can be accomplished by setting the simplification duration to 0 (unlimited) in ``model_based_planning_context.cpp``. This will enable OMPL's ``simplifyMax()`` function.
 
-Besides the internal OMPL smoothers, recent efforts have been made to do post-proccessing with STOMP/CHOMP. See `this blog post <http://moveit.ros.org/moveit!/ros/2018/10/25/gsoc-motion-planning-support.html>`_.
+Besides the internal OMPL smoothers, post-processing can also be done with STOMP or CHOMP (see :doc:`CHOMP Planner </doc/how_to_guides/chomp_planner/chomp_planner_tutorial>` and :doc:`STOMP Planner </doc/how_to_guides/stomp_planner/stomp_planner>`).
 
 Persistent Roadmaps
 -------------------

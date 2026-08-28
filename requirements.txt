@@ -1,6 +1,6 @@
 pip
 docutils
-sphinx>=5.0.0
+sphinx>=5.0.0,<9.0.0
 sphinx-tabs
 sphinx-multiversion
 sphinx-rtd-theme
