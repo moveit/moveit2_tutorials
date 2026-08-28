@@ -27,15 +27,14 @@ Then in your ``CMakeLists.txt`` add this line to the section of ``find_package``
 
   find_package(moveit_visual_tools REQUIRED)
 
-Further down in the file extend the ``ament_target_dependencies`` macro call to include the new dependency like this:
+Further down in the file extend the ``target_link_libraries`` macro call to include the new dependency like this:
 
 .. code-block:: cmake
 
-  ament_target_dependencies(
+  target_link_libraries(
     hello_moveit
-    "moveit_ros_planning_interface"
-    "moveit_visual_tools"
-    "rclcpp"
+    moveit_ros_planning_interface::moveit_move_group_interface
+    moveit_visual_tools::moveit_visual_tools
   )
 
 To verify that you added the dependency correctly, add the required include to your source file ``hello_moveit.cpp``:

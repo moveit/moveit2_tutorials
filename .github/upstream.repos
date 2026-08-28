@@ -7,10 +7,6 @@ repositories:
     type: git
     url: https://github.com/moveit/moveit_visual_tools
     version: ros2
-  rosparam_shortcuts:
-    type: git
-    url: https://github.com/PickNikRobotics/rosparam_shortcuts
-    version: ros2
   rviz_visual_tools:
     type: git
     url: https://github.com/PickNikRobotics/rviz_visual_tools.git
@@ -30,3 +26,7 @@ repositories:
     type: git
     url: https://github.com/tylerjw/serial.git
     version: ros2
+  picknik_controllers:
+    type: git
+    url: https://github.com/PickNikRobotics/picknik_controllers.git
+    version: main

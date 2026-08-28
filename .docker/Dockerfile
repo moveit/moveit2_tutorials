@@ -61,7 +61,7 @@ RUN --mount=type=cache,target=/root/.ccache/ \
     # Enable ccache
     . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
     . "install/setup.sh" &&\
-    sudo apt update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
+    sudo apt update && rosdep update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
     colcon build \
         --cmake-args -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
                      -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
