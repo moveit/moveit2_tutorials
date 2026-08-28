@@ -50,7 +50,7 @@ COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/launch src/mtc_
 
 # Install Gazebo, which is needed by some dependencies.
 RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
-    wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add - && \
+    wget http://packages.osrfoundation.org/gazebo.key -O - | sudo gpg --dearmor -o /usr/share/keyrings/perforce-archive-keyring.gpg && \
     sudo apt update && \
     sudo apt-get install -y "gz-${GZ_VERSION}"
 
