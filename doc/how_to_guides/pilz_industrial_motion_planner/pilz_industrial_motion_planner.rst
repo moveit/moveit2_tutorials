@@ -266,7 +266,11 @@ CIRC Planning Result in ``moveit_msg::MotionPlanResponse``
 -  ``error_code/val``: error code of the motion planning
 
 The POLYLINE motion command
----------------------------------
+---------------------------
+
+.. note::
+
+   The ``POLYLINE`` planner and its parameters (e.g. ``smoothness_level`` in `moveit_msgs/msg/MotionPlanRequest <https://github.com/moveit/moveit_msgs/blob/ros2/msg/MotionPlanRequest.msg>`_) are natively available in binary releases for ROS 2 Kilted and newer. On earlier ROS 2 distributions (such as Jazzy), building ``moveit_msgs`` (version >= 2.7.2) from source is required.
 
 This planner generates a continuous Cartesian trajectory passing through a sequence of waypoints.
 The generated path is a combination of linear segments connected by
