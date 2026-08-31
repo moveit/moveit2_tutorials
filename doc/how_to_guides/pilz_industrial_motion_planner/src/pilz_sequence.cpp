@@ -182,8 +182,14 @@ int main(int argc, char** argv)
     pos_constraint.weight = 1.0;
     item3.req.path_constraints.position_constraints.push_back(pos_constraint);
   }
-  item3.req.goal_constraints.push_back(kinematic_constraints::constructGoalConstraints("panda_hand", msg));
-  item3.req.smoothness_level = 0.3;
+  // Set smoothness_level if supported by the message definition (e.g. ROS 2 Kilted+ or moveit_msgs >= 2.7.2)
+  auto set_smoothness_level = [](auto& req, double level) {
+    if constexpr (requires { req.smoothness_level = level; })
+    {
+      req.smoothness_level = level;
+    }
+  };
+  set_smoothness_level(item3.req, 0.3);
 
   // [ --------------------------------------------------------------- ]
   // [ ------------------ MoveGroupSequence Service ------------------ ]
