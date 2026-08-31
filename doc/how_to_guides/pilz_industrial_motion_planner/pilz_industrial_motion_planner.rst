@@ -39,7 +39,7 @@ strictest combination of all limits as a common limit for all joints.
 Cartesian Limits
 ----------------
 
-For Cartesian trajectory generation (LIN/CIRC), the planner needs
+For Cartesian trajectory generation (LIN/CIRC/POLYLINE), the planner needs
 information about the maximum speed in 3D Cartesian space. Namely,
 translational/rotational velocity/acceleration/deceleration need to be
 set in the node parameters like this:
@@ -60,6 +60,9 @@ rotational trapezoidal shapes. The rotational acceleration is
 calculated as ``max_trans_acc / max_trans_vel * max_rot_vel``
 (and for deceleration accordingly).
 
+You can set different max_trans_vel using ``MotionPlanRequest`` by setting
+the field ``max_cartesian_speed`` and the field ``cartesian_speed_limited_link``.
+
 Planning Interface
 ------------------
 
@@ -70,7 +73,7 @@ are explained below.
 For a general introduction on how to fill a ``MotionPlanRequest``, see
 :ref:`move_group_interface-planning-to-pose-goal`.
 
-You can specify ``"PTP"``, ``"LIN"`` or ``"CIRC"`` as the ``planner_id`` of the ``MotionPlanRequest``.
+You can specify ``"PTP"``, ``"LIN"``, ``"CIRC"`` or ``"POLYLINE"`` as the ``planner_id`` of the ``MotionPlanRequest``.
 
 The PTP motion command
 ----------------------
@@ -144,6 +147,7 @@ LIN Input Parameters in ``moveit_msgs::MotionPlanRequest``
    translational/rotational velocity
 -  ``max_acceleration_scaling_factor``: scaling factor of maximal
    Cartesian translational/rotational acceleration/deceleration
+-  ``max_cartesian_speed``: maximal Cartesian speed for this motion (replaces the max_trans_vel parameter)
 -  ``start_state/joint_state/(name, position and velocity``: joint
    name/position of the start state.
 -  ``goal_constraints`` (goal can be given in joint space or Cartesian
@@ -215,6 +219,7 @@ CIRC Input Parameters in ``moveit_msgs::MotionPlanRequest``
    translational/rotational velocity
 -  ``max_acceleration_scaling_factor``: scaling factor of maximal
    Cartesian translational/rotational acceleration/deceleration
+-  ``max_cartesian_speed``: maximal Cartesian speed for this motion (replaces the max_trans_vel parameter)
 -  ``start_state/joint_state/(name, position and velocity``: joint
    name/position of the start state.
 -  ``goal_constraints`` (goal can be given in joint space or Cartesian
@@ -259,6 +264,50 @@ CIRC Planning Result in ``moveit_msg::MotionPlanResponse``
    velocity and acceleration.
 -  ``group_name``: the name of the planning group
 -  ``error_code/val``: error code of the motion planning
+
+The POLYLINE motion command
+---------------------------
+
+.. note::
+
+   The ``POLYLINE`` planner and its parameters (e.g. ``smoothness_level`` in `moveit_msgs/msg/MotionPlanRequest <https://github.com/moveit/moveit_msgs/blob/ros2/msg/MotionPlanRequest.msg>`_) are natively available in binary releases for ROS 2 Kilted and newer. On earlier ROS 2 distributions (such as Jazzy), building ``moveit_msgs`` (version >= 2.7.2) from source is required.
+
+This planner generates a continuous Cartesian trajectory passing through a sequence of waypoints.
+The generated path is a combination of linear segments connected by
+circular arcs to smooth the transitions between consecutive lines. A smoothness level scaling factor is used to
+determine smoothness by scaling the max possible rounding radius.
+The planner automatically filters waypoints that are positioned too closely;
+however, the user must ensure the angle between consecutive segments is
+sufficiently large to avoid violating minimum rounding constraints.
+The planner uses Cartesian limits to generate a trapezoidal
+velocity profile in Cartesian space. This planner only accepts a
+start state with zero velocity. The planning result is a joint trajectory. The user needs to adapt
+the Cartesian velocity/acceleration scaling factor if the motion plan fails due to violation of cartesian limits.
+The planner will fail if three or more consecutive waypoints are collinear.
+
+POLYLINE Input Parameters in ``moveit_msgs::MotionPlanRequest``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  ``planner_id``: ``"POLYLINE"``
+-  ``group_name``: the name of the planning group
+-  ``max_velocity_scaling_factor``: scaling factor of maximal Cartesian
+   translational/rotational velocity
+-  ``max_acceleration_scaling_factor``: scaling factor of maximal
+   Cartesian translational/rotational acceleration/deceleration
+-  ``max_cartesian_speed``: maximal Cartesian speed for this motion (replaces the max_trans_vel parameter)
+-  ``start_state/joint_state/(name, position and velocity``: joint
+   name/position of the start state.
+-  ``path_constraints``: a list of position constraints to be followed in
+   Cartesian space. Each waypoint is defined as a ``moveit_msgs::msg::PositionConstraint``
+
+      -  ``path_constraints/position_constraints/constraint_region/primitive_poses/point``:
+         pose of the point
+-  ``goal_constraints`` (the last goal point)
+      -  ``goal_constraints/position_constraints/header/frame_id``:
+         frame this data is associated with
+      -  ``goal_constraints/position_constraints/link_name``: target
+         link name
+-  ``smoothness_level``: scaling factor for the maximum possible rounding radius
 
 Examples
 --------
@@ -424,8 +473,8 @@ is used instead:
     }
 
 The
-:codedir:`pilz_sequence.cpp file <how_to_guides/pilz_industrial_motion_planner/src/pilz_sequence.launch.py>`
-creates two target poses that will be reached sequentially.
+:codedir:`pilz_sequence.cpp file <how_to_guides/pilz_industrial_motion_planner/src/pilz_sequence.cpp>`
+creates a sequence of three commands.
 
 ::
 
@@ -435,6 +484,8 @@ creates two target poses that will be reached sequentially.
 
     // Set pose blend radius
     item1.blend_radius = 0.1;
+    // Set max_cartesian_speed (overwrite the max_trans_vel)
+    item1.req.max_cartesian_speed = 0.5;
 
     // MotionSequenceItem configuration
     item1.req.group_name = PLANNING_GROUP;
@@ -461,7 +512,7 @@ creates two target poses that will be reached sequentially.
        msg.pose.orientation.w = 0.0;
        return msg;
     } ();
-    item1.req.goal_constraints.push_back(kinematic_constraints::constructGoalConstraints("panda_link8", target_pose_item1));
+    item1.req.goal_constraints.push_back(kinematic_constraints::constructGoalConstraints("panda_hand", target_pose_item1));
 
 The service client needs to be initialized:
 
@@ -485,6 +536,7 @@ Then, the request is created:
     auto service_request = std::make_shared<GetMotionSequence::Request>();
     service_request->request.items.push_back(item1);
     service_request->request.items.push_back(item2);
+    service_request->request.items.push_back(item3);
 
 Once the service call is completed, the method ``future.wait_for(timeout_duration)`` blocks until
 a specified ``timeout_duration`` has elapsed or the result becomes available, whichever comes
@@ -546,9 +598,9 @@ The future response is read with the ``future.get()`` method.
        return 0;
     }
 
-In this case, the planned trajectory is drawn. Here is a comparison of a blend radius of 0 and 0.1 for the first and second trajectory, respectively.
+In this case, the planned trajectory is drawn. Here is a comparison of a blend radius of 0, 0.1, 0.05 for the first, second, and third trajectory (line, line, ellipse), respectively.
 
-.. figure:: trajectory_comparison.jpeg
+.. figure:: trajectory_comparison.png
    :alt: trajectory comparison
 
 Action interface
@@ -588,6 +640,7 @@ Then, the request is created:
     moveit_msgs::msg::MotionSequenceRequest sequence_request;
     sequence_request.items.push_back(item1);
     sequence_request.items.push_back(item2);
+    sequence_request.items.push_back(item3);
 
 The goal and planning options are configured. A goal response callback and result callback can be included as well.
 
