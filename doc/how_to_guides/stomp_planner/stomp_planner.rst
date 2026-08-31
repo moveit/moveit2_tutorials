@@ -23,11 +23,11 @@ You should also have gone through the steps in :doc:`Visualization with MoveIt R
 Prerequisites
 -------------
  1. A recent build of MoveIt ``main`` for your ROS 2 distribution. The STOMP library is provided as a separate ROS package for supported ROS 2 distributions and should be installed by ``rosdep``.
- 2. To use STOMP with your robot it's best to start with a functional MoveIt configuration package for your robot. For testing, you can also start with the Panda robot from `moveit/panda_moveit_config <https://github.com/moveit/panda_moveit_config>`_ like described in this tutorial.
+ 2. To use STOMP with your robot it's best to start with a functional MoveIt configuration package for your robot. For testing, you can also start with the Panda robot from `panda_moveit_config <https://github.com/moveit/moveit_resources/tree/ros2/panda_moveit_config>`_ like described in this tutorial.
 
 Using STOMP with Your Robot
 ---------------------------
-**Note:** if you are following this demo using the ``panda_moveit_config`` from the `moveit/panda_moveit_config <https://github.com/moveit/panda_moveit_config>`_ repository, these steps are already done for you and you can directly launch the demo for testing STOMP in RViZ.
+**Note:** if you are following this demo using the ``panda_moveit_config`` from the `moveit/moveit_resources <https://github.com/moveit/moveit_resources/tree/ros2>`_ repository, these steps are already done for you and you can directly launch the demo for testing STOMP in RViZ.
 
 #. Simply add the `stomp_planning.yaml <https://github.com/moveit/moveit_resources/blob/ros2/panda_moveit_config/config/stomp_planning.yaml>`__ configuration file into the config directory of your MoveIt config package. It contains the plugin identifier, a planning pipeline adapter list, and the STOMP planning parameters. The config file should look like example below: ::
 
