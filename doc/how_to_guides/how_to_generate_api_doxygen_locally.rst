@@ -32,4 +32,4 @@ Steps
 
 .. code-block:: bash
 
-  firefox ~/docs/index.html
+  firefox ~/docs/html/index.html
