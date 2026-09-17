@@ -1,0 +1,8 @@
+repositories:
+  # MoveIt msgs containing POLYLINE planner message definitions (e.g. smoothness_level).
+  # Required on pre-Kilted ROS distros (e.g. Jazzy) where debian packages lack these definitions.
+  # TODO: Remove once moveit_msgs with POLYLINE fields is released into targeted distros.
+  moveit_msgs:
+    type: git
+    url: https://github.com/moveit/moveit_msgs.git
+    version: 2.7.2

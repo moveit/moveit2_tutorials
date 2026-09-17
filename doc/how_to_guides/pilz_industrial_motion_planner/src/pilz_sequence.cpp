@@ -71,7 +71,9 @@ int main(int argc, char** argv)
   moveit_msgs::msg::MotionSequenceItem item1;
 
   // Set pose blend radius
-  item1.blend_radius = 0.1;
+  item1.blend_radius = 0.05;
+  // Set max_cartesian_speed (overwrite the max_trans_vel)
+  item1.req.max_cartesian_speed = 0.5;
 
   // MotionSequenceItem configuration
   item1.req.group_name = PLANNING_GROUP;
@@ -92,22 +94,22 @@ int main(int argc, char** argv)
     msg.pose.position.x = 0.3;
     msg.pose.position.y = -0.2;
     msg.pose.position.z = 0.6;
-    msg.pose.orientation.x = 1.0;
-    msg.pose.orientation.y = 0.0;
+    msg.pose.orientation.x = 0.924;
+    msg.pose.orientation.y = -0.380;
     msg.pose.orientation.z = 0.0;
     msg.pose.orientation.w = 0.0;
     return msg;
   }();
-  item1.req.goal_constraints.push_back(
-      kinematic_constraints::constructGoalConstraints("panda_link8", target_pose_item1));
+  item1.req.goal_constraints.push_back(kinematic_constraints::constructGoalConstraints("panda_hand", target_pose_item1));
 
   // ----- Motion Sequence Item 2
   // Create a MotionSequenceItem
   moveit_msgs::msg::MotionSequenceItem item2;
 
   // Set pose blend radius
-  // For the last pose, it must be 0!
-  item2.blend_radius = 0.0;
+  item2.blend_radius = 0.05;
+  // set max_cartesian_speed (overwrite the max_trans_vel)
+  item2.req.max_cartesian_speed = 1.2;
 
   // MotionSequenceItem configuration
   item2.req.group_name = PLANNING_GROUP;
@@ -123,14 +125,71 @@ int main(int argc, char** argv)
     msg.pose.position.x = 0.3;
     msg.pose.position.y = -0.2;
     msg.pose.position.z = 0.8;
-    msg.pose.orientation.x = 1.0;
-    msg.pose.orientation.y = 0.0;
+    msg.pose.orientation.x = 0.924;
+    msg.pose.orientation.y = -0.380;
     msg.pose.orientation.z = 0.0;
     msg.pose.orientation.w = 0.0;
     return msg;
   }();
-  item2.req.goal_constraints.push_back(
-      kinematic_constraints::constructGoalConstraints("panda_link8", target_pose_item2));
+  item2.req.goal_constraints.push_back(kinematic_constraints::constructGoalConstraints("panda_hand", target_pose_item2));
+
+  // -------- Motion Sequence Items 3
+  moveit_msgs::msg::MotionSequenceItem item3;
+
+  // MotionSequenceItem configuration
+  item3.req.group_name = PLANNING_GROUP;
+  item3.req.planner_id = "POLYLINE";
+  item3.req.allowed_planning_time = 5.0;
+  item3.req.max_velocity_scaling_factor = 0.1;
+  item3.req.max_acceleration_scaling_factor = 0.1;
+
+  // For the last pose, the blending radius must be 0!
+  item3.blend_radius = 0.0;
+  // Set max_cartesian_speed (overwrite the max_trans_vel)
+  item3.req.max_cartesian_speed = 0.1;
+
+  // Extract waypoints along an ellipse
+  auto ellipse = [](double t) -> Eigen::Vector3d {
+    Eigen::Vector3d p;
+    p.x() = 0.3;
+    p.y() = -0.2 + 0.2 * std::sin(t);
+    p.z() = 0.6 + 0.2 * std::cos(t);
+    return p;
+  };
+
+  geometry_msgs::msg::PoseStamped msg;
+  msg.header.frame_id = "world";
+  moveit_msgs::msg::Constraints path_constraints;
+  const int num_points = 20;
+  for (int i = 0; i <= num_points; ++i)
+  {
+    // Get waypoint from parametric equation of ellipse
+    double t = i * (M_PI / 2.0) / float(num_points);
+    Eigen::Vector3d p = ellipse(t);
+    msg.pose.position.x = p.x();
+    msg.pose.position.y = p.y();
+    msg.pose.position.z = p.z();
+    msg.pose.orientation.x = std::cos(M_PI / 8.0 - t / 4.0);
+    msg.pose.orientation.y = -std::sin(M_PI / 8.0 - t / 4.0);
+    msg.pose.orientation.z = 0.0;
+    msg.pose.orientation.w = 0.0;
+    // Add waypoint as position constraint
+    moveit_msgs::msg::PositionConstraint pos_constraint;
+    pos_constraint.header.frame_id = "world";
+    pos_constraint.link_name = "panda_hand";
+    pos_constraint.constraint_region.primitive_poses.resize(1);
+    pos_constraint.constraint_region.primitive_poses[0] = msg.pose;
+    pos_constraint.weight = 1.0;
+    item3.req.path_constraints.position_constraints.push_back(pos_constraint);
+  }
+  // Set smoothness_level if supported by the message definition (e.g. ROS 2 Kilted+ or moveit_msgs >= 2.7.2)
+  auto set_smoothness_level = [](auto& req, double level) {
+    if constexpr (requires { req.smoothness_level = level; })
+    {
+      req.smoothness_level = level;
+    }
+  };
+  set_smoothness_level(item3.req, 0.3);
 
   // [ --------------------------------------------------------------- ]
   // [ ------------------ MoveGroupSequence Service ------------------ ]
@@ -151,6 +210,7 @@ int main(int argc, char** argv)
   auto service_request = std::make_shared<GetMotionSequence::Request>();
   service_request->request.items.push_back(item1);
   service_request->request.items.push_back(item2);
+  service_request->request.items.push_back(item3);
 
   // Call the service and process the result
   auto service_future = service_client->async_send_request(service_request);
@@ -223,6 +283,7 @@ int main(int argc, char** argv)
   moveit_msgs::msg::MotionSequenceRequest sequence_request;
   sequence_request.items.push_back(item1);
   sequence_request.items.push_back(item2);
+  sequence_request.items.push_back(item3);
 
   // Create action goal
   auto goal_msg = MoveGroupSequence::Goal();

@@ -32,7 +32,7 @@ jobs:
       UNDERLAY: ${{ endsWith(matrix.env.IMAGE, '-source') && '/root/ws_moveit/install' || '' }}
       UPSTREAM_WORKSPACE: .github/upstream.repos
       BEFORE_SETUP_UPSTREAM_WORKSPACE: git config --global --add safe.directory "*"
-      AFTER_SETUP_UPSTREAM_WORKSPACE: vcs pull $BASEDIR/upstream_ws/src
+      AFTER_SETUP_UPSTREAM_WORKSPACE: IMAGE="${{ matrix.env.IMAGE }}"; for f in ".github/upstream_${IMAGE}.repos" ".github/upstream_${IMAGE%-*}.repos"; do test -f "$f" && vcs import $BASEDIR/upstream_ws/src < "$f"; done; vcs pull $BASEDIR/upstream_ws/src
       TARGET_CMAKE_ARGS: -DCMAKE_BUILD_TYPE=Release
       CCACHE_DIR: ${{ github.workspace }}/.ccache
       BASEDIR: ${{ github.workspace }}/.work
@@ -51,7 +51,7 @@ jobs:
           restore-keys: ${{ env.CACHE_PREFIX }}
         env:
           GHA_CACHE_SAVE: always
-          CACHE_PREFIX: upstream_ws-${{ matrix.env.IMAGE }}-${{ hashFiles('.github/upstream.repos') }}
+          CACHE_PREFIX: upstream_ws-${{ matrix.env.IMAGE }}-${{ hashFiles('.github/upstream.repos', '.github/upstream_*.repos') }}
       # The target directory cache doesn't include the source directory because
       # that comes from the checkout.  See "prepare target_ws for cache" task below
       - name: cache target_ws
