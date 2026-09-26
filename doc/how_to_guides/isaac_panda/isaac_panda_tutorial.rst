@@ -35,11 +35,11 @@ simulated or connecting to a physical robot.
 
 
 `Hardware Components <https://control.ros.org/master/doc/getting_started/getting_started.html#hardware-components>`_
-can be of different types, but the plugin ``<plugin>mock_components/GenericSystem</plugin>`` is very a simple ``System``
+can be of different types, but the plugin ``<plugin>mock_components/GenericSystem</plugin>`` is very a simple system
 that forwards the incoming ``command_interface`` values to the tracked ``state_interface`` of the joints (i.e., perfect control of the simulated joints).
 
 For us to expand our Panda robot to Isaac Sim we first have to introduce `topic_based_ros2_control <https://github.com/PickNikRobotics/topic_based_ros2_control>`_.
-This Hardware Interface is a ``System`` that subscribes and publishes on configured topics.
+This Hardware Interface is a system that subscribes and publishes on configured topics.
 For this tutorial the topic ``/isaac_joint_states`` will contain the robot's current state and ``/isaac_joint_commands`` will be used to actuate it.
 The `moveit_resources_panda_moveit_config <https://github.com/moveit/moveit_resources/blob/humble/panda_moveit_config/config/panda.ros2_control.xacro#L7>`_
 we are using in this tutorial does not support connecting to hardware, so our ``ros2_control.xacro`` is now
