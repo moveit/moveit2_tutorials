@@ -20,14 +20,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-# Build topic_based_ros2_control from source since it is not yet released as an apt package for ${ROS_DISTRO}
+# Copy moveit2_tutorials source code from repository root
+COPY . src/moveit2_tutorials
+
+# Build topic_based_ros2_control and moveit2_tutorials from source
 RUN git clone https://github.com/PickNikRobotics/topic_based_ros2_control.git -b main src/topic_based_ros2_control && \
     apt-get update && \
     rosdep update && \
-    rosdep install -r --from-paths src/topic_based_ros2_control --ignore-src --rosdistro ${ROS_DISTRO} -y && \
+    rosdep install -r --from-paths src/topic_based_ros2_control src/moveit2_tutorials --ignore-src --rosdistro ${ROS_DISTRO} -y && \
     . /opt/ros/${ROS_DISTRO}/setup.sh && \
     . /root/ws_moveit/install/setup.sh && \
-    colcon build --packages-select topic_based_ros2_control --cmake-args -DCMAKE_BUILD_TYPE=Release && \
+    colcon build --packages-select topic_based_ros2_control moveit2_tutorials --cmake-args -DCMAKE_BUILD_TYPE=Release && \
     rm -rf /var/lib/apt/lists/*
 
 # Install CUDA
