@@ -50,7 +50,13 @@ BACKGROUND_USD_PATH = "/Isaac/Environments/Simple_Room/simple_room.usd"
 GRAPH_PATH = "/ActionGraph"
 REALSENSE_VIEWPORT_NAME = "realsense_viewport"
 
-CONFIG = {"renderer": "RayTracedLighting", "headless": False}
+# Support both headless and non-headless (GUI) modes, as well as livestreaming
+is_headless = "--headless" in sys.argv
+is_livestream = "--livestream" in sys.argv
+
+CONFIG = {"renderer": "RayTracedLighting", "headless": is_headless}
+if is_livestream:
+    CONFIG["livestream"] = 2  # WebRTC livestreaming
 
 simulation_app = SimulationApp(CONFIG)
 

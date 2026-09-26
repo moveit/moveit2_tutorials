@@ -1,9 +1,12 @@
-FROM moveit/moveit2:main-humble-tutorial-source
+ARG ROS_DISTRO=jazzy
+FROM moveit/moveit2:${ROS_DISTRO}-source
 
 SHELL ["/bin/bash", "-c", "-o", "pipefail"]
 
-ARG CUDA_MAJOR_VERSION=11
-ARG CUDA_MINOR_VERSION=7
+ARG ROS_DISTRO
+ARG UBUNTU_VERSION=ubuntu2404
+ARG CUDA_MAJOR_VERSION=12
+ARG CUDA_MINOR_VERSION=4
 
 # Bring the container up to date to get the latest ROS sync
 # hadolint ignore=DL3008, DL3013
@@ -11,21 +14,30 @@ RUN apt-get update && apt-get upgrade -y && rosdep update
 
 # Install packages required to run the demo
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ros-humble-topic-based-ros2-control \
+    ros-${ROS_DISTRO}-topic-based-ros2-control \
     wget \
-    python3-pip
+    python3-pip \
+    ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install CUDA
-ENV DEBIAN_FRONTEND noninteractive
-RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.0-1_all.deb && \
-    dpkg -i cuda-keyring_1.0-1_all.deb && \
+ENV DEBIAN_FRONTEND=noninteractive
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/${UBUNTU_VERSION}/x86_64/cuda-keyring_1.1-1_all.deb && \
+    dpkg -i cuda-keyring_1.1-1_all.deb && \
+    rm cuda-keyring_1.1-1_all.deb && \
     apt-get update && \
-    apt-get -y install cuda-cudart-${CUDA_MAJOR_VERSION}-${CUDA_MINOR_VERSION}  cuda-compat-${CUDA_MAJOR_VERSION}-${CUDA_MINOR_VERSION} cuda-toolkit-${CUDA_MAJOR_VERSION}-${CUDA_MINOR_VERSION}
+    apt-get -y install --no-install-recommends \
+      cuda-cudart-${CUDA_MAJOR_VERSION}-${CUDA_MINOR_VERSION} \
+      cuda-compat-${CUDA_MAJOR_VERSION}-${CUDA_MINOR_VERSION} \
+      cuda-toolkit-${CUDA_MAJOR_VERSION}-${CUDA_MINOR_VERSION} && \
+    rm -rf /var/lib/apt/lists/*
 ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:$PATH
 ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64:$LD_LIBRARY_PATH
 
 # Install pytorch
-RUN pip3 install torch torchvision
+RUN pip3 install --no-cache-dir --break-system-packages \
+    torch torchvision \
+    --index-url https://download.pytorch.org/whl/cu${CUDA_MAJOR_VERSION}${CUDA_MINOR_VERSION}
 
 # Use Fast DDS as middleware and load the required config for NVIDIA Isaac Sim.
 ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
@@ -33,11 +45,12 @@ RUN mkdir -p /opt/.ros
 COPY ./doc/how_to_guides/isaac_panda/.docker/fastdds.xml /opt/.ros/fastdds.xml
 ENV FASTRTPS_DEFAULT_PROFILES_FILE=/opt/.ros/fastdds.xml
 
-ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
-ENV NVIDIA_REQUIRE_CUDA "cuda>=${CUDA_MAJOR_VERSION}.${CUDA_MINOR_VERSION}"
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+ENV NVIDIA_REQUIRE_CUDA="cuda>=${CUDA_MAJOR_VERSION}.${CUDA_MINOR_VERSION}"
 
 # Set up the entrypoint for both container start and interactive terminals.
 COPY ./doc/how_to_guides/isaac_panda/.docker/ros_entrypoint.sh /opt/.ros/
-RUN echo "source /opt/.ros/ros_entrypoint.sh" >> ~/.bashrc
+RUN chmod +x /opt/.ros/ros_entrypoint.sh && \
+    echo "source /opt/.ros/ros_entrypoint.sh" >> ~/.bashrc
 ENTRYPOINT [ "/opt/.ros/ros_entrypoint.sh" ]
