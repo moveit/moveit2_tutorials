@@ -1,7 +1,7 @@
 How To Command Simulated Isaac Robot
 ====================================
 
-This tutorial requires a machine with ``Isaac Sim 4.5`` (recommended) or ``Isaac Sim 4.2`` installed.
+This tutorial assumes a computer with ``Isaac Sim 6.1`` as a recommended version.
 For Isaac Sim requirements and installation please see the `Omniverse documentation <https://docs.isaacsim.omniverse.nvidia.com/latest/index.html>`_.
 To configure Isaac Sim to work with ROS 2 please see `this guide <https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_ros.html#running-native-ros>`_.
 
