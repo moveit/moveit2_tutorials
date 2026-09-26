@@ -14,10 +14,20 @@ RUN apt-get update && apt-get upgrade -y && rosdep update
 
 # Install packages required to run the demo
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ros-${ROS_DISTRO}-topic-based-ros2-control \
+    git \
     wget \
     python3-pip \
     ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
+# Build topic_based_ros2_control from source since it is not yet released as an apt package for ${ROS_DISTRO}
+RUN git clone https://github.com/PickNikRobotics/topic_based_ros2_control.git -b main src/topic_based_ros2_control && \
+    apt-get update && \
+    rosdep update && \
+    rosdep install -r --from-paths src/topic_based_ros2_control --ignore-src --rosdistro ${ROS_DISTRO} -y && \
+    . /opt/ros/${ROS_DISTRO}/setup.sh && \
+    . /root/ws_moveit/install/setup.sh && \
+    colcon build --packages-select topic_based_ros2_control --cmake-args -DCMAKE_BUILD_TYPE=Release && \
     rm -rf /var/lib/apt/lists/*
 
 # Install CUDA
