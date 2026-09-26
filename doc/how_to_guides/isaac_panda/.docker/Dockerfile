@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-c", "-o", "pipefail"]
 ARG ROS_DISTRO
 ARG UBUNTU_VERSION=ubuntu2404
 ARG CUDA_MAJOR_VERSION=12
-ARG CUDA_MINOR_VERSION=4
+ARG CUDA_MINOR_VERSION=6
 
 # Bring the container up to date to get the latest ROS sync
 # hadolint ignore=DL3008, DL3013
@@ -42,7 +42,7 @@ RUN wget https://developer.download.nvidia.com/compute/cuda/repos/${UBUNTU_VERSI
       cuda-toolkit-${CUDA_MAJOR_VERSION}-${CUDA_MINOR_VERSION} && \
     rm -rf /var/lib/apt/lists/*
 ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:$PATH
-ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64:$LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 
 # Install pytorch
 RUN pip3 install --no-cache-dir --break-system-packages \
