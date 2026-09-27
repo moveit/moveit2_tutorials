@@ -1,0 +1,184 @@
+name: Project Automation
+
+on:
+  issues:
+    types: [opened, assigned, closed, reopened]
+  pull_request_target:
+    types: [opened, ready_for_review, closed, reopened]
+
+permissions:
+  issues: read
+  pull-requests: read
+
+jobs:
+  automate_project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Manage Project Items
+        uses: actions/github-script@v7
+        with:
+          # Organization Projects require a Personal Access Token or GitHub App token with 'project' scope.
+          # Set MOVEIT_PROJECT_TOKEN or GH_PROJECT_TOKEN in organization / repository secrets.
+          github-token: ${{ secrets.MOVEIT_PROJECT_TOKEN || secrets.GH_PROJECT_TOKEN || secrets.GITHUB_TOKEN }}
+          script: |
+            const org = 'moveit';
+            const projectNumber = 4;
+
+            // 1. Fetch Project V2 ID and 'Status' field options
+            let project;
+            try {
+              const projectQuery = `
+                query($org: String!, $projectNumber: Int!) {
+                  organization(login: $org) {
+                    projectV2(number: $projectNumber) {
+                      id
+                      fields(first: 50) {
+                        nodes {
+                          ... on ProjectV2SingleSelectField {
+                            id
+                            name
+                            options {
+                              id
+                              name
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              `;
+              const res = await github.graphql(projectQuery, { org, projectNumber });
+              project = res.organization.projectV2;
+            } catch (err) {
+              core.setFailed(`Failed to fetch project info: ${err.message}. Ensure the token has 'project' / 'read:project' scope.`);
+              return;
+            }
+
+            const projectId = project.id;
+            const statusField = project.fields.nodes.find(f => f.name && f.name.toLowerCase() === 'status');
+            if (!statusField) {
+              core.setFailed("Could not find single-select 'Status' field in Project #4.");
+              return;
+            }
+
+            function getStatusOptionId(name) {
+              const opt = statusField.options.find(o => o.name.toLowerCase() === name.toLowerCase());
+              if (!opt) {
+                core.warning(`Status option '${name}' not found on project. Available: ${statusField.options.map(o => o.name).join(', ')}`);
+                return null;
+              }
+              return opt.id;
+            }
+
+            async function addItemAndSetStatus(contentId, statusName) {
+              const optionId = getStatusOptionId(statusName);
+
+              // Add item to project (or get existing project item ID)
+              const addMutation = `
+                mutation($projectId: ID!, $contentId: ID!) {
+                  addProjectV2ItemById(input: { projectId: $projectId, contentId: $contentId }) {
+                    item {
+                      id
+                    }
+                  }
+                }
+              `;
+              const address_graphql = await github.graphql(addMutation, { projectId, contentId });
+              const itemId = address_graphql.addProjectV2ItemById.item.id;
+
+              if (optionId) {
+                const updateMutation = `
+                  mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                    updateProjectV2ItemFieldValue(input: {
+                      projectId: $projectId,
+                      itemId: $itemId,
+                      fieldId: $fieldId,
+                      value: { singleSelectOptionId: $optionId }
+                    }) {
+                      projectV2Item {
+                        id
+                      }
+                    }
+                  }
+                `;
+                await github.graphql(updateMutation, {
+                  projectId,
+                  itemId,
+                  fieldId: statusField.id,
+                  optionId
+                });
+                core.info(`Item ${contentId} set to '${statusName}' (optionId: ${optionId})`);
+              }
+            }
+
+            const eventName = context.eventName;
+            const action = context.payload.action;
+
+            core.info(`Processing event '${eventName}' with action '${action}'`);
+
+            if (eventName === 'issues') {
+              const issue = context.payload.issue;
+              const issueNodeId = issue.node_id;
+
+              if (action === 'opened') {
+                const assoc = issue.author_association;
+                const isMaintainer = ['OWNER', 'MEMBER', 'COLLABORATOR'].includes(assoc);
+                const targetStatus = isMaintainer ? 'Backlog' : 'To triage';
+                core.info(`New issue #${issue.number} opened by author association: ${assoc} -> placing in '${targetStatus}'`);
+                await addItemAndSetStatus(issueNodeId, targetStatus);
+              } else if (action === 'assigned') {
+                core.info(`Issue #${issue.number} assigned -> moving to 'Backlog'`);
+                await addItemAndSetStatus(issueNodeId, 'Backlog');
+              } else if (action === 'closed') {
+                core.info(`Issue #${issue.number} closed -> moving to 'Done'`);
+                await addItemAndSetStatus(issueNodeId, 'Done');
+              } else if (action === 'reopened') {
+                core.info(`Issue #${issue.number} reopened -> moving to 'In progress'`);
+                await addItemAndSetStatus(issueNodeId, 'In progress');
+              }
+            } else if (eventName === 'pull_request_target') {
+              const pr = context.payload.pull_request;
+              const prNodeId = pr.node_id;
+
+              if (action === 'opened') {
+                const targetStatus = pr.draft ? 'In progress' : 'In review';
+                core.info(`New PR #${pr.number} opened (draft: ${pr.draft}) -> placing in '${targetStatus}'`);
+                await addItemAndSetStatus(prNodeId, targetStatus);
+              } else if (action === 'ready_for_review') {
+                core.info(`PR #${pr.number} marked ready for review -> moving to 'In review'`);
+                await addItemAndSetStatus(prNodeId, 'In review');
+
+                // Find targeted/closing issues
+                const linkedIssuesQuery = `
+                  query($prNodeId: ID!) {
+                    node(id: $prNodeId) {
+                      ... on PullRequest {
+                        closingIssuesReferences(first: 20) {
+                          nodes {
+                            id
+                            number
+                          }
+                        }
+                      }
+                    }
+                  }
+                `;
+                try {
+                  const linkedRes = await github.graphql(linkedIssuesQuery, { prNodeId });
+                  const linkedIssues = linkedRes.node?.closingIssuesReferences?.nodes || [];
+                  for (const linkedIssue of linkedIssues) {
+                    core.info(`Moving linked issue #${linkedIssue.number} to 'In review'`);
+                    await addItemAndSetStatus(linkedIssue.id, 'In review');
+                  }
+                } catch (err) {
+                  core.warning(`Failed to fetch linked issues for PR #${pr.number}: ${err.message}`);
+                }
+              } else if (action === 'closed') {
+                core.info(`PR #${pr.number} closed -> moving to 'Done'`);
+                await addItemAndSetStatus(prNodeId, 'Done');
+              } else if (action === 'reopened') {
+                core.info(`PR #${pr.number} reopened -> moving to 'In progress'`);
+                await addItemAndSetStatus(prNodeId, 'In progress');
+              }
+            }
