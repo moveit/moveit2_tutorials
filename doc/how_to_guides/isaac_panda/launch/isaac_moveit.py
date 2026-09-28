@@ -43,7 +43,6 @@ except:
     from omni.isaac.kit import SimulationApp
 
 FRANKA_STAGE_PATH = "/Franka"
-FRANKA_USD_PATH = "/Isaac/Robots/Franka/franka_alt_fingers.usd"
 CAMERA_PRIM_PATH = f"{FRANKA_STAGE_PATH}/panda_hand/geometry/realsense/realsense_camera"
 BACKGROUND_STAGE_PATH = "/background"
 BACKGROUND_USD_PATH = "/Isaac/Environments/Simple_Room/simple_room.usd"
@@ -71,6 +70,12 @@ except:
     from omni.isaac.version import get_version
 
     isaac_sim_ge_4_5_version = False
+
+# Franka USD path differs between older and modern (4.5+ / 6.1+) Isaac Sim
+if isaac_sim_ge_4_5_version:
+    FRANKA_USD_PATH = "/Isaac/Robots_Multiphysics/FrankaRobotics/FrankaPanda/franka/franka.usda"
+else:
+    FRANKA_USD_PATH = "/Isaac/Robots/Franka/franka_alt_fingers.usd"
 
 # Check the major version number of Isaac Sim to see if it's four digits, corresponding
 # to Isaac Sim 2023.1.1 or older.  The version numbering scheme changed with the
@@ -139,13 +144,24 @@ stage.add_reference_to_stage(
 )
 
 # Loading the franka robot USD
-prims.create_prim(
-    FRANKA_STAGE_PATH,
-    "Xform",
-    position=np.array([0, -0.64, 0]),
-    orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 90)),
-    usd_path=assets_root_path + FRANKA_USD_PATH,
-)
+try:
+    prims.create_prim(
+        FRANKA_STAGE_PATH,
+        "Xform",
+        position=np.array([0, -0.64, 0]),
+        orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 90)),
+        usd_path=assets_root_path + FRANKA_USD_PATH,
+    )
+except Exception as e:
+    carb.log_warn(f"Failed to load Franka from {FRANKA_USD_PATH}: {e}. Retrying with alternative path...")
+    fallback_path = "/Isaac/Robots/FrankaRobotics/FrankaPanda/franka.usd"
+    prims.create_prim(
+        FRANKA_STAGE_PATH,
+        "Xform",
+        position=np.array([0, -0.64, 0]),
+        orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 90)),
+        usd_path=assets_root_path + fallback_path,
+    )
 
 # add some objects, spread evenly along the X axis
 # with a fixed offset from the robot in the Y and Z
@@ -490,10 +506,15 @@ else:
         primPath="/ActionGraph/PublishJointState", targetPrimPaths=[FRANKA_STAGE_PATH]
     )
 
-# Fix camera settings since the defaults in the realsense model are inaccurate
-realsense_prim = camera_prim = UsdGeom.Camera(
-    stage.get_current_stage().GetPrimAtPath(CAMERA_PRIM_PATH)
-)
+# Fix camera settings since the defaults in the realsense model are inaccurate,
+# or create the camera prim if not present (e.g. in modern Isaac Sim Franka models).
+camera_prim = stage.get_current_stage().GetPrimAtPath(CAMERA_PRIM_PATH)
+if not camera_prim.IsValid():
+    camera_prim = UsdGeom.Camera.Define(stage.get_current_stage(), CAMERA_PRIM_PATH)
+    xform_api = UsdGeom.XformCommonAPI(camera_prim)
+    xform_api.SetTranslate(Gf.Vec3d(0.04, 0.0, 0.04))
+
+realsense_prim = UsdGeom.Camera(camera_prim)
 realsense_prim.GetHorizontalApertureAttr().Set(20.955)
 realsense_prim.GetVerticalApertureAttr().Set(15.7)
 realsense_prim.GetFocalLengthAttr().Set(18.8)
@@ -515,10 +536,16 @@ simulation_context.initialize_physics()
 simulation_context.play()
 simulation_app.update()
 
-# Dock the second camera window
-viewport = omni.ui.Workspace.get_window("Viewport")
-rs_viewport = omni.ui.Workspace.get_window(REALSENSE_VIEWPORT_NAME)
-rs_viewport.dock_in(viewport, omni.ui.DockPosition.RIGHT)
+# Dock the second camera window (only in GUI mode)
+if not is_headless:
+    try:
+        import omni.ui
+        viewport = omni.ui.Workspace.get_window("Viewport")
+        rs_viewport = omni.ui.Workspace.get_window(REALSENSE_VIEWPORT_NAME)
+        if viewport and rs_viewport:
+            rs_viewport.dock_in(viewport, omni.ui.DockPosition.RIGHT)
+    except Exception as e:
+        carb.log_warn(f"Could not dock viewport: {e}")
 
 
 while simulation_app.is_running():
