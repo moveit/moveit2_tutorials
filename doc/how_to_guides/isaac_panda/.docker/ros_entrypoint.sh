@@ -5,6 +5,8 @@ set -e
 # Source ROS underlay and MoveIt workspace dynamically
 if [ -n "${ROS_DISTRO}" ] && [ -f "/opt/ros/${ROS_DISTRO}/setup.bash" ]; then
     source "/opt/ros/${ROS_DISTRO}/setup.bash"
+elif [ -f "/opt/ros/lyrical/setup.bash" ]; then
+    source "/opt/ros/lyrical/setup.bash"
 elif [ -f "/opt/ros/jazzy/setup.bash" ]; then
     source "/opt/ros/jazzy/setup.bash"
 elif [ -f "/opt/ros/rolling/setup.bash" ]; then

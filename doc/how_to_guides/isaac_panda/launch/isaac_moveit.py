@@ -73,7 +73,9 @@ except:
 
 # Franka USD path differs between older and modern (4.5+ / 6.1+) Isaac Sim
 if isaac_sim_ge_4_5_version:
-    FRANKA_USD_PATH = "/Isaac/Robots_Multiphysics/FrankaRobotics/FrankaPanda/franka/franka.usda"
+    FRANKA_USD_PATH = (
+        "/Isaac/Robots_Multiphysics/FrankaRobotics/FrankaPanda/franka/franka.usda"
+    )
 else:
     FRANKA_USD_PATH = "/Isaac/Robots/Franka/franka_alt_fingers.usd"
 
@@ -149,17 +151,23 @@ try:
         FRANKA_STAGE_PATH,
         "Xform",
         position=np.array([0, -0.64, 0]),
-        orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 90)),
+        orientation=rotations.gf_rotation_to_np_array(
+            Gf.Rotation(Gf.Vec3d(0, 0, 1), 90)
+        ),
         usd_path=assets_root_path + FRANKA_USD_PATH,
     )
 except Exception as e:
-    carb.log_warn(f"Failed to load Franka from {FRANKA_USD_PATH}: {e}. Retrying with alternative path...")
+    carb.log_warn(
+        f"Failed to load Franka from {FRANKA_USD_PATH}: {e}. Retrying with alternative path..."
+    )
     fallback_path = "/Isaac/Robots/FrankaRobotics/FrankaPanda/franka.usd"
     prims.create_prim(
         FRANKA_STAGE_PATH,
         "Xform",
         position=np.array([0, -0.64, 0]),
-        orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 90)),
+        orientation=rotations.gf_rotation_to_np_array(
+            Gf.Rotation(Gf.Vec3d(0, 0, 1), 90)
+        ),
         usd_path=assets_root_path + fallback_path,
     )
 
@@ -540,6 +548,7 @@ simulation_app.update()
 if not is_headless:
     try:
         import omni.ui
+
         viewport = omni.ui.Workspace.get_window("Viewport")
         rs_viewport = omni.ui.Workspace.get_window(REALSENSE_VIEWPORT_NAME)
         if viewport and rs_viewport:

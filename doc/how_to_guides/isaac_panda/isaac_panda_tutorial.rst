@@ -10,7 +10,7 @@ This tutorial has the following assumptions on system configuration:
 1. NVIDIA Isaac Sim is installed in the default location. Docker based installations of Isaac sim are also supported but it is up to the user to configure the system.
 2. Docker is installed.
    If you plan to use your GPU with MoveIt, you will need to install `nvidia-docker <https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installing-on-ubuntu-and-debian>`_.
-3. You clone this repo so that you can build a Ubuntu 24.04 (ROS 2 Jazzy / Rolling) based Docker image that can communicate with Isaac and run this tutorial.
+3. You clone this repo so that you can build a ROS 2 Lyrical (recommended, Ubuntu 26.04) or Jazzy (Ubuntu 24.04) based Docker image that can communicate with Isaac and run this tutorial.
 
 Introduction to ros2_control
 ----------------------------
@@ -59,10 +59,10 @@ we are using in this tutorial does not include real hardware drivers, so our ``r
 
 Communicating with Isaac Sim via OmniGraph
 ------------------------------------------
-  
+
 While **Isaac Sim**, built on ``Omniverse``, provides the overall simulation environment—handling physics (``PhysX``), 3D scene representation (``USD``), and photorealistic rendering — **OmniGraph** is Omniverse's underlying node-based dataflow and execution engine. In robotics workflows, OmniGraph acts as the internal data pipeline that connects the simulation stage to external protocols like ROS 2: on each simulation tick, OmniGraph nodes query the simulated robot's physics state to publish ROS 2 messages, and translate incoming ROS 2 command topics into joint articulation drives.
 
-In this tutorial, we provide a Python script that loads the Panda robot into Isaac Sim and constructs an `OmniGraph <https://docs.omniverse.nvidia.com/extensions/latest/ext_omnigraph/tutorials/gentle_intro.html>`_ to handle this bidirectional communication:          
+In this tutorial, we provide a Python script that loads the Panda robot into Isaac Sim and constructs an `OmniGraph <https://docs.omniverse.nvidia.com/extensions/latest/ext_omnigraph/tutorials/gentle_intro.html>`_ to handle this bidirectional communication:
 
 * Subscribes to ``/isaac_joint_commands`` to drive the simulated joints.
 * Publishes current joint states to ``/isaac_joint_states`` for ``ros2_control``.
@@ -94,6 +94,13 @@ Computer Setup
 .. code-block:: bash
 
   docker compose build base
+
+.. note::
+  By default, the image builds for **ROS 2 Lyrical**. To build for **ROS 2 Jazzy** instead, pass ``--build-arg ROS_DISTRO=jazzy``:
+
+  .. code-block:: bash
+
+    docker compose build --build-arg ROS_DISTRO=jazzy base
 
 
 Running the MoveIt Interactive Marker Demo with Mock Components (w/o Isaac Sim)
@@ -127,7 +134,7 @@ Running the MoveIt Interactive Marker Demo with Isaac Sim
 
 .. note::
   The launch helper ``python.sh`` auto-detects standard Isaac Sim installations (``$HOME/isaacsim``, ``$HOME/.local/share/ov/pkg/``, or ``/opt/nvidia/isaac-sim``), as well as running Isaac Sim Docker containers.
-  
+
   * **Custom installation path**: Set the environment variable ``export ISAAC_SIM_PATH=/path/to/isaacsim`` or pass ``--isaac-path /path/to/isaacsim``.
   * **Running with Isaac Sim in Docker**: If an Isaac Sim container is running (named ``isaac-sim`` or specified via ``ISAAC_DOCKER_CONTAINER``), running ``./python.sh isaac_moveit.py`` on the host will automatically forward execution into the container. Alternatively, execute ``./python.sh <path>/isaac_moveit.py`` directly from inside your Isaac Sim container.
   * **Headless vs. GUI**:

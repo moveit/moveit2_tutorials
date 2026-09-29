@@ -1,10 +1,10 @@
-ARG ROS_DISTRO=jazzy
+ARG ROS_DISTRO=lyrical
 FROM moveit/moveit2:${ROS_DISTRO}-source
 
 SHELL ["/bin/bash", "-c", "-o", "pipefail"]
 
 ARG ROS_DISTRO
-ARG UBUNTU_VERSION=ubuntu2404
+ENV ROS_DISTRO=${ROS_DISTRO}
 ARG CUDA_MAJOR_VERSION=12
 ARG CUDA_MINOR_VERSION=6
 
@@ -35,7 +35,8 @@ RUN git clone https://github.com/PickNikRobotics/topic_based_ros2_control.git -b
 
 # Install CUDA
 ENV DEBIAN_FRONTEND=noninteractive
-RUN wget https://developer.download.nvidia.com/compute/cuda/repos/${UBUNTU_VERSION}/x86_64/cuda-keyring_1.1-1_all.deb && \
+RUN UBUNTU_VERSION=$(source /etc/os-release && echo "ubuntu${VERSION_ID//./}") && \
+    wget https://developer.download.nvidia.com/compute/cuda/repos/${UBUNTU_VERSION}/x86_64/cuda-keyring_1.1-1_all.deb && \
     dpkg -i cuda-keyring_1.1-1_all.deb && \
     rm cuda-keyring_1.1-1_all.deb && \
     apt-get update && \
