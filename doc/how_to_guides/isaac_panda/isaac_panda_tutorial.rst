@@ -80,13 +80,36 @@ Computer Setup
 
    .. tab:: Docker (Recommended)
 
-      Pull the official NVIDIA Isaac Sim container image:
+      a. Pull the official NVIDIA Isaac Sim container image:
 
-      .. code-block:: bash
+         .. code-block:: bash
 
-        docker pull nvcr.io/nvidia/isaac-sim:6.1.0
+           docker pull nvcr.io/nvidia/isaac-sim:6.1.0
 
-      *(Isaac Sim 4.5 is also supported: ``docker pull nvcr.io/nvidia/isaac-sim:4.5.0``)*
+         *(Isaac Sim 4.5 is also supported: ``docker pull nvcr.io/nvidia/isaac-sim:4.5.0``)*
+
+      b. Prepare persistent host cache directories as documented in Step 4 of the `NVIDIA Container Setup Guide <https://docs.isaacsim.omniverse.nvidia.com/6.1.0/installation/install_container.html>`_. This ensures that downloaded assets and compiled shaders are cached across runs:
+
+         .. raw:: html
+
+            <details>
+            <summary><b>Click to expand: Host cache directory setup commands</b></summary>
+
+         .. code-block:: bash
+
+           mkdir -p ~/docker/isaac-sim/cache/kit
+           mkdir -p ~/docker/isaac-sim/cache/ov
+           mkdir -p ~/docker/isaac-sim/cache/pip
+           mkdir -p ~/docker/isaac-sim/cache/glcache
+           mkdir -p ~/docker/isaac-sim/cache/computecache
+           mkdir -p ~/docker/isaac-sim/logs
+           mkdir -p ~/docker/isaac-sim/config
+           mkdir -p ~/docker/isaac-sim/data
+           mkdir -p ~/docker/isaac-sim/documents
+
+         .. raw:: html
+
+            </details>
 
    .. tab:: Local Workstation Installation
 
@@ -139,6 +162,9 @@ After you are done testing press ``Ctrl+C`` in the terminal to stop the containe
 Running the MoveIt Interactive Marker Demo with Isaac Sim
 ---------------------------------------------------------
 
+.. important::
+  When using the recommended Docker setup, the **Isaac Sim container must be started and running** before executing the launch helper or starting the MoveIt container.
+
 1. On the host computer, go to the tutorials launch directory.
 
 .. code-block:: bash
@@ -151,28 +177,58 @@ Running the MoveIt Interactive Marker Demo with Isaac Sim
 
    .. tab:: Docker (Recommended)
 
-      Start the Isaac Sim container in the background (named ``isaac-sim``):
+      **Step 2a: Start the Isaac Sim container.**
+      Launch the Isaac Sim container in the background (named ``isaac-sim``):
 
       .. code-block:: bash
 
-        # Start container with GUI display enabled
         docker run --name isaac-sim -d --gpus all --network=host --ipc=host \
           -e ACCEPT_EULA=Y -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
           nvcr.io/nvidia/isaac-sim:6.1.0
 
-      Then run the launch helper on the host. It will automatically detect the running ``isaac-sim`` container and forward execution into it:
+      .. raw:: html
+
+         <details>
+         <summary><b>Click to expand: Alternative command with persistent cache volume mounts</b></summary>
+
+      .. code-block:: bash
+
+        docker run --name isaac-sim -d \
+          --entrypoint bash \
+          -it \
+          --gpus all \
+          --network=host \
+          --ipc=host \
+          -e ACCEPT_EULA=Y \
+          -e DISPLAY=$DISPLAY \
+          -v /tmp/.X11-unix:/tmp/.X11-unix \
+          -v ~/docker/isaac-sim/cache/kit:/root/.local/share/ov/data/Kit:rw \
+          -v ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw \
+          -v ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw \
+          -v ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw \
+          -v ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw \
+          -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw \
+          -v ~/docker/isaac-sim/config:/root/.nvidia-omniverse/config:rw \
+          -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
+          -v ~/docker/isaac-sim/documents:/root/Documents:rw \
+          nvcr.io/nvidia/isaac-sim:6.1.0
+
+      .. raw:: html
+
+         </details>
+
+      **Step 2b: Launch the simulation scene.**
+      Run the launch helper on the host. It will automatically detect the running ``isaac-sim`` container and forward execution into it:
 
       .. code-block:: bash
 
         ./python.sh isaac_moveit.py
 
       .. tip::
-        * **Headless with Livestreaming**: If running on a remote headless machine, start the container without ``DISPLAY`` and enable WebRTC streaming:
+        * **Headless with Livestreaming**: If running on a remote headless machine, launch the container without ``DISPLAY`` / ``/tmp/.X11-unix`` and enable WebRTC streaming:
 
           .. code-block:: bash
 
-            docker run --name isaac-sim -d --gpus all --network=host --ipc=host \
-              -e ACCEPT_EULA=Y nvcr.io/nvidia/isaac-sim:6.1.0
             ./python.sh isaac_moveit.py --headless --livestream
 
           Open ``http://<host-ip>:8211/streaming/webrtc-client/`` in your browser to view the interactive viewport.
