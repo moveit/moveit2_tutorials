@@ -5,8 +5,9 @@ SHELL ["/bin/bash", "-c", "-o", "pipefail"]
 
 ARG ROS_DISTRO
 ENV ROS_DISTRO=${ROS_DISTRO}
-ARG CUDA_MAJOR_VERSION=12
-ARG CUDA_MINOR_VERSION=6
+ARG CUDA_MAJOR_VERSION=13
+ARG CUDA_MINOR_VERSION=3
+ARG TORCH_CUDA_INDEX
 
 # Bring the container up to date to get the latest ROS sync
 # hadolint ignore=DL3008, DL3013
@@ -36,22 +37,47 @@ RUN git clone https://github.com/PickNikRobotics/topic_based_ros2_control.git -b
 # Install CUDA
 ENV DEBIAN_FRONTEND=noninteractive
 RUN UBUNTU_VERSION=$(source /etc/os-release && echo "ubuntu${VERSION_ID//./}") && \
+    CUDA_MAJOR="${CUDA_MAJOR_VERSION}" && \
+    CUDA_MINOR="${CUDA_MINOR_VERSION}" && \
+    if [ "${CUDA_MAJOR}" = "13" ] && [ "${CUDA_MINOR}" = "3" ]; then \
+      case "${UBUNTU_VERSION}" in \
+        ubuntu2404) CUDA_MAJOR="12"; CUDA_MINOR="6" ;; \
+        ubuntu2204) CUDA_MAJOR="11"; CUDA_MINOR="8" ;; \
+      esac; \
+    fi && \
     wget https://developer.download.nvidia.com/compute/cuda/repos/${UBUNTU_VERSION}/x86_64/cuda-keyring_1.1-1_all.deb && \
     dpkg -i cuda-keyring_1.1-1_all.deb && \
     rm cuda-keyring_1.1-1_all.deb && \
     apt-get update && \
     apt-get -y install --no-install-recommends \
-      cuda-cudart-${CUDA_MAJOR_VERSION}-${CUDA_MINOR_VERSION} \
-      cuda-compat-${CUDA_MAJOR_VERSION}-${CUDA_MINOR_VERSION} \
-      cuda-toolkit-${CUDA_MAJOR_VERSION}-${CUDA_MINOR_VERSION} && \
+      cuda-cudart-${CUDA_MAJOR}-${CUDA_MINOR} \
+      cuda-compat-${CUDA_MAJOR}-${CUDA_MINOR} \
+      cuda-toolkit-${CUDA_MAJOR}-${CUDA_MINOR} && \
     rm -rf /var/lib/apt/lists/*
 ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:$PATH
 ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 
 # Install pytorch
-RUN pip3 install --no-cache-dir --break-system-packages \
-    torch torchvision \
-    --index-url https://download.pytorch.org/whl/cu${CUDA_MAJOR_VERSION}${CUDA_MINOR_VERSION}
+RUN UBUNTU_VERSION=$(source /etc/os-release && echo "ubuntu${VERSION_ID//./}") && \
+    CUDA_MAJOR="${CUDA_MAJOR_VERSION}" && \
+    CUDA_MINOR="${CUDA_MINOR_VERSION}" && \
+    if [ "${CUDA_MAJOR}" = "13" ] && [ "${CUDA_MINOR}" = "3" ]; then \
+      case "${UBUNTU_VERSION}" in \
+        ubuntu2404) CUDA_MAJOR="12"; CUDA_MINOR="6" ;; \
+        ubuntu2204) CUDA_MAJOR="11"; CUDA_MINOR="8" ;; \
+      esac; \
+    fi && \
+    TORCH_INDEX="${TORCH_CUDA_INDEX}" && \
+    if [ -z "${TORCH_INDEX}" ]; then \
+      if [ "${CUDA_MAJOR}" -le 12 ]; then \
+        TORCH_INDEX="cu${CUDA_MAJOR}${CUDA_MINOR}"; \
+      else \
+        TORCH_INDEX="cu${CUDA_MAJOR}0"; \
+      fi; \
+    fi && \
+    pip3 install --no-cache-dir --break-system-packages \
+      torch torchvision \
+      --index-url "https://download.pytorch.org/whl/${TORCH_INDEX}"
 
 # Use Fast DDS as middleware and load the required config for NVIDIA Isaac Sim.
 ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp

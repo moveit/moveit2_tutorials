@@ -11,6 +11,8 @@ elif [ -f "/opt/ros/jazzy/setup.bash" ]; then
     source "/opt/ros/jazzy/setup.bash"
 elif [ -f "/opt/ros/rolling/setup.bash" ]; then
     source "/opt/ros/rolling/setup.bash"
+elif [ -f "/opt/ros/humble/setup.bash" ]; then
+    source "/opt/ros/humble/setup.bash"
 fi
 
 if [ -f "/root/ws_moveit/install/setup.bash" ]; then
