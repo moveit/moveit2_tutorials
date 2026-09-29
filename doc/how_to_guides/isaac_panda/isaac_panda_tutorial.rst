@@ -7,9 +7,8 @@ To configure Isaac Sim to work with ROS 2 please see `this guide <https://docs.i
 
 This tutorial has the following assumptions on system configuration:
 
-1. NVIDIA Isaac Sim is installed in the default location. Docker based installations of Isaac sim are also supported but it is up to the user to configure the system.
-2. Docker is installed.
-   If you plan to use your GPU with MoveIt, you will need to install `nvidia-docker <https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installing-on-ubuntu-and-debian>`_.
+1. **Isaac Sim is installed via Docker (recommended)** or locally on the workstation. Running Isaac Sim in Docker is strongly recommended to avoid host driver/library conflicts and ensure an isolated, reproducible environment.
+2. Docker and `NVIDIA Container Toolkit <https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html>`_ (nvidia-docker) are installed so your GPU is accessible from containers.
 3. You clone this repo so that you can build a ROS 2 Lyrical (recommended, Ubuntu 26.04) or Jazzy (Ubuntu 24.04) based Docker image that can communicate with Isaac and run this tutorial.
 
 Introduction to ros2_control
@@ -75,7 +74,23 @@ on Omniverse.
 Computer Setup
 --------------
 
-1. Install `Isaac Sim <https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_workstation.html>`_.
+1. Obtain Isaac Sim. **Using the official Docker container is recommended.**
+
+.. tabs::
+
+   .. tab:: Docker (Recommended)
+
+      Pull the official NVIDIA Isaac Sim container image:
+
+      .. code-block:: bash
+
+        docker pull nvcr.io/nvidia/isaac-sim:6.1.0
+
+      *(Isaac Sim 4.5 is also supported: ``docker pull nvcr.io/nvidia/isaac-sim:4.5.0``)*
+
+   .. tab:: Local Workstation Installation
+
+      Install Isaac Sim on your workstation following the `Omniverse Workstation Installation Guide <https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_workstation.html>`_.
 
 2. Perform a shallow clone of the MoveIt 2 Tutorials repo.
 
@@ -130,23 +145,58 @@ Running the MoveIt Interactive Marker Demo with Isaac Sim
 
   cd moveit2_tutorials/doc/how_to_guides/isaac_panda/launch
 
-2. Then run the following command to load the Panda Robot pre-configured to work with this tutorial.
+2. Start Isaac Sim and load the Panda robot simulation scene.
 
-.. note::
-  The launch helper ``python.sh`` auto-detects standard Isaac Sim installations (``$HOME/isaacsim``, ``$HOME/.local/share/ov/pkg/``, or ``/opt/nvidia/isaac-sim``), as well as running Isaac Sim Docker containers.
+.. tabs::
 
-  * **Custom installation path**: Set the environment variable ``export ISAAC_SIM_PATH=/path/to/isaacsim`` or pass ``--isaac-path /path/to/isaacsim``.
-  * **Running with Isaac Sim in Docker**: If an Isaac Sim container is running (named ``isaac-sim`` or specified via ``ISAAC_DOCKER_CONTAINER``), running ``./python.sh isaac_moveit.py`` on the host will automatically forward execution into the container. Alternatively, execute ``./python.sh <path>/isaac_moveit.py`` directly from inside your Isaac Sim container.
-  * **Headless vs. GUI**:
-    * **GUI (Default)**: ``./python.sh isaac_moveit.py`` opens the Isaac Sim viewport window.
-    * **Headless**: Add the ``--headless`` flag (e.g. ``./python.sh isaac_moveit.py --headless``) for environments without a display.
-    * **Headless with Livestreaming**: Add ``--headless --livestream`` to stream the simulation viewport via WebRTC to your browser at ``http://localhost:8211/streaming/webrtc-client/`` or the Omniverse Streaming Client.
+   .. tab:: Docker (Recommended)
 
-  This step takes a few minutes to download assets and initialize Isaac Sim on the first run, so please be patient.
+      Start the Isaac Sim container in the background (named ``isaac-sim``):
 
-.. code-block:: bash
+      .. code-block:: bash
 
-  ./python.sh isaac_moveit.py
+        # Start container with GUI display enabled
+        docker run --name isaac-sim -d --gpus all --network=host --ipc=host \
+          -e ACCEPT_EULA=Y -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
+          nvcr.io/nvidia/isaac-sim:6.1.0
+
+      Then run the launch helper on the host. It will automatically detect the running ``isaac-sim`` container and forward execution into it:
+
+      .. code-block:: bash
+
+        ./python.sh isaac_moveit.py
+
+      .. tip::
+        * **Headless with Livestreaming**: If running on a remote headless machine, start the container without ``DISPLAY`` and enable WebRTC streaming:
+
+          .. code-block:: bash
+
+            docker run --name isaac-sim -d --gpus all --network=host --ipc=host \
+              -e ACCEPT_EULA=Y nvcr.io/nvidia/isaac-sim:6.1.0
+            ./python.sh isaac_moveit.py --headless --livestream
+
+          Open ``http://<host-ip>:8211/streaming/webrtc-client/`` in your browser to view the interactive viewport.
+
+   .. tab:: Local Workstation
+
+      If Isaac Sim is installed natively on your workstation, run the launch helper directly:
+
+      .. code-block:: bash
+
+        ./python.sh isaac_moveit.py
+
+      .. note::
+        The launch helper auto-detects local installations at ``$HOME/isaacsim``, ``$HOME/.local/share/ov/pkg/``, or ``/opt/nvidia/isaac-sim``.
+        If your installation is in a custom path, specify it via:
+
+        .. code-block:: bash
+
+          export ISAAC_SIM_PATH=/path/to/isaacsim
+          ./python.sh isaac_moveit.py
+          # Or pass: ./python.sh --isaac-path /path/to/isaacsim isaac_moveit.py
+
+      * **Headless**: Add the ``--headless`` flag (e.g. ``./python.sh isaac_moveit.py --headless``) for environments without a display.
+      * **Headless with Livestreaming**: Add ``--headless --livestream`` to stream the simulation viewport via WebRTC to your browser.
 
 3. From the ``moveit2_tutorials/doc/how_to_guides/isaac_panda`` directory start a container that connects to Isaac Sim using the ``topic_based_ros2_control/TopicBasedSystem`` hardware interface.
 

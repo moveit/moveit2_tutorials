@@ -1,4 +1,4 @@
-# Copyright (c) 2026 MoveIt2 Community development team
+# Copyright (c) 2026 MoveIt 2 Community development team
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -61,10 +61,14 @@ def mock_isaac_sim_environment(version_tuple, is_ge_4_5=True, camera_exists=Fals
     mock_context_cls = MagicMock(return_value=mock_context_instance)
 
     mock_extensions = MagicMock()
-    mock_extensions.enable_extension.side_effect = lambda ext: mocks["enabled_extensions"].append(ext)
+    mock_extensions.enable_extension.side_effect = lambda ext: mocks[
+        "enabled_extensions"
+    ].append(ext)
 
     mock_prims = MagicMock()
-    mock_prims.create_prim.side_effect = lambda *args, **kwargs: mocks["created_prims"].append((args, kwargs))
+    mock_prims.create_prim.side_effect = lambda *args, **kwargs: mocks[
+        "created_prims"
+    ].append((args, kwargs))
 
     mock_rotations = MagicMock()
     mock_rotations.gf_rotation_to_np_array.return_value = [0, 0, 0, 1]
@@ -123,14 +127,16 @@ def mock_isaac_sim_environment(version_tuple, is_ge_4_5=True, camera_exists=Fals
         mock_core_utils_prims = MagicMock(set_targets=mock_set_targets)
         mock_storage_native = MagicMock(nucleus=mock_nucleus)
 
-        injected_modules.update({
-            "isaacsim": mock_isaacsim,
-            "isaacsim.core.version": mock_core_version,
-            "isaacsim.core.api": mock_core_api,
-            "isaacsim.core.utils": mock_core_utils,
-            "isaacsim.core.utils.prims": mock_core_utils_prims,
-            "isaacsim.storage.native": mock_storage_native,
-        })
+        injected_modules.update(
+            {
+                "isaacsim": mock_isaacsim,
+                "isaacsim.core.version": mock_core_version,
+                "isaacsim.core.api": mock_core_api,
+                "isaacsim.core.utils": mock_core_utils,
+                "isaacsim.core.utils.prims": mock_core_utils_prims,
+                "isaacsim.storage.native": mock_storage_native,
+            }
+        )
     else:
         # Pre-4.5 uses omni.isaac.* namespace
         mock_omni_kit = MagicMock(SimulationApp=mock_simulation_app_cls)
@@ -145,16 +151,20 @@ def mock_isaac_sim_environment(version_tuple, is_ge_4_5=True, camera_exists=Fals
             nucleus=mock_nucleus,
         )
         mock_omni_core_utils_prims = MagicMock(set_targets=mock_set_targets)
-        mock_omni_core_nodes_scripts_utils = MagicMock(set_target_prims=mock_set_targets)
+        mock_omni_core_nodes_scripts_utils = MagicMock(
+            set_target_prims=mock_set_targets
+        )
 
-        injected_modules.update({
-            "omni.isaac.kit": mock_omni_kit,
-            "omni.isaac.version": mock_omni_version,
-            "omni.isaac.core": mock_omni_core,
-            "omni.isaac.core.utils": mock_omni_core_utils,
-            "omni.isaac.core.utils.prims": mock_omni_core_utils_prims,
-            "omni.isaac.core_nodes.scripts.utils": mock_omni_core_nodes_scripts_utils,
-        })
+        injected_modules.update(
+            {
+                "omni.isaac.kit": mock_omni_kit,
+                "omni.isaac.version": mock_omni_version,
+                "omni.isaac.core": mock_omni_core,
+                "omni.isaac.core.utils": mock_omni_core_utils,
+                "omni.isaac.core.utils.prims": mock_omni_core_utils_prims,
+                "omni.isaac.core_nodes.scripts.utils": mock_omni_core_nodes_scripts_utils,
+            }
+        )
 
     # Save original sys.modules state
     saved_modules = {k: sys.modules.get(k) for k in injected_modules}
@@ -184,7 +194,9 @@ def test_isaac_sim_6_1_execution():
     test_argv = ["isaac_moveit.py", "--headless"]
 
     with patch.object(sys, "argv", test_argv):
-        with mock_isaac_sim_environment(v6_version, is_ge_4_5=True, camera_exists=False) as mocks:
+        with mock_isaac_sim_environment(
+            v6_version, is_ge_4_5=True, camera_exists=False
+        ) as mocks:
             env = runpy.run_path(str(ISAAC_MOVEIT_PY), run_name="__main__")
 
             # Check version detection
@@ -192,7 +204,10 @@ def test_isaac_sim_6_1_execution():
             assert env["is_legacy_isaacsim"] is False
 
             # Check Franka USD path uses multiphysics path
-            assert env["FRANKA_USD_PATH"] == "/Isaac/Robots_Multiphysics/FrankaRobotics/FrankaPanda/franka/franka.usda"
+            assert (
+                env["FRANKA_USD_PATH"]
+                == "/Isaac/Robots_Multiphysics/FrankaRobotics/FrankaPanda/franka/franka.usda"
+            )
 
             # Check bridge extension
             assert "isaacsim.ros2.bridge" in mocks["enabled_extensions"]
@@ -212,7 +227,9 @@ def test_isaac_sim_4_5_execution():
     test_argv = ["isaac_moveit.py", "--headless", "--livestream"]
 
     with patch.object(sys, "argv", test_argv):
-        with mock_isaac_sim_environment(v45_version, is_ge_4_5=True, camera_exists=False) as mocks:
+        with mock_isaac_sim_environment(
+            v45_version, is_ge_4_5=True, camera_exists=False
+        ) as mocks:
             env = runpy.run_path(str(ISAAC_MOVEIT_PY), run_name="__main__")
 
             # Check version detection
@@ -220,7 +237,10 @@ def test_isaac_sim_4_5_execution():
             assert env["is_legacy_isaacsim"] is False
 
             # Check Franka USD path uses multiphysics path
-            assert env["FRANKA_USD_PATH"] == "/Isaac/Robots_Multiphysics/FrankaRobotics/FrankaPanda/franka/franka.usda"
+            assert (
+                env["FRANKA_USD_PATH"]
+                == "/Isaac/Robots_Multiphysics/FrankaRobotics/FrankaPanda/franka/franka.usda"
+            )
 
             # Check bridge extension
             assert "isaacsim.ros2.bridge" in mocks["enabled_extensions"]
@@ -236,7 +256,9 @@ def test_legacy_isaac_sim_execution():
     test_argv = ["isaac_moveit.py"]
 
     with patch.object(sys, "argv", test_argv):
-        with mock_isaac_sim_environment(legacy_version, is_ge_4_5=False, camera_exists=True) as mocks:
+        with mock_isaac_sim_environment(
+            legacy_version, is_ge_4_5=False, camera_exists=True
+        ) as mocks:
             env = runpy.run_path(str(ISAAC_MOVEIT_PY), run_name="__main__")
 
             # Legacy version detected
@@ -244,7 +266,9 @@ def test_legacy_isaac_sim_execution():
             assert env["is_legacy_isaacsim"] is True
 
             # Uses legacy Franka USD path
-            assert env["FRANKA_USD_PATH"] == "/Isaac/Robots/Franka/franka_alt_fingers.usd"
+            assert (
+                env["FRANKA_USD_PATH"] == "/Isaac/Robots/Franka/franka_alt_fingers.usd"
+            )
 
             # Uses omni.isaac.ros2_bridge
             assert "omni.isaac.ros2_bridge" in mocks["enabled_extensions"]

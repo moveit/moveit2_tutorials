@@ -1,4 +1,4 @@
-# Copyright (c) 2026 MoveIt2 Community development team
+# Copyright (c) 2026 MoveIt 2 Community development team
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,7 +24,9 @@ PYTHON_SH = LAUNCH_DIR / "python.sh"
 
 def test_python_sh_syntax():
     """Verify python.sh passes bash syntax check."""
-    result = subprocess.run(["bash", "-n", str(PYTHON_SH)], capture_output=True, text=True)
+    result = subprocess.run(
+        ["bash", "-n", str(PYTHON_SH)], capture_output=True, text=True
+    )
     assert result.returncode == 0, f"Syntax error in python.sh: {result.stderr}"
 
 
@@ -35,9 +37,13 @@ def test_python_sh_no_install_fails_with_help():
         "PATH": "/usr/bin:/bin",
         "HOME": "/tmp/nonexistent_home",
     }
-    result = subprocess.run(["bash", str(PYTHON_SH)], capture_output=True, text=True, env=clean_env)
+    result = subprocess.run(
+        ["bash", str(PYTHON_SH)], capture_output=True, text=True, env=clean_env
+    )
     assert result.returncode == 1
-    assert "No valid Isaac Sim installation or running container found." in result.stdout
+    assert (
+        "No valid Isaac Sim installation or running container found." in result.stdout
+    )
     assert "Troubleshooting:" in result.stdout
     assert "export ISAAC_SIM_PATH=/path/to/isaacsim" in result.stdout
 
@@ -59,7 +65,14 @@ exit 0
     dummy_script.write_text("print('hello')")
 
     result = subprocess.run(
-        ["bash", str(PYTHON_SH), "--isaac-path", str(fake_isaac_dir), str(dummy_script), "--headless"],
+        [
+            "bash",
+            str(PYTHON_SH),
+            "--isaac-path",
+            str(fake_isaac_dir),
+            str(dummy_script),
+            "--headless",
+        ],
         capture_output=True,
         text=True,
     )
@@ -112,7 +125,13 @@ exit 0
 
     # Pass isaac_moveit.py relative name
     result = subprocess.run(
-        ["bash", str(PYTHON_SH), "--isaac-path", str(fake_isaac_dir), "isaac_moveit.py"],
+        [
+            "bash",
+            str(PYTHON_SH),
+            "--isaac-path",
+            str(fake_isaac_dir),
+            "isaac_moveit.py",
+        ],
         capture_output=True,
         text=True,
     )
