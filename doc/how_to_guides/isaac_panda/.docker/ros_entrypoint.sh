@@ -1,6 +1,9 @@
 #!/bin/bash
 
-set -e
+# Only enable errexit when executed as a process, not when sourced into an interactive shell
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+    set -e
+fi
 
 # Source ROS underlay and MoveIt workspace dynamically
 if [ -n "${ROS_DISTRO}" ] && [ -f "/opt/ros/${ROS_DISTRO}/setup.bash" ]; then
@@ -21,5 +24,7 @@ fi
 
 echo "Sourced ROS (${ROS_DISTRO:-unknown}) & MoveIt"
 
-# Execute the command passed into this entrypoint
-exec "$@"
+# Execute the command passed into this entrypoint when run as a process
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+    exec "$@"
+fi

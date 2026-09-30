@@ -30,12 +30,15 @@ def test_python_sh_syntax():
     assert result.returncode == 0, f"Syntax error in python.sh: {result.stderr}"
 
 
-def test_python_sh_no_install_fails_with_help():
+def test_python_sh_no_install_fails_with_help(tmp_path):
     """Verify python.sh exits with code 1 and prints troubleshooting message when no install is found."""
-    # Clean environment without any candidate directories or running container
+    # Clean environment pointing search paths at empty directory to prevent host install interference
+    empty_search_dir = tmp_path / "empty_search"
+    empty_search_dir.mkdir()
     clean_env = {
         "PATH": "/usr/bin:/bin",
-        "HOME": "/tmp/nonexistent_home",
+        "HOME": str(tmp_path / "nonexistent_home"),
+        "ISAAC_SEARCH_PATHS": str(empty_search_dir),
     }
     result = subprocess.run(
         ["bash", str(PYTHON_SH)], capture_output=True, text=True, env=clean_env
@@ -166,9 +169,13 @@ exit 0
     dummy_script = tmp_path / "my_sim.py"
     dummy_script.write_text("# dummy")
 
+    empty_search_dir = tmp_path / "empty_search"
+    empty_search_dir.mkdir()
+
     env = {
         "PATH": f"{bin_dir}:/usr/bin:/bin",
         "HOME": str(tmp_path),
+        "ISAAC_SEARCH_PATHS": str(empty_search_dir),
     }
 
     result = subprocess.run(
@@ -184,3 +191,33 @@ exit 0
     assert "cp" in log_content
     assert "exec" in log_content
     assert "/isaac-sim/python.sh" in log_content
+
+
+def test_isaac_search_paths_env_var(tmp_path):
+    """Verify ISAAC_SEARCH_PATHS environment variable discovers custom installation directories."""
+    custom_dir = tmp_path / "custom_isaac_install"
+    custom_dir.mkdir()
+    fake_python = custom_dir / "python.sh"
+
+    log_file = tmp_path / "search_call.log"
+    fake_python.write_text(f"""#!/bin/bash
+echo "CUSTOM_SEARCH_CALLED: $@" > "{log_file}"
+exit 0
+""")
+    fake_python.chmod(fake_python.stat().st_mode | stat.S_IEXEC)
+
+    env = {
+        "PATH": "/usr/bin:/bin",
+        "HOME": str(tmp_path),
+        "ISAAC_SEARCH_PATHS": f"/nonexistent/dir:{custom_dir}",
+    }
+
+    result = subprocess.run(
+        ["bash", str(PYTHON_SH), "--headless"],
+        capture_output=True,
+        text=True,
+        env=env,
+    )
+    assert result.returncode == 0
+    assert log_file.exists()
+    assert "--headless" in log_file.read_text()

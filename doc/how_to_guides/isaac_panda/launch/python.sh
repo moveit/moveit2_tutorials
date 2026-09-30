@@ -53,12 +53,19 @@ if [[ -n "$ISAAC_PATH" ]]; then
 fi
 
 # 2. Check standard installation paths and in-container paths
-CANDIDATE_DIRS+=(
-    "/isaac-sim"
-    "$HOME/isaacsim"
-    "/opt/nvidia/isaac-sim"
-    "/opt/isaac-sim"
-)
+if [[ -v ISAAC_SEARCH_PATHS ]]; then
+    if [[ -n "$ISAAC_SEARCH_PATHS" ]]; then
+        IFS=':' read -ra SEARCH_PATH_ARRAY <<< "$ISAAC_SEARCH_PATHS"
+        CANDIDATE_DIRS+=("${SEARCH_PATH_ARRAY[@]}")
+    fi
+else
+    CANDIDATE_DIRS+=(
+        "/isaac-sim"
+        "$HOME/isaacsim"
+        "/opt/nvidia/isaac-sim"
+        "/opt/isaac-sim"
+    )
+fi
 
 # 3. Check for versioned folders in ~/.local/share/ov/pkg
 OV_PKG_DIR="$HOME/.local/share/ov/pkg"
