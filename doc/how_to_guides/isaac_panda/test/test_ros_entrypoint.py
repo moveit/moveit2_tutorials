@@ -15,9 +15,7 @@
 import subprocess
 from pathlib import Path
 
-ENTRYPOINT_SH = (
-    Path(__file__).resolve().parent.parent / ".docker" / "ros_entrypoint.sh"
-)
+ENTRYPOINT_SH = Path(__file__).resolve().parent.parent / ".docker" / "ros_entrypoint.sh"
 
 
 def test_ros_entrypoint_syntax():

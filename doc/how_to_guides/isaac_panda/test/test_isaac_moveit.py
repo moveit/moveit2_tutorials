@@ -171,10 +171,11 @@ def mock_isaac_sim_environment(version_tuple, is_ge_4_5=True, camera_exists=Fals
 
     try:
         # Ensure any isaacsim / omni modules not in injected_modules are removed from sys.modules
+        # and saved so they are restored in finally
         for k in list(sys.modules.keys()):
             if k.startswith("isaacsim") or k.startswith("omni.isaac"):
                 if k not in injected_modules:
-                    sys.modules.pop(k, None)
+                    saved_modules[k] = sys.modules.pop(k)
 
         sys.modules.update(injected_modules)
         yield mocks
@@ -275,3 +276,15 @@ def test_legacy_isaac_sim_execution():
 
             # Camera was already present, should not define new camera
             assert len(mocks["defined_cameras"]) == 0
+
+
+def test_mock_environment_preserves_pre_existing_modules():
+    """Verify mock_isaac_sim_environment removes and restores pre-existing isaac/omni modules."""
+    mock_module = MagicMock()
+    sys.modules["omni.isaac.pre_existing_test"] = mock_module
+    try:
+        with mock_isaac_sim_environment(["6.1.0", "release", "6", "1", "0", "0"]):
+            assert "omni.isaac.pre_existing_test" not in sys.modules
+        assert sys.modules.get("omni.isaac.pre_existing_test") is mock_module
+    finally:
+        sys.modules.pop("omni.isaac.pre_existing_test", None)
