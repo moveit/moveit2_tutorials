@@ -97,15 +97,14 @@ Computer Setup
 
          .. code-block:: bash
 
-           mkdir -p ~/docker/isaac-sim/cache/kit
-           mkdir -p ~/docker/isaac-sim/cache/ov
-           mkdir -p ~/docker/isaac-sim/cache/pip
-           mkdir -p ~/docker/isaac-sim/cache/glcache
+           mkdir -p ~/docker/isaac-sim/cache/main
            mkdir -p ~/docker/isaac-sim/cache/computecache
-           mkdir -p ~/docker/isaac-sim/logs
+           mkdir -p ~/docker/isaac-sim/cache/kit
            mkdir -p ~/docker/isaac-sim/config
            mkdir -p ~/docker/isaac-sim/data
-           mkdir -p ~/docker/isaac-sim/documents
+           mkdir -p ~/docker/isaac-sim/logs
+           mkdir -p ~/docker/isaac-sim/pkg
+           sudo chown -R 1234:1234 ~/docker/isaac-sim
 
          .. raw:: html
 
@@ -202,15 +201,14 @@ Running the MoveIt Interactive Marker Demo with Isaac Sim
           -e ACCEPT_EULA=Y \
           -e DISPLAY=$DISPLAY \
           -v /tmp/.X11-unix:/tmp/.X11-unix \
-          -v ~/docker/isaac-sim/cache/kit:/root/.local/share/ov/data/Kit:rw \
-          -v ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw \
-          -v ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw \
-          -v ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw \
-          -v ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw \
-          -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw \
-          -v ~/docker/isaac-sim/config:/root/.nvidia-omniverse/config:rw \
-          -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
-          -v ~/docker/isaac-sim/documents:/root/Documents:rw \
+          -v ~/docker/isaac-sim/cache/main:/isaac-sim/.cache:rw \
+          -v ~/docker/isaac-sim/cache/computecache:/isaac-sim/.nv/ComputeCache:rw \
+          -v ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw \
+          -v ~/docker/isaac-sim/logs:/isaac-sim/.nvidia-omniverse/logs:rw \
+          -v ~/docker/isaac-sim/config:/isaac-sim/.nvidia-omniverse/config:rw \
+          -v ~/docker/isaac-sim/data:/isaac-sim/.local/share/ov/data:rw \
+          -v ~/docker/isaac-sim/pkg:/isaac-sim/.local/share/ov/pkg:rw \
+          -u 1234:1234 \
           nvcr.io/nvidia/isaac-sim:6.1.0
 
       .. raw:: html
