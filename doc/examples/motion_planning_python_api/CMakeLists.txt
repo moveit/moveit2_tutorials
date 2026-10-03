@@ -4,6 +4,7 @@ find_package(rviz_visual_tools REQUIRED)
 
 install(PROGRAMS
   scripts/motion_planning_python_api_tutorial.py
+  scripts/motion_planning_python_api_tutorial_ur.py
   scripts/motion_planning_python_api_planning_scene.py
   DESTINATION lib/${PROJECT_NAME}
 )
