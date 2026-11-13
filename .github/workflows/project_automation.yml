@@ -69,8 +69,9 @@ jobs:
             function getStatusOptionId(name) {
               const opt = statusField.options.find(o => o.name.toLowerCase() === name.toLowerCase());
               if (!opt) {
-                core.warning(`Status option '${name}' not found on project. Available: ${statusField.options.map(o => o.name).join(', ')}`);
-                return null;
+                const errorMsg = `Status option '${name}' not found on project. Available: ${statusField.options.map(o => o.name).join(', ')}`;
+                core.setFailed(errorMsg);
+                throw new Error(errorMsg);
               }
               return opt.id;
             }
@@ -130,29 +131,27 @@ jobs:
               const address_graphql = await github.graphql(addMutation, { projectId, contentId });
               const itemId = address_graphql.addProjectV2ItemById.item.id;
 
-              if (optionId) {
-                const updateMutation = `
-                  mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
-                    updateProjectV2ItemFieldValue(input: {
-                      projectId: $projectId,
-                      itemId: $itemId,
-                      fieldId: $fieldId,
-                      value: { singleSelectOptionId: $optionId }
-                    }) {
-                      projectV2Item {
-                        id
-                      }
+              const updateMutation = `
+                mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                  updateProjectV2ItemFieldValue(input: {
+                    projectId: $projectId,
+                    itemId: $itemId,
+                    fieldId: $fieldId,
+                    value: { singleSelectOptionId: $optionId }
+                  }) {
+                    projectV2Item {
+                      id
                     }
                   }
-                `;
-                await github.graphql(updateMutation, {
-                  projectId,
-                  itemId,
-                  fieldId: statusField.id,
-                  optionId
-                });
-                core.info(`Item ${contentId} set to '${statusName}' (optionId: ${optionId})`);
-              }
+                }
+              `;
+              await github.graphql(updateMutation, {
+                projectId,
+                itemId,
+                fieldId: statusField.id,
+                optionId
+              });
+              core.info(`Item ${contentId} set to '${statusName}' (optionId: ${optionId})`);
             }
 
             async function updateLinkedIssuesToInReview(prNodeId, prNumber) {
