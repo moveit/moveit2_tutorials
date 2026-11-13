@@ -9,7 +9,7 @@ This tutorial has the following assumptions on system configuration:
 
 1. **Isaac Sim is installed via Docker (recommended)** or locally on the workstation. Running Isaac Sim in Docker is strongly recommended to avoid host driver/library conflicts and ensure an isolated, reproducible environment.
 2. Docker and `NVIDIA Container Toolkit <https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html>`_ (nvidia-docker) are installed so your GPU is accessible from containers.
-3. You clone this repo so that you can build a ROS 2 Lyrical (recommended, Ubuntu 26.04) or Jazzy (Ubuntu 24.04) based Docker image that can communicate with Isaac and run this tutorial.
+3. You clone this repo so that you can build a ROS 2 Jazzy (recommended, Ubuntu 24.04) or Humble (Ubuntu 22.04) based Docker image that can communicate with Isaac and run this tutorial.
 
 Introduction to ros2_control
 ----------------------------
@@ -88,6 +88,9 @@ Computer Setup
 
          *(Isaac Sim 4.5 is also supported: ``docker pull nvcr.io/nvidia/isaac-sim:4.5.0``)*
 
+         .. note::
+           **Supported ROS 2 Pairings**: Isaac Sim 6.1 supports **ROS 2 Jazzy** (recommended) and **ROS 2 Humble**. Isaac Sim 4.5 supports **ROS 2 Humble**. ROS 2 Lyrical is excluded for Isaac Sim 6.1 because joint-state and joint-command exchange has not been validated on Lyrical; use only **Jazzy** or **Humble** when pairing with Isaac Sim.
+
       b. Prepare persistent host cache directories as documented in Step 4 of the `NVIDIA Container Setup Guide <https://docs.isaacsim.omniverse.nvidia.com/6.1.0/installation/install_container.html>`_. This ensures that downloaded assets and compiled shaders are cached across runs:
 
          .. raw:: html
@@ -133,7 +136,7 @@ Computer Setup
   docker compose build base
 
 .. note::
-  By default, the image builds for **ROS 2 Lyrical**. To build for **ROS 2 Jazzy** instead, pass ``--build-arg ROS_DISTRO=jazzy``:
+  By default, the image builds for **ROS 2 Lyrical**. However, because Isaac Sim only supports **ROS 2 Jazzy** and **ROS 2 Humble**, build the container for **ROS 2 Jazzy** to communicate with Isaac Sim:
 
   .. code-block:: bash
 
