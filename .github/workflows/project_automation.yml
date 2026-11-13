@@ -10,6 +10,10 @@ permissions:
   issues: read
   pull-requests: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.issue.node_id || github.event.pull_request.node_id }}
+  cancel-in-progress: false
+
 jobs:
   automate_project:
     runs-on: ubuntu-latest
@@ -72,6 +76,45 @@ jobs:
             }
 
             async function addItemAndSetStatus(contentId, statusName) {
+              // Reconcile latest state before writing to prevent stale events from overwriting newer statuses
+              try {
+                const stateQuery = `
+                  query($contentId: ID!) {
+                    node(id: $contentId) {
+                      ... on Issue {
+                        state
+                      }
+                      ... on PullRequest {
+                        state
+                        isDraft
+                      }
+                    }
+                  }
+                `;
+                const stateRes = await github.graphql(stateQuery, { contentId });
+                const liveState = stateRes.node?.state;
+                if (['CLOSED', 'MERGED'].includes(liveState)) {
+                  if (statusName !== 'Done') {
+                    core.info(`Item ${contentId} is ${liveState}; reconciling status to 'Done' instead of '${statusName}'`);
+                    statusName = 'Done';
+                  }
+                } else if (liveState === 'OPEN') {
+                  if (statusName === 'Done') {
+                    core.info(`Item ${contentId} is OPEN; skipping stale 'Done' status`);
+                    return;
+                  }
+                  if (stateRes.node?.isDraft !== undefined) {
+                    const expectedPrStatus = stateRes.node.isDraft ? 'In progress' : 'In review';
+                    if (statusName !== expectedPrStatus) {
+                      core.info(`PR ${contentId} live isDraft=${stateRes.node.isDraft}; updating status from '${statusName}' to '${expectedPrStatus}'`);
+                      statusName = expectedPrStatus;
+                    }
+                  }
+                }
+              } catch (err) {
+                core.warning(`Failed to reconcile state for ${contentId}: ${err.message}`);
+              }
+
               const optionId = getStatusOptionId(statusName);
 
               // Add item to project (or get existing project item ID)
@@ -155,6 +198,10 @@ jobs:
                 core.info(`New issue #${issue.number} opened by author association: ${assoc} -> placing in '${targetStatus}'`);
                 await addItemAndSetStatus(issueNodeId, targetStatus);
               } else if (action === 'assigned') {
+                if (issue.state === 'closed') {
+                  core.info(`Issue #${issue.number} is closed -> keeping in 'Done'`);
+                  return;
+                }
                 core.info(`Issue #${issue.number} assigned -> moving to 'Backlog'`);
                 await addItemAndSetStatus(issueNodeId, 'Backlog');
               } else if (action === 'closed') {
@@ -183,7 +230,11 @@ jobs:
                 core.info(`PR #${pr.number} closed -> moving to 'Done'`);
                 await addItemAndSetStatus(prNodeId, 'Done');
               } else if (action === 'reopened') {
-                core.info(`PR #${pr.number} reopened -> moving to 'In progress'`);
-                await addItemAndSetStatus(prNodeId, 'In progress');
+                const targetStatus = pr.draft ? 'In progress' : 'In review';
+                core.info(`PR #${pr.number} reopened (draft: ${pr.draft}) -> moving to '${targetStatus}'`);
+                await addItemAndSetStatus(prNodeId, targetStatus);
+                if (!pr.draft) {
+                  await updateLinkedIssuesToInReview(prNodeId, pr.number);
+                }
               }
             }
