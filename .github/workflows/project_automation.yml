@@ -112,6 +112,33 @@ jobs:
               }
             }
 
+            async function updateLinkedIssuesToInReview(prNodeId, prNumber) {
+              const linkedIssuesQuery = `
+                query($prNodeId: ID!) {
+                  node(id: $prNodeId) {
+                    ... on PullRequest {
+                      closingIssuesReferences(first: 20) {
+                        nodes {
+                          id
+                          number
+                        }
+                      }
+                    }
+                  }
+                }
+              `;
+              try {
+                const linkedRes = await github.graphql(linkedIssuesQuery, { prNodeId });
+                const linkedIssues = linkedRes.node?.closingIssuesReferences?.nodes || [];
+                for (const linkedIssue of linkedIssues) {
+                  core.info(`Moving linked issue #${linkedIssue.number} to 'In review'`);
+                  await addItemAndSetStatus(linkedIssue.id, 'In review');
+                }
+              } catch (err) {
+                core.setFailed(`Failed to process linked issues for PR #${prNumber}: ${err.message}`);
+              }
+            }
+
             const eventName = context.eventName;
             const action = context.payload.action;
 
@@ -145,35 +172,13 @@ jobs:
                 const targetStatus = pr.draft ? 'In progress' : 'In review';
                 core.info(`New PR #${pr.number} opened (draft: ${pr.draft}) -> placing in '${targetStatus}'`);
                 await addItemAndSetStatus(prNodeId, targetStatus);
+                if (!pr.draft) {
+                  await updateLinkedIssuesToInReview(prNodeId, pr.number);
+                }
               } else if (action === 'ready_for_review') {
                 core.info(`PR #${pr.number} marked ready for review -> moving to 'In review'`);
                 await addItemAndSetStatus(prNodeId, 'In review');
-
-                // Find targeted/closing issues
-                const linkedIssuesQuery = `
-                  query($prNodeId: ID!) {
-                    node(id: $prNodeId) {
-                      ... on PullRequest {
-                        closingIssuesReferences(first: 20) {
-                          nodes {
-                            id
-                            number
-                          }
-                        }
-                      }
-                    }
-                  }
-                `;
-                try {
-                  const linkedRes = await github.graphql(linkedIssuesQuery, { prNodeId });
-                  const linkedIssues = linkedRes.node?.closingIssuesReferences?.nodes || [];
-                  for (const linkedIssue of linkedIssues) {
-                    core.info(`Moving linked issue #${linkedIssue.number} to 'In review'`);
-                    await addItemAndSetStatus(linkedIssue.id, 'In review');
-                  }
-                } catch (err) {
-                  core.setFailed(`Failed to process linked issues for PR #${pr.number}: ${err.message}`);
-                }
+                await updateLinkedIssuesToInReview(prNodeId, pr.number);
               } else if (action === 'closed') {
                 core.info(`PR #${pr.number} closed -> moving to 'Done'`);
                 await addItemAndSetStatus(prNodeId, 'Done');
