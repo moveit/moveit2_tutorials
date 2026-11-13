@@ -1,0 +1,58 @@
+name: Isaac Sim Tutorial CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'doc/how_to_guides/isaac_panda/**'
+      - '.github/workflows/isaac_tutorial.yaml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'doc/how_to_guides/isaac_panda/**'
+      - '.github/workflows/isaac_tutorial.yaml'
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    name: Script Logic & Mocked Isaac Sim Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Test Dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install pytest numpy
+
+      - name: Run Script & Launcher Unit Tests
+        run: |
+          pytest doc/how_to_guides/isaac_panda/test/ -v
+
+  docker-build-test:
+    name: Test Dockerfile Build & Smoke Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build Docker Image (Local Test Only)
+        run: |
+          docker compose -f doc/how_to_guides/isaac_panda/docker-compose.yaml build base
+
+      - name: Container Smoke Test
+        run: |
+          docker run --rm isaac_moveit_tutorial bash -c '
+            ros2 pkg list | grep topic_based_ros2_control && \
+            ros2 pkg list | grep moveit2_tutorials
+          '
