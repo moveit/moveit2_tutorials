@@ -172,7 +172,7 @@ jobs:
                     await addItemAndSetStatus(linkedIssue.id, 'In review');
                   }
                 } catch (err) {
-                  core.warning(`Failed to fetch linked issues for PR #${pr.number}: ${err.message}`);
+                  core.setFailed(`Failed to process linked issues for PR #${pr.number}: ${err.message}`);
                 }
               } else if (action === 'closed') {
                 core.info(`PR #${pr.number} closed -> moving to 'Done'`);
