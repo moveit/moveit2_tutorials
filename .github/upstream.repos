@@ -1,8 +1,4 @@
 repositories:
-  moveit_task_constructor:
-    type: git
-    url: https://github.com/moveit/moveit_task_constructor.git
-    version: ros2
   moveit_visual_tools:
     type: git
     url: https://github.com/moveit/moveit_visual_tools
