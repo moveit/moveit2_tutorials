@@ -216,12 +216,23 @@ recent states:
     using namespace moveit_servo;
 
     std::deque<KinematicState> joint_cmd_rolling_window;
+    KinematicState current_state = servo.getCurrentRobotState(true);
+    updateSlidingWindow(current_state, joint_cmd_rolling_window,
+                        servo_params.max_expected_latency, node->now());
 
     // In your control loop (using the command from one of the sections above):
     KinematicState next_joint_state = servo.getNextJointState(robot_state, command);
     StatusCode status = servo.getStatus();
 
-    if (status != StatusCode::INVALID)
+    if (status == StatusCode::HALT_FOR_COLLISION)
+    {
+      // Do not add the zero-initialized next_joint_state; re-seed the rolling window.
+      joint_cmd_rolling_window.clear();
+      KinematicState reset_state = servo.getCurrentRobotState(true);
+      updateSlidingWindow(reset_state, joint_cmd_rolling_window,
+                          servo_params.max_expected_latency, node->now());
+    }
+    else if (status != StatusCode::INVALID)
     {
       updateSlidingWindow(next_joint_state, joint_cmd_rolling_window,
                           servo_params.max_expected_latency, node->now());
