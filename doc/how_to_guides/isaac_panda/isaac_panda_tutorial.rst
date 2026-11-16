@@ -184,9 +184,9 @@ Running the MoveIt Interactive Marker Demo with Isaac Sim
 
       .. code-block:: bash
 
-        docker run --name isaac-sim -d --gpus all --network=host --ipc=host \
+        docker run --name isaac-sim -d --entrypoint bash --gpus all --network=host --ipc=host \
           -e ACCEPT_EULA=Y -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
-          nvcr.io/nvidia/isaac-sim:6.1.0
+          nvcr.io/nvidia/isaac-sim:6.1.0 -c "sleep infinity"
 
       .. raw:: html
 
@@ -197,7 +197,6 @@ Running the MoveIt Interactive Marker Demo with Isaac Sim
 
         docker run --name isaac-sim -d \
           --entrypoint bash \
-          -it \
           --gpus all \
           --network=host \
           --ipc=host \
@@ -212,7 +211,7 @@ Running the MoveIt Interactive Marker Demo with Isaac Sim
           -v ~/docker/isaac-sim/data:/isaac-sim/.local/share/ov/data:rw \
           -v ~/docker/isaac-sim/pkg:/isaac-sim/.local/share/ov/pkg:rw \
           -u 1234:1234 \
-          nvcr.io/nvidia/isaac-sim:6.1.0
+          nvcr.io/nvidia/isaac-sim:6.1.0 -c "sleep infinity"
 
       .. raw:: html
 
