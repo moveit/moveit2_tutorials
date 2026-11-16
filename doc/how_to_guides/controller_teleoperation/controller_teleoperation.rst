@@ -25,41 +25,42 @@ MoveIt Servo ships with a keyboard teleoperation demo that works out of the box.
 
 1. Build the MoveIt 2 workspace.
 
-  ``cd`` to the root of the workspace (``~/ws_moveit/`` if you followed Getting Started),
-  then run:
+   ``cd`` to the root of the workspace (``~/ws_moveit/`` if you followed Getting Started),
+   then run:
 
-  .. code-block:: bash
+   .. code-block:: bash
 
-      colcon build
-      source install/setup.bash
+       colcon build
+       source install/setup.bash
 
 2. Launch the servo demo.
 
-  .. code-block:: bash
+   .. code-block:: bash
 
-      ros2 launch moveit_servo demo_ros_api.launch.py
+       ros2 launch moveit_servo demo_ros_api.launch.py
 
-3. In a second terminal, start the keyboard input node.
+3. In a second terminal, source the workspace and start the keyboard input node.
 
-  .. code-block:: bash
+   .. code-block:: bash
 
-      ros2 run moveit_servo servo_keyboard_input
+       source ~/ws_moveit/install/setup.bash
+       ros2 run moveit_servo servo_keyboard_input
 
 4. Use the following keys to move the arm:
 
-  ==================  =====================================================
-  Key                 Action
-  ==================  =====================================================
-  Arrow keys          Cartesian motion (linear X / Y)
-  ``.`` / ``;``       Cartesian motion (linear Z down / up)
-  ``1`` – ``7``       Jog individual joints (panda_joint1 through panda_joint7)
-  ``r``               Reverse joint jog direction
-  ``t``               Switch to Twist (Cartesian) command mode
-  ``j``               Switch to JointJog command mode
-  ``w``               Set reference frame to planning frame
-  ``e``               Set reference frame to end-effector frame
-  ``q``               Quit
-  ==================  =====================================================
+   ==================  =====================================================
+   Key                 Action
+   ==================  =====================================================
+   Arrow keys          Cartesian motion (linear X / Y)
+   ``.`` / ``;``       Cartesian motion (linear Z down / up)
+   ``1`` – ``7``       Jog individual joints (panda_joint1 through panda_joint7)
+   ``r``               Reverse joint jog direction
+   ``t``               Switch to Twist (Cartesian) command mode
+   ``j``               Switch to JointJog command mode
+   ``w``               Set reference frame to planning frame
+   ``e``               Set reference frame to end-effector frame
+   ``q``               Quit
+   ==================  =====================================================
 
 Gamepad Teleoperation
 ---------------------
@@ -105,68 +106,71 @@ typical approach is:
 Steps
 ^^^^^
 
-1. Launch the servo demo:
+1. Launch the servo demo (in a sourced terminal):
 
-  .. code-block:: bash
+   .. code-block:: bash
 
-      ros2 launch moveit_servo demo_ros_api.launch.py
+       source ~/ws_moveit/install/setup.bash
+       ros2 launch moveit_servo demo_ros_api.launch.py
 
-2. In a second terminal, launch the ``joy`` node:
+2. In a second terminal, source the workspace and launch the ``joy`` node:
 
-  .. code-block:: bash
+   .. code-block:: bash
 
-      ros2 run joy joy_node
+       source ~/ws_moveit/install/setup.bash
+       ros2 run joy joy_node
 
 3. Switch Servo to Twist command mode (it may not be the default):
 
-  .. code-block:: bash
+   .. code-block:: bash
 
-      ros2 service call /servo_node/switch_command_type \
-        moveit_msgs/srv/ServoCommandType "{command_type: 1}"
+       source ~/ws_moveit/install/setup.bash
+       ros2 service call /servo_node/switch_command_type \
+         moveit_msgs/srv/ServoCommandType "{command_type: 1}"
 
-4. In a third terminal, run your translator node. A minimal Python example:
+4. In a third terminal, source the workspace (``source ~/ws_moveit/install/setup.bash``) and run your translator node. A minimal Python example:
 
-  .. code-block:: python
+   .. code-block:: python
 
-      import rclpy
-      from rclpy.node import Node
-      from sensor_msgs.msg import Joy
-      from geometry_msgs.msg import TwistStamped
+       import rclpy
+       from rclpy.node import Node
+       from sensor_msgs.msg import Joy
+       from geometry_msgs.msg import TwistStamped
 
-      class JoyToServo(Node):
-          # Scaling factors: axes are dimensionless [-1, 1], these convert to m/s and rad/s.
-          # Adjust to suit your robot — start low and increase gradually.
-          LINEAR_SCALE = 0.2   # m/s at full stick deflection
-          ANGULAR_SCALE = 0.5  # rad/s at full stick deflection
+       class JoyToServo(Node):
+           # Scaling factors: axes are dimensionless [-1, 1], these convert to m/s and rad/s.
+           # Adjust to suit your robot — start low and increase gradually.
+           LINEAR_SCALE = 0.2   # m/s at full stick deflection
+           ANGULAR_SCALE = 0.5  # rad/s at full stick deflection
 
-          def __init__(self):
-              super().__init__("joy_to_servo")
-              self.pub = self.create_publisher(
-                  TwistStamped, "/servo_node/delta_twist_cmds", 10
-              )
-              self.create_subscription(Joy, "/joy", self.joy_cb, 10)
+           def __init__(self):
+               super().__init__("joy_to_servo")
+               self.pub = self.create_publisher(
+                   TwistStamped, "/servo_node/delta_twist_cmds", 10
+               )
+               self.create_subscription(Joy, "/joy", self.joy_cb, 10)
 
-          def joy_cb(self, msg):
-              twist = TwistStamped()
-              twist.header.stamp = self.get_clock().now().to_msg()
-              twist.header.frame_id = "panda_link0"  # Change to your robot's planning frame
-              # Map left stick to linear X/Y, right stick to linear Z and angular Z
-              twist.twist.linear.x = msg.axes[1] * self.LINEAR_SCALE
-              twist.twist.linear.y = msg.axes[0] * self.LINEAR_SCALE
-              twist.twist.linear.z = msg.axes[4] * self.LINEAR_SCALE
-              twist.twist.angular.z = msg.axes[3] * self.ANGULAR_SCALE
-              self.pub.publish(twist)
+           def joy_cb(self, msg):
+               twist = TwistStamped()
+               twist.header.stamp = self.get_clock().now().to_msg()
+               twist.header.frame_id = "panda_link0"  # Change to your robot's planning frame
+               # Map left stick to linear X/Y, right stick to linear Z and angular Z
+               twist.twist.linear.x = msg.axes[1] * self.LINEAR_SCALE
+               twist.twist.linear.y = msg.axes[0] * self.LINEAR_SCALE
+               twist.twist.linear.z = msg.axes[4] * self.LINEAR_SCALE
+               twist.twist.angular.z = msg.axes[3] * self.ANGULAR_SCALE
+               self.pub.publish(twist)
 
-      rclpy.init()
-      node = JoyToServo()
-      try:
-          rclpy.spin(node)
-      finally:
-          node.destroy_node()
-          rclpy.shutdown()
+       rclpy.init()
+       node = JoyToServo()
+       try:
+           rclpy.spin(node)
+       finally:
+           node.destroy_node()
+           rclpy.shutdown()
 
-  Adjust the axis indices and scaling to match your gamepad. Run
-  ``ros2 topic echo /joy`` to see which axes correspond to which sticks.
+   Adjust the axis indices and scaling to match your gamepad. Run
+   ``ros2 topic echo /joy`` to see which axes correspond to which sticks.
 
 Explanation
 -----------
