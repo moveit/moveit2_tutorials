@@ -180,12 +180,16 @@ Running the MoveIt Interactive Marker Demo with Isaac Sim
    .. tab:: Docker (Recommended)
 
       **Step 2a: Start the Isaac Sim container.**
-      Launch the Isaac Sim container in the background (named ``isaac-sim``):
+      Grant local X11 display access and launch the Isaac Sim container in the background (named ``isaac-sim``):
 
       .. code-block:: bash
 
+        xhost +local:
         docker run --name isaac-sim -d --entrypoint bash --gpus all --network=host --ipc=host \
-          -e ACCEPT_EULA=Y -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
+          -e ACCEPT_EULA=Y -e DISPLAY=$DISPLAY \
+          -e XAUTHORITY=/tmp/.Xauthority \
+          -v /tmp/.X11-unix:/tmp/.X11-unix \
+          -v ${XAUTHORITY:-$HOME/.Xauthority}:/tmp/.Xauthority:ro \
           nvcr.io/nvidia/isaac-sim:6.1.0 -c "sleep infinity"
 
       .. raw:: html
@@ -195,6 +199,7 @@ Running the MoveIt Interactive Marker Demo with Isaac Sim
 
       .. code-block:: bash
 
+        xhost +local:
         docker run --name isaac-sim -d \
           --entrypoint bash \
           --gpus all \
@@ -202,7 +207,9 @@ Running the MoveIt Interactive Marker Demo with Isaac Sim
           --ipc=host \
           -e ACCEPT_EULA=Y \
           -e DISPLAY=$DISPLAY \
+          -e XAUTHORITY=/tmp/.Xauthority \
           -v /tmp/.X11-unix:/tmp/.X11-unix \
+          -v ${XAUTHORITY:-$HOME/.Xauthority}:/tmp/.Xauthority:ro \
           -v ~/docker/isaac-sim/cache/main:/isaac-sim/.cache:rw \
           -v ~/docker/isaac-sim/cache/computecache:/isaac-sim/.nv/ComputeCache:rw \
           -v ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw \
