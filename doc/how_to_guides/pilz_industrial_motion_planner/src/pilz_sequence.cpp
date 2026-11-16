@@ -1,3 +1,6 @@
+#include <type_traits>
+#include <utility>
+
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_action/rclcpp_action.hpp>
 
@@ -32,6 +35,28 @@ using GoalHandleMoveGroupSequence = rclcpp_action::ClientGoalHandle<MoveGroupSeq
 
 // Create a ROS logger
 auto const LOGGER = rclcpp::get_logger("pilz_sequence_node");
+
+namespace
+{
+template <typename T, typename = void>
+struct has_smoothness_level : std::false_type
+{
+};
+
+template <typename T>
+struct has_smoothness_level<T, std::void_t<decltype(std::declval<T&>().smoothness_level = 0.0)>> : std::true_type
+{
+};
+
+template <typename Req>
+void setSmoothnessLevel(Req& req, double level)
+{
+  if constexpr (has_smoothness_level<Req>::value)
+  {
+    req.smoothness_level = level;
+  }
+}
+}  // namespace
 
 int main(int argc, char** argv)
 {
@@ -186,7 +211,8 @@ int main(int argc, char** argv)
     item3.req.path_constraints.position_constraints.push_back(pos_constraint);
   }
   item3.req.goal_constraints.push_back(kinematic_constraints::constructGoalConstraints("panda_hand", msg));
-  item3.req.smoothness_level = 0.3;
+  // Set smoothness_level if supported by the message definition (ROS 2 Kilted+ / moveit_msgs >= 2.7.2)
+  setSmoothnessLevel(item3.req, 0.3);
 
   // [ --------------------------------------------------------------- ]
   // [ ------------------ MoveGroupSequence Service ------------------ ]
