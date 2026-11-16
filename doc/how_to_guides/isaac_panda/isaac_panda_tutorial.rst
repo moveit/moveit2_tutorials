@@ -65,7 +65,7 @@ In this tutorial, we provide a Python script that loads the Panda robot into Isa
 
 * Subscribes to ``/isaac_joint_commands`` to drive the simulated joints.
 * Publishes current joint states to ``/isaac_joint_states`` for ``ros2_control``.
-* Publishes camera streams from the wrist-mounted camera: RGB images to ``/rgb``, camera metadata to ``/camera_info``, and depth images to ``/depth`` (with the frame ID ``/sim_camera``).
+* Publishes camera streams from the wrist-mounted camera: RGB images to ``/rgb``, camera metadata to ``/camera_info``, and depth images to ``/depth`` (with the frame ID ``sim_camera``).
 
 To learn about configuring your Isaac Sim robot to communicate with ROS 2 please see the
 `Joint Control tutorial <https://docs.isaacsim.omniverse.nvidia.com/latest/ros2_tutorials/tutorial_ros2_manipulation.html>`_
