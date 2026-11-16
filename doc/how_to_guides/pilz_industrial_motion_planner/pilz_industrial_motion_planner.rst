@@ -147,7 +147,8 @@ LIN Input Parameters in ``moveit_msgs::MotionPlanRequest``
    translational/rotational velocity
 -  ``max_acceleration_scaling_factor``: scaling factor of maximal
    Cartesian translational/rotational acceleration/deceleration
--  ``max_cartesian_speed``: maximal Cartesian speed for this motion (replaces the max_trans_vel parameter)
+-  ``max_cartesian_speed``: maximal Cartesian speed for this motion (replaces the max_trans_vel parameter; requires ``cartesian_speed_limited_link`` to be set)
+-  ``cartesian_speed_limited_link``: name of the link whose Cartesian speed is limited by ``max_cartesian_speed``
 -  ``start_state/joint_state/(name, position and velocity``: joint
    name/position of the start state.
 -  ``goal_constraints`` (goal can be given in joint space or Cartesian
@@ -219,7 +220,8 @@ CIRC Input Parameters in ``moveit_msgs::MotionPlanRequest``
    translational/rotational velocity
 -  ``max_acceleration_scaling_factor``: scaling factor of maximal
    Cartesian translational/rotational acceleration/deceleration
--  ``max_cartesian_speed``: maximal Cartesian speed for this motion (replaces the max_trans_vel parameter)
+-  ``max_cartesian_speed``: maximal Cartesian speed for this motion (replaces the max_trans_vel parameter; requires ``cartesian_speed_limited_link`` to be set)
+-  ``cartesian_speed_limited_link``: name of the link whose Cartesian speed is limited by ``max_cartesian_speed``
 -  ``start_state/joint_state/(name, position and velocity``: joint
    name/position of the start state.
 -  ``goal_constraints`` (goal can be given in joint space or Cartesian
@@ -294,7 +296,8 @@ POLYLINE Input Parameters in ``moveit_msgs::MotionPlanRequest``
    translational/rotational velocity
 -  ``max_acceleration_scaling_factor``: scaling factor of maximal
    Cartesian translational/rotational acceleration/deceleration
--  ``max_cartesian_speed``: maximal Cartesian speed for this motion (replaces the max_trans_vel parameter)
+-  ``max_cartesian_speed``: maximal Cartesian speed for this motion (replaces the max_trans_vel parameter; requires ``cartesian_speed_limited_link`` to be set)
+-  ``cartesian_speed_limited_link``: name of the link whose Cartesian speed is limited by ``max_cartesian_speed``
 -  ``start_state/joint_state/(name, position and velocity``: joint
    name/position of the start state.
 -  ``path_constraints``: a list of position constraints to be followed in
@@ -486,6 +489,7 @@ creates a sequence of three commands.
     item1.blend_radius = 0.1;
     // Set max_cartesian_speed (overwrite the max_trans_vel)
     item1.req.max_cartesian_speed = 0.5;
+    item1.req.cartesian_speed_limited_link = "panda_hand";
 
     // MotionSequenceItem configuration
     item1.req.group_name = PLANNING_GROUP;

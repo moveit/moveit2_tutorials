@@ -99,6 +99,7 @@ int main(int argc, char** argv)
   item1.blend_radius = 0.05;
   // Set max_cartesian_speed (overwrite the max_trans_vel)
   item1.req.max_cartesian_speed = 0.5;
+  item1.req.cartesian_speed_limited_link = "panda_hand";
 
   // MotionSequenceItem configuration
   item1.req.group_name = PLANNING_GROUP;
@@ -135,6 +136,7 @@ int main(int argc, char** argv)
   item2.blend_radius = 0.05;
   // set max_cartesian_speed (overwrite the max_trans_vel)
   item2.req.max_cartesian_speed = 1.2;
+  item2.req.cartesian_speed_limited_link = "panda_hand";
 
   // MotionSequenceItem configuration
   item2.req.group_name = PLANNING_GROUP;
@@ -172,6 +174,7 @@ int main(int argc, char** argv)
   item3.blend_radius = 0.0;
   // Set max_cartesian_speed (overwrite the max_trans_vel)
   item3.req.max_cartesian_speed = 0.1;
+  item3.req.cartesian_speed_limited_link = "panda_hand";
 
   // Extract waypoints along an ellipse
   auto ellipse = [](double t) -> Eigen::Vector3d {
