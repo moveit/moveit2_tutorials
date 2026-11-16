@@ -91,7 +91,7 @@ DOCKER_CONTAINER="${ISAAC_DOCKER_CONTAINER:-isaac-sim}"
 if command -v docker &> /dev/null; then
     RUNNING_CONTAINER=$(docker ps --filter "name=${DOCKER_CONTAINER}" --filter "status=running" --format "{{.Names}}" | head -n 1)
     if [[ -z "$RUNNING_CONTAINER" ]]; then
-        RUNNING_CONTAINER=$(docker ps --filter "ancestor=nvcr.io/nvidia/isaac-sim" --filter "status=running" --format "{{.Names}}" | head -n 1)
+        RUNNING_CONTAINER=$(docker ps --filter "status=running" --format "{{.Image}} {{.Names}}" | awk '$1 ~ /^nvcr\.io\/nvidia\/isaac-sim(:|$)/ {print $2; exit}')
     fi
 
     if [[ -n "$RUNNING_CONTAINER" ]]; then
