@@ -7,6 +7,31 @@ repositories:
     type: git
     url: https://github.com/moveit/moveit_visual_tools
     version: ros2
+  # Remove ros2_kortex when Rolling, Kilted and Lyrical binaries are available.
+  # kortex_moveit_config/kinova_gen3_7dof_robotiq_2f_85_moveit_config is needed
+  # by the Quickstart in RViz tutorial.
+  ros2_kortex:
+    type: git
+    url: https://github.com/Kinovarobotics/ros2_kortex.git
+    version: main
+  # robotiq_description is a dependency of ros2_kortex. Remove when
+  # ros2_robotiq_gripper binaries are available.
+  ros2_robotiq_gripper:
+    type: git
+    url: https://github.com/PickNikRobotics/ros2_robotiq_gripper.git
+    version: main
+  # Serial is a dependency of ros2_robotiq_gripper. Remove when
+  # ros2_robotiq_gripper binaries are available.
+  serial:
+    type: git
+    url: https://github.com/tylerjw/serial.git
+    version: ros2
+  # picknik_reset_fault_controller and picknik_twist_controller are
+  # dependencies of ros2_kortex. Remove when binaries are available.
+  picknik_controllers:
+    type: git
+    url: https://github.com/PickNikRobotics/picknik_controllers.git
+    version: main
   rviz_visual_tools:
     type: git
     url: https://github.com/PickNikRobotics/rviz_visual_tools.git
