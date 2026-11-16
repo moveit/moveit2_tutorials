@@ -102,7 +102,7 @@ if command -v docker &> /dev/null; then
         for arg in "${NEW_ARGS[@]}"; do
             if [[ -f "$arg" ]]; then
                 fname=$(basename "$arg")
-                docker cp "$arg" "${RUNNING_CONTAINER}:/tmp/${fname}"
+                docker cp "$arg" "${RUNNING_CONTAINER}:/tmp/${fname}" || exit 1
                 CONTAINER_ARGS+=("/tmp/${fname}")
             else
                 CONTAINER_ARGS+=("$arg")
