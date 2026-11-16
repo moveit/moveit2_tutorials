@@ -151,6 +151,8 @@ Steps
                self.create_subscription(Joy, "/joy", self.joy_cb, 10)
 
            def joy_cb(self, msg):
+               if len(msg.axes) < 5:
+                   return
                twist = TwistStamped()
                twist.header.stamp = self.get_clock().now().to_msg()
                twist.header.frame_id = "panda_link0"  # Change to your robot's planning frame
