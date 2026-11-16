@@ -237,11 +237,8 @@ def test_isaac_sim_4_5_execution():
             assert env["isaac_sim_ge_4_5_version"] is True
             assert env["is_legacy_isaacsim"] is False
 
-            # Check Franka USD path uses multiphysics path
-            assert (
-                env["FRANKA_USD_PATH"]
-                == "/Isaac/Robots_Multiphysics/FrankaRobotics/FrankaPanda/franka/franka.usda"
-            )
+            # Check Franka USD path uses 4.5 path
+            assert env["FRANKA_USD_PATH"] == "/Isaac/Robots/Franka/franka.usd"
 
             # Check bridge extension
             assert "isaacsim.ros2.bridge" in mocks["enabled_extensions"]

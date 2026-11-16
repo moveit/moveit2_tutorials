@@ -71,18 +71,23 @@ except:
 
     isaac_sim_ge_4_5_version = False
 
-# Franka USD path differs between older and modern (4.5+ / 6.1+) Isaac Sim
-if isaac_sim_ge_4_5_version:
+version_info = get_version()
+isaac_sim_version = (int(version_info[2]), int(version_info[3]))
+
+# Franka USD path differs between older, 4.5, and 6.1+ Isaac Sim
+if isaac_sim_ge_4_5_version and isaac_sim_version >= (6, 1):
     FRANKA_USD_PATH = (
         "/Isaac/Robots_Multiphysics/FrankaRobotics/FrankaPanda/franka/franka.usda"
     )
+elif isaac_sim_ge_4_5_version:
+    FRANKA_USD_PATH = "/Isaac/Robots/Franka/franka.usd"
 else:
     FRANKA_USD_PATH = "/Isaac/Robots/Franka/franka_alt_fingers.usd"
 
 # Check the major version number of Isaac Sim to see if it's four digits, corresponding
 # to Isaac Sim 2023.1.1 or older.  The version numbering scheme changed with the
 # Isaac Sim 4.0 release in 2024.
-is_legacy_isaacsim = len(get_version()[2]) == 4
+is_legacy_isaacsim = len(version_info[2]) == 4
 
 # More imports that need to compare after we create the app
 
@@ -146,30 +151,15 @@ stage.add_reference_to_stage(
 )
 
 # Loading the franka robot USD
-try:
-    prims.create_prim(
-        FRANKA_STAGE_PATH,
-        "Xform",
-        position=np.array([0, -0.64, 0]),
-        orientation=rotations.gf_rotation_to_np_array(
-            Gf.Rotation(Gf.Vec3d(0, 0, 1), 90)
-        ),
-        usd_path=assets_root_path + FRANKA_USD_PATH,
-    )
-except Exception as e:
-    carb.log_warn(
-        f"Failed to load Franka from {FRANKA_USD_PATH}: {e}. Retrying with alternative path..."
-    )
-    fallback_path = "/Isaac/Robots/FrankaRobotics/FrankaPanda/franka.usd"
-    prims.create_prim(
-        FRANKA_STAGE_PATH,
-        "Xform",
-        position=np.array([0, -0.64, 0]),
-        orientation=rotations.gf_rotation_to_np_array(
-            Gf.Rotation(Gf.Vec3d(0, 0, 1), 90)
-        ),
-        usd_path=assets_root_path + fallback_path,
-    )
+prims.create_prim(
+    FRANKA_STAGE_PATH,
+    "Xform",
+    position=np.array([0, -0.64, 0]),
+    orientation=rotations.gf_rotation_to_np_array(
+        Gf.Rotation(Gf.Vec3d(0, 0, 1), 90)
+    ),
+    usd_path=assets_root_path + FRANKA_USD_PATH,
+)
 
 # add some objects, spread evenly along the X axis
 # with a fixed offset from the robot in the Y and Z
