@@ -7,11 +7,6 @@ repositories:
     type: git
     url: https://github.com/PickNikRobotics/rviz_visual_tools.git
     version: ros2
-  # Remove ros2_kortex when rolling binaries are available.
-  ros2_kortex:
-    type: git
-    url: https://github.com/Tobias-Fischer/ros2_kortex.git
-    version: ros2-control-6.12-handles
   # Remove robotiq-ros when rolling binaries are available.
   robotiq-ros:
     type: git
