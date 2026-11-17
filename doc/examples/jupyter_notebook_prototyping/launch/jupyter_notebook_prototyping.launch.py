@@ -1,6 +1,7 @@
 """
 A launch file that starts a Jupyter notebook server and nodes that support motion planning with the MoveIt Python library.
 """
+
 import os
 import yaml
 from launch import LaunchDescription
@@ -18,7 +19,8 @@ def load_yaml(package_name, file_path):
     try:
         with open(absolute_file_path, "r") as file:
             return yaml.safe_load(file)
-    except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
+    # parent of IOError, OSError *and* WindowsError where available
+    except EnvironmentError:
         return None
 
 
@@ -55,7 +57,6 @@ def generate_launch_description():
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
-        name="rviz2",
         output="log",
         arguments=["-d", rviz_config_file],
         parameters=[
@@ -88,7 +89,10 @@ def generate_launch_description():
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[moveit_config.robot_description, ros2_controllers_path],
+        parameters=[ros2_controllers_path],
+        remappings=[
+            ("/controller_manager/robot_description", "/robot_description"),
+        ],
         output="both",
     )
 

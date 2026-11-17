@@ -1,19 +1,19 @@
 #include <rclcpp/rclcpp.hpp>
 #include <memory>
 // MoveitCpp
-#include <moveit/moveit_cpp/moveit_cpp.h>
-#include <moveit/moveit_cpp/planning_component.h>
+#include <moveit/moveit_cpp/moveit_cpp.hpp>
+#include <moveit/moveit_cpp/planning_component.hpp>
 
 #include <geometry_msgs/msg/point_stamped.h>
 
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
 // Warehouse
-#include <moveit/warehouse/planning_scene_storage.h>
-#include <moveit/warehouse/planning_scene_storage.h>
-#include <moveit/warehouse/state_storage.h>
-#include <moveit/warehouse/constraints_storage.h>
-#include <moveit/warehouse/trajectory_constraints_storage.h>
+#include <moveit/warehouse/planning_scene_storage.hpp>
+#include <moveit/warehouse/planning_scene_storage.hpp>
+#include <moveit/warehouse/state_storage.hpp>
+#include <moveit/warehouse/constraints_storage.hpp>
+#include <moveit/warehouse/trajectory_constraints_storage.hpp>
 #include <warehouse_ros/database_loader.h>
 
 namespace rvt = rviz_visual_tools;

@@ -78,7 +78,7 @@ robot's config directory to use pick_ik as the IK solver. ::
 
 .. note::
 
-   You can launch a preconfigured demo with ``pick_ik`` using the following command:
+   After you have installed ``pick_ik``, you can also launch a preconfigured demo using the following command:
 
    .. code-block::
 

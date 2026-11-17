@@ -17,7 +17,7 @@ local-with-api: Makefile
 	@echo Building local with API
 	@echo Step 1 of 2: Clone MoveIt 2 and build API using selected distro
 	mkdir -p build/html
-	cd build/html && if cd moveit2; then git pull; else git clone https://github.com/ros-planning/moveit2 -b $(MOVEIT_BRANCH) --depth 1 && cd moveit2; fi && \
+	cd build/html && if cd moveit2; then git pull; else git clone https://github.com/moveit/moveit2 -b $(MOVEIT_BRANCH) --depth 1 && cd moveit2; fi && \
 		sed -i "s/HTML_EXTRA_STYLESHEET  =.*/HTML_EXTRA_STYLESHEET  = ..\/..\/..\/theme.css/g" Doxyfile && DOXYGEN_OUTPUT_DIRECTORY="../api" doxygen &&  cd .. && rm -rf moveit2
 	@echo Step 2 of 2: Building html
 	make html
@@ -28,7 +28,7 @@ generate_api_artifacts: Makefile
 	@echo Step 1 of 3: Ensure build folder exists
 	mkdir -p build/html
 	@echo Step 2 of 3: generate CPP API Artifacts
-	cd build/html && if cd moveit2; then git pull; else git clone https://github.com/ros-planning/moveit2 -b $(BRANCH) --depth 1 && cd moveit2; fi && \
+	cd build/html && if cd moveit2; then git pull; else git clone https://github.com/moveit/moveit2 -b $(BRANCH) --depth 1 && cd moveit2; fi && \
 	sed -i "s/HTML_EXTRA_STYLESHEET  =.*/HTML_EXTRA_STYLESHEET  = ..\/..\/..\/theme.css/g" Doxyfile && DOXYGEN_OUTPUT_DIRECTORY="../api" doxygen &&  cd .. && rm -rf moveit2
 	@echo Step 3 of 3: Build Sphinx Artifacts
 	make html

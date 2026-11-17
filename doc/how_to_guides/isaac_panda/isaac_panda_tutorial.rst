@@ -1,12 +1,13 @@
 How To Command Simulated Isaac Robot
 ====================================
 
-This tutorial requires a machine with ``Isaac Sim 2022.2.0`` or ``Isaac Sim 2022.2.1`` installed.
-For Isaac Sim requirements and installation please see the `Omniverse documentation <https://docs.omniverse.nvidia.com/isaacsim/latest/index.html>`_.
+This tutorial requires a machine with ``Isaac Sim 4.5`` (recommended) or ``Isaac Sim 4.2`` installed.
+For Isaac Sim requirements and installation please see the `Omniverse documentation <https://docs.isaacsim.omniverse.nvidia.com/latest/index.html>`_.
+To configure Isaac Sim to work with ROS 2 please see `this guide <https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_ros.html#running-native-ros>`_.
 
 This tutorial has the following assumptions on system configuration:
 
-1. NVIDIA Isaac Sim 2022.2.0 or 2022.2.1 is installed on a Ubuntu 20.04 host in the default location.
+1. NVIDIA Isaac Sim is installed in the default location. Docker based installations of Isaac sim are also supported but it is up to the user to configure the system.
 2. Docker is installed.
    If you plan to use your GPU with MoveIt, you will need to install `nvidia-docker <https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installing-on-ubuntu-and-debian>`_.
 3. You clone this repo so that you can build a Ubuntu 22.04 Humble based Docker image that can communicate with Isaac and run this tutorial.
@@ -40,7 +41,7 @@ that forwards the incoming ``command_interface`` values to the tracked ``state_i
 For us to expand our Panda robot to Isaac Sim we first have to introduce `topic_based_ros2_control <https://github.com/PickNikRobotics/topic_based_ros2_control>`_.
 This Hardware Interface is a ``System`` that subscribes and publishes on configured topics.
 For this tutorial the topic ``/isaac_joint_states`` will contain the robot's current state and ``/isaac_joint_commands`` will be used to actuate it.
-The `moveit_resources_panda_moveit_config <https://github.com/ros-planning/moveit_resources/blob/humble/panda_moveit_config/config/panda.ros2_control.xacro#L7>`_
+The `moveit_resources_panda_moveit_config <https://github.com/moveit/moveit_resources/blob/humble/panda_moveit_config/config/panda.ros2_control.xacro#L7>`_
 we are using in this tutorial does not support connecting to hardware, so our ``ros2_control.xacro`` is now
 updated to load the ``TopicBasedSystem`` plugin when the flag ``ros2_control_hardware_type`` is set to ``isaac``.
 
@@ -56,25 +57,25 @@ updated to load the ``TopicBasedSystem`` plugin when the flag ``ros2_control_har
     </xacro:if>
 
 In this tutorial we have included a Python script that loads a Panda robot
-and builds an `OmniGraph <https://docs.omniverse.nvidia.com/isaacsim/latest/gui_tutorials/tutorial_gui_omnigraph.html>`_
+and builds an `OmniGraph <https://docs.omniverse.nvidia.com/extensions/latest/ext_omnigraph/tutorials/gentle_intro.html>`_
 to publish and subscribe to the ROS topics used to control the robot.
 The OmniGraph also contains nodes to publish RGB and Depth images from the camera mounted on the hand of the Panda.
 The RGB image is published to the topic ``/rgb``, the camera info to ``/camera_info``, and the depth image to ``/depth``.
 The frame ID of the camera frame is ``/sim_camera``.
 To learn about configuring your Isaac Sim robot to communicate with ROS 2 please see the
-`Joint Control tutorial <https://docs.omniverse.nvidia.com/isaacsim/latest/ros2_tutorials/tutorial_ros2_manipulation.html>`_
+`Joint Control tutorial <https://docs.isaacsim.omniverse.nvidia.com/latest/ros2_tutorials/tutorial_ros2_manipulation.html>`_
 on Omniverse.
 
 Computer Setup
 --------------
 
-1. Install `Isaac Sim <https://docs.omniverse.nvidia.com/isaacsim/latest/installation/install_workstation.html>`_.
+1. Install `Isaac Sim <https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_workstation.html>`_.
 
-2. Perform a shallow clone of the MoveIt2 Tutorials repo.
+2. Perform a shallow clone of the MoveIt 2 Tutorials repo.
 
 .. code-block:: bash
 
-  git clone https://github.com/ros-planning/moveit2_tutorials.git -b main
+  git clone https://github.com/moveit/moveit2_tutorials.git -b main
 
 3. Go to the folder in which you cloned the tutorials and then switch to the following directory.
 
@@ -118,7 +119,7 @@ Running the MoveIt Interactive Marker Demo with Isaac Sim
 
 2. Then run the following command to load the Panda Robot pre-configured to work with this tutorial.
 
-.. note:: This step assumes Isaac Sim version 2022.2.0 or 2022.2.1 is installed on the host in the ``$HOME/.local/share/ov/pkg/" directory``.
+.. note:: This step assumes that a compatible version of Isaac Sim is installed on the host in the ``$HOME/isaacsim`` directory for Isaac Sim 4.5 or in the ``$HOME/.local/share/ov/pkg/`` directory for Isaac Sim 4.2 and older.
   This step also takes a few minutes to download the assets and setup Isaac Sim so please be
   patient and don't click the ``Force Quit`` dialog that pops up while the simulator starts.
 

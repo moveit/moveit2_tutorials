@@ -26,7 +26,7 @@ To do this, you can create a colcon package named ``my_robot_moveit_config``, wh
 
 You can create such a package manually, or use the :doc:`MoveIt Setup Assistant </doc/examples/setup_assistant/setup_assistant_tutorial>` to automatically generate it given a robot description file (URDF or xacro).
 
-Refer to the `moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_ repository for working examples of MoveIt configuration packages.
+Refer to the `moveit_resources <https://github.com/moveit/moveit_resources/tree/ros2>`_ repository for working examples of MoveIt configuration packages.
 
 
 Configuration Files Overview

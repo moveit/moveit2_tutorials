@@ -26,7 +26,7 @@ MoveIt and ROS 2
 * Follow the :doc:`instructions for installing MoveIt </doc/tutorials/getting_started/getting_started>`
   first if you have not already done that.
 
-* We use the `moveit_resources_panda_description <https://github.com/ros-planning/moveit_resources/tree/humble/panda_description>`_
+* We use the `moveit_resources_panda_description <https://github.com/moveit/moveit_resources/tree/humble/panda_description>`_
   package. This package should already be included in your workspace if you've completed the MoveIt installation instructions.
 
 Step 1: Start
@@ -504,7 +504,7 @@ To build only the generated ``panda_moveit_config`` package and run the demo, fo
 
 Start the MoveIt demo to interactively plan and execute motions for the robot in RViz. ::
 
-   ros2 launch moveit_resources_panda_moveit_config demo.launch.py
+   ros2 launch panda_moveit_config demo.launch.py
 
 Check out this `brief YouTube video <https://youtu.be/f__udZlnTdM>`_ for an example of how to
 command the robot to move to the pre-defined ``ready`` pose and execute ``open`` and ``close`` motions on the hand.

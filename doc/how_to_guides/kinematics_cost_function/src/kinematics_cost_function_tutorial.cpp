@@ -33,10 +33,10 @@
  *********************************************************************/
 
 /* Author: Wyatt Rees */
-#include <moveit/move_group_interface/move_group_interface.h>
-#include <moveit/planning_scene_interface/planning_scene_interface.h>
-#include <moveit/robot_state/cartesian_interpolator.h>
-#include <moveit/trajectory_processing/time_optimal_trajectory_generation.h>
+#include <moveit/move_group_interface/move_group_interface.hpp>
+#include <moveit/planning_scene_interface/planning_scene_interface.hpp>
+#include <moveit/robot_state/cartesian_interpolator.hpp>
+#include <moveit/trajectory_processing/time_optimal_trajectory_generation.hpp>
 
 #include <moveit_msgs/msg/display_robot_state.hpp>
 #include <moveit_msgs/msg/display_trajectory.hpp>
@@ -75,7 +75,7 @@ int main(int argc, char** argv)
   static const std::string PLANNING_GROUP = "panda_arm";
 
   // The
-  // :moveit_codedir:`MoveGroupInterface<moveit_ros/planning_interface/move_group_interface/include/moveit/move_group_interface/move_group_interface.h>`
+  // :moveit_codedir:`MoveGroupInterface<moveit_ros/planning_interface/move_group_interface/include/moveit/move_group_interface/move_group_interface.hpp>`
   // class can be easily set up using just the name of the planning group you would like to control and plan for.
   moveit::planning_interface::MoveGroupInterface move_group(node, PLANNING_GROUP);
 
@@ -216,14 +216,15 @@ int main(int argc, char** argv)
   auto start_state = move_group.getCurrentState(10.0);
   std::vector<moveit::core::RobotStatePtr> traj;
   moveit::core::MaxEEFStep max_eef_step(0.01, 0.1);
-  // Here, we're effectively disabling the jump threshold for joints. This is not recommended on real hardware.
-  moveit::core::JumpThreshold jump_thresh(0.0);
+  moveit::core::CartesianPrecision cartesian_precision{ .translational = 0.001,
+                                                        .rotational = 0.01,
+                                                        .max_resolution = 1e-3 };
 
   // The trajectory, traj, passed to computeCartesianPath will contain several waypoints toward
   // the goal pose, target. For each of these waypoints, the IK solver is queried with the given cost function.
   const auto frac = moveit::core::CartesianInterpolator::computeCartesianPath(
       start_state.get(), joint_model_group, traj, joint_model_group->getLinkModel("panda_link8"), target, true,
-      max_eef_step, jump_thresh, callback_fn, opts, cost_fn);
+      max_eef_step, cartesian_precision, callback_fn, opts, cost_fn);
 
   RCLCPP_INFO(LOGGER, "Computed %f percent of cartesian path.", frac.value * 100.0);
 

@@ -1,7 +1,7 @@
 Hybrid Planning
 ===============
 
-In this section, you will learn how to use  Moveit 2's *Hybrid Planning* feature.
+In this section, you will learn how to use MoveIt 2's *Hybrid Planning* feature.
 
 Hybrid Planning enables you to (re)plan and execute robot motions online with MoveIt 2 and to add more planning logic into your robot's motion planning pipeline.
 
@@ -36,7 +36,7 @@ To start the hybrid planning demo simply run: ::
 
 You should see a similar behavior as in the example GIF above without the replanning.
 
-To interact with the architecture you simply need to send a *Hybrid Planning Request* to an action server offered by the *Hybrid Planning Manager* as seen in the :moveit_codedir:`hybrid_planning_test_node <moveit_ros/hybrid_planning/test/hybrid_planning_demo_node.cpp#L245>`.
+To interact with the architecture you simply need to send a *Hybrid Planning Request* to an action server offered by the *Hybrid Planning Manager*.
 
 Let's change this behavior such that the architecture replans the invalidated trajectory. To do so, just change the *planner_logic_plugin* by replacing the plugin name in the :moveit_codedir:`demo configuration <moveit_ros/hybrid_planning/test/config/hybrid_planning_manager.yaml>` with "moveit_hybrid_planning/ReplanInvalidatedTrajectory" and rebuild the package : ::
 
@@ -90,7 +90,7 @@ To include the Hybrid Planning Architecture into you project you need to add a *
 
 Customizing the Hybrid Planning Architecture
 --------------------------------------------
-As the rest of Moveit 2, the *Hybrid Planning Architecture* is designed to be highly customizable while also offering the possibility to easily re-use existing solutions. Each of the architecture's components is a ROS 2 node and can be completely replaced by your own custom ROS 2 node as long as it offers the API required by the other nodes. Each component's runtime behavior is defined by plugins. This section focuses on the customization of the *Hybrid Planning Architecture* by implementing your own plugins.
+As the rest of MoveIt 2, the *Hybrid Planning Architecture* is designed to be highly customizable while also offering the possibility to easily reuse existing solutions. Each of the architecture's components is a ROS 2 node and can be completely replaced by your own custom ROS 2 node as long as it offers the API required by the other nodes. Each component's runtime behavior is defined by plugins. This section focuses on the customization of the *Hybrid Planning Architecture* by implementing your own plugins.
 
 Global and Local Motion Planning
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -100,7 +100,7 @@ The dataflow within the component can be seen in the picture below:
 .. image:: images/global_planner_dataflow.png
    :width: 500pt
 
-The *Global Planner Plugin* can be used to implement and customize the global planning algorithm. To implement you own planner you simply need to inherit from the :moveit_codedir:`GlobalPlannerInterface <moveit_ros/hybrid_planning/global_planner/global_planner_component/include/moveit/global_planner/global_planner_interface.h>`:
+The *Global Planner Plugin* can be used to implement and customize the global planning algorithm. To implement you own planner you simply need to inherit from the :moveit_codedir:`GlobalPlannerInterface <moveit_ros/hybrid_planning/global_planner/global_planner_component/include/moveit/global_planner/global_planner_interface.hpp>`:
 
 .. code-block:: c++
 
@@ -140,7 +140,7 @@ Via the *Global Solution Subscriber* the *Local Planner Component* receives glob
 
 The behavior of the *Local Planner Component* can be customized via the *Trajectory Operator Plugin* and the local *Solver Plugin*:
 
-The *Trajectory Operator Plugin* handles the reference trajectory. To create your own operator you need to create a plugin class which inherits from the :moveit_codedir:`TrajectoryOperatorInterface <moveit_ros/hybrid_planning/local_planner/local_planner_component/include/moveit/local_planner/trajectory_operator_interface.h>`:
+The *Trajectory Operator Plugin* handles the reference trajectory. To create your own operator you need to create a plugin class which inherits from the :moveit_codedir:`TrajectoryOperatorInterface <moveit_ros/hybrid_planning/local_planner/local_planner_component/include/moveit/local_planner/trajectory_operator_interface.hpp>`:
 
 .. code-block:: c++
 
@@ -174,7 +174,7 @@ The *Trajectory Operator Plugin* handles the reference trajectory. To create you
 
 *Trajectory Operator* example implementations can be found :moveit_codedir:`here <moveit_ros/hybrid_planning/local_planner/trajectory_operator_plugins/>`.
 
-The *Local Solver Plugin* implements the algorithm to solve the local planning problem each iteration. To implement your solution you need to inherit from the :moveit_codedir:`LocalConstraintSolverInterface <moveit_ros/hybrid_planning/local_planner/local_planner_component/include/moveit/local_planner/local_constraint_solver_interface.h>`:
+The *Local Solver Plugin* implements the algorithm to solve the local planning problem each iteration. To implement your solution you need to inherit from the :moveit_codedir:`LocalConstraintSolverInterface <moveit_ros/hybrid_planning/local_planner/local_planner_component/include/moveit/local_planner/local_constraint_solver_interface.hpp>`:
 
 .. code-block:: c++
 
@@ -238,7 +238,7 @@ The callback function an event channel in the *Hybrid Planning Manager* looks li
         }
       };
 
-To create you own *Planner Logic Plugin* you need inherit from the :moveit_codedir:`PlannerLogicInterface <moveit_ros/hybrid_planning/hybrid_planning_manager/hybrid_planning_manager_component/include/moveit/hybrid_planning_manager/planner_logic_interface.h>`:
+To create you own *Planner Logic Plugin* you need inherit from the :moveit_codedir:`PlannerLogicInterface <moveit_ros/hybrid_planning/hybrid_planning_manager/hybrid_planning_manager_component/include/moveit/hybrid_planning_manager/planner_logic_interface.hpp>`:
 
 .. code-block:: c++
 
@@ -259,4 +259,4 @@ To create you own *Planner Logic Plugin* you need inherit from the :moveit_coded
      ReactionResult react(const std::string& event) override;
    };
 
-A possible implementation of the *react()* function could contain a switch-case statement that maps events to actions like in the :moveit_codedir:`example logic plugins<moveit_ros/hybrid_planning/hybrid_planning_manager/hybrid_planning_manager_component/include/moveit/hybrid_planning_manager/planner_logic_interface.h>`.
+A possible implementation of the *react()* function could contain a switch-case statement that maps events to actions like in the :moveit_codedir:`example logic plugins<moveit_ros/hybrid_planning/hybrid_planning_manager/hybrid_planning_manager_component/include/moveit/hybrid_planning_manager/planner_logic_interface.hpp>`.

@@ -41,7 +41,7 @@ fi
 # Install dependencies, unless argument says to skip
 if ! have_noinstall "$@"; then
   sudo apt-get install -y doxygen graphviz
-  pip3 install --user --upgrade -r requirements.txt
+  pip3 install --upgrade -r requirements.txt
 fi
 
 # A fresh build is required because changes to some components such as css files does not rebuilt currently

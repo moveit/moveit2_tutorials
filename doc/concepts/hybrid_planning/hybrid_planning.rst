@@ -70,11 +70,16 @@ The diagram below depicts the fundamental plugin types and ROS interfaces that m
 The architecture is structured in three ROS component nodes:
 
 * **Hybrid Planning Manager**
+
   * Provides a ROS action for Hybrid Planning requests
   * Runs the planning logic and coordinates the planners
+
 * **Global Planner**
+
   * Solves the global planning problem and publishes the solution trajectory
+
 * **Local Planner**
+
   * Processes incoming global trajectory updates
   * Solves the local planning problem based on robot state, world and reference trajectory
   * Sends position/velocity commands to the robot driver

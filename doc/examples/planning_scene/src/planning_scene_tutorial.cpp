@@ -1,10 +1,10 @@
 #include <rclcpp/rclcpp.hpp>
 
 // MoveIt
-#include <moveit/robot_model_loader/robot_model_loader.h>
-#include <moveit/planning_scene/planning_scene.h>
+#include <moveit/robot_model_loader/robot_model_loader.hpp>
+#include <moveit/planning_scene/planning_scene.hpp>
 
-#include <moveit/kinematic_constraints/utils.h>
+#include <moveit/kinematic_constraints/utils.hpp>
 
 // BEGIN_SUB_TUTORIAL stateFeasibilityTestExample
 //
@@ -38,12 +38,12 @@ int main(int argc, char** argv)
   // Setup
   // ^^^^^
   //
-  // The :moveit_codedir:`PlanningScene<moveit_core/planning_scene/include/moveit/planning_scene/planning_scene.h>`
+  // The :moveit_codedir:`PlanningScene<moveit_core/planning_scene/include/moveit/planning_scene/planning_scene.hpp>`
   // class can be easily setup and configured using a
-  // :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.h>`
+  // :moveit_codedir:`RobotModel<moveit_core/robot_model/include/moveit/robot_model/robot_model.hpp>`
   // or a URDF and SRDF. This is, however, not the recommended way to instantiate a
   // PlanningScene. The
-  // :moveit_codedir:`PlanningSceneMonitor<moveit_ros/planning/planning_scene_monitor/include/moveit/planning_scene_monitor/planning_scene_monitor.h>`
+  // :moveit_codedir:`PlanningSceneMonitor<moveit_ros/planning/planning_scene_monitor/include/moveit/planning_scene_monitor/planning_scene_monitor.hpp>`
   // is the recommended method to create and maintain the current
   // planning scene (and is discussed in detail in the next tutorial)
   // using data from the robot's joints and the sensors on the robot. In
@@ -64,9 +64,9 @@ int main(int argc, char** argv)
   // current state is in *self-collision*, i.e. whether the current
   // configuration of the robot would result in the robot's parts
   // hitting each other. To do this, we will construct a
-  // :moveit_codedir:`CollisionRequest<moveit_core/collision_detection/include/moveit/collision_detection/collision_common.h>`
+  // :moveit_codedir:`CollisionRequest<moveit_core/collision_detection/include/moveit/collision_detection/collision_common.hpp>`
   // object and a
-  // :moveit_codedir:`CollisionResult<moveit_core/collision_detection/include/moveit/collision_detection/collision_common.h>`
+  // :moveit_codedir:`CollisionResult<moveit_core/collision_detection/include/moveit/collision_detection/collision_common.hpp>`
   // object and pass them
   // into the collision checking function. Note that the result of
   // whether the robot is in self-collision or not is contained within
@@ -151,7 +151,7 @@ int main(int argc, char** argv)
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //
   // The
-  // :moveit_codedir:`AllowedCollisionMatrix<moveit_core/collision_detection/include/moveit/collision_detection/collision_matrix.h>`
+  // :moveit_codedir:`AllowedCollisionMatrix<moveit_core/collision_detection/include/moveit/collision_detection/collision_matrix.hpp>`
   // (ACM)
   // provides a mechanism to tell the collision world to ignore
   // collisions between certain object: both parts of the robot and
@@ -200,7 +200,7 @@ int main(int argc, char** argv)
   // The PlanningScene class also includes easy to use function calls
   // for checking constraints. The constraints can be of two types:
   // (a) constraints chosen from the
-  // :moveit_codedir:`KinematicConstraint<moveit_core/kinematic_constraints/include/moveit/kinematic_constraints/kinematic_constraint.h>`
+  // :moveit_codedir:`KinematicConstraint<moveit_core/kinematic_constraints/include/moveit/kinematic_constraints/kinematic_constraint.hpp>`
   // set: i.e. JointConstraint, PositionConstraint, OrientationConstraint and
   // VisibilityConstraint and (b) user
   // defined constraints specified through a callback. We will first
@@ -213,7 +213,7 @@ int main(int argc, char** argv)
   // on the end-effector of the panda_arm group of the Panda robot. Note the
   // use of convenience functions for filling up the constraints
   // (these functions are found in the
-  // :moveit_codedir:`utils.h<moveit_core/kinematic_constraints/include/moveit/kinematic_constraints/utils.h>`
+  // :moveit_codedir:`utils.h<moveit_core/kinematic_constraints/include/moveit/kinematic_constraints/utils.hpp>`
   // file from the
   // kinematic_constraints directory in moveit_core).
 

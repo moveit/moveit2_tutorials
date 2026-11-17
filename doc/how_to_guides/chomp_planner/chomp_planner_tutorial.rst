@@ -18,7 +18,7 @@ To use CHOMP with your robot you must have a MoveIt configuration package for yo
 
 Using CHOMP with Your Robot
 ---------------------------
-**Note:** If you plan to use the ``panda_moveit_config`` package from the `ros-planning/moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_ repository, these steps are already done for you and you can skip this section. Otherwise, to add the configuration for your robot you must:
+**Note:** If you plan to use the ``panda_moveit_config`` package from the `moveit/moveit_resources <https://github.com/moveit/moveit_resources/tree/ros2>`_ repository, these steps are already done for you and you can skip this section. Otherwise, to add the configuration for your robot you must:
 
 #. Create a :codedir:`chomp_demo.launch.py<examples/chomp_planner/launch/chomp_demo.launch.py>` file in the launch directory for your MoveIt config package.
 #. Modify all references to Panda in ``chomp_demo.launch.py`` to point to your custom configuration instead
@@ -27,7 +27,7 @@ Using CHOMP with Your Robot
 
 Running the Demo
 ----------------
-If you have the ``panda_moveit_config`` from the `ros-planning/moveit_resources <https://github.com/ros-planning/moveit_resources/tree/ros2>`_  repository along with ``moveit2_tutorials`` you can run the demo using: ::
+If you have the ``panda_moveit_config`` from the `moveit/moveit_resources <https://github.com/moveit/moveit_resources/tree/ros2>`_  repository along with ``moveit2_tutorials`` you can run the demo using: ::
 
   ros2 launch moveit2_tutorials chomp_demo.launch.py rviz_tutorial:=True
 

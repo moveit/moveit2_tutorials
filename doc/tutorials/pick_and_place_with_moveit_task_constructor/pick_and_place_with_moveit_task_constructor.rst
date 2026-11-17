@@ -7,7 +7,7 @@ Pick and Place with MoveIt Task Constructor
         MoveIt Task Constructor Pick and Place example
     </video>
 
-This tutorial will walk you through creating a package that plans a pick and place operation using `MoveIt Task Constructor <https://github.com/ros-planning/moveit_task_constructor/tree/ros2/>`_. MoveIt Task Constructor provides a way to plan for tasks that consist of multiple different subtasks (known as stages). If you just want to run the tutorial, you can follow the :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>` to start a container with the completed tutorial.
+This tutorial will walk you through creating a package that plans a pick and place operation using `MoveIt Task Constructor <https://github.com/moveit/moveit_task_constructor/tree/ros2/>`_. MoveIt Task Constructor provides a way to plan for tasks that consist of multiple different subtasks (known as stages). If you just want to run the tutorial, you can follow the :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>` to start a container with the completed tutorial.
 
 1 Basic Concepts
 ----------------
@@ -49,17 +49,25 @@ Stages not only support solving motion planning problems.
 They can also be used for all kinds of state transitions, as for instance modifying the planning scene.
 Combined with the possibility of using class inheritance it is possible to construct very complex behavior while only relying on a well-structured set of primitive stages.
 
+More detailed information on MTC can be found in the :doc:`MoveIt Task Constructor concepts page </doc/concepts/moveit_task_constructor/moveit_task_constructor>`
+
 2 Getting Started
 -----------------
 If you haven't already done so, make sure you've completed the steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>`.
 
-2.1 Download MoveIt Task Constructor
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Move into your colcon workspace and pull the MoveIt Task Constructor source: ::
+Move into your colcon workspace and pull the MoveIt Task Constructor source, where ``<branch>`` can be e.g. ``humble`` for ROS Humble, or ``ros2`` for the latest version compatible with MoveIt 2 ``main``: ::
 
     cd ~/ws_moveit/src
-    git clone git@github.com:ros-planning/moveit_task_constructor.git -b ros2
+    git clone -b <branch> https://github.com/moveit/moveit_task_constructor.git
+
+Install missing packages with rosdep: ::
+
+    rosdep install --from-paths . --ignore-src --rosdistro $ROS_DISTRO
+
+Build the workspace: ::
+
+    cd ~/ws_moveit
+    colcon build --mixin release
 
 3 Trying It Out
 ------------------
@@ -71,9 +79,9 @@ For all demos you should launch the basic environment: ::
 
 Subsequently, you can run the individual demos: ::
 
-  ros2 run moveit_task_constructor_demo cartesian.launch.py
-  ros2 run moveit_task_constructor_demo modular.launch.py
-  ros2 launch moveit_task_constructor_demo pickplace.launch.py
+  ros2 launch moveit_task_constructor_demo run.launch.py exe:=cartesian
+  ros2 launch moveit_task_constructor_demo run.launch.py exe:=modular
+  ros2 launch moveit_task_constructor_demo run.launch.py exe:=pick_place_demo
 
 On the right side you should see the **Motion Planning Tasks** panel outlining the hierarchical stage structure of the tasks.
 When you select a particular stage, the list of successful and failed solutions will be
@@ -107,8 +115,8 @@ Open ``mtc_node.cpp`` in your editor of choice, and paste in the following code.
 .. code-block:: c++
 
     #include <rclcpp/rclcpp.hpp>
-    #include <moveit/planning_scene/planning_scene.h>
-    #include <moveit/planning_scene_interface/planning_scene_interface.h>
+    #include <moveit/planning_scene/planning_scene.hpp>
+    #include <moveit/planning_scene_interface/planning_scene_interface.hpp>
     #include <moveit/task_constructor/task.h>
     #include <moveit/task_constructor/solvers.h>
     #include <moveit/task_constructor/stages.h>
@@ -277,15 +285,15 @@ Open ``mtc_node.cpp`` in your editor of choice, and paste in the following code.
 The top of the code includes the ROS and MoveIt Libraries that this package uses.
 
  * ``rclcpp/rclcpp.hpp`` includes core ROS2 functionality
- * ``moveit/planning_scene/planning_scene.h`` and ``moveit/planning_scene_interface/planning_scene_interface.h`` include functionality to interface with the robot model and collision objects
+ * ``moveit/planning_scene/planning_scene.hpp`` and ``moveit/planning_scene_interface/planning_scene_interface.hpp`` include functionality to interface with the robot model and collision objects
  * ``moveit/task_constructor/task.h``, ``moveit/task_constructor/solvers.h``, and ``moveit/task_constructor/stages.h`` include different components of MoveIt Task Constructor that are used in the example
  * ``tf2_geometry_msgs/tf2_geometry_msgs.hpp`` and ``tf2_eigen/tf2_eigen.hpp`` won't be used in this initial example, but they will be used for pose generation when we add more stages to the MoveIt Task Constructor task.
 
 .. code-block:: c++
 
     #include <rclcpp/rclcpp.hpp>
-    #include <moveit/planning_scene/planning_scene.h>
-    #include <moveit/planning_scene_interface/planning_scene_interface.h>
+    #include <moveit/planning_scene/planning_scene.hpp>
+    #include <moveit/planning_scene_interface/planning_scene_interface.hpp>
     #include <moveit/task_constructor/task.h>
     #include <moveit/task_constructor/solvers.h>
     #include <moveit/task_constructor/stages.h>
@@ -424,7 +432,7 @@ As mentioned above, this function creates a MoveIt Task Constructor object and s
       task.setProperty("eef", hand_group_name);
       task.setProperty("ik_frame", hand_frame);
 
-Now, we add an example stage to the node. The first line sets ``current_state_ptr`` to ``nullptr``; this creates a pointer to a stage such that we can re-use stage information in specific scenarios. This line is not used at this moment, but will be used later when more stages are added to the task. Next, we make a ``current_state`` stage (a generator stage) and add it to our task - this starts the robot off in its current state. Now that we've created the ``CurrentState`` stage, we save a pointer to it in the ``current_state_ptr`` for later use.
+Now, we add an example stage to the node. The first line sets ``current_state_ptr`` to ``nullptr``; this creates a pointer to a stage such that we can reuse stage information in specific scenarios. This line is not used at this moment, but will be used later when more stages are added to the task. Next, we make a ``current_state`` stage (a generator stage) and add it to our task - this starts the robot off in its current state. Now that we've created the ``CurrentState`` stage, we save a pointer to it in the ``current_state_ptr`` for later use.
 
 .. code-block:: c++
 
@@ -479,7 +487,10 @@ We return the task and finish with the ``createTask()`` function.
       return task;
     }
 
-Finally, we have ``main``: the following lines create a node using the class defined above, and calls the class methods to set up and execute a basic MTC task. In this example, we do not cancel the executor once the task has finished executing to keep the node alive to inspect the solutions in RViz.
+Finally, we have ``main``: the following lines create a node using the class defined above, and calls the class methods to set up and execute a basic MTC task.
+In this example, we do not cancel the executor once the task has finished executing to keep the program running and thus to allow inspection of the solutions in RViz.
+Note that RViz only lazily caches submitted solutions. If you click on not yet viewed solutions in RViz' MTC Task Tree, RViz requests the solution information from the planning program. (Actually, it's the executor and node owned by the task's `Introspection` instance that respond to those requests.)
+Thus, by keeping the program alive, one can inspect all solutions in peace. The program will quit if you Ctrl-C it.
 
 .. code-block:: c++
 
@@ -688,7 +699,7 @@ Before we compute inverse kinematics for the poses generated above, we first nee
 
 .. code-block:: c++
 
-          Eigen::Isometry3d grasp_frame_transform;
+          Eigen::Isometry3d grasp_frame_transform = Eigen::Isometry3d::Identity();
           Eigen::Quaterniond q = Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitX()) *
                                 Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitY()) *
                                 Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitZ());
@@ -985,4 +996,4 @@ It also initializes a ``PlanningScene`` object, capturing any collision objects 
 MTC stages can be propagated in forward and backward order.
 You can easily check which direction a stage propagates by the arrow in the RViz GUI.
 When propagating backwards, the logic of many operations is reversed.
-For example, to allow collisions with an object in a ``ModifyPlanningScene`` stage, you would call ``allowCollisions(false)`` rather than ``allowCollisions(true)``. There is a discussion to be read `here. <https://github.com/ros-planning/moveit_task_constructor/issues/349>`_
+For example, to allow collisions with an object in a ``ModifyPlanningScene`` stage, you would call ``allowCollisions(false)`` rather than ``allowCollisions(true)``. There is a discussion to be read `here. <https://github.com/moveit/moveit_task_constructor/issues/349>`_

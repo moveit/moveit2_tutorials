@@ -38,4 +38,4 @@ The entire code can be seen :codedir:`here in the MoveIt GitHub project<examples
 .. tutorial-formatter:: ./src/planning_scene_ros_api_tutorial.cpp
 
 ..
-  TODO(JafarAbdi): Add the launch file section back (see https://github.com/ros-planning/moveit_tutorials/blob/master/doc/planning_scene_ros_api/planning_scene_ros_api_tutorial.rst#the-launch-file)
+  TODO(JafarAbdi): Add the launch file section back (see https://github.com/moveit/moveit_tutorials/blob/master/doc/planning_scene_ros_api/planning_scene_ros_api_tutorial.rst#the-launch-file)

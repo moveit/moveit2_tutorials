@@ -1,12 +1,15 @@
 # syntax = docker/dockerfile:1.3
 
 ARG ROS_DISTRO=rolling
+ARG GZ_VERSION=ionic
 
 ######################### Tutorial Image  #################################################
 
 FROM moveit/moveit2:${ROS_DISTRO}-source as tutorial_image
 
 LABEL org.opencontainers.image.description "This container has working versions of the tutorials discussed here: https://moveit.picknik.ai/main/doc/tutorials/tutorials.html"
+
+ARG GZ_VERSION
 
 # Copy sources from docker context
 COPY . src/moveit2_tutorials
@@ -45,6 +48,12 @@ COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/src/mtc_node.cp
 # Add the launch folder to the tutorial package and CMakeLists.txt
 COPY ./doc/tutorials/pick_and_place_with_moveit_task_constructor/launch src/mtc_tutorial/launch
 
+# Install Gazebo, which is needed by some dependencies.
+RUN wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" > /etc/apt/sources.list.d/gazebo-stable.list && \
+    sudo apt update && \
+    sudo apt-get install -y "gz-${GZ_VERSION}"
+
 # Add install(DIRECTORY launch  DESTINATION share/${PROJECT_NAME}) to CMakeLists.txt
 RUN sed -i "s|ament_package()|install(DIRECTORY launch  DESTINATION share/\${PROJECT_NAME})\nament_package()|g" src/mtc_tutorial/CMakeLists.txt
 # Build the tutorials and set up the entrypoint/bashrc
@@ -52,7 +61,7 @@ RUN --mount=type=cache,target=/root/.ccache/ \
     # Enable ccache
     . "/opt/ros/${ROS_DISTRO}/setup.sh" &&\
     . "install/setup.sh" &&\
-    sudo apt update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
+    sudo apt update && rosdep update && rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
     colcon build \
         --cmake-args -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
                      -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \

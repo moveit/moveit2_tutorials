@@ -1,8 +1,8 @@
 #include <rclcpp/rclcpp.hpp>
 #include <memory>
 // MoveitCpp
-#include <moveit/moveit_cpp/moveit_cpp.h>
-#include <moveit/moveit_cpp/planning_component.h>
+#include <moveit/moveit_cpp/moveit_cpp.hpp>
+#include <moveit/moveit_cpp/planning_component.hpp>
 
 #include <geometry_msgs/msg/point_stamped.h>
 
@@ -224,7 +224,7 @@ int main(int argc, char** argv)
   // We can set the goal of the plan using the name of a group states
   // for panda robot we have one named robot state for "panda_arm" planning group called "ready"
   // see `panda_arm.xacro
-  // <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/config/panda_arm.xacro#L13>`_
+  // <https://github.com/moveit/moveit_resources/blob/ros2/panda_moveit_config/config/panda_arm.xacro#L13>`_
 
   /* // Set the start state of the plan from a named robot state */
   /* planning_components->setStartState("ready"); // Not implemented yet */

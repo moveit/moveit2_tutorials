@@ -51,7 +51,7 @@ This first block of code is a bit of boilerplate but you should be used to seein
   #include <memory>
 
   #include <rclcpp/rclcpp.hpp>
-  #include <moveit/move_group_interface/move_group_interface.h>
+  #include <moveit/move_group_interface/move_group_interface.hpp>
 
   int main(int argc, char * argv[])
   {
@@ -77,7 +77,7 @@ This first block of code is a bit of boilerplate but you should be used to seein
 
 We will build and run the program to see that everything is right before we move on.
 
-Change directory back to the workspace directory ``ws_moveit`` and run this command:
+Change the directory back to the workspace directory ``ws_moveit`` and run this command:
 
 .. code-block:: bash
 
@@ -177,7 +177,7 @@ In the workspace directory, ``ws_moveit``, run this command:
 
   colcon build --mixin debug
 
-After this succeeds, we need to re-use the demo launch file from the previous tutorial to start RViz and the MoveGroup node.
+After this succeeds, we need to reuse the demo launch file from the previous tutorial to start RViz and the MoveGroup node.
 In a separate terminal, source the workspace and then execute this:
 
 .. code-block:: bash
@@ -200,7 +200,7 @@ This should cause the robot in RViz to move and end up in this pose:
 .. image:: rviz_2.png
    :width: 300px
 
-Note that if you ran the node ``hello_moveit`` without launching the demo launch file first, it will wait for 10 seconds and then print this error and exit.
+Note that if you run the node ``hello_moveit`` without launching the demo launch file first, it will wait for 10 seconds and then print this error and exit.
 
 .. code-block:: bash
 
@@ -230,7 +230,7 @@ The starting pose is implicitly the position published by the joint state publis
 
 One more thing to note about this next section is the use of lambdas for constructing the message type ``target_pose`` and planning.
 This is a pattern you'll find in modern C++ codebases that enables writing in a more declarative style.
-For more information about this pattern there are a couple of links at the end of this tutorial.
+For more information about this pattern, there are a couple of links at the end of this tutorial.
 
 .. code-block:: C++
 
@@ -252,7 +252,7 @@ For more information about this pattern there are a couple of links at the end o
     return std::make_pair(ok, msg);
   }();
 
-Finally, we execute our plan if planning was successful, otherwise we log an error:
+Finally, we execute our plan if planning is successful, otherwise, we log an error:
 
 .. code-block:: C++
 
