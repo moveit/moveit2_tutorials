@@ -47,7 +47,7 @@ A handy way to refer to a MoveIt configuration package is to use the ``MoveItCon
 Launching Move Group
 --------------------
 
-Once all the MoveIt configuration parameters have been loaded, you can define the :ref:`Move Group Interface` Node using the entire set of loaded MoveIt parameters.
+Once all the MoveIt configuration parameters have been loaded, you can define the :ref:`Move Group Interface` node using the entire set of loaded MoveIt parameters.
 
 .. code-block:: python
 
