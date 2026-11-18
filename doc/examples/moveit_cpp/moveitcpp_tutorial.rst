@@ -35,44 +35,33 @@ Notably, the launch file contains the following node
 .. code-block:: python
 
     # MoveItCpp demo executable
-        moveit_cpp_node = Node(
-            name="moveit_cpp_tutorial",
-            package="moveit2_tutorials",
-            executable="moveit_cpp_tutorial",
-            output="screen",
-            parameters=[moveit_config.to_dict()],
-        )
-This node contains parameters which are passed to the executable associated with moveit_cpp_tutorial.
+    moveit_cpp_node = Node(
+        name="moveit_cpp_tutorial",
+        package="moveit2_tutorials",
+        executable="moveit_cpp_tutorial",
+        output="screen",
+        parameters=[moveit_config.to_dict()],
+    )
 
-The CMakeLists.txt File
------------------------
-During the build process, the CMakeLists.txt file assigns where the launcher will look for the executable.
-Below is the CMakeLists.txt file for this tutorial:
+This node contains parameters which are passed to the executable associated with ``moveit_cpp_tutorial``.
 
-.. code-block:: cmake
+The ``CMakeLists.txt`` File
+----------------------------
+During the build process, the ``CMakeLists.txt`` file assigns where the launch file will look for the executable.
+Below is the ``CMakeLists.txt`` file for this tutorial:
 
-  add_executable(moveit_cpp_tutorial src/moveit_cpp_tutorial.cpp)
-  target_include_directories(moveit_cpp_tutorial PUBLIC include)
-  ament_target_dependencies(moveit_cpp_tutorial  ${THIS_PACKAGE_INCLUDE_DEPENDS} Boost)
+.. literalinclude:: ./CMakeLists.txt
+   :language: cmake
 
-  install(TARGETS moveit_cpp_tutorial
-    DESTINATION lib/${PROJECT_NAME}
-  )
-  install(DIRECTORY launch
-    DESTINATION share/${PROJECT_NAME}
-  )
-  install(DIRECTORY config
-    DESTINATION share/${PROJECT_NAME}
-  )
+``find_package`` locates ``moveit_visual_tools`` (other common dependencies are found in the ``moveit2_tutorials`` root ``CMakeLists.txt`` file).
 
-``add_executable`` builds the executable named moveit_cpp_tutorial from the source file ``src/moveit_cpp_tutorial.cpp``.
+``add_executable`` builds the executable named ``moveit_cpp_tutorial`` from the source file ``src/moveit_cpp_tutorial.cpp``.
 
 ``target_include_directories`` specifies the directories to search for header files during compilation.
 ``PUBLIC`` makes the include directory available to targets that depend on ``moveit_cpp_tutorial``.
 
-``ament_target_dependencies`` specifies dependencies for the moveit_cpp_tutorial executable.
-``${THIS_PACKAGE_INCLUDE_DEPENDS}`` is a variable defined in the  ``moveit2_tutorials`` root directory's CMakeLists.txt file, which list common dependencies used in moveit2_tutorials.
+``target_link_libraries`` specifies the libraries (``moveit_ros_planning::moveit_cpp`` and ``moveit_visual_tools::moveit_visual_tools``) to link into the ``moveit_cpp_tutorial`` executable.
 
-``install(TARGET ...)`` and ``install(DIRECTORY ...)`` specify where to put the built executable and directories needed to run your program.
+``install(TARGETS ...)`` and ``install(DIRECTORY ...)`` specify where to put the built executable and directories needed to run your program.
 
-For more details about building executables in ROS packages, please browse the other examples on this site as well as the ROS documentation.
+For more details about building executables in ROS packages, please browse the other examples on this site as well as the `ROS 2 documentation <https://docs.ros.org/en/{DISTRO}/Tutorials.html>`_.
