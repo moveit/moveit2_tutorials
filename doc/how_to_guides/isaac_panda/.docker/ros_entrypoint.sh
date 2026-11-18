@@ -1,9 +1,30 @@
 #!/bin/bash
 
-# Source ROS and the MoveIt 2 workspace
-source /opt/ros/humble/setup.bash
-source /root/ws_moveit/install/setup.bash
-echo "Sourced ROS & MoveIt Humble"
+# Only enable errexit when executed as a process, not when sourced into an interactive shell
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+    set -e
+fi
 
-# Execute the command passed into this entrypoint
-exec "$@"
+# Source ROS underlay and MoveIt workspace dynamically
+if [ -n "${ROS_DISTRO}" ] && [ -f "/opt/ros/${ROS_DISTRO}/setup.bash" ]; then
+    source "/opt/ros/${ROS_DISTRO}/setup.bash"
+elif [ -f "/opt/ros/lyrical/setup.bash" ]; then
+    source "/opt/ros/lyrical/setup.bash"
+elif [ -f "/opt/ros/jazzy/setup.bash" ]; then
+    source "/opt/ros/jazzy/setup.bash"
+elif [ -f "/opt/ros/rolling/setup.bash" ]; then
+    source "/opt/ros/rolling/setup.bash"
+elif [ -f "/opt/ros/humble/setup.bash" ]; then
+    source "/opt/ros/humble/setup.bash"
+fi
+
+if [ -f "/root/ws_moveit/install/setup.bash" ]; then
+    source "/root/ws_moveit/install/setup.bash"
+fi
+
+echo "Sourced ROS (${ROS_DISTRO:-unknown}) & MoveIt"
+
+# Execute the command passed into this entrypoint when run as a process
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+    exec "$@"
+fi
