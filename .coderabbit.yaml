@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 # CodeRabbit configuration: https://docs.coderabbit.ai/reference/configuration
-# CodeRabbit also reads AGENTS.md, CLAUDE.md, GEMINI.md, and .claude/rules/ as code guidelines by default.
+# CodeRabbit also reads AGENTS.md and the other agent instruction files as code guidelines by default.
 reviews:
   profile: chill
   request_changes_workflow: false
