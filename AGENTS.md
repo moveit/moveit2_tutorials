@@ -2,7 +2,7 @@
 
 Instructions for AI coding assistants working in this repository.
 
-This file is the single source of instructions. `CLAUDE.md` and `GEMINI.md` contain only an `@AGENTS.md` import, because Gemini CLI and older Claude Code versions do not read `AGENTS.md` themselves. `.github/copilot-instructions.md` is a symlink to this file, for the Copilot Chat and IDE code-review surfaces, which read only that path. Edit this file. Do not replace the import files or the symlink with copies.
+This file is the single source of instructions for this repo. `.claude/CLAUDE.md` (`@../AGENTS.md`) and `GEMINI.md` (`@AGENTS.md`) contain only an import of it, because Gemini CLI and older Claude Code versions do not read `AGENTS.md` themselves. `.github/copilot-instructions.md` is a symlink to this file, for the Copilot Chat and IDE code-review surfaces, which read only that path. Edit this file. Do not replace the import files or the symlink with copies.
 
 ## What this repo is
 
@@ -12,6 +12,11 @@ This file is the single source of instructions. `CLAUDE.md` and `GEMINI.md` cont
 2. **A single ament_cmake ROS 2 package** named `moveit2_tutorials`. It holds the runnable C++ and Python demo code. Each tutorial's code sits next to its `.rst` file (for example `doc/examples/moveit_cpp/{src,launch,config}/`).
 
 The `main` branch targets ROS 2 Rolling and is published as the Rolling docs. The `humble` branch is published as the Humble docs. The MoveIt source code is in a separate repo (moveit/moveit2).
+
+Where this repo's guidance comes from elsewhere, the other source is authoritative, and this repo keeps only what agents need while editing it:
+- MoveIt-wide code and PR conventions: [moveit2's `AGENTS.md`](https://github.com/moveit/moveit2/blob/main/AGENTS.md) and its `.claude/rules/`.
+- C++ style: the [MoveIt code style guide](https://moveit.ai/documentation/contributing/code/).
+- Writing pages: the contributor guide in `doc/how_to_contribute/`.
 
 ## Core principles
 
@@ -29,14 +34,18 @@ The repo is checked out under `src/` of a colcon workspace. Run these from the w
 ```bash
 vcs import src < src/moveit2_tutorials/moveit2_tutorials.repos
 rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y
+# First build: also builds the source dependencies imported from the .repos file
+colcon build --packages-up-to moveit2_tutorials --cmake-args -DCMAKE_BUILD_TYPE=Release
+# Later rebuilds of only this package
 colcon build --packages-select moveit2_tutorials --cmake-args -DCMAKE_BUILD_TYPE=Release
+source install/setup.bash
 
 # The only integration test: the Quickstart in RViz bringup (gtest + launch_testing, 120 s timeout)
 colcon test --packages-select moveit2_tutorials --ctest-args -R bringup_test
 colcon test-result --verbose
 ```
 
-Launch files and configs are installed to `share/moveit2_tutorials`, so demos run as `ros2 launch moveit2_tutorials <file>.launch.py` and `ros2 run moveit2_tutorials <executable>`.
+Launch files and configs are installed to `share/moveit2_tutorials`. After sourcing `install/setup.bash`, demos run as `ros2 launch moveit2_tutorials <file>.launch.py` and `ros2 run moveit2_tutorials <executable>`.
 
 CI (`.github/workflows/ci.yaml`) builds with industrial_ci on the `moveit/moveit2:{rolling-source,rolling-release,lyrical-release,jazzy-release}` images, so `main` must build on Jazzy, Lyrical, and Rolling. CI takes its upstream source dependencies from `.github/upstream.repos`, not from `moveit2_tutorials.repos`. When a source dependency changes, check both files.
 
@@ -52,7 +61,7 @@ make html                     # fast Sphinx-only rebuild into build/html, withou
 ./htmlproofer.sh              # what the CI "Website" job runs: full build plus an html-proofer link check (needs Ruby)
 ```
 
-`make local-with-api` shallow-clones moveit/moveit2 into `build/html` and runs Doxygen to produce `build/html/api/MoveIt.tag`, which the `:cpp_api:` role resolves against. Without that step, `:cpp_api:` links do not resolve. `make multiversion` (sphinx-multiversion, used by `.github/workflows/deploy.yml`) builds both `main` and `humble`. Sphinx warnings are not yet errors, but `htmlproofer.sh` fails CI on any 4xx link, so fix or replace an external URL that starts returning 404.
+`make local-with-api MOVEIT_BRANCH=main` (the variable is required; `build_locally.sh` sets it) shallow-clones moveit/moveit2 into `build/html` and runs Doxygen to produce `build/html/api/MoveIt.tag`, which the `:cpp_api:` role resolves against. Without that step, `:cpp_api:` links do not resolve. `make multiversion` (sphinx-multiversion, used by `.github/workflows/deploy.yml`) builds both `main` and `humble`. Sphinx warnings are not yet errors, but `htmlproofer.sh` fails CI on any 4xx link, so fix or replace an external URL that starts returning 404.
 
 ### Formatting
 
@@ -66,8 +75,7 @@ The hooks are clang-format (`.clang-format`: Google base style, 120 columns, `So
 
 - **Root `CMakeLists.txt`** calls `moveit_package()` (from `moveit_common`) and `find_package()`s every dependency once. It then `add_subdirectory()`s each tutorial directory. The ROS 1-era examples that are not ported yet are commented out. A tutorial subdirectory's `CMakeLists.txt` only declares its executables and installs them, plus its `launch/` and `config/`. New runtime dependencies go in the root `package.xml`.
 - **`conf.py`** configures Sphinx and defines the custom pieces the pages rely on: distro macros, `.. redirect-from::`, `extlinks` roles, doxylink (`:cpp_api:`), and the per-branch overrides for multiversion builds (`smv_rewrite_configs`).
-- **`_scripts/tutorialformatter.py`** provides `.. tutorial-formatter:: ./src/file.cpp`. The directive pulls in a source file and renders its comments as page prose. Only the code between `BEGIN_TUTORIAL` and `END_TUTORIAL` appears on the page. `BEGIN_SUB_TUTORIAL name`, `END_SUB_TUTORIAL`, and `CALL_SUB_TUTORIAL name` let a page show code blocks in a different order than the file. The comment prefix on the `BEGIN_TUTORIAL` line marks which comment lines become prose. These comments *are* the documentation.
-- **`doc/how_to_contribute/`** is the contributor guide (how to write tutorials and how-to guides, cross-referencing). Follow it for new pages.
+- **`_scripts/tutorialformatter.py`** provides `.. tutorial-formatter:: ./src/file.cpp`, which pulls a source file into a page and renders its `BEGIN_TUTORIAL` comments as prose. These comments *are* the documentation. The tag rules are in `.claude/rules/tutorial-code.md`.
 
 ## Rules
 

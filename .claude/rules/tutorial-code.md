@@ -16,8 +16,9 @@ paths:
 
 ## Tutorial tags
 
-Most `.rst` pages render their code through `.. tutorial-formatter::`, so the source file is also the page text.
+Most `.rst` pages render their code through `.. tutorial-formatter::` (`_scripts/tutorialformatter.py`), so the source file is also the page text.
 
+- Only the code between `BEGIN_TUTORIAL` and `END_TUTORIAL` appears on the page. `BEGIN_SUB_TUTORIAL`/`CALL_SUB_TUTORIAL` let the page show a block (such as a callback defined above `main`) at a different point than it appears in the file.
 - Keep `BEGIN_TUTORIAL`, `END_TUTORIAL`, `BEGIN_SUB_TUTORIAL <name>`, `END_SUB_TUTORIAL`, and `CALL_SUB_TUTORIAL <name>` intact. Every `CALL_SUB_TUTORIAL` needs a matching `BEGIN_SUB_TUTORIAL` with the same name in the same file. Sub-tutorials cannot nest.
 - Comment lines inside the tutorial block that start with the marker prefix (the text before `BEGIN_TUTORIAL` on its line, usually `//` or `#`) become reStructuredText prose. Write them as RST: headings underlined with `^`, double-backtick inline code, and roles like `:cpp_api:`.
 - Keep setup boilerplate (includes, node and executor setup, shutdown) outside the tutorial block, unless the page is about that boilerplate.
@@ -32,9 +33,9 @@ Most `.rst` pages render their code through `.. tutorial-formatter::`, so the so
 
 ## C++ style
 
-The tutorials follow MoveIt's code style, and readers copy it.
+The tutorials follow the [MoveIt code style guide](https://moveit.ai/documentation/contributing/code/), which is authoritative, and readers copy it. This list covers what reviewers check most often. pre-commit runs clang-format (see `AGENTS.md`).
 
-- Formatting is clang-format (`.clang-format`: Google base, 120 columns, `SortIncludes: false`), so do not reorder includes.
+- `.clang-format` sets `SortIncludes: false`, so do not reorder includes.
 - Names: `CamelCase` types, `camelBack` functions and methods, `lower_case` variables, `lower_case_` private members, and `UPPER_CASE` constants.
 - Include MoveIt headers in their `.hpp` form (`<moveit/moveit_cpp/moveit_cpp.hpp>`). The `.h` forms are deprecated shims. Some older tutorials still use them, so switch them when you touch the file.
 - Logging: the tutorials declare `static const rclcpp::Logger LOGGER = rclcpp::get_logger("<tutorial_name>");` at the top of the file. Follow that pattern in the file you're editing.
@@ -48,7 +49,7 @@ Formatting is black. Use the `moveit_py` and `moveit_configs_utils` APIs that th
 
 ## Distro compatibility
 
-`main` must build and run on every distro in the `.github/workflows/ci.yaml` matrix: Jazzy, Lyrical, and Rolling. The Humble docs come from the separate `humble` branch, so don't add Humble guards on `main`.
+`main` must build and run on every distro in the CI matrix (listed in `AGENTS.md`). The Humble docs come from the separate `humble` branch, so don't add Humble guards on `main`. These rules follow moveit2's `doc/DISTRO_COMPAT_POLICY.md`, which is authoritative.
 
 - `moveit_package()` builds the package as C++17 on Jazzy and as C++20 on Lyrical and Rolling. Write C++17 that also builds without warnings as C++20. For example, capture variables by name instead of an implicit `this` through `[=]`.
 - When a header moved between distros, guard it with `__has_include`, as `doc/tutorials/pick_and_place_with_moveit_task_constructor/src/mtc_node.cpp` does for `tf2_geometry_msgs`. Add a comment that names the oldest distro needing the guard, for example `// Remove when Jazzy goes EOL.`
