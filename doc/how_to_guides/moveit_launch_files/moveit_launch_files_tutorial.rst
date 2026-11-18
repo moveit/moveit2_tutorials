@@ -213,8 +213,3 @@ Finally, we can tell our launch file to actually launch everything we described 
                 hand_controller_spawner,
             ]
         )
-
-Launching a custom executable
-----------------------------
-
-Later on these tutorials (:doc:`/doc/examples/moveit_cpp/moveit_cpp_tutorial`), you will learn how to create and launch a custom executable.

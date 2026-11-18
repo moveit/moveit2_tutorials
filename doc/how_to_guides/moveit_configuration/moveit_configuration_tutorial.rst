@@ -198,37 +198,38 @@ Using the launch file from :doc:`/doc/tutorials/quickstart_in_rviz/quickstart_in
     )
 
 
-``MoveItConfigsBuilder`` (`defined here <https://github.com/moveit/moveit2/blob/main/moveit_configs_utils/moveit_configs_utils/moveit_configs_builder.py>`_) can take a few different types of arguments.
+``MoveItConfigsBuilder`` (:moveit_codedir:`defined here <moveit_configs_utils/moveit_configs_utils/moveit_configs_builder.py>`) requires a ``robot_name`` and optionally accepts a ``package_name``:
 
-* ``MoveItConfigsBuilder(package_name="package_name")``  will search for a package named "package_name".
-* ``MoveItConfigsBuilder("robot_name")`` will search for an explicitly given package name.
-Both arguments can be given, in which case the robot name is stored and the package with the explicitly given name will be loaded.
-As seen above, ``gen3`` is the robot name, and MoveIt looks for the package ``kinova_gen3_7dof_robotiq_2f_85_moveit_config`` instead of ``gen3_moveit_config``.
+* ``MoveItConfigsBuilder("robot_name")`` searches for a package named ``robot_name_moveit_config``.
+* ``MoveItConfigsBuilder("robot_name", package_name="package_name")`` stores ``"robot_name"`` as the robot name and loads the explicitly specified ``"package_name"`` package.
 
-``.robot_description`` can optionally take a file path to ``robot_name.urdf`` and/or assign a dictionary of argument mappings that are passed to the robot's urdf.xacro file.
-The file path to ``robot_name.urdf`` must be relative to your robot package, so if your robot package is ``/robot_package`` and the urdf (or urdf xacro) file is ``robot_package/config/robot_name.urdf``
-you would pass ``.robot_description(filepath="config/robot_name.urdf")``.
-If you don't provide a file path, but you do give ``MoveItConfigsBuilder`` a robot name (see above paragraph), MoveIt will look for ``robot_package/config/robot_name.urdf``.
+As seen above, ``"gen3"`` is the robot name, and MoveIt looks for the package ``kinova_gen3_7dof_robotiq_2f_85_moveit_config`` instead of ``gen3_moveit_config``.
 
-``.trajectory_execution`` loads trajectory execution and MoveIt controller manager's parameters from an optionally provided file path.
-If a file path isn't given, MoveIt looks for files in the package's ``config`` folder for files ending with ``controllers.yaml``.
+``.robot_description`` can optionally take a ``file_path`` to the robot's URDF or ``.urdf.xacro`` file and/or a ``mappings`` dictionary of xacro arguments.
+The ``file_path`` must be relative to your MoveIt config package (or an absolute path), so if the file is ``robot_package/config/robot_name.urdf`` you would pass ``.robot_description(file_path="config/robot_name.urdf")``.
+If you don't provide a ``file_path``, ``MoveItConfigsBuilder`` first checks for ``config/robot_name.urdf.xacro`` in the MoveIt config package, then checks the URDF package and path recorded in ``.setup_assistant`` if present, and otherwise falls back to ``config/robot_name.urdf`` in the MoveIt config package.
 
-``.planning_scene_monitor`` allows you to set various parameters about what scene information is published and how often is it published.
+``.trajectory_execution`` loads trajectory execution and MoveIt controller manager's parameters from an optionally provided ``file_path``.
+If a file path isn't given, MoveIt looks in the package's ``config`` folder for files ending with ``controllers.yaml``.
 
-``.planning_pipelines`` allows to you to list the names of the planners you want available to be used by your robot.
-If you opt to not list pipelines, as in ``.planning_pipelines()``, MoveIt will look in the config folder of your package for files that end with "_planning.yaml".
-Additionally, if no pipelines are listed, MoveIt will load a set of planners from its own library - this can be disabled adding ``load_all=False`` as an argument to ``.planning_pipelines``.
-Listing the planner names specifiies which planners MoveIt should load; again these should be in your config folder.
-MoveIt will also pick one of your planners to be the default planner.
-If OMPL is one of your planners, it will be the default planner unless you set ``default_planning_pipeline`` to your desired default planner as in
+``.planning_scene_monitor`` allows you to set boolean flags controlling which scene information is published.
 
-.. code-block:: python
+``.planning_pipelines`` allows you to list the names of the planners you want available to be used by your robot:
 
-    .planning_pipelines(
+* If you opt to not list pipelines, as in ``.planning_pipelines()``, MoveIt will look in the ``config`` folder of your package for files that end with ``_planning.yaml``.
+* Additionally, if no pipelines are listed, MoveIt will load a set of planners from its own library; this can be disabled by adding ``load_all=False`` as an argument to ``.planning_pipelines()``.
+* Listing the planner names specifies which planners MoveIt should load; again, these should be in your ``config`` folder.
+* MoveIt will also pick one of your planners to be the default planner:
+
+  * If :doc:`OMPL </doc/examples/ompl_interface/ompl_interface_tutorial>` is one of your planners, it will be the default planner unless you set ``default_planning_pipeline`` to your desired default planner, as in:
+
+    .. code-block:: python
+
+        .planning_pipelines(
             pipelines=["ompl", "your_favorite_planner"],
             default_planning_pipeline="your_favorite_planner",
         )
 
-If OMPL is not in your planner list and you don't set a default planner, MoveIt will pick the first planner in the list.
+  * If OMPL is not in your planner list and you don't set a default planner, MoveIt will pick the first planner in the list.
 
 Now that you have read this page, you should be able to better understand the launch files available throughout the MoveIt 2 tutorials, and when encountering other MoveIt configuration packages in the wild.
