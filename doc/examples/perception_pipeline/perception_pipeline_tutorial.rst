@@ -154,7 +154,7 @@ In Shell 4: ::
 
     ros2 bag play -r 5 <your_bag_file> --loop
 
-:codedir:`perception_pipeline_demo.launch.py <examples/perception_pipeline/launch/perception_pipeline_demo.launch.py>` is similar to :codedir:`demo.launch.py </doc/tutorials/quickstart_in_rviz/launch/demo.launch.py>` inside :doc:`MoveIt Quickstart in RViz </doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial>` except a couple of details. For ``perception_pipeline_demo.launch.py``, following lines is added to ``moveit_config``.
+:codedir:`perception_pipeline_demo.launch.py <examples/perception_pipeline/launch/perception_pipeline_demo.launch.py>` is similar to :codedir:`demo.launch.py <tutorials/quickstart_in_rviz/launch/demo.launch.py>` inside :doc:`MoveIt Quickstart in RViz </doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial>` except a couple of details. For ``perception_pipeline_demo.launch.py``, following lines is added to ``moveit_config``.
 
 You can find these additional lines in line 51, 52 and 53 inside ``perception_pipeline_demo.launch.py``: ::
 

@@ -9,33 +9,24 @@ set(THIS_PACKAGE_INCLUDE_DIRS
   doc/interactivity/include
 )
 
-set(THIS_PACKAGE_INCLUDE_DEPENDS
-  ament_cmake
-  Boost
-  control_msgs
-  Eigen3
-  interactive_markers
-  moveit_core
-  moveit_msgs
-  moveit_ros_planning
-  moveit_ros_planning_interface
-  moveit_ros_trajectory_cache
-  moveit_servo
-  moveit_task_constructor_core
-  moveit_visual_tools
-  pluginlib
-  rclcpp
-  rclcpp_action
-  rviz_visual_tools
-  tf2_geometry_msgs
-  tf2_geometry_msgs
-  tf2_ros
-  warehouse_ros_sqlite
-)
-
-foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
-  find_package(${Dependency} REQUIRED)
-endforeach()
+find_package(ament_cmake)
+find_package(Boost CONFIG REQUIRED)
+find_package(control_msgs)
+find_package(Eigen3)
+find_package(interactive_markers)
+find_package(moveit_core)
+find_package(moveit_ros_planning)
+find_package(moveit_ros_planning_interface)
+find_package(moveit_ros_trajectory_cache)
+find_package(moveit_servo)
+find_package(moveit_task_constructor_core)
+find_package(moveit_visual_tools)
+find_package(pluginlib)
+find_package(rclcpp)
+find_package(rclcpp_action)
+find_package(rviz_visual_tools)
+find_package(tf2_ros)
+find_package(warehouse_ros_sqlite)
 
 include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
 
@@ -77,9 +68,6 @@ add_subdirectory(doc/tutorials/pick_and_place_with_moveit_task_constructor)
 add_subdirectory(doc/tutorials/quickstart_in_rviz)
 add_subdirectory(doc/how_to_guides/pick_ik)
 
-ament_export_dependencies(
-  ${THIS_PACKAGE_INCLUDE_DEPENDS}
-)
 
 ament_export_include_directories(include)
 
