@@ -9,6 +9,31 @@ from launch.substitutions import PathJoinSubstitution
 import math
 
 
+def static_tf_arguments(pose, frame_id, child_frame_id):
+    """Return static_transform_publisher arguments in the named form.
+
+    ``pose`` holds x, y, z, yaw, pitch and roll, in that order.
+    """
+    return [
+        "--x",
+        pose[0],
+        "--y",
+        pose[1],
+        "--z",
+        pose[2],
+        "--yaw",
+        pose[3],
+        "--pitch",
+        pose[4],
+        "--roll",
+        pose[5],
+        "--frame-id",
+        frame_id,
+        "--child-frame-id",
+        child_frame_id,
+    ]
+
+
 def generate_launch_description():
     urdf_file = os.path.join(
         get_package_share_directory("moveit2_tutorials"),
@@ -69,7 +94,7 @@ def generate_launch_description():
         executable="static_transform_publisher",
         name="static_transform_publisher",
         output="log",
-        arguments=[*camera_1_pose, "world", "camera_1_base_link"],
+        arguments=static_tf_arguments(camera_1_pose, "world", "camera_1_base_link"),
     )
 
     # It is necessary for gazebo spawner to use the description of camera_2 in gazebo environment
@@ -123,7 +148,7 @@ def generate_launch_description():
         executable="static_transform_publisher",
         name="static_transform_publisher",
         output="log",
-        arguments=[*camera_2_pose, "world", "camera_2_base_link"],
+        arguments=static_tf_arguments(camera_2_pose, "world", "camera_2_base_link"),
     )
 
     # It is necessary to open previously created gazebo world for perception pipeline demo.
