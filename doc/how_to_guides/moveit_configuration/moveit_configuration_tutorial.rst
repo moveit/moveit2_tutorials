@@ -212,7 +212,7 @@ If you don't provide a ``file_path``, ``MoveItConfigsBuilder`` first checks for 
 ``.trajectory_execution`` loads trajectory execution and MoveIt controller manager's parameters from an optionally provided ``file_path``.
 If a file path isn't given, MoveIt looks in the package's ``config`` folder for files matching ``*_controllers.yaml``.
 
-``.planning_scene_monitor`` allows you to set boolean flags controlling which scene information is published.
+``.planning_scene_monitor`` allows you to set boolean flags controlling which scene information is published (see the :doc:`Planning Scene Monitor </doc/concepts/planning_scene_monitor>` concepts page for details).
 
 ``.planning_pipelines`` allows you to list the names of the planners you want available to be used by your robot:
 
