@@ -75,4 +75,4 @@ Below is the CMakeLists.txt file for this tutorial:
 
 ``install(TARGET ...)`` and ``install(DIRECTORY ...)`` specify where to put the built executable and directories needed to run your program.
 
-For more details about custom executables, please browse the other examples on this site as well as the ROS documentation.
+For more details about building executables in ROS packages, please browse the other examples on this site as well as the ROS documentation.
