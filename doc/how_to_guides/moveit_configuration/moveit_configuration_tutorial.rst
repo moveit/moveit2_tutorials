@@ -210,7 +210,7 @@ The ``file_path`` must be relative to your MoveIt config package (or an absolute
 If you don't provide a ``file_path``, ``MoveItConfigsBuilder`` first checks for ``config/robot_name.urdf.xacro`` in the MoveIt config package, then checks the URDF package and path recorded in ``.setup_assistant`` if present, and otherwise falls back to ``config/robot_name.urdf`` in the MoveIt config package.
 
 ``.trajectory_execution`` loads trajectory execution and MoveIt controller manager's parameters from an optionally provided ``file_path``.
-If a file path isn't given, MoveIt looks in the package's ``config`` folder for files ending with ``controllers.yaml``.
+If a file path isn't given, MoveIt looks in the package's ``config`` folder for files matching ``*_controllers.yaml``.
 
 ``.planning_scene_monitor`` allows you to set boolean flags controlling which scene information is published.
 
