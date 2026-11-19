@@ -1,0 +1,24 @@
+teleop_twist_joy_node:
+  ros__parameters:
+    publish_stamped_twist: true
+    frame_id: "panda_link0"
+    require_enable_button: false
+    # Axis indices and scales below are typical for a 3Dconnexion SpaceMouse
+    # exposed as a generic Linux HID joystick via joy_node; verify with
+    # `ros2 topic echo /joy` on your hardware.
+    axis_linear:
+      x: 1
+      y: 0
+      z: 2
+    scale_linear:
+      x: 0.2
+      y: 0.2
+      z: 0.2
+    axis_angular:
+      roll: 3
+      pitch: 4
+      yaw: 5
+    scale_angular:
+      roll: 0.5
+      pitch: 0.5
+      yaw: 0.5

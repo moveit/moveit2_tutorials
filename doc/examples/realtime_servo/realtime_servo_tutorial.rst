@@ -268,6 +268,17 @@ Launch the keyboard demo:
 
     ros2 run moveit_servo servo_keyboard_input
 
+Using a SpaceMouse
+^^^^^^^^^^^^^^^^^^
+
+If you have a 3Dconnexion SpaceMouse, it registers on modern Linux kernels as a generic HID joystick, so you can send 6DoF Cartesian commands via ``joy`` and ``teleop_twist_joy`` without running ``spacenavd``. With the demo still running, in a new terminal, run:
+
+.. code-block:: bash
+
+    ros2 launch moveit2_tutorials servo_spacenav_input.launch.py
+
+If your SpaceMouse model maps axes differently, inspect ``ros2 topic echo /joy`` and adjust :codedir:`spacemouse_teleop_twist_joy.yaml <examples/realtime_servo/config/spacemouse_teleop_twist_joy.yaml>`.
+
 An example of using the pose commands in the context of servoing to open a door can be seen in this :codedir:`example <examples/realtime_servo/src/pose_tracking_tutorial.cpp>`.
 
 .. code-block:: bash
