@@ -11,5 +11,6 @@ Concepts
    move_group
    planning_scene_monitor
    trajectory_processing
+   moveit_task_constructor/moveit_task_constructor
 
 .. image:: /_static/images/moveit_pipeline.png

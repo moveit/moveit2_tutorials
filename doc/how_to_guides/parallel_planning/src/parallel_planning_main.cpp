@@ -1,19 +1,19 @@
 #include <rclcpp/rclcpp.hpp>
 #include <memory>
 // MoveitCpp
-#include <moveit/moveit_cpp/moveit_cpp.h>
-#include <moveit/moveit_cpp/planning_component.h>
+#include <moveit/moveit_cpp/moveit_cpp.hpp>
+#include <moveit/moveit_cpp/planning_component.hpp>
 
 #include <geometry_msgs/msg/point_stamped.h>
 
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
 // Warehouse
-#include <moveit/warehouse/planning_scene_storage.h>
-#include <moveit/warehouse/planning_scene_storage.h>
-#include <moveit/warehouse/state_storage.h>
-#include <moveit/warehouse/constraints_storage.h>
-#include <moveit/warehouse/trajectory_constraints_storage.h>
+#include <moveit/warehouse/planning_scene_storage.hpp>
+#include <moveit/warehouse/planning_scene_storage.hpp>
+#include <moveit/warehouse/state_storage.hpp>
+#include <moveit/warehouse/constraints_storage.hpp>
+#include <moveit/warehouse/trajectory_constraints_storage.hpp>
 #include <warehouse_ros/database_loader.h>
 
 namespace rvt = rviz_visual_tools;
@@ -35,12 +35,12 @@ getShortestSolution(const std::vector<planning_interface::MotionPlanResponse>& s
   RCLCPP_INFO(LOGGER, "###################### Results ######################");
   for (auto const& solution : solutions)
   {
-    RCLCPP_INFO(LOGGER, "Planner '%s' returned '%s'", solution.planner_id_.c_str(),
-                moveit::core::error_code_to_string(solution.error_code_).c_str());
-    if (solution.trajectory_)
+    RCLCPP_INFO(LOGGER, "Planner '%s' returned '%s'", solution.planner_id.c_str(),
+                moveit::core::errorCodeToString(solution.error_code).c_str());
+    if (solution.trajectory)
     {
-      RCLCPP_INFO(LOGGER, "Path length: '%f', Planning time: '%f'",
-                  robot_trajectory::path_length(*solution.trajectory_), solution.planning_time_);
+      RCLCPP_INFO(LOGGER, "Path length: '%f', Planning time: '%f'", robot_trajectory::pathLength(*solution.trajectory),
+                  solution.planning_time);
     }
   }
   // Find trajectory with minimal path
@@ -50,8 +50,8 @@ getShortestSolution(const std::vector<planning_interface::MotionPlanResponse>& s
                                                     // If both solutions were successful, check which path is shorter
                                                     if (solution_a && solution_b)
                                                     {
-                                                      return robot_trajectory::path_length(*solution_a.trajectory_) <
-                                                             robot_trajectory::path_length(*solution_b.trajectory_);
+                                                      return robot_trajectory::pathLength(*solution_a.trajectory) <
+                                                             robot_trajectory::pathLength(*solution_b.trajectory);
                                                     }
                                                     // If only solution a is successful, return a
                                                     else if (solution_a)
@@ -61,7 +61,7 @@ getShortestSolution(const std::vector<planning_interface::MotionPlanResponse>& s
                                                     // Else return solution b, either because it is successful or not
                                                     return false;
                                                   });
-  RCLCPP_INFO(LOGGER, "'%s' chosen as best solution (Shortest path)", shortest_solution->planner_id_.c_str());
+  RCLCPP_INFO(LOGGER, "'%s' chosen as best solution (Shortest path)", shortest_solution->planner_id.c_str());
   RCLCPP_INFO(LOGGER, "#####################################################");
   return *shortest_solution;
 }
@@ -74,9 +74,9 @@ public:
     : node_{ node }
     , moveit_cpp_{ std::make_shared<moveit_cpp::MoveItCpp>(node) }
     , planning_component_{ std::make_shared<moveit_cpp::PlanningComponent>(PLANNING_GROUP, moveit_cpp_) }
-    , visual_tools_(node, "panda_link0", "parallel_planning_example", moveit_cpp_->getPlanningSceneMonitor())
+    , visual_tools_(node, "panda_link0", "parallel_planning_example", moveit_cpp_->getPlanningSceneMonitorNonConst())
   {
-    moveit_cpp_->getPlanningSceneMonitor()->providePlanningSceneService();
+    moveit_cpp_->getPlanningSceneMonitorNonConst()->providePlanningSceneService();
 
     visual_tools_.deleteAllMarkers();
     visual_tools_.loadRemoteControl();
@@ -161,7 +161,7 @@ public:
 
     // Add object to planning scene
     {  // Lock PlanningScene
-      planning_scene_monitor::LockedPlanningSceneRW scene(moveit_cpp_->getPlanningSceneMonitor());
+      planning_scene_monitor::LockedPlanningSceneRW scene(moveit_cpp_->getPlanningSceneMonitorNonConst());
       scene->processPlanningSceneWorldMsg(scene_msg.world);
     }  // Unlock PlanningScene
 
@@ -225,7 +225,7 @@ public:
     // The MultiPipelinePlanRequestParameters choose a set of planning pipelines to be used for parallel planning. Here,
     // we use all available pipelines but it is also possible to use a subset of pipelines.
     moveit_cpp::PlanningComponent::MultiPipelinePlanRequestParameters multi_pipeline_plan_request{
-      node_, { "ompl_rrtc", "pilz_lin", "chomp", "ompl_rrt_star" }
+      node_, { "ompl_rrtc", "pilz_lin", "chomp_planner", "ompl_rrt_star" }
     };
 
     auto plan_solution = planning_component_->plan(multi_pipeline_plan_request, &getShortestSolution);
@@ -238,12 +238,12 @@ public:
       auto robot_start_state = planning_component_->getStartState();
       auto joint_model_group_ptr = robot_model_ptr->getJointModelGroup(PLANNING_GROUP);
 
-      visual_tools_.publishTrajectoryLine(plan_solution.trajectory_, joint_model_group_ptr);
+      visual_tools_.publishTrajectoryLine(plan_solution.trajectory, joint_model_group_ptr);
       visual_tools_.trigger();
     }
 
     // Execute the trajectory and block until it's finished
-    moveit_cpp_->execute(plan_solution.trajectory_, true /* blocking*/, CONTROLLERS);
+    moveit_cpp_->execute(plan_solution.trajectory, CONTROLLERS);
 
     // Start the next plan
     visual_tools_.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
@@ -293,7 +293,6 @@ int main(int argc, char** argv)
   RCLCPP_INFO(LOGGER, "Experiment 2 - Long motion with collisions");
   demo.setQueryGoal();
   demo.planAndPrint();
-
   rclcpp::shutdown();
   return 0;
 }

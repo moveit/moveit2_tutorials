@@ -21,6 +21,7 @@ def generate_test_description():
     )
     base_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(demo_path),
+        launch_arguments={"launch_rviz": "false"}.items(),
     )
 
     # Launch the test
@@ -43,7 +44,6 @@ def generate_test_description():
             ),
             base_launch,
             # The test itself
-            bringup_test,
             TimerAction(period=2.0, actions=[bringup_test]),
             launch_testing.actions.ReadyToTest(),
         ]

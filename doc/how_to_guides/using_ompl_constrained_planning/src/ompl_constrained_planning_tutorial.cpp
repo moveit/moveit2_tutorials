@@ -1,7 +1,7 @@
 #include <chrono>
 
-#include <moveit/move_group_interface/move_group_interface.h>
-#include <moveit/planning_scene_interface/planning_scene_interface.h>
+#include <moveit/move_group_interface/move_group_interface.hpp>
+#include <moveit/planning_scene_interface/planning_scene_interface.hpp>
 #include <moveit_msgs/msg/collision_object.hpp>
 #include <moveit_visual_tools/moveit_visual_tools.h>
 #include <std_msgs/msg/color_rgba.hpp>

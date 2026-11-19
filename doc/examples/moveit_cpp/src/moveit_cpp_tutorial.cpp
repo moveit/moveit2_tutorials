@@ -1,8 +1,8 @@
 #include <rclcpp/rclcpp.hpp>
 #include <memory>
 // MoveitCpp
-#include <moveit/moveit_cpp/moveit_cpp.h>
-#include <moveit/moveit_cpp/planning_component.h>
+#include <moveit/moveit_cpp/moveit_cpp.hpp>
+#include <moveit/moveit_cpp/planning_component.hpp>
 
 #include <geometry_msgs/msg/point_stamped.h>
 
@@ -49,7 +49,7 @@ int main(int argc, char** argv)
   RCLCPP_INFO(LOGGER, "Starting MoveIt Tutorials...");
 
   auto moveit_cpp_ptr = std::make_shared<moveit_cpp::MoveItCpp>(node);
-  moveit_cpp_ptr->getPlanningSceneMonitor()->providePlanningSceneService();
+  moveit_cpp_ptr->getPlanningSceneMonitorNonConst()->providePlanningSceneService();
 
   auto planning_components = std::make_shared<moveit_cpp::PlanningComponent>(PLANNING_GROUP, moveit_cpp_ptr);
   auto robot_model_ptr = moveit_cpp_ptr->getRobotModel();
@@ -62,7 +62,7 @@ int main(int argc, char** argv)
   // The package MoveItVisualTools provides many capabilities for visualizing objects, robots,
   // and trajectories in RViz as well as debugging tools such as step-by-step introspection of a script
   moveit_visual_tools::MoveItVisualTools visual_tools(node, "panda_link0", "moveit_cpp_tutorial",
-                                                      moveit_cpp_ptr->getPlanningSceneMonitor());
+                                                      moveit_cpp_ptr->getPlanningSceneMonitorNonConst());
   visual_tools.deleteAllMarkers();
   visual_tools.loadRemoteControl();
 
@@ -108,12 +108,12 @@ int main(int argc, char** argv)
     visual_tools.publishAxisLabeled(target_pose1.pose, "target_pose");
     visual_tools.publishText(text_pose, "setStartStateToCurrentState", rvt::WHITE, rvt::XLARGE);
     // Visualize the trajectory in Rviz
-    visual_tools.publishTrajectoryLine(plan_solution1.trajectory_, joint_model_group_ptr);
+    visual_tools.publishTrajectoryLine(plan_solution1.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
     /* bool blocking = true; */
-    /* moveit_controller_manager::ExecutionStatus result = moveit_cpp_ptr->execute(plan_solution1.trajectory_, blocking, CONTROLLERS); */
+    /* moveit_controller_manager::ExecutionStatus result = moveit_cpp_ptr->execute(plan_solution1.trajectory, blocking, CONTROLLERS); */
   }
 
   // Plan #1 visualization:
@@ -148,17 +148,17 @@ int main(int argc, char** argv)
   if (plan_solution2)
   {
     moveit::core::RobotState robot_state(robot_model_ptr);
-    moveit::core::robotStateMsgToRobotState(plan_solution2.start_state_, robot_state);
+    moveit::core::robotStateMsgToRobotState(plan_solution2.start_state, robot_state);
 
     visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
     visual_tools.publishAxisLabeled(target_pose1.pose, "target_pose");
     visual_tools.publishText(text_pose, "moveit::core::RobotState_Start_State", rvt::WHITE, rvt::XLARGE);
-    visual_tools.publishTrajectoryLine(plan_solution2.trajectory_, joint_model_group_ptr);
+    visual_tools.publishTrajectoryLine(plan_solution2.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
     /* bool blocking = true; */
-    /* moveit_cpp_ptr->execute(plan_solution2.trajectory_, blocking, CONTROLLERS); */
+    /* moveit_cpp_ptr->execute(plan_solution2.trajectory, blocking, CONTROLLERS); */
   }
 
   // Plan #2 visualization:
@@ -193,17 +193,17 @@ int main(int argc, char** argv)
   if (plan_solution3)
   {
     moveit::core::RobotState robot_state(robot_model_ptr);
-    moveit::core::robotStateMsgToRobotState(plan_solution3.start_state_, robot_state);
+    moveit::core::robotStateMsgToRobotState(plan_solution3.start_state, robot_state);
 
     visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
     visual_tools.publishAxisLabeled(target_pose2, "target_pose");
     visual_tools.publishText(text_pose, "moveit::core::RobotState_Goal_Pose", rvt::WHITE, rvt::XLARGE);
-    visual_tools.publishTrajectoryLine(plan_solution3.trajectory_, joint_model_group_ptr);
+    visual_tools.publishTrajectoryLine(plan_solution3.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
     /* bool blocking = true; */
-    /* moveit_cpp_ptr->execute(plan_solution3.trajectory_, blocking, CONTROLLERS); */
+    /* moveit_cpp_ptr->execute(plan_solution3.trajectory, blocking, CONTROLLERS); */
   }
 
   // Plan #3 visualization:
@@ -224,7 +224,7 @@ int main(int argc, char** argv)
   // We can set the goal of the plan using the name of a group states
   // for panda robot we have one named robot state for "panda_arm" planning group called "ready"
   // see `panda_arm.xacro
-  // <https://github.com/ros-planning/moveit_resources/blob/ros2/panda_moveit_config/config/panda_arm.xacro#L13>`_
+  // <https://github.com/moveit/moveit_resources/blob/ros2/panda_moveit_config/config/panda_arm.xacro#L13>`_
 
   /* // Set the start state of the plan from a named robot state */
   /* planning_components->setStartState("ready"); // Not implemented yet */
@@ -236,17 +236,17 @@ int main(int argc, char** argv)
   if (plan_solution4)
   {
     moveit::core::RobotState robot_state(robot_model_ptr);
-    moveit::core::robotStateMsgToRobotState(plan_solution4.start_state_, robot_state);
+    moveit::core::robotStateMsgToRobotState(plan_solution4.start_state, robot_state);
 
     visual_tools.publishAxisLabeled(robot_state.getGlobalLinkTransform("panda_link8"), "start_pose");
     visual_tools.publishAxisLabeled(robot_start_state->getGlobalLinkTransform("panda_link8"), "target_pose");
     visual_tools.publishText(text_pose, "Goal_Pose_From_Named_State", rvt::WHITE, rvt::XLARGE);
-    visual_tools.publishTrajectoryLine(plan_solution4.trajectory_, joint_model_group_ptr);
+    visual_tools.publishTrajectoryLine(plan_solution4.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
     /* bool blocking = true; */
-    /* moveit_cpp_ptr->execute(plan_solution4.trajectory_, blocking, CONTROLLERS); */
+    /* moveit_cpp_ptr->execute(plan_solution4.trajectory, blocking, CONTROLLERS); */
   }
 
   // Plan #4 visualization:
@@ -285,7 +285,7 @@ int main(int argc, char** argv)
 
   // Add object to planning scene
   {  // Lock PlanningScene
-    planning_scene_monitor::LockedPlanningSceneRW scene(moveit_cpp_ptr->getPlanningSceneMonitor());
+    planning_scene_monitor::LockedPlanningSceneRW scene(moveit_cpp_ptr->getPlanningSceneMonitorNonConst());
     scene->processCollisionObjectMsg(collision_object);
   }  // Unlock PlanningScene
   planning_components->setStartStateToCurrentState();
@@ -295,12 +295,12 @@ int main(int argc, char** argv)
   if (plan_solution5)
   {
     visual_tools.publishText(text_pose, "Planning_Around_Collision_Object", rvt::WHITE, rvt::XLARGE);
-    visual_tools.publishTrajectoryLine(plan_solution5.trajectory_, joint_model_group_ptr);
+    visual_tools.publishTrajectoryLine(plan_solution5.trajectory, joint_model_group_ptr);
     visual_tools.trigger();
 
     /* Uncomment if you want to execute the plan */
     /* bool blocking = true; */
-    /* moveit_cpp_ptr->execute(plan_solution5.trajectory_, blocking, CONTROLLERS); */
+    /* moveit_cpp_ptr->execute(plan_solution5.trajectory, blocking, CONTROLLERS); */
   }
 
   // Plan #5 visualization:

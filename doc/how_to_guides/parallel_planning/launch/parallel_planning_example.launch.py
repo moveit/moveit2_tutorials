@@ -14,7 +14,8 @@ def load_yaml(package_name, file_path):
     try:
         with open(absolute_file_path, "r") as file:
             return yaml.safe_load(file)
-    except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
+    # parent of IOError, OSError *and* WindowsError where available
+    except EnvironmentError:
         return None
 
 
@@ -56,22 +57,27 @@ def launch_setup(context, *args, **kwargs):
 
     # Load additional OMPL pipeline
     ompl_planning_pipeline_config = {
-        "ompl_rrt_star": {
-            "planning_plugin": "ompl_interface/OMPLPlanner",
-            "request_adapters": """\
-                default_planner_request_adapters/AddTimeOptimalParameterization \
-                default_planner_request_adapters/FixWorkspaceBounds \
-                default_planner_request_adapters/FixStartStateBounds \
-                default_planner_request_adapters/FixStartStateCollision \
-                default_planner_request_adapters/FixStartStatePathConstraints \
-              """,
-            "start_state_max_bounds_error": 0.1,
+        "ompl_2": {
+            "planning_plugins": [
+                "ompl_interface/OMPLPlanner",
+            ],
+            "request_adapters": [
+                "default_planning_request_adapters/ResolveConstraintFrames",
+                "default_planning_request_adapters/ValidateWorkspaceBounds",
+                "default_planning_request_adapters/CheckStartStateBounds",
+                "default_planning_request_adapters/CheckStartStateCollision",
+            ],
+            "response_adapters": [
+                "default_planning_response_adapters/AddTimeOptimalParameterization",
+                "default_planning_response_adapters/ValidateSolution",
+                "default_planning_response_adapters/DisplayMotionPath",
+            ],
         }
     }
     ompl_planning_yaml = load_yaml(
         "moveit_resources_panda_moveit_config", "config/ompl_planning.yaml"
     )
-    ompl_planning_pipeline_config["ompl_rrt_star"].update(ompl_planning_yaml)
+    ompl_planning_pipeline_config["ompl_2"].update(ompl_planning_yaml)
 
     # Warehouse config
     sqlite_database = os.path.join(
@@ -96,7 +102,11 @@ def launch_setup(context, *args, **kwargs):
         package="moveit2_tutorials",
         executable="parallel_planning_example",
         output="screen",
-        parameters=[moveit_config.to_dict(), warehouse_ros_config],
+        parameters=[
+            moveit_config.to_dict(),
+            warehouse_ros_config,
+            ompl_planning_pipeline_config,
+        ],
     )
 
     # RViz
@@ -109,7 +119,6 @@ def launch_setup(context, *args, **kwargs):
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
-        name="rviz2",
         output="log",
         arguments=["-d", rviz_config_file],
         parameters=[
@@ -127,7 +136,7 @@ def launch_setup(context, *args, **kwargs):
         executable="static_transform_publisher",
         name="static_transform_publisher",
         output="log",
-        arguments=["0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "world", "panda_link0"],
+        arguments=["--frame-id", "world", "--child-frame-id", "panda_link0"],
     )
 
     # Publish TF
@@ -148,7 +157,10 @@ def launch_setup(context, *args, **kwargs):
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[moveit_config.robot_description, ros2_controllers_path],
+        parameters=[ros2_controllers_path],
+        remappings=[
+            ("/controller_manager/robot_description", "/robot_description"),
+        ],
         output="both",
     )
 

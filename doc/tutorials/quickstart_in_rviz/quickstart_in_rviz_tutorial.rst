@@ -1,3 +1,5 @@
+.. _Quickstart in RViz:
+
 MoveIt Quickstart in RViz
 ==========================
 .. image:: rviz_plugin_head.png
@@ -7,7 +9,8 @@ This tutorial will teach you how to create motion plans in MoveIt using RViz and
 
 Getting Started
 ---------------
-If you haven't already done so, make sure you've completed the steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` or our :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>`. As of Sep 26, 2022, ensure you have enabled Cyclone DDS as described there.
+If you haven't already done so, make sure you've completed the steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` or our :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>`.
+If you followed the Docker Guide, also follow the :ref:`create_colcon_workspace` guide onwards to set up the tutorials.
 
 Step 1: Launch the Demo and Configure the Plugin
 ------------------------------------------------
@@ -30,7 +33,7 @@ Step 1: Launch the Demo and Configure the Plugin
 
   |C|
 
-  * You should now see the Panda robot in RViz:
+  * You should now see the Kinova robot in RViz:
 
   |D|
 
@@ -46,9 +49,9 @@ Step 1: Launch the Demo and Configure the Plugin
 .. |D| image:: rviz_start.png
                :width: 700px
 
-* Once you have the Motion Planning Plugin loaded, we can configure it. In the "Global Options" tab of the "Displays" subwindow, set the **Fixed Frame** field to ``/panda_link0``
+* Once you have the Motion Planning Plugin loaded, we can configure it. In the "Global Options" tab of the "Displays" subwindow, set the **Fixed Frame** field to ``/base_link``
 
-* Now, you can start configuring the Plugin for your robot (the Panda in this case). Click on "MotionPlanning" within "Displays".
+* Now, you can start configuring the Plugin for your robot (the Kinova Gen 3 in this case). Click on "MotionPlanning" within "Displays".
 
   * Make sure the **Robot Description** field is set to ``robot_description``.
 
@@ -57,7 +60,7 @@ Step 1: Launch the Demo and Configure the Plugin
 
   * Make sure the **Trajectory Topic** under **Planned Path** is set to ``/display_planned_path``.
 
-  * In **Planning Request**, change the **Planning Group** to ``panda_arm``. You can also see this in the MotionPlanning panel in the bottom left.
+  * In **Planning Request**, change the **Planning Group** to ``manipulator``. You can also see this in the MotionPlanning panel in the bottom left.
 
 
 .. image:: rviz_plugin_start.png
@@ -91,8 +94,8 @@ The display states for each of these visualizations can be toggled on and off us
 .. image:: rviz_plugin_visualize_robots.png
    :width: 700px
 
-Step 3: Interact with the Panda
--------------------------------
+Step 3: Interact with the Kinova Gen 3
+--------------------------------------
 
 For the next steps we will want only the scene robot, start state and goal state:
 
@@ -154,10 +157,10 @@ You can use the **Joints** tab to move single joints and the redundant joints of
         The joints moving while the end effector stays still
     </video>
 
-Step 4: Use Motion Planning with the Panda
--------------------------------------------
+Step 4: Use Motion Planning with the Kinova Gen 3
+-------------------------------------------------
 
-* Now, you can start motion planning with the Panda in the MoveIt RViz Plugin.
+* Now, you can start motion planning with the Kinova Gen 3 in the MoveIt RViz Plugin.
 
   * Move the Start State to a desired location.
 
@@ -188,7 +191,7 @@ You can visually introspect trajectories point by point in RViz.
 Note: Once you placed your end-effector to a new goal, be sure to run *Plan* before running *Play* -- otherwise you'll see the waypoints for the previous goal if available.
 
 
-.. image:: rviz_plugin_slider.png
+.. image:: rviz_plugin_plan_slider.png
    :width: 700px
 
 Plan Cartesian motions
@@ -196,17 +199,17 @@ Plan Cartesian motions
 
 If the "Use Cartesian Path" checkbox is activated, the robot will attempt to move the end effector linearly in cartesian space.
 
-.. image:: rviz_plan_free.png
+.. image:: rviz_plugin_plan_free.png
    :width: 700px
 
-.. image:: rviz_plan_cartesian.png
+.. image:: rviz_plugin_plan_cartesian.png
    :width: 700px
 
 
 Executing Trajectories, Adjusting Speed
 +++++++++++++++++++++++++++++++++++++++
 
-Clicking "Plan & Execute" or "Execute" after a successful plan will send the trajectory to the robot - in this tutorial, since you used ``demo.launch``, the robot is only simulated.
+Clicking "Plan & Execute" or "Execute" after a successful plan will send the trajectory to the robot - in this tutorial, since you used ``kinova_demo.launch``, the robot is only simulated.
 
 Initially, the default velocity and acceleration are scaled to 10% (``0.1``) of the robot's maximum. You can change these scaling factors in the Planning tab shown below, or change these default values in the ``moveit_config`` of your robot (in ``joint_limits.yaml``).
 

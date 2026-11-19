@@ -20,7 +20,7 @@ MoveIt can support different algorithms for post-processing a kinematic trajecto
 
 * :moveit_codedir:`Time-optimal Trajectory Generation<moveit_core/trajectory_processing/src/time_optimal_trajectory_generation.cpp>`
 
-Time-optimal Trajectory Generation (TOTG) was introduced in PRs `#809 <https://github.com/ros-planning/moveit/pull/809>`_ and `#1365 <https://github.com/ros-planning/moveit/pull/1365>`_. It produces trajectories with very smooth and continuous velocity profiles. The method is based on fitting path segments to the original trajectory and then sampling new waypoints from the optimized path. This is different from strict time parameterization methods as resulting waypoints may divert from the original trajectory within a certain tolerance. As a consequence, additional collision checks might be required when using this method. It is the default everywhere in MoveIt2.
+Time-optimal Trajectory Generation (TOTG) was introduced in PRs `#809 <https://github.com/moveit/moveit/pull/809>`_ and `#1365 <https://github.com/moveit/moveit/pull/1365>`_. It produces trajectories with very smooth and continuous velocity profiles. The method is based on fitting path segments to the original trajectory and then sampling new waypoints from the optimized path. This is different from strict time parameterization methods as resulting waypoints may divert from the original trajectory within a certain tolerance. As a consequence, additional collision checks might be required when using this method. It is the default everywhere in MoveIt 2.
 
 Usage of a time parameterization algorithm as a Planning Request Adapter is documented in `this tutorial <../motion_planning_pipeline/motion_planning_pipeline_tutorial.html#using-a-planning-request-adapter>`_.
 
@@ -30,11 +30,11 @@ A time parameterization algorithm such as TOTG calculates velocities and acceler
 
 To apply the Ruckig smoothing algorithm, jerk limits should be defined in a ``joint_limits.yaml`` file. If you do not specify a jerk limit for any joint, a reasonable default will be applied and a warning printed.
 
-Finally, add the Ruckig smoothing algorithm to the list of planning request adapters (typically in ``ompl_planning.yaml``). The Ruckig smoothing algorithm should run last, so put it at the top of list:
+Finally, add the Ruckig smoothing algorithm to the list of planning response adapters (typically in ``ompl_planning.yaml``). The Ruckig smoothing algorithm should run after AddTimeOptimalParameterization, so put it below AddTimeOptimalParameterization in the list:
 
 .. code-block:: yaml
 
-      request_adapters: >-
-        default_planner_request_adapters/AddRuckigTrajectorySmoothing
-        default_planner_request_adapters/AddTimeOptimalParameterization
+      response_adapters:
+        - default_planning_response_adapters/AddTimeOptimalParameterization
+        - default_planning_response_adapters/AddRuckigTrajectorySmoothing
         ...
