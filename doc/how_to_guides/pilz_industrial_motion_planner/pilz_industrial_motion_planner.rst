@@ -301,7 +301,7 @@ POLYLINE Input Parameters in ``moveit_msgs::MotionPlanRequest``
 -  ``start_state/joint_state/(name, position and velocity``: joint
    name/position of the start state.
 -  ``path_constraints``: a list of position constraints to be followed in
-   Cartesian space. Each waypoint is defined as a ``moveit_msgs::msg::PositionConstraint``
+   Cartesian space. Each waypoint is defined as a ``moveit_msgs::msg::PositionConstraint`` ([(link to jazzy)](https://docs.ros.org/en/jazzy/p/moveit_msgs/msg/PositionConstraint.html))
 
       -  ``path_constraints/position_constraints/constraint_region/primitive_poses/point``:
          pose of the point
