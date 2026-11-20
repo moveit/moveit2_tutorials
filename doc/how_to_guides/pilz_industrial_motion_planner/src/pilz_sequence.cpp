@@ -218,7 +218,7 @@ int main(int argc, char** argv)
     item3.req.path_constraints.position_constraints.push_back(pos_constraint);
   }
   item3.req.goal_constraints.push_back(kinematic_constraints::constructGoalConstraints("panda_hand", msg));
-  // Set smoothness_level if supported by the message definition (ROS 2 Kilted+ / moveit_msgs >= 2.7.2)
+  // Set smoothness_level if supported by the message definition (ROS 2 Lyrical+ / moveit_msgs >= 2.7.2)
   setSmoothnessLevel(item3.req, 0.3);
 
   // [ --------------------------------------------------------------- ]
