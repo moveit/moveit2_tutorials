@@ -161,6 +161,13 @@ int main(int argc, char** argv)
   item2.req.goal_constraints.push_back(kinematic_constraints::constructGoalConstraints("panda_hand", target_pose_item2));
 
   // -------- Motion Sequence Items 3
+  // Message hierarchy for MotionSequenceItem:
+  // MotionSequenceItem
+  // |-- MotionPlanRequest
+  //   |-- Constraints (https://docs.ros.org/en/jazzy/p/moveit_msgs/msg/Constraints.html)
+  //     |-- PositionConstraint (https://docs.ros.org/en/jazzy/p/moveit_msgs/msg/PositionConstraint.html)
+  //       |-- BoundingVolume (https://docs.ros.org/en/jazzy/p/moveit_msgs/msg/BoundingVolume.html)
+  //         |-- geometry_msgs/Pose
   moveit_msgs::msg::MotionSequenceItem item3;
 
   // MotionSequenceItem configuration

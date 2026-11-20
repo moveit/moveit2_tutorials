@@ -272,7 +272,7 @@ The POLYLINE motion command
 
 .. note::
 
-   The ``POLYLINE`` planner and its parameters (e.g. ``smoothness_level`` in `moveit_msgs/msg/MotionPlanRequest <https://github.com/moveit/moveit_msgs/blob/ros2/msg/MotionPlanRequest.msg>`_) are natively available in binary releases for ROS 2 Kilted and newer. On earlier ROS 2 distributions (such as Jazzy), building ``moveit_msgs`` (version >= 2.7.2) from source is required.
+   The ``POLYLINE`` planner and its parameters (such as ``smoothness_level`` in :moveit_msgs_codedir:`MotionPlanRequest.msg <msg/MotionPlanRequest.msg>`, introduced in `moveit2#3610 <https://github.com/moveit/moveit2/pull/3610>`_) are not planned to be released into ROS 2 Jazzy or earlier. To run the ``POLYLINE`` portion of this tutorial, use ROS 2 Lyrical, Rolling, or newer.
 
 This planner generates a continuous Cartesian trajectory passing through a sequence of waypoints.
 The generated path is a combination of linear segments connected by
@@ -441,6 +441,10 @@ Service interface
 The service ``plan_sequence_path`` allows the user to generate a joint
 trajectory for a ``moveit_msgs::msg::MotionSequenceRequest``.
 The trajectory is returned and not executed.
+
+.. note::
+
+   The ``pilz_sequence`` example includes a ``POLYLINE`` segment, which requires ROS 2 Lyrical, Rolling, or newer (this feature is not planned to be released into ROS 2 Jazzy or earlier; see `moveit2#3610 <https://github.com/moveit/moveit2/pull/3610>`_).
 
 To use the ``MoveGroupSequenceService`` and the ``MoveGroupSequenceAction``, refer to the :codedir:`Pilz Motion Planner sequence example <how_to_guides/pilz_industrial_motion_planner/src/pilz_sequence.cpp>`.
 To run this, execute the following commands in separate terminals:
