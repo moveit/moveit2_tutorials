@@ -148,7 +148,7 @@ LIN Input Parameters in ``moveit_msgs::MotionPlanRequest``
 -  ``max_acceleration_scaling_factor``: scaling factor of maximal
    Cartesian translational/rotational acceleration/deceleration
 -  ``max_cartesian_speed``: maximal Cartesian speed for this motion (replaces the max_trans_vel parameter; requires ``cartesian_speed_limited_link`` to be set)
--  ``cartesian_speed_limited_link``: name of the link whose Cartesian speed is limited by ``max_cartesian_speed``
+-  ``cartesian_speed_limited_link``: name of a link (required to be non-empty for ``max_cartesian_speed`` to take effect)
 -  ``start_state/joint_state/(name, position and velocity``: joint
    name/position of the start state.
 -  ``goal_constraints`` (goal can be given in joint space or Cartesian
@@ -221,7 +221,7 @@ CIRC Input Parameters in ``moveit_msgs::MotionPlanRequest``
 -  ``max_acceleration_scaling_factor``: scaling factor of maximal
    Cartesian translational/rotational acceleration/deceleration
 -  ``max_cartesian_speed``: maximal Cartesian speed for this motion (replaces the max_trans_vel parameter; requires ``cartesian_speed_limited_link`` to be set)
--  ``cartesian_speed_limited_link``: name of the link whose Cartesian speed is limited by ``max_cartesian_speed``
+-  ``cartesian_speed_limited_link``: name of a link (required to be non-empty for ``max_cartesian_speed`` to take effect)
 -  ``start_state/joint_state/(name, position and velocity``: joint
    name/position of the start state.
 -  ``goal_constraints`` (goal can be given in joint space or Cartesian
@@ -274,7 +274,7 @@ The POLYLINE motion command
 
    The ``POLYLINE`` planner and its parameters (such as ``smoothness_level`` in :moveit_msgs_codedir:`MotionPlanRequest.msg <msg/MotionPlanRequest.msg>`, introduced in `moveit2#3610 <https://github.com/moveit/moveit2/pull/3610>`_) are not planned to be released into ROS 2 Jazzy or earlier. To run the ``POLYLINE`` portion of this tutorial, use ROS 2 Lyrical, Rolling, or newer.
 
-This planner generates a continuous Cartesian trajectory passing through a sequence of waypoints.
+This planner generates a continuous Cartesian trajectory along a sequence of waypoints, rounding non-collinear corners with circular arcs when a nonzero blend radius is used.
 The generated path is a combination of linear segments connected by
 circular arcs to smooth the transitions between consecutive lines. A smoothness level scaling factor is used to
 determine smoothness by scaling the max possible rounding radius.
@@ -297,7 +297,7 @@ POLYLINE Input Parameters in ``moveit_msgs::MotionPlanRequest``
 -  ``max_acceleration_scaling_factor``: scaling factor of maximal
    Cartesian translational/rotational acceleration/deceleration
 -  ``max_cartesian_speed``: maximal Cartesian speed for this motion (replaces the max_trans_vel parameter; requires ``cartesian_speed_limited_link`` to be set)
--  ``cartesian_speed_limited_link``: name of the link whose Cartesian speed is limited by ``max_cartesian_speed``
+-  ``cartesian_speed_limited_link``: name of a link (required to be non-empty for ``max_cartesian_speed`` to take effect)
 -  ``start_state/joint_state/(name, position and velocity``: joint
    name/position of the start state.
 -  ``path_constraints``: a list of position constraints to be followed in
@@ -305,11 +305,17 @@ POLYLINE Input Parameters in ``moveit_msgs::MotionPlanRequest``
 
       -  ``path_constraints/position_constraints/constraint_region/primitive_poses/point``:
          pose of the point
--  ``goal_constraints`` (the last goal point)
+-  ``goal_constraints`` (checked only with inverse kinematics; the trajectory ends at the last waypoint in ``path_constraints``, so include the goal pose as the final path waypoint)
       -  ``goal_constraints/position_constraints/header/frame_id``:
          frame this data is associated with
       -  ``goal_constraints/position_constraints/link_name``: target
          link name
+      -  ``goal_constraints/orientation_constraints/header/frame_id``:
+         frame for the required goal orientation constraint
+      -  ``goal_constraints/orientation_constraints/link_name``: target
+         link name for the orientation constraint
+      -  ``goal_constraints/orientation_constraints/orientation``: target
+         quaternion orientation (or construct the full pose goal using ``kinematic_constraints::constructGoalConstraints``)
 -  ``smoothness_level``: scaling factor for the maximum possible rounding radius
 
 Examples
@@ -606,7 +612,7 @@ The future response is read with the ``future.get()`` method.
        return 0;
     }
 
-In this case, the planned trajectory is drawn. Here is a comparison of a blend radius of 0, 0.1, 0.05 for the first, second, and third trajectory (line, line, ellipse), respectively.
+In this case, the planned trajectory is drawn. Here is a comparison of runs with intermediate blend radii of 0, 0.1, and 0.05 (the final sequence item always uses ``blend_radius = 0.0``).
 
 .. figure:: trajectory_comparison.png
    :alt: trajectory comparison

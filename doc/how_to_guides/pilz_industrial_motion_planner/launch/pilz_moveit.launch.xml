@@ -8,14 +8,12 @@
   <let name="child_frame_statictf" value="panda_link0" />
   <let name="arm_controller" value="panda_arm_controller" />
   <let name="gripper_controller" value="panda_hand_controller" />
+  <let name="moveit_configs_yaml"
+       value="$(command 'python3 -c &quot;import tempfile, yaml; from moveit_configs_utils import MoveItConfigsBuilder; mc = MoveItConfigsBuilder(\x27moveit_resources_panda\x27).robot_description(file_path=\x27config/panda.urdf.xacro\x27).trajectory_execution(file_path=\x27config/gripper_moveit_controllers.yaml\x27).planning_pipelines(pipelines=[\x27pilz_industrial_motion_planner\x27]).to_moveit_configs(); f = tempfile.NamedTemporaryFile(mode=\x27w\x27, suffix=\x27.yaml\x27, delete=False); yaml.safe_dump({\x27/**\x27: {\x27ros__parameters\x27: mc.to_dict()}}, f); print(f.name)&quot;')" />
 
   <node pkg="rviz2" exec="rviz2" output="log"
         args="-d $(var tutorials_share)/launch/move_group.rviz">
-    <param name="robot_description" value="$(command 'xacro $(var robot_description_xml_path)')" />
-    <param name="robot_description_semantic" value="$(command 'cat $(var srdf_path)')" />
-    <param from="$(var moveitconfig_share_dir)/config/kinematics.yaml" />
-    <param from="$(var moveitconfig_share_dir)/config/joint_limits.yaml" />
-    <param from="$(var moveitconfig_share_dir)/config/pilz_industrial_motion_planner_planning.yaml" />
+    <param from="$(var moveit_configs_yaml)" />
   </node>
 
   <node pkg="tf2_ros" exec="static_transform_publisher" name="static_transform_publisher"
@@ -28,14 +26,9 @@
 
   <node pkg="moveit_ros_move_group" exec="move_group" output="screen">
     <param name="capabilities" value="pilz_industrial_motion_planner/MoveGroupSequenceAction pilz_industrial_motion_planner/MoveGroupSequenceService" />
-    <param name="robot_description" value="$(command 'xacro $(var robot_description_xml_path)')" />
-    <param name="robot_description_semantic" value="$(command 'cat $(var srdf_path)')" />
     <param name="publish_robot_description" value="True" />
     <param name="publish_robot_description_semantic" value="True" />
-    <param from="$(var moveitconfig_share_dir)/config/kinematics.yaml" />
-    <param from="$(var moveitconfig_share_dir)/config/joint_limits.yaml" />
-    <param from="$(var moveitconfig_share_dir)/config/gripper_moveit_controllers.yaml" />
-    <param from="$(var moveitconfig_share_dir)/config/pilz_industrial_motion_planner_planning.yaml" />
+    <param from="$(var moveit_configs_yaml)" />
   </node>
 
   <node pkg="controller_manager" exec="ros2_control_node" output="both">
