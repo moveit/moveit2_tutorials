@@ -23,13 +23,13 @@ after the tutorial has been successfully updated.
 Below are some links to help with the ports.
 
 * [colcon](https://colcon.readthedocs.io/en/released/user/how-to.html)
-* [ament](https://index.ros.org/doc/ros2/Tutorials/Ament-CMake-Documentation/)
+* [ament](https://docs.ros.org/en/rolling/How-To-Guides/Ament-CMake-Documentation.html)
 * [rclcpp](https://docs.ros2.org/latest/api/rclcpp/index.html)
 
 
 ## MoveIt Tutorials Source Build
 
-Follow the [MoveIt Source Build](https://moveit.ros.org/install-moveit2/source/) instructions to set up a colcon workspace with MoveIt from the source.
+Follow the [MoveIt Source Build](https://moveit.ai/install-moveit2/source/) instructions to set up a colcon workspace with MoveIt from the source.
 
 Open a command line to your colcon workspace:
 
@@ -77,7 +77,7 @@ These tutorials use the [reStructuredText](http://www.sphinx-doc.org/en/stable/r
 
 **Code Formatting**
 
-* These tutorials use the same [style guidelines](http://moveit.ros.org/documentation/contributing/code/) as the MoveIt project. When modifying or adding to these tutorials, it is required that code is auto-formatted using [clang format](http://moveit.ros.org/documentation/contributing/code/). To check and apply the style guidelines we use [pre-commit](https://pre-commit.com/).
+* These tutorials use the same [style guidelines](https://moveit.ai/documentation/contributing/code/) as the MoveIt project. When modifying or adding to these tutorials, it is required that code is auto-formatted using [clang format](https://moveit.ai/documentation/contributing/code/). To check and apply the style guidelines we use [pre-commit](https://pre-commit.com/).
 * Tutorials should exemplify best coding practices. If a contribution wouldn't pass review in the MoveIt project, then it shouldn't pass review in the tutorials.
 * Relevant code should be included and explained using the ``.. tutorial-formatter::`` tag.
 * Irrelevant code should be excluded from the generated HTML using the ``BEGIN_TUTORIAL``, ``END_TUTORIAL``, ``BEGIN_SUB_TUTORIAL``, and ``END_SUB_TUTORIAL`` tags.
