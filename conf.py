@@ -58,7 +58,7 @@ release = ""
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -250,6 +250,17 @@ extlinks = {
 # Only used for local build, multiversion overwrites this in the smv_rewrite_configs() function
 doxylink = {"cpp_api": ("build/html/api/MoveIt.tag", "api/html")}
 add_function_parentheses = True
+
+# Needed to support previous versions that did not include python bindings
+try:
+    import moveit
+except Exception as e:
+    autodoc_mock_imports = [
+        "moveit",
+        "moveit.core",
+        "moveit.planning",
+        "moveit.servo_client",
+    ]
 
 
 class RedirectFrom(Directive):

@@ -88,23 +88,15 @@ If you have the ``panda_moveit_config`` from the `ros-planning/panda_moveit_conf
 
 Running STOMP with Obstacles in the Scene
 +++++++++++++++++++++++++++++++++++++++++
-To run STOMP in an environment with obstacles, you can run the sample python script:
-
-  :codedir:`collision_scene_example.py<examples/collision_environments/scripts/collision_scene_example.py>`.
-
-This scripts creates a cluttered scene with four ostacles or a simple scene with one obstacle depending on the argument given to the script. One can also change the position/size of the obstacles to change the scene.
+To add obstacles to the scene, we can use :codedir:`this node<examples/collision_environments/src/collision_scene_example.cpp>` to create a scene with obstacles.
 
 To run the STOMP planner with obstacles, open two terminals. In the first terminal start RViz and wait for everything to finish loading: ::
 
   roslaunch panda_moveit_config demo_stomp.launch
 
-In the second terminal, run either of the two commands: ::
+In the second terminal, run the command: ::
 
-  rosrun moveit_tutorials collision_scene_example.py cluttered
-
-or: ::
-
-  rosrun moveit_tutorials collision_scene_example.py sparse
+  ros2 run moveit2_tutorials collision_scene_example
 
 Next, in RViz, select STOMP in the MotionPlanning panel under the Context tab. Set the desired start and goal states by moving the end-effector around with the imarker and then click on the Plan button under the Planning tab in the MotionPlanning panel to start planning. The planner will now attempt to find a feasible solution between the given start and end position. STOMP performs better than CHOMP in avoiding obstacles. This is due to STOMP's stochastic nature which produces non-jerky trajectories as opposed to CHOMP which often produces jerky paths to avoid obstacles.
 

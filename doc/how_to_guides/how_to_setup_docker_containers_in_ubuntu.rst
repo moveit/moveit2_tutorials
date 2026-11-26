@@ -31,9 +31,9 @@ Steps
 
    .. code-block:: bash
 
-    DOCKER_IMAGE=humble-tutorial docker compose run --rm --name moveit2_container gpu
+    DOCKER_IMAGE={DISTRO}-tutorial docker compose run --rm --name moveit2_container gpu
 
-   You can replace ``humble-tutorial`` with other tagged images, e.g. ``rolling-tutorial``. Similarly, you can replace ``gpu`` with ``cpu`` if you do not wish to run using Nvidia GPU drivers and you can change the name of the container by replacing ``moveit2_container``. The ``--rm`` argument will remove the container when you stop (or exit) it, otherwise you can keep your modified container on disk and start it using ``docker start moveit2_container``
+   You can replace ``{DISTRO}-tutorial`` with other tagged images, e.g. ``rolling-tutorial``. Similarly, you can replace ``gpu`` with ``cpu`` if you do not wish to run using Nvidia GPU drivers and you can change the name of the container by replacing ``moveit2_container``. The ``--rm`` argument will remove the container when you stop (or exit) it, otherwise you can keep your modified container on disk and start it using ``docker start moveit2_container``
 
 4. You should now be inside of your Docker container, in the workspace directory, with the completed :doc:`Planning Around Objects </doc/tutorials/planning_around_objects/planning_around_objects>` and :doc:`Pick and Place with MoveIt Task Constructor </doc/tutorials/pick_and_place_with_moveit_task_constructor/pick_and_place_with_moveit_task_constructor>` tutorials. Go ahead and try one of the launch commands like ``ros2 launch moveit2_tutorials demo.launch.py``
 
@@ -49,7 +49,7 @@ Further Reading
   refer to `this blog post <https://picknik.ai/ros/robotics/docker/2021/07/20/Vatan-Aksoy-Tezer-Docker.html>`_
   from PickNik's Vatan Aksoy Tezer and Brennard Pierce.
 
-- You can find a list of tagged tutorial images `here <https://github.com/ros-planning/moveit2_tutorials/pkgs/container/moveit2_tutorials>`__. There are tagged images for both ``rolling`` and ``humble`` which are built on top of the ``rolling-source`` and ``humble-source`` MoveIt 2 Docker images `here <https://hub.docker.com/r/moveit/moveit2/tags>`__.
+- You can find a list of tagged tutorial images `here <https://github.com/ros-planning/moveit2_tutorials/pkgs/container/moveit2_tutorials>`__. There are tagged images for both ``rolling`` and ``{DISTRO}`` which are built on top of the ``rolling-source`` and ``{DISTRO}-source`` MoveIt 2 Docker images `here <https://hub.docker.com/r/moveit/moveit2/tags>`__.
 
 - You can find more tagged images for MoveIt 2 Docker containers `here <https://hub.docker.com/r/moveit/moveit2/tags>`__.
   The tagged images coincide with ROS2 version releases. The ``release`` version of the container provides an environment in which MoveIt 2 is installed via the binaries.
