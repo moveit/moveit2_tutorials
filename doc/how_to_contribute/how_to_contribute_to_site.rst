@@ -15,7 +15,7 @@ Requirements
 - Ubuntu 20.04
 - ROS 2 Galactic
 - Docker
-- A colcon workspace with a copy of `the moveit2_tutorials repo <https://github.com/ros-planning/moveit2_tutorials>`_ (if you don't already have one, :doc:`/doc/tutorials/getting_started/getting_started` will walk you through the process of creating one).
+- A colcon workspace with a copy of `the moveit2_tutorials repo <https://github.com/moveit/moveit2_tutorials>`_ (if you don't already have one, :doc:`/doc/tutorials/getting_started/getting_started` will walk you through the process of creating one).
 - Sphinx pages generator with `multitab`, `multiversion`, and `copybutton` extensions:
   ```
   pip3 install sphinx-multiversion sphinx-tabs sphinx-copybutton  # use `sudo` for system-wide installation
@@ -26,7 +26,7 @@ Steps
 
 1. Build and view the website locally
 
-  First, ``cd`` to the root directory of the moveit2_tutorials repo (if you followed the :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` tutorial, this will be ``~/ws_moveit2/src/moveit2_tutorials``).  From that directory, run this command:
+  First, ``cd`` to the root directory of the moveit2_tutorials repo (if you followed the :doc:`Getting Started </doc/tutorials/getting_started/getting_started>` tutorial, this will be ``~/ws_moveit/src/moveit2_tutorials``).  From that directory, run this command:
 
   .. code-block:: bash
 
@@ -44,7 +44,20 @@ Steps
 
 2. Test for broken links
 
-  To test for broken links run this command:
+  To test for broken links, run the ``htmlproofer`` script. Note that running this script may require you to install some Python dependencies. If using ``pip`` to install these dependencies, you may want to create a virtual environment.
+
+  .. code-block:: bash
+
+    python3 -m venv .venv
+    source .venv/bin/activate
+
+  You can then install requirements using ``pip``:
+
+  .. code-block:: bash
+
+    pip3 install --upgrade --requirement requirements.txt
+
+  You can run the ``htmlproofer`` script with this command:
 
   .. code-block:: bash
 
@@ -87,3 +100,4 @@ Further Reading
 
 - :doc:`how_to_write_tutorials`
 - :doc:`how_to_write_how_to_guides`
+- :doc:`how_to_cross_reference`

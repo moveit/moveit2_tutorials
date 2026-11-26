@@ -1,15 +1,21 @@
-add_executable(servo_keyboard_input src/servo_keyboard_input.cpp)
-target_include_directories(servo_keyboard_input PUBLIC include)
-ament_target_dependencies(servo_keyboard_input  ${THIS_PACKAGE_INCLUDE_DEPENDS})
+find_package(graph_msgs REQUIRED)
+find_package(moveit_ros_planning REQUIRED)
+find_package(moveit_visual_tools REQUIRED)
+find_package(moveit_ros_planning REQUIRED)
+find_package(moveit_servo REQUIRED)
+find_package(rviz_visual_tools REQUIRED)
 
-add_executable(servo_cpp_interface_demo src/servo_cpp_interface_demo.cpp)
-target_include_directories(servo_cpp_interface_demo PUBLIC include)
-ament_target_dependencies(servo_cpp_interface_demo  ${THIS_PACKAGE_INCLUDE_DEPENDS})
+add_executable(pose_tracking_tutorial src/pose_tracking_tutorial.cpp)
+target_include_directories(pose_tracking_tutorial PUBLIC include)
+target_link_libraries(pose_tracking_tutorial PUBLIC
+      ${graph_msgs_TARGETS} ${moveit_servo_TARGETS} tf2_eigen::tf2_eigen
+      moveit_ros_planning::moveit_planning_scene_monitor
+       rviz_visual_tools::rviz_visual_tools
+)
 
 install(
   TARGETS
-    servo_keyboard_input
-    servo_cpp_interface_demo
+    pose_tracking_tutorial
   DESTINATION
     lib/${PROJECT_NAME}
 )

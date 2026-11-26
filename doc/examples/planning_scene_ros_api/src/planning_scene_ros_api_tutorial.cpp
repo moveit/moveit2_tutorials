@@ -44,9 +44,9 @@
 #include <moveit_msgs/msg/display_robot_state.hpp>
 #include <moveit_msgs/srv/apply_planning_scene.hpp>
 
-#include <moveit/robot_model_loader/robot_model_loader.h>
-#include <moveit/robot_state/robot_state.h>
-#include <moveit/robot_state/conversions.h>
+#include <moveit/robot_model_loader/robot_model_loader.hpp>
+#include <moveit/robot_state/robot_state.hpp>
+#include <moveit/robot_state/conversions.hpp>
 
 #include <rviz_visual_tools/rviz_visual_tools.hpp>
 
@@ -161,7 +161,7 @@ int main(int argc, char** argv)
   auto request = std::make_shared<moveit_msgs::srv::ApplyPlanningScene::Request>();
   request->scene = planning_scene;
   std::shared_future<std::shared_ptr<moveit_msgs::srv::ApplyPlanningScene_Response>> response_future;
-  response_future = planning_scene_diff_client->async_send_request(request);
+  response_future = planning_scene_diff_client->async_send_request(request).future.share();
 
   // wait for the service to respond
   std::chrono::seconds wait_time(1);

@@ -1,0 +1,56 @@
+# These are faster joint limits to allow for faster execution.
+joint_limits:
+  panda_joint1:
+    has_velocity_limits: true
+    max_velocity: 50.0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_jerk_limits: false
+  panda_joint2:
+    has_velocity_limits: true
+    max_velocity: 50.0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_jerk_limits: false
+  panda_joint3:
+    has_velocity_limits: true
+    max_velocity: 50.0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_jerk_limits: false
+  panda_joint4:
+    has_velocity_limits: true
+    max_velocity: 50.0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_jerk_limits: false
+  panda_joint5:
+    has_velocity_limits: true
+    max_velocity: 50.0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_jerk_limits: false
+  panda_joint6:
+    has_velocity_limits: true
+    max_velocity: 50.0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_jerk_limits: false
+  panda_joint7:
+    has_velocity_limits: true
+    max_velocity: 50.0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_jerk_limits: false
+  panda_finger_joint1:
+    has_velocity_limits: true
+    max_velocity: 25.0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_jerk_limits: false
+  panda_finger_joint2:
+    has_velocity_limits: true
+    max_velocity: 25.0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_jerk_limits: false
