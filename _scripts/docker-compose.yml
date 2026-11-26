@@ -1,0 +1,41 @@
+# Example command:
+#
+#   DOCKER_IMAGE=humble-source docker-compose run gpu
+
+services:
+  cpu:
+    image: moveit/moveit2:$DOCKER_IMAGE
+    privileged: true
+    network_mode: host
+    command: /bin/bash
+    volumes:
+      - moveit2-data:/root
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - $XAUTHORITY:/root/.Xauthority
+    environment:
+      QT_X11_NO_MITSHM: 1
+      DISPLAY: $DISPLAY
+  gpu:
+    image: moveit/moveit2:$DOCKER_IMAGE
+    privileged: true
+    network_mode: host
+    command: /bin/bash
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    volumes:
+      - moveit2-data:/root
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - $XAUTHORITY:/root/.Xauthority
+    environment:
+      QT_X11_NO_MITSHM: 1
+      DISPLAY: $DISPLAY
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
+
+volumes:
+  moveit2-data:

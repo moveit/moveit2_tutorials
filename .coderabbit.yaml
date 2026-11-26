@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# CodeRabbit configuration: https://docs.coderabbit.ai/reference/configuration
+# CodeRabbit also reads AGENTS.md and the other agent instruction files as code guidelines by default.
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  auto_review:
+    enabled: true
+    # Each push to a reviewed PR gets an incremental review of the new commits.
+    auto_incremental_review: true
+    # Drafts and PRs past this many reviewed commits need "@coderabbitai review".
+    drafts: false
+    auto_pause_after_reviewed_commits: 5
+  path_instructions:
+    - path: "**/*.rst"
+      instructions: >-
+        These pages are rendered by Sphinx. Check that commands and code match the repository sources,
+        that links use :doc:, :ref:, :cpp_api:, or the extlinks roles from conf.py instead of raw URLs,
+        and that hardcoded distro names use the {DISTRO} macros.
+    - path: "doc/**/*.{cpp,hpp,h,py}"
+      instructions: >-
+        Tutorial source code that readers copy into their own projects. Comments between BEGIN_TUTORIAL
+        and END_TUTORIAL are rendered as reStructuredText prose on the docs page, so review them as
+        documentation. The code must build on Jazzy (C++17), Lyrical, and Rolling (C++20).
