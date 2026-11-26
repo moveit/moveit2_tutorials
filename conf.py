@@ -58,7 +58,7 @@ release = ""
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -71,6 +71,8 @@ pygments_style = "sphinx"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 extensions = [
+    "sphinx.ext.autosectionlabel",
+    "sphinxcontrib.doxylink",
     "sphinx.ext.extlinks",
     "tutorialformatter",
     "sphinx.ext.intersphinx",
@@ -79,7 +81,12 @@ extensions = [
     "sphinx_rtd_theme",
     "sphinx.ext.ifconfig",
     "sphinx_copybutton",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
 ]
+
+autosectionlabel_prefix_document = True
 
 intersphinx_mapping = {
     "ros2": ("https://docs.ros.org/en/rolling/", None),
@@ -102,14 +109,16 @@ intersphinx_mapping = {
 #
 html_theme = "sphinx_rtd_theme"
 html_theme_options = {
-    "collapse_navigation": False,
+    "collapse_navigation": True,
     "sticky_navigation": True,
     "navigation_depth": -1,
+    # Only display the logo image, do not display the project name at the top of the sidebar
+    "logo_only": True,
 }
 
 html_context = {
     "display_github": True,
-    "github_user": "ros-planning",
+    "github_user": "moveit",
     "github_repo": "moveit2_tutorials",
     "github_version": "main/",
     "conf_py_path": "",
@@ -122,16 +131,16 @@ templates_path = [
 
 # smv_tag_whitelist = None
 
-smv_branch_whitelist = r"^(main|foxy)$"
-
-smv_released_pattern = r"^refs/(heads|remotes/[^/]+)/(foxy).*$"
-smv_remote_whitelist = r"^(origin)$"
-smv_latest_version = "foxy"
+smv_branch_whitelist = r"^(main|humble)$"
+smv_released_pattern = r"^refs/(heads|remotes/[^/]+)/(main|humble).*$"
+smv_latest_version = "main"
 smv_eol_versions = []
+smv_remote_whitelist = r"^(origin|upstream)$"
+smv_prefer_remote_refs = True
+current_dir = os.getcwd()
 
 distro_full_names = {
-    "foxy": "Foxy Fitzroy",
-    "galactic": "Galactic Geochelone",
+    "humble": "Humble Hawksbill",
     "rolling": "Rolling Ridley",
 }
 
@@ -143,6 +152,7 @@ macros = {
     "REPOS_FILE_BRANCH": "main",
 }
 
+# Set the the browser icon
 html_favicon = "_static/images/favicon.ico"
 
 
@@ -150,6 +160,12 @@ html_favicon = "_static/images/favicon.ico"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+
+# These paths are either relative to html_static_path
+# or fully qualified paths (eg. https://...)
+html_css_files = [
+    "css/override.css",
+]
 
 # Drop any source link suffix
 html_sourcelink_suffix = ""
@@ -202,6 +218,13 @@ extlinks = {
         + "melodic-devel"
         + "/%s",
         "",
+    ),
+    "moveit_resources_codedir": (
+        "https://github.com/"
+        + html_context["github_user"]
+        + "/moveit_resources/tree/ros2"
+        + "/%s",
+        "",
     ),  # TODO(dlu): use ros_distro when noetic-devel branch is available
     # NEED DOCS.ROS.ORG equivalent for foxy
     "ros_documentation": (
@@ -209,59 +232,7 @@ extlinks = {
         "",
     ),
     "rosdocs": ("http://docs.ros.org/" + ros1_distro + "/api/%s", ""),
-    "moveit_core": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_core/html/cpp/classmoveit_1_1core_1_1%s.html",
-        "",
-    ),
-    "planning_scene": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_core/html/cpp/classplanning__scene_1_1%s.html",
-        "",
-    ),
-    "planning_scene_monitor": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_ros_planning/html/classplanning__scene__monitor_1_1%s.html",
-        "",
-    ),
-    "collision_detection_struct": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_core/html/cpp/structcollision__detection_1_1%s.html",
-        "",
-    ),
-    "collision_detection_class": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_core/html/cpp/classcollision__detection_1_1%s.html",
-        "",
-    ),
-    "kinematic_constraints": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_core/html/cpp/classkinematic__constraints_1_1%s.html",
-        "",
-    ),
-    "moveit_core_files": (
-        "http://docs.ros.org/" + ros1_distro + "/api/moveit_core/html/cpp/%s.html",
-        "",
-    ),
     "moveit_website": ("http://moveit.ros.org/%s/", ""),
-    "locked_planning_scene": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_ros_planning/html/namespaceplanning__scene__monitor.html",
-        "",
-    ),
-    "planning_interface": (
-        "http://docs.ros.org/"
-        + ros1_distro
-        + "/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1%s.html",
-        "",
-    ),
     "sensor_msgs": (
         "http://docs.ros.org/" + ros1_distro + "/api/sensor_msgs/html/msg/%s.html",
         "",
@@ -277,6 +248,43 @@ extlinks = {
         "",
     ),
 }
+# Only used for local build, multiversion overwrites this in the smv_rewrite_configs() function
+doxylink = {"cpp_api": ("build/html/api/MoveIt.tag", "api/html")}
+add_function_parentheses = True
+
+# Needed to support previous versions that did not include python bindings
+try:
+    import moveit
+except Exception as e:
+    autodoc_mock_imports = [
+        "moveit",
+        "moveit.core",
+        "moveit.planning",
+        "moveit.servo_client",
+    ]
+
+autodoc_typehints = "signature"
+
+autodoc_default_options = {
+    "members": True,
+    "undoc-members": True,
+    "member-order": "bysource",
+}
+
+autosummary_generate = True
+
+# Napoleon settings
+napoleon_google_docstring = True
+napoleon_numpy_docstring = False
+napoleon_include_init_with_doc = False
+napoleon_include_private_with_doc = False
+napoleon_include_special_with_doc = False
+napoleon_use_admonition_for_examples = False
+napoleon_use_admonition_for_notes = False
+napoleon_use_admonition_for_references = False
+napoleon_use_ivar = False
+napoleon_use_param = False
+napoleon_use_rtype = False
 
 
 class RedirectFrom(Directive):
@@ -391,7 +399,7 @@ def smv_rewrite_configs(app, config):
     if app.config.smv_current_version != "":
         branch_distro = {
             "main": "rolling",
-            "foxy": "foxy",
+            "humble": "humble",
         }
 
         # Override default values
@@ -406,6 +414,15 @@ def smv_rewrite_configs(app, config):
         app.config.html_baseurl = app.config.html_baseurl + "/" + distro + "/"
         app.config.project = "MoveIt Documentation: " + distro.title()
         app.config.html_logo = "_static/images/" + distro + "-small.png"
+        app.config.doxylink = {
+            "cpp_api": (
+                current_dir + "/build/html/" + branch + "/api/MoveIt.tag",
+                "api/html",
+            )
+        }
+    else:
+        # If we are not building a multiversion build, default to the rolling logo
+        app.config.html_logo = "_static/images/rolling-small.png"
 
 
 def github_link_rewrite_branch(app, pagename, templatename, context, doctree):

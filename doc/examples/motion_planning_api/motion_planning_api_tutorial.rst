@@ -21,7 +21,7 @@ In the second shell, run the launch file: ::
 
   ros2 launch moveit2_tutorials motion_planning_api_tutorial.launch.py
 
-**Note:** This tutorial uses the **RvizVisualToolsGui** panel to step through the demo. To add this panel to RViz, follow the instructions in the `Visualization Tutorial </doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial.html#rviz-visual-tools>`_.
+**Note:** This tutorial uses the **RvizVisualToolsGui** panel to step through the demo. To add this panel to RViz, follow the instructions in the :ref:`Visualization Tutorial <doc/tutorials/quickstart_in_rviz/quickstart_in_rviz_tutorial:RViz Visual Tools>`.
 
 After a short moment, the RViz window should appear and look similar to the one at the top of this page. To progress through each demo step either press the **Next** button in the **RvizVisualToolsGui** panel at the bottom of the screen or select **Key Tool** in the **Tools** panel at the top of the screen and then press **N** on your keyboard while RViz is focused.
 
@@ -52,10 +52,10 @@ In RViz, we should be able to see four trajectories being replayed eventually:
 
 The Entire Code
 ---------------
-The entire code can be seen :codedir:`here in the moveit_tutorials GitHub project<motion_planning_api>`.
+The entire code can be seen :codedir:`here in the moveit_tutorials GitHub project<examples/motion_planning_api>`.
 
 .. tutorial-formatter:: ./src/motion_planning_api_tutorial.cpp
 
 The Launch File
 ---------------
-The entire launch file is :codedir:`here <motion_planning_api/launch/motion_planning_api_tutorial.launch.py>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
+The entire launch file is :codedir:`here <examples/motion_planning_api/launch/motion_planning_api_tutorial.launch.py>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.

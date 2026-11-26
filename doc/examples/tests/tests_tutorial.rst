@@ -26,13 +26,13 @@ Test Robots
 
 **Panda**
 
-From the package `panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_: ::
+From the package `panda_moveit_config <https://github.com/moveit/panda_moveit_config>`_: ::
 
   roslaunch panda_moveit_config demo.launch
 
 **Fanuc M-10iA**
 
-From the package `moveit_resources <https://github.com/ros-planning/moveit_resources>`_: ::
+From the package `moveit_resources <https://github.com/moveit/moveit_resources>`_: ::
 
   roslaunch moveit_resources demo.launch
 
@@ -42,7 +42,7 @@ Unit Tests
 Writing Unit Tests
 ~~~~~~~~~~~~~~~~~~
 
-The entire test file, with includes, can be seen :codedir:`here <tests>` in the moveit_tutorials GitHub project.
+The entire test file, with includes, can be seen :codedir:`here <examples/tests>` in the moveit_tutorials GitHub project.
 
 MoveIt uses Google Test as a testing framework.
 

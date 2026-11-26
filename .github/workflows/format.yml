@@ -9,15 +9,22 @@ on:
   push:
     branches:
       - main
-      - foxy
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
 
 jobs:
   pre-commit:
     name: Format
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
-    - name: Install clang-format-10
-      run: sudo apt-get install clang-format-10
-    - uses: pre-commit/action@v2.0.3
+    - uses: actions/checkout@v7
+    - name: Install clang-format
+      run: sudo apt-get install clang-format
+    - uses: pre-commit/action@v3.0.1
+      id: precommit
+    - name: Upload pre-commit changes
+      if: failure() && steps.precommit.outcome == 'failure'
+      uses: rhaschke/upload-git-patch-action@main
+      with:
+        name: pre-commit

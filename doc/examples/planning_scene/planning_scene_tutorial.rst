@@ -1,7 +1,7 @@
 Planning Scene
 ==================================
 
-The :moveit_codedir:`PlanningScene<moveit_core/planning_scene/include/moveit/planning_scene/planning_scene.h>` class provides the main interface that you will use
+The :moveit_codedir:`PlanningScene<moveit_core/planning_scene/include/moveit/planning_scene/planning_scene.hpp>` class provides the main interface that you will use
 for collision checking and constraint checking. In this tutorial, we
 will explore the C++ interface to this class.
 
@@ -11,13 +11,13 @@ If you haven't already done so, make sure you've completed the steps in :doc:`Ge
 
 The entire code
 ---------------
-The entire code can be seen :codedir:`here in the MoveIt GitHub project<planning_scene>`.
+The entire code can be seen :codedir:`here in the MoveIt GitHub project<examples/planning_scene>`.
 
 .. tutorial-formatter:: ./src/planning_scene_tutorial.cpp
 
 The launch file
 ---------------
-The entire launch file is :codedir:`here <planning_scene/launch/planning_scene_tutorial.launch.py>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
+The entire launch file is :codedir:`here <examples/planning_scene/launch/planning_scene_tutorial.launch.py>` on GitHub. All the code in this tutorial can be compiled and run from the moveit_tutorials package.
 
 Running the code
 ----------------
