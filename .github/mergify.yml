@@ -1,0 +1,44 @@
+pull_request_rules:
+  - name: backport to humble at reviewers discretion
+    conditions:
+      - base=main
+      - "label=backport-humble"
+    actions:
+      backport:
+        branches:
+          - humble
+        labels:
+          - humble
+        title: Backport of {{ title }} (#{{ number }}) to {{ destination_branch }}
+
+  - name: backport to galactic at reviewers discretion
+    conditions:
+      - base=main
+      - "label=backport-galactic"
+    actions:
+      backport:
+        branches:
+          - galactic
+        labels:
+          - galactic
+        title: Backport of {{ title }} (#{{ number }}) to {{ destination_branch }}
+
+  - name: backport to foxy at reviewers discretion
+    conditions:
+      - base=main
+      - "label=backport-foxy"
+    actions:
+      backport:
+        branches:
+          - foxy
+        labels:
+          - foxy
+        title: Backport of {{ title }} (#{{ number }}) to {{ destination_branch }}
+
+  - name: ask to resolve conflict
+    conditions:
+      - conflict
+      - author!=mergify
+    actions:
+        comment:
+          message: This pull request is in conflict. Could you fix it @{{author}}?
