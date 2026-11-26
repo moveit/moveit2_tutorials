@@ -28,18 +28,18 @@ Running The Demo
 ----------------
 After having completed the steps in :doc:`Getting Started </doc/tutorials/getting_started/getting_started>`, open two terminals. In the first terminal, execute this command to load up a panda, and wait for everything to finish loading: ::
 
-    roslaunch panda_moveit_config demo.launch
+    ros2 launch moveit2_tutorials demo.launch.py
 
 In the second terminal run the tutorial: ::
 
-    rosrun moveit_tutorials subframes_tutorial
+    ros2 run moveit2_tutorials subframes_tutorial
 
 In this terminal you should be able to enter numbers from 1-12 to send commands, and to see how the robot and the scene react.
 
 
 The Code
 ---------------
-The code for this example can be seen :codedir:`here <examples/subframes>` in the moveit_tutorials GitHub project and is explained in detail below.
+The code for this example can be seen :codedir:`here <examples/subframes>` in the moveit2_tutorials GitHub project and is explained in detail below.
 
 The code spawns a box and a cylinder in the planning scene, attaches the cylinder to the
 robot, and then lets you send motion commands via the command line. It also defines two
