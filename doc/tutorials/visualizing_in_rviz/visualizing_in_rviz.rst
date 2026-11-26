@@ -27,15 +27,14 @@ Then in your ``CMakeLists.txt`` add this line to the section of ``find_package``
 
   find_package(moveit_visual_tools REQUIRED)
 
-Further down in the file extend the ``ament_target_dependencies`` macro call to include the new dependency like this:
+Further down in the file extend the ``target_link_libraries`` macro call to include the new dependency like this:
 
 .. code-block:: cmake
 
-  ament_target_dependencies(
+  target_link_libraries(
     hello_moveit
-    "moveit_ros_planning_interface"
-    "moveit_visual_tools"
-    "rclcpp"
+    moveit_ros_planning_interface::moveit_move_group_interface
+    moveit_visual_tools::moveit_visual_tools
   )
 
 To verify that you added the dependency correctly, add the required include to your source file ``hello_moveit.cpp``:
@@ -101,11 +100,11 @@ Next, we will construct and initialize MoveItVisualTools after the construction 
 
     // Create the MoveIt MoveGroup Interface
     using moveit::planning_interface::MoveGroupInterface;
-    auto move_group_interface = MoveGroupInterface(node, "panda_arm");
+    auto move_group_interface = MoveGroupInterface(node, "manipulator");
 
     // Construct and initialize MoveItVisualTools
     auto moveit_visual_tools = moveit_visual_tools::MoveItVisualTools{
-        node, "panda_link0", rviz_visual_tools::RVIZ_MARKER_TOPIC,
+        node, "base_link", rviz_visual_tools::RVIZ_MARKER_TOPIC,
         move_group_interface.getRobotModel()};
     moveit_visual_tools.deleteAllMarkers();
     moveit_visual_tools.loadRemoteControl();
@@ -138,19 +137,16 @@ After we've constructed and initialized, we now create some closures (function o
     auto const draw_trajectory_tool_path =
         [&moveit_visual_tools,
          jmg = move_group_interface.getRobotModel()->getJointModelGroup(
-             "panda_arm")](auto const trajectory) {
+             "manipulator")](auto const trajectory) {
           moveit_visual_tools.publishTrajectoryLine(trajectory, jmg);
         };
 
 Each of the three closures capture ``moveit_visual_tools`` by reference and the last one captures a pointer to the joint model group object we are planning with.
 Each of these call a function on ``moveit_visual_tools`` that changes something in RViz.
-The first one, ``draw_title`` adds text one meter above the base of the robot.
-This is a useful way to show the state of your program from a high level.
-The second one calls a function called ``prompt``.
-This function blocks your program until the user presses the ``next`` button in RViz.
-This is helpful for stepping through a program when debugging.
-The last one draws the tool path of a trajectory that we have planned.
-This is often helpful for understanding a planned trajectory from the perspective of the tool.
+
+* The first one, ``draw_title`` adds text one meter above the base of the robot. This is a useful way to show the state of your program from a high level.
+* The second one calls a function called ``prompt``. This function blocks your program until the user presses the ``next`` button in RViz. This is helpful for stepping through a program when debugging.
+* The last one draws the tool path of a trajectory that we have planned. This is often helpful for understanding a planned trajectory from the perspective of the tool.
 
 You might be asking yourself why we would create lambdas like this, and the reason is simply to make the code that comes later easier to read and understand.
 As your write software, it is often helpful to break up your functionality into named functions which can be easily reused and tested on their own.
@@ -187,7 +183,7 @@ Update your code for planning and executing to include these new features:
 
     // Execute the plan
     if (success) {
-      draw_trajectory_tool_path(plan.trajectory_);
+      draw_trajectory_tool_path(plan.trajectory);
       moveit_visual_tools.trigger();
       prompt("Press 'Next' in the RvizVisualToolsGui window to execute");
       draw_title("Executing");
@@ -196,7 +192,7 @@ Update your code for planning and executing to include these new features:
     } else {
       draw_title("Planning Failed!");
       moveit_visual_tools.trigger();
-      RCLCPP_ERROR(logger, "Planing failed!");
+      RCLCPP_ERROR(logger, "Planning failed!");
     }
 
 One thing you'll quickly notice is that we have to call a method called ``trigger`` on ``moveit_visual_tools`` after each call to change something rendered in RViz.
@@ -289,7 +285,7 @@ You extended the program you wrote with MoveIt to interact with the Gui in RViz,
 Further Reading
 ---------------
 
-- MoveItVisualTools has many more useful features for visualizing robot motions. `You can read more about it here <https://github.com/ros-planning/moveit_visual_tools/tree/ros2>`_.
+- MoveItVisualTools has many more useful features for visualizing robot motions. `You can read more about it here <https://github.com/moveit/moveit_visual_tools/tree/ros2>`_.
 - There are also more examples of using ``MoveItVisualTools`` in :doc:`MoveItCpp Tutorial </doc/examples/moveit_cpp/moveitcpp_tutorial>`.
 - :codedir:`Here is a copy of the full hello_moveit.cpp source<tutorials/visualizing_in_rviz/hello_moveit.cpp>`.
 

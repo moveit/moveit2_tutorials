@@ -29,4 +29,39 @@ The entire code can be seen :codedir:`here in the MoveIt GitHub project<examples
 
 The Launch File
 ---------------
-The entire launch file is :codedir:`here<examples/moveit_cpp/launch/moveit_cpp_tutorial.launch.py>` on GitHub. All the code in this tutorial can be run from the **moveit2_tutorials** package that you have as part of your MoveIt setup.
+The entire launch file is :codedir:`here<examples/moveit_cpp/launch/moveit_cpp_tutorial.launch.py>` on GitHub.
+Notably, the launch file contains the following node
+
+.. code-block:: python
+
+    # MoveItCpp demo executable
+    moveit_cpp_node = Node(
+        name="moveit_cpp_tutorial",
+        package="moveit2_tutorials",
+        executable="moveit_cpp_tutorial",
+        output="screen",
+        parameters=[moveit_config.to_dict()],
+    )
+
+This node contains parameters which are passed to the executable associated with ``moveit_cpp_tutorial``.
+
+The ``CMakeLists.txt`` File
+----------------------------
+During the build process, the ``CMakeLists.txt`` file assigns where the launch file will look for the executable.
+Below is the ``CMakeLists.txt`` file for this tutorial:
+
+.. literalinclude:: ./CMakeLists.txt
+   :language: cmake
+
+``find_package`` locates ``moveit_visual_tools`` (other common dependencies are found in the ``moveit2_tutorials`` root ``CMakeLists.txt`` file).
+
+``add_executable`` builds the executable named ``moveit_cpp_tutorial`` from the source file ``src/moveit_cpp_tutorial.cpp``.
+
+``target_include_directories`` specifies the directories to search for header files during compilation.
+``PUBLIC`` makes the include directory available to targets that depend on ``moveit_cpp_tutorial``.
+
+``target_link_libraries`` specifies the libraries (``moveit_ros_planning::moveit_cpp`` and ``moveit_visual_tools::moveit_visual_tools``) to link into the ``moveit_cpp_tutorial`` executable.
+
+``install(TARGETS ...)`` and ``install(DIRECTORY ...)`` specify where to put the built executable and directories needed to run your program.
+
+For more details about building executables in ROS packages, please browse the other examples on this site as well as the `ROS 2 documentation <https://docs.ros.org/en/{DISTRO}/Tutorials.html>`_.

@@ -7,7 +7,7 @@ Prerequisites
 -------------
 
 If you haven't already done so, make sure you've completed the steps in :doc:`Visualizing in RViz </doc/tutorials/visualizing_in_rviz/visualizing_in_rviz>`.
-This project assumes you are starting with the ``hello_moveit`` project, where the previous tutorial left off.
+This project assumes you are starting with the ``hello_moveit`` project, where the previous tutorial left off. If you just want to run the tutorial, you can follow the :doc:`Docker Guide </doc/how_to_guides/how_to_setup_docker_containers_in_ubuntu>` to start a container with the completed tutorial.
 
 Steps
 -----
@@ -19,7 +19,7 @@ At the top of your source file, add this to the list of includes:
 
 .. code-block:: C++
 
-  #include <moveit/planning_scene_interface/planning_scene_interface.h>
+  #include <moveit/planning_scene_interface/planning_scene_interface.hpp>
 
 2 Change the Target Pose
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -28,13 +28,14 @@ First, update the target pose with the following change to make the robot plan t
 
 .. code-block:: C++
 
-    // Set a target Pose
+    // Set a target Pose with updated values !!!
     auto const target_pose = [] {
       geometry_msgs::msg::Pose msg;
-      msg.orientation.w = 1.0;
-      msg.position.x = 0.28;
-      msg.position.y = 0.4;  // <---- This value was changed
-      msg.position.z = 0.5;
+      msg.orientation.y = 0.8;
+      msg.orientation.w = 0.6;
+      msg.position.x = 0.1;
+      msg.position.y = 0.4;
+      msg.position.z = 0.4;
       return msg;
     }();
     move_group_interface.setPoseTarget(target_pose);
@@ -98,7 +99,9 @@ This code block should directly follow the code block that creates the collision
 5 Run the Program and Observe the Change
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Just as we did in the last tutorial, start RViz using the ``demo.launch.py`` script and run our program.
+Just as we did in the last tutorial, start RViz using the ``demo.launch.py`` script and run our program. If you're using one of the Docker tutorial containers, you can specify a different RViz configuration that already has the RvizVisualToolsGui panel added using: ::
+
+   ros2 launch moveit2_tutorials demo.launch.py rviz_config:=kinova_hello_moveit.rviz
 
 .. image:: planning_around_object.png
 

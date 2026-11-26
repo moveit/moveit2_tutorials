@@ -19,7 +19,7 @@ Requirements
 Steps
 -----
 
-1. Fork the `MoveIt 2 Tutorials repository <https://github.com/ros-planning/moveit2_tutorials.git>`_ and start a new branch with an intuitive name (e.g., ``jack/how-to-write-how-tos``).
+1. Fork the `MoveIt 2 Tutorials repository <https://github.com/moveit/moveit2_tutorials.git>`_ and start a new branch with an intuitive name (e.g., ``jack/how-to-write-how-tos``).
 
 #. Create a new file in the ``doc/how_to_guides`` directory with a ``.rst`` extension. The title should start with "How to" followed by the specific question being answered (e.g., "How to Write a MoveIt How-To Guide").
 
@@ -45,7 +45,7 @@ Steps
 
 #. Create a "Further Reading" section that links to amplifying information.
 
-#. Submit the new page as a PR to the `MoveIt 2 Tutorials repository <https://github.com/ros-planning/moveit2_tutorials.git>`_.
+#. Submit the new page as a PR to the `MoveIt 2 Tutorials repository <https://github.com/moveit/moveit2_tutorials.git>`_.
 
 Template
 --------

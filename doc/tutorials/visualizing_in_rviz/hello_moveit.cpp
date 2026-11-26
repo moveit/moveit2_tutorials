@@ -1,4 +1,4 @@
-#include <moveit/move_group_interface/move_group_interface.h>
+#include <moveit/move_group_interface/move_group_interface.hpp>
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
 #include <memory>
@@ -23,11 +23,11 @@ int main(int argc, char* argv[])
 
   // Create the MoveIt MoveGroup Interface
   using moveit::planning_interface::MoveGroupInterface;
-  auto move_group_interface = MoveGroupInterface(node, "panda_arm");
+  auto move_group_interface = MoveGroupInterface(node, "manipulator");
 
   // Construct and initialize MoveItVisualTools
   auto moveit_visual_tools =
-      moveit_visual_tools::MoveItVisualTools{ node, "panda_link0", rviz_visual_tools::RVIZ_MARKER_TOPIC,
+      moveit_visual_tools::MoveItVisualTools{ node, "base_link", rviz_visual_tools::RVIZ_MARKER_TOPIC,
                                               move_group_interface.getRobotModel() };
   moveit_visual_tools.deleteAllMarkers();
   moveit_visual_tools.loadRemoteControl();
@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
   };
   auto const prompt = [&moveit_visual_tools](auto text) { moveit_visual_tools.prompt(text); };
   auto const draw_trajectory_tool_path =
-      [&moveit_visual_tools, jmg = move_group_interface.getRobotModel()->getJointModelGroup("panda_arm")](
+      [&moveit_visual_tools, jmg = move_group_interface.getRobotModel()->getJointModelGroup("manipulator")](
           auto const trajectory) { moveit_visual_tools.publishTrajectoryLine(trajectory, jmg); };
 
   // Set a target Pose
@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
   // Execute the plan
   if (success)
   {
-    draw_trajectory_tool_path(plan.trajectory_);
+    draw_trajectory_tool_path(plan.trajectory);
     moveit_visual_tools.trigger();
     prompt("Press 'next' in the RvizVisualToolsGui window to execute");
     draw_title("Executing");
@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
   {
     draw_title("Planning Failed!");
     moveit_visual_tools.trigger();
-    RCLCPP_ERROR(logger, "Planing failed!");
+    RCLCPP_ERROR(logger, "Planning failed!");
   }
 
   // Shutdown ROS
