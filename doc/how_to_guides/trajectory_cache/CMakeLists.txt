@@ -1,0 +1,15 @@
+find_package(graph_msgs REQUIRED)
+find_package(moveit_visual_tools REQUIRED)
+find_package(rviz_visual_tools REQUIRED)
+find_package(OpenSSL REQUIRED)
+
+add_executable(trajectory_cache_demo src/trajectory_cache_demo.cpp)
+target_link_libraries(trajectory_cache_demo PUBLIC moveit_ros_planning_interface::moveit_move_group_interface
+
+moveit_ros_trajectory_cache::moveit_ros_trajectory_cache_utils_lib moveit_ros_trajectory_cache::moveit_ros_trajectory_cache_features_lib moveit_ros_trajectory_cache::moveit_ros_trajectory_cache_cache_insert_policies_lib moveit_ros_trajectory_cache::moveit_ros_trajectory_cache_lib
+
+moveit_visual_tools::moveit_visual_tools)
+
+install(TARGETS trajectory_cache_demo DESTINATION lib/${PROJECT_NAME})
+install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY config DESTINATION share/${PROJECT_NAME})

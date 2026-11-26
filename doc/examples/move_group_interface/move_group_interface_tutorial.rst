@@ -1,9 +1,13 @@
+.. _Move Group Interface:
+
 Move Group C++ Interface
 ==================================
 .. image:: move_group_interface_tutorial_start_screen.png
    :width: 700px
 
-In MoveIt, the simplest user interface is through the :moveit_codedir:`MoveGroupInterface<moveit_ros/planning_interface/move_group_interface/include/moveit/move_group_interface/move_group_interface.h>` class. It provides easy to use functionality for most operations that a user may want to carry out, specifically setting joint or pose goals, creating motion plans, moving the robot, adding objects into the environment and attaching/detaching objects from the robot. This interface communicates over ROS topics, services, and actions to the :moveit_codedir:`MoveGroup<moveit_ros/move_group/src/move_group.cpp>` node.
+In MoveIt, the simplest user interface is through the :moveit_codedir:`MoveGroupInterface<moveit_ros/planning_interface/move_group_interface/include/moveit/move_group_interface/move_group_interface.hpp>` class.
+It provides easy to use functionality for most operations that a user may want to carry out, specifically setting joint or pose goals, creating motion plans, moving the robot, adding objects into the environment and attaching/detaching objects from the robot.
+This interface communicates over ROS topics, services, and actions to the :moveit_codedir:`MoveGroup<moveit_ros/move_group/src/move_group.cpp>` node.
 
 
 Watch this quick `YouTube video demo <https://youtu.be/_5siHkFQPBQ>`_ to see the power of the move group interface!
@@ -56,6 +60,6 @@ The entire launch file is :codedir:`here<examples/move_group_interface/launch/mo
 
 A Note on Setting Tolerances
 ----------------------------
-Note that the `MoveGroupInterface's <https://github.com/ros-planning/moveit2/blob/ed844d4b46f70ed6e97d0c1f971ab2b9a45f156d/moveit_ros/planning_interface/move_group_interface/include/moveit/move_group_interface/move_group_interface.h#L293>`_ *setGoalTolerance()* and related methods sets the tolerance for **planning**, not execution.
+Note that the `MoveGroupInterface's <https://github.com/moveit/moveit2/blob/ed844d4b46f70ed6e97d0c1f971ab2b9a45f156d/moveit_ros/planning_interface/move_group_interface/include/moveit/move_group_interface/move_group_interface.h#L293>`_ *setGoalTolerance()* and related methods sets the tolerance for **planning**, not execution.
 
 If you want to configure the execution tolerances, you will have to edit the *controller.yaml* file if using a FollowJointTrajectory controller, or manually add it into the generated trajectory message from the planner.

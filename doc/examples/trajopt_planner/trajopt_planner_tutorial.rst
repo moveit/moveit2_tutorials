@@ -45,15 +45,15 @@ Prerequisites
 To use TrajOpt with your robot you must already have a MoveIt configuration package for your robot. For example, if you have a Panda robot, it's called ``panda_moveit_config``.
 This is typically configured using the :doc:`MoveIt Setup Assistant </doc/examples/setup_assistant/setup_assistant_tutorial>`.
 
-**Note:** in this tutorial, we use ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository which contains the necessary config files for trajopt planner.
+**Note:** in this tutorial, we use ``panda_moveit_config`` from the `moveit/panda_moveit_config <https://github.com/moveit/panda_moveit_config>`_ repository which contains the necessary config files for trajopt planner.
 
 Running the Demo
 ----------------
-To run the example, you need to run ``panda_moveit_config`` from the `ros-planning/panda_moveit_config <https://github.com/ros-planning/panda_moveit_config>`_ repository at first by passing ``trajopt`` as the planner: ::
+To run the example, you need to run ``panda_moveit_config`` from the `moveit/panda_moveit_config <https://github.com/moveit/panda_moveit_config>`_ repository at first by passing ``trajopt`` as the planner: ::
 
   roslaunch panda_moveit_config demo.launch  pipeline:=trajopt
 
-Then you can run the trajopt example from `ros-planning/moveit_tutorials <https://github.com/ros-planning/moveit_tutorials>`_: ::
+Then you can run the trajopt example from `moveit/moveit_tutorials <https://github.com/moveit/moveit_tutorials>`_: ::
 
   roslaunch moveit_tutorials trajopt_example_launch.launch
 
@@ -75,7 +75,7 @@ Motion planning problem in TrajOpt is defined by a set of cost (COST) and constr
 
   - *GIVEN_TRAJ*: the user provides the entire trajectory for ``data`` member.
 
-- **TermInfo**: This is the base struct for all types of COST and CNT functions that are carried by ``cost_infos`` and ``cnt_infos`` members. COST functions are the objectives that are supposed to be minimized and CNT are the ones that must be satisfied. The current implementation contains ``JointPoseTermInfo``, ``JointVelTermInfo`` (hard-coded) and ``CartPoseTermInfo`` (is partially implemented). Member *term_type* dictates the type of the term we are adding; it could be ``TT_COST`` or ``TT_CNT`` which means a cost term or constraint term respectively. Also ``TT_USE_TIME`` can be selected for this member which allows time parameterization. In this case *use_time* of ``BasicInfo`` should be set to ``true`` as well.  The other parameters of these terms which need to be set are loaded from ``trajopt_planning.yaml`` file. The following list describes these parametrs:
+- **TermInfo**: This is the base struct for all types of COST and CNT functions that are carried by ``cost_infos`` and ``cnt_infos`` members. COST functions are the objectives that are supposed to be minimized and CNT are the ones that must be satisfied. The current implementation contains ``JointPoseTermInfo``, ``JointVelTermInfo`` (hard-coded) and ``CartPoseTermInfo`` (is partially implemented). Member *term_type* dictates the type of the term we are adding; it could be ``TT_COST`` or ``TT_CNT`` which means a cost term or constraint term respectively. Also ``TT_USE_TIME`` can be selected for this member which allows time parameterization. In this case *use_time* of ``BasicInfo`` should be set to ``true`` as well.  The other parameters of these terms which need to be set are loaded from ``trajopt_planning.yaml`` file. The following list describes these parameters:
 
   - *coeffs*: weight coefficients for joints
 
