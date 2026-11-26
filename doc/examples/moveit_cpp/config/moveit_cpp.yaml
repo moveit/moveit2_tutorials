@@ -1,0 +1,41 @@
+planning_scene_monitor_options:
+  name: "planning_scene_monitor"
+  robot_description: "robot_description"
+  joint_state_topic: "/joint_states"
+  attached_collision_object_topic: "/moveit_cpp/planning_scene_monitor"
+  publish_planning_scene_topic: "/moveit_cpp/publish_planning_scene"
+  monitored_planning_scene_topic: "/moveit_cpp/monitored_planning_scene"
+  wait_for_initial_state_timeout: 10.0
+
+planning_pipelines:
+  #namespace: "moveit_cpp"  # optional, default is ~
+  pipeline_names: ["ompl"]
+ompl:
+  planning_plugin: ompl_interface/OMPLPlanner
+  planning_plugins:
+    - ompl_interface/OMPLPlanner
+  # To optionally use Ruckig for jerk-limited smoothing, add this line to the request adapters below
+  # default_planning_request_adapters/AddRuckigTrajectorySmoothing
+  request_adapters:
+    - default_planning_request_adapters/ResolveConstraintFrames
+    - default_planning_request_adapters/ValidateWorkspaceBounds
+    - default_planning_request_adapters/CheckStartStateBounds
+    - default_planning_request_adapters/CheckStartStateCollision
+  response_adapters:
+    - default_planning_response_adapters/AddTimeOptimalParameterization
+    - default_planning_response_adapters/ValidateSolution
+    - default_planning_response_adapters/DisplayMotionPath
+  planner_configs:
+    PRMstarkConfigDefault:
+      type: geometric::PRMstar
+  # Define planner(s) for each move_group
+  panda_arm:
+    planner_configs:
+      - PRMstarkConfigDefault
+  # Add additional planning pipeline config here
+plan_request_params:
+  planning_attempts: 1
+  planning_pipeline: ompl
+  planner_id: "RRTConnectkConfigDefault"
+  max_velocity_scaling_factor: 1.0
+  max_acceleration_scaling_factor: 1.0
