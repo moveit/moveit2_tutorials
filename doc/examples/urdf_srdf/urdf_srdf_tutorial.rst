@@ -1,3 +1,5 @@
+.. _URDF and SRDF:
+
 URDF and SRDF
 ======================
 
@@ -100,7 +102,7 @@ For information about the syntax for the SRDF, read more details on the `ROS SRD
 
 Loading the URDF and SRDF
 -------------------------
-All the components of MoveIt that use the :moveit_core:`RobotModel` need to have access to the URDF and SRDF to function properly. In ROS 1, this was accomplished by loading the XML of each into a string parameter (``/robot_description`` and ``/robot_description_semantic`` respectively) into the global parameter server. ROS 2 does not have a global parameter server, so making sure all the appropriate nodes have access requires a little more work.
+All the components of MoveIt that use the :cpp_api:`RobotModel <moveit::core::RobotModel>` need to have access to the URDF and SRDF to function properly. In ROS 1, this was accomplished by loading the XML of each into a string parameter (``/robot_description`` and ``/robot_description_semantic`` respectively) into the global parameter server. ROS 2 does not have a global parameter server, so making sure all the appropriate nodes have access requires a little more work.
 
 Launch File Specification
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -185,5 +187,5 @@ Then all of the other nodes may subscribe to the string message that gets publis
 
 Under the Hood: RDFLoader
 ^^^^^^^^^^^^^^^^^^^^^^^^^
-In many places in the MoveIt code, the robot description and semantics are loaded using the :moveit_codedir:`RDFLoader<moveit_ros/planning/rdf_loader/include/moveit/rdf_loader/rdf_loader.h>`
+In many places in the MoveIt code, the robot description and semantics are loaded using the :moveit_codedir:`RDFLoader<moveit_ros/planning/rdf_loader/include/moveit/rdf_loader/rdf_loader.hpp>`
 class, which will attempt to read the parameters from the node, and if that fails, will attempt to subscribe to the String topic for a short period of time. If both methods fail to get the parameter, then a warning will be printed to the console.

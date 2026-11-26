@@ -15,19 +15,19 @@ Installation
 
 Install the dependencies: ::
 
-  cd ~/ws_moveit2/src
+  cd ~/ws_moveit/src
   wget https://raw.githubusercontent.com/PickNikRobotics/stretch_ros/ros2/stretch_ros.repos
   vcs import < stretch_ros.repos
   rosdep install -r --from-paths . --ignore-src --rosdistro {DISTRO} -y
 
 Build the colcon workspace: ::
 
-  cd ~/ws_moveit2
+  cd ~/ws_moveit
   colcon build --event-handlers desktop_notification- status- --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 Source the colcon workspace: ::
 
-  source ~/ws_moveit2/install/setup.bash
+  source ~/ws_moveit/install/setup.bash
 
 Setting up IK solver for mobile-base and arm
 --------------------------------------------
@@ -80,7 +80,7 @@ This's used to config the planar joint model, it can have two values:
 min_translational_distance
 ++++++++++++++++++++++++++
 
-If the distance between two states is less than ``min_translational_distance`` the motion will be pure rotation, the default value is ``1e-5``, for more info see `computeTurnDriveTurnGeometry <https://github.com/ros-planning/moveit2/blob/main/moveit_core/robot_model/src/planar_joint_model.cpp#L149>`_ for why this's needed
+If the distance between two states is less than ``min_translational_distance`` the motion will be pure rotation, the default value is ``1e-5``, for more info see `computeTurnDriveTurnGeometry <https://github.com/moveit/moveit2/blob/main/moveit_core/robot_model/src/planar_joint_model.cpp#L149>`_ for why this's needed
 
 .. code-block:: xml
 
