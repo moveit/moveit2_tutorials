@@ -1,7 +1,9 @@
 Creating a new MoveGroup capability
 ===================================
 
-In :doc:`Move Group C++ Interface </doc/examples/move_group_interface/move_group_interface_tutorial>` we saw how MoveGroup node make it easy to use MoveIt through ROS interfaces, this node have a list of `default capabilities <https://github.com/ros-planning/moveit2/blob/main/moveit_ros/move_group/default_capabilities_plugin_description.xml>`_ that provide common used action/services to interact with its internal components, sometimes we need to extend it for our own specific applications which could be done easily by creating MoveGroup capability.
+In :doc:`Move Group C++ Interface </doc/examples/move_group_interface/move_group_interface_tutorial>` we saw how the MoveGroup node makes it easy to use MoveIt through ROS interfaces.
+This node has a list of `default capabilities <https://github.com/ros-planning/moveit2/blob/main/moveit_ros/move_group/default_capabilities_plugin_description.xml>`_ that provide commonly used action/services to interact with its internal components.
+Sometimes we need to extend it for our own specific applications which could be done easily by creating a MoveGroup capability.
 
 
 Getting Started
