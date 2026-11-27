@@ -12,7 +12,7 @@ You should also have gone through the steps in :doc:`Visualization with MoveIt R
 
 Creating a MoveGroup Capability
 -------------------------------
-`This Page <http://wiki.ros.org/pluginlib>`_ gives a detailed explanation of how to add plugins in ROS in general. The two necessary elements are base and plugin classes. The plugin class inherits from the base class and overrides its virtual functions. The main library used for this purpose is pluginlib.
+`This page <https://wiki.ros.org/pluginlib>`_ gives a detailed explanation of how to add plugins in ROS in general. The two necessary elements are base and plugin classes. The plugin class inherits from the base class and overrides its virtual functions. The main library used for this purpose is pluginlib.
 
 In this section, we will show how to add a new MoveGroup capability. For demonstration purposes, we will create a capability which provide a service to query the collision objects in MoveGroup's planning scene. The final source files designed in this tutorial are available :codedir:`here <examples/move_group_capabilities/src>`.
 
