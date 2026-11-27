@@ -16,7 +16,8 @@ Creating a MoveGroup Capability
 
 In this section, we will show how to add a new MoveGroup capability. For demonstration purposes, we will create a capability which provide a service to query the collision objects in MoveGroup's planning scene. The final source files designed in this tutorial are available :codedir:`here <move_group_capabilities/src>`.
 
-First we start by creating a class GetCollisionObjects by inheriting from move_group::MoveGroupCapability, to do so we create a file named ``get_collision_objects_service_capability.cpp`` in src folder. the minimal requirement is to pass the plugin name to the base class constructor ``MoveGroupCapability``, override the ``initialize`` function, and register the class as a plugin by using ``PLUGINLIB_EXPORT_CLASS``.
+First we start by creating a class GetCollisionObjects by inheriting from move_group::MoveGroupCapability, to do so we create a file named ``get_collision_objects_service_capability.cpp`` in src folder.
+The minimal requirement is to pass the plugin name to the base class constructor ``MoveGroupCapability``, override the ``initialize`` function, and register the class as a plugin by using ``PLUGINLIB_EXPORT_CLASS``.
 
 .. tutorial-formatter:: ./src/get_collision_objects_service_capability.cpp
 
