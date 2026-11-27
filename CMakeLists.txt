@@ -49,6 +49,7 @@ add_subdirectory(doc/examples/jupyter_notebook_prototyping)
 add_subdirectory(doc/examples/motion_planning_api)
 add_subdirectory(doc/examples/motion_planning_pipeline)
 add_subdirectory(doc/examples/motion_planning_python_api)
+add_subdirectory(doc/examples/move_group_capabilities)
 add_subdirectory(doc/examples/move_group_interface)
 add_subdirectory(doc/examples/moveit_cpp)
 add_subdirectory(doc/examples/planning_scene)
@@ -68,6 +69,8 @@ add_subdirectory(doc/tutorials/pick_and_place_with_moveit_task_constructor)
 add_subdirectory(doc/tutorials/quickstart_in_rviz)
 add_subdirectory(doc/how_to_guides/pick_ik)
 
+
+pluginlib_export_plugin_description_file(moveit_ros_move_group doc/examples/move_group_capabilities/plugin_description.xml)
 
 ament_export_include_directories(include)
 
